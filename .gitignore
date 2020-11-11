@@ -127,3 +127,35 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+build/
+dist/
+node_modules/
+.DS_Store
+sassdoc
+
+src/assets/theme/theme-*.css
+src/assets/layout/css/*.css
+src/assets/sass/theme/designer
+src/assets/sass/theme/extensions
+=======
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+out-tsc/
+
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
