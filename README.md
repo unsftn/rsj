@@ -20,13 +20,11 @@ Pretraga podržava istovremenu pretragu po oba pisma (ćirilica i latinica).
 
 Mikroservis za prepoznavanje teksta iz skeniranih dokumenata. Podržava oba pisma.
 
-### Backend za rečnik
+### Rečnik
 
-Django + REST Framework + MySQL backend za evidentiranje rečničkih odrednica.
+Backend: Django + REST Framework + MySQL za evidentiranje rečničkih odrednica.
 
-### Frontend za rečnik
-
-Angular aplikacija za unos rečničkih odrednica.
+Frontend: Angular aplikacija za unos rečničkih odrednica.
 
 ### Backend za korpus
 
