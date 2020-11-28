@@ -1,15 +1,15 @@
 <p-menubar>
-  <div>
-    <p class="logo-text">RSJ</p>
+  <div class="logo-container">
+    <p class="logo-text">РСЈ</p>
   </div>
-  <div>
+  <div class="search-container">
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
-      <input type="search" class="search-component" pInputText placeholder="Pretraga">
+      <input type="search" class="search-component" pInputText placeholder="Претрага">
     </span>
     <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button"></button>
   </div>
-  <div>
+  <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>
     <button #btn type="button" class="p-button-rounded p-button-outlined menu-button" pButton icon="pi pi-list" (click)="menu.toggle($event)"></button>
   </div>

@@ -148,5 +148,11 @@
       "app",
       "kebab-case"
     ]
-  }
+  },
+  "indent": [true, "spaces", 1],
+  "eofline": true,
+  "max-line-length": [true, 120],
+  "quotemark": [true, "single", "jsx-double"],
+  "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+  "semicolon": [true, "always"]
 }
