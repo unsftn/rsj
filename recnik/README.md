@@ -30,7 +30,7 @@ mysql> FLUSH PRIVILEGES;
 ```
 
 Sve naredne operacije obavljaju se iz korenskog direktorijuma Django
-projekta, dakle `recnik-backend/app`.
+projekta, dakle `recnik/backend`.
 
 Instaliranje potrebnih paketa
 ```bash
@@ -52,14 +52,15 @@ Pokretanje razvojnog servera:
 python manage.py runserver
 ```
 
-Pokretanje frontend servera:
+Pokretanje frontend servera iz korenskog direktorijuma Angular
+projekta, dakle `recnik/frontend`:
 ```bash
 ng serve
 ```
 
 ## Pravljenje Docker slike
 
-Iz `recnik-backend` foldera:
+Iz `recnik` foldera:
 ```bash
 docker build -t rsj/recnik .
 ```
