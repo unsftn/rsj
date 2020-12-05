@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'django_filters',
     'publikacije',
 ]
@@ -80,3 +81,7 @@ REST_FRAMEWORK = {
 }
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+
+SWAGGER_SETTINGS = {
+   'DEFAULT_INFO': 'recnik.urls.api_info',
+}
