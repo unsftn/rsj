@@ -4,6 +4,12 @@ from django.test import TestCase, Client
 from .admin import *
 
 
+def get_jwt_token():
+    c = Client()
+    response = c.post('/api/token/', {'username': 'admin@rsj.rs', 'password': 'admin'})
+    return json.loads(response.content.decode('UTF-8'))['access']
+
+
 class TestPublikacijaAdmin(TestCase):
     fixtures = [
         'vrste_publikacija',
@@ -22,12 +28,6 @@ class TestPublikacijaAdmin(TestCase):
         self.assertEquals(result[0].distinct().count(), 1)
         result = PublikacijaAdmin.get_search_results(self.publikacija_admin, None, Publikacija.objects.all(), "Zavisi")
         self.assertEquals(result[0].distinct().count(), 1)
-
-
-def get_jwt_token():
-    c = Client()
-    response = c.post('/api/token/', {'username': 'admin@rsj.rs', 'password': 'admin'})
-    return json.loads(response.content.decode('UTF-8'))['access']
 
 
 class TestPublikacijaApi(TestCase):
