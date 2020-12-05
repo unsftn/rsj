@@ -36,7 +36,9 @@
     "pk": 1,
     "fields": {
       "ime": "Dimitrije",
-      "prezime": "Boarov"
+      "prezime": "Boarov",
+      "redni_broj": 1,
+      "publikacija_id": 1
     }
   },
   {
@@ -44,7 +46,9 @@
     "pk": 2,
     "fields": {
       "ime": "Stevan",
-      "prezime": "Vlajić"
+      "prezime": "Vlajić",
+      "redni_broj": 1,
+      "publikacija_id": 2
     }
   },
   {
@@ -52,34 +56,9 @@
     "pk": 3,
     "fields": {
       "ime": "Mirko",
-      "prezime": "Rudić"
-    }
-  },
-  {
-    "model": "publikacije.AutorPublikacije",
-    "pk": 1,
-    "fields": {
-      "publikacija_id": 1,
-      "autor_id": 1,
-      "redni_broj": 1
-    }
-  },
-  {
-    "model": "publikacije.AutorPublikacije",
-    "pk": 2,
-    "fields": {
-      "publikacija_id": 2,
-      "autor_id": 2,
-      "redni_broj": 1
-    }
-  },
-  {
-    "model": "publikacije.AutorPublikacije",
-    "pk": 3,
-    "fields": {
-      "publikacija_id": 2,
-      "autor_id": 3,
-      "redni_broj": 2
+      "prezime": "Rudić",
+      "redni_broj": 2,
+      "publikacija_id": 2
     }
   }
 ]

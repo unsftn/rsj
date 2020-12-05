@@ -11,6 +11,5 @@ class PublikacijaAdmin(admin.ModelAdmin):
 admin.site.register(VrstaPublikacije)
 admin.site.register(Publikacija, PublikacijaAdmin)
 admin.site.register(Autor)
-admin.site.register(AutorPublikacije)
 admin.site.register(TekstPublikacije)
 admin.site.register(FajlPublikacije)

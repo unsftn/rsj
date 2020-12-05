@@ -35,28 +35,19 @@ class Publikacija(models.Model):
 
 
 class Autor(models.Model):
+    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.DO_NOTHING)
     ime = models.CharField('име', max_length=50, blank=True, null=True)
     prezime = models.CharField('презиме', max_length=50)
+    redni_broj = models.PositiveSmallIntegerField('редни број')
 
     def __str__(self):
-        return self.prezime + (' ' + self.ime if self.ime else '')
+        return str(self.publikacija) + ' / ' + \
+               self.prezime + (' ' + self.ime if self.ime else '') + ' / ' \
+               + str(self.redni_broj)
 
     class Meta:
         verbose_name = 'аутор'
         verbose_name_plural = 'аутори'
-
-
-class AutorPublikacije(models.Model):
-    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.DO_NOTHING)
-    autor = models.ForeignKey(Autor, verbose_name='аутор', on_delete=models.DO_NOTHING)
-    redni_broj = models.PositiveSmallIntegerField('редни број')
-
-    def __str__(self):
-        return str(self.publikacija) + ' / ' + str(self.autor) + ' / ' + str(self.redni_broj)
-
-    class Meta:
-        verbose_name = 'аутор публикације'
-        verbose_name_plural = 'аутори публикација'
 
 
 class TekstPublikacije(models.Model):

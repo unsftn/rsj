@@ -1,4 +1,6 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
@@ -46,20 +48,6 @@ class AutorDetail(generics.RetrieveAPIView):
     serializer_class = AutorSerializer
 
 
-class AutorPublikacijeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    queryset = AutorPublikacije.objects.all()
-    serializer_class = AutorPublikacijeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['autor_id', 'publikacija_id']
-
-
-class AutorPublikacijeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    queryset = AutorPublikacije.objects.all()
-    serializer_class = AutorPublikacijeSerializer
-
-
 class TekstPublikacijeList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = TekstPublikacije.objects.all()
@@ -86,3 +74,15 @@ class FajlPublikacijeDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = FajlPublikacije.objects.all()
     serializer_class = FajlPublikacijeSerializer
+
+
+@api_view(['POST'])
+def api_create_publication(request):
+    serializer = CreatePublicationSerializer(data=request.data)
+    if serializer.is_valid():
+        publikacija = serializer.save()
+        ser2 = PublikacijaSerializer(publikacija)
+        return Response(ser2.data, status=status.HTTP_200_OK, content_type='application/json')
+    else:
+        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
+                        content_type='application/json')
