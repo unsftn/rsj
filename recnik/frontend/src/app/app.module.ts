@@ -9,6 +9,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { TieredMenuModule } from 'primeng/tieredmenu';
+import { FieldsetModule } from 'primeng/fieldset';
+import { HomeModule } from './pages/home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +22,8 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
     InputTextModule,
     ButtonModule,
     TieredMenuModule,
+    FieldsetModule,
+    HomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
