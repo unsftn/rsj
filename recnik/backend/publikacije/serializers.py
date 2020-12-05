@@ -78,3 +78,21 @@ class CreatePublicationSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         # nikad ne radimo update
         return instance
+
+
+class CreateTextSerializer(serializers.Serializer):
+    publikacija_id = serializers.IntegerField()
+    tekst = serializers.CharField()
+    redni_broj = serializers.IntegerField(required=False)
+
+    def create(self, validated_data):
+        tp = TekstPublikacije(**validated_data)
+        if 'redni_broj' not in validated_data:
+            max_broj = TekstPublikacije.objects.filter(publikacija_id=validated_data['publikacija_id']).count()
+            tp.redni_broj = max_broj + 1
+        tp.save()
+        return tp
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance

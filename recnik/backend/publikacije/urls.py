@@ -16,6 +16,7 @@ urlpatterns = [
     path('fajl-publikacije/', FajlPublikacijeList.as_view()),
     path('fajl-publikacije/<int:pk>/', FajlPublikacijeDetail.as_view()),
     path('create-publikacija/', api_create_publication),
+    path('create-text/', api_create_text),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

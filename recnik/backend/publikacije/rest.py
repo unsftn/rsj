@@ -86,3 +86,17 @@ def api_create_publication(request):
     else:
         return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
                         content_type='application/json')
+
+
+@api_view(['POST'])
+def api_create_text(request):
+    serializer = CreateTextSerializer(data=request.data)
+    if serializer.is_valid():
+        tekst_publikacije = serializer.save()
+        ser2 = TekstPublikacijeSerializer(tekst_publikacije)
+        retval = ser2.data
+        del retval['tekst']
+        return Response(retval, status=status.HTTP_200_OK, content_type='application/json')
+    else:
+        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
+                        content_type='application/json')

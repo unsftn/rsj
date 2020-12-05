@@ -37,6 +37,25 @@ class TestPublikacijaApi(TestCase):
         'users',
     ]
 
+    def setUp(self) -> None:
+        self.create_pub_obj = {
+            'naslov': 'Druga glasnost',
+            'naslov_izdanja': 'Vreme',
+            'issn': '03538028',
+            'izdavac': 'Vreme, Beograd',
+            'godina': '2012',
+            'broj': '1144',
+            'url': 'https://www.vreme.com/cms/view.php?id=1086777',
+            'vrsta_id': 3,
+            'autori': [{
+                'ime': 'Dragan',
+                'prezime': 'Kremer'
+            }],
+            # izostavi polja koja nemaju vrednost
+            # 'isbn': '',
+            # 'volumen': '',
+        }
+
     def test_find_by_id(self):
         c = Client()
         response = c.get('/api/publikacije/publikacija/1/', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
@@ -55,24 +74,7 @@ class TestPublikacijaApi(TestCase):
 
     def test_create_publikacija(self):
         c = Client()
-        req_obj = {
-            'naslov': 'Druga glasnost',
-            'naslov_izdanja': 'Vreme',
-            'issn': '03538028',
-            'izdavac': 'Vreme, Beograd',
-            'godina': '2012',
-            'broj': '1144',
-            'url': 'https://www.vreme.com/cms/view.php?id=1086777',
-            'vrsta_id': 3,
-            'autori': [{
-                'ime': 'Dragan',
-                'prezime': 'Kremer'
-            }],
-            # izostavi polja koja nemaju vrednost
-            # 'isbn': '',
-            # 'volumen': '',
-        }
-        response = c.post('/api/publikacije/create-publikacija/', data=req_obj,
+        response = c.post('/api/publikacije/create-publikacija/', data=self.create_pub_obj,
                           HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 200)
@@ -81,3 +83,21 @@ class TestPublikacijaApi(TestCase):
             self.assertEquals('https://www.vreme.com/cms/view.php?id=1086777', pub.url)
         except Publikacija.DoesNotExist:
             self.fail('Publikacija not saved')
+
+    def test_create_tekst(self):
+        c = Client()
+        token = get_jwt_token()
+        response = c.post('/api/publikacije/create-publikacija/', data=self.create_pub_obj,
+                          HTTP_AUTHORIZATION=f'Bearer {token}', content_type='application/json')
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        pub_id = res_obj['id']
+        req_obj = {
+            'publikacija_id': pub_id,
+            'tekst': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vehicula tellus vel arcu imperdiet, auctor lacinia risus porttitor. In orci ex, consequat at convallis ac, blandit eget ante.'
+        }
+        response = c.post('/api/publikacije/create-text/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {token}',
+                          content_type='application/json')
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(TekstPublikacije.objects.filter(id=res_obj['id']).count(), 1)
