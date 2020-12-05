@@ -1,0 +1,13 @@
+.home-container {
+  margin:10px
+}
+
+:host ::ng-deep .p-fieldset-legend {
+  background-color: white;
+  border: none;
+}
+
+:host ::ng-deep .p-fieldset {
+  min-height: max-content;
+  height: 90vh;
+}
