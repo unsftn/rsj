@@ -1,0 +1,85 @@
+[
+  {
+    "model": "publikacije.Publikacija",
+    "pk": 1,
+    "fields": {
+      "naslov": "Zavisi od inflacije",
+      "naslov_izdanja": "Vreme",
+      "vrsta_id": 3,
+      "issn": "03538028",
+      "izdavac": "Vreme, Beograd",
+      "godina": "2012",
+      "volumen": "",
+      "broj": "1144",
+      "url": "https://www.vreme.com/cms/view.php?id=1086791",
+      "vreme_unosa": "2020-12-05T16:16:28+01:00"
+    }
+  },
+  {
+    "model": "publikacije.Publikacija",
+    "pk": 2,
+    "fields": {
+      "naslov": "Opak gadan Hag",
+      "naslov_izdanja": "Vreme",
+      "vrsta_id": 3,
+      "issn": "03538028",
+      "izdavac": "Vreme, Beograd",
+      "godina": "2012",
+      "volumen": "",
+      "broj": "1144",
+      "url": "https://www.vreme.com/cms/view.php?id=1086694",
+      "vreme_unosa": "2020-12-05T16:16:44+01:00"
+    }
+  },
+  {
+    "model": "publikacije.Autor",
+    "pk": 1,
+    "fields": {
+      "ime": "Dimitrije",
+      "prezime": "Boarov"
+    }
+  },
+  {
+    "model": "publikacije.Autor",
+    "pk": 2,
+    "fields": {
+      "ime": "Stevan",
+      "prezime": "Vlajić"
+    }
+  },
+  {
+    "model": "publikacije.Autor",
+    "pk": 3,
+    "fields": {
+      "ime": "Mirko",
+      "prezime": "Rudić"
+    }
+  },
+  {
+    "model": "publikacije.AutorPublikacije",
+    "pk": 1,
+    "fields": {
+      "publikacija_id": 1,
+      "autor_id": 1,
+      "redni_broj": 1
+    }
+  },
+  {
+    "model": "publikacije.AutorPublikacije",
+    "pk": 2,
+    "fields": {
+      "publikacija_id": 2,
+      "autor_id": 2,
+      "redni_broj": 1
+    }
+  },
+  {
+    "model": "publikacije.AutorPublikacije",
+    "pk": 3,
+    "fields": {
+      "publikacija_id": 2,
+      "autor_id": 3,
+      "redni_broj": 2
+    }
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "model": "publikacije.VrstaPublikacije",
+    "pk": 1,
+    "fields": {
+      "naziv": "монографска публикација"
+    }
+  },
+  {
+    "model": "publikacije.VrstaPublikacije",
+    "pk": 2,
+    "fields": {
+      "naziv": "серијска публикација"
+    }
+  },
+  {
+    "model": "publikacije.VrstaPublikacije",
+    "pk": 3,
+    "fields": {
+      "naziv": "чланак у серијској публикацији"
+    }
+  }
+]

@@ -1,0 +1,20 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$216000$oTmVqPQL7Mcd$42ySVNuFWE2n1u4BUAlFnbQoNaEHKj6iow+AoCToJ+g=",
+    "last_login": "2020-12-05T15:47:13.797Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@rsj.rs",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2020-12-05T15:47:00.758Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
