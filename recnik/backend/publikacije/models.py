@@ -39,7 +39,7 @@ class Autor(models.Model):
     prezime = models.CharField('презиме', max_length=50)
 
     def __str__(self):
-        return self.prezime + (self.ime if self.ime else '')
+        return self.prezime + (' ' + self.ime if self.ime else '')
 
     class Meta:
         verbose_name = 'аутор'

@@ -32,4 +32,57 @@ class PublikacijaDetail(generics.RetrieveAPIView):
     serializer_class = PublikacijaSerializer
 
 
+class AutorList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['ime', 'prezime']
 
+
+class AutorDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Autor.objects.all()
+    serializer_class = AutorSerializer
+
+
+class AutorPublikacijeList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = AutorPublikacije.objects.all()
+    serializer_class = AutorPublikacijeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['autor_id', 'publikacija_id']
+
+
+class AutorPublikacijeDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = AutorPublikacije.objects.all()
+    serializer_class = AutorPublikacijeSerializer
+
+
+class TekstPublikacijeList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = TekstPublikacije.objects.all()
+    serializer_class = TekstPublikacijeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['publikacija_id', 'redni_broj']
+
+
+class TekstPublikacijeDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = TekstPublikacije.objects.all()
+    serializer_class = TekstPublikacijeSerializer
+
+
+class FajlPublikacijeList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = FajlPublikacije.objects.all()
+    serializer_class = FajlPublikacijeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['publikacija_id', 'redni_broj']
+
+
+class FajlPublikacijeDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = FajlPublikacije.objects.all()
+    serializer_class = FajlPublikacijeSerializer

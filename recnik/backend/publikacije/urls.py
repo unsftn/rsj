@@ -9,6 +9,14 @@ urlpatterns = [
     path('vrsta-publikacije/<int:pk>/', VrstaPublikacijeDetail.as_view()),
     path('publikacija/', PublikacijaList.as_view()),
     path('publikacija/<int:pk>/', PublikacijaDetail.as_view()),
+    path('autor/', AutorList.as_view()),
+    path('autor/<int:pk>/', AutorDetail.as_view()),
+    path('autor-publikacije/', AutorPublikacijeList.as_view()),
+    path('autor-publikacije/<int:pk>/', AutorPublikacijeDetail.as_view()),
+    path('tekst-publikacije/', TekstPublikacijeList.as_view()),
+    path('tekst-publikacije/<int:pk>/', TekstPublikacijeDetail.as_view()),
+    path('fajl-publikacije/', FajlPublikacijeList.as_view()),
+    path('fajl-publikacije/<int:pk>/', FajlPublikacijeDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
