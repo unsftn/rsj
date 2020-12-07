@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from concurrency.exceptions import RecordModifiedError
 from .models import *
 from .serializers import *
 
@@ -76,12 +77,16 @@ def api_save_imenica(request):
                             content_type='application/json')
 
     if serializer.is_valid():
-        imenica = serializer.save(user_id=request.user.id)
+        try:
+            imenica = serializer.save(user_id=request.user.id)
+        except RecordModifiedError as ex:
+            return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT,
+                            content_type='application/json')
         ser2 = ImenicaSerializer(imenica)
-        return Response(ser2.data, status=status.HTTP_201_CREATED, content_type='application/json')
+        code = status.HTTP_201_CREATED if request.method == 'POST' else status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type='application/json')
     else:
-        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
-                        content_type='application/json')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
 
 
 @api_view(['POST', 'PUT'])

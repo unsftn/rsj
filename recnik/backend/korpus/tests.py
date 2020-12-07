@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from django.test import TestCase, Client
-
+from .models import Imenica, IzmenaImenice
 
 def get_jwt_token():
     c = Client()
@@ -63,6 +63,8 @@ class TestImenicaApi(TestCase):
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 201)
         self.assertEquals(res_obj['nomjed'], 'столица')
+        broj_izmena = IzmenaImenice.objects.filter(imenica_id=res_obj['id']).count()
+        self.assertEquals(broj_izmena, 1)
 
     def test_create_imenica_sa_varijantama(self):
         req_obj = {
@@ -105,11 +107,105 @@ class TestImenicaApi(TestCase):
         self.assertEquals(response.status_code, 201)
         self.assertEquals(res_obj['nomjed'], 'отац')
         self.assertEquals(res_obj['varijantaimenice_set'][0]['nommno'], 'оци')
+        broj_izmena = IzmenaImenice.objects.filter(imenica_id=res_obj['id']).count()
+        self.assertEquals(broj_izmena, 1)
 
-    def test_update_imenica(self):
-        # TODO
-        pass
+    def test_update_imenica_bez_varijanti(self):
+        req_obj = {
+            'id': 1,
+            'vrsta_id': 1,
+            'nomjed': 'PROBA',
+            'genjed': 'акцента',
+            'datjed': 'акценту',
+            'akujed': 'акценат',
+            'vokjed': 'акценту',
+            'insjed': 'акцентом',
+            'lokjed': 'акценту',
+            'nommno': 'акценти',
+            'genmno': 'акцената',
+            'datmno': 'акцентима',
+            'akumno': 'акценте',
+            'vokmno': 'акценти',
+            'insmno': 'акцентима',
+            'lokmno': 'акцентима',
+            'version': 1
+        }
+        broj_izmena_pre = IzmenaImenice.objects.filter(imenica_id=1).count()
+        c = Client()
+        response = c.put('/api/korpus/save-imenica/', data=req_obj,
+                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
+        self.assertEquals(response.status_code, 204)
+        imenica = Imenica.objects.get(id=1)
+        self.assertEquals(imenica.nomjed, 'PROBA')
+        broj_izmena_posle = IzmenaImenice.objects.filter(imenica_id=1).count()
+        self.assertEquals(broj_izmena_pre + 1, broj_izmena_posle)
+
+    def test_update_imenica_sa_varijantama(self):
+        req_obj = {
+            'id': 1,
+            'vrsta_id': 1,
+            'nomjed': 'TEST',
+            'genjed': 'акцента',
+            'datjed': 'акценту',
+            'akujed': 'акценат',
+            'vokjed': 'акценту',
+            'insjed': 'акцентом',
+            'lokjed': 'акценту',
+            'nommno': 'акценти',
+            'genmno': 'акцената',
+            'datmno': 'акцентима',
+            'akumno': 'акценте',
+            'vokmno': 'акценти',
+            'insmno': 'акцентима',
+            'lokmno': 'акцентима',
+            'version': 1,
+            'varijante': [{
+                'nomjed': '',
+                'genjed': '',
+                'datjed': 'PROBA',
+                'akujed': '',
+                'vokjed': '',
+                'insjed': '',
+                'lokjed': '',
+                'nommno': '',
+                'genmno': '',
+                'datmno': '',
+                'akumno': '',
+                'vokmno': '',
+                'insmno': '',
+                'lokmno': '',
+            }]
+        }
+        broj_izmena_pre = IzmenaImenice.objects.filter(imenica_id=1).count()
+        c = Client()
+        response = c.put('/api/korpus/save-imenica/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type='application/json')
+        self.assertEquals(response.status_code, 204)
+        imenica = Imenica.objects.get(id=1)
+        self.assertEquals(imenica.nomjed, 'TEST')
+        self.assertEquals(imenica.varijantaimenice_set.get(redni_broj=1).datjed, 'PROBA')
+        broj_izmena_posle = IzmenaImenice.objects.filter(imenica_id=1).count()
+        self.assertEquals(broj_izmena_pre + 1, broj_izmena_posle)
 
     def test_concurrent_update_imenica(self):
-        # TODO
-        pass
+        req1 = {
+            'id': 1,
+            'vrsta_id': 1,
+            'nomjed': 'TEST1',
+            'version': 1,
+        }
+        req2 = {
+            'id': 1,
+            'vrsta_id': 1,
+            'nomjed': 'TEST2',
+            'version': 1,
+        }
+        c1 = Client()
+        r1 = c1.put('/api/korpus/save-imenica/', data=req1, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type='application/json')
+        self.assertEquals(r1.status_code, 204)
+        c2 = Client()
+        r2 = c2.put('/api/korpus/save-imenica/', data=req2, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type='application/json')
+        self.assertEquals(r2.status_code, 409)
+

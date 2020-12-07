@@ -147,7 +147,21 @@ class CreateImenicaSerializer(serializers.Serializer):
         return imenica
 
     def update(self, instance, validated_data):
-        # TODO
+        sada = now()
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
+        varijante = validated_data.get('varijante')
+        if varijante:
+            del validated_data['varijante']
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+        VarijantaImenice.objects.filter(imenica=instance).delete()
+        instance.version += 1
+        instance.save()
+        if varijante:
+            for index, var in enumerate(varijante):
+                VarijantaImenice.objects.create(imenica=instance, redni_broj=index+1, **var)
+        IzmenaImenice.objects.create(user_id=user_id, vreme=sada, imenica=instance)
         return instance
 
 
