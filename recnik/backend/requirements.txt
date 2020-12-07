@@ -22,6 +22,7 @@ itypes==1.2.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
 mysqlclient==2.0.1
+mysql-connector-python==8.0.22
 packaging==20.7
 Pillow==8.0.1
 pycparser==2.20

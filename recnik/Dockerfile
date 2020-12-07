@@ -44,7 +44,7 @@ RUN mkdir /private
 RUN echo "SECRET_KEY=XYZ" > /private/secrets
 RUN rm -rf /app/log
 RUN mkdir /app/log
-ARG django_settings=prod
+ARG django_settings=dev
 ENV DJANGO_SETTINGS=$django_settings
 RUN python3 /app/manage.py collectstatic --noinput
 RUN rm -rf /app/log/*
