@@ -64,7 +64,24 @@ class PridevDetail(generics.RetrieveAPIView):
 
 @api_view(['POST', 'PUT'])
 def api_save_imenica(request):
-    pass
+    if request.method == 'POST':
+        serializer = CreateImenicaSerializer(data=request.data)
+    elif request.method == 'PUT':
+        try:
+            obj_id = request.data['id']
+            imenica = Imenica.objects.get(id=obj_id)
+            serializer = CreateImenicaSerializer(imenica, data=request.data)
+        except (KeyError, Imenica.DoesNotExist) as ex:
+            return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND,
+                            content_type='application/json')
+
+    if serializer.is_valid():
+        imenica = serializer.save(user_id=request.user.id)
+        ser2 = ImenicaSerializer(imenica)
+        return Response(ser2.data, status=status.HTTP_201_CREATED, content_type='application/json')
+    else:
+        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
+                        content_type='application/json')
 
 
 @api_view(['POST', 'PUT'])

@@ -8,7 +8,7 @@ class VrstaImeniceSerializer(serializers.ModelSerializer):
         fields = ('id', 'naziv',)
 
 
-class VarijantaImeniceSeralizer(serializers.ModelSerializer):
+class VarijantaImeniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = VarijantaImenice
         fields = ('id', 'imenica_id', 'redni_broj', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed',
@@ -23,7 +23,7 @@ class IzmenaImeniceSerializer(serializers.ModelSerializer):
 
 class ImenicaSerializer(serializers.ModelSerializer):
     vrsta = VrstaImeniceSerializer(read_only=True)
-    varijantaimenice_set = VarijantaImeniceSeralizer(many=True, read_only=True)
+    varijantaimenice_set = VarijantaImeniceSerializer(many=True, read_only=True)
     izmenaimenice_set = IzmenaImeniceSerializer(many=True, read_only=True)
 
     class Meta:
@@ -76,9 +76,84 @@ class PridevSerializer(serializers.ModelSerializer):
         fields = ('id', 'tekst', 'oblikprideva_set', 'izmenaprideva_set', 'vreme', 'version',)
 
 
+class CreateVarijantaImeniceSerializer(serializers.Serializer):
+    nomjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    genjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    datjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    akujed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    vokjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    insjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    lokjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    nommno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    genmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    datmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    akumno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    vokmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    insmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    lokmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+
+    def create(self, validated_data):
+        return VarijantaImenice(**validated_data)
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance
+
+
+class CreateIzmenaImeniceSerializer(serializers.Serializer):
+    vreme = serializers.DateTimeField()
+    user_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        return IzmenaImenice(**validated_data)
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance
+
+
 class CreateImenicaSerializer(serializers.Serializer):
-    # TODO
-    pass
+    id = serializers.IntegerField(required=False)
+    vrsta_id = serializers.IntegerField()
+    nomjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    genjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    datjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    akujed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    vokjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    insjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    lokjed = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    nommno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    genmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    datmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    akumno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    vokmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    insmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    lokmno = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    version = serializers.IntegerField(required=False)
+    varijante = CreateVarijantaImeniceSerializer(many=True, required=False)
+
+    def create(self, validated_data):
+        sada = now()
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
+        varijante = validated_data.get('varijante')
+        if varijante:
+            del validated_data['varijante']
+        imenica = Imenica(**validated_data)
+        imenica.vreme = sada
+        imenica.save()
+        if varijante:
+            for index, var in enumerate(varijante):
+                varijanta = VarijantaImenice(**var)
+                varijanta.imenica = imenica
+                varijanta.redni_broj = index + 1
+                varijanta.save()
+        IzmenaImenice.objects.create(user_id=user_id, vreme=sada, imenica=imenica)
+        return imenica
+
+    def update(self, instance, validated_data):
+        # TODO
+        return instance
 
 
 class CreateGlagolSerializer(serializers.Serializer):
