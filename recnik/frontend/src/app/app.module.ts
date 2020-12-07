@@ -4,13 +4,15 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HomeModule } from './pages/home/home.module';
+import { TabFormModule } from './pages/tabForm/tabForm.module';
 
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { FieldsetModule } from 'primeng/fieldset';
-import { HomeModule } from './pages/home/home.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +25,9 @@ import { HomeModule } from './pages/home/home.module';
     ButtonModule,
     TieredMenuModule,
     FieldsetModule,
+    TabViewModule,
     HomeModule,
+    TabFormModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

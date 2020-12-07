@@ -1,0 +1,98 @@
+<div class="basic-information-container">
+  <div class="p-d-flex p-flex-column p-flex-md-row">
+    <div class="p-col-6">
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label">Реч:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-10">
+          <input type="text" pInputText />
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label">Варијанта:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-10">
+          <input type="text" pInputText />
+          <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button"></button>
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label">Врста речи:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-10">
+          <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" optionLabel="name"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label">Квалификатори:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-10">
+          <p-listbox [options]="qualificator" [(ngModel)]="selectedQualificator" optionLabel="name"></p-listbox>
+        </div>
+      </div>
+    </div>
+    <div class="p-col-6">
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-5 p-lg-3">
+          <p class="label">Стање одреднице:</p>
+        </div>
+        <div class="p-col-12 p-md-7 p-lg-10">
+          <p-dropdown [options]="state" [(ngModel)]="selectedState" optionLabel="name"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-5 p-lg-3">
+          <p class="label">Лексикограф:</p>
+        </div>
+        <div class="p-col-12 p-md-7 p-lg-10">
+          <p>Жика</p>
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-5 p-lg-3">
+          <p class="label">Редактор:</p>
+        </div>
+        <div class="p-col-12 p-md-7 p-lg-10">
+          <p>Мика</p>
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-col-12 p-md-5 p-lg-3">
+          <p class="label">Уредник:</p>
+        </div>
+        <div class="p-col-12 p-md-7 p-lg-10">
+          <p>Лаза</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-container">
+    <p-tabView>
+      <p-tabPanel header="Граматичке информације">
+        Content 1
+      </p-tabPanel>
+      <p-tabPanel header="Дефиниција">
+        Content 2
+      </p-tabPanel>
+      <p-tabPanel header="Изрази и фразе">
+        Content 3
+      </p-tabPanel>
+      <p-tabPanel header="Синоними">
+        Content 4
+      </p-tabPanel>
+      <p-tabPanel header="Антоними">
+        Content 5
+      </p-tabPanel>
+      <p-tabPanel header="Колокације">
+        Content 6
+      </p-tabPanel>
+      <p-tabPanel header="Дневник измена">
+        Content 7
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

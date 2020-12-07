@@ -7,7 +7,7 @@
       <i class="pi pi-search"></i>
       <input type="search" class="search-component" pInputText placeholder="Претрага">
     </span>
-    <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button"></button>
+    <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="openAddForm()"></button>
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>

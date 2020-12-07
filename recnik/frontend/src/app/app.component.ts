@@ -12,6 +12,10 @@ export class AppComponent {
 
   items: MenuItem[];
 
+  openAddForm() {
+    location.href = '/add';
+  }
+
   constructor(private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {

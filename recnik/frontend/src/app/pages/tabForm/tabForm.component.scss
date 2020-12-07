@@ -1,0 +1,41 @@
+.tab-container {
+  margin: 20px;
+}
+
+.basic-information-container {
+  margin: 20px;
+  width: 100%;
+  flex: 1;
+}
+
+.label {
+  margin-right: 30px;
+}
+
+.p-lg-10 {
+  margin: auto;
+}
+
+:host ::ng-deep .p-inputtext {
+  height: 30px;
+  align-self: center;
+  margin: auto;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 185px;
+}
+
+:host ::ng-deep .p-listbox {
+  width: 185px;
+}
+
+:host ::ng-deep .p-inputgroup {
+  width: 220px;
+}
+
+.add-button {
+  margin-left: 10px;
+  height: 30px !important;
+  width: 30px;
+}
