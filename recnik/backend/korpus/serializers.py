@@ -139,15 +139,10 @@ class CreateImenicaSerializer(serializers.Serializer):
         varijante = validated_data.get('varijante')
         if varijante:
             del validated_data['varijante']
-        imenica = Imenica(**validated_data)
-        imenica.vreme = sada
-        imenica.save()
+        imenica = Imenica.objects.create(vreme=sada, **validated_data)
         if varijante:
             for index, var in enumerate(varijante):
-                varijanta = VarijantaImenice(**var)
-                varijanta.imenica = imenica
-                varijanta.redni_broj = index + 1
-                varijanta.save()
+                VarijantaImenice.objects.create(imenica=imenica, redni_broj=index+1, **var)
         IzmenaImenice.objects.create(user_id=user_id, vreme=sada, imenica=imenica)
         return imenica
 

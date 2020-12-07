@@ -66,14 +66,9 @@ class CreatePublicationSerializer(serializers.Serializer):
     def create(self, validated_data):
         autori = validated_data['autori']
         del validated_data['autori']
-        publikacija = Publikacija(**validated_data)
-        publikacija.vreme_unosa = now()
-        publikacija.save()
+        publikacija = Publikacija.objects.create(vreme_unosa=now(), **validated_data)
         for index, autor in enumerate(autori):
-            pub_autor = Autor(**autor)
-            pub_autor.publikacija = publikacija
-            pub_autor.redni_broj = index + 1
-            pub_autor.save()
+            Autor.objects.create(publikacija=publikacija, redni_broj=index+1, **autor)
         return publikacija
 
     def update(self, instance, validated_data):
