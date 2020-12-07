@@ -1,4 +1,5 @@
 import os
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -33,6 +34,7 @@ class Publikacija(models.Model):
     url = models.URLField('URL', max_length=500, blank=True, null=True)
     vreme_unosa = models.DateTimeField('време уноса')
     potkorpus = models.IntegerField('поткорпус', choices=POTKORPUSI, default=0)
+    user = models.ForeignKey(User, verbose_name='корисник', on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.naslov
