@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from django.contrib.admin.sites import AdminSite
 from django.test import TestCase, Client
@@ -32,9 +33,9 @@ class TestPublikacijaAdmin(TestCase):
 
 class TestPublikacijaApi(TestCase):
     fixtures = [
+        'users',
         'vrste_publikacija',
         'publikacije',
-        'users',
     ]
 
     def setUp(self) -> None:
@@ -51,6 +52,7 @@ class TestPublikacijaApi(TestCase):
                 'ime': 'Dragan',
                 'prezime': 'Kremer'
             }],
+            'user_id': 1,
             # izostavi polja koja nemaju vrednost
             # 'isbn': '',
             # 'volumen': '',

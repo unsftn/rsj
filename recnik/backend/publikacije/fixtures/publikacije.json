@@ -12,7 +12,8 @@
       "volumen": "",
       "broj": "1144",
       "url": "https://www.vreme.com/cms/view.php?id=1086791",
-      "vreme_unosa": "2020-12-05T16:16:28+01:00"
+      "vreme_unosa": "2020-12-05T16:16:28+01:00",
+      "user_id": 1
     }
   },
   {
@@ -28,7 +29,8 @@
       "volumen": "",
       "broj": "1144",
       "url": "https://www.vreme.com/cms/view.php?id=1086694",
-      "vreme_unosa": "2020-12-05T16:16:44+01:00"
+      "vreme_unosa": "2020-12-05T16:16:44+01:00",
+      "user_id": 1
     }
   },
   {
