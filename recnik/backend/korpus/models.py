@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
@@ -165,6 +166,13 @@ class OblikGlagola(models.Model):
     mn1 = models.CharField('прво лице множине', max_length=50, blank=True, null=True)
     mn2 = models.CharField('друго лице множине', max_length=50, blank=True, null=True)
     mn3 = models.CharField('треће лице множине', max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.glagol) + ' / ' + str(self.vreme) + ' / ' + self.jd1
+
+    class Meta:
+        verbose_name = 'облик глагола'
+        verbose_name_plural = 'облици глагола'
 
 
 class IzmenaGlagola(models.Model):

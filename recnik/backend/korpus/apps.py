@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.apps import AppConfig
 
 
 class KorpusConfig(AppConfig):
-    name = 'корпус'
+    name = 'korpus'
+    verbose_name = 'корпус'
