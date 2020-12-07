@@ -44,8 +44,10 @@ class TestPublikacijaApi(TestCase):
             'naslov': 'Druga glasnost',
             'naslov_izdanja': 'Vreme',
             'issn': '03538028',
+            'isbn': '',
             'izdavac': 'Vreme, Beograd',
             'godina': '2012',
+            'volumen': '',
             'broj': '1144',
             'url': 'https://www.vreme.com/cms/view.php?id=1086777',
             'vrsta_id': 3,
@@ -54,9 +56,6 @@ class TestPublikacijaApi(TestCase):
                 'prezime': 'Kremer'
             }],
             'user_id': 1,
-            # izostavi polja koja nemaju vrednost
-            # 'isbn': '',
-            # 'volumen': '',
         }
 
     def test_find_by_id(self):

@@ -51,14 +51,14 @@ class CreateAutorSerializer(serializers.Serializer):
 
 class CreatePublicationSerializer(serializers.Serializer):
     naslov = serializers.CharField(max_length=300)
-    naslov_izdanja = serializers.CharField(max_length=300, required=False)
-    isbn = serializers.CharField(max_length=13, required=False)
-    issn = serializers.CharField(max_length=8, required=False)
-    izdavac = serializers.CharField(max_length=200, required=False)
-    godina = serializers.CharField(max_length=10, required=False)
-    volumen = serializers.CharField(max_length=10, required=False)
-    broj = serializers.CharField(max_length=10, required=False)
-    url = serializers.URLField(max_length=500, required=False)
+    naslov_izdanja = serializers.CharField(max_length=300, required=False, allow_blank=True)
+    isbn = serializers.CharField(max_length=13, required=False, allow_blank=True)
+    issn = serializers.CharField(max_length=8, required=False, allow_blank=True)
+    izdavac = serializers.CharField(max_length=200, required=False, allow_blank=True)
+    godina = serializers.CharField(max_length=10, required=False, allow_blank=True)
+    volumen = serializers.CharField(max_length=10, required=False, allow_blank=True)
+    broj = serializers.CharField(max_length=10, required=False, allow_blank=True)
+    url = serializers.URLField(max_length=500, required=False, allow_blank=True)
     vrsta_id = serializers.IntegerField()
     autori = CreateAutorSerializer(many=True, required=False)
     user_id = serializers.IntegerField()
@@ -84,7 +84,6 @@ class CreatePublicationSerializer(serializers.Serializer):
 class CreateTextSerializer(serializers.Serializer):
     publikacija_id = serializers.IntegerField()
     tekst = serializers.CharField()
-    redni_broj = serializers.IntegerField(required=False)
 
     def create(self, validated_data):
         tp = TekstPublikacije(**validated_data)
