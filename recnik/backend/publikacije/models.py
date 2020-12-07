@@ -7,6 +7,7 @@ POTKORPUSI = [
     (0, 'непознат'),
     (1, 'новински'),
     (2, 'разговорни'),
+    # TODO: definisi sve potkorpuse
 ]
 
 
