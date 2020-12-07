@@ -82,7 +82,7 @@ def api_create_publication(request):
     if serializer.is_valid():
         publikacija = serializer.save()
         ser2 = PublikacijaSerializer(publikacija)
-        return Response(ser2.data, status=status.HTTP_200_OK, content_type='application/json')
+        return Response(ser2.data, status=status.HTTP_201_CREATED, content_type='application/json')
     else:
         return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
                         content_type='application/json')
@@ -96,7 +96,7 @@ def api_create_text(request):
         ser2 = TekstPublikacijeSerializer(tekst_publikacije)
         retval = ser2.data
         del retval['tekst']
-        return Response(retval, status=status.HTTP_200_OK, content_type='application/json')
+        return Response(retval, status=status.HTTP_201_CREATED, content_type='application/json')
     else:
         return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
                         content_type='application/json')

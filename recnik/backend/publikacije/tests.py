@@ -80,7 +80,7 @@ class TestPublikacijaApi(TestCase):
         response = c.post('/api/publikacije/create-publikacija/', data=self.create_pub_obj,
                           HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
         res_obj = json.loads(response.content.decode('UTF-8'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 201)
         try:
             pub = Publikacija.objects.get(naslov='Druga glasnost')
             self.assertEquals('https://www.vreme.com/cms/view.php?id=1086777', pub.url)
@@ -93,7 +93,7 @@ class TestPublikacijaApi(TestCase):
         response = c.post('/api/publikacije/create-publikacija/', data=self.create_pub_obj,
                           HTTP_AUTHORIZATION=f'Bearer {token}', content_type='application/json')
         res_obj = json.loads(response.content.decode('UTF-8'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 201)
         pub_id = res_obj['id']
         req_obj = {
             'publikacija_id': pub_id,
@@ -102,5 +102,5 @@ class TestPublikacijaApi(TestCase):
         response = c.post('/api/publikacije/create-text/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {token}',
                           content_type='application/json')
         res_obj = json.loads(response.content.decode('UTF-8'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 201)
         self.assertEquals(TekstPublikacije.objects.filter(id=res_obj['id']).count(), 1)
