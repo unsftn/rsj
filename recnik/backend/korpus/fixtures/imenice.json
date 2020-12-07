@@ -1,0 +1,171 @@
+[
+  {
+    "model": "korpus.VrstaImenice",
+    "pk": 1,
+    "fields": {
+      "naziv": "апстрактна"
+    }
+  },
+  {
+    "model": "korpus.VrstaImenice",
+    "pk": 2,
+    "fields": {
+      "naziv": "заједничка"
+    }
+  },
+  {
+    "model": "korpus.VrstaImenice",
+    "pk": 3,
+    "fields": {
+      "naziv": "властита"
+    }
+  },
+  {
+    "model": "korpus.VrstaImenice",
+    "pk": 4,
+    "fields": {
+      "naziv": "збирна"
+    }
+  },
+  {
+    "model": "korpus.VrstaImenice",
+    "pk": 5,
+    "fields": {
+      "naziv": "градивна"
+    }
+  },
+  {
+    "model": "korpus.VrstaImenice",
+    "pk": 6,
+    "fields": {
+      "naziv": "глаголска"
+    }
+  },
+  {
+    "model": "korpus.Imenica",
+    "pk": 1,
+    "fields": {
+      "vrsta_id": 1,
+      "nomjed": "акценат",
+      "genjed": "акцента",
+      "datjed": "акценту",
+      "akujed": "акценат",
+      "vokjed": "акценту",
+      "insjed": "акцентом",
+      "lokjed": "акценту",
+      "nommno": "акценти",
+      "genmno": "акцената",
+      "datmno": "акцентима",
+      "akumno": "акценте",
+      "vokmno": "акценти",
+      "insmno": "акцентима",
+      "lokmno": "акцентима",
+      "vreme": "2020-12-07T16:16:28+01:00",
+      "version": 1
+    }
+  },
+  {
+    "model": "korpus.IzmenaImenice",
+    "pk": 1,
+    "fields": {
+      "imenica_id": 1,
+      "vreme": "2020-12-07T16:16:28+01:00",
+      "user_id": 1
+    }
+  },
+  {
+    "model": "korpus.Imenica",
+    "pk": 2,
+    "fields": {
+      "vrsta_id": 2,
+      "nomjed": "дама",
+      "genjed": "даме",
+      "datjed": "дами",
+      "akujed": "даму",
+      "vokjed": "дамо",
+      "insjed": "дамом",
+      "lokjed": "дами",
+      "nommno": "даме",
+      "genmno": "дама",
+      "datmno": "дамама",
+      "akumno": "даме",
+      "vokmno": "даме",
+      "insmno": "дамама",
+      "lokmno": "дамама",
+      "vreme": "2020-12-07T16:16:28+01:00",
+      "version": 1
+    }
+  },
+  {
+    "model": "korpus.IzmenaImenice",
+    "pk": 2,
+    "fields": {
+      "imenica_id": 2,
+      "vreme": "2020-12-07T16:16:28+01:00",
+      "user_id": 1
+    }
+  },
+  {
+    "model": "korpus.Imenica",
+    "pk": 3,
+    "fields": {
+      "vrsta_id": 2,
+      "nomjed": "вишња",
+      "genjed": "вишње",
+      "datjed": "вишњи",
+      "akujed": "вишњу",
+      "vokjed": "вишња",
+      "insjed": "вишњом",
+      "lokjed": "вишњи",
+      "nommno": "вишње",
+      "genmno": "вишања",
+      "datmno": "вишњама",
+      "akumno": "вишње",
+      "vokmno": "вишње",
+      "insmno": "вишњама",
+      "lokmno": "вишњама",
+      "vreme": "2020-12-07T17:16:28+01:00",
+      "version": 1
+    }
+  },
+  {
+    "model": "korpus.VarijantaImenice",
+    "pk": 1,
+    "fields": {
+      "imenica_id": 3,
+      "redni_broj": 1,
+      "nomjed": "",
+      "genjed": "вишњи",
+      "datjed": "",
+      "akujed": "",
+      "vokjed": "",
+      "insjed": "",
+      "lokjed": "",
+      "nommno": "",
+      "genmno": "",
+      "datmno": "",
+      "akumno": "",
+      "vokmno": "",
+      "insmno": "",
+      "lokmno": ""
+    }
+  },
+  {
+    "model": "korpus.IzmenaImenice",
+    "pk": 3,
+    "fields": {
+      "imenica_id": 3,
+      "vreme": "2020-12-07T16:16:28+01:00",
+      "user_id": 1
+    }
+  },
+  {
+    "model": "korpus.IzmenaImenice",
+    "pk": 4,
+    "fields": {
+      "imenica_id": 3,
+      "vreme": "2020-12-07T17:16:28+01:00",
+      "user_id": 1
+    }
+  }
+]

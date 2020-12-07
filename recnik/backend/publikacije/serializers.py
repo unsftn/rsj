@@ -34,7 +34,7 @@ class PublikacijaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publikacija
         fields = ('id', 'naslov', 'naslov_izdanja', 'vrsta', 'isbn', 'issn', 'izdavac', 'godina', 'volumen', 'broj',
-                  'url', 'vreme_unosa', 'autor_set')
+                  'url', 'vreme_unosa', 'autor_set', 'user_id',)
 
 
 class CreateAutorSerializer(serializers.Serializer):
@@ -61,6 +61,7 @@ class CreatePublicationSerializer(serializers.Serializer):
     url = serializers.URLField(max_length=500, required=False)
     vrsta_id = serializers.IntegerField()
     autori = CreateAutorSerializer(many=True, required=False)
+    user_id = serializers.IntegerField()
 
     def create(self, validated_data):
         autori = validated_data['autori']

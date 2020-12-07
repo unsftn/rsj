@@ -13,6 +13,7 @@ def get_jwt_token():
 
 class TestPublikacijaAdmin(TestCase):
     fixtures = [
+        'users',
         'vrste_publikacija',
         'publikacije',
     ]
