@@ -2,6 +2,13 @@ import os
 from django.db import models
 
 
+POTKORPUSI = [
+    (0, 'непознат'),
+    (1, 'новински'),
+    (2, 'разговорни'),
+]
+
+
 class VrstaPublikacije(models.Model):
     naziv = models.CharField('назив', max_length=300)
 
@@ -25,6 +32,7 @@ class Publikacija(models.Model):
     broj = models.CharField('број', max_length=10, blank=True, null=True)
     url = models.URLField('URL', max_length=500, blank=True, null=True)
     vreme_unosa = models.DateTimeField('време уноса')
+    potkorpus = models.IntegerField('поткорпус', choices=POTKORPUSI, default=0)
 
     def __str__(self):
         return self.naslov
