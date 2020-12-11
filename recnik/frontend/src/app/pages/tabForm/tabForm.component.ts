@@ -60,7 +60,6 @@ export class TabFormComponent implements OnInit {
     this.selectedWordType === 'Број'
       ? (this.isNoun = true)
       : (this.isNoun = false);
-    console.log(this.isNoun);
 
     this.selectedWordType === 'Глагол'
       ? (this.isVerb = true)

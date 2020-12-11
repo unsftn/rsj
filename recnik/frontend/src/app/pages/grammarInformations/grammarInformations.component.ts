@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { TabFormComponent } from '../tabForm/tabForm.component';
 
 interface WordType {
   name: string;
@@ -21,7 +20,6 @@ export class GrammarInformationsComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    console.log(this.isNoun);
     this.kinds = ['Мушки', 'Женски', 'Средњи'];
   }
 }
