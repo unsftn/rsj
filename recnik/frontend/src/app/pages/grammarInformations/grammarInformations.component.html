@@ -1,1 +1,66 @@
-<p>Content1</p>
+<div *ngIf="isNoun" class="p-d-flex p-flex-column p-flex-md-row">
+  <div class="p-d-flex p-flex-column">
+    <div>
+      <div class="p-d-flex">
+        <div class="p-col-4 p-md-4 p-lg-4">
+          <p class="label">Род:</p>
+        </div>
+        <div class="p-col-8 p-md-8 p-lg-8">
+          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="p-d-flex">
+        <div class="p-col-4 p-md-4 p-lg-4">
+          <p class="label">Наставак:</p>
+        </div>
+        <div class="p-col-8 p-md-8 p-lg-8">
+          <input type="text" pInputText />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isVerb" class="p-d-flex p-flex-column p-flex-md-row">
+  <div class="p-d-flex p-flex-column">
+    <div>
+      <div class="p-d-flex">
+        <div class="p-col-5 p-md-5 p-lg-5">
+          <p class="label">Глаголски вид:</p>
+        </div>
+        <div class="p-col-7 p-md-7 p-lg-7">
+          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="p-d-flex">
+        <div class="p-col-5 p-md-5 p-lg-5">
+          <p class="label">Глаголски род:</p>
+        </div>
+        <div class="p-col-7 p-md-7 p-lg-7">
+          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="p-d-flex">
+        <div class="p-col-5 p-md-5 p-lg-5">
+          <p class="label">Презент:</p>
+        </div>
+        <div class="p-col-7 p-md-7 p-lg-7">
+          <input type="text" pInputText />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="p-d-flex p-flex-column">
+  <div>
+    <p class="label">Додатне информације:</p>
+  </div>
+  <div>
+    <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize"></textarea>
+  </div>
+</div>
