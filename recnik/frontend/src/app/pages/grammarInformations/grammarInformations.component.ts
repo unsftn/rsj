@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+
+interface WordType {
+  name: string;
+}
 
 @Component({
   selector: 'grammarInformations',
@@ -7,9 +11,15 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./grammarInformations.component.scss'],
 })
 export class GrammarInformationsComponent implements OnInit {
+  @Input() isNoun: boolean;
+  @Input() isVerb: boolean;
+  kinds: string[];
+
+  public selectedKind: string;
   constructor(private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+    this.kinds = ['Мушки', 'Женски', 'Средњи'];
   }
 }

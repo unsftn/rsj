@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
-interface WordType {
-  name: string;
-}
-
 interface State {
   name: string;
 }
@@ -19,26 +15,28 @@ interface Qualificator {
   styleUrls: ['./tabForm.component.scss'],
 })
 export class TabFormComponent implements OnInit {
-  wordType: WordType[];
+  wordType: string[];
   state: State[];
   qualificator: Qualificator[];
+  isNoun: boolean;
+  isVerb: boolean;
 
-  selectedWordType: WordType;
+  selectedWordType: string;
   selectedState: State;
   selectedQualificator: Qualificator;
 
   constructor(private primengConfig: PrimeNGConfig) {
     this.wordType = [
-      { name: 'Именица' },
-      { name: 'Глагол' },
-      { name: 'Придев' },
-      { name: 'Заменица' },
-      { name: 'Број' },
-      { name: 'Прилог' },
-      { name: 'Предлог' },
-      { name: 'Узвик' },
-      { name: 'Речца' },
-      { name: 'Везник' },
+      'Именица',
+      'Глагол',
+      'Придев',
+      'Заменица',
+      'Број',
+      'Прилог',
+      'Предлог',
+      'Узвик',
+      'Речца',
+      'Везник',
     ];
     this.state = [
       { name: 'Први унос' },
@@ -50,6 +48,22 @@ export class TabFormComponent implements OnInit {
       { name: 'Друга ставка' },
       { name: 'Трећа ставка' },
     ];
+
+    this.isNoun = true;
+    this.isVerb = false;
+  }
+
+  onChange() {
+    this.selectedWordType === 'Именица' ||
+    this.selectedWordType === 'Заменица' ||
+    this.selectedWordType === 'Придев' ||
+    this.selectedWordType === 'Број'
+      ? (this.isNoun = true)
+      : (this.isNoun = false);
+
+    this.selectedWordType === 'Глагол'
+      ? (this.isVerb = true)
+      : (this.isVerb = false);
   }
 
   ngOnInit() {

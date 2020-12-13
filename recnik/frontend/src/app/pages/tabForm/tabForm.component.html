@@ -23,7 +23,7 @@
           <p class="label">Врста речи:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-10">
-          <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" (onChange)='onChange()'></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex">
@@ -73,7 +73,7 @@
   <div class="tab-container">
     <p-tabView>
       <p-tabPanel header="Граматичке информације">
-        Content 1
+        <grammarInformations [isNoun]='isNoun' [isVerb]='isVerb'></grammarInformations>
       </p-tabPanel>
       <p-tabPanel header="Дефиниција">
         Content 2
