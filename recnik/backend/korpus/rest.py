@@ -54,7 +54,7 @@ class PridevList(generics.ListAPIView):
     queryset = Pridev.objects.all()
     serializer_class = PridevSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['vreme']
+    filter_fields = ['tekst']
 
 
 class PridevDetail(generics.RetrieveAPIView):

@@ -243,6 +243,67 @@ class CreateGlagolSerializer(serializers.Serializer):
         return instance
 
 
+class CreateOblikPridevaSerializer(serializers.Serializer):
+    tekst = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    vid = serializers.IntegerField()
+    rod = serializers.IntegerField()
+    broj = serializers.IntegerField()
+    padez = serializers.IntegerField()
+
+    def create(self, validated_data):
+        return OblikPrideva(**validated_data)
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance
+
+
+class CreateIzmenaPridevaSerializer(serializers.Serializer):
+    vreme = serializers.DateTimeField()
+    user_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        return IzmenaPrideva(**validated_data)
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance
+
+
 class CreatePridevSerializer(serializers.Serializer):
-    # TODO
-    pass
+    id = serializers.IntegerField(required=False)
+    tekst = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    version = serializers.IntegerField(required=False)
+    oblici = CreateOblikPridevaSerializer(many=True, required=False)
+
+    def create(self, validated_data):
+        sada = now()
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
+        oblici = validated_data.get('oblici')
+        if oblici:
+            del validated_data['oblici']
+        pridev = Pridev.objects.create(vreme=sada, **validated_data)
+        if oblici:
+            for index, var in enumerate(oblici):
+                OblikPrideva.objects.create(pridev=pridev, **var)
+        IzmenaPrideva.objects.create(user_id=user_id, vreme=sada, pridev=pridev)
+        return pridev
+
+    def update(self, instance, validated_data):
+        sada = now()
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
+        oblici = validated_data.get('oblici')
+        if oblici:
+            del validated_data['oblici']
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+        OblikPrideva.objects.filter(pridev=instance).delete()
+        instance.version += 1
+        instance.save()
+        if oblici:
+            for index, var in enumerate(oblici):
+                OblikPrideva.objects.create(pridev=instance, **var)
+        IzmenaPrideva.objects.create(user_id=user_id, vreme=sada, pridev=instance)
+        return instance

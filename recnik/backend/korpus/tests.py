@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from django.test import TestCase, Client
-from .models import Imenica, IzmenaImenice, Glagol, IzmenaGlagola
+from .models import Imenica, IzmenaImenice, Glagol, IzmenaGlagola, Pridev, IzmenaPrideva
 
 
 def get_jwt_token():
@@ -347,5 +347,248 @@ class TestGlagolApi(TestCase):
         self.assertEquals(r1.status_code, 204)
         c2 = Client()
         r2 = c2.put('/api/korpus/save-glagol/', data=req2, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type=JSON)
+        self.assertEquals(r2.status_code, 409)
+
+
+class TestPridevApi(TestCase):
+    fixtures = [
+        'users',
+        'pridevi',
+    ]
+
+    def test_find_pridev_by_id(self):
+        c = Client()
+        response = c.get('/api/korpus/pridev/1/', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(res_obj['tekst'], 'адаптиран')
+
+    def test_find_pridev_by_tekst(self):
+        c = Client()
+        response = c.get('/api/korpus/pridev/?tekst=адаптиран', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(res_obj[0]['tekst'], 'адаптиран')
+
+    def test_create_pridev(self):
+        req_obj = {
+            'tekst': 'читав',
+            'oblici': [{
+                'tekst': 'читави',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 1
+            }, {
+                'tekst': 'читавог',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 2
+            }, {
+                'tekst': 'читавом',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 3
+            }, {
+                'tekst': 'читавог',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 4
+            }, {
+                'tekst': 'читав',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 5
+            }, {
+                'tekst': 'читавим',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 6
+            }, {
+                'tekst': 'читавом',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 7
+            }, {
+                'tekst': 'читави',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 1
+            }, {
+                'tekst': 'читавих',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 2
+            }, {
+                'tekst': 'читавим',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 3
+            }, {
+                'tekst': 'читаве',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 4
+            }, {
+                'tekst': 'читави',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 5
+            }, {
+                'tekst': 'читавим',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 6
+            }, {
+                'tekst': 'читавим',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 7
+            }]
+        }
+        c = Client()
+        response = c.post('/api/korpus/save-pridev/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                          content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 201)
+        self.assertEquals(res_obj['tekst'], 'читав')
+        self.assertEquals(res_obj['oblikprideva_set'][0]['tekst'], 'читави')
+        broj_izmena = IzmenaPrideva.objects.filter(pridev_id=res_obj['id']).count()
+        self.assertEquals(broj_izmena, 1)
+
+    def test_update_pridev(self):
+        req_obj = {
+            'id': 1,
+            'tekst': 'TEST1',
+            'version': 1,
+            'oblici': [{
+                'tekst': 'TEST2',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 1
+            }, {
+                'tekst': 'адаптираног',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 2
+            }, {
+                'tekst': 'адаптираном',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 3
+            }, {
+                'tekst': 'адаптираног',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 4
+            }, {
+                'tekst': 'адаптирани',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 5
+            }, {
+                'tekst': 'адаптираним',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 6
+            }, {
+                'tekst': 'адаптираном',
+                'vid': 1,
+                'rod': 1,
+                'broj': 1,
+                'padez': 7
+            }, {
+                'tekst': 'адаптирани',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 1
+            }, {
+                'tekst': 'адаптираних',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 2
+            }, {
+                'tekst': 'адаптираним',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 3
+            }, {
+                'tekst': 'адаптиране',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 4
+            }, {
+                'tekst': 'адаптирани',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 5
+            }, {
+                'tekst': 'адаптираним',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 6
+            }, {
+                'tekst': 'адаптираним',
+                'vid': 1,
+                'rod': 1,
+                'broj': 2,
+                'padez': 7
+            }]
+        }
+        broj_izmena_pre = IzmenaPrideva.objects.filter(pridev_id=1).count()
+        c = Client()
+        response = c.put('/api/korpus/save-pridev/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        self.assertEquals(response.status_code, 204)
+        pridev = Pridev.objects.get(id=1)
+        self.assertEquals(pridev.tekst, 'TEST1')
+        self.assertEquals(pridev.oblikprideva_set.get(pridev_id=1, vid=1, rod=1, broj=1, padez=1).tekst, 'TEST2')
+        broj_izmena_posle = IzmenaPrideva.objects.filter(pridev_id=1).count()
+        self.assertEquals(broj_izmena_pre + 1, broj_izmena_posle)
+
+    def test_concurrent_update_pridev(self):
+        req1 = {
+            'id': 1,
+            'tekst': 'TEST1',
+            'version': 1,
+        }
+        req2 = {
+            'id': 1,
+            'tekst': 'TEST2',
+            'version': 1,
+        }
+        c1 = Client()
+        r1 = c1.put('/api/korpus/save-pridev/', data=req1, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type=JSON)
+        self.assertEquals(r1.status_code, 204)
+        c2 = Client()
+        r2 = c2.put('/api/korpus/save-pridev/', data=req2, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
                     content_type=JSON)
         self.assertEquals(r2.status_code, 409)

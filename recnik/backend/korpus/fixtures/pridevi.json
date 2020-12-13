@@ -1,0 +1,104 @@
+[
+  {
+    "model": "korpus.Pridev",
+    "pk": 1,
+    "fields": {
+      "tekst": "адаптиран",
+      "vreme": "2020-12-12T16:16:28+01:00",
+      "version": 1
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 1,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптирани",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 1
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 2,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптираног",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 2
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 3,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптираном",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 3
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 4,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптираног",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 4
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 5,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптирани",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 5
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 6,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптираним",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 6
+    }
+  },
+  {
+    "model": "korpus.OblikPrideva",
+    "pk": 7,
+    "fields": {
+      "pridev_id": 1,
+      "tekst": "адаптираном",
+      "vid": 1,
+      "rod": 1,
+      "broj": 1,
+      "padez": 7
+    }
+  },
+  {
+    "model": "korpus.IzmenaPrideva",
+    "pk": 1,
+    "fields": {
+      "pridev_id": 1,
+      "vreme": "2020-12-12T16:16:28+01:00",
+      "user_id": 1
+    }
+  }
+]
