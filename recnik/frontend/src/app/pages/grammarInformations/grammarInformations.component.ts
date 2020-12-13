@@ -1,10 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
-interface WordType {
-  name: string;
-}
-
 @Component({
   selector: 'grammarInformations',
   templateUrl: './grammarInformations.component.html',

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { GrammarInformationsModule } from '../grammarInformations/grammarInformations.module';
+import { MeaningFormModule } from '../meaningForm /meaningForm.module';
 
 @NgModule({
   declarations: [TabFormComponent],
@@ -18,6 +19,7 @@ import { GrammarInformationsModule } from '../grammarInformations/grammarInforma
     ListboxModule,
     ButtonModule,
     GrammarInformationsModule,
+    MeaningFormModule,
   ],
   exports: [TabFormComponent],
   providers: [],

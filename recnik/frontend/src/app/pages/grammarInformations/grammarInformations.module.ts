@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+
 import { GrammarInformationsComponent } from './grammarInformations.component';
+
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
