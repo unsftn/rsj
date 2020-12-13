@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @font-face {
+            font-family: 'Dijakritika';
+            src: url('/fonts/Dijakritika-Regular.ttf') format('truetype');
+            font-style: normal;
+            font-weight: normal;
+            text-rendering: optimizeLegibility;
+        }
+        @font-face {
+            font-family: 'Dijakritika';
+            src: url('/fonts/Dijakritika-Bold.ttf') format('truetype');
+            font-style: normal;
+            font-weight: bold;
+            text-rendering: optimizeLegibility;
+        }
+        @font-face {
+            font-family: 'Dijakritika';
+            src: url('/fonts/Dijakritika-Italic.ttf') format('truetype');
+            font-style: italic;
+            font-weight: normal;
+            text-rendering: optimizeLegibility;
+        }
+        body {
+            font-family: Dijakritika;
+            font-feature-settings: "mark";
+            font-feature-settings: "mkmk";
+            font-feature-settings: "kern";
+            font-feature-settings: "locl";
+        }
+        @page {
+            size: a4 portrait;
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+            }
+            @frame col1_frame {
+                left: 44pt; width: 245pt; top: 90pt; height: 632pt;
+            }
+            @frame col2_frame {
+                left: 323pt; width: 245pt; top: 90pt; height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+    </style>
+</head>
+<body>
+
+</body>
+</html>
+<html>
+<head>
+<head>
+
+<body>
+    <div id="header_content">Заглавље</div>
+    <div id="footer_content">Страница <pdf:pagenumber></div>
+
+    {% for od in odrednice %}
+        <div class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</div>
+    {% endfor %}
+</body>
+</html>

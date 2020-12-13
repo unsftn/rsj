@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'publikacije',
     'korpus',
     'odrednice',
+    'render',
 ]
 
 MIDDLEWARE = [

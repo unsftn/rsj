@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/publikacije/', include('publikacije.urls', namespace='publikacije')),
     path('api/korpus/', include('korpus.urls', namespace='korpus')),
     path('api/odrednice/', include('odrednice.urls', namespace='odrednice')),
+    path('api/render/', include('render.urls', namespace='render')),
     path(r'swagger<str:format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path(r'swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]

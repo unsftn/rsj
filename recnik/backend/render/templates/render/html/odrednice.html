@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Odrednice</title>
+    <style>
+        @font-face {
+            font-family: 'Dijakritika';
+            src: url("{% static 'fonts/Dijakritika-Regular.woff2' %}") format('woff2'),
+	             url("{% static 'fonts/Dijakritika-Regular.otf' %}") format('opentype'); /* Modern Browsers */
+            font-style: normal;
+            font-weight: normal;
+            text-rendering: optimizeLegibility;
+        }
+        @font-face {
+            font-family: 'Dijakritika';
+            src: url("{% static 'fonts/Dijakritika-Bold.woff2' %}") format('woff2'),
+                 url("{% static 'fonts/Dijakritika-Bold.otf' %}") format('opentype'); /* Modern Browsers */
+            font-style: normal;
+            font-weight: bold;
+            text-rendering: optimizeLegibility;
+        }
+        @font-face {
+            font-family: 'Dijakritika';
+            src: url("{% static 'fonts/Dijakritika-Italic.woff2' %}") format('woff2'),
+                 url("{% static 'fonts/Dijakritika-Italic.otf' %}") format('opentype'); /* Modern Browsers */
+            font-style: italic;
+            font-weight: normal;
+            text-rendering: optimizeLegibility;
+        }
+        types {
+            font/woff2  woff2;
+        }
+        @page {
+            size: a4 portrait;
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+            }
+            @frame col1_frame {
+                left: 44pt; width: 245pt; top: 90pt; height: 632pt;
+            }
+            @frame col2_frame {
+                left: 323pt; width: 245pt; top: 90pt; height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+            }
+        }
+        body{
+            font-family: "Dijakritika";
+            font-feature-settings: "mark";
+            font-feature-settings: "mkmk";
+            font-feature-settings: "kern";
+            font-feature-settings: "locl";
+         }
+        .onum {font-feature-settings: "onum";}  /* oldstyle numerals */
+        .tnum {font-feature-settings: "tnum";}  /* tabular numerals */
+        .frac {font-feature-settings: "frac";}  /* fractions */
+    </style>
+</head>
+<body>
+{% for od in odrednice %}
+    <div class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</div>
+{% endfor %}
+</body>
+</html>
