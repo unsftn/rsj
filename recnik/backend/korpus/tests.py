@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 import json
 from django.test import TestCase, Client
-from .models import Imenica, IzmenaImenice
+from .models import Imenica, IzmenaImenice, Glagol, IzmenaGlagola
+
 
 def get_jwt_token():
     c = Client()
     response = c.post('/api/token/', {'username': 'admin@rsj.rs', 'password': 'admin'})
     return json.loads(response.content.decode('UTF-8'))['access']
+
+
+JSON = 'application/json'
 
 
 class TestImenicaApi(TestCase):
@@ -17,8 +21,7 @@ class TestImenicaApi(TestCase):
 
     def test_find_imenica_by_id(self):
         c = Client()
-        response = c.get('/api/korpus/imenica/1/', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type='application/json')
+        response = c.get('/api/korpus/imenica/1/', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 200)
         self.assertEquals(res_obj['nomjed'], 'акценат')
@@ -26,7 +29,7 @@ class TestImenicaApi(TestCase):
     def test_find_imenica_by_nomjed(self):
         c = Client()
         response = c.get('/api/korpus/imenica/?nomjed=дама', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type='application/json')
+                         content_type=JSON)
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 200)
         self.assertEquals(res_obj[0]['genjed'], 'даме')
@@ -34,7 +37,7 @@ class TestImenicaApi(TestCase):
     def test_find_imenica_by_vrsta_id(self):
         c = Client()
         response = c.get('/api/korpus/imenica/?vrsta_id=2', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type='application/json')
+                         content_type=JSON)
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 200)
         self.assertGreaterEqual(len(res_obj), 2)
@@ -59,7 +62,7 @@ class TestImenicaApi(TestCase):
         }
         c = Client()
         response = c.post('/api/korpus/save-imenica/', data=req_obj,
-                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
+                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 201)
         self.assertEquals(res_obj['nomjed'], 'столица')
@@ -102,7 +105,7 @@ class TestImenicaApi(TestCase):
         }
         c = Client()
         response = c.post('/api/korpus/save-imenica/', data=req_obj,
-                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
+                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 201)
         self.assertEquals(res_obj['nomjed'], 'отац')
@@ -133,7 +136,7 @@ class TestImenicaApi(TestCase):
         broj_izmena_pre = IzmenaImenice.objects.filter(imenica_id=1).count()
         c = Client()
         response = c.put('/api/korpus/save-imenica/', data=req_obj,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
+                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
         self.assertEquals(response.status_code, 204)
         imenica = Imenica.objects.get(id=1)
         self.assertEquals(imenica.nomjed, 'PROBA')
@@ -179,7 +182,7 @@ class TestImenicaApi(TestCase):
         broj_izmena_pre = IzmenaImenice.objects.filter(imenica_id=1).count()
         c = Client()
         response = c.put('/api/korpus/save-imenica/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type='application/json')
+                         content_type=JSON)
         self.assertEquals(response.status_code, 204)
         imenica = Imenica.objects.get(id=1)
         self.assertEquals(imenica.nomjed, 'TEST')
@@ -202,10 +205,147 @@ class TestImenicaApi(TestCase):
         }
         c1 = Client()
         r1 = c1.put('/api/korpus/save-imenica/', data=req1, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                    content_type='application/json')
+                    content_type=JSON)
         self.assertEquals(r1.status_code, 204)
         c2 = Client()
         r2 = c2.put('/api/korpus/save-imenica/', data=req2, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                    content_type='application/json')
+                    content_type=JSON)
         self.assertEquals(r2.status_code, 409)
 
+
+class TestGlagolApi(TestCase):
+    fixtures = [
+        'users',
+        'glagoli',
+    ]
+
+    def test_find_glagol_by_id(self):
+        c = Client()
+        response = c.get('/api/korpus/glagol/1/', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(res_obj['rgp_zj'], 'блокирала')
+
+    def test_find_glagol_by_infinitiv(self):
+        c = Client()
+        response = c.get('/api/korpus/glagol/?infinitiv=блокирати', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(res_obj[0]['rgp_zj'], 'блокирала')
+
+    def test_find_glagol_by_rod(self):
+        c = Client()
+        response = c.get('/api/korpus/glagol/?rod=1', HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 200)
+        self.assertGreaterEqual(len(res_obj), 1)
+
+    def test_create_glagol(self):
+        req_obj = {
+            'infinitiv': 'прочитати',
+            'vid': 2,
+            'rod': 1,
+            'rgp_mj': 'прочитао',
+            'rgp_zj': 'прочитала',
+            'rgp_sj': 'прочитало',
+            'rgp_mm': 'прочитали',
+            'rgp_zm': 'прочитале',
+            'rgp_sm': 'прочитала',
+            'gpp': '',
+            'gps': '',
+            'oblici': [{
+                'vreme': 1,
+                'jd1': 'прочитам',
+                'jd2': 'прочиташ',
+                'jd3': 'прочита',
+                'mn1': 'прочитамо',
+                'mn2': 'прочитате',
+                'mn3': 'прочитају',
+            }, {
+                'vreme': 3,
+                'jd1': 'прочитах',
+                'jd2': 'прочита',
+                'jd3': 'прочита',
+                'mn1': 'прочитасмо',
+                'mn2': 'прочитасте',
+                'mn3': 'прочиташе',
+            }]
+        }
+        c = Client()
+        response = c.post('/api/korpus/save-glagol/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                          content_type=JSON)
+        res_obj = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, 201)
+        self.assertEquals(res_obj['rgp_sj'], 'прочитало')
+        self.assertEquals(res_obj['oblikglagola_set'][0]['mn1'], 'прочитамо')
+        broj_izmena = IzmenaGlagola.objects.filter(glagol_id=res_obj['id']).count()
+        self.assertEquals(broj_izmena, 1)
+
+    def test_update_glagol(self):
+        req_obj = {
+            'id': 1,
+            'infinitiv': 'блокирати',
+            'vid': 2,
+            'rod': 1,
+            'rgp_mj': 'TEST',
+            'rgp_zj': 'блокирала',
+            'rgp_sj': 'блокирало',
+            'rgp_mm': 'блокирали',
+            'rgp_zm': 'блокирале',
+            'rgp_sm': 'блокирала',
+            'gpp': '',
+            'gps': '',
+            'version': 1,
+            'oblici': [{
+                'vreme': 1,
+                'jd1': 'блокирам',
+                'jd2': 'блокираш',
+                'jd3': 'блокира',
+                'mn1': 'блокирамо',
+                'mn2': 'блокирате',
+                'mn3': 'блокирају',
+            }, {
+                'vreme': 3,
+                'jd1': 'блокираћу',
+                'jd2': 'блокираћеш',
+                'jd3': 'блокираће',
+                'mn1': 'блокираћемо',
+                'mn2': 'блокираћете',
+                'mn3': 'блокираће',
+            }]
+        }
+        broj_izmena_pre = IzmenaGlagola.objects.filter(glagol_id=1).count()
+        c = Client()
+        response = c.put('/api/korpus/save-glagol/', data=req_obj, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        self.assertEquals(response.status_code, 204)
+        glagol = Glagol.objects.get(id=1)
+        self.assertEquals(glagol.rgp_mj, 'TEST')
+        self.assertEquals(glagol.oblikglagola_set.get(vreme=3).jd3, 'блокираће')
+        broj_izmena_posle = IzmenaGlagola.objects.filter(glagol_id=1).count()
+        self.assertEquals(broj_izmena_pre + 1, broj_izmena_posle)
+
+    def test_concurrent_update_glagol(self):
+        req1 = {
+            'id': 1,
+            'rod': 1,
+            'vid': 1,
+            'rgp_mj': 'TEST1',
+            'version': 1,
+        }
+        req2 = {
+            'id': 1,
+            'rod': 1,
+            'vid': 1,
+            'rgp_mj': 'TEST2',
+            'version': 1,
+        }
+        c1 = Client()
+        r1 = c1.put('/api/korpus/save-glagol/', data=req1, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type=JSON)
+        self.assertEquals(r1.status_code, 204)
+        c2 = Client()
+        r2 = c2.put('/api/korpus/save-glagol/', data=req2, HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type=JSON)
+        self.assertEquals(r2.status_code, 409)

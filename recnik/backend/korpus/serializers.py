@@ -165,9 +165,82 @@ class CreateImenicaSerializer(serializers.Serializer):
         return instance
 
 
+class CreateOblikGlagolaSerializer(serializers.Serializer):
+    vreme = serializers.IntegerField()
+    jd1 = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    jd2 = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    jd3 = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    mn1 = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    mn2 = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    mn3 = serializers.CharField(max_length=50, required=False, allow_blank=True)
+
+    def create(self, validated_data):
+        return OblikGlagola(**validated_data)
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance
+
+
+class CreateIzmenaGlagolaSerializer(serializers.Serializer):
+    vreme = serializers.DateTimeField()
+    user_id = serializers.IntegerField()
+
+    def create(self, validated_data):
+        return IzmenaGlagola(**validated_data)
+
+    def update(self, instance, validated_data):
+        # nikad ne radimo update
+        return instance
+
+
 class CreateGlagolSerializer(serializers.Serializer):
-    # TODO
-    pass
+    id = serializers.IntegerField(required=False)
+    infinitiv = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    vid = serializers.IntegerField()
+    rod = serializers.IntegerField()
+    rgp_mj = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    rgp_zj = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    rgp_sj = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    rgp_mm = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    rgp_zm = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    rgp_sm = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    gpp = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    gps = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    version = serializers.IntegerField(required=False)
+    oblici = CreateOblikGlagolaSerializer(many=True, required=False)
+
+    def create(self, validated_data):
+        sada = now()
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
+        oblici = validated_data.get('oblici')
+        if oblici:
+            del validated_data['oblici']
+        glagol = Glagol.objects.create(vreme=sada, **validated_data)
+        if oblici:
+            for index, var in enumerate(oblici):
+                OblikGlagola.objects.create(glagol=glagol, **var)
+        IzmenaGlagola.objects.create(user_id=user_id, vreme=sada, glagol=glagol)
+        return glagol
+
+    def update(self, instance, validated_data):
+        sada = now()
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
+        oblici = validated_data.get('oblici')
+        if oblici:
+            del validated_data['oblici']
+        for (key, value) in validated_data.items():
+            setattr(instance, key, value)
+        OblikGlagola.objects.filter(glagol=instance).delete()
+        instance.version += 1
+        instance.save()
+        if oblici:
+            for index, var in enumerate(oblici):
+                OblikGlagola.objects.create(glagol=instance, **var)
+        IzmenaGlagola.objects.create(user_id=user_id, vreme=sada, glagol=instance)
+        return instance
 
 
 class CreatePridevSerializer(serializers.Serializer):

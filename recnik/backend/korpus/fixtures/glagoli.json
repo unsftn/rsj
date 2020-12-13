@@ -1,0 +1,72 @@
+[
+  {
+    "model": "korpus.Glagol",
+    "pk": 1,
+    "fields": {
+      "infinitiv": "блокирати",
+      "vid": 1,
+      "rod": 1,
+      "rgp_mj": "блокирао",
+      "rgp_zj": "блокирала",
+      "rgp_sj": "блокирало",
+      "rgp_mm": "блокирали",
+      "rgp_zm": "блокирале",
+      "rgp_sm": "блокирала",
+      "gpp": "",
+      "gps": "",
+      "vreme": "2020-12-12T16:16:28+01:00",
+      "version": 1
+    }
+  },
+  {
+    "model": "korpus.OblikGlagola",
+    "pk": 1,
+    "fields": {
+      "glagol_id": 1,
+      "vreme": 1,
+      "jd1": "блокирам",
+      "jd2": "блокираш",
+      "jd3": "блокира",
+      "mn1": "блокирамо",
+      "mn2": "блокирате",
+      "mn3": "блокирају"
+    }
+  },
+  {
+    "model": "korpus.OblikGlagola",
+    "pk": 2,
+    "fields": {
+      "glagol_id": 1,
+      "vreme": 2,
+      "jd1": "блокираћу",
+      "jd2": "блокираћеш",
+      "jd3": "",
+      "mn1": "",
+      "mn2": "",
+      "mn3": ""
+    }
+  },
+  {
+    "model": "korpus.OblikGlagola",
+    "pk": 3,
+    "fields": {
+      "glagol_id": 1,
+      "vreme": 5,
+      "jd1": "",
+      "jd2": "блокирај",
+      "jd3": "",
+      "mn1": "",
+      "mn2": "блокирајмо",
+      "mn3": ""
+    }
+  },
+  {
+    "model": "korpus.IzmenaGlagola",
+    "pk": 1,
+    "fields": {
+      "glagol_id": 1,
+      "vreme": "2020-12-12T16:16:28+01:00",
+      "user_id": 1
+    }
+  }
+]

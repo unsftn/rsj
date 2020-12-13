@@ -40,7 +40,7 @@ class GlagolList(generics.ListAPIView):
     queryset = Glagol.objects.all()
     serializer_class = GlagolSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['vid', 'rod', 'vreme']
+    filter_fields = ['vid', 'rod', 'infinitiv']
 
 
 class GlagolDetail(generics.RetrieveAPIView):
@@ -63,6 +63,9 @@ class PridevDetail(generics.RetrieveAPIView):
     serializer_class = PridevSerializer
 
 
+JSON = 'application/json'
+
+
 @api_view(['POST', 'PUT'])
 def api_save_imenica(request):
     if request.method == 'POST':
@@ -74,26 +77,74 @@ def api_save_imenica(request):
             serializer = CreateImenicaSerializer(imenica, data=request.data)
         except (KeyError, Imenica.DoesNotExist) as ex:
             return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND,
-                            content_type='application/json')
+                            content_type=JSON)
+    else:
+        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED, content_type=JSON)
 
     if serializer.is_valid():
         try:
             imenica = serializer.save(user_id=request.user.id)
         except RecordModifiedError as ex:
-            return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT,
-                            content_type='application/json')
-        ser2 = ImenicaSerializer(imenica)
-        code = status.HTTP_201_CREATED if request.method == 'POST' else status.HTTP_204_NO_CONTENT
-        return Response(ser2.data, status=code, content_type='application/json')
+            return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT, content_type=JSON)
+        if request.method == 'POST':
+            return Response(ImenicaSerializer(imenica).data, status=status.HTTP_201_CREATED, content_type=JSON)
+        else:
+            return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type='application/json')
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
 
 
 @api_view(['POST', 'PUT'])
 def api_save_glagol(request):
-    pass
+    if request.method == 'POST':
+        serializer = CreateGlagolSerializer(data=request.data)
+    elif request.method == 'PUT':
+        try:
+            obj_id = request.data['id']
+            glagol = Glagol.objects.get(id=obj_id)
+            serializer = CreateGlagolSerializer(glagol, data=request.data)
+        except (KeyError, Glagol.DoesNotExist) as ex:
+            return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND,
+                            content_type=JSON)
+    else:
+        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED, content_type=JSON)
+
+    if serializer.is_valid():
+        try:
+            glagol = serializer.save(user_id=request.user.id)
+        except RecordModifiedError as ex:
+            return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT, content_type=JSON)
+        if request.method == 'POST':
+            return Response(GlagolSerializer(glagol).data, status=status.HTTP_201_CREATED, content_type=JSON)
+        else:
+            return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
 
 
 @api_view(['POST', 'PUT'])
 def api_save_pridev(request):
-    pass
+    if request.method == 'POST':
+        serializer = CreatePridevSerializer(data=request.data)
+    elif request.method == 'PUT':
+        try:
+            obj_id = request.data['id']
+            pridev = Pridev.objects.get(id=obj_id)
+            serializer = CreatePridevSerializer(pridev, data=request.data)
+        except (KeyError, Pridev.DoesNotExist) as ex:
+            return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND,
+                            content_type=JSON)
+    else:
+        return Response({}, status=status.HTTP_405_METHOD_NOT_ALLOWED, content_type='application/json')
+
+    if serializer.is_valid():
+        try:
+            pridev = serializer.save(user_id=request.user.id)
+        except RecordModifiedError as ex:
+            return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT, content_type=JSON)
+        if request.method == 'POST':
+            return Response(PridevSerializer(pridev).data, status=status.HTTP_201_CREATED, content_type=JSON)
+        else:
+            return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
