@@ -1,0 +1,32 @@
+<form #formRef="ngForm">
+  <div *ngFor="let meaning of meanings; let in=index" class="col-sm-3">
+    <div class="form-group">
+        <div class="p-d-flex">
+          <div class="p-mr-2">
+            <div class="p-d-flex p-flex-column">
+              <div class="p-mb-2">
+                <p class="label">Значење {{in + 1}}:</p>
+                <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="meanings[in].value" name="name{{in}}" #name="ngModel" ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="p-mr-2">
+            <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="add()"></button>
+          </div>
+        </div>
+        <div class="p-d-flex p-flex-column" style="width: fit-content">
+          <div class="concordance-container">
+            <div class="p-mr-2">
+              <concordance></concordance>
+            </div>
+            <div class="p-mr-2" style="margin-top: 10px;">
+              <p-fieldset legend="Подзначење:" [toggleable]="true" collapsed="true">
+                <submeaning></submeaning>
+              </p-fieldset>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</form>
+

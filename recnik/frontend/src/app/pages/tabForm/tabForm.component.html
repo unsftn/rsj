@@ -5,7 +5,7 @@
         <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label">Реч:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <input type="text" pInputText />
         </div>
       </div>
@@ -13,7 +13,7 @@
         <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label">Варијанта:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <input type="text" pInputText />
           <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button"></button>
         </div>
@@ -22,7 +22,7 @@
         <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label">Врста речи:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" (onChange)='onChange()'></p-dropdown>
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label">Квалификатори:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <p-listbox [options]="qualificator" [(ngModel)]="selectedQualificator" optionLabel="name"></p-listbox>
         </div>
       </div>
@@ -40,7 +40,7 @@
         <div class="p-col-12 p-md-5 p-lg-3">
           <p class="label">Стање одреднице:</p>
         </div>
-        <div class="p-col-12 p-md-7 p-lg-10">
+        <div class="p-col-12 p-md-7 p-lg-9">
           <p-dropdown [options]="state" [(ngModel)]="selectedState" optionLabel="name"></p-dropdown>
         </div>
       </div>
@@ -48,7 +48,7 @@
         <div class="p-col-12 p-md-5 p-lg-3">
           <p class="label">Лексикограф:</p>
         </div>
-        <div class="p-col-12 p-md-7 p-lg-10">
+        <div class="p-col-12 p-md-7 p-lg-9">
           <p>Жика</p>
         </div>
       </div>
@@ -56,7 +56,7 @@
         <div class="p-col-12 p-md-5 p-lg-3">
           <p class="label">Редактор:</p>
         </div>
-        <div class="p-col-12 p-md-7 p-lg-10">
+        <div class="p-col-12 p-md-7 p-lg-9">
           <p>Мика</p>
         </div>
       </div>
@@ -64,7 +64,7 @@
         <div class="p-col-12 p-md-5 p-lg-3">
           <p class="label">Уредник:</p>
         </div>
-        <div class="p-col-12 p-md-7 p-lg-10">
+        <div class="p-col-12 p-md-7 p-lg-9">
           <p>Лаза</p>
         </div>
       </div>
@@ -76,7 +76,7 @@
         <grammarInformations [isNoun]='isNoun' [isVerb]='isVerb'></grammarInformations>
       </p-tabPanel>
       <p-tabPanel header="Дефиниција">
-        Content 2
+        <meaningForm></meaningForm>
       </p-tabPanel>
       <p-tabPanel header="Изрази и фразе">
         Content 3
