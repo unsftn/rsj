@@ -1,12 +1,12 @@
 <form #formRef="ngForm">
-  <div *ngFor="let meaning of meanings; let in=index" class="col-sm-3">
+  <div *ngFor="let meaning of meanings; let i=index" class="col-sm-3">
     <div class="form-group">
         <div class="p-d-flex">
           <div class="p-mr-2">
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
-                <p class="label">Значење {{in + 1}}:</p>
-                <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="meanings[in].value" name="name{{in}}" #name="ngModel" ></textarea>
+                <p class="label">Значење {{i + 1}}:</p>
+                <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
               </div>
             </div>
           </div>
@@ -29,4 +29,3 @@
     </div>
   </div>
 </form>
-
