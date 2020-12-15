@@ -83,7 +83,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 SWAGGER_SETTINGS = {
    'DEFAULT_INFO': 'recnik.urls.api_info',

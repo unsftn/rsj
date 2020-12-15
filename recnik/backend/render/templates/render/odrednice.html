@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Odrednice</title>
+</head>
+<body>
+<div class="slovo">{{slovo}}</div>
+<div class="odrednice">
+    {% for od in odrednice %}
+    <div class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</div>
+    {% endfor %}
+</div>
+</body>
+</html>

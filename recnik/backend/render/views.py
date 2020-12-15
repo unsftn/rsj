@@ -5,7 +5,6 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
-from xhtml2pdf import pisa
 
 FAKE_ODREDNICE = {
     1: '<b>аба̀жӯр,</b> -у́ра м фр. <i>заклон, штит на лампи, светиљци, сенило.</i>',
@@ -40,40 +39,6 @@ FAKE_ODREDNICE = {
 }
 
 
-def link_callback(uri, rel):
-    """
-    Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources
-    """
-    if uri.startswith('/fonts'):
-        base_name = os.path.basename(uri)
-        file_name = os.path.join(settings.BASE_DIR, 'static', 'fonts', base_name)
-        return file_name
-
-    result = finders.find(uri)
-    if result:
-        if not isinstance(result, (list, tuple)):
-            result = [result]
-        result = list(os.path.realpath(path) for path in result)
-        path = result[0]
-    else:
-        s_url = settings.STATIC_URL  # Typically /static/
-        s_root = settings.STATIC_ROOT  # Typically /home/userX/project_static/
-        m_url = settings.MEDIA_URL  # Typically /media/
-        m_root = settings.MEDIA_ROOT  # Typically /home/userX/project_static/media/
-
-        if uri.startswith(m_url):
-            path = os.path.join(m_root, uri.replace(m_url, ""))
-        elif uri.startswith(s_url):
-            path = os.path.join(s_root, uri.replace(s_url, ""))
-        else:
-            return uri
-
-    # make sure that file exists
-    if not os.path.isfile(path):
-        raise Exception('media URI must start with %s or %s' % (s_url, m_url))
-    return path
-
-
 def odrednica_html(request, pk):
     try:
         text = mark_safe(FAKE_ODREDNICE[pk])
@@ -82,21 +47,7 @@ def odrednica_html(request, pk):
         return HttpResponseNotFound()
 
 
-def odrednice_html(request):
+def odrednice_html(request, slovo):
     keys = sorted(FAKE_ODREDNICE.keys())
     odrednice = [FAKE_ODREDNICE[key] for key in keys]
-    return render(request, 'render/html/odrednice.html', context={'odrednice': odrednice})
-
-
-def odrednice_pdf(request):
-    keys = sorted(FAKE_ODREDNICE.keys())
-    odrednice = [FAKE_ODREDNICE[key] for key in keys]
-    context = {'odrednice': odrednice}
-    template = get_template('render/pdf/odrednice.html')
-    html = template.render(context)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="odrednice.pdf"'
-    pisa_status = pisa.CreatePDF(html, dest=response, link_callback=link_callback)
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
+    return render(request, 'render/odrednice.html', context={'odrednice': odrednice, 'slovo': slovo})
