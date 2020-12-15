@@ -1,13 +1,13 @@
 <form #formRef="ngForm">
-  <div *ngFor="let submeaning of submeanings; let in=index" class="col-sm-3">
+  <div *ngFor="let submeaning of submeanings; let i=index" class="col-sm-3">
     <div class="p-d-flex p-flex-column">
       <div class="p-mb-2">
         <div class="p-d-flex">
           <div class="p-mr-2">
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
-                <p class="label">Подзначење {{in + 1}}:</p>
-                <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="submeanings[in].value" name="name{{in}}" #name="ngModel" ></textarea>
+                <p class="label">Подзначење {{i + 1}}:</p>
+                <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
               </div>
             </div>
           </div>

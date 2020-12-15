@@ -1,11 +1,11 @@
 <p-fieldset legend="Конкорданса:" [toggleable]="true" collapsed="true">
   <form #formRef="ngForm">
-    <div *ngFor="let concordance of concordances; let in=index" class="col-sm-3">
+    <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
       <div class="p-d-flex p-flex-column">
         <div class="p-d-flex">
           <div class="p-mr-2">
             <div class="p-mb-2">
-              <textarea [rows]="7" style="height: 142px !important;" pInputTextarea [(ngModel)]="concordances[in].concordance" name="name{{in}}" #name="ngModel"></textarea>
+              <textarea [rows]="7" style="height: 142px !important;" pInputTextarea [(ngModel)]="concordances[i].concordance" name="name{{i}}" #name="ngModel"></textarea>
             </div>
           </div>
           <div class="p-mr-2">
@@ -17,13 +17,13 @@
             Референца на корпус:
           </div>
           <div class="p-col-12 p-md-6 p-lg-4">
-            <p-dropdown [options]="books" [(ngModel)]="concordances[in].books" name="selectedBook{{in}}" #name="ngModel"></p-dropdown>
+            <p-dropdown [options]="books" [(ngModel)]="concordances[i].books" name="selectedBook{{i}}" #name="ngModel"></p-dropdown>
           </div>
           <div class="p-col-12 p-md-6 p-lg-2">
             Број стране:
           </div>
           <div class="p-col-12 p-md-6 p-lg-4">
-            <p-inputNumber [(ngModel)]="concordances[in].pageNumber" name="pageNumber{{in}}" #name="ngModel" [showButtons]="true" [min]="0" [max]="10000"></p-inputNumber>
+            <p-inputNumber [(ngModel)]="concordances[i].pageNumber" name="pageNumber{{i}}" #name="ngModel" [showButtons]="true" [min]="0" [max]="10000"></p-inputNumber>
           </div>
         </div>
       </div>
