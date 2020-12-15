@@ -34,20 +34,6 @@
         }
         @page {
             size: a4 portrait;
-            @frame header_frame {
-                -pdf-frame-content: header_content;
-                left: 50pt; width: 512pt; top: 50pt; height: 40pt;
-            }
-            @frame col1_frame {
-                left: 44pt; width: 245pt; top: 90pt; height: 632pt;
-            }
-            @frame col2_frame {
-                left: 323pt; width: 245pt; top: 90pt; height: 632pt;
-            }
-            @frame footer_frame {
-                -pdf-frame-content: footer_content;
-                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
-            }
         }
         body{
             font-family: "Dijakritika";
@@ -59,6 +45,56 @@
         .onum {font-feature-settings: "onum";}  /* oldstyle numerals */
         .tnum {font-feature-settings: "tnum";}  /* tabular numerals */
         .frac {font-feature-settings: "frac";}  /* fractions */
+        .odrednica {
+            margin-bottom: 6px;
+        }
+        @media print {
+          body {
+              font-size: 9pt;
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+          }
+            @page:right{
+              @bottom-left {
+                margin: 10pt 0 30pt 0;
+                border-top: .25pt solid #666;
+                content: "Podnožje rečnika";
+                font-size: 9pt;
+                color: #333;
+              }
+
+              @bottom-right {
+                margin: 10pt 0 30pt 0;
+                border-top: .25pt solid #666;
+                content: counter(page);
+                font-size: 9pt;
+              }
+
+              @top-right {
+                content:  "Zaglavlje rečnika";
+                margin: 30pt 0 10pt 0;
+                font-size: 9pt;
+                color: #333;
+              }
+            }
+            @page:left {
+              @bottom-right {
+                margin: 10pt 0 30pt 0;
+                border-top: .25pt solid #666;
+                content: "Podnožje rečnika";
+                font-size: 9pt;
+                color: #333;
+              }
+
+              @bottom-left {
+                margin: 10pt 0 30pt 0;
+                border-top: .25pt solid #666;
+                content: counter(page);
+                font-size: 9pt;
+              }
+            }
+        }
     </style>
 </head>
 <body>

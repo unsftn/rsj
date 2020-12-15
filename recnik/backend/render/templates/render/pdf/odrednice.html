@@ -49,6 +49,53 @@
                 left: 50pt; width: 512pt; top: 772pt; height: 20pt;
             }
         }
+        @page:right{
+          @bottom-left {
+            margin: 10pt 0 30pt 0;
+            border-top: .25pt solid #666;
+            content: "Recnik";
+            font-size: 9pt;
+            color: #333;
+          }
+
+          @bottom-right {
+            margin: 10pt 0 30pt 0;
+            border-top: .25pt solid #666;
+            content: counter(page);
+            font-size: 9pt;
+          }
+
+          @top-right {
+            content:  "Recnik";
+            margin: 30pt 0 10pt 0;
+            font-size: 9pt;
+            color: #333;
+          }
+        }
+        @page:left {
+          @bottom-right {
+            margin: 10pt 0 30pt 0;
+            border-top: .25pt solid #666;
+            content: "Recnik";
+            font-size: 9pt;
+            color: #333;
+          }
+
+          @bottom-left {
+            margin: 10pt 0 30pt 0;
+            border-top: .25pt solid #666;
+            content: counter(page);
+            font-size: 9pt;
+          }
+        }
+
+        @media print {
+          body {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+          }
+        }
     </style>
 </head>
 <body>
