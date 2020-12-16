@@ -1,5 +1,5 @@
 #!/bin/sh
-export DJANGO_SETTINGS=dev
+export DJANGO_SETTINGS=prod
 touch /app/log/recnik.log
 touch /app/log/uwsgi.log
 cd /app
