@@ -10,7 +10,8 @@ DATABASES = {
         'NAME': 'recnik',
         'USER': 'recnik',
         'PASSWORD': 'recnik',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '3306',
+        'STORAGE_ENGINE': 'INNODB',
     }
 }
