@@ -3,7 +3,6 @@ from django.utils.timezone import now
 from .models import (Antonim, Sinonim, Kolokacija, RecUKolokaciji, IzrazFraza,
                      Podznacenje, Znacenje, Kvalifikator, Odrednica,
                      KvalifikatorOdrednice, IzmenaOdrednice, OperacijaIzmene)
-import pdb
 
 
 class AntonimSerializer(serializers.ModelSerializer):
@@ -259,8 +258,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         sada = now()
-        # user_id = validated_data['user_id']
-        # del validated_data['user_id']
+        user_id = validated_data['user_id']
+        del validated_data['user_id']
         for (key, value) in validated_data.items():
             setattr(instance, key, value)
 
@@ -274,10 +273,13 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         IzrazFraza.objects.filter(u_vezi_sa_id=instance).delete()
         IzrazFraza.objects.filter(pripada_odrednici_id=instance).delete()
         KvalifikatorOdrednice.objects.filter(odrednica_id=instance).delete()
-        IzmenaOdrednice.objects.filter(odrednica_id=instance).delete()
 
         instance.version += 1
         instance.poslednja_izmena = sada
-        pdb.set_trace()
         instance.save()
+        naziv = 'Azuriranje odrednice: ' + str(instance.id)
+        operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
+        IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada,
+                                       odrednica_id=instance,
+                                       operacija_izmene_id=operacija_izmene)
         return instance

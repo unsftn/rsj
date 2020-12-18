@@ -198,7 +198,6 @@ def api_save_odrednica(request):
             return Response({'error': 'invalid or missing object id'},
                             status=status.HTTP_404_NOT_FOUND,
                             content_type='application/json')
-
     if serializer.is_valid():
         try:
             odrednica = serializer.save(user_id=request.user.id)
@@ -210,7 +209,7 @@ def api_save_odrednica(request):
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
         else:
-            status.HTTP_204_NO_CONTENT
+            code = status.HTTP_204_NO_CONTENT
         return Response(ser2.data,
                         status=code,
                         content_type='application/json')
