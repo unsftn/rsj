@@ -10,6 +10,7 @@ import { GrammarInformationsModule } from '../grammarInformations/grammarInforma
 import { MeaningFormModule } from '../meaningForm /meaningForm.module';
 import { SynonymModule } from '../synonym/synonym.module';
 import { AntonymModule } from '../antonym/antonym.module';
+import { ExpressionsModule } from '../expressions/expressions.module';
 
 @NgModule({
   declarations: [TabFormComponent],
@@ -24,6 +25,7 @@ import { AntonymModule } from '../antonym/antonym.module';
     MeaningFormModule,
     SynonymModule,
     AntonymModule,
+    ExpressionsModule,
   ],
   exports: [TabFormComponent],
   providers: [],
