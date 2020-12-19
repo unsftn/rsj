@@ -12,8 +12,13 @@
                 <div class="p-mb-2">
                   <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" ></textarea>
                 </div>
-                <div>
-                  <p-dropdown [options]="keyWords" [(ngModel)]="expressions[i].keyWord" name="selectedKeyWord{{i}}" #name="ngModel"></p-dropdown>
+                <div class="p-d-flex">
+                  <div class="p-mr-2">
+                    <p class="label">Кључна реч:</p>
+                  </div>
+                  <div class="p-mr-2" style="margin-top: auto;margin-bottom: auto;">
+                    <p-dropdown [options]="keyWords" [(ngModel)]="expressions[i].keyWord" name="selectedKeyWord{{i}}" #name="ngModel"></p-dropdown>
+                  </div>
                 </div>
               </div>
             </div>
