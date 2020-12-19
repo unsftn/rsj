@@ -1,0 +1,17 @@
+<form #formRef="ngForm">
+  <div *ngFor="let synonym of synonyms; let i=index" class="col-sm-3">
+    <div class="form-group">
+      <div class="p-d-flex" style="margin-bottom: 20px;">
+        <div class="p-mr-2" style="margin-top:auto; margin-bottom: auto;">
+          Одредница:
+        </div>
+        <div class="p-mr-2">
+          <p-dropdown [options]="determinants" [(ngModel)]="synonyms[i].determinant" name="selectedDeterminant{{i}}" #name="ngModel"></p-dropdown>
+        </div>
+        <div>
+          <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="add()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
