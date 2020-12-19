@@ -159,3 +159,13 @@ speed-measure-plugin.json
 
 # IDE - VSCode
 .vscode/*
+
+recnik/db/
+recnik/backend/env/
+recnik/backend/odrednice/migrations/
+recnik/backend/test_db
+recnik/docker-compose.yml
+
+recnik/backend/static/
+
+recnik/backend/korpus/migrations/
