@@ -8,6 +8,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { GrammarInformationsModule } from '../grammarInformations/grammarInformations.module';
 import { MeaningFormModule } from '../meaningForm /meaningForm.module';
+import { ExpressionsModule } from '../expressions/expressions.module';
 
 @NgModule({
   declarations: [TabFormComponent],
@@ -20,6 +21,7 @@ import { MeaningFormModule } from '../meaningForm /meaningForm.module';
     ButtonModule,
     GrammarInformationsModule,
     MeaningFormModule,
+    ExpressionsModule,
   ],
   exports: [TabFormComponent],
   providers: [],

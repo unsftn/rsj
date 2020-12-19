@@ -1,0 +1,33 @@
+<form #formRef="ngForm">
+  <div *ngFor="let expression of expressions; let i=index" class="col-sm-3">
+    <div class="form-group">
+      <div class="p-d-flex">
+        <div class="p-mr-2">
+          <div class="p-d-flex p-flex-column">
+            <div class="p-mb-2">
+              <div class="p-d-flex p-flex-column">
+                <div class="p-mb-2">
+                  <p class="label">Опис {{i + 1}}:</p>
+                </div>
+                <div class="p-mb-2">
+                  <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" ></textarea>
+                </div>
+                <div class="p-d-flex">
+                  <div class="p-mr-2">
+                    <p class="label">Кључна реч:</p>
+                  </div>
+                  <div class="p-mr-2" style="margin-top: auto;margin-bottom: auto;">
+                    <p-dropdown [options]="keyWords" [(ngModel)]="expressions[i].keyWord" name="selectedKeyWord{{i}}" #name="ngModel"></p-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-mr-2">
+          <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="add()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
