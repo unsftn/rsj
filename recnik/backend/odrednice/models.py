@@ -69,10 +69,10 @@ class OperacijaIzmene(models.Model):
 
 class IzmenaOdrednice(models.Model):
     odrednica_id = models.ForeignKey(Odrednica, verbose_name='одредница',
-                                  on_delete=models.CASCADE)
+                                     on_delete=models.CASCADE)
     operacija_izmene_id = models.ForeignKey(OperacijaIzmene,
-                                         verbose_name='операција измене одреднице',
-                                         on_delete=models.CASCADE)
+                                            verbose_name='операција измене одреднице',
+                                            on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='корисник',
                              on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
@@ -82,9 +82,9 @@ class IzmenaOdrednice(models.Model):
         verbose_name_plural = 'измене одредница'
 
     def __str__(self):
-        return str(self.odrednica)
-        + ' / ' + self.user.email
-        + ' / ' + str(self.vreme)
+        return str(self.odrednica) \
+            + ' / ' + self.user.email \
+            + ' / ' + str(self.vreme)
 
     def get_absolute_url(self):
         return reverse("odrednice:izmena-odrednice-detail",
