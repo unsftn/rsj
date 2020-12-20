@@ -1,4 +1,5 @@
 FROM node:15.3.0-alpine AS angular
+RUN npm update -g
 RUN mkdir /app
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json /app/
@@ -11,6 +12,8 @@ MAINTAINER Branko Milosavljevic <mbranko@uns.ac.rs>
 RUN set -x \
     && deps=' \
     python3 \
+    python3-dev \
+    py3-wheel \
     py3-pip \
     uwsgi \
     uwsgi-python3 \
@@ -19,7 +22,6 @@ RUN set -x \
     uwsgi-logfile \
     mariadb-dev \
     gcc \
-    python3-dev \
     musl-dev \
     jpeg-dev \
     zlib-dev \
@@ -37,7 +39,7 @@ RUN pip3 install --upgrade pip setuptools
 COPY backend/requirements.txt /app/requirements.txt
 RUN pip3 install -r /app/requirements.txt
 COPY backend /app
-RUN mkdir /app/static
+RUN mkdir -p /app/static
 COPY --from=angular /app/frontend/dist /app/static
 WORKDIR /app
 RUN mkdir /private
