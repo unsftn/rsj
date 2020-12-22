@@ -346,7 +346,6 @@ class TestOdredniceApi(TestCase):
 
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         c = Client()
-        odrednica = Odrednica.objects.get(id=1)
         response = c.put('/api/odrednice/save-odrednica/',
                          data=request_object,
                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
@@ -376,7 +375,6 @@ class TestOdredniceApi(TestCase):
 
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         c = Client()
-        odrednica = Odrednica.objects.get(id=1)
         response = c.put('/api/odrednice/save-odrednica/',
                          data=request_object,
                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
@@ -386,3 +384,29 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(odrednica_updated.rec, 'test bez')
         br_izmena_new = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         self.assertEquals(br_izmena + 1, br_izmena_new)
+
+    def test_concurrent_update_odrednice(self):
+        data_obj1 = {
+            'id': 1,
+            'rec': 'update 1',
+            'vrsta': 0,
+            'rod': 1,
+            'version': 1
+        }
+        data_obj2 = {
+            'id': 1,
+            'rec': 'update 2',
+            'vrsta': 0,
+            'rod': 1,
+            'version': 1
+        }
+        c1 = Client()
+        r1 = c1.put('/api/odrednice/save-odrednica/', data=data_obj1,
+                    HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type=JSON)
+        self.assertEquals(r1.status_code, status.HTTP_204_NO_CONTENT)
+        c2 = Client()
+        r2 = c2.put('/api/odrednice/save-odrednica/', data=data_obj2,
+                    HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                    content_type=JSON)
+        self.assertEquals(r2.status_code, status.HTTP_409_CONFLICT)
