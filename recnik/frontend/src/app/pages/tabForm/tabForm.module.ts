@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { GrammarInformationsModule } from '../grammarInformations/grammarInformations.module';
-import { MeaningFormModule } from '../meaningForm /meaningForm.module';
+import { MeaningFormModule } from '../meaningForm/meaningForm.module';
 import { SynonymModule } from '../synonym/synonym.module';
 import { AntonymModule } from '../antonym/antonym.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
