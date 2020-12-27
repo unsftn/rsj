@@ -1,0 +1,18 @@
+<p-table [value]="changes">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="user">Корисник <p-sortIcon field="user"></p-sortIcon></th>
+      <th>Улога</th>
+      <th pSortableColumn="date">Датум и време <p-sortIcon field="date"></p-sortIcon></th>
+      <th>Операција</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-changes>
+    <tr>
+      <td>{{changes.user}}</td>
+      <td>{{changes.role}}</td>
+      <td>{{changes.date}}</td>
+      <td>{{changes.operation}}</td>
+      </tr>
+  </ng-template>
+</p-table>
