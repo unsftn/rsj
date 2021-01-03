@@ -18,6 +18,9 @@ REC_U_KOLOKACIJI_LIST = reverse('odrednice:rec-u-kolokaciji-list')
 ZNACENJE_LIST = reverse('odrednice:znacenje-list')
 PODZNACENJE_LIST = reverse('odrednice:podznacenje-list')
 ODREDNICA_LIST = reverse('odrednice:odrednica-list')
+ODREDNICA_LATEST_LIST = reverse('odrednice:odrednica-latest-list')
+ODREDNICA_CHANGED_LIST = reverse('odrednice:odrednica-changed-list')
+ODREDNICA_POPULAR_LIST = reverse('odrednice:odrednica-popular-list')
 
 
 def get_jwt_token():
@@ -410,3 +413,33 @@ class TestOdredniceApi(TestCase):
                     HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
                     content_type=JSON)
         self.assertEquals(r2.status_code, status.HTTP_409_CONFLICT)
+
+    def test_get_odrednice_latest(self):
+        c = Client()
+        response = c.get(ODREDNICA_LATEST_LIST,
+                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        result = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEquals(len(result), 2)
+        self.assertEquals(result[0]['rec'], 'odrednica')
+
+    def test_get_odrednice_last_changed(self):
+        c = Client()
+        response = c.get(ODREDNICA_CHANGED_LIST,
+                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        result = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEquals(len(result), 2)
+        self.assertEquals(result[0]['rec'], 'odrednica')
+
+    def test_get_odrednice_popular(self):
+        c = Client()
+        response = c.get(ODREDNICA_POPULAR_LIST,
+                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+                         content_type=JSON)
+        result = json.loads(response.content.decode('UTF-8'))
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEquals(len(result), 2)
+        self.assertEquals(result[0]['rec'], 'test rec')

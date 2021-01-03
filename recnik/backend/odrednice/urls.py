@@ -9,7 +9,8 @@ from .rest import (AntonimList, AntonimDetail, SinonimList, SinonimDetail,
                    KvalifikatorDetail, IzmenaOdredniceList,
                    IzmenaOdredniceDetail, OperacijaIzmeneOdredniceList,
                    OperacijaIzmeneOdredniceDetail, OdrednicaList,
-                   OdrednicaDetail, api_save_odrednica)
+                   OdrednicaPopularList, OdrednicaLatestList, OdrednicaDetail,
+                   api_save_odrednica)
 
 app_name = 'одреднице'
 
@@ -63,6 +64,15 @@ urlpatterns = [
     path('odrednica/',
          OdrednicaList.as_view(),
          name='odrednica-list'),
+    path('odrednica-latest/',
+         OdrednicaLatestList.as_view(),
+         name='odrednica-latest-list'),
+    path('odrednica-changed/',
+         OdrednicaLatestList.as_view(),
+         name='odrednica-changed-list'),
+    path('odrednica-popular/',
+         OdrednicaPopularList.as_view(),
+         name='odrednica-popular-list'),
     path('odrednica/<int:pk>/',
          OdrednicaDetail.as_view(),
          name='odrednica-detail'),
