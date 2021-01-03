@@ -178,6 +178,30 @@ class OdrednicaList(generics.ListAPIView):
     filter_fields = ['rec', 'rod', 'vreme_kreiranja']
 
 
+class OdrednicaLatestList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all().order_by('-vreme_kreiranja')
+    serializer_class = OdrednicaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+
+
+class OdrednicaChangedList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all().order_by('-poslednja_izmena')
+    serializer_class = OdrednicaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+
+
+class OdrednicaPopularList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all().order_by('-broj_pregleda')
+    serializer_class = OdrednicaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+
+
 class OdrednicaDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all()
