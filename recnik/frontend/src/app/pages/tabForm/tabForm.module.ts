@@ -11,6 +11,7 @@ import { MeaningFormModule } from '../meaningForm/meaningForm.module';
 import { SynonymModule } from '../synonym/synonym.module';
 import { AntonymModule } from '../antonym/antonym.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
+import { CollocationsModule } from '../collocation/collocations.module';
 
 @NgModule({
   declarations: [TabFormComponent],
@@ -26,6 +27,7 @@ import { ExpressionsModule } from '../expressions/expressions.module';
     SynonymModule,
     AntonymModule,
     ExpressionsModule,
+    CollocationsModule,
   ],
   exports: [TabFormComponent],
   providers: [],
