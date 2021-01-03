@@ -12,6 +12,7 @@ import { ChangesFormModule } from '../changesForm/changesForm.module';
 import { SynonymModule } from '../synonym/synonym.module';
 import { AntonymModule } from '../antonym/antonym.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
+import { CollocationsModule } from '../collocation/collocations.module';
 
 @NgModule({
   declarations: [TabFormComponent],
@@ -28,6 +29,7 @@ import { ExpressionsModule } from '../expressions/expressions.module';
     AntonymModule,
     ExpressionsModule,
     ChangesFormModule,
+    CollocationsModule,
   ],
   exports: [TabFormComponent],
   providers: [],
