@@ -57,7 +57,7 @@ class PolitikaSpider(CrawlSpider):
 
     start_urls = []
     for link in archive:
-        for i in range(1, 2):
+        for i in range(1, 10):
             start_urls.append(link + '/page:' + str(i))
 
     rules = (
