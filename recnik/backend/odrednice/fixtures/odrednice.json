@@ -158,6 +158,7 @@
         "model": "odrednice.Znacenje",
         "pk": 1,
         "fields": {
+            "redni_broj": 1,
             "tekst":"tekst znacenja",
             "odrednica_id": 1
         }
@@ -166,6 +167,7 @@
         "model": "odrednice.Podznacenje",
         "pk": 1,
         "fields": {
+            "redni_broj": 1,
             "tekst":"tekst podznacenja",
             "znacenje_id": 1
         }

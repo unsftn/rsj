@@ -216,8 +216,7 @@ def api_save_odrednica(request):
         try:
             odrednica_id = request.data['id']
             odrednica = Odrednica.objects.get(id=odrednica_id)
-            serializer = CreateOdrednicaSerializer(odrednica,
-                                                   data=request.data)
+            serializer = CreateOdrednicaSerializer(odrednica, data=request.data)
         except (KeyError, Odrednica.DoesNotExist):
             return Response({'error': 'invalid or missing object id'},
                             status=status.HTTP_404_NOT_FOUND,

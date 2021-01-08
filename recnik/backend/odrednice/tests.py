@@ -22,36 +22,32 @@ ODREDNICA_LATEST_LIST = reverse('odrednice:odrednica-latest-list')
 ODREDNICA_CHANGED_LIST = reverse('odrednice:odrednica-changed-list')
 ODREDNICA_POPULAR_LIST = reverse('odrednice:odrednica-popular-list')
 
-
-def get_jwt_token():
-    c = Client()
-    response = c.post('/api/token/', {'username': 'admin@rsj.rs',
-                      'password': 'admin'})
-    return json.loads(response.content.decode('UTF-8'))['access']
-
-
 JSON = 'application/json'
 
 
-class TestOdredniceApi(TestCase):
+def get_jwt_token():
+    c = Client()
+    response = c.post('/api/token/', {'username': 'admin@rsj.rs', 'password': 'admin'})
+    return json.loads(response.content.decode('UTF-8'))['access']
 
+
+class TestOdredniceApi(TestCase):
     fixtures = ['users', 'odrednice']
+
+    def setUp(self) -> None:
+        self.token = f'Bearer {get_jwt_token()}'
 
     def test_get_kvalikator_by_id(self):
         c = Client()
         prviKvalifikator = Kvalifikator.objects.get(pk=1)
-        response = c.get(prviKvalifikator.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(prviKvalifikator.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['naziv'], 'prvi kvalifikator')
 
     def test_get_kvalifikator_list(self):
         c = Client()
-        response = c.get(KVALIFIKATOR_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(KVALIFIKATOR_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)
@@ -59,18 +55,14 @@ class TestOdredniceApi(TestCase):
     def test_get_kvalikator_odrednice_by_id(self):
         c = Client()
         prviKvalifikatorOdrednice = KvalifikatorOdrednice.objects.get(pk=1)
-        response = c.get(prviKvalifikatorOdrednice.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(prviKvalifikatorOdrednice.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['redni_broj'], 1)
 
     def test_get_kvalifikatori_odrednica_list(self):
         c = Client()
-        response = c.get(KVALIFIKATOR_ODREDNICE_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(KVALIFIKATOR_ODREDNICE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -78,18 +70,14 @@ class TestOdredniceApi(TestCase):
     def test_get_operacija_izmene_by_id(self):
         c = Client()
         prvaOperacijaIzmene = OperacijaIzmene.objects.get(pk=2)
-        response = c.get(prvaOperacijaIzmene.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(prvaOperacijaIzmene.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['naziv'], 'druga operacija izmene')
 
     def test_get_operacije_izmena_list(self):
         c = Client()
-        response = c.get(OPERACIJA_IZMENE_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(OPERACIJA_IZMENE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 3)
@@ -97,9 +85,7 @@ class TestOdredniceApi(TestCase):
     def test_get_izmena_odrednice_by_id(self):
         c = Client()
         prvaIzmena = IzmenaOdrednice.objects.get(pk=1)
-        response = c.get(prvaIzmena.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(prvaIzmena.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['user_id'], 1)
@@ -108,9 +94,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_izemene_odrednica_list(self):
         c = Client()
-        response = c.get(IZMENA_ODREDNICE_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(IZMENA_ODREDNICE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)
@@ -118,9 +102,7 @@ class TestOdredniceApi(TestCase):
     def test_get_izrazfraza_by_id(self):
         c = Client()
         prvaIzrazFraza = IzrazFraza.objects.get(pk=1)
-        response = c.get(prvaIzrazFraza.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(prvaIzrazFraza.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['opis'], 'prva izrazFraza')
@@ -129,9 +111,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_izrazfraza_list(self):
         c = Client()
-        response = c.get(IZRAZFRAZA_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(IZRAZFRAZA_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)
@@ -139,9 +119,7 @@ class TestOdredniceApi(TestCase):
     def test_get_antonim_by_id(self):
         c = Client()
         prviAntonim = Antonim.objects.get(pk=1)
-        response = c.get(prviAntonim.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(prviAntonim.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['redni_broj'], 1)
@@ -150,9 +128,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_antonim_list(self):
         c = Client()
-        response = c.get(ANTONIM_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ANTONIM_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -160,9 +136,7 @@ class TestOdredniceApi(TestCase):
     def test_get_sinonim_by_id(self):
         c = Client()
         sinonim = Sinonim.objects.get(pk=1)
-        response = c.get(sinonim.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(sinonim.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['redni_broj'], 1)
@@ -171,9 +145,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_sinonim_list(self):
         c = Client()
-        response = c.get(ANTONIM_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ANTONIM_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -181,9 +153,7 @@ class TestOdredniceApi(TestCase):
     def test_get_kolokacija_by_id(self):
         c = Client()
         kolokacija = Kolokacija.objects.get(pk=1)
-        response = c.get(kolokacija.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(kolokacija.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['napomena'], 'test napomena kolokacija')
@@ -191,9 +161,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_kolacija_list(self):
         c = Client()
-        response = c.get(KOLOKACIJA_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(KOLOKACIJA_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -201,9 +169,7 @@ class TestOdredniceApi(TestCase):
     def test_get_rec_u_kolokaciji_by_id(self):
         c = Client()
         rec_u_kolokaciji = RecUKolokaciji.objects.get(pk=1)
-        response = c.get(rec_u_kolokaciji.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(rec_u_kolokaciji.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['redni_broj'], 1)
@@ -212,9 +178,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_rec_u_kolokaciji_list(self):
         c = Client()
-        response = c.get(REC_U_KOLOKACIJI_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(REC_U_KOLOKACIJI_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -222,9 +186,7 @@ class TestOdredniceApi(TestCase):
     def test_get_znacenje_by_id(self):
         c = Client()
         znacenje = Znacenje.objects.get(pk=1)
-        response = c.get(znacenje.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(znacenje.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['tekst'], 'tekst znacenja')
@@ -232,9 +194,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_znacenje_list(self):
         c = Client()
-        response = c.get(ZNACENJE_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ZNACENJE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -242,9 +202,7 @@ class TestOdredniceApi(TestCase):
     def test_get_podznacenje_by_id(self):
         c = Client()
         podznacenje = Podznacenje.objects.get(pk=1)
-        response = c.get(podznacenje.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(podznacenje.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['tekst'], 'tekst podznacenja')
@@ -252,9 +210,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_podznacenje_list(self):
         c = Client()
-        response = c.get(PODZNACENJE_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(PODZNACENJE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
@@ -262,9 +218,7 @@ class TestOdredniceApi(TestCase):
     def test_get_odrednica_by_id(self):
         c = Client()
         odrednica = Odrednica.objects.get(pk=1)
-        response = c.get(odrednica.get_absolute_url(),
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(odrednica.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['rec'], 'test rec')
@@ -272,9 +226,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_odrednica_by_rec(self):
         c = Client()
-        response = c.get('/api/odrednice/odrednica/?rec=odrednica',
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get('/api/odrednice/odrednica/?rec=odrednica', HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result[0]['nastavak'], 'nastavak odrednice')
@@ -282,18 +234,14 @@ class TestOdredniceApi(TestCase):
 
     def test_get_odrednica_by_rod(self):
         c = Client()
-        response = c.get('/api/odrednice/odrednica/?rod=1',
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get('/api/odrednice/odrednica/?rod=1', HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertGreaterEqual(len(result), 2)
 
     def test_get_odrednica_list(self):
         c = Client()
-        response = c.get(ODREDNICA_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ODREDNICA_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)
@@ -315,9 +263,7 @@ class TestOdredniceApi(TestCase):
         }
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=3).count()
         c = Client()
-        response = c.post('/api/odrednice/save-odrednica/',
-                          data=request_object,
-                          HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+        response = c.post('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         odrednica = Odrednica.objects.get(id=3)
@@ -326,7 +272,6 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(br_izmena + 1, br_izmena_new)
 
     def test_update_odrednica(self):
-
         request_object = {
             'id': 1,
             'rec': 'реч реч реч',
@@ -349,9 +294,7 @@ class TestOdredniceApi(TestCase):
 
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         c = Client()
-        response = c.put('/api/odrednice/save-odrednica/',
-                         data=request_object,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+        response = c.put('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
                          content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
         odrednica_updated = Odrednica.objects.get(id=1)
@@ -360,7 +303,6 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(br_izmena + 1, br_izmena_new)
 
     def test_update_odrednica_bez_setova(self):
-
         request_object = {
             'id': 1,
             'rec': 'test bez',
@@ -378,9 +320,7 @@ class TestOdredniceApi(TestCase):
 
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         c = Client()
-        response = c.put('/api/odrednice/save-odrednica/',
-                         data=request_object,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+        response = c.put('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
                          content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
         odrednica_updated = Odrednica.objects.get(id=1)
@@ -404,21 +344,17 @@ class TestOdredniceApi(TestCase):
             'version': 1
         }
         c1 = Client()
-        r1 = c1.put('/api/odrednice/save-odrednica/', data=data_obj1,
-                    HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+        r1 = c1.put('/api/odrednice/save-odrednica/', data=data_obj1, HTTP_AUTHORIZATION=self.token,
                     content_type=JSON)
         self.assertEquals(r1.status_code, status.HTTP_204_NO_CONTENT)
         c2 = Client()
-        r2 = c2.put('/api/odrednice/save-odrednica/', data=data_obj2,
-                    HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
+        r2 = c2.put('/api/odrednice/save-odrednica/', data=data_obj2, HTTP_AUTHORIZATION=self.token,
                     content_type=JSON)
         self.assertEquals(r2.status_code, status.HTTP_409_CONFLICT)
 
     def test_get_odrednice_latest(self):
         c = Client()
-        response = c.get(ODREDNICA_LATEST_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ODREDNICA_LATEST_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)
@@ -426,9 +362,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_odrednice_last_changed(self):
         c = Client()
-        response = c.get(ODREDNICA_CHANGED_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ODREDNICA_CHANGED_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)
@@ -436,9 +370,7 @@ class TestOdredniceApi(TestCase):
 
     def test_get_odrednice_popular(self):
         c = Client()
-        response = c.get(ODREDNICA_POPULAR_LIST,
-                         HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}',
-                         content_type=JSON)
+        response = c.get(ODREDNICA_POPULAR_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 2)

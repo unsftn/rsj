@@ -226,18 +226,14 @@ class CreateUpdatePodznacenjeSerializer(serializers.Serializer):
 
 class CreateOdrednicaSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
-    rec = serializers.CharField(max_length=50, required=False,
-                                allow_blank=True)
+    rec = serializers.CharField(max_length=50, required=False, allow_blank=True)
     vrsta = serializers.IntegerField(required=False)
     rod = serializers.IntegerField(required=False)
-    nastavak = serializers.CharField(max_length=50, required=False,
-                                     allow_blank=True)
-    info = serializers.CharField(max_length=2000, required=False,
-                                 allow_blank=True)
+    nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    info = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     glagolski_vid = serializers.IntegerField(required=False)
     glagolski_rod = serializers.IntegerField(required=False)
-    prezent = serializers.CharField(max_length=50, required=False,
-                                    allow_blank=True)
+    prezent = serializers.CharField(max_length=50, required=False, allow_blank=True)
     broj_pregleda = serializers.IntegerField(required=False)
     stanje = serializers.IntegerField(required=False)
     version = serializers.IntegerField(required=False)
@@ -246,14 +242,11 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         sada = now()
         user_id = validated_data['user_id']
         del validated_data['user_id']
-        odrednica = Odrednica.objects.create(vreme_kreiranja=sada,
-                                             poslednja_izmena=sada,
-                                             **validated_data)
+        odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
         naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
-        IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada,
-                                       odrednica_id=odrednica,
-                                       operacija_izmene_id=operacija_izmene)
+        IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada, odrednica=odrednica,
+                                       operacija_izmene=operacija_izmene)
         return odrednica
 
     def update(self, instance, validated_data):
@@ -267,12 +260,12 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         Antonim.objects.filter(u_vezi_sa_id=instance).delete()
         Sinonim.objects.filter(ima_sinonim_id=instance).delete()
         Sinonim.objects.filter(u_vezi_sa_id=instance).delete()
-        Kolokacija.objects.filter(odrednica_id=instance).delete()
-        RecUKolokaciji.objects.filter(odrednica_id=instance).delete()
-        Znacenje.objects.filter(odrednica_id=instance).delete()
+        Kolokacija.objects.filter(odrednica=instance).delete()
+        RecUKolokaciji.objects.filter(odrednica=instance).delete()
+        Znacenje.objects.filter(odrednica=instance).delete()
         IzrazFraza.objects.filter(u_vezi_sa_id=instance).delete()
         IzrazFraza.objects.filter(pripada_odrednici_id=instance).delete()
-        KvalifikatorOdrednice.objects.filter(odrednica_id=instance).delete()
+        KvalifikatorOdrednice.objects.filter(odrednica=instance).delete()
 
         instance.version += 1
         instance.poslednja_izmena = sada
@@ -280,6 +273,6 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         naziv = 'Azuriranje odrednice: ' + str(instance.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
         IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada,
-                                       odrednica_id=instance,
-                                       operacija_izmene_id=operacija_izmene)
+                                       odrednica=instance,
+                                       operacija_izmene=operacija_izmene)
         return instance

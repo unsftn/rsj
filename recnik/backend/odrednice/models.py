@@ -23,20 +23,14 @@ class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
     rod = models.IntegerField('род', choices=korpus_models.ROD, default=0)
-    nastavak = models.CharField('наставак', max_length=50,
-                                blank=True, null=True)
+    nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
     info = models.CharField('инфо', max_length=2000, blank=True, null=True)
-    glagolski_vid = models.IntegerField('глаголски вид',
-                                        choices=korpus_models.GLAGOLSKI_VID)
-    glagolski_rod = models.IntegerField('глаголски род',
-                                        choices=korpus_models.GLAGOLSKI_ROD)
-    prezent = models.CharField('презент', max_length=50,
-                               blank=True, null=True)
+    glagolski_vid = models.IntegerField('глаголски вид', choices=korpus_models.GLAGOLSKI_VID)
+    glagolski_rod = models.IntegerField('глаголски род', choices=korpus_models.GLAGOLSKI_ROD)
+    prezent = models.CharField('презент', max_length=50, blank=True, null=True)
     broj_pregleda = models.IntegerField('број прегледа', default=0)
-    vreme_kreiranja = models.DateTimeField('време креирања',
-                                           default=now)
-    poslednja_izmena = models.DateTimeField('време последње измене',
-                                            default=now)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
     stanje = models.IntegerField('стање')
     version = AutoIncVersionField()
 
@@ -56,25 +50,21 @@ class OperacijaIzmene(models.Model):
     naziv = models.CharField('назив', max_length=50)
 
     def __str__(self):
-        return self.naziv if self.naziv else '-'
+        return self.naziv
 
     class Meta:
         verbose_name = 'операција измене одреднице'
         verbose_name_plural = 'операције измена одредница'
 
     def get_absolute_url(self):
-        return reverse("odrednice:operacija-izmene-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:operacija-izmene-detail", kwargs={"pk": self.pk})
 
 
 class IzmenaOdrednice(models.Model):
-    odrednica_id = models.ForeignKey(Odrednica, verbose_name='одредница',
-                                     on_delete=models.CASCADE)
-    operacija_izmene_id = models.ForeignKey(OperacijaIzmene,
-                                            verbose_name='операција измене одреднице',
-                                            on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name='корисник',
-                             on_delete=models.DO_NOTHING)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
+    operacija_izmene = models.ForeignKey(OperacijaIzmene, verbose_name='операција измене одреднице',
+                                         on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
 
     class Meta:
@@ -87,8 +77,7 @@ class IzmenaOdrednice(models.Model):
             + ' / ' + str(self.vreme)
 
     def get_absolute_url(self):
-        return reverse("odrednice:izmena-odrednice-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:izmena-odrednice-detail", kwargs={"pk": self.pk})
 
 
 class Antonim(models.Model):
@@ -103,8 +92,7 @@ class Antonim(models.Model):
                                      related_name='antonim_u_vezi_sa')
 
     def get_absolute_url(self):
-        return reverse("odrednice:antonim-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:antonim-detail", kwargs={"pk": self.pk})
 
     class Meta:
         verbose_name = 'антоним'
@@ -133,33 +121,28 @@ class Sinonim(models.Model):
         return str(self.ima_sinonim_id)
 
     def get_absolute_url(self):
-        return reverse("odrednice:sinonim-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:sinonim-detail", kwargs={"pk": self.pk})
 
 
 class Kolokacija(models.Model):
     napomena = models.CharField('напомена', max_length=2000)
-    odrednica_id = models.ForeignKey(Odrednica, verbose_name='одредница',
-                                     on_delete=models.CASCADE)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'колокација'
         verbose_name_plural = 'колокације'
 
     def __str__(self):
-        return str(self.odrednica_id)
+        return str(self.odrednica)
 
     def get_absolute_url(self):
-        return reverse("odrednice:kolokacija-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:kolokacija-detail", kwargs={"pk": self.pk})
 
 
 class RecUKolokaciji(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    kolokacija_id = models.ForeignKey(Kolokacija, verbose_name='колокација',
-                                      on_delete=models.CASCADE)
-    odrednica_id = models.ForeignKey(Odrednica, verbose_name='одредница',
-                                     on_delete=models.CASCADE)
+    kolokacija = models.ForeignKey(Kolokacija, verbose_name='колокација', on_delete=models.CASCADE)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'реч у колокацији'
@@ -169,20 +152,15 @@ class RecUKolokaciji(models.Model):
         return str(self.redni_broj)
 
     def get_absolute_url(self):
-        return reverse("odrednice:rec-u-kolokaciji-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:rec-u-kolokaciji-detail", kwargs={"pk": self.pk})
 
 
 class IzrazFraza (models.Model):
     opis = models.CharField('опис', max_length=2000)
-    u_vezi_sa_id = models.ForeignKey(Odrednica,
-                                     verbose_name='у вези са одредницом',
-                                     on_delete=models.CASCADE,
-                                     related_name="izrazfraza_u_vezi_sa")
-    pripada_odrednici_id = models.ForeignKey(Odrednica,
-                                             verbose_name='одредница',
-                                             on_delete=models.CASCADE,
-                                             related_name='pripada_odrednici')
+    u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом',  on_delete=models.CASCADE,
+                                  related_name="izrazfraza_u_vezi_sa")
+    pripada_odrednici = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE,
+                                          related_name='pripada_odrednici')
 
     class Meta:
         verbose_name = 'израз фраза'
@@ -192,8 +170,7 @@ class IzrazFraza (models.Model):
         return str(self.pripada_odrednici_id)
 
     def get_absolute_url(self):
-        return reverse("odrednice:izrazfraza-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:izrazfraza-detail", kwargs={"pk": self.pk})
 
 
 class Kvalifikator(models.Model):
@@ -207,58 +184,52 @@ class Kvalifikator(models.Model):
         return self.naziv
 
     def get_absolute_url(self):
-        return reverse("odrednice:kvalifikator-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:kvalifikator-detail", kwargs={"pk": self.pk})
 
 
 class KvalifikatorOdrednice(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    kvalifikator_id = models.ForeignKey(Kvalifikator, verbose_name='квалификатор',
-                                        on_delete=models.CASCADE)
-    odrednica_id = models.ForeignKey(Odrednica, verbose_name='одредница',
-                                     on_delete=models.CASCADE)
+    kvalifikator = models.ForeignKey(Kvalifikator, verbose_name='квалификатор', on_delete=models.CASCADE)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'квалификатор одреднице'
         verbose_name_plural = 'квалификатори одредница'
 
     def __str__(self):
-        return str(self.redni_broj)
+        return str(self.redni_broj) + ': ' + str(self.kvalifikator)
 
     def get_absolute_url(self):
-        return reverse("odrednice:kvalifikator-odrednice-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:kvalifikator-odrednice-detail", kwargs={"pk": self.pk})
 
 
 class Znacenje(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.CharField('текст', max_length=2000)
-    odrednica_id = models.ForeignKey(Odrednica, verbose_name='одредница',
-                                     on_delete=models.CASCADE)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'значење'
         verbose_name_plural = 'значења'
 
     def __str__(self):
-        return str(self.odrednica_id)
+        return str(self.odrednica) + ' / ' + str(self.redni_broj)
 
     def get_absolute_url(self):
-        return reverse("odrednice:znacenje-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:znacenje-detail", kwargs={"pk": self.pk})
 
 
 class Podznacenje(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.CharField('текст', max_length=2000)
-    znacenje_id = models.ForeignKey(Znacenje, verbose_name='значење',
-                                    on_delete=models.CASCADE)
+    znacenje = models.ForeignKey(Znacenje, verbose_name='значење', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'подзначење'
         verbose_name_plural = 'подзначења'
 
     def __str__(self):
-        return str(self.znacenje_id)
+        return str(self.znacenje) + ' / ' + str(self.redni_broj)
 
     def get_absolute_url(self):
-        return reverse("odrednice:podznacenje-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:podznacenje-detail", kwargs={"pk": self.pk})
