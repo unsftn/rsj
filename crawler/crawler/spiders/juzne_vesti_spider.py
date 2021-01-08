@@ -2,6 +2,15 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.loader import ItemLoader
 from crawler.crawler.items import ArticleItem
+import sqlite3
+
+
+conn = sqlite3.connect('crawler.db')
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS articles
+             (id integer primary key asc, publisher text, url text NOT NULL UNIQUE)''')
+res = c.execute('''SELECT url FROM articles where publisher = "Južne Vesti"''')
+final_result = [i[0] for i in res.fetchall()]
 
 
 class JuzneVestiSpider(CrawlSpider):
@@ -74,18 +83,25 @@ class JuzneVestiSpider(CrawlSpider):
     )
 
     def parse_article(self, response):
-        title = response.xpath('//div[@class="article_head"]/h1/text()')[0].get()
-        link = response.url
-        content = response.xpath('//div[@class="desc_holder cf main--content"]//text()').getall()
-        publisher = 'Južne Vesti'
-        author = response.xpath('//div[@class="article_head"]/div/span[2]/text()').get()
-        date = response.xpath('//p[@class="article--single__date dib color--lgray"]/text()')[1].get().strip()
+        if response.url not in final_result:
+            title = response.xpath('//div[@class="article_head"]/h1/text()')[0].get()
+            link = response.url
+            content = response.xpath('//div[@class="desc_holder cf main--content"]//text()').getall()
+            publisher = 'Južne Vesti'
+            author = response.xpath('//div[@class="article_head"]/div/span[2]/text()').get()
+            date = response.xpath('//p[@class="article--single__date dib color--lgray"]/text()')[1].get().strip()
 
-        loader = ItemLoader(item=ArticleItem(), response=response)
-        loader.add_value('article_title', str(title))
-        loader.add_value('article_publisher', str(publisher))
-        loader.add_value('article_url', str(link))
-        loader.add_value('article_body', str("".join(content).lstrip()))
-        loader.add_value('article_date', str(date))
-        loader.add_value('article_author', str(author))
-        yield loader.load_item()
+            loader = ItemLoader(item=ArticleItem(), response=response)
+            loader.add_value('article_title', str(title))
+            loader.add_value('article_publisher', str(publisher))
+            loader.add_value('article_url', str(link))
+            loader.add_value('article_body', str("".join(content).lstrip()))
+            loader.add_value('article_date', str(date))
+            loader.add_value('article_author', str(author))
+            yield loader.load_item()
+
+            c.execute("INSERT INTO articles VALUES (null, ?, ?)", (publisher, str(link)))
+            conn.commit()
+
+        else:
+            pass

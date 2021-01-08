@@ -70,9 +70,8 @@ ROBOTSTXT_OBEY = True
 #}
 
 MYSQL_HOST = 'localhost'
-MYSQL_PORT = '3309'
 MYSQL_DBNAME = 'recnik'
-MYSQL_USER = 'root'
+MYSQL_USER = 'recnik'
 MYSQL_PASSWD = 'recnik'
 
 # Enable and configure the AutoThrottle extension (disabled by default)

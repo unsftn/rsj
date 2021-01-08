@@ -2,6 +2,15 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.loader import ItemLoader
 from crawler.crawler.items import ArticleItem
+import sqlite3
+
+
+conn = sqlite3.connect('crawler.db')
+c = conn.cursor()
+c.execute('''CREATE TABLE IF NOT EXISTS articles
+             (id integer primary key asc, publisher text, url text NOT NULL UNIQUE)''')
+res = c.execute('''SELECT url FROM articles where publisher = "Vreme"''')
+final_result = [i[0] for i in res.fetchall()]
 
 
 class VremeSpider(CrawlSpider):
@@ -29,67 +38,7 @@ class VremeSpider(CrawlSpider):
                'https://www.vreme.com/arhiva_html/521/sadrzaj.html',
                'https://www.vreme.com/arhiva_html/522/sadrzaj.html',
                'https://www.vreme.com/arhiva_html/526/sadrzaj.html',
-               'https://www.vreme.com/arhiva_html/530/sadrzaj.html',
-               # 'https://www.vreme.com/cms/view.php?id=148189',
-               # 'https://www.vreme.com/cms/view.php?id=290974',
-               # 'https://www.vreme.com/cms/view.php?id=291424',
-               # 'https://www.vreme.com/cms/view.php?id=294177',
-               # 'https://www.vreme.com/cms/view.php?id=296790',
-               # 'https://www.vreme.com/cms/view.php?id=299401',
-               # 'https://www.vreme.com/cms/view.php?id=304666',
-               # 'https://www.vreme.com/cms/view.php?id=305288',
-               # 'https://www.vreme.com/cms/view.php?id=312751',
-               # 'https://www.vreme.com/cms/view.php?id=313389',
-               # 'https://www.vreme.com/cms/view.php?id=318385',
-               # 'https://www.vreme.com/cms/view.php?id=322610',
-               # 'https://www.vreme.com/cms/view.php?id=329887',
-               # 'https://www.vreme.com/cms/view.php?id=330154',
-               # 'https://www.vreme.com/cms/view.php?id=343416',
-               # 'https://www.vreme.com/cms/view.php?id=361964',
-               # 'https://www.vreme.com/cms/view.php?id=362541',
-               # 'https://www.vreme.com/cms/view.php?id=381731',
-               # 'https://www.vreme.com/cms/view.php?id=398835',
-               # 'https://www.vreme.com/cms/view.php?id=367834',
-               # 'https://www.vreme.com/cms/view.php?id=387861',
-               # 'https://www.vreme.com/cms/view.php?id=401872',
-               # 'https://www.vreme.com/cms/view.php?id=440007',
-               # 'https://www.vreme.com/cms/view.php?id=451676',
-               # 'https://www.vreme.com/cms/view.php?id=470705',
-               # 'https://www.vreme.com/cms/view.php?id=490476',
-               # 'https://www.vreme.com/cms/view.php?id=507533',
-               # 'https://www.vreme.com/cms/view.php?id=554403',
-               # 'https://www.vreme.com/cms/view.php?id=592002',
-               # 'https://www.vreme.com/cms/view.php?id=635704',
-               # 'https://www.vreme.com/cms/view.php?id=757648',
-               # 'https://www.vreme.com/cms/view.php?id=804637',
-               # 'https://www.vreme.com/cms/view.php?id=869395',
-               # 'https://www.vreme.com/cms/view.php?id=897841',
-               # 'https://www.vreme.com/cms/view.php?id=908296',
-               # 'https://www.vreme.com/cms/view.php?id=928326',
-               # 'https://www.vreme.com/cms/view.php?id=969732',
-               # 'https://www.vreme.com/cms/view.php?id=972477',
-               # 'https://www.vreme.com/cms/view.php?id=1007579',
-               # 'https://www.vreme.com/cms/view.php?id=1024842',
-               # 'https://www.vreme.com/cms/view.php?id=1028927',
-               # 'https://www.vreme.com/cms/view.php?id=1057944',
-               # 'https://www.vreme.com/cms/view.php?id=1086568',
-               # 'https://www.vreme.com/cms/view.php?id=1100814',
-               # 'https://www.vreme.com/cms/view.php?id=1129228',
-               # 'https://www.vreme.com/cms/view.php?id=1152639',
-               # 'https://www.vreme.com/cms/view.php?id=1186937',
-               # 'https://www.vreme.com/cms/view.php?id=1248233',
-               # 'https://www.vreme.com/cms/view.php?id=1259186',
-               # 'https://www.vreme.com/cms/view.php?id=1354215',
-               # 'https://www.vreme.com/cms/view.php?id=1385988',
-               # 'https://www.vreme.com/cms/view.php?id=1438071',
-               # 'https://www.vreme.com/arhiva.php?year=2017',
-               # 'https://www.vreme.com/cms/view.php?id=1559659',
-               # 'https://www.vreme.com/cms/view.php?id=1592636',
-               # 'https://www.vreme.com/cms/view.php?id=1653135',
-               # 'https://www.vreme.com/cms/view.php?id=1676481',
-               # 'https://www.vreme.com/cms/view.php?id=1736663',
-               # 'https://www.vreme.com/cms/view.php?id=1744817',
-               # 'https://www.vreme.com/cms/view.php?id=1769798'
+               'https://www.vreme.com/arhiva_html/530/sadrzaj.html'
                ]
 
     start_urls = []
@@ -102,25 +51,31 @@ class VremeSpider(CrawlSpider):
     )
 
     def parse_article(self, response):
-        title = response.xpath('//table/tr//p[@class="naslov"]/text()').get()
-        link = response.url
-        unparsed = response.xpath('//table//tr//p/text()').getall()
-        publisher = 'Vreme'
-        author = response.xpath('//table//em/text()').get()
+        if response.url not in final_result:
+            title = response.xpath('//table/tr//p[@class="naslov"]/text()').get()
+            link = response.url
+            unparsed = response.xpath('//table//tr//p/text()').getall()
+            publisher = 'Vreme'
+            author = response.xpath('//table//em/text()').get()
 
-        if author is None:
-            author = ",".join(response.xpath('//table/tr/td//p[last()]/text()').getall()).splitlines()
+            if author is None:
+                author = ",".join(response.xpath('//table/tr/td//p[last()]/text()').getall()).splitlines()
 
-        date = response.xpath('//table/tr/td[@align="right"]/p//text()').get()
+            date = response.xpath('//table/tr/td[@align="right"]/p//text()').get()
 
-        parsed_content = [i.strip() for i in unparsed if i != '\n']
-        content = "".join(parsed_content[2:])
+            parsed_content = [i.strip() for i in unparsed if i != '\n']
+            content = "".join(parsed_content[2:])
 
-        loader = ItemLoader(item=ArticleItem(), response=response)
-        loader.add_value('article_title', str(title))
-        loader.add_value('article_publisher', str(publisher))
-        loader.add_value('article_url', str(link))
-        loader.add_value('article_body', content)
-        loader.add_value('article_date', str(date))
-        loader.add_value('article_author', str("".join(author).lstrip()))
-        yield loader.load_item()
+            loader = ItemLoader(item=ArticleItem(), response=response)
+            loader.add_value('article_title', str(title))
+            loader.add_value('article_publisher', str(publisher))
+            loader.add_value('article_url', str(link))
+            loader.add_value('article_body', content)
+            loader.add_value('article_date', str(date))
+            loader.add_value('article_author', str("".join(author).lstrip()))
+            yield loader.load_item()
+
+            c.execute("INSERT INTO articles VALUES (null, ?, ?)", (publisher, str(link)))
+            conn.commit()
+        else:
+            pass
