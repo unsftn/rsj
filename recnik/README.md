@@ -71,8 +71,8 @@ docker run \
   --name recnik-mysql \
   --restart always \
   --detach \
-  -v /var/rsj/recnik/db/data:/var/lib/mysql \
-  -v /var/rsj/recnik/db/init:/docker-entrypoint-initdb.d \
+  -v /var/rsj/recnik/data:/var/lib/mysql \
+  -v /var/rsj/recnik/init:/docker-entrypoint-initdb.d \
   -e MYSQL_ROOT_PASSWORD=recnik \
   -e MYSQL_USER=recnik \
   -e MYSQL_PASSWORD=recnik \
