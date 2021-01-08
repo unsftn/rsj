@@ -1,33 +1,46 @@
-import { Component } from '@angular/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { MenuItem } from 'primeng/api';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
+import { TokenStorageService } from './services/auth/token-storage.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: [MessageService],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'recnik';
 
   items: MenuItem[];
 
-  openAddForm() {
-    location.href = '/add';
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private tokenStorageService: TokenStorageService,
+    private router: Router
+  ) {}
+
+  signedIn(): boolean {
+    console.log(this.tokenStorageService.getUser());
+    return this.tokenStorageService.getUser() != null;
   }
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  signOut(): void {
+    this.tokenStorageService.signOut();
+    this.router.navigate(['/']);
+  }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.items = [
       {
         label: 'Пријава',
-        icon: 'pi pi-plus',
+        icon: 'pi pi-sign-in',
+        routerLink: ['/login'],
       },
       {
         label: 'Профил',
-        icon: 'pi pi-users',
+        icon: 'pi pi-user',
       },
       {
         separator: true,
@@ -35,6 +48,9 @@ export class AppComponent {
       {
         label: 'Одјава',
         icon: 'pi pi-sign-out',
+        command: (event: any) => {
+          this.signOut();
+        },
       },
     ];
   }

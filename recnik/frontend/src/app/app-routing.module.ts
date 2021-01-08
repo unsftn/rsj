@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './services/auth/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TabFormComponent } from './pages/tabForm/tabForm.component';
+import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
   {
@@ -9,9 +11,15 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
     path: 'add',
     component: TabFormComponent,
+    canActivate: [AuthGuard],
   },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

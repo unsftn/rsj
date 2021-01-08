@@ -1,32 +1,46 @@
 import { Injectable } from '@angular/core';
 
-const TOKEN_KEY = 'auth-token';
-const USER_KEY = 'auth-user';
+const ACCESS_TOKEN = 'access-token';
+const REFRESH_TOKEN = 'refresh-token';
+const USER = 'user';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class TokenStorageService {
-
   constructor() { }
 
   signOut(): void {
-    window.sessionStorage.clear();
+    sessionStorage.clear();
   }
 
-  public saveToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+  public saveToken(accessToken: string, refreshToken: string): void {
+    sessionStorage.removeItem(ACCESS_TOKEN);
+    sessionStorage.setItem(ACCESS_TOKEN, accessToken);
+    sessionStorage.removeItem(REFRESH_TOKEN);
+    sessionStorage.setItem(REFRESH_TOKEN, refreshToken);
   }
 
-  public getToken(): string {
-    return sessionStorage.getItem(TOKEN_KEY);
+  public getAccessToken(): string {
+    return sessionStorage.getItem(ACCESS_TOKEN);
+  }
+
+  public getRefreshToken(): string {
+    return sessionStorage.getItem(REFRESH_TOKEN);
   }
 
   public saveUser(user): void {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    sessionStorage.removeItem(USER);
+    sessionStorage.setItem(USER, JSON.stringify(user));
+  }
+
+  public isLoggedIn(): boolean {
+    return this.getUser() != null;
   }
 
   public getUser(): any {
-    return JSON.parse(sessionStorage.getItem(USER_KEY));
+    const user = sessionStorage.getItem(USER);
+    if (user == null) {
+      return null;
+    }
+    return JSON.parse(user);
   }
 }
