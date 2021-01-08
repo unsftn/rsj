@@ -13,7 +13,8 @@ def get_jwt_token():
 
 class TestPublikacijaAdmin(TestCase):
     fixtures = [
-        'users',
+        'start_groups',
+        'start_users',
         'vrste_publikacija',
         'publikacije',
     ]
@@ -34,7 +35,8 @@ class TestPublikacijaAdmin(TestCase):
 
 class TestPublikacijaApi(TestCase):
     fixtures = [
-        'users',
+        'start_groups',
+        'start_users',
         'vrste_publikacija',
         'publikacije',
     ]

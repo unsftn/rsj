@@ -7,13 +7,13 @@
     "last_login": "2020-12-05T15:47:13.797Z",
     "is_superuser": true,
     "username": "admin",
-    "first_name": "",
-    "last_name": "",
+    "first_name": "Админ",
+    "last_name": "Админовић",
     "email": "admin@rsj.rs",
     "is_staff": true,
     "is_active": true,
     "date_joined": "2020-12-05T15:47:00.758Z",
-    "groups": [],
+    "groups": [4],
     "user_permissions": []
   }
 }

@@ -13,6 +13,9 @@ DATABASES = {
         'HOST': 'recnik-mysql',
         'PORT': '',
         'STORAGE_ENGINE': 'INNODB',
+        'OPTIONS': {
+            'charset': 'utf8mb4'
+        }
     }
 }
 SECRET_KEY = read_or_get('/private/secrets', 'SECRET_KEY', None)
