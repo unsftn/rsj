@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
@@ -213,7 +214,7 @@ class Znacenje(models.Model):
         verbose_name_plural = 'значења'
 
     def __str__(self):
-        return str(self.odrednica) + ' / ' + str(self.redni_broj)
+        return str(self.odrednica) + ' / ' + str(self.redni_broj) + ': ' + self.tekst
 
     def get_absolute_url(self):
         return reverse("odrednice:znacenje-detail", kwargs={"pk": self.pk})
@@ -229,7 +230,8 @@ class Podznacenje(models.Model):
         verbose_name_plural = 'подзначења'
 
     def __str__(self):
-        return str(self.znacenje) + ' / ' + str(self.redni_broj)
+        return str(self.znacenje.odrednica) + ' / ' + str(self.znacenje.redni_broj) + ' / ' + str(self.redni_broj) + \
+               ' / ' + self.tekst
 
     def get_absolute_url(self):
         return reverse("odrednice:podznacenje-detail", kwargs={"pk": self.pk})

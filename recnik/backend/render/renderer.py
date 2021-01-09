@@ -12,6 +12,9 @@ from weasyprint.fonts import FontConfiguration
 from .models import *
 
 log = logging.getLogger(__name__)
+AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
+ROD = {1: 'м', 2: 'ж', 3: 'с'}
+GVID = {1: 'свр.', 2: 'несвр.', 3: 'двовид.'}
 
 
 def touch(path):
@@ -29,8 +32,43 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
+def render_podznacenje(podznacenje):
+    return f'<i>{podznacenje.tekst}</i>'
+
+
+def render_znacenje(znacenje):
+    if znacenje.podznacenje_set.count() > 0:
+        html = ''
+        for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all()):
+            html += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
+        return html
+    else:
+        return f'<i>{znacenje.tekst}</i>'
+
+
 def render_one(odrednica):
-    return mark_safe(odrednica)
+    html = f'<b>{odrednica.rec}</b>'
+    if odrednica.vrsta == 0:  # imenica
+        html += f' <small>{ROD[odrednica.rod]}</small> '
+    if odrednica.vrsta == 1:  # glagol
+        if odrednica.nastavak:
+            html += f', {odrednica.nastavak} '
+        if odrednica.prezent:
+            html += f', {odrednica.prezent} '
+        if odrednica.glagolski_vid > 0:
+            html += f'<small>{GVID[odrednica.glagolski_vid]}</small> '
+    if odrednica.vrsta == 2:  # pridev
+        if odrednica.nastavak:
+            html += f', {odrednica.nastavak} '
+    if odrednica.vrsta == 3:  # prilog
+        html += f' <small>прил.</small> '
+    if odrednica.znacenje_set.count() == 1:
+        html += render_znacenje(odrednica.znacenje_set.first())
+    else:
+        for rbr, znacenje in enumerate(odrednica.znacenje_set.all(), start=1):
+            html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+    html += '.'
+    return mark_safe(html)
 
 
 def render_many(odrednice, css_class='odrednica'):
@@ -44,7 +82,8 @@ def render_slovo(odrednice, slovo):
         log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
         return None
     template = get_template('render/odrednice.html')
-    context = {'odrednice': odrednice, 'slovo': slovo}
+    rendered_odrednice = [render_one(o) for o in odrednice]
+    context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     html_text = template.render(context)
     html = HTML(string=html_text, url_fetcher=font_fetcher)
     css_file_name = finders.find('print-styles/slovo.css')

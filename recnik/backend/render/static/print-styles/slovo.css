@@ -29,6 +29,7 @@ types {
 */
 @page {
     size: a4 portrait;
+    margin: 10mm;
 }
 body{
     font-family: "Dijakritika", serif;
@@ -52,6 +53,7 @@ body{
         margin-bottom: 30px;
     }
     .odrednice {
+        line-height: 110%;
         font-size: 9pt;
         column-count: 2;
         -webkit-column-count: 2;
@@ -61,19 +63,19 @@ body{
         font-family: "Dijakritika", serif;
         @bottom-left {
             margin: 10pt 0 30pt 0;
-            border-top: .25pt solid #666;
-            content: "Podnožje rečnika";
+            /* border-top: .25pt solid #666; */
+            content: "Подножје странице";
             font-size: 9pt;
             color: #333;
         }
         @bottom-right {
             margin: 10pt 0 30pt 0;
-            border-top: .25pt solid #666;
+            /* border-top: .25pt solid #666; */
             content: counter(page);
             font-size: 9pt;
         }
         @top-right {
-            content:  "Zaglavlje rečnika";
+            content:  "Заглавље странице";
             margin: 30pt 0 10pt 0;
             font-size: 9pt;
             color: #333;
@@ -83,14 +85,14 @@ body{
         font-family: "Dijakritika", serif;
         @bottom-right {
             margin: 10pt 0 30pt 0;
-            border-top: .25pt solid #666;
-            content: "Podnožje rečnika";
+            /* border-top: .25pt solid #666; */
+            content: "Подножје странице";
             font-size: 9pt;
             color: #333;
         }
         @bottom-left {
             margin: 10pt 0 30pt 0;
-            border-top: .25pt solid #666;
+            /* border-top: .25pt solid #666; */
             content: counter(page);
             font-size: 9pt;
         }
