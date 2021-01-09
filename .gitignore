@@ -159,3 +159,5 @@ speed-measure-plugin.json
 
 # IDE - VSCode
 .vscode/*
+
+media/
