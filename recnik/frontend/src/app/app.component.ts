@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   signedIn(): boolean {
-    console.log(this.tokenStorageService.getUser());
     return this.tokenStorageService.getUser() != null;
   }
 

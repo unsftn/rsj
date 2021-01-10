@@ -7,6 +7,7 @@ html {
 body {
   margin:0;
   padding:0;
+  font-feature-settings: "kern";
 }
 
 .add-button {
@@ -27,4 +28,44 @@ p, h1, h2, h3, h4, h5, h6 {
 .center-container {
   margin-top: auto;
   margin-bottom: auto;
+}
+
+@font-face {
+    font-family: 'Dijakritika';
+    src: url('/assets/fonts/Dijakritika-Regular.woff2') format('woff2'),
+	       url('/assets/fonts/Dijakritika-Regular.otf') format('opentype'); /* Modern Browsers */
+
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+@font-face {
+    font-family: 'Dijakritika';
+    src: url('/assets/fonts/Dijakritika-Bold.woff2') format('woff2'),
+	       url('/assets/fonts/Dijakritika-Bold.otf') format('opentype'); /* Modern Browsers */
+
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Dijakritika';
+    src: url('/assets/fonts/Dijakritika-Italic.woff2') format('woff2'),
+         url('/assets/fonts/Dijakritika-Italic.otf') format('opentype'); /* Modern Browsers */
+
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+.onum {font-feature-settings: "onum";}  /* oldstyle numerals */
+.tnum {font-feature-settings: "tnum";}  /* tabular numerals */
+.frac {font-feature-settings: "frac";}  /* fractions */
+
+div.odrednica {
+  font-family: "Dijakritika", serif;
+  font-feature-settings: "kern";
+  margin-bottom: 10px;
+  text-indent: 10px;
 }
