@@ -1,25 +1,50 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
+import json
+from django.test import TestCase, Client
+from bs4 import BeautifulSoup
 from odrednice.models import Odrednica
-from .renderer import render_one, render_slovo
+from .renderer import render_slovo
+
+JSON = 'application/json'
+HTML = 'text/html'
+
+
+def get_jwt_token():
+    c = Client()
+    response = c.post('/api/token/', {'username': 'admin@rsj.rs', 'password': 'admin'})
+    return json.loads(response.content.decode('UTF-8'))['access']
 
 
 class RenderPdfTest(TestCase):
     fixtures = [
+        'users',
         'renderi',
         'test_odrednice_1',
     ]
 
     def setUp(self) -> None:
-        pass
-
-    def xtest_render_one(self):
-        from .views import FAKE_ODREDNICE
-        odrednice = [FAKE_ODREDNICE[key] for key in sorted(FAKE_ODREDNICE.keys())]
-        result = render_one(odrednice[0])
-        self.assertGreaterEqual(len(result), 1)
+        self.token = f'Bearer {get_jwt_token()}'
 
     def test_render_slovo(self):
         odrednice = Odrednica.objects.filter(rec__startswith='а')
         output_file = render_slovo(odrednice, 'А')
         self.assertIsNotNone(output_file)
+
+    def test_odrednice_newest(self):
+        c = Client()
+        r = c.get('/api/render/odrednice/newest/10/', HTTP_AUTHORIZATION=self.token, content_type=HTML)
+        soup = BeautifulSoup(r.content.decode('UTF-8'), 'html.parser')
+        self.assertEqual(len(soup.contents), 10)
+
+    def test_odrednice_latest(self):
+        c = Client()
+        r = c.get('/api/render/odrednice/latest/10/', HTTP_AUTHORIZATION=self.token, content_type=HTML)
+        soup = BeautifulSoup(r.content.decode('UTF-8'), 'html.parser')
+        self.assertEqual(len(soup.contents), 10)
+
+    def test_odrednice_popular(self):
+        c = Client()
+        r = c.get('/api/render/odrednice/popular/10/', HTTP_AUTHORIZATION=self.token, content_type=HTML)
+        soup = BeautifulSoup(r.content.decode('UTF-8'), 'html.parser')
+        self.assertEqual(len(soup.contents), 10)
+

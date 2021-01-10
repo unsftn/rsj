@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import odrednica_html, odrednice_html
+from .rest import *
 
 app_name = 'render'
 
 urlpatterns = [
-    path('odrednica/', odrednice_html),
-    path('odrednica/<int:pk>/', odrednica_html),
+    path('odrednice/latest/<int:page_size>/', odrednice_latest),
+    path('odrednice/newest/<int:page_size>/', odrednice_newest),
+    path('odrednice/popular/<int:page_size>/', odrednice_popular),
 ]
