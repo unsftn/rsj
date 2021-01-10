@@ -224,7 +224,7 @@ class KvalifikatorOdrednice(models.Model):
 
 class Znacenje(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    tekst = models.CharField('текст', max_length=2000)
+    tekst = models.CharField('текст', max_length=2000, blank=True, null=True)
     odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
 
     class Meta:
