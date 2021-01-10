@@ -1,1 +1,766 @@
-[{"model": "odrednice.odrednica", "pk": 3, "fields": {"rec": "аба̀жӯр", "vrsta": 0, "rod": 1, "nastavak": "у́ра", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T07:42:56Z", "poslednja_izmena": "2021-01-09T07:42:56Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 4, "fields": {"rec": "а̀бак(ус)", "vrsta": 0, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T07:45:55Z", "poslednja_izmena": "2021-01-09T07:45:55Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 5, "fields": {"rec": "абдика́ција", "vrsta": 0, "rod": 2, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T07:46:38Z", "poslednja_izmena": "2021-01-09T07:46:38Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 6, "fields": {"rec": "а̏бдикацио̄нӣ", "vrsta": 2, "rod": 1, "nastavak": "-а̄, -о̄", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T07:49:35Z", "poslednja_izmena": "2021-01-09T07:49:35Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 7, "fields": {"rec": "абдици́рати", "vrsta": 1, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 1, "glagolski_rod": 0, "prezent": "-ѝцӣра̄м", "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T07:53:27Z", "poslednja_izmena": "2021-01-09T07:53:27Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 8, "fields": {"rec": "абера́ција", "vrsta": 0, "rod": 2, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T07:56:04Z", "poslednja_izmena": "2021-01-09T07:56:04Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 9, "fields": {"rec": "абеце́да", "vrsta": 0, "rod": 2, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T08:01:04Z", "poslednja_izmena": "2021-01-09T08:01:04Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 10, "fields": {"rec": "абецѐда̄р", "vrsta": 0, "rod": 1, "nastavak": "-а́ра", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T08:03:00Z", "poslednja_izmena": "2021-01-09T08:03:00Z", "stanje": 1, "version": 2}}, {"model": "odrednice.odrednica", "pk": 11, "fields": {"rec": "абецѐда̄ријум", "vrsta": 0, "rod": 1, "nastavak": "-ија", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T08:08:17Z", "poslednja_izmena": "2021-01-09T08:08:17Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 12, "fields": {"rec": "а̏бецеда̄рнӣ", "vrsta": 2, "rod": 1, "nastavak": "-а̄, -о̄", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T08:11:01Z", "poslednja_izmena": "2021-01-09T08:11:01Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 13, "fields": {"rec": "абѐце̄днӣ", "vrsta": 2, "rod": 1, "nastavak": "-а̄, -о̄", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T09:42:46Z", "poslednja_izmena": "2021-01-09T09:42:46Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 14, "fields": {"rec": "абѐце̄дно", "vrsta": 3, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T09:48:45Z", "poslednja_izmena": "2021-01-09T09:48:45Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 15, "fields": {"rec": "а̏блатӣв", "vrsta": 0, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T09:49:54Z", "poslednja_izmena": "2021-01-09T09:49:54Z", "stanje": 1, "version": 3}}, {"model": "odrednice.odrednica", "pk": 16, "fields": {"rec": "а̏блатӣвнӣ", "vrsta": 2, "rod": 1, "nastavak": "-а̄, -о̄", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:02:47Z", "poslednja_izmena": "2021-01-09T10:02:47Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 17, "fields": {"rec": "а̏блендовати", "vrsta": 1, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 1, "glagolski_rod": 0, "prezent": "-дује̄м", "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:04:25Z", "poslednja_izmena": "2021-01-09T10:04:25Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 18, "fields": {"rec": "а̏бнорма̄лан", "vrsta": 2, "rod": 1, "nastavak": "-лна, -о", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:07:58Z", "poslednja_izmena": "2021-01-09T10:07:58Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 19, "fields": {"rec": "а̏бнорма̄лно", "vrsta": 3, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:10:13Z", "poslednja_izmena": "2021-01-09T10:10:13Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 20, "fields": {"rec": "абнорма́лност", "vrsta": 0, "rod": 2, "nastavak": "-ости", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:11:38Z", "poslednja_izmena": "2021-01-09T10:11:38Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 21, "fields": {"rec": "аболи́рати", "vrsta": 1, "rod": 1, "nastavak": null, "info": null, "glagolski_vid": 1, "glagolski_rod": 0, "prezent": "-о̀лӣра̄м", "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:13:39Z", "poslednja_izmena": "2021-01-09T10:13:39Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 22, "fields": {"rec": "аболи́ција", "vrsta": 0, "rod": 2, "nastavak": null, "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:15:43Z", "poslednja_izmena": "2021-01-09T10:15:43Z", "stanje": 1, "version": 1}}, {"model": "odrednice.odrednica", "pk": 23, "fields": {"rec": "аболи́цӣјскӣ", "vrsta": 2, "rod": 1, "nastavak": "-а̄, -о̄", "info": null, "glagolski_vid": 0, "glagolski_rod": 0, "prezent": null, "broj_pregleda": 0, "vreme_kreiranja": "2021-01-09T10:17:29Z", "poslednja_izmena": "2021-01-09T10:17:29Z", "stanje": 1, "version": 1}}, {"model": "odrednice.operacijaizmene", "pk": 1, "fields": {"naziv": "prva operacija izmene"}}, {"model": "odrednice.operacijaizmene", "pk": 2, "fields": {"naziv": "druga operacija izmene"}}, {"model": "odrednice.operacijaizmene", "pk": 3, "fields": {"naziv": "treca operacija izmene"}}, {"model": "odrednice.kvalifikator", "pk": 1, "fields": {"naziv": "prvi kvalifikator"}}, {"model": "odrednice.kvalifikator", "pk": 2, "fields": {"naziv": "drugi kvalifikator"}}, {"model": "odrednice.znacenje", "pk": 2, "fields": {"redni_broj": 1, "tekst": "заклон, штит на лампи, светиљци, сенило", "odrednica": 3}}, {"model": "odrednice.znacenje", "pk": 3, "fields": {"redni_broj": 1, "tekst": "четвртаста плоча на капителу стуба", "odrednica": 4}}, {"model": "odrednice.znacenje", "pk": 4, "fields": {"redni_broj": 1, "tekst": "одрицање од престола, владарства, ређе од другог високог звања, оставка на положај, звање", "odrednica": 5}}, {"model": "odrednice.znacenje", "pk": 5, "fields": {"redni_broj": 1, "tekst": "који се односи на абдикацију", "odrednica": 6}}, {"model": "odrednice.znacenje", "pk": 6, "fields": {"redni_broj": 1, "tekst": "одрећи се (одрицати се) престола или неког високог положаја; одрећи се (одрицати се) неког права, уверења и сл", "odrednica": 7}}, {"model": "odrednice.znacenje", "pk": 7, "fields": {"redni_broj": 1, "tekst": "-", "odrednica": 8}}, {"model": "odrednice.znacenje", "pk": 8, "fields": {"redni_broj": 2, "tekst": "одступање од типичног облика", "odrednica": 8}}, {"model": "odrednice.znacenje", "pk": 9, "fields": {"redni_broj": 3, "tekst": "скретање, застрањивање", "odrednica": 8}}, {"model": "odrednice.znacenje", "pk": 10, "fields": {"redni_broj": 1, "tekst": "слова латинице (као целовит систем) поређана по утврђеном реду; азбука и алфабет", "odrednica": 9}}, {"model": "odrednice.znacenje", "pk": 11, "fields": {"redni_broj": 2, "tekst": "основна знања из нечега", "odrednica": 9}}, {"model": "odrednice.znacenje", "pk": 12, "fields": {"redni_broj": 1, "tekst": "-", "odrednica": 10}}, {"model": "odrednice.znacenje", "pk": 13, "fields": {"redni_broj": 2, "tekst": "буквар (латинички)", "odrednica": 10}}, {"model": "odrednice.znacenje", "pk": 14, "fields": {"redni_broj": 1, "tekst": "абецедар", "odrednica": 11}}, {"model": "odrednice.znacenje", "pk": 15, "fields": {"redni_broj": 1, "tekst": "који се односи на абецедар; фиг. почетнички, основни", "odrednica": 12}}, {"model": "odrednice.znacenje", "pk": 16, "fields": {"redni_broj": 1, "tekst": "који се односи на абецеду, сређен по абецеди", "odrednica": 13}}, {"model": "odrednice.znacenje", "pk": 17, "fields": {"redni_broj": 1, "tekst": "по абецедном реду", "odrednica": 14}}, {"model": "odrednice.znacenje", "pk": 18, "fields": {"redni_broj": 1, "tekst": "падеж за означавање одвајања, потицања и сл. (нпр. у латинском језику)", "odrednica": 15}}, {"model": "odrednice.znacenje", "pk": 19, "fields": {"redni_broj": 1, "tekst": "који се односи на аблатив: генитив; значење", "odrednica": 16}}, {"model": "odrednice.znacenje", "pk": 20, "fields": {"redni_broj": 1, "tekst": "назменично, у кратким интервалима палити и гасити фарове аутомобила (најчешће као упозорење или поздрав возачу који долази у сусрет)", "odrednica": 17}}, {"model": "odrednice.znacenje", "pk": 21, "fields": {"redni_broj": 1, "tekst": "ненормалан, луд; нездрав, наказан; неприродан ~ човек, ~ прохтев", "odrednica": 18}}, {"model": "odrednice.znacenje", "pk": 22, "fields": {"redni_broj": 1, "tekst": "на абнормалан начин, неприродно ~ се понашати", "odrednica": 19}}, {"model": "odrednice.znacenje", "pk": 23, "fields": {"redni_broj": 1, "tekst": "особина и стање онога који је абнормалан, онога што је абнормално, абнормално стање", "odrednica": 20}}, {"model": "odrednice.znacenje", "pk": 24, "fields": {"redni_broj": 1, "tekst": "обуставити (обустављати) судски поступак; укинути (укидати) неку друштвену институцију или праксу", "odrednica": 21}}, {"model": "odrednice.znacenje", "pk": 25, "fields": {"redni_broj": 1, "tekst": "обустава кривичног поступка, ослобађање од кривичног гоњења", "odrednica": 22}}, {"model": "odrednice.znacenje", "pk": 26, "fields": {"redni_broj": 2, "tekst": "укидање неке друштвене институције или праксе (ропства, смртне казне, законске норме и сл.)", "odrednica": 22}}, {"model": "odrednice.znacenje", "pk": 27, "fields": {"redni_broj": 1, "tekst": "који се односи на аболицију: ~ поступак", "odrednica": 23}}, {"model": "odrednice.podznacenje", "pk": 2, "fields": {"redni_broj": 1, "tekst": "привидна промена положаја звезда условљена Земљиним кретањем и брзином ширења светлости", "znacenje": 7}}, {"model": "odrednice.podznacenje", "pk": 3, "fields": {"redni_broj": 2, "tekst": "у оптици, одступање преломљених светлосних зракова од пожељног правца", "znacenje": 7}}, {"model": "odrednice.podznacenje", "pk": 4, "fields": {"redni_broj": 1, "tekst": "попис по абецедном реду, абецедни списак", "znacenje": 12}}, {"model": "odrednice.podznacenje", "pk": 5, "fields": {"redni_broj": 2, "tekst": "слова неког писма исписана по абецедном реду: глагољски абецедари", "znacenje": 12}}]
+[
+  {
+    "model": "odrednice.odrednica",
+    "pk": 3,
+    "fields": {
+      "rec": "аба̀жӯр",
+      "vrsta": 0,
+      "rod": 1,
+      "nastavak": "-у́ра",
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T07:42:56Z",
+      "poslednja_izmena": "2021-01-09T07:42:56Z",
+      "stanje": 1,
+      "version": 4
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 4,
+    "fields": {
+      "rec": "а̀бак(ус)",
+      "vrsta": 0,
+      "rod": 1,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T07:45:55Z",
+      "poslednja_izmena": "2021-01-09T07:45:55Z",
+      "stanje": 1,
+      "version": 2
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 5,
+    "fields": {
+      "rec": "абдика́ција",
+      "vrsta": 0,
+      "rod": 2,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T07:46:38Z",
+      "poslednja_izmena": "2021-01-09T07:46:38Z",
+      "stanje": 1,
+      "version": 2
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 6,
+    "fields": {
+      "rec": "а̏бдикацио̄нӣ",
+      "vrsta": 2,
+      "rod": 1,
+      "nastavak": "-а̄, -о̄",
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T07:49:35Z",
+      "poslednja_izmena": "2021-01-09T07:49:35Z",
+      "stanje": 1,
+      "version": 4
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 7,
+    "fields": {
+      "rec": "абдици́рати",
+      "vrsta": 1,
+      "rod": null,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 1,
+      "glagolski_rod": 0,
+      "prezent": "-ѝцӣра̄м",
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T07:53:27Z",
+      "poslednja_izmena": "2021-01-09T07:53:27Z",
+      "stanje": 1,
+      "version": 2
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 8,
+    "fields": {
+      "rec": "абера́ција",
+      "vrsta": 0,
+      "rod": 2,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T07:56:04Z",
+      "poslednja_izmena": "2021-01-09T07:56:04Z",
+      "stanje": 1,
+      "version": 2
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 9,
+    "fields": {
+      "rec": "абеце́да",
+      "vrsta": 0,
+      "rod": 2,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T08:01:04Z",
+      "poslednja_izmena": "2021-01-09T08:01:04Z",
+      "stanje": 1,
+      "version": 2
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 10,
+    "fields": {
+      "rec": "абецѐда̄р",
+      "vrsta": 0,
+      "rod": 1,
+      "nastavak": "-а́ра",
+      "info": null,
+      "glagolski_vid": null,
+      "glagolski_rod": null,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T08:03:00Z",
+      "poslednja_izmena": "2021-01-09T08:03:00Z",
+      "stanje": 1,
+      "version": 3
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 11,
+    "fields": {
+      "rec": "абецѐда̄ријум",
+      "vrsta": 0,
+      "rod": 1,
+      "nastavak": "-ија",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T08:08:17Z",
+      "poslednja_izmena": "2021-01-09T08:08:17Z",
+      "stanje": 1,
+      "version": 3
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 12,
+    "fields": {
+      "rec": "а̏бецеда̄рнӣ",
+      "vrsta": 2,
+      "rod": 1,
+      "nastavak": "-а̄, -о̄",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T08:11:01Z",
+      "poslednja_izmena": "2021-01-09T08:11:01Z",
+      "stanje": 1,
+      "version": 3
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 13,
+    "fields": {
+      "rec": "абѐце̄днӣ",
+      "vrsta": 2,
+      "rod": 1,
+      "nastavak": "-а̄, -о̄",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T09:42:46Z",
+      "poslednja_izmena": "2021-01-09T09:42:46Z",
+      "stanje": 1,
+      "version": 3
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 14,
+    "fields": {
+      "rec": "абѐце̄дно",
+      "vrsta": 3,
+      "rod": 1,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T09:48:45Z",
+      "poslednja_izmena": "2021-01-09T09:48:45Z",
+      "stanje": 1,
+      "version": 3
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 15,
+    "fields": {
+      "rec": "а̏блатӣв",
+      "vrsta": 0,
+      "rod": 1,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T09:49:54Z",
+      "poslednja_izmena": "2021-01-09T09:49:54Z",
+      "stanje": 1,
+      "version": 3
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 16,
+    "fields": {
+      "rec": "а̏блатӣвнӣ",
+      "vrsta": 2,
+      "rod": 1,
+      "nastavak": "-а̄, -о̄",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:02:47Z",
+      "poslednja_izmena": "2021-01-09T10:02:47Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 17,
+    "fields": {
+      "rec": "а̏блендовати",
+      "vrsta": 1,
+      "rod": 1,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 1,
+      "glagolski_rod": 0,
+      "prezent": "-дује̄м",
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:04:25Z",
+      "poslednja_izmena": "2021-01-09T10:04:25Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 18,
+    "fields": {
+      "rec": "а̏бнорма̄лан",
+      "vrsta": 2,
+      "rod": 1,
+      "nastavak": "-лна, -о",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:07:58Z",
+      "poslednja_izmena": "2021-01-09T10:07:58Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 19,
+    "fields": {
+      "rec": "а̏бнорма̄лно",
+      "vrsta": 3,
+      "rod": 1,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:10:13Z",
+      "poslednja_izmena": "2021-01-09T10:10:13Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 20,
+    "fields": {
+      "rec": "абнорма́лност",
+      "vrsta": 0,
+      "rod": 2,
+      "nastavak": "-ости",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:11:38Z",
+      "poslednja_izmena": "2021-01-09T10:11:38Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 21,
+    "fields": {
+      "rec": "аболи́рати",
+      "vrsta": 1,
+      "rod": 1,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 1,
+      "glagolski_rod": 0,
+      "prezent": "-о̀лӣра̄м",
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:13:39Z",
+      "poslednja_izmena": "2021-01-09T10:13:39Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 22,
+    "fields": {
+      "rec": "аболи́ција",
+      "vrsta": 0,
+      "rod": 2,
+      "nastavak": null,
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:15:43Z",
+      "poslednja_izmena": "2021-01-09T10:15:43Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.odrednica",
+    "pk": 23,
+    "fields": {
+      "rec": "аболи́цӣјскӣ",
+      "vrsta": 2,
+      "rod": 1,
+      "nastavak": "-а̄, -о̄",
+      "info": null,
+      "glagolski_vid": 0,
+      "glagolski_rod": 0,
+      "prezent": null,
+      "broj_pregleda": 0,
+      "vreme_kreiranja": "2021-01-09T10:17:29Z",
+      "poslednja_izmena": "2021-01-09T10:17:29Z",
+      "stanje": 1,
+      "version": 1
+    }
+  },
+  {
+    "model": "odrednice.operacijaizmene",
+    "pk": 1,
+    "fields": {
+      "naziv": "prva operacija izmene"
+    }
+  },
+  {
+    "model": "odrednice.operacijaizmene",
+    "pk": 2,
+    "fields": {
+      "naziv": "druga operacija izmene"
+    }
+  },
+  {
+    "model": "odrednice.operacijaizmene",
+    "pk": 3,
+    "fields": {
+      "naziv": "treca operacija izmene"
+    }
+  },
+  {
+    "model": "odrednice.varijantaodrednice",
+    "pk": 1,
+    "fields": {
+      "odrednica": 6,
+      "redni_broj": 1,
+      "tekst": "абдика́цӣјскӣ",
+      "nastavak": null
+    }
+  },
+  {
+    "model": "odrednice.varijantaodrednice",
+    "pk": 2,
+    "fields": {
+      "odrednica": 11,
+      "redni_broj": 1,
+      "tekst": "абецѐда̄рӣј",
+      "nastavak": "-ија"
+    }
+  },
+  {
+    "model": "odrednice.varijantaodrednice",
+    "pk": 3,
+    "fields": {
+      "odrednica": 12,
+      "redni_broj": 1,
+      "tekst": "абецѐда̄рнӣ",
+      "nastavak": null
+    }
+  },
+  {
+    "model": "odrednice.varijantaodrednice",
+    "pk": 4,
+    "fields": {
+      "odrednica": 14,
+      "redni_broj": 1,
+      "tekst": "а̏беце̄дно",
+      "nastavak": null
+    }
+  },
+  {
+    "model": "odrednice.varijantaodrednice",
+    "pk": 5,
+    "fields": {
+      "odrednica": 17,
+      "redni_broj": 1,
+      "tekst": "а̀блендовати",
+      "nastavak": null
+    }
+  },
+  {
+    "model": "odrednice.varijantaodrednice",
+    "pk": 6,
+    "fields": {
+      "odrednica": 23,
+      "redni_broj": 1,
+      "tekst": "а̏болицио̄нӣ",
+      "nastavak": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 1,
+    "fields": {
+      "naziv": "prvi kvalifikator"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 2,
+    "fields": {
+      "naziv": "drugi kvalifikator"
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 2,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "заклон, штит на лампи, светиљци, сенило",
+      "odrednica": 3
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 3,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "четвртаста плоча на капителу стуба",
+      "odrednica": 4
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 4,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "одрицање од престола, владарства, ређе од другог високог звања, оставка на положај, звање",
+      "odrednica": 5
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 5,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "који се односи на абдикацију",
+      "odrednica": 6
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 6,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "одрећи се (одрицати се) престола или неког високог положаја; одрећи се (одрицати се) неког права, уверења и сл",
+      "odrednica": 7
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 7,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "-",
+      "odrednica": 8
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 8,
+    "fields": {
+      "redni_broj": 2,
+      "tekst": "одступање од типичног облика",
+      "odrednica": 8
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 9,
+    "fields": {
+      "redni_broj": 3,
+      "tekst": "скретање, застрањивање",
+      "odrednica": 8
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 10,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "слова латинице (као целовит систем) поређана по утврђеном реду; азбука и алфабет",
+      "odrednica": 9
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 11,
+    "fields": {
+      "redni_broj": 2,
+      "tekst": "основна знања из нечега",
+      "odrednica": 9
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 12,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "-",
+      "odrednica": 10
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 13,
+    "fields": {
+      "redni_broj": 2,
+      "tekst": "буквар (латинички)",
+      "odrednica": 10
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 14,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "абецедар",
+      "odrednica": 11
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 15,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "који се односи на абецедар; фиг. почетнички, основни",
+      "odrednica": 12
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 16,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "који се односи на абецеду, сређен по абецеди",
+      "odrednica": 13
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 17,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "по абецедном реду",
+      "odrednica": 14
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 18,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "падеж за означавање одвајања, потицања и сл. (нпр. у латинском језику)",
+      "odrednica": 15
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 19,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "који се односи на аблатив: генитив; значење",
+      "odrednica": 16
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 20,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "назменично, у кратким интервалима палити и гасити фарове аутомобила (најчешће као упозорење или поздрав возачу који долази у сусрет)",
+      "odrednica": 17
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 21,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "ненормалан, луд; нездрав, наказан; неприродан ~ човек, ~ прохтев",
+      "odrednica": 18
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 22,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "на абнормалан начин, неприродно ~ се понашати",
+      "odrednica": 19
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 23,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "особина и стање онога који је абнормалан, онога што је абнормално, абнормално стање",
+      "odrednica": 20
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 24,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "обуставити (обустављати) судски поступак; укинути (укидати) неку друштвену институцију или праксу",
+      "odrednica": 21
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 25,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "обустава кривичног поступка, ослобађање од кривичног гоњења",
+      "odrednica": 22
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 26,
+    "fields": {
+      "redni_broj": 2,
+      "tekst": "укидање неке друштвене институције или праксе (ропства, смртне казне, законске норме и сл.)",
+      "odrednica": 22
+    }
+  },
+  {
+    "model": "odrednice.znacenje",
+    "pk": 27,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "који се односи на аболицију: ~ поступак",
+      "odrednica": 23
+    }
+  },
+  {
+    "model": "odrednice.podznacenje",
+    "pk": 2,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "привидна промена положаја звезда условљена Земљиним кретањем и брзином ширења светлости",
+      "znacenje": 7
+    }
+  },
+  {
+    "model": "odrednice.podznacenje",
+    "pk": 3,
+    "fields": {
+      "redni_broj": 2,
+      "tekst": "у оптици, одступање преломљених светлосних зракова од пожељног правца",
+      "znacenje": 7
+    }
+  },
+  {
+    "model": "odrednice.podznacenje",
+    "pk": 4,
+    "fields": {
+      "redni_broj": 1,
+      "tekst": "попис по абецедном реду, абецедни списак",
+      "znacenje": 12
+    }
+  },
+  {
+    "model": "odrednice.podznacenje",
+    "pk": 5,
+    "fields": {
+      "redni_broj": 2,
+      "tekst": "слова неког писма исписана по абецедном реду: глагољски абецедари",
+      "znacenje": 12
+    }
+  }
+]

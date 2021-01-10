@@ -19,20 +19,27 @@ VRSTA_ODREDNICE = [
     (9, 'број'),
 ]
 
+STANJE_ODREDNICE = [
+    (1, 'обрада лексикографа'),
+    (2, 'обрада редактора'),
+    (3, 'обрада уредника'),
+    (4, 'завршена обрада'),
+]
+
 
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
-    rod = models.IntegerField('род', choices=korpus_models.ROD, default=0)
+    rod = models.IntegerField('род', choices=korpus_models.ROD, default=0, blank=True, null=True)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
     info = models.CharField('инфо', max_length=2000, blank=True, null=True)
-    glagolski_vid = models.IntegerField('глаголски вид', choices=korpus_models.GLAGOLSKI_VID)
-    glagolski_rod = models.IntegerField('глаголски род', choices=korpus_models.GLAGOLSKI_ROD)
+    glagolski_vid = models.IntegerField('глаголски вид', choices=korpus_models.GLAGOLSKI_VID, blank=True, null=True)
+    glagolski_rod = models.IntegerField('глаголски род', choices=korpus_models.GLAGOLSKI_ROD, blank=True, null=True)
     prezent = models.CharField('презент', max_length=50, blank=True, null=True)
     broj_pregleda = models.IntegerField('број прегледа', default=0)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
-    stanje = models.IntegerField('стање')
+    stanje = models.IntegerField('стање', choices=STANJE_ODREDNICE, default=1)
     version = AutoIncVersionField()
 
     def __str__(self):
@@ -81,15 +88,28 @@ class IzmenaOdrednice(models.Model):
         return reverse("odrednice:izmena-odrednice-detail", kwargs={"pk": self.pk})
 
 
+class VarijantaOdrednice(models.Model):
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    tekst = models.CharField('текст', max_length=50)
+    nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return f'{str(self.odrednica)} / {self.redni_broj}: {self.tekst}'
+
+    class Meta:
+        verbose_name = 'варијанта одреднице'
+        verbose_name_plural = 'варијанте одредница'
+
+    def get_absolute_url(self):
+        return reverse('odrednice:izmena-varijante-detail', kwargs={'pk': self.pk})
+
+
 class Antonim(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    ima_antonim_id = models.ForeignKey(Odrednica,
-                                       verbose_name='одредница има антоним',
-                                       on_delete=models.CASCADE,
+    ima_antonim_id = models.ForeignKey(Odrednica,  verbose_name='одредница има антоним', on_delete=models.CASCADE,
                                        related_name='ima_antonim')
-    u_vezi_sa_id = models.ForeignKey(Odrednica,
-                                     verbose_name='у вези са одредницом',
-                                     on_delete=models.CASCADE,
+    u_vezi_sa_id = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
                                      related_name='antonim_u_vezi_sa')
 
     def get_absolute_url(self):
@@ -105,13 +125,9 @@ class Antonim(models.Model):
 
 class Sinonim(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    ima_sinonim_id = models.ForeignKey(Odrednica,
-                                       verbose_name='одредница има синоним',
-                                       on_delete=models.CASCADE,
+    ima_sinonim_id = models.ForeignKey(Odrednica, verbose_name='одредница има синоним', on_delete=models.CASCADE,
                                        related_name='ima_sinonim')
-    u_vezi_sa_id = models.ForeignKey(Odrednica,
-                                     verbose_name='у вези са одредницом',
-                                     on_delete=models.CASCADE,
+    u_vezi_sa_id = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
                                      related_name='sinonim_u_vezi_sa')
 
     class Meta:
@@ -156,7 +172,7 @@ class RecUKolokaciji(models.Model):
         return reverse("odrednice:rec-u-kolokaciji-detail", kwargs={"pk": self.pk})
 
 
-class IzrazFraza (models.Model):
+class IzrazFraza(models.Model):
     opis = models.CharField('опис', max_length=2000)
     u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом',  on_delete=models.CASCADE,
                                   related_name="izrazfraza_u_vezi_sa")
