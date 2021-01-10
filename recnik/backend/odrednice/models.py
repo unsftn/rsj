@@ -29,6 +29,7 @@ STANJE_ODREDNICE = [
 
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
+    ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
     rod = models.IntegerField('род', choices=korpus_models.ROD, default=0, blank=True, null=True)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
@@ -90,6 +91,7 @@ class IzmenaOdrednice(models.Model):
 
 class VarijantaOdrednice(models.Model):
     odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
+    ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
     redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.CharField('текст', max_length=50)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
