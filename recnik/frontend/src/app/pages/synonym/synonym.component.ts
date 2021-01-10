@@ -24,9 +24,12 @@ export class SynonymComponent implements OnInit {
     const response: any = await this.httpClient
       .get('api/odrednice/odrednica')
       .toPromise();
-    this.determinants = response.map((item) => {
-      return item.rec;
-    });
+
+    if (response) {
+      this.determinants = response.results.map((item) => {
+        return item.rec;
+      });
+    }
   }
 
   ngOnInit() {
