@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'expressions',
@@ -7,7 +8,10 @@ import { PrimeNGConfig } from 'primeng/api';
   styleUrls: ['./expressions.component.scss'],
 })
 export class ExpressionsComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private httpClient: HttpClient,
+  ) {}
 
   keyWords = [];
   selectedKeyWord: string;
@@ -17,13 +21,20 @@ export class ExpressionsComponent implements OnInit {
     this.expressions.push({ value: '', keyWord: this.keyWords[0] });
   }
 
+  async fetch() {
+    const response: any = await this.httpClient
+      .get('api/odrednice/odrednica')
+      .toPromise();
+
+    if (response) {
+      this.keyWords = response.results.map((item) => {
+        return item.rec;
+      });
+    }
+  }
+
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.keyWords = [
-      'Кључна реч 1',
-      'Кључна реч 2',
-      'Кључна реч 3',
-      'Кључна реч 4',
-    ];
+    this.fetch();
   }
 }
