@@ -73,8 +73,12 @@ def render_one(odrednica):
     return mark_safe(html)
 
 
+def render_one_div(odrednica, css_class='odrednica'):
+    return mark_safe(f'<div class="{css_class}">{render_one(odrednica)}</div>')
+
+
 def render_many(odrednice, css_class='odrednica'):
-    return mark_safe(''.join([f'<div class="{css_class}"{od}></div>' for od in odrednice]))
+    return mark_safe(''.join([render_one_div(od, css_class) for od in odrednice]))
 
 
 def render_slovo(odrednice, slovo):
