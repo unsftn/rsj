@@ -58,3 +58,10 @@
   height: 30px !important;
   width: 30px;
 }
+
+:host ::ng-deep .p-menubar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+}

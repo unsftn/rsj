@@ -6,6 +6,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
+import { ToolbarModule } from 'primeng/toolbar';
+
 import { GrammarInformationsModule } from '../grammarInformations/grammarInformations.module';
 import { MeaningFormModule } from '../meaningForm/meaningForm.module';
 import { ChangesFormModule } from '../changesForm/changesForm.module';
@@ -23,6 +25,7 @@ import { CollocationsModule } from '../collocation/collocations.module';
     FormsModule,
     ListboxModule,
     ButtonModule,
+    ToolbarModule,
     GrammarInformationsModule,
     MeaningFormModule,
     SynonymModule,

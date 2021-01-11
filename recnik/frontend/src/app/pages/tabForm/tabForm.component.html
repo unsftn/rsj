@@ -1,7 +1,12 @@
-<div class="basic-information-container">
-  <div class="add-determinant-button">
-    <button pButton type="button" label="Сачувај одредницу" ></button>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
   </div>
+  <div class="p-toolbar-group-right">
+    <p-button label="Сачувај"></p-button>
+    <p-button label="Заврши обраду" styleClass="p-button-success"></p-button>
+  </div>
+</p-toolbar>
+<div class="basic-information-container">
   <div class="p-d-flex p-flex-column p-flex-md-row">
     <div class="p-col-7">
       <div class="p-d-flex">
@@ -11,10 +16,10 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" pInputText placeholder="Екавица" />
+              <input type="text" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" pInputText placeholder="Ијекавица" />
+              <input type="text" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
             </div>
           </div>
         </div>
@@ -42,7 +47,7 @@
           <p class="label">Врста речи:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" (onChange)='onChange()'></p-dropdown>
+          <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" optionLabel="name" (onChange)='onChange()'></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex">
@@ -92,7 +97,7 @@
   <div class="tab-container">
     <p-tabView>
       <p-tabPanel header="Граматичке информације">
-        <grammarInformations [isNoun]='isNoun' [isVerb]='isVerb'></grammarInformations>
+        <grammarInformations [isNoun]='isNoun' [isVerb]='isVerb' [selectedKind]=selectedKind (selectKindChanged)="selectedKindChangedHandler($event)"></grammarInformations>
       </p-tabPanel>
       <p-tabPanel header="Дефиниција">
         <meaningForm></meaningForm>

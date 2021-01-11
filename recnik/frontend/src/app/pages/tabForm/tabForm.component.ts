@@ -3,6 +3,12 @@ import { PrimeNGConfig } from 'primeng/api';
 
 interface State {
   name: string;
+  id: number;
+}
+
+interface WordType {
+  name: string;
+  id: number;
 }
 
 interface Qualificator {
@@ -15,33 +21,45 @@ interface Qualificator {
   styleUrls: ['./tabForm.component.scss'],
 })
 export class TabFormComponent implements OnInit {
-  wordType: string[];
+  wordType: WordType[];
   state: State[];
   qualificator: Qualificator[];
   isNoun: boolean;
   isVerb: boolean;
+  wordE: string;
+  wordI: string;
+  selectedKind;
 
-  selectedWordType: string;
+  selectedVerbKind;
+  selectedVerbForm;
+  present: string;
+  details;
+
+  selectedWordType: WordType;
   selectedState: State;
   selectedQualificator: Qualificator;
 
+  selectedKindChangedHandler(selectedKind) {
+    this.selectedKind = selectedKind;
+  }
+
   constructor(private primengConfig: PrimeNGConfig) {
     this.wordType = [
-      'Именица',
-      'Глагол',
-      'Придев',
-      'Заменица',
-      'Број',
-      'Прилог',
-      'Предлог',
-      'Узвик',
-      'Речца',
-      'Везник',
+      { name: 'Именица', id: 0 },
+      { name: 'Глагол', id: 1 },
+      { name: 'Придев', id: 2 },
+      { name: 'Заменица', id: 5 },
+      { name: 'Број', id: 9 },
+      { name: 'Прилог', id: 3 },
+      { name: 'Предлог', id: 4 },
+      { name: 'Узвик', id: 6 },
+      { name: 'Речца', id: 7 },
+      { name: 'Везник', id: 8 },
     ];
     this.state = [
-      { name: 'Први унос' },
-      { name: 'Редактура 1' },
-      { name: 'Редактура 2' },
+      { name: 'Први унос', id: 1 },
+      { name: 'Редактура 1', id: 2 },
+      { name: 'Редактура 2', id: 3 },
     ];
     this.qualificator = [
       { name: 'Прва ставка' },
@@ -54,14 +72,14 @@ export class TabFormComponent implements OnInit {
   }
 
   onChange() {
-    this.selectedWordType === 'Именица' ||
-    this.selectedWordType === 'Заменица' ||
-    this.selectedWordType === 'Придев' ||
-    this.selectedWordType === 'Број'
+    this.selectedWordType.name === 'Именица' ||
+    this.selectedWordType.name === 'Заменица' ||
+    this.selectedWordType.name === 'Придев' ||
+    this.selectedWordType.name === 'Број'
       ? (this.isNoun = true)
       : (this.isNoun = false);
 
-    this.selectedWordType === 'Глагол'
+    this.selectedWordType.name === 'Глагол'
       ? (this.isVerb = true)
       : (this.isVerb = false);
   }

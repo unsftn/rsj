@@ -1,4 +1,4 @@
-<div *ngIf="isNoun" class="p-d-flex p-flex-column p-flex-md-row">
+<div *ngIf="isNoun" id="isNoun" class="p-d-flex p-flex-column p-flex-md-row">
   <div class="p-d-flex p-flex-column">
     <div>
       <div class="p-d-flex">
@@ -6,7 +6,7 @@
           <p class="label">Род:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
-          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind"></p-dropdown>
+          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind" (onChange)="changeKind()" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="isVerb" class="p-d-flex p-flex-column p-flex-md-row">
+<div *ngIf="isVerb" id="isVerb" class="p-d-flex p-flex-column p-flex-md-row">
   <div class="p-d-flex p-flex-column">
     <div>
       <div class="p-d-flex">
@@ -30,7 +30,7 @@
           <p class="label">Глаголски вид:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind"></p-dropdown>
+          <p-dropdown [options]="verbForm" [(ngModel)]="selectedVerbForm" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@
           <p class="label">Глаголски род:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind"></p-dropdown>
+          <p-dropdown [options]="verbKind" [(ngModel)]="selectedVerbKind" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
           <p class="label">Презент:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <input type="text" pInputText />
+          <input type="text" pInputText [(ngModel)]="present" />
         </div>
       </div>
     </div>
@@ -61,6 +61,6 @@
     <p class="label">Додатне информације:</p>
   </div>
   <div>
-    <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize"></textarea>
+    <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize" [(ngModel)]="details"></textarea>
   </div>
 </div>

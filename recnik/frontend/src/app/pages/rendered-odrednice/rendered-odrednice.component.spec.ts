@@ -8,9 +8,8 @@ describe('RenderedOdredniceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RenderedOdredniceComponent ]
-    })
-    .compileComponents();
+      declarations: [RenderedOdredniceComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

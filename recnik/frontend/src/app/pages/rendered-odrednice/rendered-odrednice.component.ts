@@ -1,4 +1,10 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  Input,
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { StaticHtmlService } from '../../services/static-html';
 
@@ -32,7 +38,9 @@ export class RenderedOdredniceComponent implements OnInit, OnChanges {
   private insertStaticView(): void {
     this.staticHtmlService
       .getStaticHTML(this.source, this.isTrusted)
-      .subscribe(response => { this.replaceHtml(response); });
+      .subscribe((response) => {
+        this.replaceHtml(response);
+      });
   }
 
   private replaceHtml(innerHTML: string): void {
