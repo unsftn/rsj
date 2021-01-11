@@ -7,35 +7,11 @@ RUN npm install
 COPY frontend /app
 RUN npm run build -- --output-path=/app/frontend/dist/
 
-FROM alpine:3.12
+FROM python:3.9-slim-buster
 MAINTAINER Branko Milosavljevic <mbranko@uns.ac.rs>
-RUN set -x \
-    && deps=' \
-    python3 \
-    python3-dev \
-    py3-wheel \
-    py3-pip \
-    uwsgi \
-    uwsgi-python3 \
-    uwsgi-http \
-    uwsgi-router_static \
-    uwsgi-logfile \
-    mariadb-dev \
-    gcc \
-    musl-dev \
-    jpeg-dev \
-    zlib-dev \
-    freetype-dev \
-    lcms2-dev \
-    openjpeg-dev \
-    tiff-dev \
-    libffi-dev \
-    graphviz-dev \
-    libmagic \
-    ' \
-        && apk --no-cache add --update $deps
-
-RUN pip3 install --upgrade pip setuptools
+RUN apt -y update
+RUN apt -y install gcc libmariadb-dev-compat graphviz-dev libffi-dev libmagic1 libtiff-dev libopenjp2-7-dev liblcms-dev zlib1g-dev libjpeg-dev musl-dev uwsgi uwsgi-plugin-python3
+RUN pip3 install -U pip setuptools
 COPY backend/requirements.txt /app/requirements.txt
 RUN pip3 install -r /app/requirements.txt
 COPY backend /app
@@ -50,7 +26,7 @@ ARG django_settings=prod
 ENV DJANGO_SETTINGS=$django_settings
 RUN python3 /app/manage.py collectstatic --noinput
 RUN rm -rf /app/log/*
-RUN rm /private/secrets
+RUN rm -rf /private
 RUN chmod +x /app/run_prod.sh
 EXPOSE 8000
 CMD ["/app/run_prod.sh"]
