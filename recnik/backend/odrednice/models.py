@@ -193,6 +193,7 @@ class IzrazFraza(models.Model):
 
 
 class Kvalifikator(models.Model):
+    skracenica = models.CharField('скраћеница', max_length=15)
     naziv = models.CharField('назив', max_length=50)
 
     class Meta:
@@ -200,7 +201,7 @@ class Kvalifikator(models.Model):
         verbose_name_plural = 'квалификатори'
 
     def __str__(self):
-        return self.naziv
+        return f'{self.skracenica}. / {self.naziv}'
 
     def get_absolute_url(self):
         return reverse("odrednice:kvalifikator-detail", kwargs={"pk": self.pk})
