@@ -1,0 +1,1474 @@
+[
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 3,
+    "fields": {
+      "skracenica": "агр",
+      "naziv": "агрикултура; агрикултурни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 4,
+    "fields": {
+      "skracenica": "адм",
+      "naziv": "администрација; административни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 5,
+    "fields": {
+      "skracenica": "аер",
+      "naziv": "аеронаутика; аеронаутички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 6,
+    "fields": {
+      "skracenica": "ак",
+      "naziv": "акузатив; акузативни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 7,
+    "fields": {
+      "skracenica": "алб",
+      "naziv": "албански"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 8,
+    "fields": {
+      "skracenica": "анат.",
+      "naziv": "анатомија; анатомски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 9,
+    "fields": {
+      "skracenica": "антроп",
+      "naziv": "антропологија; антрополошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 10,
+    "fields": {
+      "skracenica": "аор",
+      "naziv": "аорист; аористни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 11,
+    "fields": {
+      "skracenica": "ар",
+      "naziv": "арабизам; арапски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 12,
+    "fields": {
+      "skracenica": "арх",
+      "naziv": "архаизам; архаично"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 13,
+    "fields": {
+      "skracenica": "археол",
+      "naziv": "археологија; археолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 14,
+    "fields": {
+      "skracenica": "архит",
+      "naziv": "архитектура; архитектонски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 15,
+    "fields": {
+      "skracenica": "астр",
+      "naziv": "астрономија; астрономски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 16,
+    "fields": {
+      "skracenica": "атриб",
+      "naziv": "атрибутски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 17,
+    "fields": {
+      "skracenica": "банк",
+      "naziv": "банкарство; банкарски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 18,
+    "fields": {
+      "skracenica": "безл",
+      "naziv": "безлично"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 19,
+    "fields": {
+      "skracenica": "биол",
+      "naziv": "биологија; биолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 20,
+    "fields": {
+      "skracenica": "бот",
+      "naziv": "ботаника; ботанички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 21,
+    "fields": {
+      "skracenica": "бр",
+      "naziv": "број"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 22,
+    "fields": {
+      "skracenica": "брод",
+      "naziv": "бродарство; бродарски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 23,
+    "fields": {
+      "skracenica": "в",
+      "naziv": "1. види (при упућивању); 2. век (иза римских бр)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 24,
+    "fields": {
+      "skracenica": "вар",
+      "naziv": "варијанта"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 25,
+    "fields": {
+      "skracenica": "везн",
+      "naziv": "везник"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 26,
+    "fields": {
+      "skracenica": "вет",
+      "naziv": "ветеринарство; ветеринарски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 27,
+    "fields": {
+      "skracenica": "вој",
+      "naziv": "војни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 28,
+    "fields": {
+      "skracenica": "вок",
+      "naziv": "вокатив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 29,
+    "fields": {
+      "skracenica": "вулг",
+      "naziv": "вулгарно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 30,
+    "fields": {
+      "skracenica": "ген",
+      "naziv": "генитив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 31,
+    "fields": {
+      "skracenica": "геогр",
+      "naziv": "географија; географски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 32,
+    "fields": {
+      "skracenica": "геод",
+      "naziv": "геодезија; геодетски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 33,
+    "fields": {
+      "skracenica": "геол",
+      "naziv": "геологија; геолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 34,
+    "fields": {
+      "skracenica": "геом",
+      "naziv": "геометрија; геометријски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 35,
+    "fields": {
+      "skracenica": "грч",
+      "naziv": "грчки (старогрчки)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 36,
+    "fields": {
+      "skracenica": "дат",
+      "naziv": "датив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 37,
+    "fields": {
+      "skracenica": "дем",
+      "naziv": "деминутив; деминутивни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 38,
+    "fields": {
+      "skracenica": "деч",
+      "naziv": "дечји; у обраћању деци"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 39,
+    "fields": {
+      "skracenica": "др",
+      "naziv": "други; друго"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 40,
+    "fields": {
+      "skracenica": "ђач",
+      "naziv": "ђачки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 41,
+    "fields": {
+      "skracenica": "ек",
+      "naziv": "екавски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 42,
+    "fields": {
+      "skracenica": "екон",
+      "naziv": "економија; економски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 43,
+    "fields": {
+      "skracenica": "експр",
+      "naziv": "експресивно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 44,
+    "fields": {
+      "skracenica": "ел",
+      "naziv": "електротехника; електротехнички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 45,
+    "fields": {
+      "skracenica": "енгл",
+      "naziv": "енглески"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 46,
+    "fields": {
+      "skracenica": "енкл",
+      "naziv": "енклитика; енклитички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 47,
+    "fields": {
+      "skracenica": "етн",
+      "naziv": "етнологија; етнографија"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 48,
+    "fields": {
+      "skracenica": "еуф",
+      "naziv": "еуфемизам; еуфемистички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 49,
+    "fields": {
+      "skracenica": "ж",
+      "naziv": "именица женског рода"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 50,
+    "fields": {
+      "skracenica": "ж",
+      "naziv": "женски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 51,
+    "fields": {
+      "skracenica": "жарг",
+      "naziv": "жаргонски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 52,
+    "fields": {
+      "skracenica": "жел",
+      "naziv": "железница; железнички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 53,
+    "fields": {
+      "skracenica": "зам",
+      "naziv": "заменица"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 54,
+    "fields": {
+      "skracenica": "зан",
+      "naziv": "занатство; занатски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 55,
+    "fields": {
+      "skracenica": "зб",
+      "naziv": "збирни; збирна именица"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 56,
+    "fields": {
+      "skracenica": "зоол",
+      "naziv": "зоологија; зоолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 57,
+    "fields": {
+      "skracenica": "им",
+      "naziv": "именица; именички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 58,
+    "fields": {
+      "skracenica": "имп",
+      "naziv": "императив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 59,
+    "fields": {
+      "skracenica": "импф",
+      "naziv": "имперфекат"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 60,
+    "fields": {
+      "skracenica": "инстр",
+      "naziv": "инструментал"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 61,
+    "fields": {
+      "skracenica": "инф",
+      "naziv": "инфинитив; инфинитивни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 62,
+    "fields": {
+      "skracenica": "ир",
+      "naziv": "иронично"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 63,
+    "fields": {
+      "skracenica": "ист",
+      "naziv": "историја; историјски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 64,
+    "fields": {
+      "skracenica": "итал",
+      "naziv": "италијански"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 65,
+    "fields": {
+      "skracenica": "јд",
+      "naziv": "једнина (сингулар)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 66,
+    "fields": {
+      "skracenica": "јек",
+      "naziv": "(и)јекавски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 67,
+    "fields": {
+      "skracenica": "канц",
+      "naziv": "канцеларијски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 68,
+    "fields": {
+      "skracenica": "карт",
+      "naziv": "картарошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 69,
+    "fields": {
+      "skracenica": "кат",
+      "naziv": "католички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 70,
+    "fields": {
+      "skracenica": "књиг",
+      "naziv": "књиговодство; књиговодствени"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 71,
+    "fields": {
+      "skracenica": "књиж",
+      "naziv": "књижевност; књижевни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 72,
+    "fields": {
+      "skracenica": "ков",
+      "naziv": "кованица"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 73,
+    "fields": {
+      "skracenica": "козм",
+      "naziv": "козметика; козметички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 74,
+    "fields": {
+      "skracenica": "комп",
+      "naziv": "компаратив; компаративни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 75,
+    "fields": {
+      "skracenica": "кув",
+      "naziv": "кулинарство; куварски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 76,
+    "fields": {
+      "skracenica": "л",
+      "naziv": "лице"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 77,
+    "fields": {
+      "skracenica": "лат",
+      "naziv": "латински"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 78,
+    "fields": {
+      "skracenica": "лингв",
+      "naziv": "лингвистика; лингвистички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 79,
+    "fields": {
+      "skracenica": "лов",
+      "naziv": "ловство; ловачки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 80,
+    "fields": {
+      "skracenica": "лог",
+      "naziv": "логика; логички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 81,
+    "fields": {
+      "skracenica": "лок",
+      "naziv": "локатив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 82,
+    "fields": {
+      "skracenica": "м",
+      "naziv": "именица мушког рода"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 83,
+    "fields": {
+      "skracenica": "м",
+      "naziv": "мушки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 84,
+    "fields": {
+      "skracenica": "мађ",
+      "naziv": "мађарски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 85,
+    "fields": {
+      "skracenica": "мат",
+      "naziv": "математика; математички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 86,
+    "fields": {
+      "skracenica": "маш",
+      "naziv": "машинство; машински"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 87,
+    "fields": {
+      "skracenica": "мед",
+      "naziv": "медицина; медицински"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 88,
+    "fields": {
+      "skracenica": "мет",
+      "naziv": "метеорологија; метеоролошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 89,
+    "fields": {
+      "skracenica": "мех",
+      "naziv": "механика"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 90,
+    "fields": {
+      "skracenica": "мин",
+      "naziv": "минералогија; минералошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 91,
+    "fields": {
+      "skracenica": "мит",
+      "naziv": "митологија; митолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 92,
+    "fields": {
+      "skracenica": "мн",
+      "naziv": "множина (плурал)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 93,
+    "fields": {
+      "skracenica": "муз",
+      "naziv": "музика; музички; музикологија"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 94,
+    "fields": {
+      "skracenica": "нар",
+      "naziv": "народски; покрајински"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 95,
+    "fields": {
+      "skracenica": "нем",
+      "naziv": "немачки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 96,
+    "fields": {
+      "skracenica": "неодр",
+      "naziv": "неодређени вид (придева)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 97,
+    "fields": {
+      "skracenica": "неол",
+      "naziv": "неологизам"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 98,
+    "fields": {
+      "skracenica": "непрел",
+      "naziv": "непрелазни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 99,
+    "fields": {
+      "skracenica": "непром",
+      "naziv": "непроменљив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 100,
+    "fields": {
+      "skracenica": "несвр",
+      "naziv": "несвршени вид (глагола)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 101,
+    "fields": {
+      "skracenica": "ном",
+      "naziv": "номинатив"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 102,
+    "fields": {
+      "skracenica": "нор",
+      "naziv": "норвешки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 103,
+    "fields": {
+      "skracenica": "НПосл",
+      "naziv": "народна пословица"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 104,
+    "fields": {
+      "skracenica": "одн",
+      "naziv": "односно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 105,
+    "fields": {
+      "skracenica": "одр",
+      "naziv": "одређени вид (придева)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 106,
+    "fields": {
+      "skracenica": "одрич",
+      "naziv": "одрично"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 107,
+    "fields": {
+      "skracenica": "оном",
+      "naziv": "ономатопеја; ономатопејски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 108,
+    "fields": {
+      "skracenica": "пал",
+      "naziv": "палеонтологија; палеонтолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 109,
+    "fields": {
+      "skracenica": "пеј",
+      "naziv": "пејоратив; пејоративно (погрдно)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 110,
+    "fields": {
+      "skracenica": "перс",
+      "naziv": "персијски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 111,
+    "fields": {
+      "skracenica": "песн",
+      "naziv": "песнички; књишки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 112,
+    "fields": {
+      "skracenica": "повр",
+      "naziv": "повратни (глагол); повратно (рефлексивно)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 113,
+    "fields": {
+      "skracenica": "подр",
+      "naziv": "подругљиво"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 114,
+    "fields": {
+      "skracenica": "поз",
+      "naziv": "позориште; позоришни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 115,
+    "fields": {
+      "skracenica": "пол",
+      "naziv": "политика; политички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 116,
+    "fields": {
+      "skracenica": "пом",
+      "naziv": "поморство; поморски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 117,
+    "fields": {
+      "skracenica": "пор",
+      "naziv": "фамилија; породица (биљака)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 118,
+    "fields": {
+      "skracenica": "порт",
+      "naziv": "португалски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 119,
+    "fields": {
+      "skracenica": "пр. пр",
+      "naziv": "глаголски прилог прошли"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 120,
+    "fields": {
+      "skracenica": "пр. сад",
+      "naziv": "глаголски прилог садашњи"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 121,
+    "fields": {
+      "skracenica": "правн",
+      "naziv": "право; правнички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 122,
+    "fields": {
+      "skracenica": "празн",
+      "naziv": "празноверје"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 123,
+    "fields": {
+      "skracenica": "предл",
+      "naziv": "предлог"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 124,
+    "fields": {
+      "skracenica": "презр",
+      "naziv": "презриво"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 125,
+    "fields": {
+      "skracenica": "прел",
+      "naziv": "прелазни глагол"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 126,
+    "fields": {
+      "skracenica": "преф",
+      "naziv": "префикс"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 127,
+    "fields": {
+      "skracenica": "прид",
+      "naziv": "придев; придевски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 128,
+    "fields": {
+      "skracenica": "прил",
+      "naziv": "прилог; прилошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 129,
+    "fields": {
+      "skracenica": "преф",
+      "naziv": "префикс"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 130,
+    "fields": {
+      "skracenica": "прид",
+      "naziv": "придев; придевски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 131,
+    "fields": {
+      "skracenica": "прил",
+      "naziv": "прилог; прилошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 132,
+    "fields": {
+      "skracenica": "псих",
+      "naziv": "психологија; психолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 133,
+    "fields": {
+      "skracenica": "пчел",
+      "naziv": "пчеларство; пчеларски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 134,
+    "fields": {
+      "skracenica": "р. пр",
+      "naziv": "радни глаголски придев"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 135,
+    "fields": {
+      "skracenica": "разг",
+      "naziv": "разговорно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 136,
+    "fields": {
+      "skracenica": "рег",
+      "naziv": "регионално (карактеристично само за одређене региј"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 137,
+    "fields": {
+      "skracenica": "риб",
+      "naziv": "рибарство; риболов; риболовачки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 138,
+    "fields": {
+      "skracenica": "рлг",
+      "naziv": "религија; религиозни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 139,
+    "fields": {
+      "skracenica": "руд",
+      "naziv": "рударство; рударски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 140,
+    "fields": {
+      "skracenica": "рум",
+      "naziv": "румунски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 141,
+    "fields": {
+      "skracenica": "рус",
+      "naziv": "русизам; руски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 142,
+    "fields": {
+      "skracenica": "с",
+      "naziv": "именица средњег рода"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 143,
+    "fields": {
+      "skracenica": "с",
+      "naziv": "средњи"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 144,
+    "fields": {
+      "skracenica": "санскрт",
+      "naziv": "санскртски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 145,
+    "fields": {
+      "skracenica": "свр",
+      "naziv": "свршени (глагол)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 146,
+    "fields": {
+      "skracenica": "скраћ",
+      "naziv": "скраћеница"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 147,
+    "fields": {
+      "skracenica": "сл",
+      "naziv": "слично"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 148,
+    "fields": {
+      "skracenica": "слик",
+      "naziv": "сликарство; сликарски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 149,
+    "fields": {
+      "skracenica": "спорт",
+      "naziv": "спорт; спортски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 150,
+    "fields": {
+      "skracenica": "стил",
+      "naziv": "стилистика; поетика; метрика"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 151,
+    "fields": {
+      "skracenica": "сткњ",
+      "naziv": "старокњижевни; који је из старијих типова књижевно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 152,
+    "fields": {
+      "skracenica": "супл",
+      "naziv": "суплетивни"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 153,
+    "fields": {
+      "skracenica": "супр",
+      "naziv": "супротни; супротно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 154,
+    "fields": {
+      "skracenica": "техн",
+      "naziv": "техника; технички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 155,
+    "fields": {
+      "skracenica": "технол",
+      "naziv": "технологија; технолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 156,
+    "fields": {
+      "skracenica": "трг",
+      "naziv": "трговина; трговачки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 157,
+    "fields": {
+      "skracenica": "трп",
+      "naziv": "трпни глаголски придев"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 158,
+    "fields": {
+      "skracenica": "тур",
+      "naziv": "турцизам; турски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 159,
+    "fields": {
+      "skracenica": "уз",
+      "naziv": "узајамно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 160,
+    "fields": {
+      "skracenica": "узв",
+      "naziv": "узвик"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 161,
+    "fields": {
+      "skracenica": "ум",
+      "naziv": "уметност; уметнички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 162,
+    "fields": {
+      "skracenica": "уч",
+      "naziv": "учестали"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 163,
+    "fields": {
+      "skracenica": "ф",
+      "naziv": "фамилија, породица (биљака)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 164,
+    "fields": {
+      "skracenica": "фам",
+      "naziv": "фамилијарно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 165,
+    "fields": {
+      "skracenica": "фарм",
+      "naziv": "фармација; фармацеутски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 166,
+    "fields": {
+      "skracenica": "фиг",
+      "naziv": "фигуративно"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 167,
+    "fields": {
+      "skracenica": "физ",
+      "naziv": "физика; физички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 168,
+    "fields": {
+      "skracenica": "физиол",
+      "naziv": "физиологија; физиолошки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 169,
+    "fields": {
+      "skracenica": "фил",
+      "naziv": "филозофија; филозофски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 170,
+    "fields": {
+      "skracenica": "филм",
+      "naziv": "филм; филмски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 171,
+    "fields": {
+      "skracenica": "фин",
+      "naziv": "финансије; финансијски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 172,
+    "fields": {
+      "skracenica": "фот",
+      "naziv": "фотографија; фотографски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 173,
+    "fields": {
+      "skracenica": "фр",
+      "naziv": "француски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 174,
+    "fields": {
+      "skracenica": "хебр",
+      "naziv": "хебрејски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 175,
+    "fields": {
+      "skracenica": "хем",
+      "naziv": "хемија; хемијски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 176,
+    "fields": {
+      "skracenica": "хип",
+      "naziv": "хипокористик; хипокористички"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 177,
+    "fields": {
+      "skracenica": "хол",
+      "naziv": "холандски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 178,
+    "fields": {
+      "skracenica": "хришћ",
+      "naziv": "хришћанство; хришћански"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 179,
+    "fields": {
+      "skracenica": "цркв",
+      "naziv": "црква; црквени"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 180,
+    "fields": {
+      "skracenica": "чеш",
+      "naziv": "чешки"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 181,
+    "fields": {
+      "skracenica": "шаљ",
+      "naziv": "шаљиво"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 182,
+    "fields": {
+      "skracenica": "шатр",
+      "naziv": "шатровачки; жаргонски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 183,
+    "fields": {
+      "skracenica": "шах",
+      "naziv": "шах; шаховски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 184,
+    "fields": {
+      "skracenica": "шк",
+      "naziv": "школа; школски"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 185,
+    "fields": {
+      "skracenica": "шп",
+      "naziv": "шпански (шпањолски)"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 186,
+    "fields": {
+      "skracenica": "штамп",
+      "naziv": "штампарство; штампарски"
+    }
+  }
+]

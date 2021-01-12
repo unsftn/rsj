@@ -56,12 +56,9 @@ class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
 
 
 class KvalifikatorSerializer(serializers.ModelSerializer):
-    kvalifikatorodrednice_set = KvalifikatorOdredniceSerializer(many=True,
-                                                                read_only=True)
-
     class Meta:
         model = Kvalifikator
-        fields = ('id', 'naziv', 'kvalifikatorodrednice_set')
+        fields = ('id', 'skracenica', 'naziv')
 
 
 class IzmenaOdredniceSerializer(serializers.ModelSerializer):
