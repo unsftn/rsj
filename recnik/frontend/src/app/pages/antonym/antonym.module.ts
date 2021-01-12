@@ -6,10 +6,17 @@ import { AntonymComponent } from './antonym.component';
 
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AntonymComponent],
-  imports: [FormsModule, DropdownModule, CommonModule, ButtonModule],
+  imports: [
+    FormsModule,
+    DropdownModule,
+    CommonModule,
+    ButtonModule,
+    HttpClientModule,
+  ],
   exports: [AntonymComponent],
   providers: [],
   bootstrap: [AntonymComponent],

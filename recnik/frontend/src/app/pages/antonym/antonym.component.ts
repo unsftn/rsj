@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
@@ -6,7 +7,10 @@ import { PrimeNGConfig } from 'primeng/api';
   templateUrl: './antonym.component.html',
 })
 export class AntonymComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private httpClient: HttpClient,
+  ) {}
 
   determinants: string[];
   selectedDeterminant: string;
@@ -16,13 +20,20 @@ export class AntonymComponent implements OnInit {
     this.antonyms.push({ determinant: this.determinants[0] });
   }
 
+  async fetch() {
+    const response: any = await this.httpClient
+      .get('api/odrednice/odrednica')
+      .toPromise();
+
+    if (response) {
+      this.determinants = response.results.map((item) => {
+        return item.rec;
+      });
+    }
+  }
+
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.determinants = [
-      'Одредница 1',
-      'Одредница 2',
-      'Одредница 3',
-      'Одредница 4',
-    ];
+    this.fetch();
   }
 }
