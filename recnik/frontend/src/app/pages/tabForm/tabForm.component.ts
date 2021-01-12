@@ -102,18 +102,6 @@ export class TabFormComponent implements OnInit {
   }
 
   async addNewDeterminant() {
-    console.log('SELECTED WORDTYPE', this.selectedWordType?.id);
-    console.log('SELECTED STATE', this.selectedState?.id);
-    console.log('WORD E', this.wordE);
-    console.log('WORD I', this.wordI);
-    console.log('SELECTED VERB KIND', this.selectedKind?.id);
-    console.log('NASTAVAK', this.extension);
-    console.log('GLAGOLSKI VID', this.selectedVerbForm);
-    console.log('GLAGOLSKI ROD', this.selectedVerbKind);
-    console.log('INFO', this.details);
-    console.log('PREZENT', this.present);
-    console.log('KOLOKACIJE', this.collocations);
-    console.log(`${this.wordE}` + ` ` + `${this.wordI}`);
     const response: any = await this.httpClient
       .post('api/odrednice/save-odrednica/', {
         rec: this.wordE,
