@@ -26,7 +26,7 @@ export class SynonymComponent implements OnInit {
       .toPromise();
 
     if (response) {
-      this.determinants = response.results.map((item) => {
+      this.determinants = response.map((item) => {
         return item.rec;
       });
     }

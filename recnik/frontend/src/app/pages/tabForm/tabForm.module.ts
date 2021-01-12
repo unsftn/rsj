@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
 
 import { GrammarInformationsModule } from '../grammarInformations/grammarInformations.module';
 import { MeaningFormModule } from '../meaningForm/meaningForm.module';
@@ -33,6 +34,7 @@ import { CollocationsModule } from '../collocation/collocations.module';
     ExpressionsModule,
     ChangesFormModule,
     CollocationsModule,
+    DialogModule,
   ],
   exports: [TabFormComponent],
   providers: [],
