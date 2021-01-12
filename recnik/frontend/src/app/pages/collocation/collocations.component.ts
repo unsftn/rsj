@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 
 class Collocation {
   keywordsArray = [];
@@ -7,15 +8,10 @@ class Collocation {
   note: string;
   selectedKeyword: string;
 
-  constructor(keyword, note) {
-    this.keywordsArray = [
-      'Кључна реч 1',
-      'Кључна реч 2',
-      'Кључна реч 3',
-      'Кључна реч 4',
-    ];
+  constructor(keyword, note, keywordArray) {
     this.note = note;
     this.keywords = [];
+    this.keywordsArray = keywordArray;
     this.add(keyword);
   }
 
@@ -30,12 +26,25 @@ class Collocation {
   styleUrls: ['./collocations.component.scss'],
 })
 export class CollocationsComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private httpClient: HttpClient,
+  ) {}
 
   collocations: Collocation[];
 
-  add() {
-    this.collocations.push(new Collocation('', ''));
+  async add() {
+    const determinants: any = await this.fetchDeterminants();
+    const col = new Collocation(
+      determinants.results[0].rec,
+      '',
+      determinants.results.map((item) => item.rec),
+    );
+    this.collocations.push(col);
+  }
+
+  async fetchDeterminants() {
+    return await this.httpClient.get('api/odrednice/odrednica').toPromise();
   }
 
   ngOnInit() {

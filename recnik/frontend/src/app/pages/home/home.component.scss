@@ -10,4 +10,5 @@
 :host ::ng-deep .p-fieldset {
   min-height: max-content;
   height: 90vh;
+  overflow: scroll;
 }
