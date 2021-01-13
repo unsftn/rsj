@@ -19,7 +19,7 @@
                 Кључна реч:
               </div>
               <div class="p-mr-2">
-                <p-dropdown [options]="collocations[i].keywordsArray" [(ngModel)]="collocations[i].keywords[j]" name="collocations[i].selectedKeyword{{j}}" #name="ngModel"></p-dropdown>
+                <p-dropdown [options]="collocations[i].keywordsArray" [(ngModel)]="collocations[i].keywords[j]" name="collocations[i].selectedKeyword{{j}}" #name="ngModel" placeholder="Кључна реч" (onchange)="changeCollocation()"></p-dropdown>
               </div>
               <div>
                 <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="collocations[i].add()"></button>
@@ -32,7 +32,7 @@
             <p class="label">Напомене:</p>
           </div>
           <div class="p-mb-2">
-            <textarea [rows]="7" [cols]="37" [(ngModel)]="collocations[i].note" #name="ngModel" name="collocations-name{{i}}" pInputTextarea style="height: 142px"></textarea>
+            <textarea [rows]="7" [cols]="37" [(ngModel)]="collocations[i].note" #name="ngModel" name="collocations-name{{i}}" (ngModelChange)="changeCollocation()" pInputTextarea style="height: 142px"></textarea>
           </div>
         </div>
       </div>

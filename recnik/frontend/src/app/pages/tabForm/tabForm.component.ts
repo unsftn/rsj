@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
@@ -13,6 +14,7 @@ interface WordType {
 
 interface Qualificator {
   name: string;
+  id: number;
 }
 
 @Component({
@@ -23,17 +25,21 @@ interface Qualificator {
 export class TabFormComponent implements OnInit {
   wordType: WordType[];
   state: State[];
-  qualificator: Qualificator[];
+  qualificators: Qualificator[];
   isNoun: boolean;
   isVerb: boolean;
   wordE: string;
   wordI: string;
+  display = false;
+  message: string;
   selectedKind;
+  extension;
 
   selectedVerbKind;
   selectedVerbForm;
   present: string;
   details;
+  collocations;
 
   selectedWordType: WordType;
   selectedState: State;
@@ -43,7 +49,34 @@ export class TabFormComponent implements OnInit {
     this.selectedKind = selectedKind;
   }
 
-  constructor(private primengConfig: PrimeNGConfig) {
+  selectedVerbKindChangedHandler(selectedVerbKind) {
+    this.selectedVerbKind = selectedVerbKind;
+  }
+
+  selectedVerbFormChangedHandler(selectedVerbForm) {
+    this.selectedVerbForm = selectedVerbForm;
+  }
+
+  extensionChangedHandler(extension) {
+    this.extension = extension;
+  }
+
+  presentChangedHandler(present) {
+    this.present = present;
+  }
+
+  detailsChangedHandler(details) {
+    this.details = details;
+  }
+
+  collocationsChangedHandler(collocations) {
+    this.collocations = collocations;
+  }
+
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private httpClient: HttpClient,
+  ) {
     this.wordType = [
       { name: 'Именица', id: 0 },
       { name: 'Глагол', id: 1 },
@@ -61,14 +94,59 @@ export class TabFormComponent implements OnInit {
       { name: 'Редактура 1', id: 2 },
       { name: 'Редактура 2', id: 3 },
     ];
-    this.qualificator = [
-      { name: 'Прва ставка' },
-      { name: 'Друга ставка' },
-      { name: 'Трећа ставка' },
-    ];
 
     this.isNoun = true;
     this.isVerb = false;
+
+    this.fetchQualificatiors();
+  }
+
+  async addNewDeterminant() {
+    const response: any = await this.httpClient
+      .post('api/odrednice/save-odrednica/', {
+        rec: this.wordE,
+        ijekavski: this.wordI,
+        vrsta: this.selectedWordType?.id,
+        rod: this.selectedKind?.id ? this.selectedKind?.id : null,
+        nastavak: this.extension ? this.extension : null,
+        info: this.details ? this.details : null,
+        glagolski_vid: this.selectedVerbForm?.id
+          ? this.selectedVerbForm?.id
+          : 0,
+        glagolski_rod: this.selectedVerbKind?.id
+          ? this.selectedVerbKind?.id
+          : 0,
+        prezent: this.present ? this.present : 0,
+        broj_pregleda: 1,
+        stanje: this.selectedState?.id ? this.selectedState?.id : null,
+        version: 1,
+        kolokacija_set: this.collocations ? this.collocations : null,
+        kvalifikatorodrednice_set: this.qualificators
+          ? this.qualificators
+          : null,
+      })
+      .toPromise()
+      .catch(() => {
+        this.message =
+          'Није могуће додати нову одредницу. Унесите све потребне податке.';
+        this.display = true;
+      });
+
+    if (response) {
+      this.message = 'Успешно додата нова одредница';
+      this.display = true;
+    }
+  }
+
+  async fetchQualificatiors() {
+    const response: any = await this.httpClient
+      .get('api/odrednice/kvalifikator/')
+      .toPromise();
+    if (response) {
+      this.qualificators = response.map((item) => {
+        return { name: item.skracenica, id: item.id };
+      });
+    }
   }
 
   onChange() {

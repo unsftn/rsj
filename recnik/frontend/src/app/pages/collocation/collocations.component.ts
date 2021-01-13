@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 
@@ -26,19 +26,27 @@ class Collocation {
   styleUrls: ['./collocations.component.scss'],
 })
 export class CollocationsComponent implements OnInit {
+  @Input() collocations: Collocation[];
+
+  @Output() collocationChanged: EventEmitter<
+    Collocation[]
+  > = new EventEmitter();
+
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
   ) {}
 
-  collocations: Collocation[];
+  changeCollocation() {
+    this.collocationChanged.emit(this.collocations);
+  }
 
   async add() {
     const determinants: any = await this.fetchDeterminants();
     const col = new Collocation(
-      determinants.results[0].rec,
+      determinants.rec,
       '',
-      determinants.results.map((item) => item.rec),
+      determinants.map((item) => item.rec),
     );
     this.collocations.push(col);
   }
