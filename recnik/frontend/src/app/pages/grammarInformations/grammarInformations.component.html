@@ -6,7 +6,7 @@
           <p class="label">Род:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
-          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind" (onChange)="changeKind()" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind" (onChange)="changeKind()" placeholder="Род" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
           <p class="label">Наставак:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
-          <input type="text" pInputText />
+          <input type="text" pInputText [(ngModel)]="extension" (ngModelChange)="changeExtension()" />
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
           <p class="label">Глаголски вид:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <p-dropdown [options]="verbForm" [(ngModel)]="selectedVerbForm" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="verbForm" [(ngModel)]="selectedVerbForm" (onChange)="changeVerbForm()" placeholder="Глаголски вид" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@
           <p class="label">Глаголски род:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <p-dropdown [options]="verbKind" [(ngModel)]="selectedVerbKind" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="verbKind" [(ngModel)]="selectedVerbKind" (onChange)="changeVerbKind()" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
           <p class="label">Презент:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <input type="text" pInputText [(ngModel)]="present" />
+          <input type="text" pInputText [(ngModel)]="present" (ngModelChange)="changePresent()" />
         </div>
       </div>
     </div>
@@ -61,6 +61,6 @@
     <p class="label">Додатне информације:</p>
   </div>
   <div>
-    <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize" [(ngModel)]="details"></textarea>
+    <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize" [(ngModel)]="details" (ngModelChange)="changeDetails()"></textarea>
   </div>
 </div>

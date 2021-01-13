@@ -27,7 +27,7 @@ export class ExpressionsComponent implements OnInit {
       .toPromise();
 
     if (response) {
-      this.keyWords = response.results.map((item) => {
+      this.keyWords = response.map((item) => {
         return item.rec;
       });
     }

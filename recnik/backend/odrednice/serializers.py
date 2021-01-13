@@ -92,7 +92,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Odrednica
-        fields = ('id', 'rec', 'vrsta', 'rod', 'nastavak', 'info',
+        fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'info',
                   'glagolski_vid', 'glagolski_rod', 'prezent',
                   'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena',
                   'stanje', 'version', 'imaantonim_set', 'imasinonim_set',
@@ -224,6 +224,7 @@ class CreateUpdatePodznacenjeSerializer(serializers.Serializer):
 class CreateOdrednicaSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     rec = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True)
     vrsta = serializers.IntegerField(required=False)
     rod = serializers.IntegerField(required=False)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
