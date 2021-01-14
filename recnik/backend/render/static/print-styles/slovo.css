@@ -43,7 +43,7 @@ body{
 .frac {font-feature-settings: "frac";}  /* fractions */
 .odrednica {
     margin-bottom: 6px;
-    text-indent: 10px;
+    text-indent: -10px;
 }
 @media print {
     .slovo {

@@ -33,7 +33,8 @@ def font_fetcher(url):
 
 
 def render_podznacenje(podznacenje):
-    return f'<i>{podznacenje.tekst}</i>'
+    # return f'<i>{podznacenje.tekst}</i>'
+    return f'{podznacenje.tekst}'
 
 
 def render_znacenje(znacenje):
@@ -43,7 +44,8 @@ def render_znacenje(znacenje):
             html += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
         return html
     else:
-        return f'<i>{znacenje.tekst}</i>'
+        # return f'<i>{znacenje.tekst}</i>'
+        return f'{znacenje.tekst}'
 
 
 def render_one(odrednica):
@@ -51,6 +53,7 @@ def render_one(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
     if odrednica.vrsta == 0:  # imenica
+        # if ima nastavak, dodaj nastavak
         html += f' <small>{ROD[odrednica.rod]}</small> '
     if odrednica.vrsta == 1:  # glagol
         if odrednica.nastavak:
