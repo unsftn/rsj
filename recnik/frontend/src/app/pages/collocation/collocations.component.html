@@ -1,12 +1,15 @@
 <div class="p-d-flex p-flex-column">
   <div class="p-d-flex">
     <div class="p-mr-2">
-      <h2>
-        Колокације
-      </h2>
+      <h2>Колокације</h2>
     </div>
-    <div class="p-mr-2" style="width: 200px; margin-top: auto; margin-bottom: auto;" class="center-container">
-      <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="add()"></button>
+    <div class="p-mr-2" style="width: 200px;" class="center-container">
+      <button
+        pButton
+        icon="pi pi-plus"
+        class="p-button-rounded p-button-outlined add-button"
+        (click)="add()">
+      </button>
     </div>
   </div>
   <div class="p-mb-2" style="margin-left: 20px;">
@@ -15,12 +18,14 @@
         <div class="form-group">
           <div class="p-d-flex">
             <div class="p-mr-2">
-              <h3>
-                Кључна реч
-              </h3>
+              <h3>Кључна реч</h3>
             </div>
             <div class="p-mr-2" style="width: 200px;" class="center-container">
-              <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="collocations[i].add()"></button>
+              <button
+                pButton icon="pi pi-plus"
+                class="p-button-rounded p-button-outlined add-button"
+                (click)="collocations[i].add()">
+              </button>
             </div>
           </div>
           <div *ngFor="let keyword of collocations[i].keywords; let j=index" class="col-sm-3">
@@ -29,10 +34,23 @@
                 Кључна реч:
               </div>
               <div class="p-mr-2">
-                <p-dropdown [options]="collocations[i].keywordsArray" [(ngModel)]="collocations[i].keywords[j]" name="collocations[i].selectedKeyword{{j}}" #name="ngModel" placeholder="Кључна реч"></p-dropdown>
+                <p-dropdown
+                  [options]="collocations[i].keywordsArray"
+                  [(ngModel)]="collocations[i].keywords[j]"
+                  name="collocations[i].selectedKeyword{{j}}"
+                  #name="ngModel"
+                  placeholder="Кључна реч">
+                </p-dropdown>
               </div>
               <div>
-                <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger add-button" (click)="collocations[i].remove(keyword)"></button>
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-minus"
+                  class="p-button-rounded p-button-outlined p-button-danger add-button"
+                  (click)="collocations[i].remove(keyword)">
+                </button>
               </div>
             </div>
           </div>
@@ -42,7 +60,15 @@
             <p class="label">Напомене:</p>
           </div>
           <div class="p-mb-2">
-            <textarea [rows]="7" [cols]="37" [(ngModel)]="collocations[i].note" #name="ngModel" name="collocations-name{{i}}" (ngModelChange)="changeCollocation()" pInputTextarea style="height: 142px"></textarea>
+            <textarea
+              [rows]="7"
+              [cols]="37"
+              [(ngModel)]="collocations[i].note"
+              #name="ngModel"
+              name="collocations-name{{i}}"
+              (ngModelChange)="changeCollocation()"
+              pInputTextarea style="height: 142px">
+            </textarea>
           </div>
         </div>
       </div>
