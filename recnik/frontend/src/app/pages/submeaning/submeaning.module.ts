@@ -9,6 +9,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { ConcordanceModule } from '../concordance/concordance.module';
+import { QualificatorModule } from '../qualificators/qualificator.module';
+import { ExpressionsModule } from '../expressions/expressions.module';
+import { FieldsetModule } from 'primeng/fieldset';
 
 @NgModule({
   declarations: [SubmeaningComponent],
@@ -20,6 +23,9 @@ import { ConcordanceModule } from '../concordance/concordance.module';
     FormsModule,
     ButtonModule,
     ConcordanceModule,
+    QualificatorModule,
+    FieldsetModule,
+    ExpressionsModule,
   ],
   exports: [SubmeaningComponent],
   providers: [],

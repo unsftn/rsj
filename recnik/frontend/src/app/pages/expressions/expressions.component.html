@@ -14,10 +14,16 @@
                 </div>
                 <div class="p-d-flex">
                   <div class="p-mr-2">
-                    <p class="label">Кључна реч:</p>
+                    <p class="label">Одредница:</p>
                   </div>
                   <div class="p-mr-2" style="margin-top: auto;margin-bottom: auto;">
-                    <p-dropdown [options]="keyWords" [(ngModel)]="expressions[i].keyWord" name="selectedKeyWord{{i}}" #name="ngModel"></p-dropdown>
+                    <p-autoComplete
+                      [(ngModel)]="expressions[i].keywords"
+                      [suggestions]="filteredKeywords"
+                      (completeMethod)="filterKeyword($event)"
+                      [dropdown]="true" name="selectedKeyword{{i}}"
+                      [minLength]="1">
+                    </p-autoComplete>
                   </div>
                 </div>
               </div>

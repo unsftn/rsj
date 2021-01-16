@@ -12,11 +12,6 @@ interface WordType {
   id: number;
 }
 
-interface Qualificator {
-  name: string;
-  id: number;
-}
-
 @Component({
   selector: 'tabForm',
   templateUrl: './tabForm.component.html',
@@ -25,7 +20,6 @@ interface Qualificator {
 export class TabFormComponent implements OnInit {
   wordType: WordType[];
   state: State[];
-  qualificators: Qualificator[];
   isNoun: boolean;
   isVerb: boolean;
   wordE: string;
@@ -43,7 +37,7 @@ export class TabFormComponent implements OnInit {
 
   selectedWordType: WordType;
   selectedState: State;
-  selectedQualificator: Qualificator;
+  selectedQualificators: [];
 
   selectedKindChangedHandler(selectedKind) {
     this.selectedKind = selectedKind;
@@ -73,6 +67,10 @@ export class TabFormComponent implements OnInit {
     this.collocations = collocations;
   }
 
+  selectedQualificatorsHandler(qualificators) {
+    this.selectedQualificators = qualificators;
+  }
+
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
@@ -97,8 +95,6 @@ export class TabFormComponent implements OnInit {
 
     this.isNoun = true;
     this.isVerb = false;
-
-    this.fetchQualificatiors();
   }
 
   async addNewDeterminant() {
@@ -121,8 +117,8 @@ export class TabFormComponent implements OnInit {
         stanje: this.selectedState?.id ? this.selectedState?.id : null,
         version: 1,
         kolokacija_set: this.collocations ? this.collocations : null,
-        kvalifikatorodrednice_set: this.qualificators
-          ? this.qualificators
+        kvalifikatorodrednice_set: this.selectedQualificators
+          ? this.selectedQualificators
           : null,
       })
       .toPromise()
@@ -135,17 +131,6 @@ export class TabFormComponent implements OnInit {
     if (response) {
       this.message = 'Успешно додата нова одредница';
       this.display = true;
-    }
-  }
-
-  async fetchQualificatiors() {
-    const response: any = await this.httpClient
-      .get('api/odrednice/kvalifikator/')
-      .toPromise();
-    if (response) {
-      this.qualificators = response.map((item) => {
-        return { name: item.skracenica, id: item.id };
-      });
     }
   }
 

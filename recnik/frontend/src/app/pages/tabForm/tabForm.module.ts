@@ -16,6 +16,7 @@ import { SynonymModule } from '../synonym/synonym.module';
 import { AntonymModule } from '../antonym/antonym.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
 import { CollocationsModule } from '../collocation/collocations.module';
+import { QualificatorModule } from '../qualificators/qualificator.module';
 
 @NgModule({
   declarations: [TabFormComponent],
@@ -35,6 +36,7 @@ import { CollocationsModule } from '../collocation/collocations.module';
     ChangesFormModule,
     CollocationsModule,
     DialogModule,
+    QualificatorModule,
   ],
   exports: [TabFormComponent],
   providers: [],
