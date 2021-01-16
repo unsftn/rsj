@@ -1,4 +1,17 @@
 <p-fieldset legend="Конкорданса:" [toggleable]="true" collapsed="true">
+  <div class="p-d-flex">
+    <div class="p-mr-2">
+      <h2>Конкорданса</h2>
+    </div>
+    <div class="p-mr-2" style="width: 200px" class="center-container">
+      <button
+        pButton
+        icon="pi pi-plus"
+        class="p-button-rounded p-button-outlined add-button"
+        (click)="add()">
+      </button>
+    </div>
+  </div>
   <form #formRef="ngForm">
     <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
       <div class="p-d-flex p-flex-column">
@@ -9,7 +22,14 @@
             </div>
           </div>
           <div class="p-mr-2">
-            <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="add()"></button>
+            <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-minus"
+            class="p-button-rounded p-button-outlined p-button-danger add-button"
+            (click)="remove(concordance)">
+            </button>
           </div>
         </div>
         <div class="p-grid">

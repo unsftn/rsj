@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { AntonymComponent } from './antonym.component';
 
-import { DropdownModule } from 'primeng/dropdown';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [AntonymComponent],
   imports: [
     FormsModule,
-    DropdownModule,
+    AutoCompleteModule,
     CommonModule,
     ButtonModule,
     HttpClientModule,

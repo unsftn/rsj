@@ -30,6 +30,14 @@ p, h1, h2, h3, h4, h5, h6 {
   margin-bottom: auto;
 }
 
+:host ::ng-deep .p-component {
+  font-family: 'LucidaGrande';
+}
+
+:host ::ng-deep .p-input-text {
+  font-family: 'LucidaGrande';
+}
+
 @font-face {
     font-family: 'Dijakritika';
     src: url('/assets/fonts/Dijakritika-Regular.woff2') format('woff2'),

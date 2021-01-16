@@ -1,3 +1,18 @@
+<div class="p-d-flex">
+  <div class="p-mr-2">
+    <h2>
+      Значење
+    </h2>
+  </div>
+  <div class="p-mr-2" style="width: 200px; margin-top: auto; margin-bottom: auto;" class="center-container">
+    <button
+      pButton
+      icon="pi pi-plus"
+      class="p-button-rounded p-button-outlined add-button"
+      (click)="add()">
+    </button>
+  </div>
+</div>
 <form #formRef="ngForm">
   <div *ngFor="let meaning of meanings; let i=index" class="col-sm-3">
     <div class="form-group">
@@ -11,7 +26,15 @@
             </div>
           </div>
           <div class="p-mr-2">
-            <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="add()"></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              style="margin-top: 10px"
+              icon="pi pi-minus"
+              class="p-button-rounded p-button-outlined p-button-danger add-button"
+              (click)="remove(meaning)">
+            </button>
           </div>
         </div>
         <div class="p-d-flex p-flex-column" style="width: fit-content">

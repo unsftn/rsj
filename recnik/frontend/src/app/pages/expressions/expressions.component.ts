@@ -16,11 +16,14 @@ export class ExpressionsComponent implements OnInit {
   keyWords = [];
   selectedKeyWord: string;
   expressions = [{ value: '', keyWord: this.keyWords[0] }];
-  results;
   filteredKeywords: any[];
 
   add() {
     this.expressions.push({ value: '', keyWord: this.keyWords[0] });
+  }
+
+  remove(expression) {
+    this.expressions.splice(this.expressions.indexOf(expression), 1);
   }
 
   async fetch() {
@@ -36,16 +39,10 @@ export class ExpressionsComponent implements OnInit {
   }
 
   filterKeyword(event) {
-    const filtered: any[] = [];
     const query = event.query;
-    for (let i = 0; i < this.keyWords.length; i++) {
-      const keyword = this.keyWords[i];
-      if (keyword.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(keyword);
-      }
-    }
-
-    this.filteredKeywords = filtered;
+    this.filteredKeywords = this.keyWords.filter((kw) =>
+      kw.toLowerCase().startsWith(query.toLowerCase()),
+    );
   }
 
   ngOnInit() {

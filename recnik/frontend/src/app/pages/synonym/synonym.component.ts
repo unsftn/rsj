@@ -15,9 +15,21 @@ export class SynonymComponent implements OnInit {
   determinants: string[];
   selectedDeterminant: string;
   synonyms = [{ determinant: '' }];
+  filteredDeterminants: any[];
 
   add() {
-    this.synonyms.push({ determinant: this.determinants[0] });
+    this.synonyms.push({ determinant: '' });
+  }
+
+  remove(synonym) {
+    this.synonyms.splice(this.synonyms.indexOf(synonym), 1);
+  }
+
+  filterDeterminants(event) {
+    const query = event.query;
+    this.filteredDeterminants = this.determinants.filter((kw) =>
+      kw.toLowerCase().startsWith(query.toLowerCase()),
+    );
   }
 
   async fetch() {

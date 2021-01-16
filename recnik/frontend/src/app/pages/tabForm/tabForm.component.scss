@@ -52,6 +52,18 @@
   z-index: 1;
 }
 
+:host ::ng-deep .p-component {
+  font-family: 'LucidaGrande';
+}
+
+:host ::ng-deep .p-dropdown {
+  font-family: 'LucidaGrande';
+}
+
+:host ::ng-deep .p-dropdown-label {
+  font-family: 'LucidaGrande';
+}
+
 :host ::ng-deep .p-button {
   margin-left: 10px;
 }
