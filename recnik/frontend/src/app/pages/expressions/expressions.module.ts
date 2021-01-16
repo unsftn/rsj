@@ -4,16 +4,16 @@ import { CommonModule } from '@angular/common';
 
 import { ExpressionsComponent } from './expressions.component';
 
-import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [ExpressionsComponent],
   imports: [
     FormsModule,
-    DropdownModule,
+    AutoCompleteModule,
     CommonModule,
     InputTextModule,
     InputTextareaModule,

@@ -58,7 +58,10 @@
           <p class="label">Квалификатори:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-listbox [options]="qualificators" [(ngModel)]="selectedQualificator" optionLabel="name" [multiple]="true" [filter]="true" [listStyle]="{'max-height':'150px'}" [style]="{'width':'185px'}"></p-listbox>
+          <qualificator
+            [selectedQualificators]=selectedQualificators
+            (selectedQualificatorsChanged)="selectedQualificatorsHandler($event)">
+          </qualificator>
         </div>
       </div>
     </div>

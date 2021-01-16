@@ -1,0 +1,14 @@
+<p-listbox [options]="qualificators"
+  [(ngModel)]="selectedQualificators"
+  [checkbox]="true" optionLabel="name"
+  [multiple]="true" [filter]="true"
+  [listStyle]="{'max-height':'150px'}"
+  [style]="{'width':'185px'}"
+  filterPlaceHolder="Претражи"
+  (onChange)="selectQualificator()">
+  <ng-template let-qualificator pTemplate="item">
+    <div style="width: 100%">
+      <div pTooltip="{{qualificator.name}}">{{qualificator.abbreviation}}</div>
+    </div>
+  </ng-template>
+</p-listbox>

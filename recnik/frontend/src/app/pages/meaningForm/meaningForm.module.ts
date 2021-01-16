@@ -10,6 +10,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 
 import { ConcordanceModule } from '../concordance/concordance.module';
 import { SubmeaningModule } from '../submeaning/submeaning.module';
+import { QualificatorModule } from '../qualificators/qualificator.module';
+import { ExpressionsModule } from '../expressions/expressions.module';
 
 import { MeaningFormComponent } from './meaningForm.component';
 
@@ -25,6 +27,8 @@ import { MeaningFormComponent } from './meaningForm.component';
     FieldsetModule,
     ConcordanceModule,
     SubmeaningModule,
+    QualificatorModule,
+    ExpressionsModule,
   ],
   exports: [MeaningFormComponent],
   providers: [],
