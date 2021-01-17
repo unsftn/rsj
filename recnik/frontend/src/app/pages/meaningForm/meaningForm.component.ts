@@ -15,6 +15,10 @@ export class MeaningFormComponent implements OnInit {
     this.meanings.push({ value: '' });
   }
 
+  remove(meaning) {
+    this.meanings.splice(this.meanings.indexOf(meaning), 1);
+  }
+
   ngOnInit() {
     this.primengConfig.ripple = true;
   }

@@ -18,6 +18,10 @@ class Collocation {
   add(keyword) {
     this.keywords.push(keyword);
   }
+
+  remove(keyword) {
+    this.keywords.splice(this.keywords.indexOf(keyword), 1);
+  }
 }
 
 @Component({

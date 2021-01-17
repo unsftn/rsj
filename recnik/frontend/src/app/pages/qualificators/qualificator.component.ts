@@ -11,6 +11,7 @@ interface Qualificator {
 @Component({
   selector: 'qualificator',
   templateUrl: './qualificator.component.html',
+  styleUrls: ['./qualificator.component.scss'],
 })
 export class QualificatorComponent implements OnInit {
   constructor(
@@ -35,6 +36,7 @@ export class QualificatorComponent implements OnInit {
     const response: any = await this.httpClient
       .get('api/odrednice/kvalifikator/')
       .toPromise();
+
     if (response) {
       this.qualificators = response.map((item) => {
         return { name: item.naziv, abbreviation: item.skracenica, id: item.id };

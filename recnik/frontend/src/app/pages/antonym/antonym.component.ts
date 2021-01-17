@@ -15,9 +15,21 @@ export class AntonymComponent implements OnInit {
   determinants: string[];
   selectedDeterminant: string;
   antonyms = [{ determinant: '' }];
+  filteredDeterminants: any[];
 
   add() {
-    this.antonyms.push({ determinant: this.determinants[0] });
+    this.antonyms.push({ determinant: '' });
+  }
+
+  remove(antonym) {
+    this.antonyms.splice(this.antonyms.indexOf(antonym), 1);
+  }
+
+  filterDeterminants(event) {
+    const query = event.query;
+    this.filteredDeterminants = this.determinants.filter((kw) =>
+      kw.toLowerCase().startsWith(query.toLowerCase()),
+    );
   }
 
   async fetch() {

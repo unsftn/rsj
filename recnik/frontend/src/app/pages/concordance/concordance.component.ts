@@ -26,6 +26,10 @@ export class ConcordanceComponent implements OnInit {
     });
   }
 
+  remove(concordance) {
+    this.concordances.splice(this.concordances.indexOf(concordance), 1);
+  }
+
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.books = ['Књига 1', 'Књига 2', 'Књига 3'];
