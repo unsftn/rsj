@@ -1,27 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
 
-class Collocation {
-  keywordsArray = [];
-  keywords: string[];
+interface Collocation {
   note: string;
-  selectedKeyword: string;
-
-  constructor(keyword, note, keywordArray) {
-    this.note = note;
-    this.keywords = [];
-    this.keywordsArray = keywordArray;
-    this.add(keyword);
-  }
-
-  add(keyword) {
-    this.keywords.push(keyword);
-  }
-
-  remove(keyword) {
-    this.keywords.splice(this.keywords.indexOf(keyword), 1);
-  }
+  selectedKeywords: string[];
 }
 
 @Component({
@@ -36,27 +18,14 @@ export class CollocationsComponent implements OnInit {
     Collocation[]
   > = new EventEmitter();
 
-  constructor(
-    private primengConfig: PrimeNGConfig,
-    private httpClient: HttpClient,
-  ) {}
+  constructor(private primengConfig: PrimeNGConfig) {}
 
   changeCollocation() {
     this.collocationChanged.emit(this.collocations);
   }
 
   async add() {
-    const determinants: any = await this.fetchDeterminants();
-    const col = new Collocation(
-      determinants.rec,
-      '',
-      determinants.map((item) => item.rec),
-    );
-    this.collocations.push(col);
-  }
-
-  async fetchDeterminants() {
-    return await this.httpClient.get('api/odrednice/odrednica').toPromise();
+    this.collocations.push({ selectedKeywords: [], note: '' });
   }
 
   ngOnInit() {

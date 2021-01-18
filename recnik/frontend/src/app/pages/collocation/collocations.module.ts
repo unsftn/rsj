@@ -4,18 +4,18 @@ import { CommonModule } from '@angular/common';
 
 import { CollocationsComponent } from './collocations.component';
 
-import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { DeterminantModule } from '../determinant/determinant.module';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [CollocationsComponent],
   imports: [
     FormsModule,
-    DropdownModule,
     CommonModule,
     ButtonModule,
     InputTextareaModule,
+    DeterminantModule,
   ],
   exports: [CollocationsComponent],
   providers: [],
