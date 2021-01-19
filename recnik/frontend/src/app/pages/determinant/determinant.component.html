@@ -1,0 +1,47 @@
+<div class="p-d-flex">
+  <div class="p-mr-2">
+    <h2>Кључна реч</h2>
+  </div>
+  <div class="p-mr-2" style="width: 200px" class="center-container">
+    <button
+      pButton
+      icon="pi pi-plus"
+      class="p-button-rounded p-button-outlined add-button"
+      (click)="add()">
+    </button>
+  </div>
+</div>
+<form #formRef="ngForm">
+  <div *ngFor="let keyword of keywords; let i=index" class="col-sm-3">
+    <div class="form-group">
+      <div class="p-d-flex" style="margin-bottom: 20px;">
+        <div class="p-d-flex">
+          <div class="p-mr-2">
+            <p class="label">Одредница:</p>
+          </div>
+          <div class="p-mr-2" class="center-container">
+            <p-autoComplete
+              [(ngModel)]="keywords[i].determinant"
+              [suggestions]="filteredDeterminants"
+              (completeMethod)="filterDeterminants($event)"
+              name="selectedDeterminant{{i}}"
+              placeholder="Претражи"
+              (onChange)="changeDeterminant()"
+              [minLength]="1">
+            </p-autoComplete>
+          </div>
+        </div>
+        <div class="center-container">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-minus"
+            class="p-button-rounded p-button-outlined p-button-danger add-button"
+            (click)="remove(keyword)">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
