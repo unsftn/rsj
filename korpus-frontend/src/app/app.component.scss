@@ -1,0 +1,73 @@
+:host ::ng-deep .p-menubar-end {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+    flex-flow: row wrap;
+    align-items: stretch;
+}
+  
+:host ::ng-deep .p-menubar {
+    border-radius: 0;
+    margin: 0;
+    width: 100%;
+}
+  
+:host ::ng-deep .p-menubar-button {
+    display: none;
+}
+  
+:host ::ng-deep .p-input-icon-left {
+    width: 60%;
+}
+
+:host ::ng-deep .pi-search {
+    top: 45%;
+}
+  
+.search-component {
+    border-radius: 50px;
+    height: 30px;
+    width: 100%;
+}
+  
+.search-container {
+    display: flex;
+    flex: 2;
+    justify-content: center;
+}
+  
+.add-button {
+    margin-left: 10px;
+}
+  
+.logo-container {
+    flex: 1;
+}
+  
+.menu-container {
+    flex: 1;
+    text-align: right;
+}
+  
+.logo-text {
+    font-size: 25px;
+    margin: 0;
+    a {
+      text-decoration: none;
+      color: #495057;
+    }
+}
+  
+.menu-button {
+    height: 30px !important;
+    width: 30px;
+    top: -3%;
+}
+  
+:host ::ng-deep .p-menubar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+  
