@@ -1,7 +1,7 @@
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.loader import ItemLoader
-from crawler.crawler.items import ArticleItem
+from crawler.items import ArticleItem
 import sqlite3
 
 
