@@ -13,11 +13,16 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
+import { ScrollTopModule } from 'primeng/scrolltop';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { CheckboxModule } from 'primeng/checkbox';
 import { HomeModule } from './components/home/home.module';
+import { SelectWordComponent } from './components/select-word/select-word.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    SelectWordComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +37,9 @@ import { HomeModule } from './components/home/home.module';
     FieldsetModule,
     TabViewModule,
     ToastModule,
+    ScrollTopModule,
+    OverlayPanelModule,
+    CheckboxModule,
     HomeModule,
   ],
   providers: [],
