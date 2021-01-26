@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="p-d-flex p-flex-column">
+        <div class="p-col-12">
+            <div class="metadata p-d-flex">
+                <div class="p-col-3 p-sm-2 p-lg-1">
+                    <p class="label">Наслов:</p>
+                </div>
+                <div class="p-col-9 p-sm-10 p-lg-11">
+                    <p>Прва књига корпуса</p>
+                </div>
+            </div>
+            <div class="metadata p-d-flex">
+                <div class="p-col-3 p-sm-2 p-lg-1">
+                    <p class="label">Издање:</p>
+                </div>
+                <div class="p-col-9 p-sm-10 p-lg-11">
+                    <p>јануар 2021.</p>
+                </div>
+            </div>
+            <div class="p-d-flex">
+                <div class="p-col-3 p-sm-2 p-lg-1">
+                    <p class="label">Број:</p>
+                </div>
+                <div class="p-col-9 p-sm-10 p-lg-11">
+                    <p>978-3-16-148410-0</p>
+                </div>
+            </div>
+            <div class="p-d-flex">
+                <div class="p-col-10">
+                    <p class="text" (click)="onClick($event); panel.toggle($event, span)">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <p class="text" (click)="onClick($event); panel.toggle($event, span)">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                    <p class="text" (click)="onClick($event); panel.toggle($event, span)">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-overlayPanel #panel id="panel" (onShow)="onShow()" [showCloseIcon]="true" [hideTransitionOptions]="'0ms'">
+    <ng-template pTemplate>
+        <div class="word">
+            <strong>{{word}}</strong>
+        </div>
+        <div>
+            <p-checkbox label="Игнориши реч" [(ngModel)]="checked" binary="true" (onChange)="check(checked)"></p-checkbox>
+        </div>
+        <div class="actions" *ngIf="!checked">
+            <div class="options" (click)="onClick($event)">
+                <div class="option">(1) тест - именица</div>
+                <div class="option">(2) тестирање - именица</div>
+                <div class="option">(3) тестирати - глагол</div>
+                <div class="option">(4) тестиран - придев</div>
+            </div>
+            <div class="links">
+                <div>
+                    <button pButton pRipple type="button" label="Додај опис" class="p-button-text"></button>
+                </div>
+                <div>
+                    <button pButton pRipple type="button" label="Измени опис" class="p-button-text" [disabled]="option == ''"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-overlayPanel>

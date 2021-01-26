@@ -1,0 +1,37 @@
+.container {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.metadata {
+    margin-bottom: -25px;
+}
+
+.text {
+    text-align: justify;
+}
+
+.word {
+    margin-bottom: 10px;
+}
+
+.actions {
+    margin-top: 10px;
+    width: max-content;
+}
+
+.action, .option {
+    margin-top: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background: aliceblue !important;
+    }
+}
+
+.links {
+    margin-top: 10px;
+}
