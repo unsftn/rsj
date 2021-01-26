@@ -21,7 +21,23 @@
 }
 
 :host ::ng-deep .pi-search {
-    top: 45%;
+    top: 16px;
+}
+
+:host ::ng-deep .scrolltop {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 4px;
+    background-color: #2196F3;
+
+    &:hover {
+        background-color: #0B7AD1;
+    }
+
+    .p-scrolltop-icon {
+        font-size: 1rem;
+        color: white;
+    }
 }
   
 .search-component {
