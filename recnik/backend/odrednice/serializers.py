@@ -30,7 +30,7 @@ class RecUKolokacijiSerializer(serializers.ModelSerializer):
 class IzrazFrazaSerializer(serializers.ModelSerializer):
     class Meta:
         model = IzrazFraza
-        fields = ('id', 'opis', 'u_vezi_sa_id', 'pripada_odrednici_id',)
+        fields = ('id', 'opis', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id')
 
 
 class PodznacenjeSerializer(serializers.ModelSerializer):
@@ -94,7 +94,6 @@ class OdrednicaSerializer(serializers.ModelSerializer):
     recukolokaciji_set = RecUKolokacijiSerializer(many=True, read_only=True)
     znacenje_set = ZnacenjeSerializer(many=True, read_only=True)
     izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
-    izrazfrazapripada_set = IzrazFrazaSerializer(many=True, read_only=True)
     kvalifikatorodrednice_set = KvalifikatorOdredniceSerializer(many=True,
                                                                 read_only=True)
     izmenaodrednice_set = IzmenaOdredniceSerializer(many=True, read_only=True)
@@ -107,8 +106,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'stanje', 'version', 'imaantonim_set', 'imasinonim_set',
                   'antonimuvezi_set', 'sinonimuvezi_set', 'kolokacija_set',
                   'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
-                  'izrazfrazapripada_set', 'kvalifikatorodrednice_set',
-                  'izmenaodrednice_set')
+                  'kvalifikatorodrednice_set', 'izmenaodrednice_set')
 
 
 class CreateUpdateIzrazFrazaSerializer(serializers.Serializer):
@@ -270,8 +268,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         Kolokacija.objects.filter(odrednica=instance).delete()
         RecUKolokaciji.objects.filter(odrednica=instance).delete()
         Znacenje.objects.filter(odrednica=instance).delete()
-        IzrazFraza.objects.filter(u_vezi_sa_id=instance).delete()
-        IzrazFraza.objects.filter(pripada_odrednici_id=instance).delete()
+        IzrazFraza.objects.filter(odrednica=instance).delete()
         KvalifikatorOdrednice.objects.filter(odrednica=instance).delete()
 
         instance.version += 1

@@ -106,8 +106,8 @@
         "pk": 1,
         "fields": {
             "opis": "prva izrazFraza",
-            "u_vezi_sa_id": 1,
-            "pripada_odrednici_id": 2
+            "odrednica_id": 1,
+            "redni_broj": 1
         }
     },
     {
@@ -115,8 +115,8 @@
         "pk": 2,
         "fields": {
             "opis": "druga izrazFraza",
-            "u_vezi_sa_id": 1,
-            "pripada_odrednici_id": 2
+            "odrednica_id": 1,
+            "redni_broj": 2
         }
     },
     {

@@ -174,24 +174,6 @@ class RecUKolokaciji(models.Model):
         return reverse("odrednice:rec-u-kolokaciji-detail", kwargs={"pk": self.pk})
 
 
-class IzrazFraza(models.Model):
-    opis = models.CharField('опис', max_length=2000)
-    u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом',  on_delete=models.CASCADE,
-                                  related_name="izrazfraza_u_vezi_sa")
-    pripada_odrednici = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE,
-                                          related_name='pripada_odrednici')
-
-    class Meta:
-        verbose_name = 'израз фраза'
-        verbose_name_plural = 'изрази фразе'
-
-    def __str__(self):
-        return str(self.pripada_odrednici_id)
-
-    def get_absolute_url(self):
-        return reverse("odrednice:izrazfraza-detail", kwargs={"pk": self.pk})
-
-
 class Kvalifikator(models.Model):
     skracenica = models.CharField('скраћеница', max_length=15)
     naziv = models.CharField('назив', max_length=50)
@@ -286,3 +268,23 @@ class KvalifikatorPodznacenja(models.Model):
 
     def get_absolute_url(self):
         return reverse("odrednice:kvalifikator-podznacenja-detail", kwargs={"pk": self.pk})
+
+
+class IzrazFraza(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број', default=1)
+    opis = models.CharField('опис', max_length=2000)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', blank=True, null=True, on_delete=models.CASCADE)
+    znacenje = models.ForeignKey(Znacenje, verbose_name='значење', blank=True, null=True, on_delete=models.CASCADE)
+    podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'израз фраза'
+        verbose_name_plural = 'изрази фразе'
+
+    def __str__(self):
+        return str(self.redni_broj) + ' ' + self.opis
+
+    def get_absolute_url(self):
+        return reverse("odrednice:izrazfraza-detail", kwargs={"pk": self.pk})
+
+

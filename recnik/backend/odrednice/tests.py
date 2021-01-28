@@ -106,8 +106,8 @@ class TestOdredniceApi(TestCase):
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['opis'], 'prva izrazFraza')
-        self.assertEquals(result['u_vezi_sa_id'], 1)
-        self.assertEquals(result['pripada_odrednici_id'], 2)
+        self.assertEquals(result['odrednica_id'], 1)
+        self.assertEquals(result['redni_broj'], 1)
 
     def test_get_izrazfraza_list(self):
         c = Client()
