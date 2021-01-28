@@ -1,6 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
+import { Determinant } from '../../models/determinant';
+import { OdrednicaService } from '../../services/odrednice/odrednica.service';
 
 interface State {
   name: string;
@@ -38,6 +41,7 @@ export class TabFormComponent implements OnInit {
   selectedWordType: WordType;
   selectedState: State;
   selectedQualificators: [];
+  id: number;
 
   selectedKindChangedHandler(selectedKind) {
     this.selectedKind = selectedKind;
@@ -74,6 +78,8 @@ export class TabFormComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
+    private route: ActivatedRoute,
+    private odrednicaService: OdrednicaService,
   ) {
     this.wordType = [
       { name: 'Именица', id: 0 },
@@ -97,30 +103,8 @@ export class TabFormComponent implements OnInit {
     this.isVerb = false;
   }
 
-  async addNewDeterminant() {
-    const response: any = await this.httpClient
-      .post('api/odrednice/save-odrednica/', {
-        rec: this.wordE,
-        ijekavski: this.wordI,
-        vrsta: this.selectedWordType?.id,
-        rod: this.selectedKind?.id ? this.selectedKind?.id : null,
-        nastavak: this.extension ? this.extension : null,
-        info: this.details ? this.details : null,
-        glagolski_vid: this.selectedVerbForm?.id
-          ? this.selectedVerbForm?.id
-          : 0,
-        glagolski_rod: this.selectedVerbKind?.id
-          ? this.selectedVerbKind?.id
-          : 0,
-        prezent: this.present ? this.present : 0,
-        broj_pregleda: 1,
-        stanje: this.selectedState?.id ? this.selectedState?.id : null,
-        version: 1,
-        kolokacija_set: this.collocations ? this.collocations : null,
-        kvalifikatorodrednice_set: this.selectedQualificators
-          ? this.selectedQualificators
-          : null,
-      })
+  async addNewDeterminant(): Promise<void> {
+    const response: any = await this.odrednicaService.saveOdrednica(this.makeNewDeterminant())
       .toPromise()
       .catch(() => {
         this.message =
@@ -134,7 +118,7 @@ export class TabFormComponent implements OnInit {
     }
   }
 
-  onChange() {
+  onChange(): void {
     this.selectedWordType.name === 'Именица' ||
     this.selectedWordType.name === 'Заменица' ||
     this.selectedWordType.name === 'Придев' ||
@@ -147,7 +131,59 @@ export class TabFormComponent implements OnInit {
       : (this.isVerb = false);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.route.data.subscribe((data) => {
+      switch (data.mode) {
+        case 'add':
+          this.id = null;
+          console.log('unos nove odrednice');
+          break;
+        case 'edit':
+          this.route.params.subscribe((params) => {
+            this.id = +params.id;
+            console.log('obrada postojece odrednice', this.id);
+            this.odrednicaService.getOdrednica(this.id).subscribe((value) => {
+              this.fillForm(value);
+            });
+          });
+          break;
+      }
+    });
+  }
+
+  makeNewDeterminant(): Determinant {
+    const determinant: Determinant = {
+      rec: this.wordE,
+      ijekavski: this.wordI,
+      vrsta: this.selectedWordType?.id,
+      rod: this.selectedKind?.id ? this.selectedKind?.id : null,
+      nastavak: this.extension ? this.extension : '',
+      info: this.details ? this.details : '',
+      glagolski_vid: this.selectedVerbForm?.id
+        ? this.selectedVerbForm?.id
+        : 0,
+      glagolski_rod: this.selectedVerbKind?.id
+        ? this.selectedVerbKind?.id
+        : 0,
+      prezent: this.present ? this.present : '',
+      broj_pregleda: 0,
+      stanje: this.selectedState?.id ? this.selectedState?.id : 1,
+      version: 1,
+      kolokacija_set: this.collocations ? this.collocations : [],
+      kvalifikatorodrednice_set: this.selectedQualificators
+        ? this.selectedQualificators
+        : [],
+    };
+    if (this.id !== null) {
+      determinant.id = this.id;
+    }
+    console.log(determinant);
+    return determinant;
+  }
+
+  fillForm(value: any): void {
+    console.log(value);
+    this.wordE = value.rec;
   }
 }

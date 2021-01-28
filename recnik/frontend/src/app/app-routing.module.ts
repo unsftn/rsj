@@ -18,6 +18,13 @@ const routes: Routes = [
     path: 'add',
     component: TabFormComponent,
     canActivate: [AuthGuard],
+    data: { mode: 'add' },
+  },
+  {
+    path: 'edit/:id',
+    component: TabFormComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' },
   },
   { path: '**', redirectTo: '' },
 ];
