@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'korpus',
     'odrednice',
     'render',
+    'pretraga',
 ]
 
 MIDDLEWARE = [
