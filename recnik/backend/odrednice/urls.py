@@ -1,16 +1,6 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .rest import (AntonimList, AntonimDetail, SinonimList, SinonimDetail,
-                   KolokacijaList, KolokacijaDetail, RecUKolokacijiList,
-                   RecUKolokacijiDetail, ZnacenjeDetail, ZnacenjeList,
-                   PodznacenjeList, PodznacenjeDetail, IzrazFrazaList,
-                   IzrazFrazaDetail, KvalifikatorOdredniceList,
-                   KvalifikatorOdredniceDetail, KvalifikatorList,
-                   KvalifikatorDetail, IzmenaOdredniceList,
-                   IzmenaOdredniceDetail, OperacijaIzmeneOdredniceList,
-                   OperacijaIzmeneOdredniceDetail, OdrednicaList,
-                   OdrednicaPopularList, OdrednicaLatestList, OdrednicaDetail,
-                   api_save_odrednica)
+from .rest import *
 
 app_name = 'одреднице'
 
@@ -29,10 +19,14 @@ urlpatterns = [
     path('podznacenje/<int:pk>/', PodznacenjeDetail.as_view(), name='podznacenje-detail'),
     path('izraz-fraza/', IzrazFrazaList.as_view(), name='izrazfraza-list'),
     path('izraz-fraza/<int:pk>/', IzrazFrazaDetail.as_view(), name='izrazfraza-detail'),
-    path('kvalifikator-odrednice/', KvalifikatorOdredniceList.as_view(), name='kvalifikator-odrednice-list'),
-    path('kvalifikator-odrednice/<int:pk>/', KvalifikatorOdredniceDetail.as_view(), name='kvalifikator-odrednice-detail'),
     path('kvalifikator/', KvalifikatorList.as_view(), name='kvalifikator-list'),
     path('kvalifikator/<int:pk>/', KvalifikatorDetail.as_view(), name='kvalifikator-detail'),
+    path('kvalifikator-odrednice/', KvalifikatorOdredniceList.as_view(), name='kvalifikator-odrednice-list'),
+    path('kvalifikator-odrednice/<int:pk>/', KvalifikatorOdredniceDetail.as_view(), name='kvalifikator-odrednice-detail'),
+    path('kvalifikator-znacenja/', KvalifikatorZnacenjaList.as_view(), name='kvalifikator-znacenja-list'),
+    path('kvalifikator-znacenja/<int:pk>/', KvalifikatorZnacenjaDetail.as_view(), name='kvalifikator-znacenja-detail'),
+    path('kvalifikator-podznacenja/', KvalifikatorPodznacenjaList.as_view(), name='kvalifikator-podznacenja-list'),
+    path('kvalifikator-podznacenja/<int:pk>/', KvalifikatorPodznacenjaDetail.as_view(), name='kvalifikator-podznacenja-detail'),
     path('izmena-odrednice/', IzmenaOdredniceList.as_view(), name='izmena-odrednice-list'),
     path('izmena-odrednice/<int:pk>/', IzmenaOdredniceDetail.as_view(), name='izmena-odrednice-detail'),
     path('operacija-izmene-odrednice/', OperacijaIzmeneOdredniceList.as_view(), name='operacija-izmene-list'),

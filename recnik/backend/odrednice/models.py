@@ -239,6 +239,22 @@ class Znacenje(models.Model):
         return reverse("odrednice:znacenje-detail", kwargs={"pk": self.pk})
 
 
+class KvalifikatorZnacenja(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    kvalifikator = models.ForeignKey(Kvalifikator, verbose_name='квалификатор', on_delete=models.CASCADE)
+    znacenje = models.ForeignKey(Znacenje, verbose_name='значење', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'квалификатор значења'
+        verbose_name_plural = 'квалификатори значења'
+
+    def __str__(self):
+        return str(self.redni_broj) + ': ' + str(self.kvalifikator)
+
+    def get_absolute_url(self):
+        return reverse("odrednice:kvalifikator-znacenja-detail", kwargs={"pk": self.pk})
+
+
 class Podznacenje(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.CharField('текст', max_length=2000)
@@ -254,3 +270,19 @@ class Podznacenje(models.Model):
 
     def get_absolute_url(self):
         return reverse("odrednice:podznacenje-detail", kwargs={"pk": self.pk})
+
+
+class KvalifikatorPodznacenja(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    kvalifikator = models.ForeignKey(Kvalifikator, verbose_name='квалификатор', on_delete=models.CASCADE)
+    podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'квалификатор подзначења'
+        verbose_name_plural = 'квалификатори подзначења'
+
+    def __str__(self):
+        return str(self.redni_broj) + ': ' + str(self.kvalifikator)
+
+    def get_absolute_url(self):
+        return reverse("odrednice:kvalifikator-podznacenja-detail", kwargs={"pk": self.pk})

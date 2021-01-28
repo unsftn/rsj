@@ -3,17 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
-from .models import (Antonim, Sinonim, Kolokacija, RecUKolokaciji, Znacenje,
-                     Podznacenje, IzrazFraza, KvalifikatorOdrednice,
-                     Kvalifikator, IzmenaOdrednice, OperacijaIzmene, Odrednica)
-from .serializers import (AntonimSerializer, SinonimSerializer,
-                          KolokacijaSerializer, RecUKolokacijiSerializer,
-                          ZnacenjeSerializer, PodznacenjeSerializer,
-                          IzrazFrazaSerializer,
-                          KvalifikatorOdredniceSerializer,
-                          KvalifikatorSerializer, IzmenaOdredniceSerializer,
-                          OperacijaIzmeneOdredniceSerializer,
-                          CreateOdrednicaSerializer, OdrednicaSerializer)
+from .models import *
+from .serializers import *
 
 
 class AntonimList(generics.ListAPIView):
@@ -114,6 +105,20 @@ class IzrazFrazaDetail(generics.RetrieveAPIView):
     serializer_class = IzrazFrazaSerializer
 
 
+class KvalifikatorList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Kvalifikator.objects.all()
+    serializer_class = KvalifikatorSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['naziv']
+
+
+class KvalifikatorDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Kvalifikator.objects.all()
+    serializer_class = KvalifikatorSerializer
+
+
 class KvalifikatorOdredniceList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorOdrednice.objects.all()
@@ -128,18 +133,32 @@ class KvalifikatorOdredniceDetail(generics.RetrieveAPIView):
     serializer_class = KvalifikatorOdredniceSerializer
 
 
-class KvalifikatorList(generics.ListAPIView):
+class KvalifikatorZnacenjaList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Kvalifikator.objects.all()
-    serializer_class = KvalifikatorSerializer
+    queryset = KvalifikatorZnacenja.objects.all()
+    serializer_class = KvalifikatorZnacenjaSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filter_fields = ['redni_broj']
 
 
-class KvalifikatorDetail(generics.RetrieveAPIView):
+class KvalifikatorZnacenjaDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Kvalifikator.objects.all()
-    serializer_class = KvalifikatorSerializer
+    queryset = KvalifikatorZnacenja.objects.all()
+    serializer_class = KvalifikatorZnacenjaSerializer
+
+
+class KvalifikatorPodznacenjaList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = KvalifikatorPodznacenja.objects.all()
+    serializer_class = KvalifikatorPodznacenjaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['redni_broj']
+
+
+class KvalifikatorPodznacenjaDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = KvalifikatorPodznacenja.objects.all()
+    serializer_class = KvalifikatorPodznacenjaSerializer
 
 
 class IzmenaOdredniceList(generics.ListAPIView):

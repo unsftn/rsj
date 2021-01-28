@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from django.utils.timezone import now
-from .models import (Antonim, Sinonim, Kolokacija, RecUKolokaciji, IzrazFraza,
-                     Podznacenje, Znacenje, Kvalifikator, Odrednica,
-                     KvalifikatorOdrednice, IzmenaOdrednice, OperacijaIzmene)
+from .models import *
 
 
 class AntonimSerializer(serializers.ModelSerializer):
@@ -49,23 +47,34 @@ class ZnacenjeSerializer(serializers.ModelSerializer):
         fields = ('id', 'tekst', 'odrednica_id', 'podznacenje_set',)
 
 
-class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KvalifikatorOdrednice
-        fields = ('id', 'redni_broj', 'kvalifikator_id', 'odrednica_id',)
-
-
 class KvalifikatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Kvalifikator
         fields = ('id', 'skracenica', 'naziv')
 
 
+class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorOdrednice
+        fields = ('id', 'redni_broj', 'kvalifikator_id', 'odrednica_id',)
+
+
+class KvalifikatorZnacenjaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorZnacenja
+        fields = ('id', 'redni_broj', 'kvalifikator_id', 'znacenje_id',)
+
+
+class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorPodznacenja
+        fields = ('id', 'redni_broj', 'kvalifikator_id', 'podznacenje_id',)
+
+
 class IzmenaOdredniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = IzmenaOdrednice
-        fields = ('id', 'odrednica_id', 'operacija_izmene_id', 'user_id',
-                  'vreme',)
+        fields = ('id', 'odrednica_id', 'operacija_izmene_id', 'user_id', 'vreme',)
 
 
 class OperacijaIzmeneOdredniceSerializer(serializers.ModelSerializer):
