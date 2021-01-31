@@ -15,6 +15,11 @@ interface WordType {
   id: number;
 }
 
+interface Variant {
+  nameE: string;
+  nameI: string;
+}
+
 @Component({
   selector: 'tabForm',
   templateUrl: './tabForm.component.html',
@@ -31,6 +36,7 @@ export class TabFormComponent implements OnInit {
   message: string;
   selectedKind;
   extension;
+  variants: Variant[];
 
   selectedVerbKind;
   selectedVerbForm;
@@ -42,6 +48,14 @@ export class TabFormComponent implements OnInit {
   selectedState: State;
   selectedQualificators: [];
   id: number;
+
+  addVariant() {
+    this.variants.push({ nameE: '', nameI: '' });
+  }
+
+  removeVariant(variant) {
+    this.variants.splice(this.variants.indexOf(variant), 1);
+  }
 
   selectedKindChangedHandler(selectedKind) {
     this.selectedKind = selectedKind;
@@ -99,12 +113,15 @@ export class TabFormComponent implements OnInit {
       { name: 'Редактура 2', id: 3 },
     ];
 
+    this.variants = [{ nameE: '', nameI: '' }];
+
     this.isNoun = true;
     this.isVerb = false;
   }
 
   async addNewDeterminant(): Promise<void> {
-    const response: any = await this.odrednicaService.saveOdrednica(this.makeNewDeterminant())
+    const response: any = await this.odrednicaService
+      .saveOdrednica(this.makeNewDeterminant())
       .toPromise()
       .catch(() => {
         this.message =
@@ -160,12 +177,8 @@ export class TabFormComponent implements OnInit {
       rod: this.selectedKind?.id ? this.selectedKind?.id : null,
       nastavak: this.extension ? this.extension : '',
       info: this.details ? this.details : '',
-      glagolski_vid: this.selectedVerbForm?.id
-        ? this.selectedVerbForm?.id
-        : 0,
-      glagolski_rod: this.selectedVerbKind?.id
-        ? this.selectedVerbKind?.id
-        : 0,
+      glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
+      glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
       prezent: this.present ? this.present : '',
       broj_pregleda: 0,
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,

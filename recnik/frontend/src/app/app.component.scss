@@ -22,7 +22,6 @@
 
 .search-component {
   border-radius: 50px;
-  height: 30px;
   width: 100%;
 }
 
@@ -33,6 +32,12 @@
 }
 
 .add-button {
+  margin-left: 10px;
+}
+
+.button-header {
+  width: 35px !important;
+  height: 35px !important;
   margin-left: 10px;
 }
 
