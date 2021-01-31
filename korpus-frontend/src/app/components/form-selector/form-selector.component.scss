@@ -1,0 +1,29 @@
+.container {
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.select {
+    margin-left: 12px;
+}
+
+.button {
+    margin-top: 50px;
+}
+
+:host ::ng-deep .p-dropdown {
+    width: 150px;
+    font-family: 'Lucida Sans Unicode';
+}
+
+:host ::ng-deep .p-dropdown-label {
+    padding: 4px !important;
+    font-family: 'Lucida Sans Unicode';
+}
+
+:host ::ng-deep .p-button {
+    font-family: 'Lucida Sans Unicode';
+}

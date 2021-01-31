@@ -3,7 +3,7 @@
         <div class="p-col-12">
             <div class="metadata p-d-flex">
                 <div class="p-col-3 p-sm-2 p-lg-1">
-                    <p class="label">Наслов:</p>
+                    <p>Наслов:</p>
                 </div>
                 <div class="p-col-9 p-sm-10 p-lg-11">
                     <p>Прва књига корпуса</p>
@@ -11,7 +11,7 @@
             </div>
             <div class="metadata p-d-flex">
                 <div class="p-col-3 p-sm-2 p-lg-1">
-                    <p class="label">Издање:</p>
+                    <p>Издање:</p>
                 </div>
                 <div class="p-col-9 p-sm-10 p-lg-11">
                     <p>јануар 2021.</p>
@@ -19,7 +19,7 @@
             </div>
             <div class="p-d-flex">
                 <div class="p-col-3 p-sm-2 p-lg-1">
-                    <p class="label">Број:</p>
+                    <p>Број:</p>
                 </div>
                 <div class="p-col-9 p-sm-10 p-lg-11">
                     <p>978-3-16-148410-0</p>
@@ -63,10 +63,10 @@
             </div>
             <div class="links">
                 <div>
-                    <button pButton pRipple type="button" label="Додај опис" class="p-button-text"></button>
+                    <button pButton pRipple type="button" label="Додај опис" class="p-button-text" (click)="addDescription()"></button>
                 </div>
                 <div>
-                    <button pButton pRipple type="button" label="Измени опис" class="p-button-text" [disabled]="option == ''"></button>
+                    <button pButton pRipple type="button" label="Измени опис" class="p-button-text" (click)="changeDescription()" [disabled]="option == ''"></button>
                 </div>
             </div>
         </div>

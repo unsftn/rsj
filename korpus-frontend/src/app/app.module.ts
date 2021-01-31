@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,19 +17,26 @@ import { ToastModule } from 'primeng/toast';
 import { ScrollTopModule } from 'primeng/scrolltop';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TooltipModule } from 'primeng/tooltip';
+import { DropdownModule } from 'primeng/dropdown';
 import { HomeModule } from './components/home/home.module';
 import { SelectWordComponent } from './components/select-word/select-word.component';
+import { FormSelectorComponent } from './components/form-selector/form-selector.component';
+import { ImenicaComponent } from './components/imenica/imenica.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SelectWordComponent,
+    FormSelectorComponent,
+    ImenicaComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     AppRoutingModule,
     MenubarModule,
     InputTextModule,
@@ -40,6 +48,8 @@ import { SelectWordComponent } from './components/select-word/select-word.compon
     ScrollTopModule,
     OverlayPanelModule,
     CheckboxModule,
+    TooltipModule,
+    DropdownModule,
     HomeModule,
   ],
   providers: [],

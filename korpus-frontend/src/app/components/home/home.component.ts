@@ -25,6 +25,6 @@ export class HomeComponent implements OnInit {
   onClick(event: MouseEvent) {
     let element = event.target as HTMLElement;
     if (element.className.startsWith('line'))
-      this.router.navigate(['text/1']);
+      this.router.navigate(['tekst/1']);
   }
 }

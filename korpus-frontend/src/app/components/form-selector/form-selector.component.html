@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="p-d-flex">
+        <div class="p-d-flex p-col-12">
+            <div class="p-col-12 p-sm-3 p-lg-1">
+                <p>Врста речи:</p>
+            </div>
+            <div class="select p-col-12 p-sm-9 p-lg-11">
+                <p-dropdown *ngIf="selectedWordType.name != ''" [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="{{selectedWordType.name}}"></p-dropdown>
+                <p-dropdown *ngIf="selectedWordType.name == ''" [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="..."></p-dropdown>
+            </div>
+        </div>
+    </div>
+    <imenica *ngIf="selectedWordType.name==='именица'"></imenica>
+    <button pButton class="p-button-text button" label="Повратак на претходну страницу" (click)="back()"></button>
+</div>
