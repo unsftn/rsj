@@ -1,0 +1,42 @@
+.vrsta {
+    margin-bottom: -40px;
+}
+
+.select {
+    margin-left: 12px;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.input p {
+    padding-left: 0;
+}
+
+.input input {
+    width: 150px;
+    margin: 0;
+}
+
+.variants {
+    padding-left: 4px;
+}
+
+button {
+    margin-left: 5px;
+}
+
+:host ::ng-deep .p-inputgroup {
+    width: 220px;
+}
+
+:host ::ng-deep .p-inputtext {
+    height: 30px;
+    align-self: center;
+    margin: auto;
+}
+
+:host ::ng-deep .p-fieldset {
+    margin-bottom: 20px;
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -10,6 +11,8 @@ declare var $: any;
 export class SelectWordComponent implements OnInit {
 
   span: HTMLElement;
+  spanX: number;
+  spanY: number;
   word: string;
   checked: boolean;
   options: HTMLCollectionOf<Element>;
@@ -17,9 +20,8 @@ export class SelectWordComponent implements OnInit {
   optionsCount: number;
   wordLength: number;
   flipped: boolean;
-  spanLeft: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     $('.text').lettering('words');
@@ -32,6 +34,8 @@ export class SelectWordComponent implements OnInit {
 
     if (element.className.startsWith('word')) {
       this.span = element;
+      this.spanX = element.offsetLeft;
+      this.spanY = element.offsetTop;
       this.word = this.span.textContent.replace(/[^\p{L}\s]/gu,""); // remove punctuation
       this.wordLength = this.word.length;
       setTimeout(() => {
@@ -63,6 +67,7 @@ export class SelectWordComponent implements OnInit {
       }
     }
 
+    // prevent the panel from showing after clicking on empty space between words
     else if (element.nodeName.toLowerCase() === 'p') {
       setTimeout(() => {
         if (document.querySelector("#panel > div"))
@@ -72,34 +77,8 @@ export class SelectWordComponent implements OnInit {
   }
 
   onShow(): void {
-    let wordLength = this.wordLength;
     setTimeout(() => {
-      let panelDiv = document.querySelector("#panel > div");
-      if (panelDiv && this.span) {
-        let panelX = panelDiv.getBoundingClientRect().left;
-        let spanX = this.span.getBoundingClientRect().left;
-        let optionsDiv = document.getElementsByClassName('options')[0];
-        this.optionsCount = ((optionsDiv) ? optionsDiv.childElementCount : 0);
-
-        // prevent panel from expanding past the bottom of the page after unchecking the checkbox by forcing it to face upwards initially
-        if (this.span.getBoundingClientRect().top > 500 && !panelDiv.className.includes('flipped'))
-            panelDiv.className = panelDiv.className + ' p-overlaypanel-flipped';
-        
-        // handle potential panel misalignment
-        if (panelX-spanX != 0 || panelDiv.className.includes('flipped')) {
-          let yOffset = 180 + this.optionsCount*28; // vertical offset for the upwards panel
-          let x = ((wordLength > 3) ? this.span.offsetLeft : this.span.offsetLeft-15);
-          let y: number;
-          if (this.checked)
-            y = ((panelDiv.className.includes('flipped')) ? this.span.offsetTop-95 : this.span.offsetTop+20);
-          else
-            y = ((panelDiv.className.includes('flipped')) ? this.span.offsetTop-yOffset : this.span.offsetTop+20);
-          let top = y.toString();
-          let left = x.toString();
-          this.spanLeft = left;
-          panelDiv.setAttribute('style', 'top: '+top+'px; left: '+left+'px; --overlayArrowLeft: 0px;');
-        }
-      }
+      this.movePanel(true);
     }, 0);
   }
 
@@ -109,28 +88,47 @@ export class SelectWordComponent implements OnInit {
 
     // move the upwards panel to the word's location after (un)checking the checkbox
     if (this.flipped) {
-      let wordLength = this.wordLength;
       setTimeout(() => {
-        let panelDiv = document.querySelector("#panel > div");
-        if (panelDiv && this.span) {
-          let optionsDiv = document.getElementsByClassName('options')[0];
-          this.optionsCount = ((optionsDiv) ? optionsDiv.childElementCount : 0);
-          let x = ((wordLength > 3) ? this.span.offsetLeft : this.span.offsetLeft-15);
-          let left = x.toString();
-          let y: number
-          let top: string;
-
-          if (this.checked)
-            y = ((panelDiv.className.includes('flipped')) ? this.span.offsetTop-95 : this.span.offsetTop+20);
-          else {
-            let yOffset = 180 + this.optionsCount*28; // vertical offset for the upwards panel
-            y = ((panelDiv.className.includes('flipped')) ? this.span.offsetTop-yOffset : this.span.offsetTop+20);
-          }
-
-          top = y.toString();
-          panelDiv.setAttribute('style', 'top: '+top+'px; left: '+left+'px; --overlayArrowLeft: 0px;');
-        }
+        this.movePanel(false);
       }, 0);
     }
+  }
+
+  // handle potential misalignment of the panel
+  movePanel(onShow: boolean): void {
+    let panelDiv = document.querySelector("#panel > div");
+
+    if (panelDiv && this.span) {
+      let optionsDiv = document.getElementsByClassName('options')[0];
+      this.optionsCount = optionsDiv ? optionsDiv.childElementCount : 0;
+
+      // prevent the panel from expanding past the bottom of the page after unchecking the checkbox by forcing it to face upwards initially
+      if (onShow && this.span.getBoundingClientRect().top > 500 && !panelDiv.className.includes('flipped'))
+        panelDiv.className = panelDiv.className + ' p-overlaypanel-flipped';
+      
+      let x = (this.wordLength > 3) ? this.spanX : this.spanX-15;
+      let y: number;
+      if (this.checked)
+        y = panelDiv.className.includes('flipped') ? this.spanY-95 : this.spanY+20;
+      else {
+        let yOffset = 180 + this.optionsCount*28; // vertical offset for the upwards panel
+        y = panelDiv.className.includes('flipped') ? this.spanY-yOffset : this.spanY+20;
+      }
+
+      let top = y.toString();
+      let left = x.toString();
+      panelDiv.setAttribute('style', 'top: '+top+'px; left: '+left+'px; --overlayArrowLeft: 0px;');
+    }
+  }
+
+  addDescription(): void {
+    if (this.option === '')
+      this.router.navigate(['/rec']);
+    // TODO else: anotiraj prema izabranoj opciji
+  }
+
+  changeDescription(): void {
+    let word = this.option.split(' - ')[0].split(') ')[1];
+    this.router.navigate(['/rec/'+word]);
   }
 }
