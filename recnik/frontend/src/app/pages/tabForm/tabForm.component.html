@@ -19,10 +19,10 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
             </div>
           </div>
         </div>
@@ -30,19 +30,31 @@
       <div class="p-d-flex">
         <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label">Варијанта:</p>
+          <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="addVariant()"></button>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <div class="p-d-flex p-flex-column p-flex-lg-row">
-            <div class="p-mb-2 p-mr-2">
-              <input type="text" pInputText placeholder="Екавица" />
+          <form #formRef="ngForm">
+            <div *ngFor="let variant of variants; let i=index" class="col-sm-3">
+              <div class="p-d-flex p-flex-column p-flex-lg-row">
+                <div class="p-mb-2 p-mr-2">
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="Екавица" />
+                </div>
+                <div class="p-mb-2 p-mr-2">
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="Ијекавица" />
+                </div>
+                <div class="p-mb-2 p-mr-2" style="width: 200px">
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-minus"
+                    class="p-button-rounded p-button-outlined p-button-danger add-button"
+                    (click)="removeVariant(variant)">
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="p-mb-2 p-mr-2">
-              <input type="text" pInputText placeholder="Ијекавица" />
-            </div>
-            <div class="p-mb-2 p-mr-2">
-              <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button"></button>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
       <div class="p-d-flex">

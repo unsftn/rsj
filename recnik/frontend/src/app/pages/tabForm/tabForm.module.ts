@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+
 import { TabFormComponent } from './tabForm.component';
 import { TabViewModule } from 'primeng/tabview';
 import { InputTextModule } from 'primeng/inputtext';
@@ -21,6 +23,7 @@ import { QualificatorModule } from '../qualificators/qualificator.module';
 @NgModule({
   declarations: [TabFormComponent],
   imports: [
+    BrowserModule,
     TabViewModule,
     InputTextModule,
     DropdownModule,

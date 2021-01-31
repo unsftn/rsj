@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private tokenStorageService: TokenStorageService,
-    private router: Router
+    private router: Router,
   ) {}
 
   signedIn(): boolean {
