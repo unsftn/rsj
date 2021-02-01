@@ -7,7 +7,7 @@
       <i class="pi pi-search"></i>
       <input type="search" class="search-component" pInputText placeholder="Претрага">
     </span>
-    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" [routerLink]="['/rec']" pTooltip="Додај нову реч"></button>
+    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" [routerLink]="['/add']" pTooltip="Додај нову реч"></button>
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>

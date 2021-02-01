@@ -1,27 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Imenica } from '../../models/imenica';
+import { ImenicaVariant } from '../../models/imenicaVariant';
+import { ImenicaService } from '../../services/imenica/imenica.service';
 
 interface NounType {
   name: string;
   id: number;
-}
-
-interface Variant {
-  nomjed: string;
-  genjed: string;
-  datjed: string;
-  akujed: string;
-  vokjed: string;
-  insjed: string;
-  lokjed: string;
-  nommno: string;
-  genmno: string;
-  datmno: string;
-  akumno: string;
-  vokmno: string;
-  insmno: string;
-  lokmno: string;
 }
 
 @Component({
@@ -30,29 +17,32 @@ interface Variant {
   styleUrls: ['./imenica.component.scss'],
   providers: [MessageService]
 })
-export class ImenicaComponent implements OnInit {
+export class ImenicaComponent implements OnInit, AfterViewInit {
+
+  @Input() imenica: Imenica;
+
+  @Output() imenicaChanged: EventEmitter<Imenica> = new EventEmitter();
 
   nounTypes: NounType[];
   selectedNounType: NounType = {name:'', id:0};
-  variants: Variant[];
-  word: any;
-  wordURL: string;
+  variants: ImenicaVariant[];
+  id: number;
 
-  constructor(private messageService: MessageService, private httpClient: HttpClient) {
+  constructor(private messageService: MessageService, private httpClient: HttpClient,
+    private imenicaService: ImenicaService, private route: ActivatedRoute) {
     this.nounTypes = [
-      {name:'апстрактна', id:1},
-      {name:'заједничка', id:2},
-      {name:'властита', id:3},
-      {name:'збирна', id:4},
-      {name:'градивна', id:5},
-      {name:'глаголска', id:6}
+      {id:1, name:'апстрактна'},
+      {id:2, name:'заједничка'},
+      {id:3, name:'властита'},
+      {id:4, name:'збирна'},
+      {id:5, name:'градивна'},
+      {id:6, name:'глаголска'}
     ];
   }
 
   ngOnInit(): void {
-    this.variants = new Array<Variant>();
-    if (window.location.href.endsWith('/rec'))
-      this.word = {
+    if (window.location.href.endsWith('/add'))
+      this.imenica = {
         vrsta_id: 0,
         nomjed: '',
         genjed: '',
@@ -67,13 +57,16 @@ export class ImenicaComponent implements OnInit {
         akumno: '',
         vokmno: '',
         insmno: '',
-        lokmno: ''
+        lokmno: '',
+        varijante: new Array<ImenicaVariant>()
       }
     else {
-      this.wordURL = window.location.href.split('/').slice(-1)[0];
-      this.getImenicaByNomJed();
-      this.word = { // test case
-        vrsta_id: 2,
+      this.route.params.subscribe((params) => {
+        this.id = +params.id;
+      });
+      this.getImenicaById();
+      this.imenica = { // test case, delete if getting data from the server
+        id: this.id,
         nomjed: 'тест',
         genjed: 'теста',
         datjed: 'тесту',
@@ -88,10 +81,40 @@ export class ImenicaComponent implements OnInit {
         vokmno: 'тестови',
         insmno: 'тестовима',
         lokmno: 'тестовима',
-        version: 1
+        vrsta: {id: 2, naziv: "заједничка"},
+        version: 1,
+        varijante: [
+          {
+            id: 1,
+            imenica_id: this.id,
+            redni_broj: 1,
+            nomjed: '',
+            genjed: '',
+            datjed: '',
+            akujed: '',
+            vokjed: 'тесту',
+            insjed: '',
+            lokjed: '',
+            nommno: '',
+            genmno: '',
+            datmno: '',
+            akumno: '',
+            vokmno: '',
+            insmno: '',
+            lokmno: ''
+          }
+        ]
       }
-      this.selectedNounType = this.nounTypes.find(type => type.id === this.word.vrsta_id);
+      this.selectedNounType = this.nounTypes.find(type => type.id === this.imenica.vrsta.id);
+      delete this.imenica.vrsta;
     }
+    this.variants = this.imenica.varijante;
+    if (this.variants.length > 0)
+      this.alignVariantForms();
+  }
+
+  ngAfterViewInit(): void {
+    this.alignVariantForms();
   }
 
   addVariant(): void {
@@ -111,55 +134,68 @@ export class ImenicaComponent implements OnInit {
       insmno: '',
       lokmno: ''
     });
+    this.alignVariantForms();
   }
 
-  removeVariant(variant: Variant): void {
+  changeImenica(): void {
+    this.imenica.vrsta_id = this.selectedNounType.id;
+    this.imenica.varijante = this.variants;
+    this.imenicaChanged.emit(this.imenica);
+  }
+
+  removeVariant(variant: ImenicaVariant): void {
     this.variants.splice(this.variants.indexOf(variant), 1);
   }
 
-  async getImenicaByNomJed() {
-    let nomjed = decodeURIComponent(this.wordURL); // decode Cyrillic letters
-    const response: any = await this.httpClient
-      .get('api/korpus/imenica/', {
-        params: new HttpParams().set('nomjed', nomjed)
-      })
+  async getImenicaById() {
+    const response: any = await this.imenicaService.getImenica(this.id)
       .toPromise()
       .catch(() => {
-        this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Тражена реч није пронађена'});
+        this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Тражена именица није пронађена'});
       });
-
     if (response) {
-      this.word = response.map((item) => { // TODO varijante
+      this.imenica = response.map((item: Imenica) => {
         return {
-          vrsta_id: item.vrsta_id, nomjed: item.nomjed, genjed: item.genjed,
+          vrsta_id: item.vrsta.id, nomjed: item.nomjed, genjed: item.genjed,
           datjed: item.datjed, akujed: item.akujed, vokjed: item.vokjed,
           insjed: item.insjed, lokjed: item.lokjed, nommno: item.nommno,
           genmno: item.genmno, datmno: item.datmno, akumno: item.akumno,
           vokmno: item.vokmno, insmno: item.insmno, lokmno: item.lokmno,
-          version: item.version
+          version: item.version, id: item.id, varijante: item.varijantaimenice_set
         };
       });
     }
   }
 
-  // TODO provera da li rec vec postoji
-  async save() {
-    this.word.vrsta_id = this.selectedNounType.id;
-    this.word.varijante = this.variants;
-    if (this.word.varijante == 0)
-      delete this.word.varijante;
-
-    const response: any = await this.httpClient
-      .post('api/korpus/save-imenica/', this.word)
+  async getImenicaByNomJed() {
+    let nomjed = decodeURIComponent(this.imenica.nomjed); // decode Cyrillic letters
+    const response: any = await this.imenicaService.getImenicaByNomJed(nomjed)
       .toPromise()
       .catch(() => {
-        this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва поља'});
+        this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Тражена именица није пронађена'});
       });
     if (response) {
-      this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Именица је сачувана'});
-      setTimeout(() => {
-        window.history.back();
-      }, 2000);
+      this.imenica = response.map((item: Imenica) => {
+        return {
+          vrsta_id: item.vrsta.id, nomjed: item.nomjed, genjed: item.genjed,
+          datjed: item.datjed, akujed: item.akujed, vokjed: item.vokjed,
+          insjed: item.insjed, lokjed: item.lokjed, nommno: item.nommno,
+          genmno: item.genmno, datmno: item.datmno, akumno: item.akumno,
+          vokmno: item.vokmno, insmno: item.insmno, lokmno: item.lokmno,
+          version: item.version, id: item.id, varijante: item.varijantaimenice_set
+        };
+      });
     }
+  }
+
+  alignVariantForms(): void {
+    setTimeout(() => {
+      const divs = document.getElementsByClassName('p-d-flex p-flex-wrap p-col-8 ng-star-inserted');
+      let variantDiv: Element;
+      for (let i=1; i<divs.length; i++) {
+        variantDiv = divs[i];
+        variantDiv.className = 'p-d-flex p-flex-wrap p-col-12 ng-star-inserted';
+      }
+    }, 0);
   }
 }

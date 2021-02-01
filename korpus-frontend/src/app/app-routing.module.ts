@@ -14,11 +14,11 @@ const routes: Routes = [
     component: SelectWordComponent,
   },
   {
-    path: 'rec',
+    path: 'add',
     component: FormSelectorComponent,
   },
   {
-    path: 'rec/:id',
+    path: 'edit/:id',
     component: FormSelectorComponent,
   },
   { path: '**', redirectTo: '' },

@@ -19,6 +19,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToolbarModule } from 'primeng/toolbar';
 import { HomeModule } from './components/home/home.module';
 import { SelectWordComponent } from './components/select-word/select-word.component';
 import { FormSelectorComponent } from './components/form-selector/form-selector.component';
@@ -29,7 +30,7 @@ import { ImenicaComponent } from './components/imenica/imenica.component';
     AppComponent,
     SelectWordComponent,
     FormSelectorComponent,
-    ImenicaComponent,
+    ImenicaComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +51,8 @@ import { ImenicaComponent } from './components/imenica/imenica.component';
     CheckboxModule,
     TooltipModule,
     DropdownModule,
-    HomeModule,
+    ToolbarModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

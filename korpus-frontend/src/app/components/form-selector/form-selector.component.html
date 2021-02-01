@@ -1,3 +1,11 @@
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+        <button pButton class="p-button-text" label="Повратак" (click)="back()" icon="pi pi-arrow-left"></button>
+    </div>
+    <div class="p-toolbar-group-right" >
+      <button pButton class="p-button-success" label="Сачувај" (click)="save(selectedWordType.name)" [disabled]="saveBtnDisabled" icon="pi pi-check"></button>
+    </div>
+</p-toolbar>
 <div class="container">
     <div class="p-d-flex">
         <div class="p-d-flex p-col-12">
@@ -5,11 +13,10 @@
                 <p>Врста речи:</p>
             </div>
             <div class="select p-col-12 p-sm-9 p-lg-11">
-                <p-dropdown *ngIf="selectedWordType.name != ''" [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="{{selectedWordType.name}}"></p-dropdown>
-                <p-dropdown *ngIf="selectedWordType.name == ''" [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="..."></p-dropdown>
+                <p-dropdown *ngIf="selectedWordType.name != ''" [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" (onChange)="onChange()" placeholder="{{selectedWordType.name}}"></p-dropdown>
+                <p-dropdown *ngIf="selectedWordType.name == ''" [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" (onChange)="onChange()" placeholder="..."></p-dropdown>
             </div>
         </div>
     </div>
-    <imenica *ngIf="selectedWordType.name==='именица'"></imenica>
-    <button pButton class="p-button-text button" label="Повратак на претходну страницу" (click)="back()"></button>
+    <imenica *ngIf="selectedWordType.name==='именица'" [imenica]=imenica (imenicaChanged)="imenicaChangedHandler($event)"></imenica>
 </div>
