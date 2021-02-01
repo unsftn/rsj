@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 
 declare var $: any;
 
+interface Option {
+  word: string;
+  type: string;
+  id: number;
+}
+
 @Component({
   selector: 'app-select-word',
   templateUrl: './select-word.component.html',
@@ -15,8 +21,8 @@ export class SelectWordComponent implements OnInit {
   spanY: number;
   word: string;
   checked: boolean;
-  options: HTMLCollectionOf<Element>;
-  option: string = '';
+  options: Option[];
+  option: string;
   optionsCount: number;
   wordLength: number;
   flipped: boolean;
@@ -25,6 +31,13 @@ export class SelectWordComponent implements OnInit {
 
   ngOnInit(): void {
     $('.text').lettering('words');
+    this.option = '';
+    this.options = [ // TODO getOptions
+      {word: 'тест', type:'именица', id: -1},
+      {word: 'тестирање', type:'именица', id: -2},
+      {word: 'тестирати', type:'глагол', id: -3},
+      {word: 'тестиран', type:'придев', id: -4}
+    ];
   }
 
   onClick(event: MouseEvent): void {
@@ -46,12 +59,12 @@ export class SelectWordComponent implements OnInit {
     }
     
     // panel option selection
-    else if (element.className === 'option') {
+    else if (element.className.includes('option ')) {
       this.option = element.textContent;
-      this.options = document.getElementsByClassName('option');
+      let allOptions = document.getElementsByClassName('option');
       
-      for (let i=0; i<this.options.length; i++) {
-        let opt = this.options[i];
+      for (let i=0; i<allOptions.length; i++) {
+        let opt = allOptions[i];
         if (opt.getAttribute('style') == null)
           opt.setAttribute('style', 'background: white');
         if (opt.textContent === element.textContent) {
@@ -65,6 +78,28 @@ export class SelectWordComponent implements OnInit {
         else
           opt.setAttribute('style', 'background: white; font-weight: initial');
       }
+
+      setTimeout(() => {
+        let panelDiv = document.querySelector("#panel > div");
+        if (panelDiv && panelDiv.className.includes('flipped'))
+          this.flipped = true;
+      }, 100);
+    }
+
+    // handle a click between the options
+    else if (element.className === 'options') {
+      this.option = '';
+      let allOptions = document.getElementsByClassName('option');
+      for (let i=0; i<allOptions.length; i++) {
+        let opt = allOptions[i];
+        if (opt.getAttribute('style').includes('#')) // deselect
+          opt.setAttribute('style', 'background: white; font-weight: initial');
+      }
+      setTimeout(() => {
+        let panelDiv = document.querySelector("#panel > div");
+        if (panelDiv && panelDiv.className.includes('flipped'))
+          this.flipped = true;
+      }, 100);
     }
 
     // prevent the panel from showing after clicking on empty space between words
@@ -104,7 +139,7 @@ export class SelectWordComponent implements OnInit {
 
       // prevent the panel from expanding past the bottom of the page after unchecking the checkbox by forcing it to face upwards initially
       if (onShow && this.span.getBoundingClientRect().top > 500 && !panelDiv.className.includes('flipped'))
-        panelDiv.className = panelDiv.className + ' p-overlaypanel-flipped';
+        panelDiv.className += ' p-overlaypanel-flipped';
       
       let x = (this.wordLength > 3) ? this.spanX : this.spanX-15;
       let y: number;
@@ -123,12 +158,13 @@ export class SelectWordComponent implements OnInit {
 
   addDescription(): void {
     if (this.option === '')
-      this.router.navigate(['/rec']);
-    // TODO else: anotiraj prema izabranoj opciji
+      this.router.navigate(['/add']);
   }
 
   changeDescription(): void {
-    let word = this.option.split(' - ')[0].split(') ')[1];
-    this.router.navigate(['/rec/'+word]);
+    let word = this.option.split(' - ')[0].split(') ')[1]; // (1) тест - именица => тест
+    let type = this.option.split(' - ')[1]; // (1) тест - именица => именица
+    let id = this.options.find(opt => opt.word === word && opt.type === type).id;
+    this.router.navigate(['/edit/'+id]);
   }
 }

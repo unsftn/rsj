@@ -52,14 +52,11 @@
             <strong>{{word}}</strong>
         </div>
         <div>
-            <p-checkbox label="Игнориши реч" [(ngModel)]="checked" binary="true" (onChange)="check(checked)"></p-checkbox>
+            <p-checkbox label="Игнориши реч" [(ngModel)]="checked" binary="true" (onChange)="check(checked)" [disabled]="option != ''"></p-checkbox>
         </div>
         <div class="actions" *ngIf="!checked">
             <div class="options" (click)="onClick($event)">
-                <div class="option">(1) тест - именица</div>
-                <div class="option">(2) тестирање - именица</div>
-                <div class="option">(3) тестирати - глагол</div>
-                <div class="option">(4) тестиран - придев</div>
+                <div class="option" *ngFor="let option of options; index as i">({{i+1}}) {{option.word}} - {{option.type}}</div>
             </div>
             <div class="links">
                 <div>
