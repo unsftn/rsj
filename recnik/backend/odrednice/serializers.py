@@ -85,6 +85,12 @@ class OperacijaIzmeneOdredniceSerializer(serializers.ModelSerializer):
         fields = ('id', 'naziv', 'izmenaodrednice_set')
 
 
+class VarijantaOdredniceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VarijantaOdrednice
+        fields = ('id', 'redni_broj', 'tekst', 'ijekavski', 'nastavak')
+
+
 class OdrednicaSerializer(serializers.ModelSerializer):
     imaantonim_set = AntonimSerializer(many=True, read_only=True)
     antonimuvezi_set = AntonimSerializer(many=True, read_only=True)
@@ -94,18 +100,16 @@ class OdrednicaSerializer(serializers.ModelSerializer):
     recukolokaciji_set = RecUKolokacijiSerializer(many=True, read_only=True)
     znacenje_set = ZnacenjeSerializer(many=True, read_only=True)
     izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
-    kvalifikatorodrednice_set = KvalifikatorOdredniceSerializer(many=True,
-                                                                read_only=True)
+    varijantaodrednice_set = VarijantaOdredniceSerializer(many=True, read_only=True)
+    kvalifikatorodrednice_set = KvalifikatorOdredniceSerializer(many=True, read_only=True)
     izmenaodrednice_set = IzmenaOdredniceSerializer(many=True, read_only=True)
 
     class Meta:
         model = Odrednica
-        fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'info',
-                  'glagolski_vid', 'glagolski_rod', 'prezent',
-                  'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena',
-                  'stanje', 'version', 'imaantonim_set', 'imasinonim_set',
-                  'antonimuvezi_set', 'sinonimuvezi_set', 'kolokacija_set',
-                  'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
+        fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'info', 'glagolski_vid', 'glagolski_rod',
+                  'prezent', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'version',
+                  'varijantaodrednice_set', 'imaantonim_set', 'imasinonim_set', 'antonimuvezi_set', 'sinonimuvezi_set',
+                  'kolokacija_set', 'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
                   'kvalifikatorodrednice_set', 'izmenaodrednice_set')
 
 
@@ -206,10 +210,12 @@ class CreateRecUKolokacijiSerializer(serializers.Serializer):
         return instance
 
 
-class CreateUpdateZnacenjeSerializer(serializers.Serializer):
+class CreateUpdatePodznacenjeSerializer(serializers.Serializer):
+    redni_broj = serializers.IntegerField()
+    tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
 
     def create(self, validated_data):
-        return Znacenje(**validated_data)
+        return Podznacenje(**validated_data)
 
     def update(self, instance, validated_data):
         instance.tekst = validated_data.get('tekst')
@@ -217,10 +223,17 @@ class CreateUpdateZnacenjeSerializer(serializers.Serializer):
         return instance
 
 
-class CreateUpdatePodznacenjeSerializer(serializers.Serializer):
+class CreateUpdateZnacenjeSerializer(serializers.Serializer):
+    redni_broj = serializers.IntegerField()
+    tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
+    podznacenja = serializers.ListField(child=CreateUpdatePodznacenjeSerializer(), required=False)
 
     def create(self, validated_data):
-        return Podznacenje(**validated_data)
+        podznacenja = validated_data.pop('podznacenja')
+        znacenje = Znacenje(**validated_data)
+        # for podz in podznacenja:
+        #     Podznacenje(znacenje=znacenje, **podz)
+        return znacenje
 
     def update(self, instance, validated_data):
         instance.tekst = validated_data.get('tekst')
@@ -239,15 +252,20 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     glagolski_vid = serializers.IntegerField(required=False)
     glagolski_rod = serializers.IntegerField(required=False)
     prezent = serializers.CharField(max_length=50, required=False, allow_blank=True)
-    broj_pregleda = serializers.IntegerField(required=False)
     stanje = serializers.IntegerField(required=False)
     version = serializers.IntegerField(required=False)
+    znacenja = serializers.ListField(child=CreateUpdateZnacenjeSerializer())
 
     def create(self, validated_data):
         sada = now()
-        user_id = validated_data['user_id']
-        del validated_data['user_id']
+        user_id = validated_data.pop('user_id')
+        znacenja = validated_data.pop('znacenja')
         odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
+        for znacenje in znacenja:
+            podznacenja = znacenje.pop('podznacenja')
+            z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
+            for podz in podznacenja:
+                Podznacenje.objects.create(znacenje=z, **podz)
         naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
         IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada, odrednica=odrednica,
