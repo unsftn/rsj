@@ -62,13 +62,13 @@ class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
 class KvalifikatorZnacenjaSerializer(serializers.ModelSerializer):
     class Meta:
         model = KvalifikatorZnacenja
-        fields = ('id', 'redni_broj', 'kvalifikator_id', 'znacenje_id',)
+        fields = ('id', 'redni_broj', 'kvalifikator', 'znacenje_id',)
 
 
 class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
     class Meta:
         model = KvalifikatorPodznacenja
-        fields = ('id', 'redni_broj', 'kvalifikator_id', 'podznacenje_id',)
+        fields = ('id', 'redni_broj', 'kvalifikator', 'podznacenje_id',)
 
 
 class IzmenaOdredniceSerializer(serializers.ModelSerializer):
@@ -134,14 +134,14 @@ class CreateKvalifikatorOdredniceSerializer(serializers.Serializer):
         return instance
 
 
-class CreateUpdateKvalifikatorSerializer(serializers.Serializer):
+class CreateKvalifikatorStavkeSerializer(serializers.Serializer):
+    redni_broj = serializers.IntegerField()
+    kvalifikator_id = serializers.IntegerField()
 
     def create(self, validated_data):
-        return Kvalifikator(**validated_data)
+        return None
 
     def update(self, instance, validated_data):
-        instance.naziv = validated_data.get('naziv')
-        instance.save()
         return instance
 
 
@@ -213,8 +213,10 @@ class CreateRecUKolokacijiSerializer(serializers.Serializer):
 class CreateUpdatePodznacenjeSerializer(serializers.Serializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
+    kvalifikatori = serializers.ListField(child=CreateKvalifikatorStavkeSerializer(), required=False)
 
     def create(self, validated_data):
+        kvalifikatori = validated_data.pop('kvalifikatori')
         return Podznacenje(**validated_data)
 
     def update(self, instance, validated_data):
@@ -227,12 +229,14 @@ class CreateUpdateZnacenjeSerializer(serializers.Serializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     podznacenja = serializers.ListField(child=CreateUpdatePodznacenjeSerializer(), required=False)
+    kvalifikatori = serializers.ListField(child=CreateKvalifikatorStavkeSerializer(), required=False)
 
     def create(self, validated_data):
         podznacenja = validated_data.pop('podznacenja')
+        kvalifikatori = validated_data.pop('kvalifikatori')
         znacenje = Znacenje(**validated_data)
-        # for podz in podznacenja:
-        #     Podznacenje(znacenje=znacenje, **podz)
+        for podz in podznacenja:
+            Podznacenje(znacenje=znacenje, **podz)
         return znacenje
 
     def update(self, instance, validated_data):
@@ -255,17 +259,28 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     stanje = serializers.IntegerField(required=False)
     version = serializers.IntegerField(required=False)
     znacenja = serializers.ListField(child=CreateUpdateZnacenjeSerializer())
+    kvalifikatori = serializers.ListField(child=CreateKvalifikatorStavkeSerializer(), required=False)
 
     def create(self, validated_data):
         sada = now()
         user_id = validated_data.pop('user_id')
-        znacenja = validated_data.pop('znacenja')
+        znacenja = validated_data.pop('znacenja', [])
+        kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
         odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
+        for kvod in kvalifikatori_odrednice:
+            KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
         for znacenje in znacenja:
-            podznacenja = znacenje.pop('podznacenja')
+            kvalifikatori = znacenje.pop('kvalifikatori', [])
+            podznacenja = znacenje.pop('podznacenja', [])
             z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
+            for k in kvalifikatori:
+                KvalifikatorZnacenja.objects.create(znacenje=z, **k)
             for podz in podznacenja:
-                Podznacenje.objects.create(znacenje=z, **podz)
+                kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
+                p = Podznacenje.objects.create(znacenje=z, **podz)
+                for k in kvalifikatori_podznacenja:
+                    KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
+
         naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
         IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada, odrednica=odrednica,

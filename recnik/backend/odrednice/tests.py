@@ -32,10 +32,58 @@ def get_jwt_token():
 
 
 class TestOdredniceApi(TestCase):
-    fixtures = ['users', 'odrednice']
+    fixtures = ['users', 'kvalifikatori', 'odrednice']
 
     def setUp(self) -> None:
         self.token = f'Bearer {get_jwt_token()}'
+        self.big_request_object = {
+            'rec': 'а',
+            'ijekavski': '',
+            'vrsta': 8,
+            'nastavak': '',
+            'info': 'углавном супр. значења',
+            'prezent': '',
+            'stanje': 1,
+            'varijante': [],
+            'znacenja': [{
+                'redni_broj': 1,
+                'tekst': '',
+                'podznacenja': [{
+                    'redni_broj': 1,
+                    'tekst': 'повезује реченице или реченичке чланове, делове супротног значења',
+                }, {
+                    'redni_broj': 2,
+                    'tekst': '(са везн. ”да” и негацијом) за искључивање онога што се логички очекује',
+                }],
+            }, {
+                'redni_broj': 2,
+                'tekst': '',
+                'podznacenja': [{
+                    'redni_broj': 1,
+                    'tekst': 'за повезивање, прикључивање реченица или реченичких делова различитог садржаја',
+                }, {
+                    'redni_broj': 2,
+                    'tekst': 'за исказивање нечег неочекиваног',
+                }, {
+                    'redni_broj': 3,
+                    'tekst': 'за повезивање са претходно изложеним (у причању, дијалогу, у питањима, при преласку на нову мисао) или уз објашњење (у уметнутој реченици)',
+                }],
+            }, {
+                'redni_broj': 3,
+                'tekst': 'за појачавање, истицање',
+                'podznacenja': [{
+                    'redni_broj': 1,
+                    'tekst': 'у погодбеним или допусним реченицама',
+                }, {
+                    'redni_broj': 2,
+                    'tekst': 'у допусним, изјавним реченицама са негацијом',
+                }],
+            }, {
+                'redni_broj': 4,
+                'tekst': 'у спрегама: а камоли, а некмоли, а не при поређењу, за истицање',
+                'podznacenja': [],
+            }]
+        }
 
     def test_get_kvalikator_by_id(self):
         c = Client()
@@ -50,7 +98,7 @@ class TestOdredniceApi(TestCase):
         response = c.get(KVALIFIKATOR_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(len(result), 2)
+        self.assertEquals(len(result), 186)
 
     def test_get_kvalikator_odrednice_by_id(self):
         c = Client()
@@ -270,7 +318,7 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(len(result), 2)
         self.assertEquals(result[0]['rec'], 'test rec')
 
-    def test_create_odrednica_1(self):
+    def test_create_odrednica_osnovni(self):
         request_object = {
             'rec': 'request object',
             'vrsta': 1,
@@ -290,69 +338,65 @@ class TestOdredniceApi(TestCase):
         response = c.post('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        odrednica = Odrednica.objects.get(id=3)
-        self.assertEquals(odrednica.rec, 'request object')
-        br_izmena_new = IzmenaOdrednice.objects.filter(odrednica_id=3).count()
+        odrednica = Odrednica.objects.get(rec='request object')
+        self.assertEquals(odrednica.info, 'ovo je test info za request object')
+        br_izmena_new = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
         self.assertEquals(br_izmena + 1, br_izmena_new)
 
-    def test_create_odrednica_2(self):
-        request_object = {
-            'rec': 'а',
-            'ijekavski': '',
-            'vrsta': 8,
-            'nastavak': '',
-            'info': 'углавном супр. значења',
-            'prezent': '',
-            'stanje': 1,
-            'varijante': [],
-            'znacenja': [{
-                'redni_broj': 1,
-                'tekst': '',
-                'podznacenja': [{
-                    'redni_broj': 1,
-                    'tekst': 'повезује реченице или реченичке чланове, делове супротног значења',
-                }, {
-                    'redni_broj': 2,
-                    'tekst': '(са везн. ”да” и негацијом) за искључивање онога што се логички очекује',
-                }],
-            }, {
-                'redni_broj': 2,
-                'tekst': '',
-                'podznacenja': [{
-                    'redni_broj': 1,
-                    'tekst': 'за повезивање, прикључивање реченица или реченичких делова различитог садржаја',
-                }, {
-                    'redni_broj': 2,
-                    'tekst': 'за исказивање нечег неочекиваног',
-                }, {
-                    'redni_broj': 3,
-                    'tekst': 'за повезивање са претходно изложеним (у причању, дијалогу, у питањима, при преласку на нову мисао) или уз објашњење (у уметнутој реченици)',
-                }],
-            }, {
-                'redni_broj': 3,
-                'tekst': 'за појачавање, истицање',
-                'podznacenja': [{
-                    'redni_broj': 1,
-                    'tekst': 'у погодбеним или допусним реченицама',
-                }, {
-                    'redni_broj': 2,
-                    'tekst': 'у допусним, изјавним реченицама са негацијом',
-                }],
-            }, {
-                'redni_broj': 4,
-                'tekst': 'у спрегама: а камоли, а некмоли, а не при поређењу, за истицање',
-                'podznacenja': [],
-            }]
-        }
-        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=3).count()
+    def test_create_odrednica_znacenja(self):
         c = Client()
-        response = c.post('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
+        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         odrednica = Odrednica.objects.get(rec='а')
         self.assertEquals(odrednica.info, 'углавном супр. значења')
-        br_izmena_new = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
-        self.assertEquals(br_izmena + 1, br_izmena_new)
+        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
+        self.assertEquals(br_izmena, 1)
+
+    def test_create_odrednica_kvalifikatori_odrednice(self):
+        self.big_request_object['kvalifikatori'] = [{
+            'redni_broj': 1,
+            'kvalifikator_id': 4
+        }]
+        c = Client()
+        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
+                          content_type=JSON)
+        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
+        odrednica = Odrednica.objects.get(rec='а')
+        self.assertEquals(odrednica.info, 'углавном супр. значења')
+        self.assertEquals(odrednica.kvalifikatorodrednice_set.count(), 1)
+        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
+        self.assertEquals(br_izmena, 1)
+
+    def test_create_odrednica_kvalifikatori_znacenja(self):
+        self.big_request_object['znacenja'][0]['kvalifikatori'] = [{
+            'redni_broj': 1,
+            'kvalifikator_id': 4
+        }]
+        c = Client()
+        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
+                          content_type=JSON)
+        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
+        odrednica = Odrednica.objects.get(rec='а')
+        self.assertEquals(odrednica.info, 'углавном супр. значења')
+        self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).kvalifikatorznacenja_set.count(), 1)
+        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
+        self.assertEquals(br_izmena, 1)
+
+    def test_create_odrednica_kvalifikatori_podznacenja(self):
+        self.big_request_object['znacenja'][0]['podznacenja'][0]['kvalifikatori'] = [{
+            'redni_broj': 1,
+            'kvalifikator_id': 4
+        }]
+        c = Client()
+        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
+                          content_type=JSON)
+        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
+        odrednica = Odrednica.objects.get(rec='а')
+        self.assertEquals(odrednica.info, 'углавном супр. значења')
+        self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).podznacenje_set.get(redni_broj=1).kvalifikatorpodznacenja_set.count(), 1)
+        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
+        self.assertEquals(br_izmena, 1)
 
     def test_concurrent_update_odrednice(self):
         data_obj1 = {
