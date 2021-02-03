@@ -84,6 +84,10 @@ class TestOdredniceApi(TestCase):
                 'podznacenja': [],
             }]
         }
+        self.test_kvalifikator = {
+            'redni_broj': 1,
+            'kvalifikator_id': 4
+        }
 
     def test_get_kvalikator_by_id(self):
         c = Client()
@@ -343,7 +347,7 @@ class TestOdredniceApi(TestCase):
         br_izmena_new = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
         self.assertEquals(br_izmena + 1, br_izmena_new)
 
-    def test_create_odrednica_znacenja(self):
+    def save_big_odrednica(self):
         c = Client()
         response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
@@ -352,52 +356,26 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(odrednica.info, 'углавном супр. значења')
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
         self.assertEquals(br_izmena, 1)
+        return odrednica
+
+    def test_create_odrednica_znacenja(self):
+        self.save_big_odrednica()
 
     def test_create_odrednica_kvalifikatori_odrednice(self):
-        self.big_request_object['kvalifikatori'] = [{
-            'redni_broj': 1,
-            'kvalifikator_id': 4
-        }]
-        c = Client()
-        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
-                          content_type=JSON)
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        odrednica = Odrednica.objects.get(rec='а')
-        self.assertEquals(odrednica.info, 'углавном супр. значења')
+        self.big_request_object['kvalifikatori'] = [self.test_kvalifikator]
+        odrednica = self.save_big_odrednica()
         self.assertEquals(odrednica.kvalifikatorodrednice_set.count(), 1)
-        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
-        self.assertEquals(br_izmena, 1)
 
     def test_create_odrednica_kvalifikatori_znacenja(self):
-        self.big_request_object['znacenja'][0]['kvalifikatori'] = [{
-            'redni_broj': 1,
-            'kvalifikator_id': 4
-        }]
-        c = Client()
-        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
-                          content_type=JSON)
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        odrednica = Odrednica.objects.get(rec='а')
-        self.assertEquals(odrednica.info, 'углавном супр. значења')
+        self.big_request_object['znacenja'][0]['kvalifikatori'] = [self.test_kvalifikator]
+        odrednica = self.save_big_odrednica()
         self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).kvalifikatorznacenja_set.count(), 1)
-        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
-        self.assertEquals(br_izmena, 1)
 
     def test_create_odrednica_kvalifikatori_podznacenja(self):
-        self.big_request_object['znacenja'][0]['podznacenja'][0]['kvalifikatori'] = [{
-            'redni_broj': 1,
-            'kvalifikator_id': 4
-        }]
-        c = Client()
-        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
-                          content_type=JSON)
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        odrednica = Odrednica.objects.get(rec='а')
-        self.assertEquals(odrednica.info, 'углавном супр. значења')
+        self.big_request_object['znacenja'][0]['podznacenja'][0]['kvalifikatori'] = [self.test_kvalifikator]
+        odrednica = self.save_big_odrednica()
         self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).podznacenje_set.get(redni_broj=1).kvalifikatorpodznacenja_set.count(), 1)
-        br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
-        self.assertEquals(br_izmena, 1)
-
+        
     def test_concurrent_update_odrednice(self):
         data_obj1 = {
             'id': 1,
