@@ -1,9 +1,6 @@
 from django import forms
 from django.contrib import admin
-from .models import (Odrednica, Antonim, Sinonim, Znacenje,
-                     OperacijaIzmene, IzmenaOdrednice, Kolokacija, IzrazFraza,
-                     RecUKolokaciji, Kvalifikator, KvalifikatorOdrednice,
-                     Podznacenje, VarijantaOdrednice)
+from .models import *
 
 
 class ZnacenjeForm(forms.ModelForm):
@@ -30,6 +27,14 @@ class PodznacenjeAdmin(admin.ModelAdmin):
     form = PodznacenjeForm
 
 
+class IzrazFrazaForm(forms.ModelForm):
+    opis = forms.CharField(widget=forms.Textarea, max_length=2000)
+
+    class Meta:
+        model = IzrazFraza
+        fields = '__all__'
+
+
 admin.site.register(Odrednica)
 admin.site.register(OperacijaIzmene)
 admin.site.register(IzmenaOdrednice)
@@ -40,6 +45,8 @@ admin.site.register(RecUKolokaciji)
 admin.site.register(IzrazFraza)
 admin.site.register(Kvalifikator)
 admin.site.register(KvalifikatorOdrednice)
+admin.site.register(KvalifikatorPodznacenja)
+admin.site.register(KvalifikatorZnacenja)
 admin.site.register(Znacenje, ZnacenjeAdmin)
 admin.site.register(Podznacenje, PodznacenjeAdmin)
 admin.site.register(VarijantaOdrednice)

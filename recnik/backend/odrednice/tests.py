@@ -352,7 +352,8 @@ class TestOdredniceApi(TestCase):
         response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-        odrednica = Odrednica.objects.get(rec='а')
+        odrednica_id = json.loads(response.content.decode('utf-8'))['id']
+        odrednica = Odrednica.objects.get(id=odrednica_id)
         self.assertEquals(odrednica.info, 'углавном супр. значења')
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=odrednica.id).count()
         self.assertEquals(br_izmena, 1)
@@ -375,7 +376,7 @@ class TestOdredniceApi(TestCase):
         self.big_request_object['znacenja'][0]['podznacenja'][0]['kvalifikatori'] = [self.test_kvalifikator]
         odrednica = self.save_big_odrednica()
         self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).podznacenje_set.get(redni_broj=1).kvalifikatorpodznacenja_set.count(), 1)
-        
+
     def test_concurrent_update_odrednice(self):
         data_obj1 = {
             'id': 1,

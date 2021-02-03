@@ -3,6 +3,30 @@ from django.utils.timezone import now
 from .models import *
 
 
+class KvalifikatorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Kvalifikator
+        fields = ('id', 'skracenica', 'naziv')
+
+
+class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorOdrednice
+        fields = ('id', 'redni_broj', 'kvalifikator_id', 'odrednica_id',)
+
+
+class KvalifikatorZnacenjaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorZnacenja
+        fields = ('id', 'redni_broj', 'kvalifikator', 'znacenje_id',)
+
+
+class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorPodznacenja
+        fields = ('id', 'redni_broj', 'kvalifikator', 'podznacenje_id',)
+
+
 class AntonimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Antonim
@@ -34,41 +58,20 @@ class IzrazFrazaSerializer(serializers.ModelSerializer):
 
 
 class PodznacenjeSerializer(serializers.ModelSerializer):
+    kvalifikatorpodznacenja_set = KvalifikatorPodznacenjaSerializer(many=True)
+
     class Meta:
         model = Podznacenje
-        fields = ('id', 'tekst', 'znacenje_id',)
+        fields = ('id', 'tekst', 'znacenje_id', 'kvalifikatorpodznacenja_set')
 
 
 class ZnacenjeSerializer(serializers.ModelSerializer):
     podznacenje_set = PodznacenjeSerializer(many=True, read_only=True)
+    kvalifikatorznacenja_set = KvalifikatorZnacenjaSerializer(many=True)
 
     class Meta:
         model = Znacenje
-        fields = ('id', 'tekst', 'odrednica_id', 'podznacenje_set',)
-
-
-class KvalifikatorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Kvalifikator
-        fields = ('id', 'skracenica', 'naziv')
-
-
-class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KvalifikatorOdrednice
-        fields = ('id', 'redni_broj', 'kvalifikator_id', 'odrednica_id',)
-
-
-class KvalifikatorZnacenjaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KvalifikatorZnacenja
-        fields = ('id', 'redni_broj', 'kvalifikator', 'znacenje_id',)
-
-
-class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = KvalifikatorPodznacenja
-        fields = ('id', 'redni_broj', 'kvalifikator', 'podznacenje_id',)
+        fields = ('id', 'tekst', 'odrednica_id', 'podznacenje_set', 'kvalifikatorznacenja_set')
 
 
 class IzmenaOdredniceSerializer(serializers.ModelSerializer):

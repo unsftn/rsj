@@ -1,0 +1,21 @@
+[
+    {
+        "model": "odrednice.Odrednica",
+        "pk": 3,
+        "fields": {
+            "rec": "а",
+            "vrsta": 6,
+            "rod": null,
+            "nastavak": "test nastavak",
+            "info": "(различито наглашено)",
+            "glagolski_vid": null,
+            "glagolski_rod": null,
+            "prezent": "",
+            "broj_pregleda": 10,
+            "vreme_kreiranja": "2020-12-07T16:16:28+01:00",
+            "poslednja_izmena": "2020-12-07T16:16:28+01:00",
+            "stanje": 1,
+            "version": 1
+        }
+    }
+]
