@@ -3,6 +3,8 @@ from django.utils.timezone import now
 from .models import *
 
 
+# read-only serializers
+
 class KvalifikatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Kvalifikator
@@ -116,31 +118,9 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'kvalifikatorodrednice_set', 'izmenaodrednice_set')
 
 
-class CreateUpdateIzrazFrazaSerializer(serializers.Serializer):
+# insert/update serializers
 
-    def create(self, validated_data):
-        return IzrazFraza(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.opis = validated_data.get('opis')
-        instance.save()
-        return instance
-
-
-class CreateKvalifikatorOdredniceSerializer(serializers.Serializer):
-
-    def create(self, validated_data):
-        return KvalifikatorOdrednice(**validated_data)
-
-    def update(self, instance, validated_data):
-        # nema azuriranja
-        return instance
-
-
-class CreateKvalifikatorStavkeSerializer(serializers.Serializer):
-    redni_broj = serializers.IntegerField()
-    kvalifikator_id = serializers.IntegerField()
-
+class NoSaveSerializer(serializers.Serializer):
     def create(self, validated_data):
         return None
 
@@ -148,104 +128,63 @@ class CreateKvalifikatorStavkeSerializer(serializers.Serializer):
         return instance
 
 
-class CreateIzmenaOdredniceSerializer(serializers.Serializer):
+class CreateUpdateIzrazFrazaSerializer(NoSaveSerializer):
+    pass
+
+
+class CreateKvalifikatorOdredniceSerializer(NoSaveSerializer):
+    pass
+
+
+class CreatePojavaKvalifikatoraSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    kvalifikator_id = serializers.IntegerField()
+
+
+class CreateIzmenaOdredniceSerializer(NoSaveSerializer):
     vreme = serializers.DateTimeField()
     user_id = serializers.IntegerField()
     operacija_izmene_id = serializers.IntegerField()
 
-    def create(self, validated_data):
-        return IzmenaOdrednice(**validated_data)
 
-    def update(self, instance, validated_data):
-        # nema azuriranja
-        return instance
+class CreateUpdateOperacijaIzmeneSerializer(NoSaveSerializer):
+    pass
 
 
-class CreateUpdateOperacijaIzmeneSerializer(serializers.Serializer):
-
-    def create(self, validated_data):
-        return OperacijaIzmene(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.naziv = validated_data.get('naziv')
-        instance.save()
-        return instance
+class CreateAntonimSerializer(NoSaveSerializer):
+    pass
 
 
-class CreateAntonimSerializer(serializers.Serializer):
-
-    def create(self, validated_data):
-        return Antonim(**validated_data)
-
-    def update(self, instance, validated_data):
-        # nikad ne radimo update
-        return instance
+class CreateSinonimSerializer(NoSaveSerializer):
+    pass
 
 
-class CreateSinonimSerializer(serializers.Serializer):
-
-    def create(self, validated_data):
-        return Sinonim(**validated_data)
-
-    def update(self, instance, validated_data):
-        # nikad ne radimo update
-        return instance
+class CreateUpdateKolokacijaSerializer(NoSaveSerializer):
+    pass
 
 
-class CreateUpdateKolokacijaSerializer(serializers.Serializer):
-
-    def create(self, validated_data):
-        return Kolokacija(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.napomena = validated_data.get('napomena')
-        instance.save()
-        return instance
+class CreateRecUKolokacijiSerializer(NoSaveSerializer):
+    pass
 
 
-class CreateRecUKolokacijiSerializer(serializers.Serializer):
-
-    def create(self, validated_data):
-        return RecUKolokaciji(**validated_data)
-
-    def update(self, instance, validated_data):
-        # nikad ne radimo update
-        return instance
-
-
-class CreateUpdatePodznacenjeSerializer(serializers.Serializer):
+class CreatePodznacenjeSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
-    kvalifikatori = serializers.ListField(child=CreateKvalifikatorStavkeSerializer(), required=False)
-
-    def create(self, validated_data):
-        kvalifikatori = validated_data.pop('kvalifikatori')
-        return Podznacenje(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.tekst = validated_data.get('tekst')
-        instance.save()
-        return instance
+    kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
 
 
-class CreateUpdateZnacenjeSerializer(serializers.Serializer):
+class CreateZnacenjeSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
-    podznacenja = serializers.ListField(child=CreateUpdatePodznacenjeSerializer(), required=False)
-    kvalifikatori = serializers.ListField(child=CreateKvalifikatorStavkeSerializer(), required=False)
+    podznacenja = serializers.ListField(child=CreatePodznacenjeSerializer(), required=False)
+    kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
 
-    def create(self, validated_data):
-        podznacenja = validated_data.pop('podznacenja')
-        kvalifikatori = validated_data.pop('kvalifikatori')
-        znacenje = Znacenje(**validated_data)
-        for podz in podznacenja:
-            Podznacenje(znacenje=znacenje, **podz)
-        return znacenje
 
-    def update(self, instance, validated_data):
-        instance.tekst = validated_data.get('tekst')
-        instance.save()
-        return instance
+class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    tekst = serializers.CharField(max_length=50)
+    ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
 
 
 class CreateOdrednicaSerializer(serializers.Serializer):
@@ -261,15 +200,19 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     prezent = serializers.CharField(max_length=50, required=False, allow_blank=True)
     stanje = serializers.IntegerField(required=False)
     version = serializers.IntegerField(required=False)
-    znacenja = serializers.ListField(child=CreateUpdateZnacenjeSerializer())
-    kvalifikatori = serializers.ListField(child=CreateKvalifikatorStavkeSerializer(), required=False)
+    znacenja = serializers.ListField(child=CreateZnacenjeSerializer())
+    kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
+    varijante = serializers.ListField(child=CreateVarijantaOdredniceSerializer(), required=False)
 
     def create(self, validated_data):
         sada = now()
         user_id = validated_data.pop('user_id')
         znacenja = validated_data.pop('znacenja', [])
         kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
+        varijante = validated_data.pop('varijante', [])
         odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
+        for var_odr in varijante:
+            VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
         for kvod in kvalifikatori_odrednice:
             KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
         for znacenje in znacenja:
