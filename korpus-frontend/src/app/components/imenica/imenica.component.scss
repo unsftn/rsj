@@ -21,10 +21,22 @@
 
 .variants {
     padding-left: 4px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.variants .p-col-12 {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 button {
     margin-left: 5px;
+}
+
+.button {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 :host ::ng-deep .p-inputgroup {
@@ -39,4 +51,8 @@ button {
 
 :host ::ng-deep .p-fieldset {
     margin-bottom: 20px;
+}
+
+:host ::ng-deep .p-fieldset-content {
+    padding-top: 0;
 }

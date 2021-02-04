@@ -1,4 +1,4 @@
-export interface ImenicaVariant {
+export interface ImenicaVarijanta {
     id?: number;
     imenica_id?: number;
     redni_broj?: number;
