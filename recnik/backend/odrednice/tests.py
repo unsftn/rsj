@@ -1,10 +1,8 @@
 import json
+from django.urls import reverse
 from django.test import TestCase, Client
 from rest_framework import status
-from .models import (Kvalifikator, KvalifikatorOdrednice, Podznacenje,
-                     OperacijaIzmene, IzmenaOdrednice, IzrazFraza, Odrednica,
-                     Antonim, Sinonim, Kolokacija, RecUKolokaciji, Znacenje)
-from django.urls import reverse
+from .models import *
 
 KVALIFIKATOR_LIST = reverse('odrednice:kvalifikator-list')
 OPERACIJA_IZMENE_LIST = reverse('odrednice:operacija-izmene-list')
@@ -105,6 +103,22 @@ class TestOdredniceApi(TestCase):
             'redni_broj': 2,
             'opis': 'текст конкордансе 2...',
             'publikacija_id': 2
+        }
+        self.sinonim_1 = {
+            'redni_broj': 1,
+            'sinonim_id': 2
+        }
+        self.sinonim_2 = {
+            'redni_broj': 2,
+            'sinonim_id': 1
+        }
+        self.antonim_1 = {
+            'redni_broj': 1,
+            'antonim_id': 2
+        }
+        self.antonim_2 = {
+            'redni_broj': 2,
+            'antonim_id': 1
         }
 
     def test_get_kvalikator_by_id(self):
@@ -419,6 +433,18 @@ class TestOdredniceApi(TestCase):
         self.big_request_object['znacenja'][0]['podznacenja'][0]['konkordanse'] = [self.konkordansa_1, self.konkordansa_2]
         odrednica = self.save_big_odrednica()
         self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).podznacenje_set.get(redni_broj=1).konkordansa_set.get(redni_broj=1).opis, 'текст конкордансе 1...')
+
+    def test_create_odrednica_sinonim(self):
+        self.big_request_object['sinonimi'] = [self.sinonim_1]
+        odrednica = self.save_big_odrednica()
+        self.assertEquals(odrednica.ima_sinonim.get(redni_broj=1).ima_sinonim.id, odrednica.id)
+        self.assertEquals(odrednica.ima_sinonim.get(redni_broj=1).u_vezi_sa.id, 2)
+
+    def test_create_odrednica_antonim(self):
+        self.big_request_object['antonimi'] = [self.antonim_1]
+        odrednica = self.save_big_odrednica()
+        self.assertEquals(odrednica.ima_antonim.get(redni_broj=1).ima_antonim.id, odrednica.id)
+        self.assertEquals(odrednica.ima_antonim.get(redni_broj=1).u_vezi_sa.id, 2)
 
     def test_concurrent_update_odrednice(self):
         data_obj1 = {

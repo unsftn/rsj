@@ -110,35 +110,35 @@ class VarijantaOdrednice(models.Model):
 
 class Antonim(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    ima_antonim_id = models.ForeignKey(Odrednica,  verbose_name='одредница има антоним', on_delete=models.CASCADE,
-                                       related_name='ima_antonim')
-    u_vezi_sa_id = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
-                                     related_name='antonim_u_vezi_sa')
-
-    def get_absolute_url(self):
-        return reverse("odrednice:antonim-detail", kwargs={"pk": self.pk})
+    ima_antonim = models.ForeignKey(Odrednica,  verbose_name='одредница има антоним', on_delete=models.CASCADE,
+                                    related_name='ima_antonim')
+    u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
+                                  related_name='antonim_u_vezi_sa')
 
     class Meta:
         verbose_name = 'антоним'
         verbose_name_plural = 'антоними'
 
     def __str__(self):
-        return str(self.ima_antonim_id)
+        return f'{self.redni_broj}: {self.ima_antonim.id} -> {self.u_vezi_sa.id}'
+
+    def get_absolute_url(self):
+        return reverse("odrednice:antonim-detail", kwargs={"pk": self.pk})
 
 
 class Sinonim(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    ima_sinonim_id = models.ForeignKey(Odrednica, verbose_name='одредница има синоним', on_delete=models.CASCADE,
-                                       related_name='ima_sinonim')
-    u_vezi_sa_id = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
-                                     related_name='sinonim_u_vezi_sa')
+    ima_sinonim = models.ForeignKey(Odrednica, verbose_name='одредница има синоним', on_delete=models.CASCADE,
+                                    related_name='ima_sinonim')
+    u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
+                                  related_name='sinonim_u_vezi_sa')
 
     class Meta:
         verbose_name = 'синоним'
         verbose_name_plural = 'синоними'
 
     def __str__(self):
-        return str(self.ima_sinonim_id)
+        return f'{self.redni_broj}: {self.ima_sinonim.id} -> {self.u_vezi_sa.id}'
 
     def get_absolute_url(self):
         return reverse("odrednice:sinonim-detail", kwargs={"pk": self.pk})

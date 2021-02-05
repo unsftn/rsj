@@ -206,6 +206,16 @@ class CreateZnacenjeSerializer(NoSaveSerializer):
     konkordanse = serializers.ListField(child=CreateKonkordansaSerializer(), required=False)
 
 
+class CreateSinonimSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    sinonim_id = serializers.IntegerField()
+
+
+class CreateAntonimSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    antonim_id = serializers.IntegerField()
+
+
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=50)
@@ -230,6 +240,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     varijante = serializers.ListField(child=CreateVarijantaOdredniceSerializer(), required=False)
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
+    sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False)
+    antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
 
     def create(self, validated_data):
         sada = now()
@@ -238,6 +250,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
         varijante = validated_data.pop('varijante', [])
         izrazi_fraze = validated_data.pop('izrazi_fraze', [])
+        sinonimi = validated_data.pop('sinonimi', [])
+        antonimi = validated_data.pop('antonimi', [])
         odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
         for var_odr in varijante:
             VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
@@ -268,6 +282,10 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     IzrazFraza.objects.create(podznacenje=p, **ifp)
                 for konz in konkordanse_podznacenja:
                     Konkordansa.objects.create(podznacenje=p, **konz)
+        for sin in sinonimi:
+            Sinonim.objects.create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
+        for ant in antonimi:
+            Antonim.objects.create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
 
         naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
