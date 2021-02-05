@@ -187,6 +187,11 @@ class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
 
 
+class CreateIzrazFrazaSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    opis = serializers.CharField(max_length=2000, allow_blank=True)
+
+
 class CreateOdrednicaSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     rec = serializers.CharField(max_length=50, required=False, allow_blank=True)
@@ -203,6 +208,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     znacenja = serializers.ListField(child=CreateZnacenjeSerializer())
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     varijante = serializers.ListField(child=CreateVarijantaOdredniceSerializer(), required=False)
+    izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
 
     def create(self, validated_data):
         sada = now()
@@ -210,22 +216,31 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         znacenja = validated_data.pop('znacenja', [])
         kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
         varijante = validated_data.pop('varijante', [])
+        izrazi_fraze = validated_data.pop('izrazi_fraze', [])
         odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
         for var_odr in varijante:
             VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
         for kvod in kvalifikatori_odrednice:
             KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
+        for izr_frz in izrazi_fraze:
+            IzrazFraza.objects.create(odrednica=odrednica, **izr_frz)
         for znacenje in znacenja:
             kvalifikatori = znacenje.pop('kvalifikatori', [])
             podznacenja = znacenje.pop('podznacenja', [])
+            izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
             z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
             for k in kvalifikatori:
                 KvalifikatorZnacenja.objects.create(znacenje=z, **k)
+            for ifz in izrazi_fraze_znacenja:
+                IzrazFraza.objects.create(znacenje=z, **ifz)
             for podz in podznacenja:
                 kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
+                izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
                 p = Podznacenje.objects.create(znacenje=z, **podz)
                 for k in kvalifikatori_podznacenja:
                     KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
+                for ifp in izrazi_fraze_podznacenja:
+                    IzrazFraza.objects.create(podznacenje=p, **ifp)
 
         naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
