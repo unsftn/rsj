@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.timezone import now
-from korpus import models as korpus_models
-from concurrency.fields import AutoIncVersionField
 from django.urls import reverse
+from django.utils.timezone import now
+from concurrency.fields import AutoIncVersionField
+from korpus import models as korpus_models
+from publikacije import models as publikacije_models
 
 VRSTA_ODREDNICE = [
     (0, 'именица'),
@@ -288,3 +289,19 @@ class IzrazFraza(models.Model):
         return reverse("odrednice:izrazfraza-detail", kwargs={"pk": self.pk})
 
 
+class Konkordansa(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    opis = models.CharField('опис', max_length=2000)
+    znacenje = models.ForeignKey(Znacenje, verbose_name='значење', blank=True, null=True, on_delete=models.CASCADE)
+    podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
+    publikacija = models.ForeignKey(publikacije_models.Publikacija, verbose_name='публикација', blank=True, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = 'конкорданса'
+        verbose_name_plural = 'конкордансе'
+
+    def __str__(self):
+        return str(self.redni_broj) + ' ' + self.opis
+
+    def get_absolute_url(self):
+        return reverse("odrednice:konkordansa-detail", kwargs={"pk": self.pk})

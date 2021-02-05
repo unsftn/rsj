@@ -59,21 +59,32 @@ class IzrazFrazaSerializer(serializers.ModelSerializer):
         fields = ('id', 'opis', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id')
 
 
+class KonkordansaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Konkordansa
+        fields = ('id', 'redni_broj', 'opis', 'znacenje_id', 'podznacenje_id', 'publikacija_id')
+
+
 class PodznacenjeSerializer(serializers.ModelSerializer):
     kvalifikatorpodznacenja_set = KvalifikatorPodznacenjaSerializer(many=True)
+    izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
+    konkordansa_set = KonkordansaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Podznacenje
-        fields = ('id', 'tekst', 'znacenje_id', 'kvalifikatorpodznacenja_set')
+        fields = ('id', 'tekst', 'znacenje_id', 'kvalifikatorpodznacenja_set', 'izrazfraza_set', 'konkordansa_set')
 
 
 class ZnacenjeSerializer(serializers.ModelSerializer):
     podznacenje_set = PodznacenjeSerializer(many=True, read_only=True)
     kvalifikatorznacenja_set = KvalifikatorZnacenjaSerializer(many=True)
+    izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
+    konkordansa_set = KonkordansaSerializer(many=True, read_only=True)
 
     class Meta:
         model = Znacenje
-        fields = ('id', 'tekst', 'odrednica_id', 'podznacenje_set', 'kvalifikatorznacenja_set')
+        fields = ('id', 'tekst', 'odrednica_id', 'podznacenje_set', 'kvalifikatorznacenja_set', 'izrazfraza_set',
+                  'konkordansa_set')
 
 
 class IzmenaOdredniceSerializer(serializers.ModelSerializer):
@@ -172,11 +183,18 @@ class CreateIzrazFrazaSerializer(NoSaveSerializer):
     opis = serializers.CharField(max_length=2000, allow_blank=True)
 
 
+class CreateKonkordansaSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    opis = serializers.CharField(max_length=2000, allow_blank=True)
+    publikacija_id = serializers.IntegerField(required=False)
+
+
 class CreatePodznacenjeSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
+    konkordanse = serializers.ListField(child=CreateKonkordansaSerializer(), required=False)
 
 
 class CreateZnacenjeSerializer(NoSaveSerializer):
@@ -185,6 +203,7 @@ class CreateZnacenjeSerializer(NoSaveSerializer):
     podznacenja = serializers.ListField(child=CreatePodznacenjeSerializer(), required=False)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
+    konkordanse = serializers.ListField(child=CreateKonkordansaSerializer(), required=False)
 
 
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
@@ -230,19 +249,25 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             kvalifikatori = znacenje.pop('kvalifikatori', [])
             podznacenja = znacenje.pop('podznacenja', [])
             izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
+            konkordanse_znacenja = znacenje.pop('konkordanse', [])
             z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
             for k in kvalifikatori:
                 KvalifikatorZnacenja.objects.create(znacenje=z, **k)
             for ifz in izrazi_fraze_znacenja:
                 IzrazFraza.objects.create(znacenje=z, **ifz)
+            for konz in konkordanse_znacenja:
+                Konkordansa.objects.create(znacenje=z, **konz)
             for podz in podznacenja:
                 kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
                 izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
+                konkordanse_podznacenja = podz.pop('konkordanse', [])
                 p = Podznacenje.objects.create(znacenje=z, **podz)
                 for k in kvalifikatori_podznacenja:
                     KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
                 for ifp in izrazi_fraze_podznacenja:
                     IzrazFraza.objects.create(podznacenje=p, **ifp)
+                for konz in konkordanse_podznacenja:
+                    Konkordansa.objects.create(podznacenje=p, **konz)
 
         naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
         operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
