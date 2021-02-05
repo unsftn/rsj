@@ -88,6 +88,14 @@ class TestOdredniceApi(TestCase):
             'redni_broj': 1,
             'kvalifikator_id': 4
         }
+        self.test_izraz_fraza_1 = {
+            'redni_broj': 1,
+            'opis': 'бела кафа'
+        }
+        self.test_izraz_fraza_2 = {
+            'redni_broj': 2,
+            'opis': 'флагрантно кршење људских права'
+        }
 
     def test_get_kvalikator_by_id(self):
         c = Client()
@@ -376,6 +384,21 @@ class TestOdredniceApi(TestCase):
         self.big_request_object['znacenja'][0]['podznacenja'][0]['kvalifikatori'] = [self.test_kvalifikator]
         odrednica = self.save_big_odrednica()
         self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).podznacenje_set.get(redni_broj=1).kvalifikatorpodznacenja_set.count(), 1)
+
+    def test_create_odrednica_izrazi_fraze(self):
+        self.big_request_object['izrazi_fraze'] = [self.test_izraz_fraza_1, self.test_izraz_fraza_2]
+        odrednica = self.save_big_odrednica()
+        self.assertEquals(odrednica.izrazfraza_set.get(redni_broj=1).opis, 'бела кафа')
+
+    def test_create_odrednica_znacenje_izrazi_fraze(self):
+        self.big_request_object['znacenja'][0]['izrazi_fraze'] = [self.test_izraz_fraza_1, self.test_izraz_fraza_2]
+        odrednica = self.save_big_odrednica()
+        self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).izrazfraza_set.get(redni_broj=1).opis, 'бела кафа')
+
+    def test_create_odrednica_podznacenje_izrazi_fraze(self):
+        self.big_request_object['znacenja'][0]['podznacenja'][0]['izrazi_fraze'] = [self.test_izraz_fraza_1, self.test_izraz_fraza_2]
+        odrednica = self.save_big_odrednica()
+        self.assertEquals(odrednica.znacenje_set.get(redni_broj=1).podznacenje_set.get(redni_broj=1).izrazfraza_set.get(redni_broj=1).opis, 'бела кафа')
 
     def test_concurrent_update_odrednice(self):
         data_obj1 = {

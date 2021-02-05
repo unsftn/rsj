@@ -167,10 +167,16 @@ class CreateRecUKolokacijiSerializer(NoSaveSerializer):
     pass
 
 
+class CreateIzrazFrazaSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    opis = serializers.CharField(max_length=2000, allow_blank=True)
+
+
 class CreatePodznacenjeSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
+    izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
 
 
 class CreateZnacenjeSerializer(NoSaveSerializer):
@@ -178,6 +184,7 @@ class CreateZnacenjeSerializer(NoSaveSerializer):
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     podznacenja = serializers.ListField(child=CreatePodznacenjeSerializer(), required=False)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
+    izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
 
 
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
@@ -185,11 +192,6 @@ class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     tekst = serializers.CharField(max_length=50)
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
-
-
-class CreateIzrazFrazaSerializer(NoSaveSerializer):
-    redni_broj = serializers.IntegerField()
-    opis = serializers.CharField(max_length=2000, allow_blank=True)
 
 
 class CreateOdrednicaSerializer(serializers.Serializer):
