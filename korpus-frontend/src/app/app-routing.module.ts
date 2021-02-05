@@ -18,7 +18,7 @@ const routes: Routes = [
     component: FormSelectorComponent,
   },
   {
-    path: 'edit/:id',
+    path: 'edit/:vrsta/:id',
     component: FormSelectorComponent,
   },
   { path: '**', redirectTo: '' },

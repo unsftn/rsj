@@ -1,9 +1,8 @@
 import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Imenica } from '../../models/imenica';
-import { ImenicaVariant } from '../../models/imenicaVariant';
+import { ImenicaVarijanta } from '../../models/imenicaVarijanta';
 import { ImenicaService } from '../../services/imenica/imenica.service';
 
 interface NounType {
@@ -24,20 +23,20 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
   @Output() imenicaChanged: EventEmitter<Imenica> = new EventEmitter();
 
   nounTypes: NounType[];
-  selectedNounType: NounType = {name:'', id:0};
-  variants: ImenicaVariant[];
+  selectedNounType: NounType;
+  variants: ImenicaVarijanta[];
   id: number;
 
-  constructor(private messageService: MessageService, private httpClient: HttpClient,
-    private imenicaService: ImenicaService, private route: ActivatedRoute) {
+  constructor(private messageService: MessageService, private imenicaService: ImenicaService, private route: ActivatedRoute) {
     this.nounTypes = [
-      {id:1, name:'апстрактна'},
-      {id:2, name:'заједничка'},
-      {id:3, name:'властита'},
-      {id:4, name:'збирна'},
-      {id:5, name:'градивна'},
-      {id:6, name:'глаголска'}
+      { id:1, name:'апстрактна' },
+      { id:2, name:'заједничка' },
+      { id:3, name:'властита' },
+      { id:4, name:'збирна' },
+      { id:5, name:'градивна' },
+      { id:6, name:'глаголска' }
     ];
+    this.selectedNounType = { id:0, name:'' };
   }
 
   ngOnInit(): void {
@@ -58,8 +57,8 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
         vokmno: '',
         insmno: '',
         lokmno: '',
-        varijante: new Array<ImenicaVariant>()
-      }
+        varijante: new Array<ImenicaVarijanta>()
+      };
     else {
       this.route.params.subscribe((params) => {
         this.id = +params.id;
@@ -81,7 +80,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
         vokmno: 'тестови',
         insmno: 'тестовима',
         lokmno: 'тестовима',
-        vrsta: {id: 2, naziv: "заједничка"},
+        vrsta: { id:2, naziv:'заједничка' },
         version: 1,
         varijante: [
           {
@@ -104,7 +103,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
             lokmno: ''
           }
         ]
-      }
+      };
       this.selectedNounType = this.nounTypes.find(type => type.id === this.imenica.vrsta.id);
       delete this.imenica.vrsta;
     }
@@ -118,33 +117,36 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
   }
 
   addVariant(): void {
-    this.variants.push({
-      nomjed: '',
-      genjed: '',
-      datjed: '',
-      akujed: '',
-      vokjed: '',
-      insjed: '',
-      lokjed: '',
-      nommno: '',
-      genmno: '',
-      datmno: '',
-      akumno: '',
-      vokmno: '',
-      insmno: '',
-      lokmno: ''
-    });
+    this.variants.push(
+      {
+        nomjed: '',
+        genjed: '',
+        datjed: '',
+        akujed: '',
+        vokjed: '',
+        insjed: '',
+        lokjed: '',
+        nommno: '',
+        genmno: '',
+        datmno: '',
+        akumno: '',
+        vokmno: '',
+        insmno: '',
+        lokmno: ''
+      }
+    );
     this.alignVariantForms();
+  }
+
+  removeVariant(variant: ImenicaVarijanta): void {
+    this.variants.splice(this.variants.indexOf(variant), 1);
+    this.changeImenica();
   }
 
   changeImenica(): void {
     this.imenica.vrsta_id = this.selectedNounType.id;
     this.imenica.varijante = this.variants;
     this.imenicaChanged.emit(this.imenica);
-  }
-
-  removeVariant(variant: ImenicaVariant): void {
-    this.variants.splice(this.variants.indexOf(variant), 1);
   }
 
   async getImenicaById() {

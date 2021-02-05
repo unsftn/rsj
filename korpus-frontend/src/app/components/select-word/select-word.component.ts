@@ -26,8 +26,22 @@ export class SelectWordComponent implements OnInit {
   optionsCount: number;
   wordLength: number;
   flipped: boolean;
+  wordTypesMap: any;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.wordTypesMap = {
+      'именица':'imenica',
+      'глагол':'glagol',
+      'придев':'pridev',
+      'заменица':'zamenica',
+      'број':'broj',
+      'прилог':'prilog',
+      'предлог':'predlog',
+      'узвик':'uzvik',
+      'речца':'recca',
+      'везник':'veznik'
+    };
+  }
 
   ngOnInit(): void {
     $('.text').lettering('words');
@@ -165,6 +179,6 @@ export class SelectWordComponent implements OnInit {
     let word = this.option.split(' - ')[0].split(') ')[1]; // (1) тест - именица => тест
     let type = this.option.split(' - ')[1]; // (1) тест - именица => именица
     let id = this.options.find(opt => opt.word === word && opt.type === type).id;
-    this.router.navigate(['/edit/'+id]);
+    this.router.navigate(['/edit/'+this.wordTypesMap[type]+'/'+id]);
   }
 }

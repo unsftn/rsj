@@ -19,4 +19,5 @@
         </div>
     </div>
     <imenica *ngIf="selectedWordType.name==='именица'" [imenica]=imenica (imenicaChanged)="imenicaChangedHandler($event)"></imenica>
+    <glagol *ngIf="selectedWordType.name==='глагол'" [glagol]=glagol (glagolChanged)="glagolChangedHandler($event)"></glagol>
 </div>
