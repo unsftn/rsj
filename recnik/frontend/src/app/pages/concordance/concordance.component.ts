@@ -4,7 +4,7 @@ import { PrimeNGConfig } from 'primeng/api';
 interface Concordance {
   concordance: string;
   book: string;
-  pageNumber: number;
+  // pageNumber: number;
 }
 
 @Component({
@@ -22,7 +22,7 @@ export class ConcordanceComponent implements OnInit {
     this.concordances.push({
       concordance: '',
       book: this.books[0],
-      pageNumber: 0,
+      // pageNumber: 0,
     });
   }
 
@@ -37,7 +37,7 @@ export class ConcordanceComponent implements OnInit {
       {
         concordance: '',
         book: this.books[0],
-        pageNumber: 0,
+        // pageNumber: 0,
       },
     ];
   }
