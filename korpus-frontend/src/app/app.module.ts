@@ -20,17 +20,20 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TooltipModule } from 'primeng/tooltip';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToolbarModule } from 'primeng/toolbar';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { HomeModule } from './components/home/home.module';
 import { SelectWordComponent } from './components/select-word/select-word.component';
 import { FormSelectorComponent } from './components/form-selector/form-selector.component';
 import { ImenicaComponent } from './components/imenica/imenica.component';
+import { GlagolComponent } from './components/glagol/glagol.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SelectWordComponent,
     FormSelectorComponent,
-    ImenicaComponent
+    ImenicaComponent,
+    GlagolComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { ImenicaComponent } from './components/imenica/imenica.component';
     TooltipModule,
     DropdownModule,
     ToolbarModule,
+    RadioButtonModule,
     HomeModule
   ],
   providers: [],
