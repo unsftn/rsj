@@ -294,6 +294,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         return odrednica
 
     def update(self, instance, validated_data):
+        # TODO: not implemented properly
         sada = now()
         user_id = validated_data['user_id']
         del validated_data['user_id']

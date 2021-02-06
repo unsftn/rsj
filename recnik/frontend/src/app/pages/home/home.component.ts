@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
     if (event.target instanceof HTMLDivElement) {
       const element = event.target as HTMLDivElement;
       if (element.className === 'odrednica') {
-        // event.preventDefault();
         const odrednicaId = element?.getAttribute('data-id');
         if (odrednicaId) {
           this.router.navigate(['/edit', odrednicaId]);

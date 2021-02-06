@@ -7,8 +7,7 @@ import { Determinant } from '../../models/determinant';
   providedIn: 'root',
 })
 export class OdrednicaService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   getOdrednica(id: number): Observable<any> {
     return this.httpClient.get(`/api/odrednice/odrednica/${id}/`);
@@ -16,5 +15,9 @@ export class OdrednicaService {
 
   saveOdrednica(odrednica: Determinant): Observable<any> {
     return this.httpClient.post('api/odrednice/save-odrednica/', odrednica);
+  }
+
+  preview(odrednica: Determinant): Observable<any> {
+    return this.httpClient.post('/api/render/odrednica-preview/', odrednica);
   }
 }

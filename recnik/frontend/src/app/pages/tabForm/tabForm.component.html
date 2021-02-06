@@ -2,13 +2,13 @@
   <div class="p-toolbar-group-left">
   </div>
   <div class="p-toolbar-group-right">
-    <p-button label="Преглед" styleClass="p-button-secondary" icon="pi pi-search"></p-button>
+    <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search"></p-button>
     <p-button label="Сачувај" (click)="addNewDeterminant()" icon="pi pi-save"></p-button>
     <p-button label="Заврши обраду" styleClass="p-button-success" icon="pi pi-check"></p-button>
   </div>
 </p-toolbar>
-<p-dialog header="Обавештење" [(visible)]="display">
-  {{message}}
+<p-dialog header="&nbsp;" [(visible)]="display" [style]="{width: '50vw'}">
+  <div [innerHTML]="message"></div>
 </p-dialog>
 <div class="basic-information-container">
   <div class="p-d-flex p-flex-column p-flex-md-row">

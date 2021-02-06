@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Determinant } from '../../models/determinant';
 import { OdrednicaService } from '../../services/odrednice/odrednica.service';
+import { PreviewService } from '../../services/odrednice/preview.service';
 
 interface State {
   name: string;
@@ -21,7 +23,7 @@ interface Variant {
 }
 
 @Component({
-  selector: 'tabForm',
+  selector: 'tab-form',
   templateUrl: './tabForm.component.html',
   styleUrls: ['./tabForm.component.scss'],
 })
@@ -33,7 +35,7 @@ export class TabFormComponent implements OnInit {
   wordE: string;
   wordI: string;
   display = false;
-  message: string;
+  message: SafeHtml;
   selectedKind;
   extension;
   variants: Variant[];
@@ -52,43 +54,43 @@ export class TabFormComponent implements OnInit {
   meanings: any[];
   expressions: any[];
 
-  addVariant() {
+  addVariant(): void {
     this.variants.push({ nameE: '', nameI: '' });
   }
 
-  removeVariant(variant) {
+  removeVariant(variant): void {
     this.variants.splice(this.variants.indexOf(variant), 1);
   }
 
-  selectedKindChangedHandler(selectedKind) {
+  selectedKindChangedHandler(selectedKind): void {
     this.selectedKind = selectedKind;
   }
 
-  selectedVerbKindChangedHandler(selectedVerbKind) {
+  selectedVerbKindChangedHandler(selectedVerbKind): void {
     this.selectedVerbKind = selectedVerbKind;
   }
 
-  selectedVerbFormChangedHandler(selectedVerbForm) {
+  selectedVerbFormChangedHandler(selectedVerbForm): void {
     this.selectedVerbForm = selectedVerbForm;
   }
 
-  extensionChangedHandler(extension) {
+  extensionChangedHandler(extension): void {
     this.extension = extension;
   }
 
-  presentChangedHandler(present) {
+  presentChangedHandler(present): void {
     this.present = present;
   }
 
-  detailsChangedHandler(details) {
+  detailsChangedHandler(details): void {
     this.details = details;
   }
 
-  collocationsChangedHandler(collocations) {
+  collocationsChangedHandler(collocations): void {
     this.collocations = collocations;
   }
 
-  selectedQualificatorsHandler(qualificators) {
+  selectedQualificatorsHandler(qualificators): void {
     this.selectedQualificators = qualificators;
   }
 
@@ -97,6 +99,8 @@ export class TabFormComponent implements OnInit {
     private httpClient: HttpClient,
     private route: ActivatedRoute,
     private odrednicaService: OdrednicaService,
+    private previewService: PreviewService,
+    private domSanitizer: DomSanitizer,
   ) {
     this.wordType = [
       { name: 'Именица', id: 0 },
@@ -127,15 +131,22 @@ export class TabFormComponent implements OnInit {
       .saveOdrednica(this.makeNewDeterminant())
       .toPromise()
       .catch(() => {
-        this.message =
-          'Није могуће додати нову одредницу. Унесите све потребне податке.';
+        this.message = this.domSanitizer.bypassSecurityTrustHtml(
+          '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
         this.display = true;
       });
 
     if (response) {
-      this.message = 'Успешно додата нова одредница';
+      this.message = this.domSanitizer.bypassSecurityTrustHtml(
+        '<p>Успешно додата нова одредница.</p>');
       this.display = true;
     }
+  }
+
+  preview(): void {
+    const tekst = this.previewService.preview(this.makeNewDeterminant());
+    this.message = this.domSanitizer.bypassSecurityTrustHtml(tekst);
+    this.display = true;
   }
 
   onChange(): void {
@@ -168,12 +179,10 @@ export class TabFormComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.id = null;
-          console.log('unos nove odrednice');
           break;
         case 'edit':
           this.route.params.subscribe((params) => {
             this.id = +params.id;
-            console.log('obrada postojece odrednice', this.id);
             this.odrednicaService.getOdrednica(this.id).subscribe((value) => {
               this.fillForm(value);
             });
@@ -187,6 +196,7 @@ export class TabFormComponent implements OnInit {
     const determinant: Determinant = {
       rec: this.wordE,
       ijekavski: this.wordI,
+      varijante: [],
       vrsta: this.selectedWordType?.id,
       rod: this.selectedKind?.id ? this.selectedKind?.id : null,
       nastavak: this.extension ? this.extension : '',
@@ -194,22 +204,49 @@ export class TabFormComponent implements OnInit {
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
       prezent: this.present ? this.present : '',
-      broj_pregleda: 0,
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: 1,
       kolokacija_set: this.collocations ? this.collocations : [],
       kvalifikatorodrednice_set: this.selectedQualificators
         ? this.selectedQualificators
         : [],
+      znacenja: this.meanings ? this.meanings.map((z, index) => {
+        return {
+          redni_broj: index + 1,
+          tekst: z.value,
+          podznacenja: z.submeanings.map((pz, idx) => {
+            return {
+              redni_broj: idx + 1,
+              tekst: pz.value,
+              izrazi_fraze: pz.expressions.map((value, idx2) => {
+                return {
+                  redni_broj: idx2 + 1,
+                  opis: value.value
+                };
+              }),
+            };
+          }),
+          izrazi_fraze: z.expressions.map((value, idx) => {
+            return {
+              redni_broj: idx + 1,
+              opis: value.value
+            };
+          }),
+          kvalifikatori: [],
+          konkordanse: [],
+        };
+      }) : [],
     };
     if (this.id !== null) {
       determinant.id = this.id;
     }
+    console.log('Sastavljeno za server:');
     console.log(determinant);
     return determinant;
   }
 
   fillForm(value: any): void {
+    console.log('Procitano sa servera:');
     console.log(value);
     this.wordE = value.rec;
     this.wordI = value.ijekavski;

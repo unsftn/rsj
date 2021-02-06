@@ -1,6 +1,7 @@
 export interface Determinant {
   id?: number;
   rec: string;
+  varijante: any[];
   ijekavski?: string;
   vrsta: number;
   rod?: number;
@@ -9,9 +10,9 @@ export interface Determinant {
   glagolski_vid?: number;
   glagolski_rod?: number;
   prezent?: string;
-  broj_pregleda?: number;
   stanje: number;
   version: number;
   kolokacija_set?: any[];
   kvalifikatorodrednice_set?: any[];
+  znacenja: any[];
 }

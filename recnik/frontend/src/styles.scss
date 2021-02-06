@@ -91,6 +91,14 @@ div.odrednica {
   text-indent: 10px;
 }
 
+app-rendered-odrednice div.odrednica {
+  cursor: pointer;
+}
+
+app-rendered-odrednice div.odrednica:hover {
+  background-color: #e6edf3;
+}
+
 .red {
   color: darkred;
 }

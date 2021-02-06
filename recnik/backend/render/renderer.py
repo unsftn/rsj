@@ -1,15 +1,14 @@
 import logging
-import os
 import string
 import tempfile
 from django.core.files import File
-from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.template.loader import get_template
-from django.utils.timezone import now
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.fonts import FontConfiguration
+from odrednice.serializers import CreateOdrednicaSerializer
+from odrednice.models import *
 from .models import *
 
 log = logging.getLogger(__name__)
@@ -106,7 +105,7 @@ def render_one(odrednica):
     else:
         for rbr, znacenje in enumerate(odrednica.znacenje_set.all(), start=1):
             html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
-    html += '.'
+    html = tacka(html)
     return mark_safe(html)
 
 
