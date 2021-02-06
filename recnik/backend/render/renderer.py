@@ -65,14 +65,14 @@ def render_podznacenje(podznacenje):
 def render_znacenje(znacenje):
     tekst = ''
     tekst += render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
+
+    tekst += f'{tacka(znacenje.tekst)}'
+    tekst += render_izrazi_fraze(znacenje.izrazfraza_set.all().order_by('redni_broj'))
+
     if znacenje.podznacenje_set.count() > 0:
         for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all().order_by('redni_broj')):
             tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
-        return tekst
-    else:
-        tekst += f'{tacka(znacenje.tekst)}'
-        tekst += render_izrazi_fraze(znacenje.izrazfraza_set.all().order_by('redni_broj'))
-        return tekst
+    return tekst
 
 
 def render_one(odrednica):

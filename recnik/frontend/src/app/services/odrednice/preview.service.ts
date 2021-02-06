@@ -67,14 +67,11 @@ export class PreviewService {
   render_znacenje(znacenje: any): string {
     let tekst = '';
     // TODO: kvalifikatori
-    if (znacenje.podznacenja.length > 0) {
-      znacenje.podznacenja.forEach((value, index) => {
-        tekst += ` <b>${this.azbuka.charAt(index)}.</b> ${this.render_podznacenje(value)}`;
-      });
-    } else {
-      tekst += `${this.tacka(znacenje.tekst)}`;
-      tekst += this.render_izrazi_fraze(znacenje.izrazi_fraze);
-    }
+    tekst += `${this.tacka(znacenje.tekst)}`;
+    tekst += this.render_izrazi_fraze(znacenje.izrazi_fraze);
+    znacenje.podznacenja.forEach((value, index) => {
+      tekst += ` <b>${this.azbuka.charAt(index)}.</b> ${this.render_podznacenje(value)}`;
+    });
     return tekst;
   }
 
