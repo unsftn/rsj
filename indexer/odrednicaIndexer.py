@@ -1,3 +1,5 @@
+from time import sleep
+
 from elasticsearch_dsl.connections import connections
 from elasticsearch_dsl import Index, Document, SearchAsYouType, analyzer, Search, Keyword
 from elasticsearch_dsl.query import MultiMatch
@@ -27,10 +29,12 @@ def createIndex():
 
 
 def saveOdrednica(item):
+    varijante = ' '.join(item['varijante'])
+    varijante += ' ' + item['rec']
     odrednica = Odrednica(
         pk=item['pk'],
         rec=item['rec'],
-        varijante=' '.join(item['varijante']),
+        varijante=varijante,
         vrsta=item['vrsta']
     )
     odrednica.save(id=odrednica.pk, index=index)
@@ -55,10 +59,21 @@ def searchOdrednica(term):
     return response.hits
 
 
+def update():
+    with open('odredniceV2.json') as json_data_file:
+        data = json.load(json_data_file)
+
+    print('Update data:')
+    Odrednica.init(index=index)
+    for item in data:
+        print(item)
+        saveOdrednica(item)
+
+
 if __name__ == '__main__':
     createIndex()
 
-    with open('sample.json') as json_data_file:
+    with open('odrednice.json') as json_data_file:
         data = json.load(json_data_file)
 
     print('Added data:')
@@ -81,3 +96,16 @@ if __name__ == '__main__':
     print(searchOdrednica('abd'))
     print('term: bo, result: ')
     print(searchOdrednica('bo'))
+    print('term: рад, result: ')
+    print(searchOdrednica('рад'))
+    update()
+    sleep(5)
+    print('term: abd, result: ')
+    print(searchOdrednica('abd'))
+    print('term: rad, pk:6, result: ')
+    print(searchOdrednica('rad'))
+    print('delete pk:2, rec: abdicirati')
+    deleteOdrednica(2)
+    sleep(5)
+    print('term: abd, result: ')
+    print(searchOdrednica('abd'))
