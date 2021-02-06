@@ -99,13 +99,13 @@ export class TabFormComponent implements OnInit {
       { name: 'Именица', id: 0 },
       { name: 'Глагол', id: 1 },
       { name: 'Придев', id: 2 },
-      { name: 'Заменица', id: 5 },
-      { name: 'Број', id: 9 },
       { name: 'Прилог', id: 3 },
       { name: 'Предлог', id: 4 },
+      { name: 'Заменица', id: 5 },
       { name: 'Узвик', id: 6 },
       { name: 'Речца', id: 7 },
       { name: 'Везник', id: 8 },
+      { name: 'Број', id: 9 },
     ];
     this.state = [
       { name: 'Први унос', id: 1 },
@@ -113,7 +113,7 @@ export class TabFormComponent implements OnInit {
       { name: 'Редактура 2', id: 3 },
     ];
 
-    this.variants = [{ nameE: '', nameI: '' }];
+    this.variants = [];
 
     this.isNoun = true;
     this.isVerb = false;
@@ -136,16 +136,27 @@ export class TabFormComponent implements OnInit {
   }
 
   onChange(): void {
-    this.selectedWordType.name === 'Именица' ||
-    this.selectedWordType.name === 'Заменица' ||
-    this.selectedWordType.name === 'Придев' ||
-    this.selectedWordType.name === 'Број'
-      ? (this.isNoun = true)
-      : (this.isNoun = false);
-
-    this.selectedWordType.name === 'Глагол'
-      ? (this.isVerb = true)
-      : (this.isVerb = false);
+    switch (this.selectedWordType.name) {
+      case 'Прилог':
+      case 'Узвик':
+      case 'Речца':
+      case 'Везник':
+      case 'Предлог':
+        this.isVerb = false;
+        this.isNoun = false;
+        break;
+      case 'Именица':
+      case 'Заменица':
+      case 'Придев':
+      case 'Број':
+        this.isVerb = true;
+        this.isNoun = false;
+        break;
+      case 'Глагол':
+        this.isVerb = false;
+        this.isNoun = true;
+        break;
+    }
   }
 
   ngOnInit(): void {
@@ -198,5 +209,28 @@ export class TabFormComponent implements OnInit {
   fillForm(value: any): void {
     console.log(value);
     this.wordE = value.rec;
+    this.wordI = value.ijekavski;
+    for (let v of value.varijantaodrednice_set) {
+      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski });
+    }
+    this.selectedWordType = this.wordType[value.vrsta];
+    switch (value.vrsta) {
+      case 0:
+      case 2:
+      case 5:
+      case 9:
+        this.isNoun = true;
+        this.isVerb = false;
+        break;
+      case 1:
+        this.isNoun = false;
+        this.isVerb = true;
+        break;
+      default:
+        this.isNoun = false;
+        this.isVerb = false;
+        break;
+    }
+    
   }
 }
