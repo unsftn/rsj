@@ -27,12 +27,14 @@ docker build -t es-sr-lat .
 docker run -p 9200:9200 -p 9300:9300 --name "es-sr-lat" -e "discovery.type=single-node" es-sr-lat
 ```
 
-## Pokretanje aplikacije:
+## Pokretanje aplikacija:
 ```bash
-python3 app.py
+python3 odrednicaIndexer.py
+python3 korpusIndexer.py
 ```
 Aplikacija je samo za testiranje, model dokumenta, indeks i funkcija za pretragu ce biti prebacene na odgovarajuca mesta na backendu.
 Moguce je prilikom prvog pokretanja da se ne dobiju rezultati jer ElasticSearch nije zavrsio indeksiranje, u tom slucaju pokrenuti jos jednom.
+Dodat je sleep izmedju update i delete operacija kako bi se propagirale promene pre ponovne pretrage.
 
 Pokretanje Kibane:
 ```bash
