@@ -1,16 +1,16 @@
 <div class="home-container">
-  <div class="p-d-flex p-flex-column p-flex-md-row">
-    <div class="p-mb-3 p-mr-2">
+  <div class="p-grid">
+    <div class="p-col-4">
       <p-fieldset legend="Најновије одреднице">
         <app-rendered-odrednice source="/api/render/odrednice/newest/10/" [isTrusted]="true"></app-rendered-odrednice>
       </p-fieldset>
     </div>
-    <div class="p-mb-2 p-mr-2">
+    <div class="p-col-4">
       <p-fieldset legend="Последње измене">
         <app-rendered-odrednice source="/api/render/odrednice/latest/10/" [isTrusted]="true"></app-rendered-odrednice>
       </p-fieldset>
     </div>
-    <div class="p-mb-2 p-mr-2">
+    <div class="p-col-4">
       <p-fieldset legend="Најчешће прегледане">
         <app-rendered-odrednice source="/api/render/odrednice/popular/10/" [isTrusted]="true"></app-rendered-odrednice>
       </p-fieldset>
