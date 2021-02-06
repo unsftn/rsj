@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Injectable } from '@angular/core';
+import { Component, Injectable, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -7,11 +7,26 @@ import { PrimeNGConfig } from 'primeng/api';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class HomeComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig, private router: Router) {
+  }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+  }
+
+  @HostListener('document:click', ['$event'])
+  public handleClick(event: Event): void {
+    if (event.target instanceof HTMLDivElement) {
+      const element = event.target as HTMLDivElement;
+      if (element.className === 'odrednica') {
+        // event.preventDefault();
+        const odrednicaId = element?.getAttribute('data-id');
+        if (odrednicaId) {
+          this.router.navigate(['/edit', odrednicaId]);
+        }
+      }
+    }
   }
 }

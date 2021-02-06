@@ -77,7 +77,7 @@ def render_one(odrednica):
 
 
 def render_one_div(odrednica, css_class='odrednica'):
-    return mark_safe(f'<div class="{css_class}">{render_one(odrednica)}</div>')
+    return mark_safe(f'<div class="{css_class}" data-id="{odrednica.id}">{render_one(odrednica)}</div>')
 
 
 def render_many(odrednice, css_class='odrednica'):
