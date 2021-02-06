@@ -33,12 +33,6 @@ export class ConcordanceComponent implements OnInit {
   ngOnInit() {
     this.primengConfig.ripple = true;
     this.books = ['Књига 1', 'Књига 2', 'Књига 3'];
-    this.concordances = [
-      {
-        concordance: '',
-        book: this.books[0],
-        // pageNumber: 0,
-      },
-    ];
+    this.concordances = [];
   }
 }

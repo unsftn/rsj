@@ -23,11 +23,11 @@
                   <p class="label">Опис {{i + 1}}:</p>
                 </div>
                 <div class="p-mb-2">
-                  <textarea [rows]="7" [cols]="37" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" ></textarea>
+                  <textarea [rows]="7" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" ></textarea>
                 </div>
                 <div class="p-d-flex">
                   <div class="p-mr-2">
-                    <p class="label">Одредница:</p>
+                    <p class="label red">Одредница:</p>
                   </div>
                   <div class="p-mr-2" class="center-container">
                     <p-autoComplete

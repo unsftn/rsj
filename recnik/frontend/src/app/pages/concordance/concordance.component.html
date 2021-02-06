@@ -18,7 +18,7 @@
         <div class="p-d-flex">
           <div class="p-mr-2">
             <div class="p-mb-2">
-              <textarea [rows]="7" style="height: 142px !important;" pInputTextarea [(ngModel)]="concordances[i].concordance" name="name{{i}}" #name="ngModel"></textarea>
+              <textarea [rows]="7" [cols]="70" style="height: 142px !important;" pInputTextarea [(ngModel)]="concordances[i].concordance" name="name{{i}}" #name="ngModel"></textarea>
             </div>
           </div>
           <div class="p-mr-2">
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="p-grid">
-          <div class="p-col-12 p-md-6 p-lg-2">
+          <div class="p-col-12 p-md-6 p-lg-2 red">
             Референца на корпус:
           </div>
           <div class="p-col-12 p-md-6 p-lg-4">

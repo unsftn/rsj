@@ -2,8 +2,9 @@
   <div class="p-toolbar-group-left">
   </div>
   <div class="p-toolbar-group-right">
-    <p-button label="Сачувај" (click)="addNewDeterminant()"></p-button>
-    <p-button label="Заврши обраду" styleClass="p-button-success"></p-button>
+    <p-button label="Преглед" styleClass="p-button-secondary" icon="pi pi-search"></p-button>
+    <p-button label="Сачувај" (click)="addNewDeterminant()" icon="pi pi-save"></p-button>
+    <p-button label="Заврши обраду" styleClass="p-button-success" icon="pi pi-check"></p-button>
   </div>
 </p-toolbar>
 <p-dialog header="Обавештење" [(visible)]="display">
@@ -67,7 +68,7 @@
       </div>
       <div class="p-d-flex">
         <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label">Квалификатори:</p>
+          <p class="label red">Квалификатори:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
           <qualificator
@@ -137,7 +138,7 @@
         <meaningForm [meanings]="meanings"></meaningForm>
       </p-tabPanel>
       <p-tabPanel header="Изрази и фразе">
-        <expressions></expressions>
+        <expressions [expressions]="expressions"></expressions>
       </p-tabPanel>
       <p-tabPanel header="Синоними">
         <synonym></synonym>

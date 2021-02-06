@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,13 +13,15 @@ export class ExpressionsComponent implements OnInit {
     private httpClient: HttpClient,
   ) {}
 
+  filteredKeywords: any[];
   keyWords = [];
   selectedKeyWord: string;
-  expressions = [{ value: '', keyWord: this.keyWords[0] }];
-  filteredKeywords: any[];
+
+  @Input()
+  expressions = [];
 
   add() {
-    this.expressions.push({ value: '', keyWord: this.keyWords[0] });
+    this.expressions.push({ value: '', keywords: [] });
   }
 
   remove(expression) {

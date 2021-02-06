@@ -50,6 +50,7 @@ export class TabFormComponent implements OnInit {
   id: number;
 
   meanings: any[];
+  expressions: any[];
 
   addVariant() {
     this.variants.push({ nameE: '', nameI: '' });
@@ -235,12 +236,23 @@ export class TabFormComponent implements OnInit {
     }
     this.details = value.info === null ? '' : value.info;
     this.meanings = [];
-    for (let z of value.znacenje_set) {
-      let obj = { value: z.tekst, submeanings: [] };
-      for (let pz of z.podznacenje_set) {
-        obj.submeanings.push({ value: pz.tekst });
+    for (const z of value.znacenje_set) {
+      const obj = { value: z.tekst, submeanings: [], expressions: [] };
+      for (const pz of z.podznacenje_set) {
+        const submeaning = { value: pz.tekst, expressions: [] };
+        obj.submeanings.push(submeaning);
+        for (const expr of pz.izrazfraza_set) {
+          submeaning.expressions.push({ value: expr.opis, keywords: []});
+        }
+      }
+      for (const expr of z.izrazfraza_set) {
+        obj.expressions.push({ value: expr.opis, keywords: [] });
       }
       this.meanings.push(obj);
+    }
+    this.expressions = [];
+    for (const expr of value.izrazfraza_set) {
+      this.expressions.push({ value: expr.opis, keywords: [] });
     }
   }
 }
