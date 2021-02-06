@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -6,7 +6,10 @@ import { PrimeNGConfig } from 'primeng/api';
   templateUrl: './submeaning.component.html',
 })
 export class SubmeaningComponent implements OnInit {
+
+  @Input()
   submeanings = [{ value: ' ' }];
+
   constructor(private primengConfig: PrimeNGConfig) {}
 
   add() {

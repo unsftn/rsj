@@ -9,6 +9,7 @@ import { PrimeNGConfig } from 'primeng/api';
 export class MeaningFormComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
+  @Input()
   meanings = [{ value: '' }];
 
   add() {

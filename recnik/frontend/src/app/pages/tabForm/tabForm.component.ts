@@ -49,6 +49,8 @@ export class TabFormComponent implements OnInit {
   selectedQualificators: [];
   id: number;
 
+  meanings: any[];
+
   addVariant() {
     this.variants.push({ nameE: '', nameI: '' });
   }
@@ -231,6 +233,14 @@ export class TabFormComponent implements OnInit {
         this.isVerb = false;
         break;
     }
-    
+    this.details = value.info === null ? '' : value.info;
+    this.meanings = [];
+    for (let z of value.znacenje_set) {
+      let obj = { value: z.tekst, submeanings: [] };
+      for (let pz of z.podznacenje_set) {
+        obj.submeanings.push({ value: pz.tekst });
+      }
+      this.meanings.push(obj);
+    }
   }
 }
