@@ -1,5 +1,6 @@
 import logging
 import os
+import string
 import tempfile
 from django.core.files import File
 from django.conf import settings
@@ -22,6 +23,14 @@ def touch(path):
         os.utime(path, None)
 
 
+def tacka(tekst):
+    if len(tekst) < 1:
+        return tekst
+    if tekst[-1] not in string.punctuation:
+        return tekst + '.'
+    return tekst
+
+
 def font_fetcher(url):
     print(url)
     if url.startswith('fonts/'):
@@ -32,20 +41,39 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
+def render_izrazi_fraze(izrazifraze):
+    tekst = ''
+    for izfr in izrazifraze:
+        tekst += f' &#8212; <i>{tacka(izfr.opis)}</i>'
+    return tekst
+
+
+def render_kvalifikatori(kvalifikatori):
+    tekst = ''
+    for kvod in kvalifikatori:
+        tekst += f' <small>{tacka(kvod.kvalifikator.skracenica)}</small> '
+    return tekst
+
+
 def render_podznacenje(podznacenje):
-    # return f'<i>{podznacenje.tekst}</i>'
-    return f'{podznacenje.tekst}'
+    tekst = ''
+    tekst += render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
+    tekst += f'{tacka(podznacenje.tekst)}'
+    tekst += render_izrazi_fraze(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
+    return tekst
 
 
 def render_znacenje(znacenje):
+    tekst = ''
+    tekst += render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
     if znacenje.podznacenje_set.count() > 0:
-        html = ''
-        for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all()):
-            html += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
-        return html
+        for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all().order_by('redni_broj')):
+            tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
+        return tekst
     else:
-        # return f'<i>{znacenje.tekst}</i>'
-        return f'{znacenje.tekst}'
+        tekst += f'{tacka(znacenje.tekst)}'
+        tekst += render_izrazi_fraze(znacenje.izrazfraza_set.all().order_by('redni_broj'))
+        return tekst
 
 
 def render_one(odrednica):
@@ -65,8 +93,14 @@ def render_one(odrednica):
     if odrednica.vrsta == 2:  # pridev
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
-    if odrednica.vrsta == 3:  # prilog
+    if odrednica.vrsta == 3:
         html += f' <small>прил.</small> '
+    if odrednica.vrsta == 6:
+        html += f' <small>узв.</small> '
+    if odrednica.vrsta == 7:
+        html += f' <small>речца</small> '
+    if odrednica.vrsta == 8:
+        html += f' <small>везн.</small> '
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())
     else:
