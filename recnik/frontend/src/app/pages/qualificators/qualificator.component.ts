@@ -1,12 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
-
-interface Qualificator {
-  name: string;
-  abbreviation: string;
-  id: number;
-}
+import { Qualificator } from '../../models/qualificator';
+import { QualificatorService } from '../../services/odrednice';
 
 @Component({
   selector: 'qualificator',
@@ -17,35 +13,73 @@ export class QualificatorComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
+    private qualificatorService: QualificatorService,
   ) {}
 
-  qualificators: Qualificator[];
-
+  allQualificators: Qualificator[];
   @Input() selectedQualificators: Qualificator[];
 
-  @Output()
-  selectedQualificatorsChanged: EventEmitter<
-    Qualificator[]
-  > = new EventEmitter();
+  selectedLeft: Qualificator;
+  selectedRight: Qualificator;
 
-  selectQualificator() {
-    this.selectedQualificatorsChanged.emit(this.selectedQualificators);
+  @Output() selectedLeftChanged: EventEmitter<Qualificator> = new EventEmitter();
+  @Output() selectedRightChanged: EventEmitter<Qualificator> = new EventEmitter();
+  @Output() selectedQualificatorsChange: EventEmitter<Qualificator[]> = new EventEmitter();
+
+  selectLeftQualificator(): void {
+    this.selectedLeftChanged.emit(this.selectedLeft);
   }
 
-  async fetchQualificatiors() {
-    const response: any = await this.httpClient
-      .get('api/odrednice/kvalifikator/')
-      .toPromise();
+  selectRightQualificator(): void {
+    this.selectedRightChanged.emit(this.selectedRight);
+  }
 
-    if (response) {
-      this.qualificators = response.map((item) => {
-        return { name: item.naziv, abbreviation: item.skracenica, id: item.id };
-      });
+  moveRight(): void {
+    if (this.selectedLeft) {
+      if (!this.selectedQualificators.includes(this.selectedLeft)) {
+        // this.selectedQualificators.push(this.selectedLeft); // <-- Listbox ne detektuje izmene u options ???
+        this.selectedQualificators = [...this.selectedQualificators, this.selectedLeft];  // ludi fix
+        this.selectedQualificatorsChange.emit(this.selectedQualificators);
+      }
     }
   }
 
-  ngOnInit() {
+  moveLeft(): void {
+    if (this.selectedRight) {
+      if (this.selectedQualificators.includes(this.selectedRight)) {
+        this.selectedQualificators = this.selectedQualificators.filter((value) => value !== this.selectedRight);
+        this.selectedQualificatorsChange.emit(this.selectedQualificators);
+      }
+    }
+  }
+
+  moveUp(): void {
+    if (this.selectedRight) {
+      const origPos = this.selectedQualificators.indexOf(this.selectedRight);
+      if (origPos === 0) { return; }
+      const copy = [...this.selectedQualificators];
+      const otherItem = copy[origPos - 1];
+      copy.splice(origPos - 1, 2, this.selectedRight, otherItem);
+      this.selectedQualificators = copy;
+      this.selectedQualificatorsChange.emit(this.selectedQualificators);
+    }
+  }
+
+  moveDown(): void {
+    if (this.selectedRight) {
+      const origPos = this.selectedQualificators.indexOf(this.selectedRight);
+      if (origPos === this.selectedQualificators.length - 1) { return; }
+      const copy = [...this.selectedQualificators];
+      const otherItem = copy[origPos + 1];
+      copy.splice(origPos, 2, otherItem, this.selectedRight);
+      this.selectedQualificators = copy;
+      this.selectedQualificatorsChange.emit(this.selectedQualificators);
+    }
+  }
+
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.fetchQualificatiors();
+    this.selectedQualificators = [];
+    this.qualificatorService.getAllQualificators().subscribe((result) => { this.allQualificators = result; });
   }
 }

@@ -4,8 +4,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Determinant } from '../../models/determinant';
-import { OdrednicaService } from '../../services/odrednice/odrednica.service';
-import { PreviewService } from '../../services/odrednice/preview.service';
+import { Qualificator } from '../../models/qualificator';
+import { OdrednicaService, PreviewService } from '../../services/odrednice';
 
 interface State {
   name: string;
@@ -48,7 +48,7 @@ export class TabFormComponent implements OnInit {
 
   selectedWordType: WordType;
   selectedState: State;
-  selectedQualificators: [];
+  qualificators: Qualificator[];
   id: number;
 
   meanings: any[];
@@ -91,7 +91,7 @@ export class TabFormComponent implements OnInit {
   }
 
   selectedQualificatorsHandler(qualificators): void {
-    this.selectedQualificators = qualificators;
+    this.qualificators = qualificators;
   }
 
   constructor(
@@ -193,6 +193,7 @@ export class TabFormComponent implements OnInit {
   }
 
   makeNewDeterminant(): Determinant {
+    console.log(this.meanings);
     const determinant: Determinant = {
       rec: this.wordE,
       ijekavski: this.wordI,
@@ -207,9 +208,11 @@ export class TabFormComponent implements OnInit {
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: 1,
       kolokacija_set: this.collocations ? this.collocations : [],
-      kvalifikatorodrednice_set: this.selectedQualificators
-        ? this.selectedQualificators
-        : [],
+      kvalifikatori: this.qualificators.map((q, index) => { return {
+          redni_broj: index + 1,
+          kvalifikator_id: q.id,
+        };
+      }),
       znacenja: this.meanings ? this.meanings.map((z, index) => {
         return {
           redni_broj: index + 1,
@@ -224,6 +227,11 @@ export class TabFormComponent implements OnInit {
                   opis: value.value
                 };
               }),
+              kvalifikatori: pz.qualificators.map((q, idx2) => { return {
+                  redni_broj: idx2 + 1,
+                  kvalifikator_id: q.id,
+                };
+              }),
             };
           }),
           izrazi_fraze: z.expressions.map((value, idx) => {
@@ -232,7 +240,11 @@ export class TabFormComponent implements OnInit {
               opis: value.value
             };
           }),
-          kvalifikatori: [],
+          kvalifikatori: z.qualificators.map((q, idx) => { return {
+              redni_broj: idx + 1,
+              kvalifikator_id: q.id,
+            };
+          }),
           konkordanse: [],
         };
       }) : [],
@@ -274,16 +286,22 @@ export class TabFormComponent implements OnInit {
     this.details = value.info === null ? '' : value.info;
     this.meanings = [];
     for (const z of value.znacenje_set) {
-      const obj = { value: z.tekst, submeanings: [], expressions: [] };
+      const obj = { value: z.tekst, submeanings: [], expressions: [], qualificators: [] };
       for (const pz of z.podznacenje_set) {
-        const submeaning = { value: pz.tekst, expressions: [] };
+        const submeaning = { value: pz.tekst, expressions: [], qualificators: [] };
         obj.submeanings.push(submeaning);
         for (const expr of pz.izrazfraza_set) {
           submeaning.expressions.push({ value: expr.opis, keywords: []});
         }
+        for (const q of pz.kvalifikatorpodznacenja_set) {
+          submeaning.qualificators.push({ id: q.id, name: q.naziv, abbreviation: q.skracenica });
+        }
       }
       for (const expr of z.izrazfraza_set) {
         obj.expressions.push({ value: expr.opis, keywords: [] });
+      }
+      for (const q of z.kvalifikatorznacenja_set) {
+        obj.qualificators.push({ id: q.id, name: q.naziv, abbreviation: q.skracenica });
       }
       this.meanings.push(obj);
     }
@@ -291,5 +309,10 @@ export class TabFormComponent implements OnInit {
     for (const expr of value.izrazfraza_set) {
       this.expressions.push({ value: expr.opis, keywords: [] });
     }
+    const kval: Qualificator[] = [];
+    for (const q of value.kvalifikatorodrednice_set) {
+      kval.push({id: q.id, name: q.naziv, abbreviation: q.skracenica});
+    }
+    this.qualificators = kval;
   }
 }

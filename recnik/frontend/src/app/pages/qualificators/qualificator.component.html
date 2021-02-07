@@ -1,14 +1,43 @@
-<p-listbox [options]="qualificators"
-  [(ngModel)]="selectedQualificators"
-  [checkbox]="true" optionLabel="name"
-  [multiple]="true" [filter]="true"
-  [listStyle]="{'max-height':'150px'}"
-  [style]="{'width':'185px'}"
-  filterPlaceHolder="Претражи"
-  (onChange)="selectQualificator()">
-  <ng-template let-qualificator pTemplate="item">
-    <div style="width: 100%">
-      <div pTooltip="{{qualificator.name}}">{{qualificator.abbreviation}}</div>
-    </div>
-  </ng-template>
-</p-listbox>
+<div class="p-d-flex">
+  <div class="p-mr-2">
+    <p-listbox [options]="allQualificators"
+      [(ngModel)]="selectedLeft"
+      [checkbox]="false" optionLabel="name"
+      [multiple]="false" [filter]="true"
+      [listStyle]="{'max-height':'150px'}"
+      [style]="{'width':'185px'}"
+      filterPlaceHolder="Претражи"
+      (onChange)="selectLeftQualificator()">
+      <ng-template let-qualificator pTemplate="item">
+        <div style="width: 100%">
+          <div pTooltip="{{qualificator.name}}">{{qualificator.abbreviation}}</div>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </div>
+  <div class="p-mr-2">
+    <button pButton icon="pi pi-arrow-right" class="p-button-outlined p-button-rounded" (click)="moveRight()"></button>
+    <br/><br/>
+    <button pButton icon="pi pi-arrow-left" class="p-button-outlined p-button-rounded" (click)="moveLeft()"></button>
+  </div>
+  <div class="p-mr-2">
+    <p-listbox [options]="selectedQualificators"
+      [(ngModel)]="selectedRight"
+      [checkbox]="false" optionLabel="name"
+      [multiple]="false" [filter]="false"
+      [listStyle]="{'max-height':'150px'}"
+      [style]="{'width':'185px'}"
+      (onChange)="selectRightQualificator()">
+      <ng-template let-qualificator pTemplate="item">
+        <div style="width: 100%">
+          <div pTooltip="{{qualificator.name}}">{{qualificator.abbreviation}}</div>
+        </div>
+      </ng-template>
+    </p-listbox>
+  </div>
+  <div class="p-mr-2">
+    <button pButton icon="pi pi-arrow-up" class="p-button-outlined p-button-rounded" (click)="moveUp()"></button>
+    <br/><br/>
+    <button pButton icon="pi pi-arrow-down" class="p-button-outlined p-button-rounded" (click)="moveDown()"></button>
+  </div>
+</div>

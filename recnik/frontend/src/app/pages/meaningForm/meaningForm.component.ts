@@ -2,25 +2,28 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
-  selector: 'meaningForm',
+  selector: 'meaning',
   templateUrl: './meaningForm.component.html',
   styleUrls: ['./meaningForm.component.scss'],
 })
 export class MeaningFormComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
-  @Input()
-  meanings = [{ value: '' }];
+  @Input() meanings: any[] = [];
 
-  add() {
+  add(): void {
     this.meanings.push({ value: '' });
   }
 
-  remove(meaning) {
+  remove(meaning): void {
     this.meanings.splice(this.meanings.indexOf(meaning), 1);
   }
 
-  ngOnInit() {
+  updateQualificators(update): void {
+    console.log(update);
+  }
+
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
   }
 }

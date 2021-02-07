@@ -71,10 +71,7 @@
           <p class="label red">Квалификатори:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <qualificator
-            [selectedQualificators]=selectedQualificators
-            (selectedQualificatorsChanged)="selectedQualificatorsHandler($event)">
-          </qualificator>
+          <qualificator [(selectedQualificators)]="qualificators"></qualificator>
         </div>
       </div>
     </div>
@@ -135,7 +132,7 @@
         </grammarInformations>
       </p-tabPanel>
       <p-tabPanel header="Дефиниција">
-        <meaningForm [meanings]="meanings"></meaningForm>
+        <meaning [meanings]="meanings"></meaning>
       </p-tabPanel>
       <p-tabPanel header="Изрази и фразе">
         <expressions [expressions]="expressions"></expressions>

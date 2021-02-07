@@ -13,6 +13,6 @@ export interface Determinant {
   stanje: number;
   version: number;
   kolokacija_set?: any[];
-  kvalifikatorodrednice_set?: any[];
+  kvalifikatori: any[];
   znacenja: any[];
 }

@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.utils.timezone import now
 from .models import *
 
 
