@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
+import { Gender } from '../../models';
 import { Determinant } from '../../models/determinant';
 import { Qualificator } from '../../models/qualificator';
 import { OdrednicaService, PreviewService, QualificatorService } from '../../services/odrednice';
+import { EnumService } from '../../services/odrednice/enum.service';
 
 interface State {
   name: string;
@@ -36,7 +38,7 @@ export class TabFormComponent implements OnInit {
   wordI: string;
   display = false;
   message: SafeHtml;
-  selectedKind;
+  selectedGender: Gender;
   extension;
   variants: Variant[];
 
@@ -63,7 +65,7 @@ export class TabFormComponent implements OnInit {
   }
 
   selectedKindChangedHandler(selectedKind): void {
-    this.selectedKind = selectedKind;
+    this.selectedGender = selectedKind;
   }
 
   selectedVerbKindChangedHandler(selectedVerbKind): void {
@@ -101,6 +103,7 @@ export class TabFormComponent implements OnInit {
     private odrednicaService: OdrednicaService,
     private previewService: PreviewService,
     private qualificatorService: QualificatorService,
+    private enumService: EnumService,
     private domSanitizer: DomSanitizer,
   ) {
     this.wordType = [
@@ -201,7 +204,7 @@ export class TabFormComponent implements OnInit {
       ijekavski: this.wordI,
       varijante: [],
       vrsta: this.selectedWordType?.id,
-      rod: this.selectedKind?.id ? this.selectedKind?.id : null,
+      rod: this.selectedGender?.id ? this.selectedGender?.id : null,
       nastavak: this.extension ? this.extension : '',
       info: this.details ? this.details : '',
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
@@ -275,7 +278,7 @@ export class TabFormComponent implements OnInit {
     this.selectedWordType = this.wordType[value.vrsta];
     switch (value.vrsta) {
       case 0:
-        this.selectedKind = value.rod;
+        this.selectedGender = this.enumService.getGender(value.rod);
       case 5:
       case 2:
       case 9:

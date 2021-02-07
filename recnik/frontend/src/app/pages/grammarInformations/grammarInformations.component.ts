@@ -1,20 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-
-interface Kind {
-  name: string;
-  id: number;
-}
-
-interface VerbKind {
-  name: string;
-  id: number;
-}
-
-interface VerbForm {
-  name: string;
-  id: number;
-}
+import { Gender, VerbForm, VerbKind } from '../../models';
+import { EnumService } from '../../services/odrednice/enum.service';
 
 @Component({
   selector: 'grammarInformations',
@@ -24,28 +11,28 @@ interface VerbForm {
 export class GrammarInformationsComponent implements OnInit {
   @Input() isNoun: boolean;
   @Input() isVerb: boolean;
-  kinds: Kind[];
-  verbKind: VerbKind[];
-  verbForm: VerbForm[];
+  genders: Gender[];
+  verbKinds: VerbKind[];
+  verbForms: VerbForm[];
 
-  @Output() selectedKindChange: EventEmitter<Kind> = new EventEmitter();
+  @Output() selectedGenderChange: EventEmitter<Gender> = new EventEmitter();
   @Output() selectedVerbKindChange: EventEmitter<VerbKind> = new EventEmitter();
   @Output() selectedVerbFormChange: EventEmitter<VerbForm> = new EventEmitter();
   @Output() extensionChange: EventEmitter<string> = new EventEmitter();
   @Output() presentChange: EventEmitter<string> = new EventEmitter();
   @Output() detailsChange: EventEmitter<string> = new EventEmitter();
 
-  @Input() selectedKind: Kind;
+  @Input() selectedGender: Gender;
   @Input() selectedVerbKind: VerbKind;
   @Input() selectedVerbForm: VerbForm;
   @Input() extension: string;
   @Input() present: string;
   @Input() details;
 
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig, private enumService: EnumService) {}
 
   changeKind(): void {
-    this.selectedKindChange.emit(this.selectedKind);
+    this.selectedGenderChange.emit(this.selectedGender);
   }
 
   changeVerbKind(): void {
@@ -70,21 +57,8 @@ export class GrammarInformationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.kinds = [
-      { name: 'Мушки', id: 1 },
-      { name: 'Женски', id: 2 },
-      { name: 'Средњи', id: 3 },
-    ];
-    this.verbKind = [
-      { name: 'Прелазни', id: 1 },
-      { name: 'Непрелазни', id: 2 },
-      { name: 'Повратни', id: 3 },
-      { name: 'Узајамно повратни', id: 4 },
-    ];
-    this.verbForm = [
-      { name: 'Свршен', id: 1 },
-      { name: 'Несвршен', id: 2 },
-      { name: 'Двовидски', id: 3 },
-    ];
+    this.genders = this.enumService.getAllGenders();
+    this.verbKinds = this.enumService.getAllVerbKinds();
+    this.verbForms = this.enumService.getAllVerbForms();
   }
 }

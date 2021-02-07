@@ -6,7 +6,7 @@
           <p class="label">Род:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
-          <p-dropdown [options]="kinds" [(ngModel)]="selectedKind" (onChange)="changeKind()" placeholder="Род" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
           <p class="label">Глаголски вид:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <p-dropdown [options]="verbForm" [(ngModel)]="selectedVerbForm" (onChange)="changeVerbForm()" placeholder="Глаголски вид" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="verbForms" [(ngModel)]="selectedVerbForm" (onChange)="changeVerbForm()" placeholder="Глаголски вид" optionLabel="name"></p-dropdown>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@
           <p class="label">Глаголски род:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
-          <p-dropdown [options]="verbKind" [(ngModel)]="selectedVerbKind" (onChange)="changeVerbKind()" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
+          <p-dropdown [options]="verbKinds" [(ngModel)]="selectedVerbKind" (onChange)="changeVerbKind()" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
         </div>
       </div>
     </div>

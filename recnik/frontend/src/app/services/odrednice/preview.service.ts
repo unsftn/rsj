@@ -17,7 +17,7 @@ export class PreviewService {
     switch (odrednica.vrsta) {
       case 0: // imenica
         console.log('Rod', odrednica.rod);
-        tekst += ` ${this.rod[odrednica.rod]}`;
+        tekst += ` <small>${this.rod[odrednica.rod]}</small>`;
         break;
       case 1: // glagol
         if (odrednica.nastavak) {
