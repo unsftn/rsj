@@ -8,15 +8,28 @@ import { map, shareReplay } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class QualificatorService {
+  qualificatorCache: { [key: number]: Qualificator; } = {};
+  qualificatorList: Qualificator[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
-  getAllQualificators(): Observable<Qualificator[]> {
+  fetchAllQualificators(): Observable<Qualificator[]> {
     return this.httpClient.get<any[]>('/api/odrednice/kvalifikator/').pipe(
       map((qualificators: any[]) => {
         return qualificators.map((item) => {
-          return { name: item.naziv, abbreviation: item.skracenica, id: item.id };
+          const q = { name: item.naziv, abbreviation: item.skracenica, id: item.id };
+          this.qualificatorCache[q.id] = q;
+          this.qualificatorList.push(q);
+          return q;
         });
       }), shareReplay(1));
+  }
+
+  getQualificator(id: number): Qualificator {
+    return this.qualificatorCache[id];
+  }
+
+  getAllQualificators(): Qualificator[] {
+    return this.qualificatorList;
   }
 }

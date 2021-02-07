@@ -13,19 +13,19 @@ class KvalifikatorSerializer(serializers.ModelSerializer):
 class KvalifikatorOdredniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = KvalifikatorOdrednice
-        fields = ('id', 'redni_broj', 'kvalifikator_id', 'odrednica_id',)
+        fields = ('redni_broj', 'kvalifikator_id', 'odrednica_id',)
 
 
 class KvalifikatorZnacenjaSerializer(serializers.ModelSerializer):
     class Meta:
         model = KvalifikatorZnacenja
-        fields = ('id', 'redni_broj', 'kvalifikator', 'znacenje_id',)
+        fields = ('redni_broj', 'kvalifikator_id', 'znacenje_id',)
 
 
 class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
     class Meta:
         model = KvalifikatorPodznacenja
-        fields = ('id', 'redni_broj', 'kvalifikator', 'podznacenje_id',)
+        fields = ('redni_broj', 'kvalifikator_id', 'podznacenje_id',)
 
 
 class AntonimSerializer(serializers.ModelSerializer):

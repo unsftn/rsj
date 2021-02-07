@@ -68,7 +68,7 @@
       </div>
       <div class="p-d-flex">
         <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label red">Квалификатори:</p>
+          <p class="label">Квалификатори:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
           <qualificator [(selectedQualificators)]="qualificators"></qualificator>
@@ -116,7 +116,7 @@
         <grammarInformations
           [isNoun]='isNoun'
           [isVerb]='isVerb'
-          [selectedKind]=selectedKind
+          [(selectedKind)]=selectedKind
           [selectedVerbKind]=selectedVerbKind
           [selectedVerbForm]=selectedVerbForm
           [extension]=extension

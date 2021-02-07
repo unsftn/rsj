@@ -28,12 +28,12 @@ export class GrammarInformationsComponent implements OnInit {
   verbKind: VerbKind[];
   verbForm: VerbForm[];
 
-  @Output() selectKindChanged: EventEmitter<Kind> = new EventEmitter();
-  @Output() selectVerbKindChanged: EventEmitter<VerbKind> = new EventEmitter();
-  @Output() selectVerbFormChanged: EventEmitter<VerbForm> = new EventEmitter();
-  @Output() extensionChanged: EventEmitter<string> = new EventEmitter();
-  @Output() presentChanged: EventEmitter<string> = new EventEmitter();
-  @Output() detailsChanged: EventEmitter<string> = new EventEmitter();
+  @Output() selectedKindChange: EventEmitter<Kind> = new EventEmitter();
+  @Output() selectedVerbKindChange: EventEmitter<VerbKind> = new EventEmitter();
+  @Output() selectedVerbFormChange: EventEmitter<VerbForm> = new EventEmitter();
+  @Output() extensionChange: EventEmitter<string> = new EventEmitter();
+  @Output() presentChange: EventEmitter<string> = new EventEmitter();
+  @Output() detailsChange: EventEmitter<string> = new EventEmitter();
 
   @Input() selectedKind: Kind;
   @Input() selectedVerbKind: VerbKind;
@@ -44,31 +44,31 @@ export class GrammarInformationsComponent implements OnInit {
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
-  changeKind() {
-    this.selectKindChanged.emit(this.selectedKind);
+  changeKind(): void {
+    this.selectedKindChange.emit(this.selectedKind);
   }
 
-  changeVerbKind() {
-    this.selectVerbKindChanged.emit(this.selectedVerbKind);
+  changeVerbKind(): void {
+    this.selectedVerbKindChange.emit(this.selectedVerbKind);
   }
 
-  changeVerbForm() {
-    this.selectVerbFormChanged.emit(this.selectedVerbForm);
+  changeVerbForm(): void {
+    this.selectedVerbFormChange.emit(this.selectedVerbForm);
   }
 
-  changeExtension() {
-    this.extensionChanged.emit(this.extension);
+  changeExtension(): void {
+    this.extensionChange.emit(this.extension);
   }
 
-  changePresent() {
-    this.presentChanged.emit(this.present);
+  changePresent(): void {
+    this.presentChange.emit(this.present);
   }
 
-  changeDetails() {
-    this.detailsChanged.emit(this.details);
+  changeDetails(): void {
+    this.detailsChange.emit(this.details);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.kinds = [
       { name: 'Мушки', id: 1 },

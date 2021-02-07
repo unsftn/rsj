@@ -79,7 +79,6 @@ export class QualificatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.selectedQualificators = [];
-    this.qualificatorService.getAllQualificators().subscribe((result) => { this.allQualificators = result; });
+    this.qualificatorService.fetchAllQualificators().subscribe((q) => this.allQualificators = q);
   }
 }

@@ -16,6 +16,7 @@ export class PreviewService {
     }
     switch (odrednica.vrsta) {
       case 0: // imenica
+        console.log('Rod', odrednica.rod);
         tekst += ` ${this.rod[odrednica.rod]}`;
         break;
       case 1: // glagol
@@ -53,7 +54,10 @@ export class PreviewService {
         tekst += ` <small>везн.</small> `;
         break;
       case 9: // broj
+        break;
     }
+    if (odrednica.kvalifikatori.length > 0)
+      tekst += this.render_kvalifikatori(odrednica.kvalifikatori);
     if (odrednica.znacenja.length === 1) {
       tekst += this.render_znacenje(odrednica.znacenja[0]);
     } else {
@@ -66,7 +70,8 @@ export class PreviewService {
 
   render_znacenje(znacenje: any): string {
     let tekst = '';
-    // TODO: kvalifikatori
+    if (znacenje.kvalifikatori.length > 0)
+      tekst += this.render_kvalifikatori(znacenje.kvalifikatori);
     tekst += `${this.tacka(znacenje.tekst)}`;
     tekst += this.render_izrazi_fraze(znacenje.izrazi_fraze);
     znacenje.podznacenja.forEach((value, index) => {
@@ -77,7 +82,8 @@ export class PreviewService {
 
   render_podznacenje(podznacenje: any): string {
     let tekst = '';
-    // TODO: kvalifikatori
+    if (podznacenje.kvalifikatori.length > 0)
+      tekst += this.render_kvalifikatori(podznacenje.kvalifikatori);
     tekst += `${this.tacka(podznacenje.tekst)}`;
     tekst += this.render_izrazi_fraze(podznacenje.izrazi_fraze);
     return tekst;
@@ -87,6 +93,14 @@ export class PreviewService {
     let tekst = '';
     izraziFraze.forEach((value) => {
       tekst += ` &#8212; <i>${this.tacka(value.opis)}</i>`;
+    });
+    return tekst;
+  }
+
+  render_kvalifikatori(kvali: any[]): string {
+    let tekst = '';
+    kvali.forEach((value) => {
+      tekst += ` <small>${this.tacka(value.skracenica)}</small> `;
     });
     return tekst;
   }

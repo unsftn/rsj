@@ -19,10 +19,6 @@ export class MeaningFormComponent implements OnInit {
     this.meanings.splice(this.meanings.indexOf(meaning), 1);
   }
 
-  updateQualificators(update): void {
-    console.log(update);
-  }
-
   ngOnInit(): void {
     this.primengConfig.ripple = true;
   }

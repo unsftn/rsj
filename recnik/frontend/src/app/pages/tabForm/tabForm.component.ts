@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Determinant } from '../../models/determinant';
 import { Qualificator } from '../../models/qualificator';
-import { OdrednicaService, PreviewService } from '../../services/odrednice';
+import { OdrednicaService, PreviewService, QualificatorService } from '../../services/odrednice';
 
 interface State {
   name: string;
@@ -100,6 +100,7 @@ export class TabFormComponent implements OnInit {
     private route: ActivatedRoute,
     private odrednicaService: OdrednicaService,
     private previewService: PreviewService,
+    private qualificatorService: QualificatorService,
     private domSanitizer: DomSanitizer,
   ) {
     this.wordType = [
@@ -207,11 +208,14 @@ export class TabFormComponent implements OnInit {
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
       prezent: this.present ? this.present : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
-      version: 1,
+      version: 1, // TODO: sacuvaj prilikom edita postojece odrednice
       kolokacija_set: this.collocations ? this.collocations : [],
-      kvalifikatori: this.qualificators.map((q, index) => { return {
+      kvalifikatori: this.qualificators.map((q, index) => {
+        console.log(q);
+        return {
           redni_broj: index + 1,
           kvalifikator_id: q.id,
+          skracenica: q.abbreviation
         };
       }),
       znacenja: this.meanings ? this.meanings.map((z, index) => {
@@ -231,6 +235,7 @@ export class TabFormComponent implements OnInit {
               kvalifikatori: pz.qualificators.map((q, idx2) => { return {
                   redni_broj: idx2 + 1,
                   kvalifikator_id: q.id,
+                  skracenica: q.abbreviation
                 };
               }),
             };
@@ -244,6 +249,7 @@ export class TabFormComponent implements OnInit {
           kvalifikatori: z.qualificators.map((q, idx) => { return {
               redni_broj: idx + 1,
               kvalifikator_id: q.id,
+              skracenica: q.abbreviation
             };
           }),
           konkordanse: [],
@@ -263,14 +269,15 @@ export class TabFormComponent implements OnInit {
     console.log(value);
     this.wordE = value.rec;
     this.wordI = value.ijekavski;
-    for (let v of value.varijantaodrednice_set) {
+    for (const v of value.varijantaodrednice_set) {
       this.variants.push({ nameE: v.tekst, nameI: v.ijekavski });
     }
     this.selectedWordType = this.wordType[value.vrsta];
     switch (value.vrsta) {
       case 0:
-      case 2:
+        this.selectedKind = value.rod;
       case 5:
+      case 2:
       case 9:
         this.isNoun = true;
         this.isVerb = false;
@@ -287,33 +294,30 @@ export class TabFormComponent implements OnInit {
     this.details = value.info === null ? '' : value.info;
     this.meanings = [];
     for (const z of value.znacenje_set) {
-      const obj = { value: z.tekst, submeanings: [], expressions: [], qualificators: [] };
+      const obj = {
+        value: z.tekst,
+        submeanings: [],
+        expressions: z.izrazfraza_set.map((e) => { return { value: e.opis, keywords: [] }; }),
+        qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+      };
       for (const pz of z.podznacenje_set) {
         const submeaning = { value: pz.tekst, expressions: [], qualificators: [] };
         obj.submeanings.push(submeaning);
         for (const expr of pz.izrazfraza_set) {
           submeaning.expressions.push({ value: expr.opis, keywords: []});
         }
-        for (const q of pz.kvalifikatorpodznacenja_set) {
-          submeaning.qualificators.push({ id: q.id, name: q.naziv, abbreviation: q.skracenica });
-        }
+        pz.qualificators = pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
       }
-      for (const expr of z.izrazfraza_set) {
-        obj.expressions.push({ value: expr.opis, keywords: [] });
-      }
-      for (const q of z.kvalifikatorznacenja_set) {
-        obj.qualificators.push({ id: q.id, name: q.naziv, abbreviation: q.skracenica });
-      }
+      // for (const expr of z.izrazfraza_set) {
+      //   obj.expressions.push({ value: expr.opis, keywords: [] });
+      // }
+      // obj.qualificators = z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
       this.meanings.push(obj);
     }
     this.expressions = [];
     for (const expr of value.izrazfraza_set) {
       this.expressions.push({ value: expr.opis, keywords: [] });
     }
-    const kval: Qualificator[] = [];
-    for (const q of value.kvalifikatorodrednice_set) {
-      kval.push({id: q.id, name: q.naziv, abbreviation: q.skracenica});
-    }
-    this.qualificators = kval;
+    this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
   }
 }

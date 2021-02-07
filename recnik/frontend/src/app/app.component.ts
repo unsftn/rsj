@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
+import { QualificatorService } from './services/odrednice';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private tokenStorageService: TokenStorageService,
+    private qualificatorService: QualificatorService,
     private router: Router,
   ) {}
 
@@ -29,7 +31,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.items = [
       {
@@ -60,5 +62,6 @@ export class AppComponent implements OnInit {
         },
       },
     ];
+    this.qualificatorService.fetchAllQualificators();
   }
 }
