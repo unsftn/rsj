@@ -31,10 +31,8 @@ def tacka(tekst):
 
 
 def font_fetcher(url):
-    print(url)
     if url.startswith('fonts/'):
         font_path = finders.find(url)
-        print(f'loading font: {font_path}')
         font_file = open(font_path, 'r')
         return {'file_obj': font_file}
     return default_url_fetcher(url)
@@ -100,6 +98,7 @@ def render_one(odrednica):
         html += f' <small>речца</small> '
     if odrednica.vrsta == 8:
         html += f' <small>везн.</small> '
+    html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())
     else:
