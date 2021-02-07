@@ -51,8 +51,8 @@ export class TabFormComponent implements OnInit {
   qualificators: Qualificator[];
   id: number;
 
-  meanings: any[];
-  expressions: any[];
+  meanings: any[] = [];
+  expressions: any[] = [];
 
   addVariant(): void {
     this.variants.push({ nameE: '', nameI: '' });
@@ -126,11 +126,12 @@ export class TabFormComponent implements OnInit {
     this.isVerb = false;
   }
 
-  async addNewDeterminant(): Promise<void> {
+  async save(): Promise<void> {
     const response: any = await this.odrednicaService
       .saveOdrednica(this.makeNewDeterminant())
       .toPromise()
-      .catch(() => {
+      .catch((error) => {
+        console.log(error);
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
           '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
         this.display = true;
@@ -163,12 +164,12 @@ export class TabFormComponent implements OnInit {
       case 'Заменица':
       case 'Придев':
       case 'Број':
-        this.isVerb = true;
-        this.isNoun = false;
-        break;
-      case 'Глагол':
         this.isVerb = false;
         this.isNoun = true;
+        break;
+      case 'Глагол':
+        this.isVerb = true;
+        this.isNoun = false;
         break;
     }
   }

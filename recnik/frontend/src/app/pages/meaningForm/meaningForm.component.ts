@@ -12,7 +12,7 @@ export class MeaningFormComponent implements OnInit {
   @Input() meanings: any[] = [];
 
   add(): void {
-    this.meanings.push({ value: '' });
+    this.meanings.push({ value: '', submeanings: [], qualificators: [], collocations: [], expressions: [] });
   }
 
   remove(meaning): void {
