@@ -3,7 +3,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-4 p-md-4 p-lg-4">
-          <p class="label p-m-0">Род:</p>
+          <p class="label p-m-1">Род:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
           <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"></p-dropdown>
@@ -13,7 +13,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-4 p-md-4 p-lg-4">
-          <p class="label p-m-0">Наставак:</p>
+          <p class="label p-m-1">Наставак:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
           <input type="text" pInputText [(ngModel)]="extension" (ngModelChange)="changeExtension()" />
@@ -27,7 +27,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-5 p-md-5 p-lg-5">
-          <p class="label">Глаголски вид:</p>
+          <p class="label p-m-1">Глаголски вид:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
           <p-dropdown [options]="verbForms" [(ngModel)]="selectedVerbForm" (onChange)="changeVerbForm()" placeholder="Глаголски вид" optionLabel="name"></p-dropdown>
@@ -37,7 +37,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-5 p-md-5 p-lg-5">
-          <p class="label">Глаголски род:</p>
+          <p class="label p-m-1">Глаголски род:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
           <p-dropdown [options]="verbKinds" [(ngModel)]="selectedVerbKind" (onChange)="changeVerbKind()" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
@@ -47,7 +47,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-5 p-md-5 p-lg-5">
-          <p class="label">Презент:</p>
+          <p class="label p-m-1">Презент:</p>
         </div>
         <div class="p-col-7 p-md-7 p-lg-7">
           <input type="text" pInputText [(ngModel)]="present" (ngModelChange)="changePresent()" />
@@ -58,9 +58,9 @@
 </div>
 <div class="p-d-flex p-flex-column">
   <div>
-    <p class="label p-m-0">Додатне информације:</p>
+    <p class="label p-m-1">Додатне информације:</p>
   </div>
   <div>
-    <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize" [(ngModel)]="details" (ngModelChange)="changeDetails()"></textarea>
+    <textarea [rows]="7" [cols]="80" pInputTextarea autoResize="autoResize" [(ngModel)]="details" (ngModelChange)="changeDetails()"></textarea>
   </div>
 </div>

@@ -3,11 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
-import { Gender } from '../../models';
-import { Determinant } from '../../models/determinant';
-import { Qualificator } from '../../models/qualificator';
-import { OdrednicaService, PreviewService, QualificatorService } from '../../services/odrednice';
-import { EnumService } from '../../services/odrednice/enum.service';
+import { Gender, StanjeOdrednice, Determinant, Qualificator, STANJE_ODREDNICE } from '../../models';
+import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 
 interface State {
   name: string;
@@ -49,7 +46,7 @@ export class TabFormComponent implements OnInit {
   collocations;
 
   selectedWordType: WordType;
-  selectedState: State;
+  selectedState: StanjeOdrednice;
   qualificators: Qualificator[];
   id: number;
 
@@ -118,11 +115,6 @@ export class TabFormComponent implements OnInit {
       { name: 'Везник', id: 8 },
       { name: 'Број', id: 9 },
     ];
-    this.state = [
-      { name: 'Први унос', id: 1 },
-      { name: 'Редактура 1', id: 2 },
-      { name: 'Редактура 2', id: 3 },
-    ];
 
     this.variants = [];
 
@@ -184,6 +176,7 @@ export class TabFormComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.id = null;
+          this.selectedState = STANJE_ODREDNICE[0];
           break;
         case 'edit':
           this.route.params.subscribe((params) => {
@@ -275,6 +268,7 @@ export class TabFormComponent implements OnInit {
     for (const v of value.varijantaodrednice_set) {
       this.variants.push({ nameE: v.tekst, nameI: v.ijekavski });
     }
+    this.selectedState = STANJE_ODREDNICE[value.stanje - 1];
     this.selectedWordType = this.wordType[value.vrsta];
     switch (value.vrsta) {
       case 0:
