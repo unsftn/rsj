@@ -3,7 +3,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-4 p-md-4 p-lg-4">
-          <p class="label">Род:</p>
+          <p class="label p-m-0">Род:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
           <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"></p-dropdown>
@@ -13,7 +13,7 @@
     <div>
       <div class="p-d-flex">
         <div class="p-col-4 p-md-4 p-lg-4">
-          <p class="label">Наставак:</p>
+          <p class="label p-m-0">Наставак:</p>
         </div>
         <div class="p-col-8 p-md-8 p-lg-8">
           <input type="text" pInputText [(ngModel)]="extension" (ngModelChange)="changeExtension()" />
@@ -58,7 +58,7 @@
 </div>
 <div class="p-d-flex p-flex-column">
   <div>
-    <p class="label">Додатне информације:</p>
+    <p class="label p-m-0">Додатне информације:</p>
   </div>
   <div>
     <textarea [rows]="7" [cols]="37" pInputTextarea autoResize="autoResize" [(ngModel)]="details" (ngModelChange)="changeDetails()"></textarea>

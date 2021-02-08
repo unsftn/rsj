@@ -14,10 +14,10 @@
   <div class="p-d-flex p-flex-column p-flex-md-row">
     <div class="p-col-7">
       <div class="p-d-flex">
-        <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label">Реч:</p>
+        <div class="p-col-12 p-md-3 p-lg-2">
+          <p class="label p-m-0">Реч:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-9">
+        <div class="p-col-12 p-md-9 p-lg-10">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
@@ -29,11 +29,11 @@
         </div>
       </div>
       <div class="p-d-flex">
-        <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label">Варијанта:</p>
+        <div class="p-md-3 p-lg-2">
+          <p class="label p-m-0">Варијанта:</p>
           <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="addVariant()"></button>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-9">
+        <div class="p-col-12 p-md-9 p-lg-10">
           <form #formRef="ngForm">
             <div *ngFor="let variant of variants; let i=index" class="col-sm-3">
               <div class="p-d-flex p-flex-column p-flex-lg-row">
@@ -59,18 +59,18 @@
         </div>
       </div>
       <div class="p-d-flex">
-        <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label">Врста речи:</p>
+        <div class="p-col-12 p-md-3 p-lg-2">
+          <p class="label p-m-0">Врста речи:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-9">
+        <div class="p-col-12 p-md-9 p-lg-10">
           <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" optionLabel="name" (onChange)='onChange()' placeholder="Врста речи"></p-dropdown>
         </div>
       </div>
-      <div class="p-d-flex">
-        <div class="p-col-12 p-md-4 p-lg-3">
+      <div class="p-d-flex p-ai-start">
+        <div class="p-md-3 p-lg-2">
           <p class="label">Квалификатори:</p>
         </div>
-        <div class="p-col-12 p-md-8 p-lg-9">
+        <div class="p-col-12 p-md-9 p-lg-10">
           <qualificator [(selectedQualificators)]="qualificators"></qualificator>
         </div>
       </div>
