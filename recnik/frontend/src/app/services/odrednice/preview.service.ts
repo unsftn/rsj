@@ -10,7 +10,7 @@ export class PreviewService {
   constructor() { }
 
   preview(odrednica): string {
-    let tekst = `<div class="odrednica"><b>${odrednica.rec}</b>`;
+    let tekst = `<div class="odrednica"><b>${odrednica.rec}</b> `;
     if (odrednica.varijante.length > 0) {
       tekst += ` (${odrednica.varijante.join(', ')})`;
     }

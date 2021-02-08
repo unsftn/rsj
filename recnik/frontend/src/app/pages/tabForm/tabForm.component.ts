@@ -49,6 +49,7 @@ export class TabFormComponent implements OnInit {
   selectedState: StanjeOdrednice;
   qualificators: Qualificator[];
   id: number;
+  formMode: number;  // 1 - nova odrednica; 2 - edit postojece
 
   meanings: any[] = [];
   expressions: any[] = [];
@@ -123,6 +124,12 @@ export class TabFormComponent implements OnInit {
   }
 
   async save(): Promise<void> {
+    if (this.formMode === 2) {
+      this.message = this.domSanitizer.bypassSecurityTrustHtml(
+        '<p>Ажурирање постојећих одредница још није имплементирано.</p>');
+      this.display = true;
+      return;
+    }
     const response: any = await this.odrednicaService
       .saveOdrednica(this.makeNewDeterminant())
       .toPromise()
@@ -138,6 +145,12 @@ export class TabFormComponent implements OnInit {
         '<p>Успешно додата нова одредница.</p>');
       this.display = true;
     }
+  }
+
+  finish(): void {
+    this.message = this.domSanitizer.bypassSecurityTrustHtml(
+      '<p>Операција још није имплементирана.</p>');
+    this.display = true;
   }
 
   preview(): void {
@@ -175,10 +188,12 @@ export class TabFormComponent implements OnInit {
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
+          this.formMode = 1;
           this.id = null;
           this.selectedState = STANJE_ODREDNICE[0];
           break;
         case 'edit':
+          this.formMode = 2;
           this.route.params.subscribe((params) => {
             this.id = +params.id;
             this.odrednicaService.getOdrednica(this.id).subscribe((value) => {
