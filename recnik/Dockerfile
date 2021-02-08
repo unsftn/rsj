@@ -29,4 +29,4 @@ RUN rm -rf /app/log/*
 RUN rm -rf /private
 RUN chmod +x /app/run_prod.sh
 EXPOSE 8000
-CMD ["/app/run_prod.sh"]
+ENTRYPOINT ["/app/run_prod.sh"]
