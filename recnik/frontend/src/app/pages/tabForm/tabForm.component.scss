@@ -53,15 +53,15 @@
 }
 
 :host ::ng-deep .p-component {
-  font-family: 'Lucida Sans Unicode';
+  font-family: OrtoRNIDS, 'Lucida Sans Unicode';
 }
 
 :host ::ng-deep .p-dropdown {
-  font-family: 'Lucida Sans Unicode';
+  font-family: OrtoRNIDS, 'Lucida Sans Unicode';
 }
 
 :host ::ng-deep .p-dropdown-label {
-  font-family: 'Lucida Sans Unicode';
+  font-family: OrtoRNIDS, 'Lucida Sans Unicode';
 }
 
 :host ::ng-deep .p-button {
@@ -70,4 +70,8 @@
 
 :host ::ng-deep .p-dropdown-label {
   padding: 4px !important;
+}
+
+.lucida {
+  font-family: 'Lucida Sans Unicode' !important;
 }

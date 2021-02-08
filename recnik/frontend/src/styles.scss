@@ -21,7 +21,7 @@ body {
 }
 
 a, p, h1, h2, h3, h4, h5, h6 {
-  font-family: "Lucida Sans Unicode", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: OrtoRNIDS, "Lucida Sans Unicode", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: #495057;
 }
 
@@ -31,11 +31,13 @@ a, p, h1, h2, h3, h4, h5, h6 {
 }
 
 :host ::ng-deep .p-component {
-  font-family: 'Lucida Sans Unicode';
+  // font-family: 'Lucida Sans Unicode';
+  font-family: 'OrtoRNIDS';
 }
 
 :host ::ng-deep .p-input-text {
   font-family: 'Lucida Sans Unicode';
+  // font-family: 'OrtoRNIDS';
 }
 
 :host ::ng-deep .p-inputtext {
@@ -77,6 +79,38 @@ a, p, h1, h2, h3, h4, h5, h6 {
          url('/assets/fonts/Lucida-Sans-Unicode.ttf') format('ttf');
     font-style: normal;
     font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: OrtoRNIDS-Regular */@font-face {
+    font-family: 'OrtoRNIDS';
+    src: url('/assets/fonts/OrtoRNIDS-Regular.woff2') format('woff2'); /* Modern Browsers */
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: OrtoRNIDS-Italic */@font-face {
+    font-family: 'OrtoRNIDS';
+    src: url('/assets/fonts/OrtoRNIDS-Italic.woff2') format('woff2'); /* Modern Browsers */
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: OrtoRNIDS-Bold */@font-face {
+    font-family: 'OrtoRNIDS';
+    src: url('/assets/fonts/OrtoRNIDS-Bold.woff2') format('woff2'); /* Modern Browsers */
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+/* Webfont: OrtoRNIDS-BoldItalic */@font-face {
+    font-family: 'OrtoRNIDS';
+    src: url('/assets/fonts/OrtoRNIDS-BoldItalic.woff2') format('woff2'); /* Modern Browsers */
+    font-style: italic;
+    font-weight: bold;
     text-rendering: optimizeLegibility;
 }
 
