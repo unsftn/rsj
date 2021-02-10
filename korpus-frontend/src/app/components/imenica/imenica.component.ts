@@ -29,12 +29,12 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
 
   constructor(private messageService: MessageService, private imenicaService: ImenicaService, private route: ActivatedRoute) {
     this.nounTypes = [
-      { id:1, name:'апстрактна' },
-      { id:2, name:'заједничка' },
-      { id:3, name:'властита' },
-      { id:4, name:'збирна' },
-      { id:5, name:'градивна' },
-      { id:6, name:'глаголска' }
+      { id: 1, name: 'апстрактна' },
+      { id: 2, name: 'заједничка' },
+      { id: 3, name: 'властита' },
+      { id: 4, name: 'збирна' },
+      { id: 5, name: 'градивна' },
+      { id: 6, name: 'глаголска' }
     ];
     this.selectedNounType = { id:0, name:'' };
   }
@@ -80,7 +80,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
         vokmno: 'тестови',
         insmno: 'тестовима',
         lokmno: 'тестовима',
-        vrsta: { id:2, naziv:'заједничка' },
+        vrsta: { id: 2, naziv: 'заједничка' },
         version: 1,
         varijante: [
           {

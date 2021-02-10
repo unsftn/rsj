@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { ImenicaService } from '../../services/imenica/imenica.service';
 import { GlagolService } from '../../services/glagol/glagol.service';
+import { PridevService } from '../../services/pridev/pridev.service';
 import { Imenica } from '../../models/imenica';
 import { Glagol } from '../../models/glagol';
+import { Pridev } from 'src/app/models/pridev';
 
 interface WordType {
   name: string;
@@ -24,9 +25,10 @@ export class FormSelectorComponent implements OnInit {
   saveBtnDisabled: boolean;
   imenica: Imenica;
   glagol: Glagol;
+  pridev: Pridev;
 
-  constructor(private messageService: MessageService, private httpClient: HttpClient,
-    private imenicaService: ImenicaService, private glagolService: GlagolService) {
+  constructor(private messageService: MessageService, private imenicaService: ImenicaService,
+    private glagolService: GlagolService, private pridevService: PridevService) {
     this.wordTypes = [
       { name: 'именица' },
       { name: 'глагол' },
@@ -79,6 +81,7 @@ export class FormSelectorComponent implements OnInit {
         this.saveGlagol();
         break;
       case 'придев':
+        this.savePridev();
         break;
       case 'заменица':
         break;
@@ -143,7 +146,7 @@ export class FormSelectorComponent implements OnInit {
           this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
       });
       if (response) { // TODO 409 Conflict => refresh
-        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Именица је измењена'});
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Глагол је измењен'});
         setTimeout(() => {
           window.history.back();
         }, 2000);
@@ -157,6 +160,37 @@ export class FormSelectorComponent implements OnInit {
       });
       if (response) {
         this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Глагол је сачуван'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+  }
+
+  async savePridev() {
+    if (this.pridev.tekst === '')
+      this.pridev.tekst = this.pridev.oblici[0].tekst;
+    if (this.editMode) {
+      const response: any = await this.pridevService.editPridev(this.pridev)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) { // TODO 409 Conflict => refresh
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Придев је измењен'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+    else {
+      const response: any = await this.pridevService.savePridev(this.pridev)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) {
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Придев је сачуван'});
         setTimeout(() => {
           window.history.back();
         }, 2000);
@@ -189,6 +223,11 @@ export class FormSelectorComponent implements OnInit {
   glagolChangedHandler(glagol: any): void {
     this.saveBtnDisabled = false;
     this.glagol = glagol;
+  }
+
+  pridevChangedHandler(pridev: any): void {
+    this.saveBtnDisabled = false;
+    this.pridev = pridev;
   }
 
   back(): void {

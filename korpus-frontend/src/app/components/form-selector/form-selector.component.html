@@ -3,7 +3,7 @@
         <button pButton class="p-button-text" label="Повратак" (click)="back()" icon="pi pi-arrow-left"></button>
     </div>
     <div class="p-toolbar-group-right" >
-      <button pButton class="p-button-success" label="Сачувај" (click)="save(selectedWordType.name)" [disabled]="saveBtnDisabled" icon="pi pi-check"></button>
+      <button pButton class="p-button-success" label="Сачувај" (click)="save(selectedWordType.name)" [disabled]="saveBtnDisabled" icon="pi pi-save"></button>
     </div>
 </p-toolbar>
 <div class="container">
@@ -20,4 +20,5 @@
     </div>
     <imenica *ngIf="selectedWordType.name==='именица'" [imenica]=imenica (imenicaChanged)="imenicaChangedHandler($event)"></imenica>
     <glagol *ngIf="selectedWordType.name==='глагол'" [glagol]=glagol (glagolChanged)="glagolChangedHandler($event)"></glagol>
+    <pridev *ngIf="selectedWordType.name==='придев'" [pridev]=pridev (pridevChanged)="pridevChangedHandler($event)"></pridev>
 </div>
