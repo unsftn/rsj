@@ -5,14 +5,15 @@ import { Injectable } from '@angular/core';
 })
 export class PreviewService {
   rod = { 1: 'м', 2: 'ж', 3: 'с' };
-  gvid = { 1: 'свр.', 2: 'несвр.', 3: 'двовид.' };
+  gvid = { 1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.' };
   azbuka = 'абвгдђежзијклљмнњопрстћуфхцчџш';
   constructor() { }
 
   preview(odrednica): string {
-    let tekst = `<div class="odrednica"><b>${odrednica.rec}</b> `;
+    let tekst = `<div class="odrednica"><b>${odrednica.rec}</b>`;
     if (odrednica.varijante.length > 0) {
-      tekst += ` (${odrednica.varijante.join(', ')})`;
+      console.log(odrednica.varijante);
+      tekst += ` (${odrednica.varijante.map(v => v.tekst).join(', ')})`;
     }
     switch (odrednica.vrsta) {
       case 0: // imenica
@@ -27,7 +28,7 @@ export class PreviewService {
           tekst += `, ${odrednica.prezent}`;
         }
         if (odrednica.glagolski_vid > 0) {
-          tekst += `, <small>${this.gvid[odrednica.glagolski_vid]}</small>`;
+          tekst += `, <small>${this.gvid[odrednica.glagolski_vid]}</small> `;
         }
         break;
       case 2: // pridev

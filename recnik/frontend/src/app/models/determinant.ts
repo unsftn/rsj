@@ -12,6 +12,7 @@ export interface Determinant {
   prezent?: string;
   stanje: number;
   version: number;
+  opciono_se?: boolean;
   kolokacija_set?: any[];
   kvalifikatori: any[];
   znacenja: any[];

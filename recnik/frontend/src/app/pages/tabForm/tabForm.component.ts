@@ -3,18 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
-import { Gender, StanjeOdrednice, Determinant, Qualificator, STANJE_ODREDNICE } from '../../models';
+import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
-
-interface State {
-  name: string;
-  id: number;
-}
-
-interface WordType {
-  name: string;
-  id: number;
-}
 
 interface Variant {
   nameE: string;
@@ -22,13 +12,12 @@ interface Variant {
 }
 
 @Component({
-  selector: 'tab-form',
+  selector: 'app-tab-form',
   templateUrl: './tabForm.component.html',
   styleUrls: ['./tabForm.component.scss'],
 })
 export class TabFormComponent implements OnInit {
-  wordType: WordType[];
-  state: State[];
+  wordTypes: WordType[];
   isNoun: boolean;
   isVerb: boolean;
   wordE: string;
@@ -39,19 +28,25 @@ export class TabFormComponent implements OnInit {
   extension;
   variants: Variant[];
 
-  selectedVerbKind;
-  selectedVerbForm;
+  genders: Gender[];
+  verbKinds: VerbKind[];
+  verbForms: VerbForm[];
+
+  selectedVerbKind: VerbKind;
+  selectedVerbForm: VerbForm;
   present: string;
   details;
   collocations;
 
   selectedWordType: WordType;
   selectedState: StanjeOdrednice;
-  qualificators: Qualificator[];
+  qualificators: Qualificator[] = [];
   id: number;
   formMode: number;  // 1 - nova odrednica; 2 - edit postojece
+  optionalSe: boolean;
 
   meanings: any[] = [];
+  meanings2: any[] = [];
   expressions: any[] = [];
 
   addVariant(): void {
@@ -104,23 +99,11 @@ export class TabFormComponent implements OnInit {
     private enumService: EnumService,
     private domSanitizer: DomSanitizer,
   ) {
-    this.wordType = [
-      { name: 'Именица', id: 0 },
-      { name: 'Глагол', id: 1 },
-      { name: 'Придев', id: 2 },
-      { name: 'Прилог', id: 3 },
-      { name: 'Предлог', id: 4 },
-      { name: 'Заменица', id: 5 },
-      { name: 'Узвик', id: 6 },
-      { name: 'Речца', id: 7 },
-      { name: 'Везник', id: 8 },
-      { name: 'Број', id: 9 },
-    ];
-
     this.variants = [];
-
     this.isNoun = true;
     this.isVerb = false;
+    this.selectedState = this.enumService.getEntryState(1);
+    this.selectedWordType = this.enumService.getWordType(1);
   }
 
   async save(): Promise<void> {
@@ -159,38 +142,52 @@ export class TabFormComponent implements OnInit {
     this.display = true;
   }
 
-  onChange(): void {
+  onChangeWordType(): void {
     switch (this.selectedWordType.name) {
-      case 'Прилог':
-      case 'Узвик':
-      case 'Речца':
-      case 'Везник':
-      case 'Предлог':
+      case 'прилог':
+      case 'узвик':
+      case 'речца':
+      case 'везник':
+      case 'предлог':
         this.isVerb = false;
         this.isNoun = false;
         break;
-      case 'Именица':
-      case 'Заменица':
-      case 'Придев':
-      case 'Број':
+      case 'именица':
+      case 'заменица':
+      case 'придев':
+      case 'број':
         this.isVerb = false;
         this.isNoun = true;
         break;
-      case 'Глагол':
+      case 'глагол':
         this.isVerb = true;
         this.isNoun = false;
         break;
     }
   }
 
+  def2visible(): boolean {
+    if (!this.isVerb) {
+      return false;
+    }
+    if (this.selectedVerbKind === undefined) {
+      return false;
+    }
+    return this.selectedVerbKind.def2;
+  }
+
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.genders = this.enumService.getAllGenders();
+    this.verbKinds = this.enumService.getAllVerbKinds();
+    this.verbForms = this.enumService.getAllVerbForms();
+    this.wordTypes = this.enumService.getAllWordTypes();
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
           this.formMode = 1;
           this.id = null;
-          this.selectedState = STANJE_ODREDNICE[0];
+          this.selectedState = this.enumService.getEntryState(1);
           break;
         case 'edit':
           this.formMode = 2;
@@ -210,7 +207,12 @@ export class TabFormComponent implements OnInit {
     const determinant: Determinant = {
       rec: this.wordE,
       ijekavski: this.wordI,
-      varijante: [],
+      varijante: this.variants.map((variant, index) => { return {
+          redni_broj: index + 1,
+          tekst: variant.nameE,
+          ijekavski: variant.nameI,
+        };
+      }),
       vrsta: this.selectedWordType?.id,
       rod: this.selectedGender?.id ? this.selectedGender?.id : null,
       nastavak: this.extension ? this.extension : '',
@@ -220,6 +222,7 @@ export class TabFormComponent implements OnInit {
       prezent: this.present ? this.present : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: 1, // TODO: sacuvaj prilikom edita postojece odrednice
+      opciono_se: this.optionalSe,
       kolokacija_set: this.collocations ? this.collocations : [],
       kvalifikatori: this.qualificators.map((q, index) => {
         console.log(q);
@@ -270,24 +273,24 @@ export class TabFormComponent implements OnInit {
     if (this.id !== null) {
       determinant.id = this.id;
     }
-    console.log('Sastavljeno za server:');
-    console.log(determinant);
+    console.log('Sastavljeno za server:', determinant);
     return determinant;
   }
 
   fillForm(value: any): void {
-    console.log('Procitano sa servera:');
-    console.log(value);
+    console.log('Procitano sa servera:', value);
     this.wordE = value.rec;
     this.wordI = value.ijekavski;
     for (const v of value.varijantaodrednice_set) {
       this.variants.push({ nameE: v.tekst, nameI: v.ijekavski });
     }
-    this.selectedState = STANJE_ODREDNICE[value.stanje - 1];
-    this.selectedWordType = this.wordType[value.vrsta];
+    this.selectedState = this.enumService.getEntryState(value.stanje);
+    this.selectedWordType = this.enumService.getWordType(value.vrsta);
+    this.optionalSe = value.opciono_se;
     switch (value.vrsta) {
       case 0:
         this.selectedGender = this.enumService.getGender(value.rod);
+        // tslint:disable-next-line:no-switch-case-fall-through
       case 5:
       case 2:
       case 9:
@@ -295,6 +298,9 @@ export class TabFormComponent implements OnInit {
         this.isVerb = false;
         break;
       case 1:
+        this.selectedVerbForm = this.enumService.getVerbForm(value.glagolski_vid)
+        this.selectedVerbKind = this.enumService.getVerbKind(value.glagolski_rod);
+        this.present = value.prezent;
         this.isNoun = false;
         this.isVerb = true;
         break;
@@ -320,10 +326,6 @@ export class TabFormComponent implements OnInit {
         }
         pz.qualificators = pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
       }
-      // for (const expr of z.izrazfraza_set) {
-      //   obj.expressions.push({ value: expr.opis, keywords: [] });
-      // }
-      // obj.qualificators = z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
       this.meanings.push(obj);
     }
     this.expressions = [];

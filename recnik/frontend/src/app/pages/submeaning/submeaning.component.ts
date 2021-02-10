@@ -7,20 +7,19 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class SubmeaningComponent implements OnInit {
 
-  @Input()
-  submeanings = [{ value: ' ' }];
+  @Input() submeanings = [{ value: '', qualificators: [], collocations: [], expressions: [] }];
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
-  add() {
-    this.submeanings.push({ value: '' });
+  add(): void {
+    this.submeanings.push({ value: '', qualificators: [], collocations: [], expressions: []  });
   }
 
-  remove(submeaning) {
+  remove(submeaning): void {
     this.submeanings.splice(this.submeanings.indexOf(submeaning), 1);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
   }
 }

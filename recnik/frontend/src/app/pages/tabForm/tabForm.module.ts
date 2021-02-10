@@ -10,6 +10,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { GrammarInformationsModule } from '../grammarInformations/grammarInformations.module';
 import { MeaningFormModule } from '../meaningForm/meaningForm.module';
@@ -39,6 +40,7 @@ import { QualificatorModule } from '../qualificators/qualificator.module';
     ChangesFormModule,
     CollocationsModule,
     DialogModule,
+    CheckboxModule,
     QualificatorModule,
   ],
   exports: [TabFormComponent],

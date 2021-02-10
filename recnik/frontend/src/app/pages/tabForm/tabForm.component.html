@@ -1,5 +1,6 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
+    <span class="word-title">{{wordE}}</span>
   </div>
   <div class="p-toolbar-group-right">
     <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search"></p-button>
@@ -12,12 +13,12 @@
 </p-dialog>
 <div class="basic-information-container">
   <div class="p-d-flex p-flex-column p-flex-md-row">
-    <div class="p-col-9">
+    <div class="p-col-5">
       <div class="p-d-flex">
-        <div class="p-col-12 p-md-3 p-lg-2">
+        <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label p-m-0">Реч:</p>
         </div>
-        <div class="p-col-12 p-md-9 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
               <input type="text" class="input-field lucida" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
@@ -25,15 +26,26 @@
             <div class="p-mb-2 p-mr-2">
               <input type="text" class="input-field lucida" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
             </div>
+            <div class="p-mb-2 p-mt-2" *ngIf="isVerb">
+              <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"></p-checkbox>
+            </div>
           </div>
         </div>
       </div>
       <div class="p-d-flex">
-        <div class="p-md-3 p-lg-2">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Стање:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <p class="label p-m-0">{{selectedState.opis}}</p>
+        </div>
+      </div>
+      <div class="p-d-flex">
+        <div class="p-md-4 p-lg-3">
           <p class="label p-m-0">Варијанта:</p>
           <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="addVariant()"></button>
         </div>
-        <div class="p-col-12 p-md-9 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <form #formRef="ngForm">
             <div *ngFor="let variant of variants; let i=index" class="col-sm-3">
               <div class="p-d-flex p-flex-column p-flex-lg-row">
@@ -59,98 +71,98 @@
         </div>
       </div>
       <div class="p-d-flex">
-        <div class="p-col-12 p-md-3 p-lg-2">
+        <div class="p-col-12 p-md-4 p-lg-3">
           <p class="label p-m-0">Врста речи:</p>
         </div>
-        <div class="p-col-12 p-md-9 p-lg-10">
-          <p-dropdown [options]="wordType" [(ngModel)]="selectedWordType" optionLabel="name" (onChange)='onChange()' placeholder="Врста речи"></p-dropdown>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <p-dropdown [options]="wordTypes" [(ngModel)]="selectedWordType" (onChange)="onChangeWordType()" optionLabel="name" placeholder="Врста речи"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex p-ai-start">
-        <div class="p-md-3 p-lg-2">
-          <p class="label">Квалификатори:</p>
+        <div class="p-md-4 p-lg-3">
+          <p class="label p-m-0">Квалификатори:</p>
         </div>
-        <div class="p-col-12 p-md-9 p-lg-10">
+        <div class="p-col-12 p-md-8 p-lg-9">
           <qualificator [(selectedQualificators)]="qualificators"></qualificator>
         </div>
       </div>
+
+      <div class="p-d-flex p-ai-start" *ngIf="isNoun">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Род:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-d-flex p-ai-start" *ngIf="isNoun">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Наставак:</p>
+        </div>
+        <div class="p-md-8 p-lg-9">
+          <input type="text" pInputText [(ngModel)]="extension"/>
+        </div>
+      </div>
+      <div class="p-d-flex p-ai-start" *ngIf="isVerb">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Глаголски вид:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <p-dropdown [options]="verbForms" [(ngModel)]="selectedVerbForm" placeholder="Глаголски вид" optionLabel="name"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-d-flex p-ai-start" *ngIf="isVerb">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Глаголски род:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <p-dropdown [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
+        </div>
+      </div>
+      <div class="p-d-flex p-ai-start" *ngIf="isVerb">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Презент:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <input type="text" pInputText [(ngModel)]="present"/>
+        </div>
+      </div>
+      <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">
+        <div>
+          <p class="label p-m-0">Додатне информације:</p>
+        </div>
+        <div>
+          <textarea [rows]="5" [cols]="60" pInputTextarea autoResize="autoResize" [(ngModel)]="details"></textarea>
+        </div>
+      </div>
     </div>
-    <div class="p-col-3">
-      <div class="p-d-flex">
-        <div class="p-col-12 p-md-6 p-lg-6">
-          <p class="label p-m-1">Стање одреднице:</p>
-        </div>
-        <div class="p-col-12 p-md-6 p-lg-6">
-          <p class="label p-m-1">{{selectedState.opis}}</p>
-        </div>
+    <div class="p-col-7">
+      <div class="tab-container">
+        <p-tabView>
+          <p-tabPanel header="Дефиниција">
+            <meaning [meanings]="meanings"></meaning>
+          </p-tabPanel>
+          <p-tabPanel header="Дефиниција (се)" *ngIf="def2visible()">
+            <meaning [meanings]="meanings2"></meaning>
+          </p-tabPanel>
+          <p-tabPanel header="Изрази и фразе">
+            <expressions [expressions]="expressions"></expressions>
+          </p-tabPanel>
+          <p-tabPanel header="Синоними">
+            <synonym></synonym>
+          </p-tabPanel>
+          <p-tabPanel header="Антоними">
+            <antonym></antonym>
+          </p-tabPanel>
+          <p-tabPanel header="Колокације">
+            <collocations [collocations]=collocations (collocationChanged)="collocationsChangedHandler($event)"></collocations>
+          </p-tabPanel>
+          <p-tabPanel header="Измене">
+            <changesForm></changesForm>
+          </p-tabPanel>
+        </p-tabView>
       </div>
-      <!--
-      <div class="p-d-flex">
-        <div class="p-col-12 p-md-5 p-lg-4">
-          <p class="label">Лексикограф:</p>
-        </div>
-        <div class="p-col-12 p-md-7 p-lg-8">
-          <p>Жика</p>
-        </div>
-      </div>
-      <div class="p-d-flex">
-        <div class="p-col-12 p-md-5 p-lg-4">
-          <p class="label">Редактор:</p>
-        </div>
-        <div class="p-col-12 p-md-7 p-lg-8">
-          <p>Мика</p>
-        </div>
-      </div>
-      <div class="p-d-flex">
-        <div class="p-col-12 p-md-5 p-lg-4">
-          <p class="label">Уредник:</p>
-        </div>
-        <div class="p-col-12 p-md-7 p-lg-8">
-          <p>Лаза</p>
-        </div>
-      </div>
-      -->
+
     </div>
-  </div>
-  <div class="tab-container">
-    <p-tabView>
-      <p-tabPanel header="Граматичке информације">
-        <grammarInformations
-          [isNoun]='isNoun'
-          [isVerb]='isVerb'
-          [(selectedGender)]=selectedGender
-          [selectedVerbKind]=selectedVerbKind
-          [selectedVerbForm]=selectedVerbForm
-          [extension]=extension
-          [present]=present
-          [details]=details
-          (selectKindChanged)="selectedKindChangedHandler($event)"
-          (selectVerbKindChanged)="selectedVerbKindChangedHandler($event)"
-          (selectVerbFormChanged)="selectedVerbFormChangedHandler($event)"
-          (extensionChanged)="extensionChangedHandler($event)"
-          (presentChanged)="presentChangedHandler($event)"
-          (detailsChanged)="detailsChangedHandler($event)"
-        >
-        </grammarInformations>
-      </p-tabPanel>
-      <p-tabPanel header="Дефиниција">
-        <meaning [meanings]="meanings"></meaning>
-      </p-tabPanel>
-      <p-tabPanel header="Изрази и фразе">
-        <expressions [expressions]="expressions"></expressions>
-      </p-tabPanel>
-      <p-tabPanel header="Синоними">
-        <synonym></synonym>
-      </p-tabPanel>
-      <p-tabPanel header="Антоними">
-        <antonym></antonym>
-      </p-tabPanel>
-      <p-tabPanel header="Колокације">
-        <collocations [collocations]=collocations (collocationChanged)="collocationsChangedHandler($event)"></collocations>
-      </p-tabPanel>
-      <p-tabPanel header="Дневник измена">
-        <changesForm></changesForm>
-      </p-tabPanel>
-    </p-tabView>
   </div>
 </div>

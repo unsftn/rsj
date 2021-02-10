@@ -21,7 +21,7 @@ body {
 }
 
 a, p, h1, h2, h3, h4, h5, h6 {
-  font-family: OrtoRNIDS, "Lucida Sans Unicode", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Lucida Sans Unicode", OrtoRNIDS, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: #495057;
 }
 
@@ -30,34 +30,40 @@ a, p, h1, h2, h3, h4, h5, h6 {
   margin-bottom: auto;
 }
 
-:host ::ng-deep .p-component {
-  // font-family: 'Lucida Sans Unicode';
-  font-family: 'OrtoRNIDS';
+.p-component {
+  font-family: 'Lucida Sans Unicode' !important;
 }
 
-:host ::ng-deep .p-input-text {
-  font-family: 'Lucida Sans Unicode';
-  // font-family: 'OrtoRNIDS';
-}
-
-:host ::ng-deep .p-inputtext {
+.p-inputtext {
+  font-family: 'Lucida Sans Unicode' !important;
   height: 40px !important;
+}
+
+.p-tooltip {
+  font-family: 'Lucida Sans Unicode' !important;
+}
+
+textarea {
+  font-family: 'Lucida Sans Unicode' !important;
+}
+
+.p-checkbox-label {
+  font-family: 'Lucida Sans Unicode' !important;
 }
 
 @font-face {
     font-family: 'Dijakritika';
     src: url('/assets/fonts/Dijakritika-Regular.woff2') format('woff2'),
 	       url('/assets/fonts/Dijakritika-Regular.otf') format('opentype'); /* Modern Browsers */
-
     font-style: normal;
     font-weight: normal;
     text-rendering: optimizeLegibility;
 }
+
 @font-face {
     font-family: 'Dijakritika';
     src: url('/assets/fonts/Dijakritika-Bold.woff2') format('woff2'),
 	       url('/assets/fonts/Dijakritika-Bold.otf') format('opentype'); /* Modern Browsers */
-
     font-style: normal;
     font-weight: bold;
     text-rendering: optimizeLegibility;
@@ -67,7 +73,6 @@ a, p, h1, h2, h3, h4, h5, h6 {
     font-family: 'Dijakritika';
     src: url('/assets/fonts/Dijakritika-Italic.woff2') format('woff2'),
          url('/assets/fonts/Dijakritika-Italic.otf') format('opentype'); /* Modern Browsers */
-
     font-style: italic;
     font-weight: normal;
     text-rendering: optimizeLegibility;
@@ -82,7 +87,7 @@ a, p, h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
 }
 
-/* Webfont: OrtoRNIDS-Regular */@font-face {
+@font-face {
     font-family: 'OrtoRNIDS';
     src: url('/assets/fonts/OrtoRNIDS-Regular.woff2') format('woff2'); /* Modern Browsers */
     font-style: normal;
@@ -90,7 +95,7 @@ a, p, h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
 }
 
-/* Webfont: OrtoRNIDS-Italic */@font-face {
+@font-face {
     font-family: 'OrtoRNIDS';
     src: url('/assets/fonts/OrtoRNIDS-Italic.woff2') format('woff2'); /* Modern Browsers */
     font-style: italic;
@@ -98,7 +103,7 @@ a, p, h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
 }
 
-/* Webfont: OrtoRNIDS-Bold */@font-face {
+@font-face {
     font-family: 'OrtoRNIDS';
     src: url('/assets/fonts/OrtoRNIDS-Bold.woff2') format('woff2'); /* Modern Browsers */
     font-style: normal;
@@ -106,7 +111,7 @@ a, p, h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
 }
 
-/* Webfont: OrtoRNIDS-BoldItalic */@font-face {
+@font-face {
     font-family: 'OrtoRNIDS';
     src: url('/assets/fonts/OrtoRNIDS-BoldItalic.woff2') format('woff2'); /* Modern Browsers */
     font-style: italic;

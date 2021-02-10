@@ -52,26 +52,15 @@
   z-index: 1;
 }
 
-:host ::ng-deep .p-component {
-  font-family: OrtoRNIDS, 'Lucida Sans Unicode';
-}
-
-:host ::ng-deep .p-dropdown {
-  font-family: OrtoRNIDS, 'Lucida Sans Unicode';
-}
-
-:host ::ng-deep .p-dropdown-label {
-  font-family: OrtoRNIDS, 'Lucida Sans Unicode';
-}
-
 :host ::ng-deep .p-button {
   margin-left: 10px;
 }
 
-:host ::ng-deep .p-dropdown-label {
-  padding: 4px !important;
-}
-
 .lucida {
   font-family: 'Lucida Sans Unicode' !important;
+}
+
+.word-title {
+  margin-left: 40px;
+  font-size: 20px;
 }
