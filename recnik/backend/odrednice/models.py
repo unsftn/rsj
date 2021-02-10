@@ -4,7 +4,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils.timezone import now
 from concurrency.fields import AutoIncVersionField
-from korpus import models as korpus_models
 from publikacije import models as publikacije_models
 
 VRSTA_ODREDNICE = [
@@ -27,16 +26,36 @@ STANJE_ODREDNICE = [
     (4, 'завршена обрада'),
 ]
 
+GLAGOLSKI_VID = [
+    (1, 'свршени'),
+    (2, 'несвршени'),
+    (3, 'двовидски'),
+]
+
+GLAGOLSKI_ROD = [
+    (1, 'прелазни'),
+    (2, 'непрелазни'),
+    (3, 'повратни'),
+    (4, 'прелазни + повратни'),
+    (5, 'непрелазни + повратни'),
+]
+
+ROD = [
+    (1, 'мушки'),
+    (2, 'женски'),
+    (3, 'средњи'),
+]
+
 
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
     ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
-    rod = models.IntegerField('род', choices=korpus_models.ROD, default=0, blank=True, null=True)
+    rod = models.IntegerField('род', choices=ROD, default=0, blank=True, null=True)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
     info = models.CharField('инфо', max_length=2000, blank=True, null=True)
-    glagolski_vid = models.IntegerField('глаголски вид', choices=korpus_models.GLAGOLSKI_VID, blank=True, null=True)
-    glagolski_rod = models.IntegerField('глаголски род', choices=korpus_models.GLAGOLSKI_ROD, blank=True, null=True)
+    glagolski_vid = models.IntegerField('глаголски вид', choices=GLAGOLSKI_VID, blank=True, null=True)
+    glagolski_rod = models.IntegerField('глаголски род', choices=GLAGOLSKI_ROD, blank=True, null=True)
     prezent = models.CharField('презент', max_length=50, blank=True, null=True)
     broj_pregleda = models.IntegerField('број прегледа', default=0)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
