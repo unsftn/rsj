@@ -26,6 +26,7 @@ import { SelectWordComponent } from './components/select-word/select-word.compon
 import { FormSelectorComponent } from './components/form-selector/form-selector.component';
 import { ImenicaComponent } from './components/imenica/imenica.component';
 import { GlagolComponent } from './components/glagol/glagol.component';
+import { PridevComponent } from './components/pridev/pridev.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { GlagolComponent } from './components/glagol/glagol.component';
     SelectWordComponent,
     FormSelectorComponent,
     ImenicaComponent,
-    GlagolComponent
+    GlagolComponent,
+    PridevComponent
   ],
   imports: [
     BrowserModule,

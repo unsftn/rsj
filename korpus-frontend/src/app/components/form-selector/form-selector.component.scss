@@ -26,14 +26,18 @@
 
 :host ::ng-deep .p-dropdown {
     width: 150px;
-    font-family: 'Lucida Sans Unicode';
+    font-family: OrtoRNIDS, 'Lucida Sans Unicode';
 }
 
 :host ::ng-deep .p-dropdown-label {
     padding: 4px !important;
-    font-family: 'Lucida Sans Unicode';
+    font-family: OrtoRNIDS, 'Lucida Sans Unicode';
+}
+
+:host ::ng-deep .p-dropdown-item {
+    font-family: OrtoRNIDS, 'Lucida Sans Unicode';
 }
 
 :host ::ng-deep .p-button {
-    font-family: 'Lucida Sans Unicode';
+    font-family: OrtoRNIDS, 'Lucida Sans Unicode';
 }

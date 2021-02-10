@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Glagol } from '../../models/glagol';
@@ -59,22 +59,22 @@ export class GlagolComponent implements OnInit {
     ];
     this.selectedRod = { id: 0, name: '' };
     this.variantsMap = {
-      'pr.l.jed': 'jd1',
-      'dr.l.jed': 'jd2',
-      'tr.l.jed': 'jd3',
-      'pr.l.mn': 'mn1',
-      'dr.l.mn': 'mn2',
-      'tr.l.mn': 'mn3'
+      'pr.l.jed.': 'jd1',
+      'dr.l.jed.': 'jd2',
+      'tr.l.jed.': 'jd3',
+      'pr.l.mn.': 'mn1',
+      'dr.l.mn.': 'mn2',
+      'tr.l.mn.': 'mn3'
     };
     this.variantsHTML = new Array<VarijantaHTML>();
     this.vreme = 1;
     this.licaList = [
-      { name: 'pr.l.jed', value: 'jd1' },
-      { name: 'dr.l.jed', value: 'jd2' },
-      { name: 'tr.l.jed', value: 'jd3' },
-      { name: 'pr.l.mn', value: 'mn1' },
-      { name: 'dr.l.mn', value: 'mn2' },
-      { name: 'tr.l.mn', value: 'mn3' }
+      { name: 'pr.l.jed.', value: 'jd1' },
+      { name: 'dr.l.jed.', value: 'jd2' },
+      { name: 'tr.l.jed.', value: 'jd3' },
+      { name: 'pr.l.mn.', value: 'mn1' },
+      { name: 'dr.l.mn.', value: 'mn2' },
+      { name: 'tr.l.mn.', value: 'mn3' }
     ];
   }
 
@@ -119,7 +119,7 @@ export class GlagolComponent implements OnInit {
           { vreme:2, jd1:'тестираћу', jd2:'тестираћеш', jd3:'тестираће', mn1:'тестираћемо', mn2:'тестираћете', mn3:'тестираће' },
           { vreme:3, jd1:'тестирах', jd2:'тестира', jd3:'тестира', mn1:'тестирасмо', mn2:'тестирасте', mn3:'тестираше' },
           { vreme:4, jd1:'тестирах', jd2:'тестираше', jd3:'тестираше', mn1:'тестирасмо', mn2:'тестирасте', mn3:'тестираху' },
-          { vreme:5, jd1:'', jd2:'тестирај', jd3:'', mn1:'тестирајмо', mn2:'тестирајте', mn3:'' },
+          { vreme:5, jd1:'', jd2:'тестирај', jd3:'', mn1:'тестирајмо', mn2:'тестирајте', mn3:'' }
         ],
         varijante: [
           {
@@ -147,7 +147,6 @@ export class GlagolComponent implements OnInit {
   changeGlagol(): void {
     this.glagol.vid = this.selectedVid.id;
     this.glagol.rod = this.selectedRod.id;
-    console.log(this.variantsHTML);
     if (this.variantsHTML.length > 0)
       this.setGlagolVarijante();
     this.glagolChanged.emit(this.glagol);

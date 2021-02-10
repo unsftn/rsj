@@ -106,7 +106,8 @@ export class SelectWordComponent implements OnInit {
       let allOptions = document.getElementsByClassName('option');
       for (let i=0; i<allOptions.length; i++) {
         let opt = allOptions[i];
-        if (opt.getAttribute('style').includes('#')) // deselect
+        let style = opt.getAttribute('style');
+        if (style && style.includes('#')) // deselect
           opt.setAttribute('style', 'background: white; font-weight: initial');
       }
       setTimeout(() => {
