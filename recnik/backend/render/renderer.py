@@ -14,7 +14,7 @@ from .models import *
 log = logging.getLogger(__name__)
 AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с'}
-GVID = {1: 'свр.', 2: 'несвр.', 3: 'двовид.'}
+GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
 
 
 def touch(path):

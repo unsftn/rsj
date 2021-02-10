@@ -125,7 +125,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'prezent', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'version',
                   'varijantaodrednice_set', 'imaantonim_set', 'imasinonim_set', 'antonimuvezi_set', 'sinonimuvezi_set',
                   'kolokacija_set', 'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
-                  'kvalifikatorodrednice_set', 'izmenaodrednice_set')
+                  'kvalifikatorodrednice_set', 'izmenaodrednice_set', 'opciono_se')
 
 
 # insert/update serializers
@@ -227,14 +227,15 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     rec = serializers.CharField(max_length=50, required=False, allow_blank=True)
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True)
     vrsta = serializers.IntegerField(required=False)
-    rod = serializers.IntegerField(required=False)
+    rod = serializers.IntegerField(required=False, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
     info = serializers.CharField(max_length=2000, required=False, allow_blank=True)
     glagolski_vid = serializers.IntegerField(required=False)
     glagolski_rod = serializers.IntegerField(required=False)
     prezent = serializers.CharField(max_length=50, required=False, allow_blank=True)
-    stanje = serializers.IntegerField(required=False)
-    version = serializers.IntegerField(required=False)
+    stanje = serializers.IntegerField(required=False, allow_null=True)
+    version = serializers.IntegerField(required=False, allow_null=True)
+    opciono_se = serializers.NullBooleanField(required=False)
     znacenja = serializers.ListField(child=CreateZnacenjeSerializer())
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     varijante = serializers.ListField(child=CreateVarijantaOdredniceSerializer(), required=False)
