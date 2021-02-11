@@ -203,7 +203,6 @@ export class TabFormComponent implements OnInit {
   }
 
   makeNewDeterminant(): Determinant {
-    console.log(this.meanings);
     const determinant: Determinant = {
       rec: this.wordE,
       ijekavski: this.wordI,
@@ -225,11 +224,17 @@ export class TabFormComponent implements OnInit {
       opciono_se: this.optionalSe,
       kolokacija_set: this.collocations ? this.collocations : [],
       kvalifikatori: this.qualificators.map((q, index) => {
-        console.log(q);
         return {
           redni_broj: index + 1,
           kvalifikator_id: q.id,
           skracenica: q.abbreviation
+        };
+      }),
+      izrazi_fraze: this.expressions.map((value, idx) => {
+        return {
+          redni_broj: idx + 1,
+          opis: value.value,
+          tekst: value.tekst,
         };
       }),
       znacenja: this.meanings ? this.meanings.map((z, index) => {
@@ -243,7 +248,8 @@ export class TabFormComponent implements OnInit {
               izrazi_fraze: pz.expressions.map((value, idx2) => {
                 return {
                   redni_broj: idx2 + 1,
-                  opis: value.value
+                  opis: value.value,
+                  tekst: value.tekst,
                 };
               }),
               kvalifikatori: pz.qualificators.map((q, idx2) => { return {
@@ -252,12 +258,18 @@ export class TabFormComponent implements OnInit {
                   skracenica: q.abbreviation
                 };
               }),
+              konkordanse: pz.concordances.map((c, idx2) => { return {
+                  redni_broj: idx2 + 1,
+                  opis: c.concordance,
+                };
+              }),
             };
           }),
           izrazi_fraze: z.expressions.map((value, idx) => {
             return {
               redni_broj: idx + 1,
-              opis: value.value
+              opis: value.value,
+              tekst: value.tekst,
             };
           }),
           kvalifikatori: z.qualificators.map((q, idx) => { return {
@@ -266,7 +278,11 @@ export class TabFormComponent implements OnInit {
               skracenica: q.abbreviation
             };
           }),
-          konkordanse: [],
+          konkordanse: z.concordances.map((c, idx) => { return {
+              redni_broj: idx + 1,
+              opis: c.concordance,
+            };
+          }),
         };
       }) : [],
     };
@@ -298,7 +314,7 @@ export class TabFormComponent implements OnInit {
         this.isVerb = false;
         break;
       case 1:
-        this.selectedVerbForm = this.enumService.getVerbForm(value.glagolski_vid)
+        this.selectedVerbForm = this.enumService.getVerbForm(value.glagolski_vid);
         this.selectedVerbKind = this.enumService.getVerbKind(value.glagolski_rod);
         this.present = value.prezent;
         this.isNoun = false;
@@ -315,23 +331,208 @@ export class TabFormComponent implements OnInit {
       const obj = {
         value: z.tekst,
         submeanings: [],
-        expressions: z.izrazfraza_set.map((e) => { return { value: e.opis, keywords: [] }; }),
+        expressions: z.izrazfraza_set.map((e) => { return {
+          value: e.opis,
+          tekst: e.tekst,
+          keywords: [],
+          qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+        }; }),
         qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+        concordances: z.konkordansa_set.map((k) => ({ concordance: k.opis })),
       };
       for (const pz of z.podznacenje_set) {
-        const submeaning = { value: pz.tekst, expressions: [], qualificators: [] };
-        obj.submeanings.push(submeaning);
-        for (const expr of pz.izrazfraza_set) {
-          submeaning.expressions.push({ value: expr.opis, keywords: []});
-        }
-        pz.qualificators = pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
+        obj.submeanings.push({
+          value: pz.tekst,
+          expressions: pz.izrazfraza_set.map((e, idx) => { return {
+              value: e.opis,
+              tekst: e.tekst,
+              keywords: [],
+              qualificators: pz.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+            };
+          }),
+          qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+          concordances: pz.konkordansa_set.map((k) => ({ concordance: k.opis })),
+        });
       }
       this.meanings.push(obj);
     }
     this.expressions = [];
     for (const expr of value.izrazfraza_set) {
-      this.expressions.push({ value: expr.opis, keywords: [] });
+      this.expressions.push({ value: expr.opis, tekst: expr.tekst, keywords: [], qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)) });
     }
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
+  }
+
+  fillTestOdrednica(): void {
+    const value1 = {
+      id: 42,
+      rec: 'ски̏нути',
+      ijekavski: null,
+      vrsta: 1,
+      rod: null,
+      nastavak: '',
+      info: 'аор. ски̏нух и ски̏дох',
+      glagolski_vid: 1,
+      glagolski_rod: 4,
+      prezent: '-не̄м',
+      broj_pregleda: 0,
+      vreme_kreiranja: '2021-02-11T22:52:44.769341+01:00',
+      poslednja_izmena: '2021-02-11T22:52:44.769341+01:00',
+      stanje: 1,
+      version: 2,
+      varijantaodrednice_set: [],
+      kolokacija_set: [],
+      recukolokaciji_set: [],
+      znacenje_set: [
+        {
+          id: 55,
+          tekst: '',
+          odrednica_id: 42,
+          podznacenje_set: [
+            {
+              id: 36,
+              tekst: 'довести са вишег на нижи положај, спустити са неког вишег места на ниже место; уклонити са нечега (обично оно што је окачено, натакнуто и сл.)',
+              znacenje_id: 55,
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [],
+              konkordansa_set: [
+                { redni_broj: 1, opis: '~ маче с дрвета', podznacenje_id: 36 },
+                { redni_broj: 2, opis: '~ књигу с полице', podznacenje_id: 36 },
+                { redni_broj: 3, opis: '~ торбу с клина', podznacenje_id: 36 },
+              ],
+              qualificators: []
+            },
+            {
+              id: 37,
+              tekst: 'уклонити с кога или чега оно што је око или преко њега, што га прекрива, обухвата, што служи као заштита (од хладноће нпр.) и сл.',
+              znacenje_id: 55,
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [],
+              konkordansa_set: [
+                { redni_broj: 1, opis: '~ кору с дрвета', podznacenje_id: 37 },
+                { redni_broj: 2, opis: '~ боју с намештаја', podznacenje_id: 37 },
+                { redni_broj: 3, opis: '~ шминку', podznacenje_id: 37 },
+                { redni_broj: 4, opis: '~ омот', podznacenje_id: 37 },
+                { redni_broj: 5, opis: '~ одећу', podznacenje_id: 37 },
+                { redni_broj: 6, opis: '~ покривач', podznacenje_id: 37 },
+              ],
+              qualificators: []
+            },
+            {
+              id: 38,
+              tekst: 'уопште уклонити с кога или чега оно што је на њему, одн. на његовој површини',
+              znacenje_id: 55,
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [],
+              konkordansa_set: [
+                { redni_broj: 1, opis: '~ мрљу', podznacenje_id: 38 },
+                { redni_broj: 2, opis: '~ израслину', podznacenje_id: 38 },
+              ],
+              qualificators: []
+            }
+          ],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: [],
+        },
+        {
+          id: 56,
+          tekst: 'скинути род, убрати',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          id: 57,
+          tekst: 'искрцати, одн. истоварити са превозног средства',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          id: 58,
+          tekst: '',
+          odrednica_id: 42,
+          podznacenje_set: [
+            {
+              id: 39,
+              tekst: 'учинити да неко оде са неког положаја, да напусти неко место, неку функцију, дужност и др.',
+              znacenje_id: 58,
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [],
+              konkordansa_set: [],
+              qualificators: []
+            },
+            {
+              id: 40,
+              tekst: 'оборити метком, устрелити; погодити',
+              znacenje_id: 58,
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [],
+              konkordansa_set: [],
+              qualificators: []
+            }
+          ],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          id: 59,
+          tekst: 'прекинути важење неког ограничења (санкције)',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          id: 60,
+          tekst: 'узети, преузети са узорка, снимити, копирати',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          id: 61,
+          tekst: 'лишити одеће, свући',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        }
+      ],
+      izrazfraza_set: [
+        {
+          id: 18,
+          opis: 'престати узимати дрогу, престати бити наркоман',
+          tekst: '~ се с дроге',
+          redni_broj: 1,
+          odrednica_id: 42,
+          znacenje_id: null,
+          podznacenje_id: null,
+          kvalifikatorfraze_set: []
+        }
+      ],
+      kvalifikatorodrednice_set: [],
+      izmenaodrednice_set: [
+        {
+          id: 15,
+          odrednica_id: 42,
+          operacija_izmene_id: 18,
+          user_id: 1,
+          vreme: '2021-02-11T22:52:44.769341+01:00'
+        }
+      ],
+      opciono_se: null
+    };
+    this.fillForm(value1);
   }
 }

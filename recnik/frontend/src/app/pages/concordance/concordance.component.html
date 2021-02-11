@@ -1,54 +1,56 @@
-<p-fieldset legend="Конкорданса:" [toggleable]="true" collapsed="true">
-  <div class="p-d-flex">
-    <div class="p-mr-2">
-      <h2>Конкорданса</h2>
-    </div>
-    <div class="p-mr-2" style="width: 200px" class="center-container">
-      <button
-        pButton
-        icon="pi pi-plus"
-        class="p-button-rounded p-button-outlined add-button"
-        (click)="add()">
-      </button>
-    </div>
+<div class="p-d-flex">
+  <div class="p-mr-2">
+    <h4>Конкорданса</h4>
   </div>
-  <form #formRef="ngForm">
-    <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
-      <div class="p-d-flex p-flex-column">
-        <div class="p-d-flex">
-          <div class="p-mr-2">
-            <div class="p-mb-2">
-              <textarea [rows]="7" [cols]="70" style="height: 142px !important;" pInputTextarea [(ngModel)]="concordances[i].concordance" name="name{{i}}" #name="ngModel"></textarea>
-            </div>
-          </div>
-          <div class="p-mr-2">
-            <button
-            pButton
-            pRipple
-            type="button"
-            icon="pi pi-minus"
-            class="p-button-rounded p-button-outlined p-button-danger add-button"
-            (click)="remove(concordance)">
-            </button>
-          </div>
+  <div class="p-mr-2" style="width: 200px" class="center-container">
+    <button
+      pButton
+      icon="pi pi-plus"
+      class="p-button-rounded p-button-outlined add-button"
+      (click)="add()">
+    </button>
+  </div>
+</div>
+<form #formRef="ngForm">
+  <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
+    <div class="p-d-flex p-flex-column">
+      <div class="p-d-flex">
+        <div class="p-mb-2">
+          <input type="text" pInputText [(ngModel)]="concordances[i].concordance" class="long-input" name="cname{{i}}" placeholder="конкорданса"/>
         </div>
-        <div class="p-grid">
-          <div class="p-col-12 p-md-6 p-lg-2 red">
-            Референца на корпус:
-          </div>
-          <div class="p-col-12 p-md-6 p-lg-4">
-            <p-dropdown [options]="books" [(ngModel)]="concordances[i].books" name="selectedBook{{i}}" #name="ngModel"></p-dropdown>
-          </div>
-          <!--
-          <div class="p-col-12 p-md-6 p-lg-2">
-            Број стране:
-          </div>
-          <div class="p-col-12 p-md-6 p-lg-4">
-            <p-inputNumber [(ngModel)]="concordances[i].pageNumber" name="pageNumber{{i}}" #name="ngModel" [showButtons]="true" [min]="0" [max]="10000"></p-inputNumber>
-          </div>
-          -->
+        <div class="p-mb-2 p-ml-4 p-mr-1 p-mt-2 red">
+          Извор:
+        </div>
+        <div class="p-mb-2">
+          <p-dropdown [options]="books" [(ngModel)]="concordances[i].book" name="selectedBook{{i}}"></p-dropdown>
+        </div>
+        <div class="p-mr-2">
+          <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-minus"
+          class="p-button-rounded p-button-outlined p-button-danger add-button"
+          (click)="remove(concordance)">
+          </button>
         </div>
       </div>
+      <!--
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 p-lg-2 red">
+          Референца на корпус:
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+          <p-dropdown [options]="books" [(ngModel)]="concordances[i].books" name="selectedBook{{i}}" #name="ngModel"></p-dropdown>
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-2">
+          Број стране:
+        </div>
+        <div class="p-col-12 p-md-6 p-lg-4">
+          <p-inputNumber [(ngModel)]="concordances[i].pageNumber" name="pageNumber{{i}}" #name="ngModel" [showButtons]="true" [min]="0" [max]="10000"></p-inputNumber>
+        </div>
+      </div>
+      -->
     </div>
-  </form>
-</p-fieldset>
+  </div>
+</form>

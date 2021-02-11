@@ -16,4 +16,5 @@ export interface Determinant {
   kolokacija_set?: any[];
   kvalifikatori: any[];
   znacenja: any[];
+  izrazi_fraze: any[];
 }

@@ -293,7 +293,8 @@ class KvalifikatorPodznacenja(models.Model):
 
 class IzrazFraza(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број', default=1)
-    opis = models.CharField('опис', max_length=2000)
+    tekst = models.CharField('текст', max_length=200, default='', blank=True, null=True)
+    opis = models.CharField('опис', max_length=2000, default='')
     odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', blank=True, null=True, on_delete=models.CASCADE)
     znacenje = models.ForeignKey(Znacenje, verbose_name='значење', blank=True, null=True, on_delete=models.CASCADE)
     podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
@@ -325,3 +326,15 @@ class Konkordansa(models.Model):
 
     def get_absolute_url(self):
         return reverse("odrednice:konkordansa-detail", kwargs={"pk": self.pk})
+
+
+class KvalifikatorFraze(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    kvalifikator = models.ForeignKey(Kvalifikator, verbose_name='квалификатор', on_delete=models.CASCADE)
+    izrazfraza = models.ForeignKey(IzrazFraza, verbose_name='израз фраза', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.redni_broj) + ': ' + str(self.kvalifikator)
+
+    def get_absolute_url(self):
+        return reverse("odrednice:kvalifikator-fraze-detail", kwargs={"pk": self.pk})

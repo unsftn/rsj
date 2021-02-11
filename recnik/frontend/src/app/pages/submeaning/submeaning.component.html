@@ -20,8 +20,7 @@
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
                 <p class="label">Подзначење {{i + 1}}:</p>
-
-                <textarea [rows]="7" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
+                <textarea [rows]="3" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
               </div>
             </div>
           </div>
@@ -39,7 +38,9 @@
         </div>
       </div>
       <div>
-        <concordance></concordance>
+        <p-fieldset legend="Конкордансе:" [toggleable]="true" collapsed="true">
+          <concordance [concordances]="submeanings[i].concordances"></concordance>
+        </p-fieldset>
       </div>
       <div style="margin-top: 20px;">
         <p-fieldset legend="Квалификатори:" [toggleable]="true" collapsed="true">

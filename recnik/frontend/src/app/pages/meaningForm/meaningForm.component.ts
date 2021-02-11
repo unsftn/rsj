@@ -22,4 +22,8 @@ export class MeaningFormComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
   }
+
+  show(obj): void {
+    console.log(obj);
+  }
 }

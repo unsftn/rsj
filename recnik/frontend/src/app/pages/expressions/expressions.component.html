@@ -1,6 +1,6 @@
 <div class="p-d-flex">
   <div class="p-mr-2">
-    <h2>Изрази и фразе</h2>
+    <h4>Изрази и фразе</h4>
   </div>
   <div class="p-mr-2" style="width: 200px" class="center-container">
     <button
@@ -20,10 +20,13 @@
             <div class="p-mb-2">
               <div class="p-d-flex p-flex-column">
                 <div class="p-mb-2">
-                  <p class="label">Опис {{i + 1}}:</p>
+                  <p class="label">Израз/фраза {{i + 1}}:</p>
                 </div>
                 <div class="p-mb-2">
-                  <textarea [rows]="7" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" ></textarea>
+                  <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе"/>
+                </div>
+                <div class="p-mb-2">
+                  <textarea [rows]="7" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"></textarea>
                 </div>
                 <div class="p-d-flex">
                   <div class="p-mr-2">
@@ -38,6 +41,14 @@
                       name="selectedKeyword{{i}}"
                       [minLength]="1">
                     </p-autoComplete>
+                  </div>
+                </div>
+                <div class="p-d-flex">
+                  <div class="p-mr-2">
+                    <p class="label red">Квалификатори:</p>
+                  </div>
+                  <div class="p-mr-2">
+                    <qualificator [(selectedQualificators)]="expressions[i].qualificators"></qualificator>
                   </div>
                 </div>
               </div>

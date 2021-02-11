@@ -7,12 +7,12 @@ import { PrimeNGConfig } from 'primeng/api';
 })
 export class SubmeaningComponent implements OnInit {
 
-  @Input() submeanings = [{ value: '', qualificators: [], collocations: [], expressions: [] }];
+  @Input() submeanings;
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
   add(): void {
-    this.submeanings.push({ value: '', qualificators: [], collocations: [], expressions: []  });
+    this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [] });
   }
 
   remove(submeaning): void {

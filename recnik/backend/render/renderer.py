@@ -7,7 +7,6 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.fonts import FontConfiguration
-from odrednice.serializers import CreateOdrednicaSerializer
 from odrednice.models import *
 from .models import *
 

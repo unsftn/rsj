@@ -52,10 +52,19 @@ class RecUKolokacijiSerializer(serializers.ModelSerializer):
         fields = ('id', 'redni_broj', 'kolokacija_id', 'odrednica_id')
 
 
+class KvalifikatorFrazeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = KvalifikatorFraze
+        fields = ('redni_broj', 'kvalifikator_id', 'izrazfraza_id',)
+
+
 class IzrazFrazaSerializer(serializers.ModelSerializer):
+    kvalifikatorfraze_set = KvalifikatorFrazeSerializer(many=True)
+
     class Meta:
         model = IzrazFraza
-        fields = ('id', 'opis', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id')
+        fields = ('id', 'opis', 'tekst', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id',
+                  'kvalifikatorfraze_set')
 
 
 class KonkordansaSerializer(serializers.ModelSerializer):
@@ -161,14 +170,6 @@ class CreateUpdateOperacijaIzmeneSerializer(NoSaveSerializer):
     pass
 
 
-class CreateAntonimSerializer(NoSaveSerializer):
-    pass
-
-
-class CreateSinonimSerializer(NoSaveSerializer):
-    pass
-
-
 class CreateUpdateKolokacijaSerializer(NoSaveSerializer):
     pass
 
@@ -180,6 +181,8 @@ class CreateRecUKolokacijiSerializer(NoSaveSerializer):
 class CreateIzrazFrazaSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     opis = serializers.CharField(max_length=2000, allow_blank=True)
+    tekst = serializers.CharField(max_length=200, required=False, allow_blank=True)
+    kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
 
 
 class CreateKonkordansaSerializer(NoSaveSerializer):
