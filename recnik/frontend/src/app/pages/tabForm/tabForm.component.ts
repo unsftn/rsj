@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 
@@ -48,6 +50,8 @@ export class TabFormComponent implements OnInit {
   meanings: any[] = [];
   meanings2: any[] = [];
   expressions: any[] = [];
+
+  errorMsg: string;
 
   addVariant(): void {
     this.variants.push({ nameE: '', nameI: '' });
@@ -113,21 +117,33 @@ export class TabFormComponent implements OnInit {
       this.display = true;
       return;
     }
-    const response: any = await this.odrednicaService
-      .saveOdrednica(this.makeNewDeterminant())
-      .toPromise()
-      .catch((error) => {
+    this.odrednicaService.saveOdrednica(this.makeNewDeterminant()).subscribe(
+      (data) => {
+        this.message = this.domSanitizer.bypassSecurityTrustHtml(
+          '<p>Успешно додата нова одредница.</p>');
+        this.display = true;
+      },
+      (error) => {
         console.log(error);
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
           '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
         this.display = true;
       });
-
-    if (response) {
-      this.message = this.domSanitizer.bypassSecurityTrustHtml(
-        '<p>Успешно додата нова одредница.</p>');
-      this.display = true;
-    }
+    // const response: any = await this.odrednicaService
+    //   .saveOdrednica(this.makeNewDeterminant())
+    //   .toPromise()
+    //   .catch((error) => {
+    //     console.log(error);
+    //     this.message = this.domSanitizer.bypassSecurityTrustHtml(
+    //       '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
+    //     this.display = true;
+    //   });
+    //
+    // if (response) {
+    //   this.message = this.domSanitizer.bypassSecurityTrustHtml(
+    //     '<p>Успешно додата нова одредница.</p>');
+    //   this.display = true;
+    // }
   }
 
   finish(): void {

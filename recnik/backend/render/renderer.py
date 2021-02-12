@@ -21,6 +21,14 @@ def touch(path):
         os.utime(path, None)
 
 
+def dvotacka(tekst):
+    if len(tekst) < 1:
+        return tekst
+    if tekst[-1] == '.':
+        return tekst[:-1] + ': '
+    return tekst + ': '
+
+
 def tacka(tekst):
     if len(tekst) < 1:
         return tekst
@@ -37,7 +45,11 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
-def render_izrazi_fraze(izrazifraze):
+def render_konkordanse(konkordanse):
+    return tacka(', '.join([f'<i>{k.opis}</i>' for k in konkordanse]))
+
+
+def render_izrazi_fraze_znacenja(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
         tekst += f' &#8212; <i>{tacka(izfr.opis)}</i>'
@@ -51,11 +63,26 @@ def render_kvalifikatori(kvalifikatori):
     return tekst
 
 
+def render_izrazi_fraze_odrednice(izrazifraze):
+    tekst = ''
+    for izfr in izrazifraze:
+        tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
+        tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
+        tekst += f' <i>{tacka(izfr.opis)}</i>'
+    return tekst
+
+
 def render_podznacenje(podznacenje):
     tekst = ''
     tekst += render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
+
     tekst += f'{tacka(podznacenje.tekst)}'
-    tekst += render_izrazi_fraze(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
+
+    if podznacenje.konkordansa_set.count() > 0:
+        tekst = dvotacka(tekst)
+        tekst += render_konkordanse(podznacenje.konkordansa_set.all().order_by('redni_broj'))
+
+    tekst += render_izrazi_fraze_znacenja(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
     return tekst
 
 
@@ -64,7 +91,12 @@ def render_znacenje(znacenje):
     tekst += render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
 
     tekst += f'{tacka(znacenje.tekst)}'
-    tekst += render_izrazi_fraze(znacenje.izrazfraza_set.all().order_by('redni_broj'))
+
+    if znacenje.konkordansa_set.count() > 0:
+        tekst = dvotacka(tekst)
+        tekst += render_konkordanse(znacenje.konkordansa_set.all().order_by('redni_broj'))
+
+    tekst += render_izrazi_fraze_znacenja(znacenje.izrazfraza_set.all().order_by('redni_broj'))
 
     if znacenje.podznacenje_set.count() > 0:
         for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all().order_by('redni_broj')):
@@ -77,32 +109,46 @@ def render_one(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
     if odrednica.vrsta == 0:  # imenica
-        # if ima nastavak, dodaj nastavak
-        html += f' <small>{ROD[odrednica.rod]}</small> '
-    if odrednica.vrsta == 1:  # glagol
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
+        html += f' <small>{ROD[odrednica.rod]}</small> '
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
+    if odrednica.vrsta == 1:  # glagol
         if odrednica.prezent:
             html += f', {odrednica.prezent} '
-        if odrednica.glagolski_vid > 0:
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
+        if odrednica.glagolski_vid:
             html += f'<small>{GVID[odrednica.glagolski_vid]}</small> '
     if odrednica.vrsta == 2:  # pridev
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
     if odrednica.vrsta == 3:
         html += f' <small>прил.</small> '
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
     if odrednica.vrsta == 6:
         html += f' <small>узв.</small> '
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
     if odrednica.vrsta == 7:
         html += f' <small>речца</small> '
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
     if odrednica.vrsta == 8:
         html += f' <small>везн.</small> '
+        if odrednica.info:
+            html += f' ({odrednica.info}) '
     html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())
     else:
         for rbr, znacenje in enumerate(odrednica.znacenje_set.all(), start=1):
             html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+    html += render_izrazi_fraze_odrednice(odrednica.izrazfraza_set.all().order_by('redni_broj'))
     html = tacka(html)
     return mark_safe(html)
 

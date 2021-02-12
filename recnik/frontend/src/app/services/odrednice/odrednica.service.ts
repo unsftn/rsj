@@ -14,7 +14,7 @@ export class OdrednicaService {
   }
 
   saveOdrednica(odrednica: Determinant): Observable<any> {
-    return this.httpClient.post('api/odrednice/save-odrednica/', odrednica);
+    return this.httpClient.post('/api/odrednice/save-odrednica/', odrednica);
   }
 
   preview(odrednica: Determinant): Observable<any> {

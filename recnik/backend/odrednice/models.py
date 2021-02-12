@@ -333,6 +333,10 @@ class KvalifikatorFraze(models.Model):
     kvalifikator = models.ForeignKey(Kvalifikator, verbose_name='квалификатор', on_delete=models.CASCADE)
     izrazfraza = models.ForeignKey(IzrazFraza, verbose_name='израз фраза', on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'квалификатор фразе'
+        verbose_name_plural = 'квалификатори фраза'
+
     def __str__(self):
         return str(self.redni_broj) + ': ' + str(self.kvalifikator)
 

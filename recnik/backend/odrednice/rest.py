@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
@@ -228,6 +228,7 @@ class OdrednicaDetail(generics.RetrieveAPIView):
 
 
 @api_view(['POST', 'PUT'])
+@permission_classes([permissions.AllowAny])
 def api_save_odrednica(request):
     if request.method == 'POST':
         serializer = CreateOdrednicaSerializer(data=request.data)

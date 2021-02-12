@@ -228,7 +228,7 @@ class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
 class CreateOdrednicaSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     rec = serializers.CharField(max_length=50, required=False, allow_blank=True)
-    ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     vrsta = serializers.IntegerField(required=False)
     rod = serializers.IntegerField(required=False, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
