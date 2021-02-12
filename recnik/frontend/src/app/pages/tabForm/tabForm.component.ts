@@ -363,7 +363,7 @@ export class TabFormComponent implements OnInit {
               value: e.opis,
               tekst: e.tekst,
               keywords: [],
-              qualificators: pz.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+              qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
             };
           }),
           qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
@@ -372,16 +372,13 @@ export class TabFormComponent implements OnInit {
       }
       this.meanings.push(obj);
     }
-    this.expressions = [];
-    for (const expr of value.izrazfraza_set) {
-      this.expressions.push({ value: expr.opis, tekst: expr.tekst, keywords: [], qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)) });
-    }
+    this.expressions = value.izrazfraza_set.map((expr) => ({ value: expr.opis, tekst: expr.tekst, keywords: [], qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)) }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
   }
 
-  fillTestOdrednica(): void {
+  fillTestOdrednica1(): void {
     const value1 = {
-      id: 42,
+      id: 43,
       rec: 'ски̏нути',
       ijekavski: null,
       vrsta: 1,
@@ -458,7 +455,7 @@ export class TabFormComponent implements OnInit {
           podznacenje_set: [],
           kvalifikatorznacenja_set: [],
           izrazfraza_set: [],
-          konkordansa_set: []
+          konkordansa_set: [{ redni_broj: 1, opis: '~ летину', znacenje_id: 56 }]
         },
         {
           id: 57,
@@ -467,7 +464,7 @@ export class TabFormComponent implements OnInit {
           podznacenje_set: [],
           kvalifikatorznacenja_set: [],
           izrazfraza_set: [],
-          konkordansa_set: []
+          konkordansa_set: [{ redni_broj: 1, opis: '~ некога с воза', znacenje_id: 57 }]
         },
         {
           id: 58,
@@ -480,7 +477,10 @@ export class TabFormComponent implements OnInit {
               znacenje_id: 58,
               kvalifikatorpodznacenja_set: [],
               izrazfraza_set: [],
-              konkordansa_set: [],
+              konkordansa_set: [
+                { redni_broj: 1, opis: '~ владајућу гарнитуру', podznacenje_id: 39 },
+                { redni_broj: 2, opis: '~ истражитеља (с неког случаја)', podznacenje_id: 39 },
+              ],
               qualificators: []
             },
             {
@@ -489,7 +489,10 @@ export class TabFormComponent implements OnInit {
               znacenje_id: 58,
               kvalifikatorpodznacenja_set: [],
               izrazfraza_set: [],
-              konkordansa_set: [],
+              konkordansa_set: [
+                { redni_broj: 1, opis: '~ зеца', podznacenje_id: 40 },
+                { redni_broj: 2, opis: '~ мету', podznacenje_id: 40 },
+              ],
               qualificators: []
             }
           ],
@@ -504,7 +507,10 @@ export class TabFormComponent implements OnInit {
           podznacenje_set: [],
           kvalifikatorznacenja_set: [],
           izrazfraza_set: [],
-          konkordansa_set: []
+          konkordansa_set: [
+            { redni_broj: 1, opis: '~ забрану', znacenje_id: 59 },
+            { redni_broj: 2, opis: '~ казну', znacenje_id: 59 },
+          ]
         },
         {
           id: 60,
@@ -512,7 +518,7 @@ export class TabFormComponent implements OnInit {
           odrednica_id: 42,
           podznacenje_set: [],
           kvalifikatorznacenja_set: [],
-          izrazfraza_set: [],
+          izrazfraza_set: [{ redni_broj: 1, znacenje_id: 60, opis: 'Кућа је изграђена по узору на старе грађевине, све је било мајсторски скинуто.', tekst: '', kvalifikatorfraze_set: [] }],
           konkordansa_set: []
         },
         {
@@ -522,7 +528,7 @@ export class TabFormComponent implements OnInit {
           podznacenje_set: [],
           kvalifikatorznacenja_set: [],
           izrazfraza_set: [],
-          konkordansa_set: []
+          konkordansa_set: [{ redni_broj: 1, opis: '~ дете', znacenje_id: 61 }]
         }
       ],
       izrazfraza_set: [
@@ -534,7 +540,7 @@ export class TabFormComponent implements OnInit {
           odrednica_id: 42,
           znacenje_id: null,
           podznacenje_id: null,
-          kvalifikatorfraze_set: []
+          kvalifikatorfraze_set: [{ redni_broj: 1, kvalifikator_id: 51 }]
         }
       ],
       kvalifikatorodrednice_set: [],
@@ -550,5 +556,127 @@ export class TabFormComponent implements OnInit {
       opciono_se: null
     };
     this.fillForm(value1);
+  }
+
+  fillTestOdrednica2(): void {
+    const value2 = {
+      id: 44,
+      rec: 'а',
+      ijekavski: null,
+      vrsta: 6,
+      rod: null,
+      nastavak: '',
+      info: 'различито наглашено',
+      glagolski_vid: null,
+      glagolski_rod: null,
+      prezent: null,
+      broj_pregleda: 0,
+      vreme_kreiranja: '2021-02-11T22:52:44.769341+01:00',
+      poslednja_izmena: '2021-02-11T22:52:44.769341+01:00',
+      stanje: 1,
+      version: 1,
+      varijantaodrednice_set: [],
+      kolokacija_set: [],
+      recukolokaciji_set: [],
+      znacenje_set: [
+        {
+          tekst: 'при обраћању, за дозивање, подстицање и сл.',
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [{ redni_broj: 1, opis: 'А, мој брајко!', kvalifikatorfraze_set: []}],
+          konkordansa_set: []
+        },
+        {
+          tekst: '',
+          podznacenje_set: [
+            {
+              tekst: 'при одобравању или негодовању, при чуђењу, дивљењу, изненађењу и сл',
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [{ redni_broj: 1, opis: 'А! То је сасвим добро. А! То је неправда. А! Честитам. А! То си ти, оче.', kvalifikatorfraze_set: []}],
+              konkordansa_set: [],
+            },
+            {
+              tekst: 'за изражавање злурадости',
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [{ redni_broj: 1, opis: 'А, тако ти и треба.', kvalifikatorfraze_set: []}],
+              konkordansa_set: [],
+            },
+          ],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: [],
+        },
+        {
+          tekst: '(с назалним изговором: а̑)',
+          podznacenje_set: [
+            {
+              tekst: 'при присећању',
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [{ redni_broj: 1, opis: 'А! Ти си то био. А, да. Рекао си ми то већ једном.', kvalifikatorfraze_set: []}],
+              konkordansa_set: [],
+            },
+            {
+              tekst: 'у служби речце за истицање питања',
+              kvalifikatorpodznacenja_set: [{ redni_broj: 1, kvalifikator_id: 135 }],
+              izrazfraza_set: [{ redni_broj: 1, opis: 'Зашто ми не признаш, а? А, шта је то?', kvalifikatorfraze_set: []}],
+              konkordansa_set: [],
+            },
+          ],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          tekst: '',
+          podznacenje_set: [
+            {
+              tekst: 'за одрицање, одбијање: никако, нипошто',
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [{ redni_broj: 1, opis: 'А! То ти не могу никад опростити. Јеси ли то урадио? А, боже сачувај!', kvalifikatorfraze_set: []}],
+              konkordansa_set: [],
+            },
+            {
+              tekst: 'за исказивање претње',
+              kvalifikatorpodznacenja_set: [],
+              izrazfraza_set: [{ redni_broj: 1, opis: 'А, молићеш ти мене опет за нешто.', kvalifikatorfraze_set: []}],
+              konkordansa_set: [],
+            },
+          ],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: []
+        },
+        {
+          tekst: 'у изр. ни а (обично праћено гестом запињања нокта о зуб) ни оволико, нимало, ништа',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [],
+          izrazfraza_set: [{ redni_broj: 1, opis: 'Не верујем ти ни а.', kvalifikatorfraze_set: []}],
+          konkordansa_set: []
+        },
+        {
+          id: 59,
+          tekst: '(поновљено више пута) за подражавање граје, зевања итд',
+          odrednica_id: 42,
+          podznacenje_set: [],
+          kvalifikatorznacenja_set: [{ redni_broj: 1, kvalifikator_id: 107 }],
+          izrazfraza_set: [{ redni_broj: 1, opis: 'А-а-а-а, заграјаше ђаци. А-а-а, зевну он.', kvalifikatorfraze_set: []}],
+          konkordansa_set: []
+        },
+      ],
+      izrazfraza_set: [],
+      kvalifikatorodrednice_set: [],
+      izmenaodrednice_set: [
+        {
+          id: 15,
+          odrednica_id: 42,
+          operacija_izmene_id: 18,
+          user_id: 1,
+          vreme: '2021-02-11T22:52:44.769341+01:00'
+        }
+      ],
+      opciono_se: null
+    };
+    this.fillForm(value2);
   }
 }
