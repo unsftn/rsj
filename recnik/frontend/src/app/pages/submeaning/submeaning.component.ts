@@ -6,7 +6,8 @@ import { PrimeNGConfig } from 'primeng/api';
   templateUrl: './submeaning.component.html',
 })
 export class SubmeaningComponent implements OnInit {
-
+  azbuka = 'абвгдђежзијклљмнњопрстћуфхцчџш';
+  @Input() znacenjeRbr: number;
   @Input() submeanings;
 
   constructor(private primengConfig: PrimeNGConfig) {}

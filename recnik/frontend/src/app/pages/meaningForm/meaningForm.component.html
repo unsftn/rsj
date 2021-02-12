@@ -19,7 +19,7 @@
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
                 <p class="label">Значење {{i + 1}}:</p>
-                <textarea [rows]="3" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
+                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
               </div>
             </div>
           </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="p-mr-2" style="margin-top: 10px;">
               <p-fieldset legend="Подзначење:" [toggleable]="true" collapsed="true">
-                <submeaning [submeanings]="meanings[i].submeanings"></submeaning>
+                <submeaning [submeanings]="meanings[i].submeanings" [znacenjeRbr]="i+1"></submeaning>
               </p-fieldset>
             </div>
             <div class="p-mr-2" style="margin-top: 10px;">

@@ -19,8 +19,8 @@
           <div class="p-mr-2">
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
-                <p class="label">Подзначење {{i + 1}}:</p>
-                <textarea [rows]="3" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
+                <p class="label">Подзначење {{znacenjeRbr}}{{azbuka[i]}}:</p>
+                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel" ></textarea>
               </div>
             </div>
           </div>
