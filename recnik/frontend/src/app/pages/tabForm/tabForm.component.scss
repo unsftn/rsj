@@ -20,17 +20,21 @@
   margin: auto;
 }
 
-:host ::ng-deep .p-dropdown {
-  width: 185px;
+.wider {
+  width: 250px;
 }
 
-:host ::ng-deep .p-listbox {
-  width: 185px;
-}
+//:host ::ng-deep .p-dropdown {
+//  width: 185px;
+//}
 
-:host ::ng-deep .p-inputgroup {
-  width: 220px;
-}
+//:host ::ng-deep .p-listbox {
+//  width: 185px;
+//}
+//
+//:host ::ng-deep .p-inputgroup {
+//  width: 220px;
+//}
 
 .add-button {
   margin-left: 10px;

@@ -118,7 +118,7 @@
           <p class="label p-m-0">Глаголски род:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-dropdown [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
+          <p-dropdown class="wider" [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex p-ai-start" *ngIf="isVerb">
@@ -148,7 +148,7 @@
             <meaning [meanings]="meanings2"></meaning>
           </p-tabPanel>
           <p-tabPanel header="Изрази и фразе">
-            <expressions [expressions]="expressions"></expressions>
+            <expressions [expressions]="expressions" [isTopLevel]="true"></expressions>
           </p-tabPanel>
           <p-tabPanel header="Синоними">
             <synonym></synonym>

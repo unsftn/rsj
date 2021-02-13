@@ -22,11 +22,11 @@
                 <div class="p-mb-2">
                   <p class="label">Израз/фраза {{i + 1}}:</p>
                 </div>
-                <div class="p-mb-2">
+                <div class="p-mb-2" *ngIf="isTopLevel">
                   <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе"/>
                 </div>
                 <div class="p-mb-2">
-                  <textarea [rows]="7" [cols]="80" style="height: 142px !important;" pInputTextarea [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"></textarea>
+                  <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"></textarea>
                 </div>
                 <div class="p-d-flex">
                   <div class="p-mr-2">
