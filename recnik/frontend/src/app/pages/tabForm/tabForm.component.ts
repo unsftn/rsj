@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
-import { ODREDNICA_1, ODREDNICA_2, ODREDNICA_3 } from '../../examples';
+import { ODREDNICA_1, ODREDNICA_2, ODREDNICA_3, ODREDNICA_4 } from '../../examples';
 
 interface Variant {
   nameE: string;
@@ -446,5 +446,9 @@ export class TabFormComponent implements OnInit {
 
   fillTestOdrednica3(): void {
     this.fillForm(ODREDNICA_3);
+  }
+
+  fillTestOdrednica4(): void {
+    this.fillForm(ODREDNICA_4);
   }
 }

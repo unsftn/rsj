@@ -11,6 +11,9 @@ export class PreviewService {
 
   preview(odrednica): string {
     let tekst = `<div class="odrednica"><b>${odrednica.rec}</b>`;
+    if (odrednica.vrsta === 1 && odrednica.opciono_se) {
+      tekst = `<div class="odrednica"><b>${odrednica.rec} (се)</b>`;
+    }
     if (odrednica.varijante.length > 0) {
       tekst += ` (${odrednica.varijante.map(v => v.tekst).join(', ')})`;
     }

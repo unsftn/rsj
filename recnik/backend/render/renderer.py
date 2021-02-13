@@ -105,7 +105,10 @@ def render_znacenje(znacenje):
 
 
 def render_one(odrednica):
-    html = f'<b>{odrednica.rec}</b>'
+    if odrednica.vrsta == 1 and odrednica.opciono_se:
+        html = f'<b>{odrednica.rec} (се)</b>'
+    else:
+        html = f'<b>{odrednica.rec}</b>'
     if odrednica.varijantaodrednice_set.count() > 0:
         html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
     if odrednica.vrsta == 0:  # imenica

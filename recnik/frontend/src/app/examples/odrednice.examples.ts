@@ -404,3 +404,56 @@ export const ODREDNICA_3 = {
   ],
   opciono_se: null
 };
+
+export const ODREDNICA_4 = {
+  id: 9976,
+  rec: 'ски̏јати',
+  ijekavski: null,
+  vrsta: 1,
+  rod: null,
+  nastavak: '',
+  info: '',
+  glagolski_vid: 2,
+  glagolski_rod: 2,
+  prezent: '-ам (се)',
+  broj_pregleda: 0,
+  vreme_kreiranja: '2021-02-13T12:52:44.769341+01:00',
+  poslednja_izmena: '2021-02-13T12:52:44.769341+01:00',
+  stanje: 1,
+  version: 1,
+  varijantaodrednice_set: [],
+  kolokacija_set: [],
+  recukolokaciji_set: [],
+  znacenje_set: [
+    {
+      tekst: '',
+      podznacenje_set: [
+        {
+          tekst: 'клизати се, кретати се на скијама, смучати се',
+          kvalifikatorpodznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: [],
+        },
+        {
+          tekst: 'кретати се на (широким) скијама по површини воде (мора, језера, реке) уз помоћ моторног чамца који вуче ужетом онога који је на скијама',
+          kvalifikatorpodznacenja_set: [],
+          izrazfraza_set: [],
+          konkordansa_set: [],
+        },
+      ],
+      kvalifikatorznacenja_set: [],
+      izrazfraza_set: [],
+      konkordansa_set: []
+    },
+  ],
+  izrazfraza_set: [],
+  kvalifikatorodrednice_set: [],
+  izmenaodrednice_set: [
+    {
+      operacija_izmene_id: 1,
+      user_id: 1,
+      vreme: '2021-02-13T12:52:44.769341+01:00'
+    }
+  ],
+  opciono_se: true
+};
