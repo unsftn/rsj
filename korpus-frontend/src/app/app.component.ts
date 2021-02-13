@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNGConfig, MenuItem, MessageService } from 'primeng/api';
+import { TokenStorageService } from './services/auth/token-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -14,16 +15,17 @@ export class AppComponent implements OnInit {
 
   constructor(
     private primengConfig: PrimeNGConfig,
+    private tokenStorageService: TokenStorageService,
     private router: Router
   ) {}
 
   signedIn(): boolean {
-    // TODO
+    //return this.tokenStorageService.getUser() != null;
     return true;
   }
 
   signOut(): void {
-    // TODO
+    //this.tokenStorageService.signOut();
     this.router.navigate(['/']);
   }
 
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit {
       {
         label: 'Пријава',
         icon: 'pi pi-sign-in',
-        //routerLink: ['/login'],
+        routerLink: ['/login'],
       },
       {
         label: 'Профил',
