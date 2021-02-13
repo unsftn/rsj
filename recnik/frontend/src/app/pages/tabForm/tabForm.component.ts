@@ -58,16 +58,16 @@ export class TabFormComponent implements OnInit {
 
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
-      command: (event) => this.fillTestOdrednica1(),
+      command: (event) => this.fillTestOdrednica(ODREDNICA_1),
     }, {
       label: 'а (узвик)',
-      command: (event) => this.fillTestOdrednica2(),
+      command: (event) => this.fillTestOdrednica(ODREDNICA_2),
     }, {
       label: 'али',
-      command: (event) => this.fillTestOdrednica3(),
+      command: (event) => this.fillTestOdrednica(ODREDNICA_3),
     }, {
       label: 'ски̏јати (се)',
-      command: (event) => this.fillTestOdrednica4(),
+      command: (event) => this.fillTestOdrednica(ODREDNICA_4),
     }
   ];
 
@@ -142,7 +142,7 @@ export class TabFormComponent implements OnInit {
         this.showWarningDialog = false;
         this.message = 'Одредница је успешно обрисана.';
         this.showInfoDialog = true;
-        this.nextRoute = ['/']
+        this.nextRoute = ['/'];
       }, (error) => {
         this.showWarningDialog = false;
         this.message = 'Грешка: ' + error;
@@ -314,64 +314,97 @@ export class TabFormComponent implements OnInit {
           })
         };
       }),
-      znacenja: this.meanings ? this.meanings.map((z, index) => {
-        return {
-          redni_broj: index + 1,
-          tekst: z.value,
-          podznacenja: z.submeanings.map((pz, idx) => {
-            return {
-              redni_broj: idx + 1,
-              tekst: pz.value,
-              izrazi_fraze: pz.expressions.map((value, idx2) => {
-                return {
-                  redni_broj: idx2 + 1,
-                  opis: value.value,
-                  tekst: value.tekst,
-                };
-              }),
-              kvalifikatori: pz.qualificators.map((q, idx2) => {
-                return {
-                  redni_broj: idx2 + 1,
-                  kvalifikator_id: q.id,
-                  skracenica: q.abbreviation
-                };
-              }),
-              konkordanse: pz.concordances.map((c, idx2) => {
-                return {
-                  redni_broj: idx2 + 1,
-                  opis: c.concordance,
-                };
-              }),
-            };
-          }),
-          izrazi_fraze: z.expressions.map((value, idx) => {
-            return {
-              redni_broj: idx + 1,
-              opis: value.value,
-              tekst: value.tekst,
-            };
-          }),
-          kvalifikatori: z.qualificators.map((q, idx) => {
-            return {
-              redni_broj: idx + 1,
-              kvalifikator_id: q.id,
-              skracenica: q.abbreviation
-            };
-          }),
-          konkordanse: z.concordances.map((c, idx) => {
-            return {
-              redni_broj: idx + 1,
-              opis: c.concordance,
-            };
-          }),
-        };
-      }) : [],
+      znacenja: this.makeZnacenja(this.meanings, false).concat(this.makeZnacenja(this.meanings2, true)),
     };
     if (this.editMode) {
       determinant.id = this.id;
     }
     console.log('Sastavljeno za server:', determinant);
     return determinant;
+  }
+
+  makeZnacenja(meanings, znacenjeSe): any[] {
+    return meanings ? meanings.map((z, index) => {
+      return {
+        redni_broj: index + 1,
+        tekst: z.value,
+        znacenje_se: znacenjeSe,
+        podznacenja: z.submeanings.map((pz, idx) => {
+          return {
+            redni_broj: idx + 1,
+            tekst: pz.value,
+            izrazi_fraze: pz.expressions.map((value, idx2) => {
+              return {
+                redni_broj: idx2 + 1,
+                opis: value.value,
+                tekst: value.tekst,
+              };
+            }),
+            kvalifikatori: pz.qualificators.map((q, idx2) => {
+              return {
+                redni_broj: idx2 + 1,
+                kvalifikator_id: q.id,
+                skracenica: q.abbreviation
+              };
+            }),
+            konkordanse: pz.concordances.map((c, idx2) => {
+              return {
+                redni_broj: idx2 + 1,
+                opis: c.concordance,
+              };
+            }),
+          };
+        }),
+        izrazi_fraze: z.expressions.map((value, idx) => {
+          return {
+            redni_broj: idx + 1,
+            opis: value.value,
+            tekst: value.tekst,
+          };
+        }),
+        kvalifikatori: z.qualificators.map((q, idx) => {
+          return {
+            redni_broj: idx + 1,
+            kvalifikator_id: q.id,
+            skracenica: q.abbreviation
+          };
+        }),
+        konkordanse: z.concordances.map((c, idx) => {
+          return {
+            redni_broj: idx + 1,
+            opis: c.concordance,
+          };
+        }),
+      };
+    }) : [];
+  }
+
+  makeMeanings(znacenja): any[] {
+    return znacenja.map(z => ({
+      value: z.tekst,
+      expressions: z.izrazfraza_set.map((e) => {
+        return {
+          value: e.opis,
+          tekst: e.tekst,
+          keywords: [],
+          qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+        };
+      }),
+      qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+      concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
+      submeanings: z.podznacenje_set.map((pz) => ({
+        value: pz.tekst,
+        expressions: pz.izrazfraza_set.map((e, idx) => {
+          return {
+            value: e.opis,
+            tekst: e.tekst,
+            keywords: [],
+            qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+          };
+        }),
+        qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+        concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
+    }))}));
   }
 
   fillForm(value: any): void {
@@ -409,39 +442,66 @@ export class TabFormComponent implements OnInit {
         break;
     }
     this.details = value.info === null ? '' : value.info;
-    this.meanings = [];
-    for (const z of value.znacenje_set) {
-      const obj = {
-        value: z.tekst,
-        submeanings: [],
-        expressions: z.izrazfraza_set.map((e) => {
-          return {
-            value: e.opis,
-            tekst: e.tekst,
-            keywords: [],
-            qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-          };
-        }),
-        qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-        concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
-      };
-      for (const pz of z.podznacenje_set) {
-        obj.submeanings.push({
-          value: pz.tekst,
-          expressions: pz.izrazfraza_set.map((e, idx) => {
-            return {
-              value: e.opis,
-              tekst: e.tekst,
-              keywords: [],
-              qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-            };
-          }),
-          qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-          concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
-        });
-      }
-      this.meanings.push(obj);
-    }
+    this.meanings = this.makeMeanings(value.znacenje_set.filter(z => !z.znacenje_se));
+    this.meanings2 = this.makeMeanings(value.znacenje_set.filter(z => z.znacenje_se));
+    // this.meanings = value.znacenje_set.filter(z => !z.znacenje_se).map(z => ({
+    //   value: z.tekst,
+    //     expressions: z.izrazfraza_set.map((e) => {
+    //       return {
+    //         value: e.opis,
+    //         tekst: e.tekst,
+    //         keywords: [],
+    //         qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //       };
+    //     }),
+    //     qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //     concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
+    //     submeanings: z.podznacenje_set.map((pz) => ({
+    //       value: pz.tekst,
+    //       expressions: pz.izrazfraza_set.map((e, idx) => {
+    //         return {
+    //           value: e.opis,
+    //           tekst: e.tekst,
+    //           keywords: [],
+    //           qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //         };
+    //       }),
+    //       qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //       concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
+    //     })),
+    // }));
+    // for (const z of value.znacenje_set) {
+    //   const obj = {
+    //     value: z.tekst,
+    //     submeanings: [],
+    //     expressions: z.izrazfraza_set.map((e) => {
+    //       return {
+    //         value: e.opis,
+    //         tekst: e.tekst,
+    //         keywords: [],
+    //         qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //       };
+    //     }),
+    //     qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //     concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
+    //   };
+    //   for (const pz of z.podznacenje_set) {
+    //     obj.submeanings.push({
+    //       value: pz.tekst,
+    //       expressions: pz.izrazfraza_set.map((e, idx) => {
+    //         return {
+    //           value: e.opis,
+    //           tekst: e.tekst,
+    //           keywords: [],
+    //           qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //         };
+    //       }),
+    //       qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+    //       concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
+    //     });
+    //   }
+    //   this.meanings.push(obj);
+    // }
     this.expressions = value.izrazfraza_set.map((expr) => ({
       value: expr.opis,
       tekst: expr.tekst,
@@ -451,19 +511,13 @@ export class TabFormComponent implements OnInit {
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
   }
 
-  fillTestOdrednica1(): void {
-    this.fillForm(ODREDNICA_1);
-  }
-
-  fillTestOdrednica2(): void {
-    this.fillForm(ODREDNICA_2);
-  }
-
-  fillTestOdrednica3(): void {
-    this.fillForm(ODREDNICA_3);
-  }
-
-  fillTestOdrednica4(): void {
-    this.fillForm(ODREDNICA_4);
+  fillTestOdrednica(odrednica): void {
+    if (this.editMode) {
+      this.message = 'Унос примера одреднице могућ је само у режиму уноса нове одреднице, не и уређивања постојеће.'
+      this.showInfoDialog = true;
+      this.nextRoute = [];
+      return;
+    }
+    this.fillForm(odrednica);
   }
 }

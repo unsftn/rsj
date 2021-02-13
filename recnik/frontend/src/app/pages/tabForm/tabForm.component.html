@@ -22,7 +22,7 @@
   <div [innerHTML]="message"></div>
   <div class="p-d-flex p-jc-end">
     <p-button label="Да" (click)="yes()" styleClass="p-button-danger" icon="pi pi-times"></p-button>
-    <p-button label="Не" (click)="no()" styleClass="p-button-secondary" icon="pi pi-undo"></p-button>
+    <p-button label="Не" (click)="no()" styleClass="p-button-secondary" icon="pi pi-undo" class="p-ml-3"></p-button>
   </div>
 </p-dialog>
 <div class="basic-information-container">
@@ -153,10 +153,10 @@
     <div class="p-col-7">
       <div class="tab-container">
         <p-tabView>
-          <p-tabPanel header="Дефиниција">
+          <p-tabPanel header="Значења">
             <meaning [meanings]="meanings"></meaning>
           </p-tabPanel>
-          <p-tabPanel header="Дефиниција (се)" *ngIf="def2visible()">
+          <p-tabPanel header="Значења (се)" *ngIf="def2visible()">
             <meaning [meanings]="meanings2"></meaning>
           </p-tabPanel>
           <p-tabPanel header="Изрази и фразе">

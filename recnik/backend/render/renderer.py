@@ -149,8 +149,12 @@ def render_one(odrednica):
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())
     else:
-        for rbr, znacenje in enumerate(odrednica.znacenje_set.all(), start=1):
+        for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=False), start=1):
             html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+        if odrednica.znacenje_set.filter(znacenje_se=True).count() > 0:
+            html += f' <b>&#9632; ~ се</b> '
+            for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
+                html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze_odrednice(odrednica.izrazfraza_set.all().order_by('redni_broj'))
     html = tacka(html)
     return mark_safe(html)

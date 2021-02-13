@@ -46,6 +46,7 @@ class TestOdredniceApi(TestCase):
             'znacenja': [{
                 'redni_broj': 1,
                 'tekst': '',
+                'znacenje_se': False,
                 'podznacenja': [{
                     'redni_broj': 1,
                     'tekst': 'повезује реченице или реченичке чланове, делове супротног значења',
@@ -56,6 +57,7 @@ class TestOdredniceApi(TestCase):
             }, {
                 'redni_broj': 2,
                 'tekst': '',
+                'znacenje_se': False,
                 'podznacenja': [{
                     'redni_broj': 1,
                     'tekst': 'за повезивање, прикључивање реченица или реченичких делова различитог садржаја',
@@ -69,6 +71,7 @@ class TestOdredniceApi(TestCase):
             }, {
                 'redni_broj': 3,
                 'tekst': 'за појачавање, истицање',
+                'znacenje_se': False,
                 'podznacenja': [{
                     'redni_broj': 1,
                     'tekst': 'у погодбеним или допусним реченицама',
@@ -79,6 +82,7 @@ class TestOdredniceApi(TestCase):
             }, {
                 'redni_broj': 4,
                 'tekst': 'у спрегама: а камоли, а некмоли, а не при поређењу, за истицање',
+                'znacenje_se': False,
                 'podznacenja': [],
             }]
         }

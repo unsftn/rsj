@@ -123,6 +123,10 @@ class VarijantaOdrednice(models.Model):
     class Meta:
         verbose_name = 'варијанта одреднице'
         verbose_name_plural = 'варијанте одредница'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def get_absolute_url(self):
         return reverse('odrednice:izmena-varijante-detail', kwargs={'pk': self.pk})
@@ -138,6 +142,10 @@ class Antonim(models.Model):
     class Meta:
         verbose_name = 'антоним'
         verbose_name_plural = 'антоними'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return f'{self.redni_broj}: {self.ima_antonim.id} -> {self.u_vezi_sa.id}'
@@ -156,6 +164,10 @@ class Sinonim(models.Model):
     class Meta:
         verbose_name = 'синоним'
         verbose_name_plural = 'синоними'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return f'{self.redni_broj}: {self.ima_sinonim.id} -> {self.u_vezi_sa.id}'
@@ -187,6 +199,10 @@ class RecUKolokaciji(models.Model):
     class Meta:
         verbose_name = 'реч у колокацији'
         verbose_name_plural = 'речи у колокацији'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.redni_broj)
@@ -218,6 +234,10 @@ class KvalifikatorOdrednice(models.Model):
     class Meta:
         verbose_name = 'квалификатор одреднице'
         verbose_name_plural = 'квалификатори одредница'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.redni_broj) + ': ' + str(self.kvalifikator)
@@ -230,10 +250,15 @@ class Znacenje(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.CharField('текст', max_length=2000, blank=True, null=True)
     odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
+    znacenje_se = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'значење'
         verbose_name_plural = 'значења'
+        ordering = ['redni_broj', 'znacenje_se']
+        indexes = [
+            models.Index(fields=['redni_broj', 'znacenje_se']),
+        ]
 
     def __str__(self):
         return str(self.odrednica) + ' / ' + str(self.redni_broj) + ': ' + self.tekst
@@ -250,6 +275,10 @@ class KvalifikatorZnacenja(models.Model):
     class Meta:
         verbose_name = 'квалификатор значења'
         verbose_name_plural = 'квалификатори значења'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.redni_broj) + ': ' + str(self.kvalifikator)
@@ -266,6 +295,10 @@ class Podznacenje(models.Model):
     class Meta:
         verbose_name = 'подзначење'
         verbose_name_plural = 'подзначења'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.znacenje.odrednica) + ' / ' + str(self.znacenje.redni_broj) + ' / ' + str(self.redni_broj) + \
@@ -283,6 +316,10 @@ class KvalifikatorPodznacenja(models.Model):
     class Meta:
         verbose_name = 'квалификатор подзначења'
         verbose_name_plural = 'квалификатори подзначења'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.redni_broj) + ': ' + str(self.kvalifikator)
@@ -302,6 +339,10 @@ class IzrazFraza(models.Model):
     class Meta:
         verbose_name = 'израз фраза'
         verbose_name_plural = 'изрази фразе'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.redni_broj) + ' ' + self.opis
@@ -320,6 +361,10 @@ class Konkordansa(models.Model):
     class Meta:
         verbose_name = 'конкорданса'
         verbose_name_plural = 'конкордансе'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.redni_broj) + ' ' + self.opis
@@ -336,6 +381,7 @@ class KvalifikatorFraze(models.Model):
     class Meta:
         verbose_name = 'квалификатор фразе'
         verbose_name_plural = 'квалификатори фраза'
+        ordering = ['redni_broj']
 
     def __str__(self):
         return str(self.redni_broj) + ': ' + str(self.kvalifikator)

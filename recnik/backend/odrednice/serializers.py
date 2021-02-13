@@ -84,7 +84,8 @@ class PodznacenjeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Podznacenje
-        fields = ('id', 'tekst', 'znacenje_id', 'kvalifikatorpodznacenja_set', 'izrazfraza_set', 'konkordansa_set')
+        fields = ('id', 'tekst', 'znacenje_id', 'redni_broj', 'kvalifikatorpodznacenja_set', 'izrazfraza_set',
+                  'konkordansa_set')
 
 
 class ZnacenjeSerializer(serializers.ModelSerializer):
@@ -95,8 +96,8 @@ class ZnacenjeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Znacenje
-        fields = ('id', 'tekst', 'odrednica_id', 'podznacenje_set', 'kvalifikatorznacenja_set', 'izrazfraza_set',
-                  'konkordansa_set')
+        fields = ('id', 'tekst', 'znacenje_se', 'odrednica_id', 'podznacenje_set', 'kvalifikatorznacenja_set',
+                  'izrazfraza_set', 'konkordansa_set', 'redni_broj')
 
 
 class IzmenaOdredniceSerializer(serializers.ModelSerializer):
@@ -206,6 +207,7 @@ class CreatePodznacenjeSerializer(NoSaveSerializer):
 class CreateZnacenjeSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
+    znacenje_se = serializers.BooleanField()
     podznacenja = serializers.ListField(child=CreatePodznacenjeSerializer(), required=False)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
@@ -225,21 +227,21 @@ class CreateAntonimSerializer(NoSaveSerializer):
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=50)
-    ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True)
-    nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
 
 
 class CreateOdrednicaSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
-    rec = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    rec = serializers.CharField(max_length=50)
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     vrsta = serializers.IntegerField(required=False)
     rod = serializers.IntegerField(required=False, allow_null=True)
-    nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True)
-    info = serializers.CharField(max_length=2000, required=False, allow_blank=True)
-    glagolski_vid = serializers.IntegerField(required=False)
-    glagolski_rod = serializers.IntegerField(required=False)
-    prezent = serializers.CharField(max_length=50, required=False, allow_blank=True)
+    nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    info = serializers.CharField(max_length=2000, required=False, allow_blank=True, allow_null=True)
+    glagolski_vid = serializers.IntegerField(required=False, allow_null=True)
+    glagolski_rod = serializers.IntegerField(required=False, allow_null=True)
+    prezent = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     stanje = serializers.IntegerField(required=False, allow_null=True)
     version = serializers.IntegerField(required=False, allow_null=True)
     opciono_se = serializers.NullBooleanField(required=False)
@@ -252,53 +254,6 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         return self._save(validated_data)
-        # sada = now()
-        # user_id = validated_data.pop('user_id')
-        # znacenja = validated_data.pop('znacenja', [])
-        # kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
-        # varijante = validated_data.pop('varijante', [])
-        # izrazi_fraze = validated_data.pop('izrazi_fraze', [])
-        # sinonimi = validated_data.pop('sinonimi', [])
-        # antonimi = validated_data.pop('antonimi', [])
-        # odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
-        # for var_odr in varijante:
-        #     VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
-        # for kvod in kvalifikatori_odrednice:
-        #     KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
-        # for izr_frz in izrazi_fraze:
-        #     IzrazFraza.objects.create(odrednica=odrednica, **izr_frz)
-        # for znacenje in znacenja:
-        #     kvalifikatori = znacenje.pop('kvalifikatori', [])
-        #     podznacenja = znacenje.pop('podznacenja', [])
-        #     izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
-        #     konkordanse_znacenja = znacenje.pop('konkordanse', [])
-        #     z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
-        #     for k in kvalifikatori:
-        #         KvalifikatorZnacenja.objects.create(znacenje=z, **k)
-        #     for ifz in izrazi_fraze_znacenja:
-        #         IzrazFraza.objects.create(znacenje=z, **ifz)
-        #     for konz in konkordanse_znacenja:
-        #         Konkordansa.objects.create(znacenje=z, **konz)
-        #     for podz in podznacenja:
-        #         kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
-        #         izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
-        #         konkordanse_podznacenja = podz.pop('konkordanse', [])
-        #         p = Podznacenje.objects.create(znacenje=z, **podz)
-        #         for k in kvalifikatori_podznacenja:
-        #             KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
-        #         for ifp in izrazi_fraze_podznacenja:
-        #             IzrazFraza.objects.create(podznacenje=p, **ifp)
-        #         for konz in konkordanse_podznacenja:
-        #             Konkordansa.objects.create(podznacenje=p, **konz)
-        # for sin in sinonimi:
-        #     Sinonim.objects.create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
-        # for ant in antonimi:
-        #     Antonim.objects.create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
-        #
-        # naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
-        # operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
-        # IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada, odrednica=odrednica,
-        #                                operacija_izmene=operacija_izmene)
 
     def update(self, instance, validated_data):
         Znacenje.objects.filter(odrednica_id=instance.id).delete()

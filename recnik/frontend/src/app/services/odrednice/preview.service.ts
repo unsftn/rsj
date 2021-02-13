@@ -85,9 +85,16 @@ export class PreviewService {
     if (odrednica.znacenja.length === 1) {
       tekst += this.render_znacenje(odrednica.znacenja[0]);
     } else {
-      odrednica.znacenja.forEach((z, i) => {
+      odrednica.znacenja.filter(z => !z.znacenje_se).forEach((z, i) => {
         tekst += ` <b>${i + 1}.</b> ${this.render_znacenje(z)}`;
       });
+      const znacenja2 = odrednica.znacenja.filter(z => z.znacenje_se);
+      if (znacenja2.length > 0) {
+        tekst += ' <b>&#9632; ~ се</b> ';
+        znacenja2.forEach((z, i) => {
+          tekst += ` <b>${i + 1}.</b> ${this.render_znacenje(z)}`;
+        });
+      }
     }
     tekst += this.render_izrazi_fraze_odrednice(odrednica.izrazi_fraze);
     return `${this.tacka(tekst)}</div>`;

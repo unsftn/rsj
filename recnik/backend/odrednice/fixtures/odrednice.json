@@ -139,7 +139,8 @@
         "fields": {
             "redni_broj": 1,
             "tekst":"tekst znacenja",
-            "odrednica_id": 1
+            "odrednica_id": 1,
+            "znacenje_se": false
         }
     },
     {

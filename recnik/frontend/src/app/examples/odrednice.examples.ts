@@ -1,5 +1,5 @@
 export const ODREDNICA_1 = {
-  id: 999,
+  // id: 999,
   rec: 'ски̏нути',
   ijekavski: null,
   vrsta: 1,
@@ -19,36 +19,32 @@ export const ODREDNICA_1 = {
   recukolokaciji_set: [],
   znacenje_set: [
     {
-      id: 55,
       tekst: '',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [
         {
-          id: 36,
           tekst: 'довести са вишег на нижи положај, спустити са неког вишег места на ниже место; уклонити са нечега (обично оно што је окачено, натакнуто и сл.)',
-          znacenje_id: 55,
           kvalifikatorpodznacenja_set: [],
           izrazfraza_set: [],
           konkordansa_set: [
-            { redni_broj: 1, opis: '~ маче с дрвета', podznacenje_id: 36 },
-            { redni_broj: 2, opis: '~ књигу с полице', podznacenje_id: 36 },
-            { redni_broj: 3, opis: '~ торбу с клина', podznacenje_id: 36 },
+            { redni_broj: 1, opis: '~ маче с дрвета' },
+            { redni_broj: 2, opis: '~ књигу с полице' },
+            { redni_broj: 3, opis: '~ торбу с клина' },
           ],
           qualificators: []
         },
         {
-          id: 37,
           tekst: 'уклонити с кога или чега оно што је око или преко њега, што га прекрива, обухвата, што служи као заштита (од хладноће нпр.) и сл.',
           znacenje_id: 55,
           kvalifikatorpodznacenja_set: [],
           izrazfraza_set: [],
           konkordansa_set: [
-            { redni_broj: 1, opis: '~ кору с дрвета', podznacenje_id: 37 },
-            { redni_broj: 2, opis: '~ боју с намештаја', podznacenje_id: 37 },
-            { redni_broj: 3, opis: '~ шминку', podznacenje_id: 37 },
-            { redni_broj: 4, opis: '~ омот', podznacenje_id: 37 },
-            { redni_broj: 5, opis: '~ одећу', podznacenje_id: 37 },
-            { redni_broj: 6, opis: '~ покривач', podznacenje_id: 37 },
+            { redni_broj: 1, opis: '~ кору с дрвета' },
+            { redni_broj: 2, opis: '~ боју с намештаја' },
+            { redni_broj: 3, opis: '~ шминку' },
+            { redni_broj: 4, opis: '~ омот' },
+            { redni_broj: 5, opis: '~ одећу' },
+            { redni_broj: 6, opis: '~ покривач' },
           ],
           qualificators: []
         },
@@ -59,8 +55,8 @@ export const ODREDNICA_1 = {
           kvalifikatorpodznacenja_set: [],
           izrazfraza_set: [],
           konkordansa_set: [
-            { redni_broj: 1, opis: '~ мрљу', podznacenje_id: 38 },
-            { redni_broj: 2, opis: '~ израслину', podznacenje_id: 38 },
+            { redni_broj: 1, opis: '~ мрљу' },
+            { redni_broj: 2, opis: '~ израслину' },
           ],
           qualificators: []
         }
@@ -70,49 +66,42 @@ export const ODREDNICA_1 = {
       konkordansa_set: [],
     },
     {
-      id: 56,
       tekst: 'скинути род, убрати',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [],
-      konkordansa_set: [{ redni_broj: 1, opis: '~ летину', znacenje_id: 56 }]
+      konkordansa_set: [{ redni_broj: 1, opis: '~ летину' }]
     },
     {
-      id: 57,
       tekst: 'искрцати, одн. истоварити са превозног средства',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [],
-      konkordansa_set: [{ redni_broj: 1, opis: '~ некога с воза', znacenje_id: 57 }]
+      konkordansa_set: [{ redni_broj: 1, opis: '~ некога с воза' }]
     },
     {
-      id: 58,
       tekst: '',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [
         {
-          id: 39,
           tekst: 'учинити да неко оде са неког положаја, да напусти неко место, неку функцију, дужност и др.',
-          znacenje_id: 58,
           kvalifikatorpodznacenja_set: [],
           izrazfraza_set: [],
           konkordansa_set: [
-            { redni_broj: 1, opis: '~ владајућу гарнитуру', podznacenje_id: 39 },
-            { redni_broj: 2, opis: '~ истражитеља (с неког случаја)', podznacenje_id: 39 },
+            { redni_broj: 1, opis: '~ владајућу гарнитуру' },
+            { redni_broj: 2, opis: '~ истражитеља (с неког случаја)' },
           ],
           qualificators: []
         },
         {
-          id: 40,
           tekst: 'оборити метком, устрелити; погодити',
-          znacenje_id: 58,
           kvalifikatorpodznacenja_set: [],
           izrazfraza_set: [],
           konkordansa_set: [
-            { redni_broj: 1, opis: '~ зеца', podznacenje_id: 40 },
-            { redni_broj: 2, opis: '~ мету', podznacenje_id: 40 },
+            { redni_broj: 1, opis: '~ зеца' },
+            { redni_broj: 2, opis: '~ мету' },
           ],
           qualificators: []
         }
@@ -122,43 +111,57 @@ export const ODREDNICA_1 = {
       konkordansa_set: []
     },
     {
-      id: 59,
       tekst: 'прекинути важење неког ограничења (санкције)',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [],
       konkordansa_set: [
-        { redni_broj: 1, opis: '~ забрану', znacenje_id: 59 },
-        { redni_broj: 2, opis: '~ казну', znacenje_id: 59 },
+        { redni_broj: 1, opis: '~ забрану' },
+        { redni_broj: 2, opis: '~ казну' },
       ]
     },
     {
-      id: 60,
       tekst: 'узети, преузети са узорка, снимити, копирати',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
-      izrazfraza_set: [{ redni_broj: 1, znacenje_id: 60, opis: 'Кућа је изграђена по узору на старе грађевине, све је било мајсторски скинуто.', tekst: '', kvalifikatorfraze_set: [] }],
+      izrazfraza_set: [{ redni_broj: 1, opis: 'Кућа је изграђена по узору на старе грађевине, све је било мајсторски скинуто.', tekst: '', kvalifikatorfraze_set: [] }],
       konkordansa_set: []
     },
     {
-      id: 61,
       tekst: 'лишити одеће, свући',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [],
-      konkordansa_set: [{ redni_broj: 1, opis: '~ дете', znacenje_id: 61 }]
-    }
+      konkordansa_set: [{ redni_broj: 1, opis: '~ дете' }]
+    },
+    {
+      tekst: 'уклонити одећу или део одеће са себе, свући се',
+      znacenje_se: true,
+      podznacenje_set: [],
+      kvalifikatorznacenja_set: [],
+      izrazfraza_set: [],
+      konkordansa_set: []
+    },
+    {
+      tekst: 'сићи са вишег на нижи положај, спустити се са вишег на ниже место; сићи с коња, сјахати',
+      znacenje_se: true,
+      podznacenje_set: [],
+      kvalifikatorznacenja_set: [],
+      izrazfraza_set: [],
+      konkordansa_set: [
+        { redni_broj: 1, opis: '~ низ лестве' },
+        { redni_broj: 2, opis: '~ с коња' },
+      ]
+    },
   ],
   izrazfraza_set: [
     {
-      id: 18,
       opis: 'престати узимати дрогу, престати бити наркоман',
       tekst: '~ се с дроге',
       redni_broj: 1,
-      odrednica_id: 42,
       znacenje_id: null,
       podznacenje_id: null,
       kvalifikatorfraze_set: [{ redni_broj: 1, kvalifikator_id: 51 }]
@@ -176,7 +179,7 @@ export const ODREDNICA_1 = {
 };
 
 export const ODREDNICA_2 = {
-  id: 998,
+  // id: 998,
   rec: 'а',
   ijekavski: null,
   vrsta: 6,
@@ -197,6 +200,7 @@ export const ODREDNICA_2 = {
   znacenje_set: [
     {
       tekst: 'при обраћању, за дозивање, подстицање и сл.',
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [{ redni_broj: 1, opis: 'А, мој брајко!', kvalifikatorfraze_set: []}],
@@ -204,6 +208,7 @@ export const ODREDNICA_2 = {
     },
     {
       tekst: '',
+      znacenje_se: false,
       podznacenje_set: [
         {
           tekst: 'при одобравању или негодовању, при чуђењу, дивљењу, изненађењу и сл',
@@ -224,6 +229,7 @@ export const ODREDNICA_2 = {
     },
     {
       tekst: '(с назалним изговором: а̑)',
+      znacenje_se: false,
       podznacenje_set: [
         {
           tekst: 'при присећању',
@@ -244,6 +250,7 @@ export const ODREDNICA_2 = {
     },
     {
       tekst: '',
+      znacenje_se: false,
       podznacenje_set: [
         {
           tekst: 'за одрицање, одбијање: никако, нипошто',
@@ -264,16 +271,15 @@ export const ODREDNICA_2 = {
     },
     {
       tekst: 'у изр. ни а (обично праћено гестом запињања нокта о зуб) ни оволико, нимало, ништа',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [{ redni_broj: 1, opis: 'Не верујем ти ни а.', kvalifikatorfraze_set: []}],
       konkordansa_set: []
     },
     {
-      id: 59,
       tekst: '(поновљено више пута) за подражавање граје, зевања итд',
-      odrednica_id: 42,
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [{ redni_broj: 1, kvalifikator_id: 107 }],
       izrazfraza_set: [{ redni_broj: 1, opis: 'А-а-а-а, заграјаше ђаци. А-а-а, зевну он.', kvalifikatorfraze_set: []}],
@@ -293,7 +299,7 @@ export const ODREDNICA_2 = {
 };
 
 export const ODREDNICA_3 = {
-  id: 997,
+  // id: 997,
   rec: 'али',
   ijekavski: null,
   vrsta: 8,
@@ -314,6 +320,7 @@ export const ODREDNICA_3 = {
   znacenje_set: [
     {
       tekst: 'супротни',
+      znacenje_se: false,
       podznacenje_set: [
         {
           tekst: 'за везивање независне супротне реченице, синтагме или речи са претходном реченицом',
@@ -370,6 +377,7 @@ export const ODREDNICA_3 = {
     },
     {
       tekst: 'раставни: или',
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [{ redni_broj: 1, opis: 'Али сада или никада.', kvalifikatorfraze_set: []}],
@@ -377,6 +385,7 @@ export const ODREDNICA_3 = {
     },
     {
       tekst: 'у прил. служби, за појачавање: ама, управо, баш',
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [{ redni_broj: 1, opis: 'Хоћу одмах, али одмах, из ових стопа да кренемо. Реци и све, али поштено.', kvalifikatorfraze_set: []}],
@@ -384,6 +393,7 @@ export const ODREDNICA_3 = {
     },
     {
       tekst: 'у им. служби, за означавање замерке, сметње, неслагања и сл',
+      znacenje_se: false,
       podznacenje_set: [],
       kvalifikatorznacenja_set: [],
       izrazfraza_set: [{ redni_broj: 1, opis: 'Али девојци срећу квари. На крају увек се испречи неко „али“.', kvalifikatorfraze_set: []}],
@@ -406,7 +416,7 @@ export const ODREDNICA_3 = {
 };
 
 export const ODREDNICA_4 = {
-  id: 9976,
+  // id: 996,
   rec: 'ски̏јати',
   ijekavski: null,
   vrsta: 1,
@@ -427,6 +437,7 @@ export const ODREDNICA_4 = {
   znacenje_set: [
     {
       tekst: '',
+      znacenje_se: false,
       podznacenje_set: [
         {
           tekst: 'клизати се, кретати се на скијама, смучати се',
