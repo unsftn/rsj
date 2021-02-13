@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
-import { ODREDNICA_1, ODREDNICA_2, ODREDNICA_3, ODREDNICA_4 } from '../../examples';
+import * as primeri from '../../examples';
 
 interface Variant {
   nameE: string;
@@ -58,16 +58,25 @@ export class TabFormComponent implements OnInit {
 
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
-      command: (event) => this.fillTestOdrednica(ODREDNICA_1),
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_1),
     }, {
       label: 'а (узвик)',
-      command: (event) => this.fillTestOdrednica(ODREDNICA_2),
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_2),
     }, {
       label: 'али',
-      command: (event) => this.fillTestOdrednica(ODREDNICA_3),
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_3),
     }, {
       label: 'ски̏јати (се)',
-      command: (event) => this.fillTestOdrednica(ODREDNICA_4),
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_4),
+    }, {
+      label: 'скло̀нити',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_5),
+    }, {
+      label: 'сѐдети',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_6),
+    }, {
+      label: 'ра̑днӣк',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_7),
     }
   ];
 

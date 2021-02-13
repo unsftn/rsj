@@ -226,7 +226,7 @@ class CreateAntonimSerializer(NoSaveSerializer):
 
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
-    tekst = serializers.CharField(max_length=50)
+    tekst = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
 
