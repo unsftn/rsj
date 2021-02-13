@@ -164,21 +164,6 @@ export class TabFormComponent implements OnInit {
           '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
         this.showInfoDialog = true;
       });
-    // const response: any = await this.odrednicaService
-    //   .saveOdrednica(this.makeNewDeterminant())
-    //   .toPromise()
-    //   .catch((error) => {
-    //     console.log(error);
-    //     this.message = this.domSanitizer.bypassSecurityTrustHtml(
-    //       '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
-    //     this.display = true;
-    //   });
-    //
-    // if (response) {
-    //   this.message = this.domSanitizer.bypassSecurityTrustHtml(
-    //     '<p>Успешно додата нова одредница.</p>');
-    //   this.display = true;
-    // }
   }
 
   finish(): void {
@@ -239,6 +224,8 @@ export class TabFormComponent implements OnInit {
           this.editMode = false;
           this.id = null;
           this.selectedState = this.enumService.getEntryState(1);
+          this.selectedWordType = this.enumService.getWordType(0);
+          this.onChangeWordType();
           break;
         case 'edit':
           this.editMode = true;
@@ -286,6 +273,13 @@ export class TabFormComponent implements OnInit {
           redni_broj: idx + 1,
           opis: value.value,
           tekst: value.tekst,
+          kvalifikatori: value.qualificators.map((q, idx2) => {
+            return {
+              redni_broj: idx2 + 1,
+              kvalifikator_id: q.id,
+              skracenica: q.abbreviation,
+            };
+          })
         };
       }),
       znacenja: this.meanings ? this.meanings.map((z, index) => {

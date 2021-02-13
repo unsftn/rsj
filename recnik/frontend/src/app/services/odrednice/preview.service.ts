@@ -12,32 +12,42 @@ export class PreviewService {
   preview(odrednica): string {
     let tekst = `<div class="odrednica"><b>${odrednica.rec}</b>`;
     if (odrednica.varijante.length > 0) {
-      console.log(odrednica.varijante);
       tekst += ` (${odrednica.varijante.map(v => v.tekst).join(', ')})`;
     }
     switch (odrednica.vrsta) {
       case 0: // imenica
-        console.log('Rod', odrednica.rod);
-        tekst += ` <small>${this.rod[odrednica.rod]}</small>`;
-        break;
-      case 1: // glagol
         if (odrednica.nastavak) {
           tekst += `, ${odrednica.nastavak}`;
         }
+        tekst += ` <small>${this.rod[odrednica.rod]}</small>`;
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
+        }
+        break;
+      case 1: // glagol
         if (odrednica.prezent) {
-          tekst += `, ${odrednica.prezent}`;
+          tekst += `, ${odrednica.prezent} `;
+        }
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
         }
         if (odrednica.glagolski_vid > 0) {
-          tekst += `, <small>${this.gvid[odrednica.glagolski_vid]}</small> `;
+          tekst += `<small>${this.gvid[odrednica.glagolski_vid]}</small> `;
         }
         break;
       case 2: // pridev
         if (odrednica.nastavak) {
           tekst += `, ${odrednica.nastavak}`;
         }
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
+        }
         break;
       case 3: // prilog
         tekst += ` <small>прил.</small> `;
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
+        }
         break;
       case 4: //
         // TODO
@@ -47,18 +57,28 @@ export class PreviewService {
         break;
       case 6: // uzvik
         tekst += ` <small>узв.</small> `;
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
+        }
         break;
       case 7: // recca
         tekst += ` <small>речца</small> `;
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
+        }
         break;
       case 8: // veznik
         tekst += ` <small>везн.</small> `;
+        if (odrednica.info) {
+          tekst += ` (${odrednica.info}) `;
+        }
         break;
       case 9: // broj
         break;
     }
-    if (odrednica.kvalifikatori.length > 0)
+    if (odrednica.kvalifikatori.length > 0) {
       tekst += this.render_kvalifikatori(odrednica.kvalifikatori);
+    }
     if (odrednica.znacenja.length === 1) {
       tekst += this.render_znacenje(odrednica.znacenja[0]);
     } else {
@@ -66,15 +86,21 @@ export class PreviewService {
         tekst += ` <b>${i + 1}.</b> ${this.render_znacenje(z)}`;
       });
     }
-    return `${tekst}</div>`;
+    tekst += this.render_izrazi_fraze_odrednice(odrednica.izrazi_fraze);
+    return `${this.tacka(tekst)}</div>`;
   }
 
   render_znacenje(znacenje: any): string {
     let tekst = '';
-    if (znacenje.kvalifikatori.length > 0)
+    if (znacenje.kvalifikatori.length > 0) {
       tekst += this.render_kvalifikatori(znacenje.kvalifikatori);
+    }
     tekst += `${this.tacka(znacenje.tekst)}`;
-    tekst += this.render_izrazi_fraze(znacenje.izrazi_fraze);
+    if (znacenje.konkordanse.length > 0) {
+      tekst = this.dvotacka(tekst);
+      tekst += this.render_konkordanse(znacenje.konkordanse);
+    }
+    tekst += this.render_izrazi_fraze_znacenja(znacenje.izrazi_fraze);
     znacenje.podznacenja.forEach((value, index) => {
       tekst += ` <b>${this.azbuka.charAt(index)}.</b> ${this.render_podznacenje(value)}`;
     });
@@ -83,17 +109,32 @@ export class PreviewService {
 
   render_podznacenje(podznacenje: any): string {
     let tekst = '';
-    if (podznacenje.kvalifikatori.length > 0)
+    if (podznacenje.kvalifikatori.length > 0) {
       tekst += this.render_kvalifikatori(podznacenje.kvalifikatori);
+    }
     tekst += `${this.tacka(podznacenje.tekst)}`;
-    tekst += this.render_izrazi_fraze(podznacenje.izrazi_fraze);
+    if (podznacenje.konkordanse.length > 0) {
+      tekst = this.dvotacka(tekst);
+      tekst += this.render_konkordanse(podznacenje.konkordanse);
+    }
+    tekst += this.render_izrazi_fraze_znacenja(podznacenje.izrazi_fraze);
     return tekst;
   }
 
-  render_izrazi_fraze(izraziFraze: any[]): string {
+  render_izrazi_fraze_znacenja(izraziFraze: any[]): string {
     let tekst = '';
     izraziFraze.forEach((value) => {
       tekst += ` &#8212; <i>${this.tacka(value.opis)}</i>`;
+    });
+    return tekst;
+  }
+
+  render_izrazi_fraze_odrednice(izraziFraze: any[]): string {
+    let tekst = '';
+    izraziFraze.forEach((value) => {
+      tekst += ` &bull; <small><b>${value.tekst}</b></small> `;
+      tekst += this.render_kvalifikatori(value.kvalifikatori);
+      tekst += ` <i>${this.tacka(value.opis)}</i>`;
     });
     return tekst;
   }
@@ -106,14 +147,28 @@ export class PreviewService {
     return tekst;
   }
 
+  render_konkordanse(konkordanse: any[]): string {
+    return this.tacka(konkordanse.map(v => `<i>${v.opis}</i>`).join(', '));
+  }
+
   tacka(tekst: string): string {
     if (tekst.length === 0) {
       return tekst;
     }
-    const regex = new RegExp('[.,:!?]$');
+    const regex = new RegExp('[.,:!?>]$');
     if (!regex.test(tekst)) {
       return tekst + '.';
     }
     return tekst;
+  }
+
+  dvotacka(tekst: string): string {
+    if (tekst.length === 0) {
+      return tekst;
+    }
+    if (tekst[tekst.length - 1] === '.') {
+      return tekst.substring(0, tekst.length - 1) + ': ';
+    }
+    return tekst + ': ';
   }
 }
