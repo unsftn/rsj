@@ -12,7 +12,7 @@
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>
-    <button #btn type="button" class="p-button-rounded p-button-outlined menu-button" pButton icon="pi pi-user" (click)="menu.toggle($event)"></button>
+    <button #btn pButton *ngIf="signedIn()" type="button" class="p-button-rounded p-button-outlined menu-button" icon="pi pi-user" (click)="menu.toggle($event)"></button>
   </div>
 </p-menubar>
 <router-outlet></router-outlet>

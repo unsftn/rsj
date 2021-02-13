@@ -2,7 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth/auth.interceptor';
+import { ErrorInterceptor } from './services/auth/error.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +29,7 @@ import { FormSelectorComponent } from './components/form-selector/form-selector.
 import { ImenicaComponent } from './components/imenica/imenica.component';
 import { GlagolComponent } from './components/glagol/glagol.component';
 import { PridevComponent } from './components/pridev/pridev.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { PridevComponent } from './components/pridev/pridev.component';
     FormSelectorComponent,
     ImenicaComponent,
     GlagolComponent,
-    PridevComponent
+    PridevComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,10 @@ import { PridevComponent } from './components/pridev/pridev.component';
     RadioButtonModule,
     HomeModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
