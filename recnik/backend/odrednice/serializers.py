@@ -332,7 +332,10 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         for kvod in kvalifikatori_odrednice:
             KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
         for izr_frz in izrazi_fraze:
-            IzrazFraza.objects.create(odrednica=odrednica, **izr_frz)
+            kvalifikatori_fraze = izr_frz.pop('kvalifikatori', [])
+            iz = IzrazFraza.objects.create(odrednica=odrednica, **izr_frz)
+            for kv in kvalifikatori_fraze:
+                KvalifikatorFraze.objects.create(izrazfraza=iz, **kv)
         for znacenje in znacenja:
             kvalifikatori = znacenje.pop('kvalifikatori', [])
             podznacenja = znacenje.pop('podznacenja', [])
@@ -342,7 +345,10 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             for k in kvalifikatori:
                 KvalifikatorZnacenja.objects.create(znacenje=z, **k)
             for ifz in izrazi_fraze_znacenja:
+                kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
                 IzrazFraza.objects.create(znacenje=z, **ifz)
+                for kv in kvalifikatori_fraze:
+                    KvalifikatorFraze.objects.create(izrazfraza=iz, **kv)
             for konz in konkordanse_znacenja:
                 Konkordansa.objects.create(znacenje=z, **konz)
             for podz in podznacenja:
@@ -353,7 +359,10 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 for k in kvalifikatori_podznacenja:
                     KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
                 for ifp in izrazi_fraze_podznacenja:
+                    kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
                     IzrazFraza.objects.create(podznacenje=p, **ifp)
+                    for kv in kvalifikatori_fraze:
+                        KvalifikatorFraze.objects.create(izrazfraza=iz, **kv)
                 for konz in konkordanse_podznacenja:
                     Konkordansa.objects.create(podznacenje=p, **konz)
         for sin in sinonimi:

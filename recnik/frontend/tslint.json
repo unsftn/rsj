@@ -29,8 +29,8 @@
     },
     "max-classes-per-file": false,
     "max-line-length": [
-      true,
-      140
+      false,
+      1400
     ],
     "member-ordering": [
       true,
@@ -139,13 +139,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      // "app",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      // "app",
       "kebab-case"
     ]
   },
