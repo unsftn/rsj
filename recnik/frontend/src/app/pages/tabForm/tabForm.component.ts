@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 
@@ -24,8 +23,6 @@ export class TabFormComponent implements OnInit {
   isVerb: boolean;
   wordE: string;
   wordI: string;
-  display = false;
-  message: SafeHtml;
   selectedGender: Gender;
   extension;
   variants: Variant[];
@@ -44,7 +41,7 @@ export class TabFormComponent implements OnInit {
   selectedState: StanjeOdrednice;
   qualificators: Qualificator[] = [];
   id: number;
-  formMode: number;  // 1 - nova odrednica; 2 - edit postojece
+  editMode: boolean;  // false: nova odrednica; true: edit postojece
   optionalSe: boolean;
 
   meanings: any[] = [];
@@ -52,6 +49,10 @@ export class TabFormComponent implements OnInit {
   expressions: any[] = [];
 
   errorMsg: string;
+  showInfoDialog = false;
+  showWarningDialog = false;
+  message: SafeHtml;
+  moveToHome = false;
 
   addVariant(): void {
     this.variants.push({ nameE: '', nameI: '' });
@@ -102,6 +103,7 @@ export class TabFormComponent implements OnInit {
     private qualificatorService: QualificatorService,
     private enumService: EnumService,
     private domSanitizer: DomSanitizer,
+    private router: Router,
   ) {
     this.variants = [];
     this.isNoun = true;
@@ -110,24 +112,57 @@ export class TabFormComponent implements OnInit {
     this.selectedWordType = this.enumService.getWordType(1);
   }
 
-  async save(): Promise<void> {
-    if (this.formMode === 2) {
-      this.message = this.domSanitizer.bypassSecurityTrustHtml(
-        '<p>Ажурирање постојећих одредница још није имплементирано.</p>');
-      this.display = true;
+  close(): void {
+    this.showInfoDialog = false;
+    if (this.moveToHome) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  yes(): void {
+    this.odrednicaService.delete(this.id).subscribe(
+      (status) => {
+        this.showWarningDialog = false;
+        this.message = 'Одредница је успешно обрисана.';
+        this.showInfoDialog = true;
+        this.moveToHome = true;
+      }, (error) => {
+        this.showWarningDialog = false;
+        this.message = 'Грешка: ' + error;
+        this.showInfoDialog = true;
+      });
+  }
+
+  no(): void {
+    this.showWarningDialog = false;
+  }
+
+  delete(): void {
+    if (!this.editMode) {
       return;
     }
-    this.odrednicaService.saveOdrednica(this.makeNewDeterminant()).subscribe(
+    this.message = 'Да ли сте сигурни да желите да обришете ову одредницу? Брисање се не може опозвати.';
+    this.showWarningDialog = true;
+  }
+
+  async save(): Promise<void> {
+    if (this.editMode) {
+      this.message = this.domSanitizer.bypassSecurityTrustHtml(
+        '<p>Ажурирање постојећих одредница још није имплементирано.</p>');
+      this.showInfoDialog = true;
+      return;
+    }
+    this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
       (data) => {
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
           '<p>Успешно додата нова одредница.</p>');
-        this.display = true;
+        this.showInfoDialog = true;
       },
       (error) => {
         console.log(error);
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
           '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
-        this.display = true;
+        this.showInfoDialog = true;
       });
     // const response: any = await this.odrednicaService
     //   .saveOdrednica(this.makeNewDeterminant())
@@ -149,13 +184,13 @@ export class TabFormComponent implements OnInit {
   finish(): void {
     this.message = this.domSanitizer.bypassSecurityTrustHtml(
       '<p>Операција још није имплементирана.</p>');
-    this.display = true;
+    this.showInfoDialog = true;
   }
 
   preview(): void {
     const tekst = this.previewService.preview(this.makeNewDeterminant());
     this.message = this.domSanitizer.bypassSecurityTrustHtml(tekst);
-    this.display = true;
+    this.showInfoDialog = true;
   }
 
   onChangeWordType(): void {
@@ -201,15 +236,15 @@ export class TabFormComponent implements OnInit {
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
-          this.formMode = 1;
+          this.editMode = false;
           this.id = null;
           this.selectedState = this.enumService.getEntryState(1);
           break;
         case 'edit':
-          this.formMode = 2;
+          this.editMode = true;
           this.route.params.subscribe((params) => {
             this.id = +params.id;
-            this.odrednicaService.getOdrednica(this.id).subscribe((value) => {
+            this.odrednicaService.get(this.id).subscribe((value) => {
               this.fillForm(value);
             });
           });

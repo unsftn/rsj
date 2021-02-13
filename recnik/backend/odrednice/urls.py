@@ -37,6 +37,7 @@ urlpatterns = [
     path('odrednica-changed/', OdrednicaLatestList.as_view(), name='odrednica-changed-list'),
     path('odrednica-popular/', OdrednicaPopularList.as_view(), name='odrednica-popular-list'),
     path('save-odrednica/', api_save_odrednica),
+    path('delete-odrednica/<int:odrednica_id>/', api_delete_odrednica),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

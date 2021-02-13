@@ -3,6 +3,7 @@
     <span class="word-title">{{wordE}}</span>
   </div>
   <div class="p-toolbar-group-right">
+    <p-button label="Обриши" (click)="delete()" styleClass="p-button-danger" icon="pi pi-times"></p-button>
     <p-button label="Тест 2" (click)="fillTestOdrednica2()" styleClass="p-button-help" icon="pi pi-heart"></p-button>
     <p-button label="Тест 1" (click)="fillTestOdrednica1()" styleClass="p-button-help" icon="pi pi-heart"></p-button>
     <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search"></p-button>
@@ -10,8 +11,18 @@
     <p-button label="Заврши обраду" (click)="finish()" styleClass="p-button-success" icon="pi pi-check"></p-button>
   </div>
 </p-toolbar>
-<p-dialog header="&nbsp;" [(visible)]="display" [style]="{width: '50vw'}">
+<p-dialog header="&nbsp;" [(visible)]="showInfoDialog" [style]="{width: '50vw'}">
   <div [innerHTML]="message"></div>
+  <div class="p-d-flex p-jc-end">
+    <div><p-button label="OK" (click)="close()" styleClass="p-button-success"></p-button></div>
+  </div>
+</p-dialog>
+<p-dialog header="Упозорење" [(visible)]="showWarningDialog" [style]="{width: '50vw'}">
+  <div [innerHTML]="message"></div>
+  <div class="p-d-flex p-jc-end">
+    <p-button label="Да" (click)="yes()" styleClass="p-button-danger" icon="pi pi-times"></p-button>
+    <p-button label="Не" (click)="no()" styleClass="p-button-secondary" icon="pi pi-undo"></p-button>
+  </div>
 </p-dialog>
 <div class="basic-information-container">
   <div class="p-d-flex p-flex-column p-flex-md-row">

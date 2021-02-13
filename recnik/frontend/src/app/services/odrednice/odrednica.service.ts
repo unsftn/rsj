@@ -9,15 +9,19 @@ import { Determinant } from '../../models/determinant';
 export class OdrednicaService {
   constructor(private httpClient: HttpClient) {}
 
-  getOdrednica(id: number): Observable<any> {
+  get(id: number): Observable<any> {
     return this.httpClient.get(`/api/odrednice/odrednica/${id}/`);
   }
 
-  saveOdrednica(odrednica: Determinant): Observable<any> {
+  save(odrednica: Determinant): Observable<any> {
     return this.httpClient.post('/api/odrednice/save-odrednica/', odrednica);
   }
 
   preview(odrednica: Determinant): Observable<any> {
     return this.httpClient.post('/api/render/odrednica-preview/', odrednica);
+  }
+
+  delete(id: number): Observable<any> {
+    return this.httpClient.delete(`/api/odrednice/delete-odrednica/${id}/`);
   }
 }
