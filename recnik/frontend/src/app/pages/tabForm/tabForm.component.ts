@@ -42,6 +42,7 @@ export class TabFormComponent implements OnInit {
   qualificators: Qualificator[] = [];
   id: number;
   editMode: boolean;  // false: nova odrednica; true: edit postojece
+  version = 1;
   optionalSe: boolean;
 
   meanings: any[] = [];
@@ -145,25 +146,35 @@ export class TabFormComponent implements OnInit {
     this.showWarningDialog = true;
   }
 
-  async save(): Promise<void> {
+  save(): void {
     if (this.editMode) {
-      this.message = this.domSanitizer.bypassSecurityTrustHtml(
-        '<p>Ажурирање постојећих одредница још није имплементирано.</p>');
-      this.showInfoDialog = true;
-      return;
+      this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
+        (data) => {
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            '<p>Успешно сачувана одредница.</p>');
+          this.showInfoDialog = true;
+        },
+       (error) => {
+          console.log(error);
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            `<p>Грешка приликом снимања одреднице: ${error}</p>`);
+          this.showInfoDialog = true;
+        });
+
+    } else {
+      this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
+        (data) => {
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            '<p>Успешно додата нова одредница.</p>');
+          this.showInfoDialog = true;
+        },
+       (error) => {
+          console.log(error);
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
+          this.showInfoDialog = true;
+        });
     }
-    this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
-      (data) => {
-        this.message = this.domSanitizer.bypassSecurityTrustHtml(
-          '<p>Успешно додата нова одредница.</p>');
-        this.showInfoDialog = true;
-      },
-      (error) => {
-        console.log(error);
-        this.message = this.domSanitizer.bypassSecurityTrustHtml(
-          '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
-        this.showInfoDialog = true;
-      });
   }
 
   finish(): void {
@@ -258,7 +269,7 @@ export class TabFormComponent implements OnInit {
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
       prezent: this.present ? this.present : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
-      version: 1, // TODO: sacuvaj prilikom edita postojece odrednice
+      version: this.version,
       opciono_se: this.optionalSe,
       kolokacija_set: this.collocations ? this.collocations : [],
       kvalifikatori: this.qualificators.map((q, index) => {
@@ -331,7 +342,7 @@ export class TabFormComponent implements OnInit {
         };
       }) : [],
     };
-    if (this.id !== null) {
+    if (this.editMode) {
       determinant.id = this.id;
     }
     console.log('Sastavljeno za server:', determinant);
@@ -340,6 +351,8 @@ export class TabFormComponent implements OnInit {
 
   fillForm(value: any): void {
     console.log('Procitano sa servera:', value);
+    this.id = value.id;
+    this.version = value.version;
     this.wordE = value.rec;
     this.wordI = value.ijekavski;
     for (const v of value.varijantaodrednice_set) {

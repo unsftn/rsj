@@ -1,5 +1,9 @@
+import logging
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import *
+
+log = logging.getLogger(__name__)
 
 
 # read-only serializers
@@ -247,15 +251,82 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
 
     def create(self, validated_data):
+        return self._save(validated_data)
+        # sada = now()
+        # user_id = validated_data.pop('user_id')
+        # znacenja = validated_data.pop('znacenja', [])
+        # kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
+        # varijante = validated_data.pop('varijante', [])
+        # izrazi_fraze = validated_data.pop('izrazi_fraze', [])
+        # sinonimi = validated_data.pop('sinonimi', [])
+        # antonimi = validated_data.pop('antonimi', [])
+        # odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
+        # for var_odr in varijante:
+        #     VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
+        # for kvod in kvalifikatori_odrednice:
+        #     KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
+        # for izr_frz in izrazi_fraze:
+        #     IzrazFraza.objects.create(odrednica=odrednica, **izr_frz)
+        # for znacenje in znacenja:
+        #     kvalifikatori = znacenje.pop('kvalifikatori', [])
+        #     podznacenja = znacenje.pop('podznacenja', [])
+        #     izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
+        #     konkordanse_znacenja = znacenje.pop('konkordanse', [])
+        #     z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
+        #     for k in kvalifikatori:
+        #         KvalifikatorZnacenja.objects.create(znacenje=z, **k)
+        #     for ifz in izrazi_fraze_znacenja:
+        #         IzrazFraza.objects.create(znacenje=z, **ifz)
+        #     for konz in konkordanse_znacenja:
+        #         Konkordansa.objects.create(znacenje=z, **konz)
+        #     for podz in podznacenja:
+        #         kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
+        #         izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
+        #         konkordanse_podznacenja = podz.pop('konkordanse', [])
+        #         p = Podznacenje.objects.create(znacenje=z, **podz)
+        #         for k in kvalifikatori_podznacenja:
+        #             KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
+        #         for ifp in izrazi_fraze_podznacenja:
+        #             IzrazFraza.objects.create(podznacenje=p, **ifp)
+        #         for konz in konkordanse_podznacenja:
+        #             Konkordansa.objects.create(podznacenje=p, **konz)
+        # for sin in sinonimi:
+        #     Sinonim.objects.create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
+        # for ant in antonimi:
+        #     Antonim.objects.create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
+        #
+        # naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
+        # operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
+        # IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada, odrednica=odrednica,
+        #                                operacija_izmene=operacija_izmene)
+
+    def update(self, instance, validated_data):
+        Znacenje.objects.filter(odrednica_id=instance.id).delete()
+        IzrazFraza.objects.filter(odrednica_id=instance.id).delete()
+        KvalifikatorOdrednice.objects.filter(odrednica_id=instance.id).delete()
+        # TODO: delete all related objects properly
+        # Antonim.objects.filter(ima_antonim_id=instance.id).delete()
+        # Sinonim.objects.filter(ima_sinonim_id=instance.id).delete()
+        # Kolokacija.objects.filter(odrednica_id=instance.id).delete()
+        # RecUKolokaciji.objects.filter(odrednica_id=instance.id).delete()
+
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, odrednica=None):
+        radimo_update = odrednica is None
+        user = validated_data.pop('user')
+        odrednica_id = validated_data.get('id')
+
         sada = now()
-        user_id = validated_data.pop('user_id')
         znacenja = validated_data.pop('znacenja', [])
         kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
         varijante = validated_data.pop('varijante', [])
         izrazi_fraze = validated_data.pop('izrazi_fraze', [])
         sinonimi = validated_data.pop('sinonimi', [])
         antonimi = validated_data.pop('antonimi', [])
-        odrednica = Odrednica.objects.create(vreme_kreiranja=sada, poslednja_izmena=sada, **validated_data)
+
+        odrednica, created = Odrednica.objects.update_or_create(defaults=validated_data, id=odrednica_id)
+
         for var_odr in varijante:
             VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
         for kvod in kvalifikatori_odrednice:
@@ -290,36 +361,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         for ant in antonimi:
             Antonim.objects.create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
 
-        naziv = 'Kreiranje odrednice: ' + str(odrednica.id)
-        operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
-        IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada, odrednica=odrednica,
-                                       operacija_izmene=operacija_izmene)
+        operacija_izmene_id = 2 if radimo_update else 1
+        IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica,
+                                       operacija_izmene_id=operacija_izmene_id)
         return odrednica
-
-    def update(self, instance, validated_data):
-        # TODO: not implemented properly
-        sada = now()
-        user_id = validated_data['user_id']
-        del validated_data['user_id']
-        for (key, value) in validated_data.items():
-            setattr(instance, key, value)
-
-        Antonim.objects.filter(ima_antonim_id=instance).delete()
-        Antonim.objects.filter(u_vezi_sa_id=instance).delete()
-        Sinonim.objects.filter(ima_sinonim_id=instance).delete()
-        Sinonim.objects.filter(u_vezi_sa_id=instance).delete()
-        Kolokacija.objects.filter(odrednica=instance).delete()
-        RecUKolokaciji.objects.filter(odrednica=instance).delete()
-        Znacenje.objects.filter(odrednica=instance).delete()
-        IzrazFraza.objects.filter(odrednica=instance).delete()
-        KvalifikatorOdrednice.objects.filter(odrednica=instance).delete()
-
-        instance.version += 1
-        instance.poslednja_izmena = sada
-        instance.save()
-        naziv = 'Azuriranje odrednice: ' + str(instance.id)
-        operacija_izmene = OperacijaIzmene.objects.create(naziv=naziv)
-        IzmenaOdrednice.objects.create(user_id=user_id, vreme=sada,
-                                       odrednica=instance,
-                                       operacija_izmene=operacija_izmene)
-        return instance

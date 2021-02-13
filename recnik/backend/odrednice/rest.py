@@ -231,7 +231,7 @@ JSON = 'application/json'
 
 
 @api_view(['POST', 'PUT'])
-# @permission_classes([permissions.AllowAny])
+@permission_classes([permissions.AllowAny])
 def api_save_odrednica(request):
     if request.method == 'POST':
         serializer = CreateOdrednicaSerializer(data=request.data)
@@ -244,7 +244,7 @@ def api_save_odrednica(request):
             return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
     if serializer.is_valid():
         try:
-            odrednica = serializer.save(user_id=request.user.id)
+            odrednica = serializer.save(user=request.user)
         except RecordModifiedError:
             return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT, content_type=JSON)
         ser2 = OdrednicaSerializer(odrednica)
@@ -261,7 +261,7 @@ def api_save_odrednica(request):
 def api_delete_odrednica(request, odrednica_id):
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        # TODO: proveri da li korisnik ima prava da obrise odrednicu
+        # TODO: proveri da li korisnik ima pravo da obrise odrednicu
         odrednica.delete()
     except Odrednica.DoesNotExist:
         return Response({'error': 'entry not found'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)

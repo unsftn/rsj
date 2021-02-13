@@ -61,32 +61,11 @@
         }
     },
     {
-        "model": "odrednice.OperacijaIzmene",
-        "pk": 1,
-        "fields": {
-            "naziv": "prva operacija izmene"
-        }
-    },
-    {
-        "model": "odrednice.OperacijaIzmene",
-        "pk": 2,
-        "fields": {
-            "naziv": "druga operacija izmene"
-        }
-    },
-    {
-        "model": "odrednice.OperacijaIzmene",
-        "pk": 3,
-        "fields": {
-            "naziv": "treca operacija izmene"
-        }
-    },
-    {
         "model": "odrednice.IzmenaOdrednice",
         "pk": 1,
         "fields": {
             "odrednica_id": 1,
-            "operacija_izmene_id": 2,
+            "operacija_izmene_id": 1,
             "user_id": 1,
             "vreme": "2020-12-07T16:16:28+01:00"
         }
@@ -96,7 +75,7 @@
         "pk": 2,
         "fields": {
             "odrednica_id": 1,
-            "operacija_izmene_id": 1,
+            "operacija_izmene_id": 2,
             "user_id": 1,
             "vreme": "2020-12-07T16:16:28+01:00"
         }

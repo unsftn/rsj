@@ -17,6 +17,10 @@ export class OdrednicaService {
     return this.httpClient.post('/api/odrednice/save-odrednica/', odrednica);
   }
 
+  update(odrednica: Determinant): Observable<any> {
+    return this.httpClient.put('/api/odrednice/save-odrednica/', odrednica);
+  }
+
   preview(odrednica: Determinant): Observable<any> {
     return this.httpClient.post('/api/render/odrednica-preview/', odrednica);
   }

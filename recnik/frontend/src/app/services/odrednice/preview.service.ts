@@ -19,9 +19,9 @@ export class PreviewService {
         if (odrednica.nastavak) {
           tekst += `, ${odrednica.nastavak}`;
         }
-        tekst += ` <small>${this.rod[odrednica.rod]}</small>`;
+        tekst += ` <small>${this.rod[odrednica.rod]}</small> `;
         if (odrednica.info) {
-          tekst += ` (${odrednica.info}) `;
+          tekst += `(${odrednica.info}) `;
         }
         break;
       case 1: // glagol

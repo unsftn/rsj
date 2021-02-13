@@ -30,7 +30,7 @@ def get_jwt_token():
 
 
 class TestOdredniceApi(TestCase):
-    fixtures = ['users', 'kvalifikatori', 'odrednice', 'vrste_publikacija', 'publikacije']
+    fixtures = ['users', 'kvalifikatori', 'operacije-izmene', 'odrednice', 'vrste_publikacija', 'publikacije']
 
     def setUp(self) -> None:
         self.token = f'Bearer {get_jwt_token()}'
@@ -153,18 +153,18 @@ class TestOdredniceApi(TestCase):
 
     def test_get_operacija_izmene_by_id(self):
         c = Client()
-        prvaOperacijaIzmene = OperacijaIzmene.objects.get(pk=2)
-        response = c.get(prvaOperacijaIzmene.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
+        oper = OperacijaIzmene.objects.get(pk=2)
+        response = c.get(oper.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(result['naziv'], 'druga operacija izmene')
+        self.assertEquals(result['naziv'], 'Ажурирање одреднице')
 
     def test_get_operacije_izmena_list(self):
         c = Client()
         response = c.get(OPERACIJA_IZMENE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(len(result), 3)
+        self.assertEquals(len(result), 5)
 
     def test_get_izmena_odrednice_by_id(self):
         c = Client()
@@ -174,7 +174,7 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(result['user_id'], 1)
         self.assertEquals(result['odrednica_id'], 1)
-        self.assertEquals(result['operacija_izmene_id'], 2)
+        self.assertEquals(result['operacija_izmene_id'], 1)
 
     def test_get_izemene_odrednica_list(self):
         c = Client()
@@ -447,34 +447,33 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(odrednica.ima_antonim.get(redni_broj=1).u_vezi_sa.id, 2)
 
     def test_concurrent_update_odrednice(self):
+        odr1 = Odrednica.objects.get(pk=1)
+        odr2 = Odrednica.objects.get(pk=1)
+
         data_obj1 = {
-            'id': 1,
+            'id': odr1.id,
             'rec': 'update 1',
-            'vrsta': 0,
-            'rod': 1,
-            'version': 1,
+            'vrsta': odr1.vrsta,
+            'rod': odr1.rod,
+            'version': odr1.version,
             'znacenja': []
         }
         data_obj2 = {
-            'id': 1,
+            'id': odr2.id,
             'rec': 'update 2',
-            'vrsta': 0,
-            'rod': 1,
-            'version': 1,
+            'vrsta': odr2.vrsta,
+            'rod': odr2.rod,
+            'version': odr2.version,
             'znacenja': []
         }
         c1 = Client()
         r1 = c1.put('/api/odrednice/save-odrednica/', data=data_obj1, HTTP_AUTHORIZATION=self.token,
                     content_type=JSON)
-        if r1.status_code != status.HTTP_204_NO_CONTENT:
-            print(r1.content.decode('UTF-8'))
         self.assertEquals(r1.status_code, status.HTTP_204_NO_CONTENT)
         c2 = Client()
         r2 = c2.put('/api/odrednice/save-odrednica/', data=data_obj2, HTTP_AUTHORIZATION=self.token,
                     content_type=JSON)
         self.assertEquals(r2.status_code, status.HTTP_409_CONFLICT)
-        if r2.status_code != status.HTTP_409_CONFLICT:
-            print(r2.content.decode('UTF-8'))
 
     def xtest_update_odrednica(self):
         request_object = {
@@ -507,7 +506,7 @@ class TestOdredniceApi(TestCase):
         br_izmena_new = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         self.assertEquals(br_izmena + 1, br_izmena_new)
 
-    def xtest_update_odrednica_bez_setova(self):
+    def test_update_odrednica_bez_setova(self):
         request_object = {
             'id': 1,
             'rec': 'test bez',
@@ -518,9 +517,7 @@ class TestOdredniceApi(TestCase):
             'glagolski_vid': 0,
             'glagolski_rod': 0,
             'prezent': 'реч',
-            'broj_pregleda': 1,
             'stanje': 2,
-            'version': 1,
             'znacenja': []
         }
 
