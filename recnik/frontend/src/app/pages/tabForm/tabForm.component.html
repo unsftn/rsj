@@ -3,14 +3,13 @@
     <span class="word-title">{{wordE}}</span>
   </div>
   <div class="p-toolbar-group-right">
-    <p-button label="4" (click)="fillTestOdrednica4()" styleClass="p-button-help"></p-button>
-    <p-button label="3" (click)="fillTestOdrednica3()" styleClass="p-button-help"></p-button>
-    <p-button label="2" (click)="fillTestOdrednica2()" styleClass="p-button-help"></p-button>
-    <p-button label="1" (click)="fillTestOdrednica1()" styleClass="p-button-help"></p-button>
-    <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times"></p-button>
-    <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search"></p-button>
-    <p-button label="Сачувај" (click)="save()" icon="pi pi-save"></p-button>
-    <p-button label="Заврши обраду" (click)="finish()" styleClass="p-button-success" icon="pi pi-check"></p-button>
+
+    <p-menu #primeriMenu [model]="primeri" [popup]="true" appendTo="body"></p-menu>
+    <p-button label="Примери" icon="pi pi-list" styleClass="p-button-help" (click)="primeriMenu.toggle($event)" class="p-ml-2"></p-button>
+    <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>
+    <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search" class="p-ml-2"></p-button>
+    <p-button label="Сачувај" (click)="save()" icon="pi pi-save" class="p-ml-2"></p-button>
+    <p-button label="Заврши обраду" (click)="finish()" styleClass="p-button-success" icon="pi pi-check" class="p-ml-2"></p-button>
   </div>
 </p-toolbar>
 <p-dialog header="&nbsp;" [(visible)]="showInfoDialog" [style]="{width: '50vw'}">

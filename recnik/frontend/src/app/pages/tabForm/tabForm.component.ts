@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 import { ODREDNICA_1, ODREDNICA_2, ODREDNICA_3, ODREDNICA_4 } from '../../examples';
@@ -55,6 +55,21 @@ export class TabFormComponent implements OnInit {
   showWarningDialog = false;
   message: SafeHtml;
   nextRoute: any[];
+
+  primeri: MenuItem[] = [{
+      label: 'ски̏нути',
+      command: (event) => this.fillTestOdrednica1(),
+    }, {
+      label: 'а (узвик)',
+      command: (event) => this.fillTestOdrednica2(),
+    }, {
+      label: 'али',
+      command: (event) => this.fillTestOdrednica3(),
+    }, {
+      label: 'ски̏јати (се)',
+      command: (event) => this.fillTestOdrednica4(),
+    }
+  ];
 
   addVariant(): void {
     this.variants.push({nameE: '', nameI: ''});
