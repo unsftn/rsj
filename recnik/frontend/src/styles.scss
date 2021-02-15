@@ -21,7 +21,7 @@ body {
 }
 
 a, p, h1, h2, h3, h4, h5, h6 {
-  font-family: "Lucida Sans Unicode", OrtoRNIDS, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Fira Sans", "Lucida Sans Unicode", OrtoRNIDS, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: #495057;
 }
 
@@ -31,24 +31,29 @@ a, p, h1, h2, h3, h4, h5, h6 {
 }
 
 .p-component {
-  font-family: 'Lucida Sans Unicode' !important;
+  // font-family: 'Lucida Sans Unicode' !important;
+  font-family: "Fira Sans";
 }
 
 .p-inputtext {
-  font-family: 'Lucida Sans Unicode' !important;
+  // font-family: 'Lucida Sans Unicode' !important;
+  font-family: "Fira Sans";
   min-height: 40px !important;
 }
 
 .p-tooltip {
-  font-family: 'Lucida Sans Unicode' !important;
+  // font-family: 'Lucida Sans Unicode' !important;
+  font-family: "Fira Sans";
 }
 
 textarea {
-  font-family: 'Lucida Sans Unicode' !important;
+  // font-family: 'Lucida Sans Unicode' !important;
+  font-family: "Fira Sans";
 }
 
 .p-checkbox-label {
-  font-family: 'Lucida Sans Unicode' !important;
+  // font-family: 'Lucida Sans Unicode' !important;
+  font-family: "Fira Sans";
 }
 
 .p-dropdown {
@@ -122,6 +127,55 @@ textarea {
     font-weight: bold;
     text-rendering: optimizeLegibility;
 }
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('/assets/fonts/FiraSans-Regular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('/assets/fonts/FiraSans-SemiBold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('/assets/fonts/FiraSans-Italic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Fira Sans Condensed';
+    src: url('/assets/fonts/FiraSansCondensed-Regular.woff2') format('woff2');
+    font-style: normal;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Fira Sans Condensed';
+    src: url('/assets/fonts/FiraSansCondensed-SemiBold.woff2') format('woff2');
+    font-style: normal;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Fira Sans Condensed';
+    src: url('/assets/fonts/FiraSansCondensed-Italic.woff2') format('woff2');
+    font-style: italic;
+    font-weight: normal;
+    text-rendering: optimizeLegibility;
+}
+
 
 .onum {font-feature-settings: "onum";}  /* oldstyle numerals */
 .tnum {font-feature-settings: "tnum";}  /* tabular numerals */
