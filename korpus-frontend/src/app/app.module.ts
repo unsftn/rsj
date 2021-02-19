@@ -30,6 +30,11 @@ import { ImenicaComponent } from './components/imenica/imenica.component';
 import { GlagolComponent } from './components/glagol/glagol.component';
 import { PridevComponent } from './components/pridev/pridev.component';
 import { LoginComponent } from './components/login/login.component';
+import { PredlogComponent } from './components/predlog/predlog.component';
+import { PrilogComponent } from './components/prilog/prilog.component';
+import { ReccaComponent } from './components/recca/recca.component';
+import { UzvikComponent } from './components/uzvik/uzvik.component';
+import { VeznikComponent } from './components/veznik/veznik.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,12 @@ import { LoginComponent } from './components/login/login.component';
     ImenicaComponent,
     GlagolComponent,
     PridevComponent,
-    LoginComponent
+    LoginComponent,
+    PredlogComponent,
+    PrilogComponent,
+    ReccaComponent,
+    UzvikComponent,
+    VeznikComponent
   ],
   imports: [
     BrowserModule,

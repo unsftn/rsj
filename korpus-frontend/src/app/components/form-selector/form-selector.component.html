@@ -21,4 +21,9 @@
     <imenica *ngIf="selectedWordType.name==='именица'" [imenica]=imenica (imenicaChanged)="imenicaChangedHandler($event)"></imenica>
     <glagol *ngIf="selectedWordType.name==='глагол'" [glagol]=glagol (glagolChanged)="glagolChangedHandler($event)"></glagol>
     <pridev *ngIf="selectedWordType.name==='придев'" [pridev]=pridev (pridevChanged)="pridevChangedHandler($event)"></pridev>
+    <prilog *ngIf="selectedWordType.name==='прилог'" [prilog]=prilog (prilogChanged)="prilogChangedHandler($event)"></prilog>
+    <predlog *ngIf="selectedWordType.name==='предлог'" [predlog]=predlog (predlogChanged)="predlogChangedHandler($event)"></predlog>
+    <uzvik *ngIf="selectedWordType.name==='узвик'" [uzvik]=uzvik (uzvikChanged)="uzvikChangedHandler($event)"></uzvik>
+    <recca *ngIf="selectedWordType.name==='речца'" [recca]=recca (reccaChanged)="reccaChangedHandler($event)"></recca>
+    <veznik *ngIf="selectedWordType.name==='везник'" [veznik]=veznik (veznikChanged)="veznikChangedHandler($event)"></veznik>
 </div>
