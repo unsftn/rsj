@@ -31,7 +31,8 @@ export class PredlogComponent implements OnInit {
       this.getPredlogById();
       this.predlog = { // test case, delete if getting data from the server
         id: this.id,
-        tekst: 'тест'
+        tekst: 'тест',
+        version: 1
       };
     }
   }
@@ -49,7 +50,7 @@ export class PredlogComponent implements OnInit {
     if (response) {
       this.predlog = response.map((item: Predlog) => {
         return {
-          tekst: item.tekst, id: item.id
+          tekst: item.tekst, id: item.id, version: item.version
         };
       });
     }

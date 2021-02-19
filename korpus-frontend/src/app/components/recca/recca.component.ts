@@ -31,7 +31,8 @@ export class ReccaComponent implements OnInit {
       this.getReccaById();
       this.recca = { // test case, delete if getting data from the server
         id: this.id,
-        tekst: 'тест'
+        tekst: 'тест',
+        version: 1
       };
     }
   }
@@ -49,7 +50,7 @@ export class ReccaComponent implements OnInit {
     if (response) {
       this.recca = response.map((item: Recca) => {
         return {
-          tekst: item.tekst, id: item.id
+          tekst: item.tekst, id: item.id, version: item.version
         };
       });
     }

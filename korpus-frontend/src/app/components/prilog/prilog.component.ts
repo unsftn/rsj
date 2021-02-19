@@ -31,7 +31,8 @@ export class PrilogComponent implements OnInit {
       this.getPrilogById();
       this.prilog = { // test case, delete if getting data from the server
         id: this.id,
-        tekst: 'тест'
+        tekst: 'тест',
+        version: 1
       };
     }
   }
@@ -49,7 +50,7 @@ export class PrilogComponent implements OnInit {
     if (response) {
       this.prilog = response.map((item: Prilog) => {
         return {
-          tekst: item.tekst, id: item.id
+          tekst: item.tekst, id: item.id, version: item.version
         };
       });
     }

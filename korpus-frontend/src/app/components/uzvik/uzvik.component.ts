@@ -31,7 +31,8 @@ export class UzvikComponent implements OnInit {
       this.getUzvikById();
       this.uzvik = { // test case, delete if getting data from the server
         id: this.id,
-        tekst: 'тест'
+        tekst: 'тест',
+        version: 1
       };
     }
   }
@@ -49,7 +50,7 @@ export class UzvikComponent implements OnInit {
     if (response) {
       this.uzvik = response.map((item: Uzvik) => {
         return {
-          tekst: item.tekst, id: item.id
+          tekst: item.tekst, id: item.id, version: item.version
         };
       });
     }
