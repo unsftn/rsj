@@ -49,9 +49,15 @@
     font-size: 25px;
     margin: 0;
     a {
-      text-decoration: none;
-      color: #495057;
+        font-family: 'Fira Sans Condensed' !important;
+        text-decoration: none;
+        color: #495057;
     }
+}
+
+.search-component {
+    min-height: 40px !important;
+    font-family: "Fira Sans";
 }
   
 .menu-button {

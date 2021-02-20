@@ -3,9 +3,19 @@ import { MessageService } from 'primeng/api';
 import { ImenicaService } from '../../services/imenica/imenica.service';
 import { GlagolService } from '../../services/glagol/glagol.service';
 import { PridevService } from '../../services/pridev/pridev.service';
+import { PredlogService } from '../../services/predlog/predlog.service';
+import { PrilogService } from '../../services/prilog/prilog.service';
+import { ReccaService } from '../../services/recca/recca.service';
+import { UzvikService } from '../../services/uzvik/uzvik.service';
+import { VeznikService } from '../../services/veznik/veznik.service';
 import { Imenica } from '../../models/imenica';
 import { Glagol } from '../../models/glagol';
-import { Pridev } from 'src/app/models/pridev';
+import { Pridev } from '../../models/pridev';
+import { Predlog } from '../../models/predlog';
+import { Prilog } from '../../models/prilog';
+import { Recca } from '../../models/recca';
+import { Uzvik } from '../../models/uzvik';
+import { Veznik } from '../../models/veznik';
 
 interface WordType {
   name: string;
@@ -26,9 +36,15 @@ export class FormSelectorComponent implements OnInit {
   imenica: Imenica;
   glagol: Glagol;
   pridev: Pridev;
+  predlog: Predlog;
+  prilog: Prilog;
+  recca: Recca;
+  uzvik: Uzvik;
+  veznik: Veznik;
 
-  constructor(private messageService: MessageService, private imenicaService: ImenicaService,
-    private glagolService: GlagolService, private pridevService: PridevService) {
+  constructor(private messageService: MessageService, private imenicaService: ImenicaService, private glagolService: GlagolService,
+    private pridevService: PridevService, private predlogService: PredlogService, private prilogService: PrilogService,
+    private reccaService: ReccaService, private uzvikService: UzvikService, private veznikService: VeznikService) {
     this.wordTypes = [
       { name: 'именица' },
       { name: 'глагол' },
@@ -88,14 +104,19 @@ export class FormSelectorComponent implements OnInit {
       case 'број':
         break;
       case 'прилог':
+        this.savePrilog();
         break;
       case 'предлог':
+        this.savePredlog();
         break;
       case 'узвик':
+        this.saveUzvik();
         break;
       case 'речца':
+        this.saveRecca();
         break;
       case 'везник':
+        this.saveVeznik();
         break;
       default:
         break;
@@ -198,6 +219,151 @@ export class FormSelectorComponent implements OnInit {
     }
   }
 
+  async savePredlog() {
+    if (this.editMode) {
+      const response: any = await this.predlogService.editPredlog(this.predlog)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) { // TODO 409 Conflict => refresh
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Предлог је измењен'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+    else {
+      const response: any = await this.predlogService.savePredlog(this.predlog)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) {
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Предлог је сачуван'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+  }
+
+  async savePrilog() {
+    if (this.editMode) {
+      const response: any = await this.prilogService.editPrilog(this.prilog)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) { // TODO 409 Conflict => refresh
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Прилог је измењен'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+    else {
+      const response: any = await this.prilogService.savePrilog(this.prilog)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) {
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Прилог је сачуван'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+  }
+
+  async saveRecca() {
+    if (this.editMode) {
+      const response: any = await this.reccaService.editRecca(this.recca)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) { // TODO 409 Conflict => refresh
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Речца је измењена'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+    else {
+      const response: any = await this.reccaService.saveRecca(this.recca)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) {
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Речца је сачувана'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+  }
+
+  async saveUzvik() {
+    if (this.editMode) {
+      const response: any = await this.uzvikService.editUzvik(this.uzvik)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) { // TODO 409 Conflict => refresh
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Узвик је измењен'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+    else {
+      const response: any = await this.uzvikService.saveUzvik(this.uzvik)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) {
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Узвик је сачуван'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+  }
+
+  async saveVeznik() {
+    if (this.editMode) {
+      const response: any = await this.veznikService.editVeznik(this.veznik)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) { // TODO 409 Conflict => refresh
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Везник је измењен'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+    else {
+      const response: any = await this.veznikService.saveVeznik(this.veznik)
+        .toPromise()
+        .catch(() => {
+          this.messageService.add({severity:'error', summary: 'Грешка', detail: 'Попуните сва потребна поља'});
+      });
+      if (response) {
+        this.messageService.add({severity:'success', summary: 'Сачувано', detail: 'Везник је сачуван'});
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
+      }
+    }
+  }
+
   handlePovratniGlagol(glagol: Glagol): Glagol {
     let keys = ['infinitiv', 'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps'];
     for (const key in glagol)
@@ -228,6 +394,31 @@ export class FormSelectorComponent implements OnInit {
   pridevChangedHandler(pridev: any): void {
     this.saveBtnDisabled = false;
     this.pridev = pridev;
+  }
+
+  predlogChangedHandler(predlog: any): void {
+    this.saveBtnDisabled = false;
+    this.predlog = predlog;
+  }
+
+  prilogChangedHandler(prilog: any): void {
+    this.saveBtnDisabled = false;
+    this.prilog = prilog;
+  }
+
+  reccaChangedHandler(recca: any): void {
+    this.saveBtnDisabled = false;
+    this.recca = recca;
+  }
+
+  uzvikChangedHandler(uzvik: any): void {
+    this.saveBtnDisabled = false;
+    this.uzvik = uzvik;
+  }
+
+  veznikChangedHandler(veznik: any): void {
+    this.saveBtnDisabled = false;
+    this.veznik = veznik;
   }
 
   back(): void {

@@ -1,0 +1,10 @@
+input {
+    width: 150px;
+    margin-left: 12px;
+    font-family: "Fira Sans";
+}
+
+:host ::ng-deep .p-inputtext {
+    height: 30px;
+    align-self: center;
+}
