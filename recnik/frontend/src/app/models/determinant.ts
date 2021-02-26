@@ -6,6 +6,7 @@ export interface Determinant {
   vrsta: number;
   rod?: number;
   nastavak?: string;
+  nastavak_ij?: string;
   info?: string;
   glagolski_vid?: number;
   glagolski_rod?: number;

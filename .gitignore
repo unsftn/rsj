@@ -158,6 +158,7 @@ speed-measure-plugin.json
 *.sublime-workspace
 
 # IDE - VSCode
+.vscode/
 .vscode/*
 
 media/

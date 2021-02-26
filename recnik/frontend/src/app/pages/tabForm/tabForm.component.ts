@@ -25,7 +25,8 @@ export class TabFormComponent implements OnInit {
   wordE: string;
   wordI: string;
   selectedGender: Gender;
-  extension;
+  extensionE;
+  extensionI;
   variants: Variant[];
 
   genders: Gender[];
@@ -101,7 +102,7 @@ export class TabFormComponent implements OnInit {
   }
 
   extensionChangedHandler(extension): void {
-    this.extension = extension;
+    this.extensionE = extension;
   }
 
   presentChangedHandler(present): void {
@@ -293,7 +294,8 @@ export class TabFormComponent implements OnInit {
       }),
       vrsta: this.selectedWordType?.id,
       rod: this.selectedGender?.id ? this.selectedGender?.id : null,
-      nastavak: this.extension ? this.extension : '',
+      nastavak: this.extensionE ? this.extensionE : '',
+      nastavak_ij: this.extensionI ? this.extensionI : '',
       info: this.details ? this.details : '',
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
@@ -422,6 +424,8 @@ export class TabFormComponent implements OnInit {
     this.version = value.version;
     this.wordE = value.rec;
     this.wordI = value.ijekavski;
+    this.extensionE = value.nastavak;
+    this.extensionI = value.nastavak_ij;
     for (const v of value.varijantaodrednice_set) {
       this.variants.push({nameE: v.tekst, nameI: v.ijekavski});
     }

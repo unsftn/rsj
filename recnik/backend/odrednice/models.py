@@ -53,6 +53,7 @@ class Odrednica(models.Model):
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
     rod = models.IntegerField('род', choices=ROD, default=0, blank=True, null=True)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
+    nastavak_ij = models.CharField('наставак ијекавски', max_length=50, blank=True, null=True)
     info = models.CharField('инфо', max_length=2000, blank=True, null=True)
     glagolski_vid = models.IntegerField('глаголски вид', choices=GLAGOLSKI_VID, blank=True, null=True)
     glagolski_rod = models.IntegerField('глаголски род', choices=GLAGOLSKI_ROD, blank=True, null=True)
@@ -116,6 +117,7 @@ class VarijantaOdrednice(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.CharField('текст', max_length=50)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
+    nastavak_ij = models.CharField('наставак ијекавски', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f'{str(self.odrednica)} / {self.redni_broj}: {self.tekst}'

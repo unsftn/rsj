@@ -1,9 +1,9 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <span class="word-title">{{wordE}}</span>
+    <span class="word-state">[{{selectedState.opis}}]</span>
   </div>
   <div class="p-toolbar-group-right">
-
     <p-menu #primeriMenu [model]="primeri" [popup]="true" appendTo="body"></p-menu>
     <p-button label="Примери" icon="pi pi-list" styleClass="p-button-help" (click)="primeriMenu.toggle($event)" class="p-ml-2"></p-button>
     <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>
@@ -35,10 +35,10 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field lucida" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field lucida" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
             </div>
             <div class="p-mb-2 p-mt-2" *ngIf="isVerb">
               <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"></p-checkbox>
@@ -48,10 +48,17 @@
       </div>
       <div class="p-d-flex">
         <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label p-m-0">Стање:</p>
+          <p class="label p-m-0">Наставак:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p class="label p-m-0">{{selectedState.opis}}</p>
+          <div class="p-d-flex p-flex-column p-flex-lg-row">
+            <div class="p-mb-2 p-mr-2">
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="Екавица" />
+            </div>
+            <div class="p-mb-2 p-mr-2">
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="Ијекавица" />
+            </div>
+          </div>
         </div>
       </div>
       <div class="p-d-flex">
@@ -107,14 +114,6 @@
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
           <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"></p-dropdown>
-        </div>
-      </div>
-      <div class="p-d-flex p-ai-start" *ngIf="isNoun">
-        <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label p-m-0">Наставак:</p>
-        </div>
-        <div class="p-md-8 p-lg-9">
-          <input type="text" pInputText [(ngModel)]="extension"/>
         </div>
       </div>
       <div class="p-d-flex p-ai-start" *ngIf="isVerb">
