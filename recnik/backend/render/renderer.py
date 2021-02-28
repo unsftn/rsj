@@ -14,6 +14,7 @@ log = logging.getLogger(__name__)
 AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
+SPECIAL_MARKS = ['аор.', 'пр. пр.', 'пр.пр.', 'р.пр.', 'р. пр.', 'трп.']
 
 
 def touch(path):
@@ -32,7 +33,7 @@ def dvotacka(tekst):
 def tacka(tekst):
     if len(tekst) < 1:
         return tekst
-    if tekst[-1] not in string.punctuation:
+    if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
         return tekst + '.'
     return tekst
 
@@ -43,6 +44,12 @@ def font_fetcher(url):
         font_file = open(font_path, 'r')
         return {'file_obj': font_file}
     return default_url_fetcher(url)
+
+
+def process_special_marks(tekst):
+    for mark in SPECIAL_MARKS:
+        tekst = tekst.replace(mark, f'<small>{mark}</small>')
+    return tekst
 
 
 def render_konkordanse(konkordanse):
@@ -119,14 +126,14 @@ def render_one(odrednica):
             html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
         html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
     if odrednica.vrsta == 1:  # glagol
         if odrednica.varijantaodrednice_set.count() > 0:
             html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
         if odrednica.prezent:
             html += f', {odrednica.prezent} '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
         if odrednica.glagolski_vid:
             html += f'<small>{GVID[odrednica.glagolski_vid]}</small> '
     if odrednica.vrsta == 2:  # pridev
