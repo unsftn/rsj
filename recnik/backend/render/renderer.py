@@ -103,21 +103,26 @@ def render_znacenje(znacenje):
             tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
     return tekst
 
+def render_varijanta(var):
+    return f'<b>{var.tekst}</b>' + ((', ' + var.nastavak) if var.nastavak else '')
 
 def render_one(odrednica):
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         html = f'<b>{odrednica.rec} (се)</b>'
     else:
         html = f'<b>{odrednica.rec}</b>'
-    if odrednica.varijantaodrednice_set.count() > 0:
-        html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
     if odrednica.vrsta == 0:  # imenica
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
+        if odrednica.varijantaodrednice_set.count() > 0:
+            html += ' и '
+            html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
         html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
             html += f' ({odrednica.info}) '
     if odrednica.vrsta == 1:  # glagol
+        if odrednica.varijantaodrednice_set.count() > 0:
+            html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
         if odrednica.prezent:
             html += f', {odrednica.prezent} '
         if odrednica.info:

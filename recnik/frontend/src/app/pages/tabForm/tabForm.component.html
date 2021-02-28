@@ -35,10 +35,10 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="Екавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="екавица" />
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="Ијекавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="ијекавица" />
             </div>
             <div class="p-mb-2 p-mt-2" *ngIf="isVerb">
               <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"></p-checkbox>
@@ -53,10 +53,10 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="Екавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица" />
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="Ијекавица" />
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица" />
             </div>
           </div>
         </div>
@@ -71,10 +71,10 @@
             <div *ngFor="let variant of variants; let i=index" class="col-sm-3">
               <div class="p-d-flex p-flex-column p-flex-lg-row">
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field lucida" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="Екавица" />
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица" />
                 </div>
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field lucida" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="Ијекавица" />
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица" />
                 </div>
                 <div class="p-mb-2 p-mr-2" style="width: 200px">
                   <button
@@ -85,6 +85,14 @@
                     class="p-button-rounded p-button-outlined p-button-danger add-button"
                     (click)="removeVariant(variant)">
                   </button>
+                </div>
+              </div>
+              <div class="p-d-flex p-flex-column p-flex-lg-row">
+                <div class="p-mb-2 p-mr-2">
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица" />
+                </div>
+                <div class="p-mb-2 p-mr-2">
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица" />
                 </div>
               </div>
             </div>

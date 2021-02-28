@@ -117,7 +117,7 @@ class OperacijaIzmeneOdredniceSerializer(serializers.ModelSerializer):
 class VarijantaOdredniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = VarijantaOdrednice
-        fields = ('id', 'redni_broj', 'tekst', 'ijekavski', 'nastavak')
+        fields = ('id', 'redni_broj', 'tekst', 'ijekavski', 'nastavak', 'nastavak_ij')
 
 
 class OdrednicaSerializer(serializers.ModelSerializer):
@@ -135,7 +135,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Odrednica
-        fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'info', 'glagolski_vid', 'glagolski_rod',
+        fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'nastavak_ij', 'info', 'glagolski_vid', 'glagolski_rod',
                   'prezent', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'version',
                   'varijantaodrednice_set', 'imaantonim_set', 'imasinonim_set', 'antonimuvezi_set', 'sinonimuvezi_set',
                   'kolokacija_set', 'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
@@ -229,6 +229,7 @@ class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     tekst = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    nastavak_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
 
 
 class CreateOdrednicaSerializer(serializers.Serializer):
@@ -238,6 +239,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     vrsta = serializers.IntegerField(required=False)
     rod = serializers.IntegerField(required=False, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    nastavak_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     info = serializers.CharField(max_length=2000, required=False, allow_blank=True, allow_null=True)
     glagolski_vid = serializers.IntegerField(required=False, allow_null=True)
     glagolski_rod = serializers.IntegerField(required=False, allow_null=True)
@@ -259,6 +261,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         Znacenje.objects.filter(odrednica_id=instance.id).delete()
         IzrazFraza.objects.filter(odrednica_id=instance.id).delete()
         KvalifikatorOdrednice.objects.filter(odrednica_id=instance.id).delete()
+        VarijantaOdrednice.objects.filter(odrednica_id=instance.id).delete()
         # TODO: delete all related objects properly
         # Antonim.objects.filter(ima_antonim_id=instance.id).delete()
         # Sinonim.objects.filter(ima_sinonim_id=instance.id).delete()

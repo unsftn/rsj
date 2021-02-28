@@ -14,13 +14,14 @@ export class PreviewService {
     if (odrednica.vrsta === 1 && odrednica.opciono_se) {
       tekst = `<div class="odrednica"><b>${odrednica.rec} (се)</b>`;
     }
-    if (odrednica.varijante.length > 0) {
-      tekst += ` (${odrednica.varijante.map(v => v.tekst).join(', ')})`;
-    }
     switch (odrednica.vrsta) {
       case 0: // imenica
         if (odrednica.nastavak) {
           tekst += `, ${odrednica.nastavak}`;
+        }
+        if (odrednica.varijante.length > 0) {
+          tekst += ' и ';
+          tekst += ` ${odrednica.varijante.map(v => '<b>' + v.tekst + '</b>' + (v.nastavak ? ', '+ v.nastavak : '')).join(', ')}`;
         }
         tekst += ` <small>${this.rod[odrednica.rod]}</small> `;
         if (odrednica.info) {
@@ -28,6 +29,10 @@ export class PreviewService {
         }
         break;
       case 1: // glagol
+        if (odrednica.varijante.length > 0) {
+          tekst += ' и ';
+          tekst += ` ${odrednica.varijante.map(v => '<b>' + v.tekst + '</b>' + (v.nastavak ? ', '+ v.nastavak : '')).join(', ')}`;
+        }
         if (odrednica.prezent) {
           tekst += `, ${odrednica.prezent} `;
         }

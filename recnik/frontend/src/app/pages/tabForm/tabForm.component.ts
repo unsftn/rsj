@@ -11,6 +11,8 @@ import * as primeri from '../../examples';
 interface Variant {
   nameE: string;
   nameI: string;
+  extensionE: string;
+  extensionI: string;
 }
 
 @Component({
@@ -25,8 +27,8 @@ export class TabFormComponent implements OnInit {
   wordE: string;
   wordI: string;
   selectedGender: Gender;
-  extensionE;
-  extensionI;
+  extensionE: string;
+  extensionI: string;
   variants: Variant[];
 
   genders: Gender[];
@@ -36,8 +38,8 @@ export class TabFormComponent implements OnInit {
   selectedVerbKind: VerbKind;
   selectedVerbForm: VerbForm;
   present: string;
-  details;
-  collocations;
+  details: string;
+  collocations: any[];
 
   selectedWordType: WordType;
   selectedState: StanjeOdrednice;
@@ -82,7 +84,7 @@ export class TabFormComponent implements OnInit {
   ];
 
   addVariant(): void {
-    this.variants.push({nameE: '', nameI: ''});
+    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '' });
   }
 
   removeVariant(variant): void {
@@ -290,6 +292,8 @@ export class TabFormComponent implements OnInit {
           redni_broj: index + 1,
           tekst: variant.nameE,
           ijekavski: variant.nameI,
+          nastavak: variant.extensionE,
+          nastavak_ij: variant.extensionI,
         };
       }),
       vrsta: this.selectedWordType?.id,
@@ -308,7 +312,7 @@ export class TabFormComponent implements OnInit {
         return {
           redni_broj: index + 1,
           kvalifikator_id: q.id,
-          skracenica: q.abbreviation
+          skracenica: q.abbreviation,
         };
       }),
       izrazi_fraze: this.expressions.map((value, idx) => {
@@ -427,7 +431,7 @@ export class TabFormComponent implements OnInit {
     this.extensionE = value.nastavak;
     this.extensionI = value.nastavak_ij;
     for (const v of value.varijantaodrednice_set) {
-      this.variants.push({nameE: v.tekst, nameI: v.ijekavski});
+      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij });
     }
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);
