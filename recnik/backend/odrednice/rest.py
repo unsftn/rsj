@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
+from render.renderer import render_one, render_one_div
 from .models import *
 from .serializers import *
 
@@ -266,3 +267,16 @@ def api_delete_odrednica(request, odrednica_id):
     except Odrednica.DoesNotExist:
         return Response({'error': 'entry not found'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+
+
+@api_view(['POST'])
+def api_preview_odrednica(request):
+    serializer = CreateOdrednicaSerializer(data=request.data)
+    if serializer.is_valid():
+        try:
+            odrednica = serializer.instantiate()
+            text = render_one_div(odrednica)
+            return Response(text, status=status.HTTP_200_OK, content_type='text/html')
+        except Exception as ex:
+            print(ex)
+            return Response({'error': str(ex)}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)

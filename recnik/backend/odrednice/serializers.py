@@ -1,6 +1,7 @@
 import logging
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from render.renderer import render_one
 from .models import *
 
 log = logging.getLogger(__name__)
@@ -254,6 +255,58 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False)
     antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
 
+    def instantiate(self):
+        znacenja = self.validated_data.pop('znacenja', [])
+        kvalifikatori_odrednice = self.validated_data.pop('kvalifikatori', [])
+        varijante = self.validated_data.pop('varijante', [])
+        izrazi_fraze = self.validated_data.pop('izrazi_fraze', [])
+        sinonimi = self.validated_data.pop('sinonimi', [])
+        antonimi = self.validated_data.pop('antonimi', [])
+        odrednica = Odrednica(**self.validated_data)
+        for var_odr in varijante:
+            VarijantaOdrednice(odrednica=odrednica, **var_odr)
+        for kvod in kvalifikatori_odrednice:
+            KvalifikatorOdrednice(odrednica=odrednica, **kvod)
+        for izr_frz in izrazi_fraze:
+            kvalifikatori_fraze = izr_frz.pop('kvalifikatori', [])
+            iz = IzrazFraza(odrednica=odrednica, **izr_frz)
+            for kv in kvalifikatori_fraze:
+                KvalifikatorFraze(izrazfraza=iz, **kv)
+        for znacenje in znacenja:
+            kvalifikatori = znacenje.pop('kvalifikatori', [])
+            podznacenja = znacenje.pop('podznacenja', [])
+            izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
+            konkordanse_znacenja = znacenje.pop('konkordanse', [])
+            z = Znacenje(odrednica=odrednica, **znacenje)
+            for k in kvalifikatori:
+                KvalifikatorZnacenja(znacenje=z, **k)
+            for ifz in izrazi_fraze_znacenja:
+                kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
+                IzrazFraza(znacenje=z, **ifz)
+                for kv in kvalifikatori_fraze:
+                    KvalifikatorFraze(izrazfraza=ifz, **kv)
+            for konz in konkordanse_znacenja:
+                Konkordansa(znacenje=z, **konz)
+            for podz in podznacenja:
+                kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
+                izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
+                konkordanse_podznacenja = podz.pop('konkordanse', [])
+                p = Podznacenje(znacenje=z, **podz)
+                for k in kvalifikatori_podznacenja:
+                    KvalifikatorPodznacenja(podznacenje=p, **k)
+                for ifp in izrazi_fraze_podznacenja:
+                    kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
+                    IzrazFraza(podznacenje=p, **ifp)
+                    for kv in kvalifikatori_fraze:
+                        KvalifikatorFraze(izrazfraza=ifp, **kv)
+                for konz in konkordanse_podznacenja:
+                    Konkordansa(podznacenje=p, **konz)
+        for sin in sinonimi:
+            Sinonim(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
+        for ant in antonimi:
+            Antonim(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
+        return odrednica
+
     def create(self, validated_data):
         return self._save(validated_data)
 
@@ -306,7 +359,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
                 IzrazFraza.objects.create(znacenje=z, **ifz)
                 for kv in kvalifikatori_fraze:
-                    KvalifikatorFraze.objects.create(izrazfraza=iz, **kv)
+                    KvalifikatorFraze.objects.create(izrazfraza=ifz, **kv)  # izrazfraza=iz
             for konz in konkordanse_znacenja:
                 Konkordansa.objects.create(znacenje=z, **konz)
             for podz in podznacenja:
@@ -320,7 +373,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
                     IzrazFraza.objects.create(podznacenje=p, **ifp)
                     for kv in kvalifikatori_fraze:
-                        KvalifikatorFraze.objects.create(izrazfraza=iz, **kv)
+                        KvalifikatorFraze.objects.create(izrazfraza=ifp, **kv)  # izrazfraza=iz
                 for konz in konkordanse_podznacenja:
                     Konkordansa.objects.create(podznacenje=p, **konz)
         for sin in sinonimi:

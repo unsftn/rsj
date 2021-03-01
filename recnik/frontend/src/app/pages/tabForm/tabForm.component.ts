@@ -215,10 +215,23 @@ export class TabFormComponent implements OnInit {
   }
 
   preview(): void {
-    const tekst = this.previewService.preview(this.makeNewDeterminant());
-    this.message = this.domSanitizer.bypassSecurityTrustHtml(tekst);
-    this.showInfoDialog = true;
-    this.nextRoute = [];
+    // const tekst = this.previewService.preview(this.makeNewDeterminant());
+    // this.message = this.domSanitizer.bypassSecurityTrustHtml(tekst);
+    // this.showInfoDialog = true;
+    // this.nextRoute = [];
+    this.previewService.preview_backend(this.makeNewDeterminant()).subscribe(
+      (data) => {
+        this.message = this.domSanitizer.bypassSecurityTrustHtml(data);
+        this.showInfoDialog = true;
+        this.nextRoute = [];
+      },
+      (error) => {
+        console.log(error);
+        this.message = this.domSanitizer.bypassSecurityTrustHtml(
+          '<p>Грешка у генерисању приказа одреднице.</p>');
+        this.showInfoDialog = true;
+      }
+    );
   }
 
   onChangeWordType(): void {

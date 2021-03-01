@@ -14,18 +14,18 @@ export class OdrednicaService {
   }
 
   save(odrednica: Determinant): Observable<any> {
-    return this.httpClient.post('/api/odrednice/save-odrednica/', odrednica);
+    return this.httpClient.post('/api/odrednice/save/', odrednica);
   }
 
   update(odrednica: Determinant): Observable<any> {
-    return this.httpClient.put('/api/odrednice/save-odrednica/', odrednica);
+    return this.httpClient.put('/api/odrednice/save/', odrednica);
   }
 
   preview(odrednica: Determinant): Observable<any> {
-    return this.httpClient.post('/api/render/odrednica-preview/', odrednica);
+    return this.httpClient.post('/api/odrednice/preview/', odrednica);
   }
 
   delete(id: number): Observable<any> {
-    return this.httpClient.delete(`/api/odrednice/delete-odrednica/${id}/`);
+    return this.httpClient.delete(`/api/odrednice/delete/${id}/`);
   }
 }
