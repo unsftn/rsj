@@ -19,6 +19,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -38,6 +39,7 @@ import { ToastModule } from 'primeng/toast';
     TabFormModule,
     ToastModule,
     HomeModule,
+    AutoCompleteModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

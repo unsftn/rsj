@@ -4,11 +4,13 @@
     <p class="logo-text"><a [routerLink]="['/']">Речник српског језика</a></p>
   </div>
   <div class="search-container">
-    <span class="p-input-icon-left">
-      <i class="pi pi-search"></i>
-      <input type="search" class="search-component" pInputText placeholder="Претрага">
-    </span>
-    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined button-header"[routerLink]="['/add']"></button>
+    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="600px" (onSelect)="select($event)" placeholder="Претрага">
+      <ng-template let-word pTemplate="item">
+        <span class="rec">{{word.rec}}</span>
+        <span class="vrsta">{{word.vrsta_text}}</span>
+      </ng-template>
+    </p-autoComplete>
+    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined button-header" [routerLink]="['/add']"></button>
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>

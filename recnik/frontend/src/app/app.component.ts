@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
-import { QualificatorService } from './services/odrednice';
+import { OdrednicaService, QualificatorService } from './services/odrednice';
 
 @Component({
   selector: 'app-root',
@@ -12,13 +12,15 @@ import { QualificatorService } from './services/odrednice';
 })
 export class AppComponent implements OnInit {
   title = 'recnik';
-
   items: MenuItem[];
+  searchText: string;
+  searchResults: any[];
 
   constructor(
     private primengConfig: PrimeNGConfig,
     private tokenStorageService: TokenStorageService,
     private qualificatorService: QualificatorService,
+    private odrednicaService: OdrednicaService,
     private router: Router,
   ) {}
 
@@ -29,6 +31,22 @@ export class AppComponent implements OnInit {
   signOut(): void {
     this.tokenStorageService.signOut();
     this.router.navigate(['/']);
+  }
+
+  search(event): void {
+    this.odrednicaService.search(event.query).subscribe(
+      (data) => {
+        this.searchResults = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  select(value): void {
+    this.searchText = '';
+    this.router.navigate(['/edit', value.pk]);
   }
 
   ngOnInit(): void {

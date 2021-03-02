@@ -6,7 +6,7 @@ from .rest import *
 app_name = 'претрага'
 
 urlpatterns = [
-    path('odrednice/', odrednica),
+    path('odrednica/', odrednica),
     path('korpus/', korpus),
 ]
 

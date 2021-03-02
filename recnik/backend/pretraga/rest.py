@@ -1,5 +1,5 @@
 import json
-
+from django.conf import settings
 from elasticsearch.exceptions import ElasticsearchException, NotFoundError
 from elasticsearch_dsl import Search, analyzer, Index
 from elasticsearch_dsl.connections import connections
@@ -8,25 +8,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
 
-from pretraga.models import OdrednicaDocument, KorpusDocument
-from pretraga.serializers import CreateOdrednicaDocumentSerializer, CreateKorpusDocumentSerializer, \
+from .models import OdrednicaDocument, KorpusDocument
+from .serializers import CreateOdrednicaDocumentSerializer, CreateKorpusDocumentSerializer, \
     OdrednicaResponseSerializer, KorpusResponseSerializer
+from .config import *
+from .indexer import create_index_if_needed, save_odrednica_dict
 
-odrednicaIndex = 'odrednica'
-korpusIndex = 'korpus'
-serbianAnalyzer = analyzer('serbian')
-host = 'localhost'
 JSON = 'application/json'
-connections.create_connection(hosts=[host], timeout=20)
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def odrednica(request):
-    if not connections.get_connection().indices.exists(odrednicaIndex):
-        odrednicaIdx = Index(odrednicaIndex)
-        odrednicaIdx.analyzer(serbianAnalyzer)
-        odrednicaIdx.document(OdrednicaDocument)
-        odrednicaIdx.create()
+    create_index_if_needed()
 
     if request.method == 'GET':
         return _search_odrednica(request)
@@ -39,18 +32,18 @@ def odrednica(request):
 
 
 def _search_odrednica(request):
-    if not request.data or request.data['term'] is None:
+    if not request.GET.get('q'):
         return BadRequest('no search term')
 
-    term = request.data['term']
+    term = request.GET.get('q')
     hits = []
-    s = Search(index=odrednicaIndex)
+    s = Search(index=ODREDNICA_INDEX)
     s = s.source(includes=['pk', 'rec', 'vrsta'])
     s.query = MultiMatch(
         type='bool_prefix',
         query=term,
         fields=['varijante'],
-        analyzer=serbianAnalyzer
+        # analyzer=SERBIAN_ANALYZER
     )
     try:
         response = s.execute()
@@ -92,7 +85,7 @@ def _delete_odrednica(request):
     pk = request.data['pk']
     odrednica = OdrednicaDocument()
     try:
-        odrednica.delete(id=pk, index=odrednicaIndex)
+        odrednica.delete(id=pk, index=ODREDNICA_INDEX)
         return Response(status=HTTP_200_OK)
     except NotFoundError:
         return NotFound('requested object not found')
@@ -103,28 +96,17 @@ def _delete_odrednica(request):
 def _save_odrednica(item):
     serializer = CreateOdrednicaDocumentSerializer()
     try:
-        odrednica = serializer.create(item)
-    except KeyError as error:
-        return BadRequest(error.args)
-
-    try:
-        result = odrednica.save(id=odrednica.pk, index=odrednicaIndex)
-        return Response(
-            result,
-            status=HTTP_200_OK,
-            content_type=JSON
-        )
-    except ElasticsearchException as error:
-        return ServerError(error.args)
+        result = save_odrednica_dict(item)
+        return Response(result, status=HTTP_200_OK, content_type=JSON)
+    except KeyError as ke:
+        return BadRequest(ke.args)
+    except ElasticsearchException as ee:
+        return ServerError(ee.args)
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def korpus(request):
-    if not connections.get_connection().indices.exists(korpusIndex):
-        korpusIdx = Index(korpusIndex)
-        korpusIdx.analyzer(serbianAnalyzer)
-        korpusIdx.document(KorpusDocument)
-        korpusIdx.create()
+    create_index_if_needed()
 
     if request.method == 'GET':
         return _search_korpus(request)
@@ -142,7 +124,7 @@ def _search_korpus(request):
 
     term = request.data['term']
     hits = []
-    s = Search(index=korpusIndex)
+    s = Search(index=KORPUS_INDEX)
     s = s.source(includes=['pk', 'osnovniOblik'])
     s.query = Bool(
         must=[Match(oblici=term)]
@@ -187,7 +169,7 @@ def _delete_korpus(request):
     pk = request.data['pk']
     anotiranaRec = KorpusDocument()
     try:
-        anotiranaRec.delete(id=pk, index=korpusIndex)
+        anotiranaRec.delete(id=pk, index=KORPUS_INDEX)
         return Response(status=HTTP_200_OK)
     except NotFoundError:
         return NotFound('requested object not found')
@@ -203,7 +185,7 @@ def _save_korpus(item):
         return BadRequest(error.args)
 
     try:
-        result = anotiranaRec.save(id=anotiranaRec.pk, index=korpusIndex)
+        result = anotiranaRec.save(id=anotiranaRec.pk, index=KORPUS_INDEX)
         return Response(
             result,
             status=HTTP_200_OK,

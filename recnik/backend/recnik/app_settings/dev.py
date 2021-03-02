@@ -18,3 +18,5 @@ DATABASES = {
         }
     }
 }
+
+ELASTICSEARCH_HOST = 'localhost'

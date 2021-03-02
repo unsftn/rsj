@@ -16,18 +16,18 @@
   display: none;
 }
 
-:host ::ng-deep .p-input-icon-left {
-  width: 60%;
-}
-
 .search-component {
-  border-radius: 50px;
-  width: 100%;
+  .rec {
+    float: left;
+  }
+  .vrsta {
+    float: right;
+  }
 }
 
 .search-container {
   display: flex;
-  flex: 2;
+  flex: 3;
   justify-content: center;
 }
 

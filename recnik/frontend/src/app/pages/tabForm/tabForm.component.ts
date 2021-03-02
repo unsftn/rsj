@@ -215,10 +215,6 @@ export class TabFormComponent implements OnInit {
   }
 
   preview(): void {
-    // const tekst = this.previewService.preview(this.makeNewDeterminant());
-    // this.message = this.domSanitizer.bypassSecurityTrustHtml(tekst);
-    // this.showInfoDialog = true;
-    // this.nextRoute = [];
     this.previewService.preview_backend(this.makeNewDeterminant()).subscribe(
       (data) => {
         this.message = this.domSanitizer.bypassSecurityTrustHtml(data);

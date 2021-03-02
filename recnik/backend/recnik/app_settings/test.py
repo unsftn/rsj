@@ -10,3 +10,5 @@ DATABASES = {
         'NAME': 'test_db'
     }
 }
+
+ELASTICSEARCH_HOST = 'localhost'

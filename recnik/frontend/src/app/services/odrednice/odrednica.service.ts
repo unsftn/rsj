@@ -28,4 +28,8 @@ export class OdrednicaService {
   delete(id: number): Observable<any> {
     return this.httpClient.delete(`/api/odrednice/delete/${id}/`);
   }
+
+  search(text: string): Observable<any> {
+    return this.httpClient.get(`/api/pretraga/odrednica/?q=${text}`);
+  }
 }
