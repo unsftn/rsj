@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
 from render.renderer import render_one, render_one_div
+from pretraga import indexer
 from .models import *
 from .serializers import *
 
@@ -246,6 +247,7 @@ def api_save_odrednica(request):
     if serializer.is_valid():
         try:
             odrednica = serializer.save(user=request.user)
+            indexer.save_odrednica_model(odrednica)
         except RecordModifiedError:
             return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT, content_type=JSON)
         ser2 = OdrednicaSerializer(odrednica)

@@ -183,6 +183,7 @@ export class TabFormComponent implements OnInit {
             '<p>Успешно aжурирана одредница.</p>');
           this.showInfoDialog = true;
           this.nextRoute = [];
+          this.version += 1;
         },
         (error) => {
           console.log(error);
@@ -190,7 +191,6 @@ export class TabFormComponent implements OnInit {
             `<p>Грешка приликом снимања одреднице: ${error}</p>`);
           this.showInfoDialog = true;
         });
-
     } else {
       this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
         (data) => {
