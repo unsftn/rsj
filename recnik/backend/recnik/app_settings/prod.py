@@ -20,4 +20,4 @@ DATABASES = {
 }
 SECRET_KEY = read_or_get('/private/secrets', 'SECRET_KEY', None)
 
-ELASTICSEARCH_HOST = 'es-sr-lat'
+ELASTICSEARCH_HOST = 'elastic-recnik'
