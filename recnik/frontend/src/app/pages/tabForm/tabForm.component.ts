@@ -155,7 +155,8 @@ export class TabFormComponent implements OnInit {
         this.message = 'Одредница је успешно обрисана.';
         this.showInfoDialog = true;
         this.nextRoute = ['/'];
-      }, (error) => {
+      },
+      (error) => {
         this.showWarningDialog = false;
         this.message = 'Грешка: ' + error;
         this.showInfoDialog = true;
@@ -176,6 +177,7 @@ export class TabFormComponent implements OnInit {
   }
 
   save(): void {
+    if (!this.check()) return;
     if (this.editMode) {
       this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
         (data) => {
@@ -209,6 +211,7 @@ export class TabFormComponent implements OnInit {
   }
 
   finish(): void {
+    if (!this.check()) return;
     this.message = this.domSanitizer.bypassSecurityTrustHtml(
       '<p>Операција још није имплементирана.</p>');
     this.showInfoDialog = true;
@@ -293,7 +296,6 @@ export class TabFormComponent implements OnInit {
   }
 
   showError(message): void {
-    console.log('usao');
     this.message = this.domSanitizer.bypassSecurityTrustHtml(message);
     this.showInfoDialog = true;
   }
