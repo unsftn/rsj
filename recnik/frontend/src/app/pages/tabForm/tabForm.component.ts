@@ -300,12 +300,21 @@ export class TabFormComponent implements OnInit {
     this.showInfoDialog = true;
   }
 
+  assert(condition: boolean, message: string): void {
+    if (condition) {
+      this.showError(message);
+      throw new Error();
+    }
+  }
+
   check(): boolean {
-    if (this.selectedWordType?.id === 0 && !this.selectedGender) {
-      this.showError('<p>За именице је обавезно унети род.</p>');
+    try {
+      this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');
+      this.assert(this.selectedWordType?.id === 0 && !this.selectedGender, '<p>За именице је обавезно унети род.</p>');
+      return true;
+    } catch (e) {
       return false;
     }
-    return true;
   }
 
   makeNewDeterminant(): Determinant {

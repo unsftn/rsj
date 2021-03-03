@@ -7,4 +7,5 @@ urlpatterns = [
     path('odrednice/latest/<int:page_size>/', odrednice_latest),
     path('odrednice/newest/<int:page_size>/', odrednice_newest),
     path('odrednice/popular/<int:page_size>/', odrednice_popular),
+    path('preview/', api_preview_odrednica),
 ]

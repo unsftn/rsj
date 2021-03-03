@@ -22,7 +22,7 @@ export class OdrednicaService {
   }
 
   preview(odrednica: Determinant): Observable<any> {
-    return this.httpClient.post('/api/odrednice/preview/', odrednica);
+    return this.httpClient.post('/api/render/preview/', odrednica);
   }
 
   delete(id: number): Observable<any> {

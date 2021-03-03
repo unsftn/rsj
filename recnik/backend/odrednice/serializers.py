@@ -256,56 +256,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
 
     def instantiate(self):
-        znacenja = self.validated_data.pop('znacenja', [])
-        kvalifikatori_odrednice = self.validated_data.pop('kvalifikatori', [])
-        varijante = self.validated_data.pop('varijante', [])
-        izrazi_fraze = self.validated_data.pop('izrazi_fraze', [])
-        sinonimi = self.validated_data.pop('sinonimi', [])
-        antonimi = self.validated_data.pop('antonimi', [])
-        odrednica = Odrednica(**self.validated_data)
-        for var_odr in varijante:
-            VarijantaOdrednice(odrednica=odrednica, **var_odr)
-        for kvod in kvalifikatori_odrednice:
-            KvalifikatorOdrednice(odrednica=odrednica, **kvod)
-        for izr_frz in izrazi_fraze:
-            kvalifikatori_fraze = izr_frz.pop('kvalifikatori', [])
-            iz = IzrazFraza(odrednica=odrednica, **izr_frz)
-            for kv in kvalifikatori_fraze:
-                KvalifikatorFraze(izrazfraza=iz, **kv)
-        for znacenje in znacenja:
-            kvalifikatori = znacenje.pop('kvalifikatori', [])
-            podznacenja = znacenje.pop('podznacenja', [])
-            izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
-            konkordanse_znacenja = znacenje.pop('konkordanse', [])
-            z = Znacenje(odrednica=odrednica, **znacenje)
-            for k in kvalifikatori:
-                KvalifikatorZnacenja(znacenje=z, **k)
-            for ifz in izrazi_fraze_znacenja:
-                kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
-                IzrazFraza(znacenje=z, **ifz)
-                for kv in kvalifikatori_fraze:
-                    KvalifikatorFraze(izrazfraza=ifz, **kv)
-            for konz in konkordanse_znacenja:
-                Konkordansa(znacenje=z, **konz)
-            for podz in podznacenja:
-                kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
-                izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
-                konkordanse_podznacenja = podz.pop('konkordanse', [])
-                p = Podznacenje(znacenje=z, **podz)
-                for k in kvalifikatori_podznacenja:
-                    KvalifikatorPodznacenja(podznacenje=p, **k)
-                for ifp in izrazi_fraze_podznacenja:
-                    kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
-                    IzrazFraza(podznacenje=p, **ifp)
-                    for kv in kvalifikatori_fraze:
-                        KvalifikatorFraze(izrazfraza=ifp, **kv)
-                for konz in konkordanse_podznacenja:
-                    Konkordansa(podznacenje=p, **konz)
-        for sin in sinonimi:
-            Sinonim(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
-        for ant in antonimi:
-            Antonim(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
-        return odrednica
+        return self._save(self.validated_data, None, 'memory')
 
     def create(self, validated_data):
         return self._save(validated_data)
@@ -323,9 +274,10 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
         return self._save(validated_data, instance)
 
-    def _save(self, validated_data, odrednica=None):
+    def _save(self, validated_data, odrednica=None, database='default'):
         radimo_update = odrednica is None
-        user = validated_data.pop('user')
+        if database == 'default':
+            user = validated_data.pop('user')
         odrednica_id = validated_data.get('id')
 
         sada = now()
@@ -336,52 +288,53 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         sinonimi = validated_data.pop('sinonimi', [])
         antonimi = validated_data.pop('antonimi', [])
 
-        odrednica, created = Odrednica.objects.update_or_create(defaults=validated_data, id=odrednica_id)
+        odrednica, created = Odrednica.objects.using(database).update_or_create(defaults=validated_data, id=odrednica_id)
 
         for var_odr in varijante:
-            VarijantaOdrednice.objects.create(odrednica=odrednica, **var_odr)
+            VarijantaOdrednice.objects.using(database).create(odrednica=odrednica, **var_odr)
         for kvod in kvalifikatori_odrednice:
-            KvalifikatorOdrednice.objects.create(odrednica=odrednica, **kvod)
+            KvalifikatorOdrednice.objects.using(database).create(odrednica=odrednica, **kvod)
         for izr_frz in izrazi_fraze:
             kvalifikatori_fraze = izr_frz.pop('kvalifikatori', [])
-            iz = IzrazFraza.objects.create(odrednica=odrednica, **izr_frz)
+            iz = IzrazFraza.objects.using(database).create(odrednica=odrednica, **izr_frz)
             for kv in kvalifikatori_fraze:
-                KvalifikatorFraze.objects.create(izrazfraza=iz, **kv)
+                KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
         for znacenje in znacenja:
             kvalifikatori = znacenje.pop('kvalifikatori', [])
             podznacenja = znacenje.pop('podznacenja', [])
             izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
             konkordanse_znacenja = znacenje.pop('konkordanse', [])
-            z = Znacenje.objects.create(odrednica=odrednica, **znacenje)
+            z = Znacenje.objects.using(database).create(odrednica=odrednica, **znacenje)
             for k in kvalifikatori:
-                KvalifikatorZnacenja.objects.create(znacenje=z, **k)
+                KvalifikatorZnacenja.objects.using(database).create(znacenje=z, **k)
             for ifz in izrazi_fraze_znacenja:
                 kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
-                IzrazFraza.objects.create(znacenje=z, **ifz)
+                IzrazFraza.objects.using(database).create(znacenje=z, **ifz)
                 for kv in kvalifikatori_fraze:
-                    KvalifikatorFraze.objects.create(izrazfraza=ifz, **kv)  # izrazfraza=iz
+                    KvalifikatorFraze.objects.using(database).create(izrazfraza=ifz, **kv)  # izrazfraza=iz
             for konz in konkordanse_znacenja:
-                Konkordansa.objects.create(znacenje=z, **konz)
+                Konkordansa.objects.using(database).create(znacenje=z, **konz)
             for podz in podznacenja:
                 kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
                 izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
                 konkordanse_podznacenja = podz.pop('konkordanse', [])
-                p = Podznacenje.objects.create(znacenje=z, **podz)
+                p = Podznacenje.objects.using(database).create(znacenje=z, **podz)
                 for k in kvalifikatori_podznacenja:
-                    KvalifikatorPodznacenja.objects.create(podznacenje=p, **k)
+                    KvalifikatorPodznacenja.objects.using(database).create(podznacenje=p, **k)
                 for ifp in izrazi_fraze_podznacenja:
                     kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
-                    IzrazFraza.objects.create(podznacenje=p, **ifp)
+                    IzrazFraza.objects.using(database).create(podznacenje=p, **ifp)
                     for kv in kvalifikatori_fraze:
                         KvalifikatorFraze.objects.create(izrazfraza=ifp, **kv)  # izrazfraza=iz
                 for konz in konkordanse_podznacenja:
-                    Konkordansa.objects.create(podznacenje=p, **konz)
+                    Konkordansa.objects.using(database).create(podznacenje=p, **konz)
         for sin in sinonimi:
-            Sinonim.objects.create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
+            Sinonim.objects.using(database).create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
         for ant in antonimi:
-            Antonim.objects.create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
+            Antonim.objects.using(database).create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
 
         operacija_izmene_id = 2 if radimo_update else 1
-        IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica,
-                                       operacija_izmene_id=operacija_izmene_id)
+        if database == 'default':
+            IzmenaOdrednice.objects.using(database).create(user_id=user.id, vreme=sada, odrednica=odrednica,
+                                                           operacija_izmene_id=operacija_izmene_id)
         return odrednica

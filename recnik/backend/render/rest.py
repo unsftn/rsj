@@ -1,6 +1,13 @@
+import logging
 from django.http import HttpResponse
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from odrednice.models import Odrednica
-from .renderer import render_many
+from odrednice.serializers import CreateOdrednicaSerializer
+from .renderer import render_many, render_one_div
+
+logger = logging.getLogger(__name__)
 
 
 def odrednice_latest(request, page_size):
@@ -24,3 +31,17 @@ def render_odrednice_by(sort_order, page_size):
     """
     odrednice = Odrednica.objects.all().order_by(sort_order)[:page_size]
     return render_many(odrednice)
+
+
+@api_view(['POST'])
+def api_preview_odrednica(request):
+    serializer = CreateOdrednicaSerializer(data=request.data)
+    if serializer.is_valid():
+        try:
+            odrednica = serializer.instantiate()
+            text = render_one_div(odrednica)
+            odrednica.delete()
+            return Response(text, status=status.HTTP_200_OK, content_type='text/html')
+        except Exception as ex:
+            logger.fatal(ex)
+            return Response({'error': str(ex)}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)

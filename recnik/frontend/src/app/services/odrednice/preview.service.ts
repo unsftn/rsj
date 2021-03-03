@@ -17,7 +17,7 @@ export class PreviewService {
   ) { }
 
   preview_backend(odrednica: Determinant): Observable<any> {
-    return this.httpClient.post('/api/odrednice/preview/', odrednica);
+    return this.httpClient.post('/api/render/preview/', odrednica);
   }
 
   //
