@@ -325,7 +325,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
                     IzrazFraza.objects.using(database).create(podznacenje=p, **ifp)
                     for kv in kvalifikatori_fraze:
-                        KvalifikatorFraze.objects.create(izrazfraza=ifp, **kv)  # izrazfraza=iz
+                        KvalifikatorFraze.objects.using(database).create(izrazfraza=ifp, **kv)  # izrazfraza=iz
                 for konz in konkordanse_podznacenja:
                     Konkordansa.objects.using(database).create(podznacenje=p, **konz)
         for sin in sinonimi:
