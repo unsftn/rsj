@@ -325,6 +325,7 @@ export class TabFormComponent implements OnInit {
         };
       }),
       izrazi_fraze: this.expressions.map((value, idx) => {
+        console.log(value);
         return {
           redni_broj: idx + 1,
           opis: value.value,

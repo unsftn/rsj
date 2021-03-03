@@ -170,7 +170,6 @@ def render_one(odrednica):
             for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
                 html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze_odrednice(odrednica.izrazfraza_set.all().order_by('redni_broj'))
-    print(html[-5:])
     html = tacka(html)
     return mark_safe(html)
 

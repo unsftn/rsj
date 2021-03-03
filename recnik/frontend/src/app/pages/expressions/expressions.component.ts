@@ -21,7 +21,7 @@ export class ExpressionsComponent implements OnInit {
   ) {}
 
   add(): void {
-    this.expressions.push({ value: '', tekst: '', keywords: [] });
+    this.expressions.push({ value: '', tekst: '', keywords: [], qualificators: [] });
   }
 
   remove(expression): void {
