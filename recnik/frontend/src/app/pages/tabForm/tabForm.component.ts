@@ -215,6 +215,7 @@ export class TabFormComponent implements OnInit {
   }
 
   preview(): void {
+    if (!this.check()) return;
     this.previewService.preview_backend(this.makeNewDeterminant()).subscribe(
       (data) => {
         this.message = this.domSanitizer.bypassSecurityTrustHtml(data);
@@ -222,7 +223,6 @@ export class TabFormComponent implements OnInit {
         this.nextRoute = [];
       },
       (error) => {
-        console.log(error);
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
           '<p>Грешка у генерисању приказа одреднице.</p>');
         this.showInfoDialog = true;
@@ -290,6 +290,20 @@ export class TabFormComponent implements OnInit {
           break;
       }
     });
+  }
+
+  showError(message): void {
+    console.log('usao');
+    this.message = this.domSanitizer.bypassSecurityTrustHtml(message);
+    this.showInfoDialog = true;
+  }
+
+  check(): boolean {
+    if (this.selectedWordType?.id === 0 && !this.selectedGender) {
+      this.showError('<p>За именице је обавезно унети род.</p>');
+      return false;
+    }
+    return true;
   }
 
   makeNewDeterminant(): Determinant {
