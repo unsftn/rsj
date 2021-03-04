@@ -136,8 +136,24 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        'orgsema': {
-            'handlers': ['file', 'mail_admins'],
+        'render': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'odrednice': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'pretraga': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'korpus': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'publikacije': {
+            'handlers': ['console', 'file', 'mail_admins'],
             'level': 'INFO',
         },
     }
