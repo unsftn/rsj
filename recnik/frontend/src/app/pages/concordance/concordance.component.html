@@ -1,6 +1,6 @@
 <div class="p-d-flex">
   <div class="p-mr-2">
-    <h4>Конкорданса</h4>
+    <h4>Конкорданца</h4>
   </div>
   <div class="p-mr-2" style="width: 200px" class="center-container">
     <button
@@ -16,7 +16,8 @@
     <div class="p-d-flex p-flex-column">
       <div class="p-d-flex">
         <div class="p-mb-2">
-          <input type="text" pInputText [(ngModel)]="concordances[i].concordance" class="long-input" name="cname{{i}}" placeholder="конкорданса"/>
+          <!-- <input type="text" pInputText [(ngModel)]="concordances[i].concordance" class="long-input" name="cname{{i}}" placeholder="конкорданса"/> -->
+          <textarea rows="2" cols="40" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"></textarea>
         </div>
         <div class="p-mb-2 p-ml-4 p-mr-1 p-mt-2 red">
           Извор:
