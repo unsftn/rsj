@@ -65,6 +65,14 @@ export class AppComponent implements OnInit {
         separator: true,
       },
       {
+        label: 'Рендери',
+        icon: 'pi pi-book',
+        url: '/renders',
+      },
+      {
+        separator: true,
+      },
+      {
         label: 'Администрација',
         icon: 'pi pi-cog',
         url: '/admin',

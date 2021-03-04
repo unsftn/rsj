@@ -66,7 +66,7 @@ class TipRenderovanogDokumentaDetail(generics.RetrieveAPIView):
 
 class RenderovaniDokumentList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = RenderovaniDokument.objects.all()
+    queryset = RenderovaniDokument.objects.all().order_by('-vreme_rendera')
     serializer_class = RenderovaniDokumentSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['opis', 'vreme_rendera']

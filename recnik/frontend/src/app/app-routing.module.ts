@@ -4,6 +4,7 @@ import { AuthGuard } from './services/auth/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TabFormComponent } from './pages/tabForm/tabForm.component';
 import { LoginComponent } from './pages/login/login.component';
+import { RendersComponent } from './pages/renders/renders/renders.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
     component: TabFormComponent,
     canActivate: [AuthGuard],
     data: { mode: 'add' },
+  },
+  {
+    path: 'renders',
+    component: RendersComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'edit/:id',

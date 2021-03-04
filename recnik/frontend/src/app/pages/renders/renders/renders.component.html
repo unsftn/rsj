@@ -1,0 +1,21 @@
+<div class="container">
+    <h3>Генерисани документи</h3>
+    <p-table [value]="renders" [paginator]="true" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="vreme">Време</th>
+                <th class="tip">Тип документа</th>
+                <th class="opis">Опис</th>
+                <th>URL</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-render>
+            <tr>
+                <td>{{render.vreme_rendera|date:'dd.MM.yyyy. hh:mm:ss'}}</td>
+                <td>{{render.tip_dokumenta.naziv}}</td>
+                <td>{{render.opis}}</td>
+                <td><a href="{{render.rendered_file}}" target="_blank">{{render.rendered_file}}</a></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

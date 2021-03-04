@@ -32,3 +32,6 @@ class RenderovaniDokument(models.Model):
     class Meta:
         verbose_name = 'рендеровани документ'
         verbose_name_plural = 'рендеровани документи'
+        indexes = [
+            models.Index(fields=['vreme_rendera']),
+        ]
