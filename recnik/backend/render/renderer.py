@@ -211,6 +211,7 @@ def render_recnik():
             'odrednice': [render_one(o) for o in Odrednica.objects.filter(rec__startswith=s).order_by('rec')]
         })
     context = {'slova': slova}
+    log.info('TEST TEST')
     return render_to_file(context, 'render/recnik.html', trd)
 
 
