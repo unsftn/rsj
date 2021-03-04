@@ -40,14 +40,6 @@ def tacka(tekst):
     return tekst
 
 
-def font_fetcher(url):
-    if url.startswith('fonts/'):
-        font_path = finders.find(url)
-        font_file = open(font_path, 'r')
-        return {'file_obj': font_file}
-    return default_url_fetcher(url)
-
-
 def process_special_marks(tekst):
     for mark in SPECIAL_MARKS:
         tekst = tekst.replace(mark, f'<small>{mark}</small>')
@@ -61,7 +53,7 @@ def render_konkordanse(konkordanse):
 def render_izrazi_fraze_znacenja(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
-        tekst += f' &#8212; <i>{tacka(izfr.opis)}</i>'
+        tekst += f' &#8212; <i>{tacka(izfr.opis)}</i>' 
     return tekst
 
 
@@ -112,8 +104,10 @@ def render_znacenje(znacenje):
             tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
     return tekst
 
+
 def render_varijanta(var):
     return f'<b>{var.tekst}</b>' + ((', ' + var.nastavak) if var.nastavak else '')
+
 
 def render_one(odrednica):
     if odrednica.vrsta == 1 and odrednica.opciono_se:
@@ -182,16 +176,46 @@ def render_many(odrednice, css_class='odrednica'):
     return mark_safe(''.join([render_one_div(od, css_class) for od in odrednice]))
 
 
-def render_slovo(odrednice, slovo):
+def font_fetcher(url):
+    if url.startswith('fonts/'):
+        font_path = finders.find(url)
+        font_file = open(font_path, 'r')
+        return {'file_obj': font_file}
+    return default_url_fetcher(url)
+
+
+def render_slovo(slovo):
     try:
         trd = TipRenderovanogDokumenta.objects.get(id=1)
     except TipRenderovanogDokumenta.DoesNotExist:
         log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
-        return None
-    template = get_template('render/odrednice.html')
+        return
+    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec')
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
-    html_text = template.render(context)
+    return render_to_file(context, 'render/slovo.html', trd)
+
+
+def render_recnik():
+    try:
+        trd = TipRenderovanogDokumenta.objects.get(id=2)
+    except TipRenderovanogDokumenta.DoesNotExist:
+        log.fatal('Nije pronadjen tip renderovanog dokumenta: id=2')
+        return
+    slova = []
+    for s in AZBUKA:
+        slova.append({
+            'slovo': s.upper(),
+            'odrednice': [render_one(o) for o in Odrednica.objects.filter(rec__startswith=s).order_by('rec')]
+        })
+    context = {'slova': slova}
+    return render_to_file(context, 'render/recnik.html', trd)
+
+
+def render_to_file(context, template, doc_type):
+    tpl = get_template(template)
+    html_text = tpl.render(context)
+    html_text = html_text.replace('&#9632;', '<small>&#9632;</small>')
     html = HTML(string=html_text, url_fetcher=font_fetcher)
     css_file_name = finders.find('print-styles/slovo.css')
     with open(css_file_name, 'r') as css_file:
@@ -201,7 +225,7 @@ def render_slovo(odrednice, slovo):
     temp_file = tempfile.TemporaryFile()
     html.write_pdf(temp_file, stylesheets=[css], font_config=font_config)
     novi_dokument = RenderovaniDokument()
-    novi_dokument.tip_dokumenta = trd
+    novi_dokument.tip_dokumenta = doc_type
     novi_dokument.vreme_rendera = now()
     novi_dokument.save()
     django_file = File(temp_file)

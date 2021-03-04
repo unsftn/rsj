@@ -46,18 +46,20 @@ body{
     text-indent: -10px;
 }
 @media print {
+    .slovo-spacer {
+        margin-bottom: 120px;
+        break-before: right;
+    }
     .slovo {
         font-size: 36pt;
         text-align: center;
-        margin-top: 60px;
         margin-bottom: 30px;
     }
     .odrednice {
         line-height: 110%;
         font-size: 9pt;
         column-count: 2;
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
+        column-gap: 2em;
     }
     @page:right{
         font-family: "Dijakritika", serif;

@@ -3,7 +3,14 @@
     "model": "render.TipRenderovanogDokumenta",
     "pk": 1,
     "fields": {
-      "naziv": "slovo"
+      "naziv": "слово"
+    }
+  },
+  {
+    "model": "render.TipRenderovanogDokumenta",
+    "pk": 2,
+    "fields": {
+      "naziv": "цео речник"
     }
   }
 ]
