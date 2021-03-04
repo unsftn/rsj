@@ -22,4 +22,8 @@ export class RendersComponent implements OnInit {
       }
     );
   }
+
+  download(render: Render): void {
+    this.renderService.download(render);
+  }
 }

@@ -6,7 +6,7 @@
                 <th class="vreme">Време</th>
                 <th class="tip">Тип документа</th>
                 <th class="opis">Опис</th>
-                <th>URL</th>
+                <th class="fajl">Фајл</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-render>
@@ -14,7 +14,7 @@
                 <td>{{render.vreme_rendera|date:'dd.MM.yyyy. hh:mm:ss'}}</td>
                 <td>{{render.tip_dokumenta.naziv}}</td>
                 <td>{{render.opis}}</td>
-                <td><a href="{{render.rendered_file}}" target="_blank">{{render.rendered_file}}</a></td>
+                <td><span class="pi pi-download pointer" (click)="download(render)"></span></td>
             </tr>
         </ng-template>
     </p-table>
