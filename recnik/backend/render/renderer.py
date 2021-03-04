@@ -177,10 +177,8 @@ def render_many(odrednice, css_class='odrednica'):
 
 
 def font_fetcher(url):
-    log.info(url)
     if url.startswith('fonts/'):
         font_path = finders.find(url)
-        log.info(font_path)
         font_file = open(font_path, 'r')
         return {'file_obj': font_file}
     return default_url_fetcher(url)
@@ -211,7 +209,6 @@ def render_recnik():
             'odrednice': [render_one(o) for o in Odrednica.objects.filter(rec__startswith=s).order_by('rec')]
         })
     context = {'slova': slova}
-    log.info('TEST TEST')
     return render_to_file(context, 'render/recnik.html', trd)
 
 

@@ -1,32 +1,21 @@
 @font-face {
     font-family: 'Dijakritika';
-    src: url("fonts/Dijakritika-Regular.woff2") format('woff2'),
-         url("fonts/Dijakritika-Regular.otf") format('opentype');
+    src: url("file:///app/static/fonts/Dijakritika-Regular.otf");
     font-style: normal;
     font-weight: normal;
-    /* text-rendering: optimizeLegibility; */
 }
 @font-face {
     font-family: 'Dijakritika';
-    src: url("fonts/Dijakritika-Bold.woff2") format('woff2'),
-         url("fonts/Dijakritika-Bold.otf") format('opentype');
+    src: url("file:///app/static/fonts/Dijakritika-Bold.otf");
     font-style: normal;
     font-weight: bold;
-    /* text-rendering: optimizeLegibility; */
 }
 @font-face {
     font-family: 'Dijakritika';
-    src: url("fonts/Dijakritika-Italic.woff2") format('woff2'),
-         url("fonts/Dijakritika-Italic.otf") format('opentype');
+    src: url("file:///app/static/fonts/Dijakritika-Italic.otf");
     font-style: italic;
     font-weight: normal;
-    /* text-rendering: optimizeLegibility; */
 }
-/*
-types {
-    font/woff2  woff2;
-}
-*/
 @page {
     size: a4 portrait;
     margin: 10mm;
