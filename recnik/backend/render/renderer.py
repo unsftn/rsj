@@ -193,7 +193,7 @@ def render_slovo(slovo):
     odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec')
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
-    return render_to_file(context, 'render/slovo.html', trd)
+    return render_to_file(context, 'render/slovo.html', trd, opis=f'слово {slovo[0].upper()}')
 
 
 def render_recnik():
@@ -212,7 +212,7 @@ def render_recnik():
     return render_to_file(context, 'render/recnik.html', trd)
 
 
-def render_to_file(context, template, doc_type):
+def render_to_file(context, template, doc_type, opis=''):
     tpl = get_template(template)
     html_text = tpl.render(context)
     html_text = html_text.replace('&#9632;', '<small>&#9632;</small>')
@@ -227,6 +227,7 @@ def render_to_file(context, template, doc_type):
     novi_dokument = RenderovaniDokument()
     novi_dokument.tip_dokumenta = doc_type
     novi_dokument.vreme_rendera = now()
+    novi_dokument.opis = opis
     novi_dokument.save()
     django_file = File(temp_file)
     novi_dokument.rendered_file.save(get_rendered_file_path(novi_dokument, None), django_file, True)
