@@ -177,10 +177,10 @@ def render_many(odrednice, css_class='odrednica'):
 
 
 def font_fetcher(url):
+    log.info(url)
     if url.startswith('fonts/'):
         font_path = finders.find(url)
-        print(url)
-        print(font_path)
+        log.info(font_path)
         font_file = open(font_path, 'r')
         return {'file_obj': font_file}
     return default_url_fetcher(url)
