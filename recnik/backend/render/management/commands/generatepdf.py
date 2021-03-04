@@ -27,9 +27,10 @@ class Command(BaseCommand):
             file_name = render_recnik()
         if file_name:
             pdf_file = os.path.join(settings.MEDIA_ROOT, file_name)
-            self.stdout.write(self.style.SUCCESS(f'Successfully generated PDF: {pdf_file}'))
+            self.stdout.write(self.style.SUCCESS(f'Uspesno generisan PDF: {pdf_file}'))
             if options['open']:
                 if platform.system() == 'Darwin':
                     subprocess.Popen(['open', pdf_file])
         else:
-            self.stdout.write(self.style.ERROR('PDF file not generated'))
+            self.stdout.write(self.style.ERROR('PDF fajl nije generisan'))
+        log.info('Generisanje PDFa zavrseno.')
