@@ -1,11 +1,14 @@
 import logging
 from django.http import HttpResponse
-from rest_framework import status
+from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 from odrednice.models import Odrednica
 from odrednice.serializers import CreateOdrednicaSerializer
 from .renderer import render_many, render_one_div
+from .models import TipRenderovanogDokumenta, RenderovaniDokument
+from .serializers import *
 
 logger = logging.getLogger(__name__)
 
@@ -45,3 +48,31 @@ def api_preview_odrednica(request):
         except Exception as ex:
             logger.fatal(ex)
             return Response({'error': str(ex)}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+class TipRenderovanogDokumentaList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = TipRenderovanogDokumenta.objects.all()
+    serializer_class = TipRenderovanogDokumentaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['naziv']
+
+
+class TipRenderovanogDokumentaDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = TipRenderovanogDokumenta.objects.all()
+    serializer_class = TipRenderovanogDokumentaSerializer
+
+
+class RenderovaniDokumentList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = RenderovaniDokument.objects.all()
+    serializer_class = RenderovaniDokumentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['opis', 'vreme_rendera']
+
+
+class RenderovaniDokumentDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = RenderovaniDokument.objects.all()
+    serializer_class = RenderovaniDokumentSerializer
