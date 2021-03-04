@@ -1,3 +1,4 @@
+import logging
 import os
 import platform
 import subprocess
@@ -5,6 +6,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from odrednice.models import Odrednica
 from ...renderer import render_slovo, render_recnik
+
+log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -17,8 +20,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         slovo = options.get('slovo')
         if slovo:
+            log.info(f'Generisanje PDFa za slovo {slovo.upper()}')
             file_name = render_slovo(slovo)
         else:
+            log.info(f'Generisanje PDFa za ceo recnik')
             file_name = render_recnik()
         if file_name:
             pdf_file = os.path.join(settings.MEDIA_ROOT, file_name)
