@@ -25,6 +25,11 @@
     <p-button label="Не" (click)="no()" styleClass="p-button-secondary" icon="pi pi-undo" class="p-ml-3"></p-button>
   </div>
 </p-dialog>
+<p-dialog header="Молимо сачекајте" [(visible)]="showWaitDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="false">
+  <div class="p-text-center">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</p-dialog>
 <div class="basic-information-container">
   <div class="p-d-flex p-flex-column p-flex-md-row">
     <div class="p-col-5">

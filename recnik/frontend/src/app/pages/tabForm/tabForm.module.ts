@@ -13,6 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuModule } from 'primeng/menu';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { MeaningFormModule } from '../meaningForm/meaningForm.module';
 import { ChangesFormModule } from '../changesForm/changesForm.module';
@@ -35,6 +36,7 @@ import { QualificatorModule } from '../qualificators/qualificator.module';
     SplitButtonModule,
     MenuModule,
     ToolbarModule,
+    ProgressSpinnerModule,
     MeaningFormModule,
     SynonymModule,
     AntonymModule,

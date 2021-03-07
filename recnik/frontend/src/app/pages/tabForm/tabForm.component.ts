@@ -57,6 +57,7 @@ export class TabFormComponent implements OnInit {
   errorMsg: string;
   showInfoDialog = false;
   showWarningDialog = false;
+  showWaitDialog = false;
   message: SafeHtml;
   nextRoute: any[];
 
@@ -194,11 +195,13 @@ export class TabFormComponent implements OnInit {
 
   save(): void {
     if (!this.check()) return;
+    this.showWaitDialog = true;
     if (this.editMode) {
       this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
         (data) => {
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             '<p>Успешно aжурирана одредница.</p>');
+          this.showWaitDialog = false;
           this.showInfoDialog = true;
           this.nextRoute = [];
           this.version += 1;
@@ -207,6 +210,7 @@ export class TabFormComponent implements OnInit {
           console.log(error);
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             `<p>Грешка приликом снимања одреднице: ${error}</p>`);
+          this.showWaitDialog = false;
           this.showInfoDialog = true;
         });
     } else {
@@ -214,6 +218,7 @@ export class TabFormComponent implements OnInit {
         (data) => {
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             '<p>Успешно додата нова одредница.</p>');
+          this.showWaitDialog = false;
           this.showInfoDialog = true;
           this.nextRoute = ['/edit', data.id];
         },
@@ -221,6 +226,7 @@ export class TabFormComponent implements OnInit {
           console.log(error);
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
+          this.showWaitDialog = false;
           this.showInfoDialog = true;
         });
     }
@@ -235,15 +241,18 @@ export class TabFormComponent implements OnInit {
 
   preview(): void {
     if (!this.check()) return;
+    this.showWaitDialog = true;
     this.previewService.preview_backend(this.makeNewDeterminant()).subscribe(
       (data) => {
         this.message = this.domSanitizer.bypassSecurityTrustHtml(data);
+        this.showWaitDialog = false;
         this.showInfoDialog = true;
         this.nextRoute = [];
       },
       (error) => {
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
           '<p>Грешка у генерисању приказа одреднице.</p>');
+        this.showWaitDialog = false;
         this.showInfoDialog = true;
       }
     );
