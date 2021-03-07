@@ -149,7 +149,7 @@ def render_one(odrednica):
         if odrednica.varijantaodrednice_set.count() > 0:
             html += ' и '
             html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
-        html += f' <small>{ROD[odrednica.rod]}</small> '
+        html += f' <small>{ROD[odrednica.rod]}</small> '  # 4 roda
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
 
