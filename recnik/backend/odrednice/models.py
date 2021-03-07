@@ -58,6 +58,7 @@ class Odrednica(models.Model):
     glagolski_vid = models.IntegerField('глаголски вид', choices=GLAGOLSKI_VID, blank=True, null=True)
     glagolski_rod = models.IntegerField('глаголски род', choices=GLAGOLSKI_ROD, blank=True, null=True)
     prezent = models.CharField('презент', max_length=50, blank=True, null=True)
+    prezent_ij = models.CharField('презент', max_length=50, blank=True, null=True)
     broj_pregleda = models.IntegerField('број прегледа', default=0)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)

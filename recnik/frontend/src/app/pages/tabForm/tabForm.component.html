@@ -145,7 +145,14 @@
           <p class="label p-m-0">Презент:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <input type="text" pInputText [(ngModel)]="present"/>
+          <div class="p-d-flex p-flex-column p-flex-lg-row">
+            <div class="p-mb-2 p-mr-2">
+              <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица" />
+            </div>
+            <div class="p-mb-2 p-mr-2">
+              <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица" />
+            </div>
+          </div>
         </div>
       </div>
       <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">

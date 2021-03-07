@@ -37,7 +37,8 @@ export class TabFormComponent implements OnInit {
 
   selectedVerbKind: VerbKind;
   selectedVerbForm: VerbForm;
-  present: string;
+  presentE: string;
+  presentI: string;
   details: string;
   collocations: any[];
 
@@ -80,6 +81,21 @@ export class TabFormComponent implements OnInit {
     }, {
       label: 'ра̑днӣк',
       command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_7),
+    }, {
+      label: 'мѐњати',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_8),
+    }, {
+      label: 'мле́ко',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_9),
+    }, {
+      label: 'ве̏ра',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_10),
+    }, {
+      label: 'дѐте',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_11),
+    }, {
+      label: 'ре̑ч',
+      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_12),
     }
   ];
 
@@ -107,8 +123,8 @@ export class TabFormComponent implements OnInit {
     this.extensionE = extension;
   }
 
-  presentChangedHandler(present): void {
-    this.present = present;
+  presentChangedHandler(presentE): void {
+    this.presentE = presentE;
   }
 
   detailsChangedHandler(details): void {
@@ -337,7 +353,8 @@ export class TabFormComponent implements OnInit {
       info: this.details ? this.details : '',
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
-      prezent: this.present ? this.present : '',
+      prezent: this.presentE ? this.presentE : '',
+      prezent_ij: this.presentI ? this.presentI : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: this.version,
       opciono_se: this.optionalSe,
@@ -484,7 +501,8 @@ export class TabFormComponent implements OnInit {
       case 1:
         this.selectedVerbForm = this.enumService.getVerbForm(value.glagolski_vid);
         this.selectedVerbKind = this.enumService.getVerbKind(value.glagolski_rod);
-        this.present = value.prezent;
+        this.presentE = value.prezent;
+        this.presentI = value.prezent_ij;
         this.isNoun = false;
         this.isVerb = true;
         break;
@@ -496,64 +514,6 @@ export class TabFormComponent implements OnInit {
     this.details = value.info === null ? '' : value.info;
     this.meanings = this.makeMeanings(value.znacenje_set.filter(z => !z.znacenje_se));
     this.meanings2 = this.makeMeanings(value.znacenje_set.filter(z => z.znacenje_se));
-    // this.meanings = value.znacenje_set.filter(z => !z.znacenje_se).map(z => ({
-    //   value: z.tekst,
-    //     expressions: z.izrazfraza_set.map((e) => {
-    //       return {
-    //         value: e.opis,
-    //         tekst: e.tekst,
-    //         keywords: [],
-    //         qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //       };
-    //     }),
-    //     qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //     concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
-    //     submeanings: z.podznacenje_set.map((pz) => ({
-    //       value: pz.tekst,
-    //       expressions: pz.izrazfraza_set.map((e, idx) => {
-    //         return {
-    //           value: e.opis,
-    //           tekst: e.tekst,
-    //           keywords: [],
-    //           qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //         };
-    //       }),
-    //       qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //       concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
-    //     })),
-    // }));
-    // for (const z of value.znacenje_set) {
-    //   const obj = {
-    //     value: z.tekst,
-    //     submeanings: [],
-    //     expressions: z.izrazfraza_set.map((e) => {
-    //       return {
-    //         value: e.opis,
-    //         tekst: e.tekst,
-    //         keywords: [],
-    //         qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //       };
-    //     }),
-    //     qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //     concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
-    //   };
-    //   for (const pz of z.podznacenje_set) {
-    //     obj.submeanings.push({
-    //       value: pz.tekst,
-    //       expressions: pz.izrazfraza_set.map((e, idx) => {
-    //         return {
-    //           value: e.opis,
-    //           tekst: e.tekst,
-    //           keywords: [],
-    //           qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //         };
-    //       }),
-    //       qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-    //       concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
-    //     });
-    //   }
-    //   this.meanings.push(obj);
-    // }
     this.expressions = value.izrazfraza_set.map((expr) => ({
       value: expr.opis,
       tekst: expr.tekst,

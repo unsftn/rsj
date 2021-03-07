@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
-SPECIAL_MARKS = ['аор.', 'пр. пр.', 'пр.пр.', 'р.пр.', 'р. пр.', 'трп.']
+SPECIAL_MARKS = ['аор.', 'пр.', ' р.', 'трп.', 'вок.', 'ген.', 'мн.', 'зб.', 'им.', 'инстр.', 'лок.', 'дат.', 'јек.']
 
 
 def touch(path):
@@ -114,45 +114,74 @@ def render_one(odrednica):
         html = f'<b>{odrednica.rec} (се)</b>'
     else:
         html = f'<b>{odrednica.rec}</b>'
-    if odrednica.vrsta == 0:  # imenica
+
+    # imenica
+    if odrednica.vrsta == 0:
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
+        if odrednica.ijekavski:
+            html += f' <small>јек.</small> <b>{odrednica.ijekavski}</b>'
+        if odrednica.nastavak_ij:
+            if odrednica.ijekavski:
+                html += f', {odrednica.nastavak_ij}'
+            else:
+                html += f', <small>јек.</small> {odrednica.nastavak_ij}'
         if odrednica.varijantaodrednice_set.count() > 0:
             html += ' и '
             html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
         html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
-    if odrednica.vrsta == 1:  # glagol
+
+    # glagol
+    if odrednica.vrsta == 1:
         if odrednica.varijantaodrednice_set.count() > 0:
             html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
         if odrednica.prezent:
-            html += f', {odrednica.prezent} '
+            html += f', {odrednica.prezent}'
+        if odrednica.ijekavski:
+            html += f', <small>јек.</small> <b>{odrednica.ijekavski}</b>'
+        if odrednica.prezent_ij:
+            if odrednica.ijekavski:
+                html += f', {odrednica.prezent_ij}'
+            else:
+                html += f', <small>јек.</small> {odrednica.prezent_ij}'
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
         if odrednica.glagolski_vid:
-            html += f'<small>{GVID[odrednica.glagolski_vid]}</small> '
-    if odrednica.vrsta == 2:  # pridev
+            html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
+
+    # pridev
+    if odrednica.vrsta == 2:
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
+
+    # prilog
     if odrednica.vrsta == 3:
         html += f' <small>прил.</small> '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
+
+    # uzvik
     if odrednica.vrsta == 6:
         html += f' <small>узв.</small> '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
+
+    # recca
     if odrednica.vrsta == 7:
         html += f' <small>речца</small> '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
+
+    # veznik
     if odrednica.vrsta == 8:
         html += f' <small>везн.</small> '
         if odrednica.info:
-            html += f' ({odrednica.info}) '
+            html += f' {process_special_marks(odrednica.info)} '
+
     html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())

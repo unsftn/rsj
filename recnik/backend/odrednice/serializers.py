@@ -137,7 +137,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Odrednica
         fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'nastavak_ij', 'info', 'glagolski_vid', 'glagolski_rod',
-                  'prezent', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'version',
+                  'prezent', 'prezent_ij', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'version',
                   'varijantaodrednice_set', 'imaantonim_set', 'imasinonim_set', 'antonimuvezi_set', 'sinonimuvezi_set',
                   'kolokacija_set', 'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
                   'kvalifikatorodrednice_set', 'izmenaodrednice_set', 'opciono_se')
@@ -245,6 +245,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     glagolski_vid = serializers.IntegerField(required=False, allow_null=True)
     glagolski_rod = serializers.IntegerField(required=False, allow_null=True)
     prezent = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    prezent_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     stanje = serializers.IntegerField(required=False, allow_null=True)
     version = serializers.IntegerField(required=False, allow_null=True)
     opciono_se = serializers.NullBooleanField(required=False)
