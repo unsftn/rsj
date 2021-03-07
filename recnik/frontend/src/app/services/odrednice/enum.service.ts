@@ -17,6 +17,7 @@ export class EnumService {
       { name: 'мушки', id: 1 },
       { name: 'женски', id: 2 },
       { name: 'средњи', id: 3 },
+      { name: 'мушки и женски', id: 4 },
     ];
     this.verbKinds = [
       { name: 'прелазни', id: 1, def2: false },
