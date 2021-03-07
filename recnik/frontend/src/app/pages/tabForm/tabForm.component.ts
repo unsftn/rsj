@@ -62,6 +62,7 @@ export class TabFormComponent implements OnInit {
   baseChar = 'а';
   accentCaretPos = 0;
   accentModelName: string;
+  accentTarget: HTMLInputElement;
   message: SafeHtml;
   nextRoute: any[];
 
@@ -202,6 +203,7 @@ export class TabFormComponent implements OnInit {
       this.accentCaretPos = event.target.selectionStart;
       if (this.accentCaretPos === 0) return;
       this.accentModelName = modelName;
+      this.accentTarget = event.target;
       this.baseChar = event.target.value[this.accentCaretPos - 1];
       this.showAccentDialog = true;
     }
@@ -213,6 +215,7 @@ export class TabFormComponent implements OnInit {
     const newText = text.slice(0, this.accentCaretPos) + accent + text.slice(this.accentCaretPos);
     this[this.accentModelName] = newText;
     this.showAccentDialog = false;
+    this.accentTarget.focus();
   }
 
   save(): void {
