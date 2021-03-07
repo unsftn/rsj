@@ -58,6 +58,10 @@ export class TabFormComponent implements OnInit {
   showInfoDialog = false;
   showWarningDialog = false;
   showWaitDialog = false;
+  showAccentDialog = false;
+  baseChar = 'а';
+  accentCaretPos = 0;
+  accentModelName: string;
   message: SafeHtml;
   nextRoute: any[];
 
@@ -191,6 +195,24 @@ export class TabFormComponent implements OnInit {
     }
     this.message = 'Да ли сте сигурни да желите да обришете ову одредницу? Брисање се не може опозвати.';
     this.showWarningDialog = true;
+  }
+
+  keyup(event, modelName: string): void {
+    if (event.key === 'F1') {
+      this.accentCaretPos = event.target.selectionStart;
+      if (this.accentCaretPos === 0) return;
+      this.accentModelName = modelName;
+      this.baseChar = event.target.value[this.accentCaretPos - 1];
+      this.showAccentDialog = true;
+    }
+  }
+
+  insertAccent(accent: string): void {
+    console.log(this[this.accentModelName]);
+    const text = this[this.accentModelName];
+    const newText = text.slice(0, this.accentCaretPos) + accent + text.slice(this.accentCaretPos);
+    this[this.accentModelName] = newText;
+    this.showAccentDialog = false;
   }
 
   save(): void {
