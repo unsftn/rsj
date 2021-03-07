@@ -1,5 +1,5 @@
 import logging
-import string
+import re
 import tempfile
 from django.core.files import File
 from django.contrib.staticfiles import finders
@@ -15,6 +15,8 @@ AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
 SPECIAL_MARKS = ['аор.', 'пр.', ' р.', 'трп.', 'вок.', 'ген.', 'мн.', 'зб.', 'им.', 'инстр.', 'лок.', 'дат.', 'јек.']
+REGEX_ITALIC = re.compile('#+(.+)#+')
+REGEX_SMALL = re.compile('\\$+(.+)\\$+')
 
 
 def touch(path):
@@ -46,14 +48,32 @@ def process_special_marks(tekst):
     return tekst
 
 
+def process_hash(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_ITALIC.sub('</i>\\1<i>', tekst)
+    else:
+        return REGEX_ITALIC.sub('<i>\\1</i>', tekst)
+
+
+def process_dollar(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_SMALL.sub('</i><small>\\1</small><i>', tekst)
+    else:
+        return REGEX_SMALL.sub('<small>\\1</small>', tekst)
+
+
+def process_tags(tekst, in_italic=False):
+    return process_dollar(process_hash(tekst, in_italic), in_italic)
+
+
 def render_konkordanse(konkordanse):
-    return tacka(', '.join([f'<i>{k.opis}</i>' for k in konkordanse]))
+    return tacka(', '.join([f'<i>{process_tags(k.opis, True)}</i>' for k in konkordanse]))
 
 
 def render_izrazi_fraze_znacenja(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
-        tekst += f' &#8212; <i>{tacka(izfr.opis)}</i>' 
+        tekst += f' &#8212; <i>{process_tags(tacka(izfr.opis), True)}</i>'
     return tekst
 
 
@@ -69,15 +89,14 @@ def render_izrazi_fraze_odrednice(izrazifraze):
     for izfr in izrazifraze:
         tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
         tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
-        tekst += f' <i>{tacka(izfr.opis)}</i>'
+        tekst += f' <i>{process_tags(tacka(izfr.opis), True)}</i>'
     return tekst
 
 
 def render_podznacenje(podznacenje):
-    tekst = ''
-    tekst += render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
+    tekst = '' + render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
 
-    tekst += f'{tacka(podznacenje.tekst)}'
+    tekst += f'{process_tags(tacka(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
         tekst = dvotacka(tekst)
@@ -88,10 +107,9 @@ def render_podznacenje(podznacenje):
 
 
 def render_znacenje(znacenje):
-    tekst = ''
-    tekst += render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
+    tekst = '' + render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
 
-    tekst += f'{tacka(znacenje.tekst)}'
+    tekst += f'{process_tags(tacka(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
         tekst = dvotacka(tekst)
