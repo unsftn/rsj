@@ -128,10 +128,12 @@ def render_varijanta(var):
 
 
 def render_one(odrednica):
+    html = f'<b>{odrednica.rec}'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
-        html = f'<b>{odrednica.rec} (се)</b>'
-    else:
-        html = f'<b>{odrednica.rec}</b>'
+        html += f' (се)'
+    if hasattr(odrednica, 'rbr'):
+        html += f' <sup>{odrednica.rbr}</sup>'
+    html += f'</b>'
 
     # imenica
     if odrednica.vrsta == 0:
@@ -182,6 +184,18 @@ def render_one(odrednica):
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
 
+    # predlog
+    if odrednica.vrsta == 4:
+        html += f' <small>предл.</small> '
+        if odrednica.info:
+            html += f' {process_special_marks(odrednica.info)} '
+
+    # zamenica
+    if odrednica.vrsta == 5:
+        html += f' <small>предл.</small> '
+        if odrednica.info:
+            html += f' {process_special_marks(odrednica.info)} '
+
     # uzvik
     if odrednica.vrsta == 6:
         html += f' <small>узв.</small> '
@@ -197,6 +211,12 @@ def render_one(odrednica):
     # veznik
     if odrednica.vrsta == 8:
         html += f' <small>везн.</small> '
+        if odrednica.info:
+            html += f' {process_special_marks(odrednica.info)} '
+
+    # broj
+    if odrednica.vrsta == 9:
+        html += f' <small>број</small> '
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
 
@@ -231,6 +251,19 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
+def enumerate_odrednice(odrednice):
+    prev = None
+    for o in odrednice:
+        curr = o
+        if prev and prev.rec == curr.rec:
+            if not hasattr(prev, 'rbr'):
+                prev.rbr = 1
+                curr.rbr = 2
+            else:
+                curr.rbr = prev.rbr + 1
+        prev = o
+
+
 def render_slovo(slovo):
     try:
         trd = TipRenderovanogDokumenta.objects.get(id=1)
@@ -238,6 +271,7 @@ def render_slovo(slovo):
         log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
         return
     odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec')
+    enumerate_odrednice(odrednice)
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     return render_to_file(context, 'render/slovo.html', trd, opis=f'слово {slovo[0].upper()}')
@@ -251,9 +285,11 @@ def render_recnik():
         return
     slova = []
     for s in AZBUKA:
+        odrednice = Odrednica.objects.filter(rec__startswith=s).order_by('rec')
+        enumerate_odrednice(odrednice)
         slova.append({
             'slovo': s.upper(),
-            'odrednice': [render_one(o) for o in Odrednica.objects.filter(rec__startswith=s).order_by('rec')]
+            'odrednice': [render_one(o) for o in odrednice]
         })
     context = {'slova': slova}
     return render_to_file(context, 'render/recnik.html', trd)
