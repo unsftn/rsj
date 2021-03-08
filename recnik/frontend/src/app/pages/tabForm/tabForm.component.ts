@@ -290,12 +290,12 @@ export class TabFormComponent implements OnInit {
       case 'речца':
       case 'везник':
       case 'предлог':
+      case 'придев':
         this.isVerb = false;
         this.isNoun = false;
         break;
       case 'именица':
       case 'заменица':
-      case 'придев':
       case 'број':
         this.isVerb = false;
         this.isNoun = true;
@@ -369,26 +369,26 @@ export class TabFormComponent implements OnInit {
 
   makeNewDeterminant(): Determinant {
     const determinant: Determinant = {
-      rec: this.wordE,
-      ijekavski: this.wordI,
+      rec: this.wordE ? this.wordE.trim() : '',
+      ijekavski: this.wordI ? this.wordI.trim() : null,
       varijante: this.variants.map((variant, index) => {
         return {
           redni_broj: index + 1,
-          tekst: variant.nameE,
-          ijekavski: variant.nameI,
-          nastavak: variant.extensionE,
-          nastavak_ij: variant.extensionI,
+          tekst: variant.nameE.trim(),
+          ijekavski: variant.nameI.trim(),
+          nastavak: variant.extensionE.trim(),
+          nastavak_ij: variant.extensionI.trim(),
         };
       }),
       vrsta: this.selectedWordType?.id,
       rod: this.selectedGender?.id ? this.selectedGender?.id : null,
-      nastavak: this.extensionE ? this.extensionE : '',
-      nastavak_ij: this.extensionI ? this.extensionI : '',
-      info: this.details ? this.details : '',
+      nastavak: this.extensionE ? this.extensionE.trim() : '',
+      nastavak_ij: this.extensionI ? this.extensionI.trim() : '',
+      info: this.details ? this.details.trim() : '',
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
-      prezent: this.presentE ? this.presentE : '',
-      prezent_ij: this.presentI ? this.presentI : '',
+      prezent: this.presentE ? this.presentE.trim() : '',
+      prezent_ij: this.presentI ? this.presentI.trim() : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: this.version,
       opciono_se: this.optionalSe,
@@ -401,11 +401,10 @@ export class TabFormComponent implements OnInit {
         };
       }),
       izrazi_fraze: this.expressions.map((value, idx) => {
-        console.log(value);
         return {
           redni_broj: idx + 1,
-          opis: value.value,
-          tekst: value.tekst,
+          opis: value.value.trim(),
+          tekst: value.tekst.trim(),
           kvalifikatori: value.qualificators.map((q, idx2) => {
             return {
               redni_broj: idx2 + 1,
@@ -428,17 +427,17 @@ export class TabFormComponent implements OnInit {
     return meanings ? meanings.map((z, index) => {
       return {
         redni_broj: index + 1,
-        tekst: z.value,
+        tekst: z.value.trim(),
         znacenje_se: znacenjeSe,
         podznacenja: z.submeanings.map((pz, idx) => {
           return {
             redni_broj: idx + 1,
-            tekst: pz.value,
+            tekst: pz.value.trim(),
             izrazi_fraze: pz.expressions.map((value, idx2) => {
               return {
                 redni_broj: idx2 + 1,
-                opis: value.value,
-                tekst: value.tekst,
+                opis: value.value.trim(),
+                tekst: value.tekst.trim(),
               };
             }),
             kvalifikatori: pz.qualificators.map((q, idx2) => {
@@ -451,7 +450,7 @@ export class TabFormComponent implements OnInit {
             konkordanse: pz.concordances.map((c, idx2) => {
               return {
                 redni_broj: idx2 + 1,
-                opis: c.concordance,
+                opis: c.concordance.trim(),
               };
             }),
           };
@@ -459,8 +458,8 @@ export class TabFormComponent implements OnInit {
         izrazi_fraze: z.expressions.map((value, idx) => {
           return {
             redni_broj: idx + 1,
-            opis: value.value,
-            tekst: value.tekst,
+            opis: value.value.trim(),
+            tekst: value.tekst.trim(),
           };
         }),
         kvalifikatori: z.qualificators.map((q, idx) => {
@@ -473,7 +472,7 @@ export class TabFormComponent implements OnInit {
         konkordanse: z.concordances.map((c, idx) => {
           return {
             redni_broj: idx + 1,
-            opis: c.concordance,
+            opis: c.concordance.trim(),
           };
         }),
       };
