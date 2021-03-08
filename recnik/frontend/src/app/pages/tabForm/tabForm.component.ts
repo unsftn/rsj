@@ -210,7 +210,6 @@ export class TabFormComponent implements OnInit {
   }
 
   insertAccent(accent: string): void {
-    console.log(this[this.accentModelName]);
     const text = this[this.accentModelName];
     const newText = text.slice(0, this.accentCaretPos) + accent + text.slice(this.accentCaretPos);
     this[this.accentModelName] = newText;

@@ -10,6 +10,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldsetModule } from 'primeng/fieldset';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [ConcordanceComponent],
@@ -22,6 +23,7 @@ import { FieldsetModule } from 'primeng/fieldset';
     ButtonModule,
     InputNumberModule,
     FieldsetModule,
+    DialogModule,
   ],
   exports: [ConcordanceComponent],
   providers: [],

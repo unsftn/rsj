@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+
 import { ConcordanceModule } from '../concordance/concordance.module';
 import { QualificatorModule } from '../qualificators/qualificator.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
@@ -22,6 +24,7 @@ import { FieldsetModule } from 'primeng/fieldset';
     InputTextareaModule,
     FormsModule,
     ButtonModule,
+    DialogModule,
     ConcordanceModule,
     QualificatorModule,
     FieldsetModule,

@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
+import { DialogModule } from 'primeng/dialog';
 
 import { ConcordanceModule } from '../concordance/concordance.module';
 import { SubmeaningModule } from '../submeaning/submeaning.module';
@@ -25,6 +26,7 @@ import { MeaningFormComponent } from './meaningForm.component';
     FormsModule,
     ButtonModule,
     FieldsetModule,
+    DialogModule,
     ConcordanceModule,
     SubmeaningModule,
     QualificatorModule,

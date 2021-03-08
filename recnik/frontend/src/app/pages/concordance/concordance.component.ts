@@ -18,6 +18,11 @@ export class ConcordanceComponent implements OnInit {
   @Input() concordances;
   books = [];
 
+  showQuotesDialog = false;
+  caretPos: number;
+  caretIndex: number;
+  caretTarget: HTMLTextAreaElement;
+
   add(): void {
     console.log(this.concordances);
     this.concordances.push({ concordance: '', book: this.books[0] });
@@ -30,5 +35,22 @@ export class ConcordanceComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.books = ['Књига 1', 'Књига 2', 'Књига 3'];
+  }
+
+  insertQuote(char: string): void {
+    const text = this.concordances[this.caretIndex].concordance;
+    const newText = text.slice(0, this.caretPos) + char + text.slice(this.caretPos);
+    this.concordances[this.caretIndex].concordance = newText;
+    this.showQuotesDialog = false;
+    this.caretTarget.focus();
+  }
+
+  keyup(event, index: number): void {
+    if (event.key === 'F1') {
+      this.caretPos = event.target.selectionStart;
+      this.caretIndex = index;
+      this.caretTarget = event.target;
+      this.showQuotesDialog = true;
+    }
   }
 }
