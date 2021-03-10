@@ -7,6 +7,8 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.fonts import FontConfiguration
+from docx import Document
+from htmldocx import HtmlToDocx
 from odrednice.models import *
 from .models import *
 
@@ -264,7 +266,7 @@ def enumerate_odrednice(odrednice):
         prev = o
 
 
-def render_slovo(slovo):
+def render_slovo(slovo, file_format='pdf'):
     try:
         trd = TipRenderovanogDokumenta.objects.get(id=1)
     except TipRenderovanogDokumenta.DoesNotExist:
@@ -274,10 +276,15 @@ def render_slovo(slovo):
     enumerate_odrednice(odrednice)
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
-    return render_to_file(context, 'render/slovo.html', trd, opis=f'слово {slovo[0].upper()}')
+    if file_format == 'pdf':
+        return render_to_pdf(context, 'render/pdf/slovo.html', trd, opis=f'слово {slovo[0].upper()}')
+    elif file_format == 'docx':
+        return render_to_docx(context, 'render/docx/slovo.html', trd, opis=f'слово {slovo[0].upper()}')
+    else:
+        return None
 
 
-def render_recnik():
+def render_recnik(file_format='pdf'):
     try:
         trd = TipRenderovanogDokumenta.objects.get(id=2)
     except TipRenderovanogDokumenta.DoesNotExist:
@@ -292,10 +299,15 @@ def render_recnik():
             'odrednice': [render_one(o) for o in odrednice]
         })
     context = {'slova': slova}
-    return render_to_file(context, 'render/recnik.html', trd)
+    if file_format == 'pdf':
+        return render_to_pdf(context, 'render/pdf/recnik.html', trd)
+    elif file_format == 'docx':
+        return render_to_docx(context, 'render/docx/recnik.html', trd)
+    else:
+        return None
 
 
-def render_to_file(context, template, doc_type, opis=''):
+def render_to_pdf(context, template, doc_type, opis=''):
     tpl = get_template(template)
     html_text = tpl.render(context)
     html_text = html_text.replace('&#9632;', '<small>&#9632;</small>')
@@ -307,11 +319,32 @@ def render_to_file(context, template, doc_type, opis=''):
     css = CSS(string=css_text, font_config=font_config, url_fetcher=font_fetcher)
     temp_file = tempfile.TemporaryFile()
     html.write_pdf(temp_file, stylesheets=[css], font_config=font_config)
+    novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'pdf')
+    return novi_dokument.rendered_file.name
+
+
+def render_to_docx(context, template, doc_type, opis=''):
+    tpl = get_template(template)
+    html_text = tpl.render(context)
+    document = Document()
+    style = document.styles['Normal']
+    font = style.font
+    font.name = 'Dijakritika'
+    new_parser = HtmlToDocx()
+    new_parser.add_html_to_document(html_text, document)
+    temp_file = tempfile.TemporaryFile()
+    document.save(temp_file)
+    novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'docx')
+    return novi_dokument.rendered_file.name
+
+
+def add_file_to_django(doc_type, opis, file_path, file_type):
     novi_dokument = RenderovaniDokument()
     novi_dokument.tip_dokumenta = doc_type
     novi_dokument.vreme_rendera = now()
     novi_dokument.opis = opis
+    novi_dokument.file_type = 1 if file_type == 'pdf' else 2
     novi_dokument.save()
-    django_file = File(temp_file)
+    django_file = File(file_path)
     novi_dokument.rendered_file.save(get_rendered_file_path(novi_dokument, None), django_file, True)
-    return novi_dokument.rendered_file.name
+    return novi_dokument

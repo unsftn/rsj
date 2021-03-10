@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Odrednice</title>
+</head>
+<body>
+<p class="slovo-spacer"></p>
+<p class="slovo">{{slovo}}</p>
+{% for od in odrednice %}
+    <p class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</p>
+{% endfor %}
+</body>
+</html>

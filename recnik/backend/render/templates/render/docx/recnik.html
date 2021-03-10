@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Речник</title>
+</head>
+<body>
+{% for slovo in slova %}
+    <p class="slovo-spacer"></p>
+    <p class="slovo">{{slovo.slovo}}</p>
+    {% for od in slovo.odrednice %}
+        <p class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</p>
+    {% endfor %}
+{% endfor %}
+</body>
+</html>
