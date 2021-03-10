@@ -215,6 +215,7 @@ export class TabFormComponent implements OnInit {
     this[this.accentModelName] = newText;
     this.showAccentDialog = false;
     this.accentTarget.focus();
+    setTimeout(() => {this.accentTarget.setSelectionRange(this.accentCaretPos + 1, this.accentCaretPos + 1, 'none')});
   }
 
   save(): void {

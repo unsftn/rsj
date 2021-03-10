@@ -15,6 +15,11 @@ export class ExpressionsComponent implements OnInit {
   @Input() isTopLevel: boolean;
   @Input() expressions = [];
 
+  showQuotesDialog = false;
+  caretPos: number;
+  caretIndex: number;
+  caretTarget: HTMLTextAreaElement;
+
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
@@ -50,5 +55,23 @@ export class ExpressionsComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.fetch();
+  }
+
+  insertQuote(char: string): void {
+    const text = this.expressions[this.caretIndex].value;
+    const newText = text.slice(0, this.caretPos) + char + text.slice(this.caretPos);
+    this.expressions[this.caretIndex].value = newText;
+    this.showQuotesDialog = false;
+    this.caretTarget.focus();
+    setTimeout(() => {this.caretTarget.setSelectionRange(this.caretPos + 1, this.caretPos + 1, 'none')});
+  }
+
+  keyup(event, index: number): void {
+    if (event.key === 'F1') {
+      this.caretPos = event.target.selectionStart;
+      this.caretIndex = index;
+      this.caretTarget = event.target;
+      this.showQuotesDialog = true;
+    }
   }
 }

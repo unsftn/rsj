@@ -1,3 +1,7 @@
+<p-dialog header="Унос наводника" [(visible)]="showQuotesDialog" [style]="{width: '50vw'}" [resizable]="false" [modal]="true" [closable]="true">
+  <button pButton label="„" (click)="insertQuote('„')" class="accent-button p-mr-3"></button>
+  <button pButton label="”" (click)="insertQuote('”')" class="accent-button p-mr-3"></button>
+</p-dialog>
 <div class="p-d-flex">
   <div class="p-mr-2">
     <h4>Изрази и фразе</h4>
@@ -26,7 +30,7 @@
                   <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе"/>
                 </div>
                 <div class="p-mb-2">
-                  <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"></textarea>
+                  <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе" (keyup)="keyup($event, i)"></textarea>
                 </div>
                 <div class="p-d-flex">
                   <div class="p-mr-2">

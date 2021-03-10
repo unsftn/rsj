@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -28,9 +28,9 @@ export class MeaningFormComponent implements OnInit {
     this.primengConfig.ripple = true;
   }
 
-  show(obj): void {
-    console.log(obj);
-  }
+  // show(obj): void {
+  //   console.log(obj);
+  // }
 
   insertQuote(char: string): void {
     const text = this.meanings[this.caretIndex].value;
@@ -38,6 +38,7 @@ export class MeaningFormComponent implements OnInit {
     this.meanings[this.caretIndex].value = newText;
     this.showQuotesDialog = false;
     this.caretTarget.focus();
+    setTimeout(() => {this.caretTarget.setSelectionRange(this.caretPos + 1, this.caretPos + 1, 'none')});
   }
 
   keyup(event, index: number): void {
@@ -48,4 +49,5 @@ export class MeaningFormComponent implements OnInit {
       this.showQuotesDialog = true;
     }
   }
+
 }

@@ -43,6 +43,7 @@ export class ConcordanceComponent implements OnInit {
     this.concordances[this.caretIndex].concordance = newText;
     this.showQuotesDialog = false;
     this.caretTarget.focus();
+    setTimeout(() => {this.caretTarget.setSelectionRange(this.caretPos + 1, this.caretPos + 1, 'none')});
   }
 
   keyup(event, index: number): void {
