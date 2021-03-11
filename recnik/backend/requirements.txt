@@ -19,10 +19,12 @@ drf-yasg==1.20.0
 elasticsearch==7.10.1
 elasticsearch-dsl==7.3.0
 html5lib==1.1
+htmldocx==0.0.4
 idna==2.10
 inflection==0.5.1
 itypes==1.2.0
 Jinja2==2.11.2
+lxml==4.6.2
 MarkupSafe==1.1.1
 mysql-connector-python==8.0.22
 mysqlclient==2.0.1
@@ -34,6 +36,7 @@ PyJWT==1.7.1
 pyparsing==2.4.7
 Pyphen==0.10.0
 python-dateutil==2.8.1
+python-docx==0.8.10
 pytz==2020.4
 requests==2.25.0
 ruamel.yaml==0.16.12
