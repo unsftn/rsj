@@ -32,14 +32,14 @@
       <p class="label p-m-0">Аутори:</p>
     </div>
     <div class="p-col-12 p-md-10 p-lg-11">
-      <p-table [value]="pub.autori" dataKey="index" editMode="row">
-<!--        <ng-template pTemplate="header">-->
-<!--          <tr>-->
-<!--            <th>Презиме</th>-->
-<!--            <th>Име</th>-->
-<!--            <th style="width:8rem"></th>-->
-<!--          </tr>-->
-<!--        </ng-template>-->
+      <p-table #authorTable [value]="pub.autori" dataKey="index" editMode="row">
+        <ng-template pTemplate="header" let-editing="editing" >
+          <tr>
+            <th>Презиме</th>
+            <th>Име</th>
+            <th style="width:8rem"><button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-plus" (click)="onAddRow()" class="p-button-rounded p-button-text"></button></th>
+          </tr>
+        </ng-template>
         <ng-template pTemplate="body" let-autor let-editing="editing" let-ri="rowIndex">
           <tr [pEditableRow]="autor">
             <td>
@@ -64,6 +64,7 @@
             </td>
             <td style="text-align:center">
               <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(autor)" class="p-button-rounded p-button-text"></button>
+              <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-times" (click)="onDeleteRow(ri)" class="p-button-rounded p-button-text p-button-danger"></button>
               <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(autor)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
               <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-refresh" (click)="onRowEditCancel(autor, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
             </td>

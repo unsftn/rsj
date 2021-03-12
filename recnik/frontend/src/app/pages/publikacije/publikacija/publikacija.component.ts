@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Table } from 'primeng/table';
 import { PublikacijaService } from '../../../services/publikacije';
 
 @Component({
@@ -10,8 +11,8 @@ import { PublikacijaService } from '../../../services/publikacije';
 })
 export class PublikacijaComponent implements OnInit {
 
-  @Input()
-  id: number;
+  @Input() id: number;
+  @ViewChild('authorTable', {static: false}) authorTable: Table;
   editMode: boolean;
   pub: any;
   pubTypes: any[];
@@ -34,7 +35,12 @@ export class PublikacijaComponent implements OnInit {
   }
 
   save(): void {
-
+    const pub = this.makePub();
+    this.publikacijaService.save(pub).subscribe((value) => {
+      console.log(value);
+    },(error) => {
+      console.log(error);
+    });
   }
 
   onRowEditInit(author: any): void {
@@ -51,6 +57,16 @@ export class PublikacijaComponent implements OnInit {
     }
   }
 
+  onDeleteRow(rowIndex: number): void {
+    this.pub.autori.splice(rowIndex, 1);
+  }
+
+  onAddRow(): void {
+    const newAuthor = {index: this.pub.autori.length, ime: '', prezime: ''};
+    this.pub.autori.push(newAuthor);
+    this.authorTable.initRowEdit(newAuthor);
+  }
+
   onRowEditCancel(author: any, index: number): void {
     this.pub.autori[index] = this.clonedAuthors[author.index];
     delete this.clonedAuthors[author.index];
@@ -65,6 +81,19 @@ export class PublikacijaComponent implements OnInit {
         case 'add':
           this.editMode = false;
           this.id = null;
+          this.pub = {
+            autori: [],
+            naslov: '',
+            naslov_izdanja: '',
+            isbn: '',
+            issn: '',
+            godina: '',
+            volumen: '',
+            url: '',
+            izdavac: '',
+            vrsta_id: 1, // TODO
+            user_id: 1,  // TODO
+          };
           break;
         case 'edit':
           this.editMode = true;
@@ -79,5 +108,10 @@ export class PublikacijaComponent implements OnInit {
       }
     });
   }
+
+  makePub(): any {
+    delete this.pub.autor_set;
+    return this.pub;
+  };
 
 }

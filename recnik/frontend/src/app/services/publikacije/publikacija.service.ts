@@ -29,6 +29,10 @@ export class PublikacijaService {
     return this.httpClient.get<any>(`/api/publikacije/vrsta-publikacije/${id}/`);
   }
 
+  save(publikacija: any): Observable<any> {
+    return this.httpClient.post<any>(`/api/publikacije/create-publikacija/`, publikacija);
+  }
+
   getOpis(pub: any): SafeHtml {
     let retVal = '';
     for (const autor of pub.autor_set) {
