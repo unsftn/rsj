@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/publikacija-list.component';
+import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TabFormComponent } from './pages/tabForm/tabForm.component';
@@ -29,6 +31,23 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: TabFormComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' },
+  },
+  {
+    path: 'pubs',
+    component: PublikacijaListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'pubs/add',
+    component: PublikacijaComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' },
+  },
+  {
+    path: 'pubs/edit/:id',
+    component: PublikacijaComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' },
   },

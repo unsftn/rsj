@@ -1,0 +1,117 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <span class="word-title"></span>
+    <span class="word-state"></span>
+  </div>
+  <div class="p-toolbar-group-right">
+<!--    <p-menu #primeriMenu [model]="primeri" [popup]="true" appendTo="body"></p-menu>-->
+<!--    <p-button label="Примери" icon="pi pi-list" styleClass="p-button-help" (click)="primeriMenu.toggle($event)" class="p-ml-2"></p-button>-->
+<!--    <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>-->
+<!--    <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search" class="p-ml-2"></p-button>-->
+    <p-button label="Сачувај" (click)="save()" icon="pi pi-save" class="p-ml-2"></p-button>
+<!--    <p-button label="Заврши обраду" (click)="finish()" styleClass="p-button-success" icon="pi pi-check" class="p-ml-2"></p-button>-->
+  </div>
+</p-toolbar>
+<div class="container">
+  <h3 *ngIf="editMode">Публикација: {{id}}</h3>
+  <h3 *ngIf="!editMode">Нова публикација</h3>
+  <div class="p-d-flex p-flex-wrap">
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Врста:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <p-dropdown [options]="pubTypes" [(ngModel)]="pub.vrsta" optionLabel="naziv" [style]="{'width':'400px'}"></p-dropdown>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Наслов:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.naslov" size="100"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Аутори:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <p-table [value]="pub.autori" dataKey="index" editMode="row">
+<!--        <ng-template pTemplate="header">-->
+<!--          <tr>-->
+<!--            <th>Презиме</th>-->
+<!--            <th>Име</th>-->
+<!--            <th style="width:8rem"></th>-->
+<!--          </tr>-->
+<!--        </ng-template>-->
+        <ng-template pTemplate="body" let-autor let-editing="editing" let-ri="rowIndex">
+          <tr [pEditableRow]="autor">
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="autor.prezime" placeholder="Презиме"/>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{autor.prezime}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="autor.ime" placeholder="Име"/>
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{autor.ime}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td style="text-align:center">
+              <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(autor)" class="p-button-rounded p-button-text"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(autor)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
+              <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-refresh" (click)="onRowEditCancel(autor, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Издање/серија:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.naslov_izdanja" size="100"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Издавач:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.izdavac" size="50"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Година:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.godina" size="10"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">ISBN:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.isbn" size="15"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">ISSN:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.issn" size="10"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">Волумен:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.volumen" size="10"/>
+    </div>
+    <div class="p-col-12 p-md-2 p-lg-1">
+      <p class="label p-m-0">URL:</p>
+    </div>
+    <div class="p-col-12 p-md-10 p-lg-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.url" size="100"/>
+    </div>
+  </div>
+</div>

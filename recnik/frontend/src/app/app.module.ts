@@ -8,11 +8,6 @@ import { ErrorInterceptor } from './services/auth/error.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeModule } from './pages/home/home.module';
-import { TabFormModule } from './pages/tabForm/tabForm.module';
-import { LoginComponent } from './pages/login/login.component';
-import { RendersComponent } from './pages/renders/renders/renders.component';
-
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -22,9 +17,20 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { MenuModule } from 'primeng/menu';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+
+import { HomeModule } from './pages/home/home.module';
+import { TabFormModule } from './pages/tabForm/tabForm.module';
+import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RendersComponent } from './pages/renders/renders/renders.component';
+import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/publikacija-list.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RendersComponent],
+  declarations: [AppComponent, LoginComponent, RendersComponent, PublikacijaComponent, PublikacijaListComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -43,6 +49,10 @@ import { TableModule } from 'primeng/table';
     HomeModule,
     AutoCompleteModule,
     TableModule,
+    ToolbarModule,
+    MenuModule,
+    DialogModule,
+    DropdownModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

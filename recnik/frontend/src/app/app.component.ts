@@ -70,6 +70,11 @@ export class AppComponent implements OnInit {
         url: '/renders',
       },
       {
+        label: 'Публикације',
+        icon: 'pi pi-bookmark',
+        url: '/pubs',
+      },
+      {
         separator: true,
       },
       {

@@ -213,7 +213,7 @@ export class TabFormComponent implements OnInit {
 
   insertAccent(accent: string): void {
     const dotPos = this.accentModelName.indexOf('.');
-    if (dotPos != -1) {
+    if (dotPos !== -1) {
       const attrName = this.accentModelName.slice(0, dotPos);
       const attrField = this.accentModelName.slice(dotPos + 1);
       const text = this[attrName][this.accentIndex][attrField];
