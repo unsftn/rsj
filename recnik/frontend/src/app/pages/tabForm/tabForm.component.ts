@@ -63,6 +63,7 @@ export class TabFormComponent implements OnInit {
   accentCaretPos = 0;
   accentModelName: string;
   accentTarget: HTMLInputElement;
+  accentIndex = -1;
   message: SafeHtml;
   nextRoute: any[];
 
@@ -198,9 +199,10 @@ export class TabFormComponent implements OnInit {
     this.showWarningDialog = true;
   }
 
-  keyup(event, modelName: string): void {
+  keyup(event, modelName: string, index = -1): void {
     if (event.key === 'F1') {
       this.accentCaretPos = event.target.selectionStart;
+      this.accentIndex = index;
       if (this.accentCaretPos === 0) return;
       this.accentModelName = modelName;
       this.accentTarget = event.target;
@@ -210,9 +212,18 @@ export class TabFormComponent implements OnInit {
   }
 
   insertAccent(accent: string): void {
-    const text = this[this.accentModelName];
-    const newText = text.slice(0, this.accentCaretPos) + accent + text.slice(this.accentCaretPos);
-    this[this.accentModelName] = newText;
+    const dotPos = this.accentModelName.indexOf('.');
+    if (dotPos != -1) {
+      const attrName = this.accentModelName.slice(0, dotPos);
+      const attrField = this.accentModelName.slice(dotPos + 1);
+      const text = this[attrName][this.accentIndex][attrField];
+      const newText = text.slice(0, this.accentCaretPos) + accent + text.slice(this.accentCaretPos);
+      this[attrName][this.accentIndex][attrField] = newText;
+    } else {
+      const text = this[this.accentModelName];
+      const newText = text.slice(0, this.accentCaretPos) + accent + text.slice(this.accentCaretPos);
+      this[this.accentModelName] = newText;
+    }
     this.showAccentDialog = false;
     this.accentTarget.focus();
     setTimeout(() => {this.accentTarget.setSelectionRange(this.accentCaretPos + 1, this.accentCaretPos + 1, 'none')});

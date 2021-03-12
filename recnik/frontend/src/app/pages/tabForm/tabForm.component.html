@@ -65,10 +65,10 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица"  (keyup)="keyup($event, 'extensionE')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица" (keyup)="keyup($event, 'extensionE')"/>
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица"  (keyup)="keyup($event, 'extensionI')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица" (keyup)="keyup($event, 'extensionI')"/>
             </div>
           </div>
         </div>
@@ -83,10 +83,10 @@
             <div *ngFor="let variant of variants; let i=index" class="col-sm-3">
               <div class="p-d-flex p-flex-column p-flex-lg-row">
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица" />
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица" (keyup)="keyup($event, 'variants.nameE', i)"/>
                 </div>
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица" />
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица" (keyup)="keyup($event, 'variants.nameI', i)"/>
                 </div>
                 <div class="p-mb-2 p-mr-2" style="width: 200px">
                   <button
@@ -101,10 +101,10 @@
               </div>
               <div class="p-d-flex p-flex-column p-flex-lg-row">
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица" />
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица" (keyup)="keyup($event, 'variants.extensionE', i)"/>
                 </div>
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица" />
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица" (keyup)="keyup($event, 'variants.extensionI', i)"/>
                 </div>
               </div>
             </div>
