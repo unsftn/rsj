@@ -28,6 +28,19 @@ export class PublikacijaComponent implements OnInit {
     this.pub = {};
   }
 
+  check(): boolean {
+    let msg = '';
+    if (this.pub.skracenica.trim().length === 0)
+      msg += 'Скраћеница је обавезна.';
+    if (this.pub.naslov.trim().length === 0)
+      msg += ' Наслов је обавезан.';
+    if (msg.length > 0) {
+      this.messageService.add({severity:'error', summary: 'Грешка', detail:msg});
+      return false;
+    }
+    return true;
+  }
+
   getPubType(id: number): any {
     for (const pub of this.pubTypes)
       if (pub.id === id)
@@ -36,6 +49,7 @@ export class PublikacijaComponent implements OnInit {
   }
 
   save(): void {
+    if (!this.check()) return;
     const pub = this.makePub();
     if (this.editMode) {
       this.publikacijaService.save(pub).subscribe((value) => {
