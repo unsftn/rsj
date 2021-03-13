@@ -2,11 +2,17 @@ import { Injectable, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/internal/operators';
+import { shareReplay } from 'rxjs/operators';
+import { PubType } from '../../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublikacijaService {
+
+  pubTypeCache: { [key: number]: PubType; } = {};
+  pubTypeList: PubType[] = [];
 
   constructor(
     private httpClient: HttpClient,
@@ -21,16 +27,36 @@ export class PublikacijaService {
     return this.httpClient.get<any[]>(`/api/publikacije/publikacija/`);
   }
 
-  getAllTypes(): Observable<any[]> {
-    return this.httpClient.get<any[]>(`/api/publikacije/vrsta-publikacije/`);
-  }
-
-  getType(id: number): Observable<any> {
-    return this.httpClient.get<any>(`/api/publikacije/vrsta-publikacije/${id}/`);
+  add(publikacija: any): Observable<any> {
+    return this.httpClient.post<any>(`/api/publikacije/save/`, publikacija);
   }
 
   save(publikacija: any): Observable<any> {
-    return this.httpClient.post<any>(`/api/publikacije/create-publikacija/`, publikacija);
+    return this.httpClient.put<any>(`/api/publikacije/save/`, publikacija);
+  }
+
+  getPubType(id: number): PubType {
+    return this.pubTypeCache[id];
+  }
+
+  getPubTypes(): PubType[] {
+    return this.pubTypeList;
+  }
+
+  getFirstPubType(): PubType {
+    return this.pubTypeList[0];
+  }
+
+  fetchAllPubTypes(): Observable<PubType[]> {
+    return this.httpClient.get<any[]>(`/api/publikacije/vrsta-publikacije/`).pipe(
+      map((pubTypes: any[]) => {
+        return pubTypes.map((item) => {
+          const p = { id: item.id, naziv: item.naziv };
+          this.pubTypeCache[p.id] = p;
+          this.pubTypeList.push(p);
+          return p;
+        });
+    }), shareReplay(1));
   }
 
   getOpis(pub: any): SafeHtml {

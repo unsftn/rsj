@@ -17,14 +17,16 @@
     <p-table [value]="publikacije" [paginator]="true" [rows]="10">
         <ng-template pTemplate="header">
             <tr>
-                <th class="pubid">ID</th>
+<!--                <th class="pubid">ID</th>-->
+                <th class="skracenica">Скраћеница</th>
                 <th class="opis">Опис</th>
                 <th class="operacije">Операције</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-pub>
             <tr>
-                <td>{{pub.id}}</td>
+<!--                <td>{{pub.id}}</td>-->
+                <td>{{pub.skracenica}}</td>
                 <td [innerHTML]="opis(pub)"></td>
                 <td>
                   <span class="pi pi-pencil pointer p-mr-3" (click)="edit(pub)"></span>

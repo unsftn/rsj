@@ -375,7 +375,7 @@ class TestOdredniceApi(TestCase):
         }
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=3).count()
         c = Client()
-        response = c.post('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
+        response = c.post('/api/odrednice/save/', data=request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         odrednica = Odrednica.objects.get(rec='request object')
@@ -385,7 +385,7 @@ class TestOdredniceApi(TestCase):
 
     def save_big_odrednica(self):
         c = Client()
-        response = c.post('/api/odrednice/save-odrednica/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
+        response = c.post('/api/odrednice/save/', data=self.big_request_object, HTTP_AUTHORIZATION=self.token,
                           content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_201_CREATED)
         odrednica_id = json.loads(response.content.decode('utf-8'))['id']
@@ -471,11 +471,11 @@ class TestOdredniceApi(TestCase):
             'znacenja': []
         }
         c1 = Client()
-        r1 = c1.put('/api/odrednice/save-odrednica/', data=data_obj1, HTTP_AUTHORIZATION=self.token,
+        r1 = c1.put('/api/odrednice/save/', data=data_obj1, HTTP_AUTHORIZATION=self.token,
                     content_type=JSON)
         self.assertEquals(r1.status_code, status.HTTP_204_NO_CONTENT)
         c2 = Client()
-        r2 = c2.put('/api/odrednice/save-odrednica/', data=data_obj2, HTTP_AUTHORIZATION=self.token,
+        r2 = c2.put('/api/odrednice/save/', data=data_obj2, HTTP_AUTHORIZATION=self.token,
                     content_type=JSON)
         self.assertEquals(r2.status_code, status.HTTP_409_CONFLICT)
 
@@ -502,7 +502,7 @@ class TestOdredniceApi(TestCase):
 
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         c = Client()
-        response = c.put('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
+        response = c.put('/api/odrednice/save/', data=request_object, HTTP_AUTHORIZATION=self.token,
                          content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
         odrednica_updated = Odrednica.objects.get(id=1)
@@ -527,7 +527,7 @@ class TestOdredniceApi(TestCase):
 
         br_izmena = IzmenaOdrednice.objects.filter(odrednica_id=1).count()
         c = Client()
-        response = c.put('/api/odrednice/save-odrednica/', data=request_object, HTTP_AUTHORIZATION=self.token,
+        response = c.put('/api/odrednice/save/', data=request_object, HTTP_AUTHORIZATION=self.token,
                          content_type=JSON)
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
         odrednica_updated = Odrednica.objects.get(id=1)

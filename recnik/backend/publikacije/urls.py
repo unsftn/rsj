@@ -16,7 +16,7 @@ urlpatterns = [
     path('tekst-publikacije/<int:pk>/', TekstPublikacijeDetail.as_view()),
     path('fajl-publikacije/', FajlPublikacijeList.as_view()),
     path('fajl-publikacije/<int:pk>/', FajlPublikacijeDetail.as_view()),
-    path('create-publikacija/', api_create_publication),
+    path('save/', api_create_publication),
     path('create-text/', api_create_text),
 ]
 

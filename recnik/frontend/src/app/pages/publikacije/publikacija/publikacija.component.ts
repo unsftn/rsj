@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { PubType } from '../../../models';
 import { PublikacijaService } from '../../../services/publikacije';
 
 @Component({
@@ -15,7 +16,7 @@ export class PublikacijaComponent implements OnInit {
   @ViewChild('authorTable', {static: false}) authorTable: Table;
   editMode: boolean;
   pub: any;
-  pubTypes: any[];
+  pubTypes: PubType[];
   clonedAuthors: { [s: string]: any; } = {};
 
   constructor(
@@ -36,11 +37,23 @@ export class PublikacijaComponent implements OnInit {
 
   save(): void {
     const pub = this.makePub();
-    this.publikacijaService.save(pub).subscribe((value) => {
-      console.log(value);
-    },(error) => {
-      console.log(error);
-    });
+    if (this.editMode) {
+      this.publikacijaService.save(pub).subscribe((value) => {
+        this.router.navigate(['/pubs']);
+      },(error) => {
+        console.log(error);
+      });
+    } else {
+      this.publikacijaService.add(pub).subscribe((value) => {
+        this.router.navigate(['/pubs']);
+      },(error) => {
+        console.log(error);
+      });
+    }
+  }
+
+  back(): void {
+    this.router.navigate(['/pubs']);
   }
 
   onRowEditInit(author: any): void {
@@ -73,9 +86,7 @@ export class PublikacijaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.publikacijaService.getAllTypes().subscribe((value) => {
-      this.pubTypes = value;
-    });
+    this.publikacijaService.fetchAllPubTypes().subscribe((data) => { this.pubTypes = data; });
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
@@ -91,8 +102,7 @@ export class PublikacijaComponent implements OnInit {
             volumen: '',
             url: '',
             izdavac: '',
-            vrsta_id: 1, // TODO
-            user_id: 1,  // TODO
+            vrsta: this.publikacijaService.getFirstPubType(),
           };
           break;
         case 'edit':
@@ -102,6 +112,9 @@ export class PublikacijaComponent implements OnInit {
             this.publikacijaService.get(this.id).subscribe((value) => {
               this.pub = value;
               this.pub.autori = this.pub.autor_set.map((item, index) => ({ index, ime: item.ime, prezime: item.prezime}));
+              this.pub.vrsta = this.publikacijaService.getPubType(this.pub.vrsta.id);
+              delete this.pub.autor_set;
+              console.log(this.pub);
             });
           });
           break;
@@ -110,7 +123,8 @@ export class PublikacijaComponent implements OnInit {
   }
 
   makePub(): any {
-    delete this.pub.autor_set;
+    this.pub.vrsta_id = this.pub.vrsta.id;
+    delete this.pub.vrsta;
     return this.pub;
   };
 

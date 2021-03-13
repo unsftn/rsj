@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
 import { OdrednicaService, QualificatorService } from './services/odrednice';
+import { PublikacijaService } from './services/publikacije';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private qualificatorService: QualificatorService,
     private odrednicaService: OdrednicaService,
+    private publikacijaService: PublikacijaService,
     private router: Router,
   ) {}
 
@@ -94,5 +96,6 @@ export class AppComponent implements OnInit {
       },
     ];
     this.qualificatorService.fetchAllQualificators();
+    this.publikacijaService.fetchAllPubTypes();
   }
 }

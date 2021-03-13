@@ -76,16 +76,30 @@ class FajlPublikacijeDetail(generics.RetrieveAPIView):
     serializer_class = FajlPublikacijeSerializer
 
 
-@api_view(['POST'])
+JSON = 'application/json'
+
+
+@api_view(['POST', 'PUT'])
 def api_create_publication(request):
-    serializer = CreatePublicationSerializer(data=request.data)
-    if serializer.is_valid():
-        publikacija = serializer.save()
-        ser2 = PublikacijaSerializer(publikacija)
-        return Response(ser2.data, status=status.HTTP_201_CREATED, content_type='application/json')
+    if request.method == 'POST':
+        serializer = CreatePublicationSerializer(data=request.data)
     else:
-        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
-                        content_type='application/json')
+        try:
+            pub_id = request.data['id']
+            publikacija = Publikacija.objects.get(id=pub_id)
+            serializer = CreatePublicationSerializer(publikacija, data=request.data)
+        except (KeyError, Publikacija.DoesNotExist):
+            return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
+    if serializer.is_valid():
+        publikacija = serializer.save(user=request.user)
+        ser2 = PublikacijaSerializer(publikacija)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
 
 
 @api_view(['POST'])
@@ -96,7 +110,6 @@ def api_create_text(request):
         ser2 = TekstPublikacijeSerializer(tekst_publikacije)
         retval = ser2.data
         del retval['tekst']
-        return Response(retval, status=status.HTTP_201_CREATED, content_type='application/json')
+        return Response(retval, status=status.HTTP_201_CREATED, content_type=JSON)
     else:
-        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST,
-                        content_type='application/json')
+        return Response({'error': 'invalid request object'}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)

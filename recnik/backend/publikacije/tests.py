@@ -58,6 +58,7 @@ class TestPublikacijaApi(TestCase):
                 'prezime': 'Kremer'
             }],
             'user_id': 1,
+            'skracenica': 'Dr.glas',
         }
 
     def test_find_by_id(self):
@@ -78,7 +79,7 @@ class TestPublikacijaApi(TestCase):
 
     def test_create_publikacija(self):
         c = Client()
-        response = c.post('/api/publikacije/create-publikacija/', data=self.create_pub_obj,
+        response = c.post('/api/publikacije/save/', data=self.create_pub_obj,
                           HTTP_AUTHORIZATION=f'Bearer {get_jwt_token()}', content_type='application/json')
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 201)
@@ -91,7 +92,7 @@ class TestPublikacijaApi(TestCase):
     def test_create_tekst(self):
         c = Client()
         token = get_jwt_token()
-        response = c.post('/api/publikacije/create-publikacija/', data=self.create_pub_obj,
+        response = c.post('/api/publikacije/save/', data=self.create_pub_obj,
                           HTTP_AUTHORIZATION=f'Bearer {token}', content_type='application/json')
         res_obj = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, 201)

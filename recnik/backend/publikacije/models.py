@@ -2,6 +2,7 @@
 import os
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.timezone import now
 
 
 POTKORPUSI = [
@@ -34,9 +35,10 @@ class Publikacija(models.Model):
     volumen = models.CharField('годиште', max_length=10, blank=True, null=True)
     broj = models.CharField('број', max_length=10, blank=True, null=True)
     url = models.URLField('URL', max_length=500, blank=True, null=True)
-    vreme_unosa = models.DateTimeField('време уноса')
+    vreme_unosa = models.DateTimeField('време уноса', default=now)
     potkorpus = models.IntegerField('поткорпус', choices=POTKORPUSI, default=0)
     user = models.ForeignKey(User, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    skracenica = models.CharField('скраћеница', max_length=100, default='-')
 
     def __str__(self):
         return self.naslov

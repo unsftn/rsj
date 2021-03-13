@@ -26,8 +26,7 @@ class RenderPdfTest(TestCase):
         self.token = f'Bearer {get_jwt_token()}'
 
     def test_render_slovo(self):
-        odrednice = Odrednica.objects.filter(rec__startswith='а')
-        output_file = render_slovo(odrednice, 'А')
+        output_file = render_slovo('А', 'pdf')
         self.assertIsNotNone(output_file)
 
     def test_odrednice_newest(self):
