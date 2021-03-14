@@ -3,7 +3,7 @@ from django.conf import settings
 from elasticsearch_dsl import analyzer, Index
 from elasticsearch_dsl.connections import connections
 from .models import OdrednicaDocument, KorpusDocument
-from .serializers import CreateOdrednicaDocumentSerializer
+from .serializers import CreateOdrednicaDocumentSerializer, CreatePublikacijaDocumentSerializer
 from .config import *
 
 
@@ -24,27 +24,22 @@ def check_elasticsearch():
 
 def create_index_if_needed():
     try:
-        if not connections.get_connection().indices.exists(ODREDNICA_INDEX):
-            odrednica_index = Index(ODREDNICA_INDEX)
-            odrednica_index.analyzer(SERBIAN_ANALYZER)
-            odrednica_index.document(OdrednicaDocument)
-            odrednica_index.create()
-        if not connections.get_connection().indices.exists(KORPUS_INDEX):
-            korpus_index = Index(KORPUS_INDEX)
-            korpus_index.analyzer(SERBIAN_ANALYZER)
-            korpus_index.document(KorpusDocument)
-            korpus_index.create()
+        for es_idx in ALL_INDEXES:
+            if not connections.get_connection().indices.exists(es_idx['index']):
+                idx = Index(es_idx['index'])
+                idx.analyzer(SERBIAN_ANALYZER)
+                idx.document(es_idx['document'])
+                idx.create()
     except Exception as ex:
         log.fatal(ex)
 
 
 def recreate_index():
     try:
-        if connections.get_connection().indices.exists(ODREDNICA_INDEX):
-            connections.get_connection().indices.delete(ODREDNICA_INDEX)
-        if connections.get_connection().indices.exists(KORPUS_INDEX):
-            connections.get_connection().indices.delete(KORPUS_INDEX)
-            create_index_if_needed()
+        for es_idx in ALL_INDEXES:
+            if connections.get_connection().indices.exists(es_idx['index']):
+                connections.get_connection().indices.delete(es_idx['index'])
+        create_index_if_needed()
     except Exception as ex:
         log.fatal(ex)
 
@@ -72,6 +67,30 @@ def save_odrednica_dict(odr_dict):
     odrednica = serializer.create(odr_dict)
     try:
         result = odrednica.save(id=odrednica.pk, index=ODREDNICA_INDEX)
+        return result
+    except Exception as ex:
+        log.fatal(ex)
+        return None
+
+
+def save_publikacija_model(publikacija):
+    autori = ' '
+    for autor in publikacija.autor_set.all():
+        autori += autor.ime + ' ' + autor.prezime
+    pub_dict = {
+        'pk': publikacija.pk,
+        'skracenica': publikacija.skracenica,
+        'naslov': publikacija.naslov,
+        'tekst': ' '.join([publikacija.skracenica, publikacija.naslov, autori])
+    }
+    return save_publikacija_dict(pub_dict)
+
+
+def save_publikacija_dict(pub_dict):
+    serializer = CreatePublikacijaDocumentSerializer()
+    publikacija = serializer.create(pub_dict)
+    try:
+        result = publikacija.save(id=publikacija.pk, index=PUBLIKACIJE_INDEX)
         return result
     except Exception as ex:
         log.fatal(ex)

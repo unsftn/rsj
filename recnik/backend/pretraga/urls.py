@@ -8,6 +8,7 @@ app_name = 'претрага'
 urlpatterns = [
     path('odrednica/', odrednica),
     path('korpus/', korpus),
+    path('publikacija/', publikacija),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

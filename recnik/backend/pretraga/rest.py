@@ -1,16 +1,10 @@
-import json
-from django.conf import settings
 from elasticsearch.exceptions import ElasticsearchException, NotFoundError
-from elasticsearch_dsl import Search, analyzer, Index
-from elasticsearch_dsl.connections import connections
+from elasticsearch_dsl import Search
 from elasticsearch_dsl.query import MultiMatch, Bool, Match
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
-
-from .models import OdrednicaDocument, KorpusDocument
-from .serializers import CreateOdrednicaDocumentSerializer, CreateKorpusDocumentSerializer, \
-    OdrednicaResponseSerializer, KorpusResponseSerializer
+from .serializers import *
 from .config import *
 from .indexer import create_index_if_needed, save_odrednica_dict
 
@@ -33,7 +27,7 @@ def odrednica(request):
 
 def _search_odrednica(request):
     if not request.GET.get('q'):
-        return BadRequest('no search term')
+        return bad_request('no search term')
 
     term = request.GET.get('q')
     hits = []
@@ -59,12 +53,12 @@ def _search_odrednica(request):
             content_type=JSON
         )
     except ElasticsearchException as error:
-        return ServerError(error.args)
+        return server_error(error.args)
 
 
 def _add_odrednica(request):
     if not request.data or request.data['odrednica'] is None:
-        return BadRequest('no data to index')
+        return bad_request('no data to index')
     odrednica = request.data['odrednica']
 
     return _save_odrednica(odrednica)
@@ -72,7 +66,7 @@ def _add_odrednica(request):
 
 def _update_odrednica(request):
     if not request.data or request.data['odrednica'] is None:
-        return BadRequest('no data to index')
+        return bad_request('no data to index')
     odrednica = request.data['odrednica']
 
     return _save_odrednica(odrednica)
@@ -80,7 +74,7 @@ def _update_odrednica(request):
 
 def _delete_odrednica(request):
     if not request.data or request.data['pk'] is None:
-        return BadRequest('no primary key')
+        return bad_request('no primary key')
 
     pk = request.data['pk']
     odrednica = OdrednicaDocument()
@@ -88,9 +82,9 @@ def _delete_odrednica(request):
         odrednica.delete(id=pk, index=ODREDNICA_INDEX)
         return Response(status=HTTP_200_OK)
     except NotFoundError:
-        return NotFound('requested object not found')
+        return not_found('requested object not found')
     except ElasticsearchException as error:
-        return ServerError(error.args)
+        return server_error(error.args)
 
 
 def _save_odrednica(item):
@@ -99,9 +93,9 @@ def _save_odrednica(item):
         result = save_odrednica_dict(item)
         return Response(result, status=HTTP_200_OK, content_type=JSON)
     except KeyError as ke:
-        return BadRequest(ke.args)
+        return bad_request(ke.args)
     except ElasticsearchException as ee:
-        return ServerError(ee.args)
+        return server_error(ee.args)
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -120,7 +114,7 @@ def korpus(request):
 
 def _search_korpus(request):
     if not request.data or request.data['term'] is None:
-        return BadRequest('no search term')
+        return bad_request('no search term')
 
     term = request.data['term']
     hits = []
@@ -143,12 +137,12 @@ def _search_korpus(request):
             content_type=JSON
         )
     except ElasticsearchException as error:
-        return ServerError(error.args)
+        return server_error(error.args)
 
 
 def _add_korpus(request):
     if not request.data or request.data['anotiranaRec'] is None:
-        return BadRequest('no data to index')
+        return bad_request('no data to index')
     anotiranaRec = request.data['anotiranaRec']
 
     return _save_korpus(anotiranaRec)
@@ -156,7 +150,7 @@ def _add_korpus(request):
 
 def _update_korpus(request):
     if not request.data or request.data['anotiranaRec'] is None:
-        return BadRequest('no data to index')
+        return bad_request('no data to index')
     anotiranaRec = request.data['anotiranaRec']
 
     return _save_korpus(anotiranaRec)
@@ -164,7 +158,7 @@ def _update_korpus(request):
 
 def _delete_korpus(request):
     if not request.data or request.data['pk'] is None:
-        return BadRequest('no primary key')
+        return bad_request('no primary key')
 
     pk = request.data['pk']
     anotiranaRec = KorpusDocument()
@@ -172,9 +166,9 @@ def _delete_korpus(request):
         anotiranaRec.delete(id=pk, index=KORPUS_INDEX)
         return Response(status=HTTP_200_OK)
     except NotFoundError:
-        return NotFound('requested object not found')
+        return not_found('requested object not found')
     except ElasticsearchException as error:
-        return ServerError(error.args)
+        return server_error(error.args)
 
 
 def _save_korpus(item):
@@ -182,7 +176,7 @@ def _save_korpus(item):
     try:
         anotiranaRec = serializer.create(item)
     except KeyError as error:
-        return BadRequest(error.args)
+        return bad_request(error.args)
 
     try:
         result = anotiranaRec.save(id=anotiranaRec.pk, index=KORPUS_INDEX)
@@ -192,28 +186,58 @@ def _save_korpus(item):
             content_type=JSON
         )
     except ElasticsearchException as error:
-        return ServerError(error.args)
+        return server_error(error.args)
 
 
-def BadRequest(error):
-    return Response(
-        error,
-        status=HTTP_400_BAD_REQUEST,
-        content_type=JSON
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+def publikacija(request):
+    create_index_if_needed()
+    if request.method == 'GET':
+        return _search_publikacija(request)
+    # elif request.method == 'POST':
+    #     return _add_publikacija(request)
+    # elif request.method == 'PUT':
+    #     return _update_publikacija(request)
+    # elif request.method == 'DELETE':
+    #     return _delete_publikacija(request)
+    return server_error({})
+
+
+def _search_publikacija(request):
+    if not request.GET.get('q'):
+        return bad_request('no search term')
+
+    term = request.GET.get('q')
+    hits = []
+    s = Search(index=PUBLIKACIJE_INDEX)
+    s = s.source(includes=['pk', 'skracenica', 'naslov'])
+    s.query = MultiMatch(
+        type='bool_prefix',
+        query=term,
+        fields=['tekst'],
     )
+    try:
+        response = s.execute()
+        for hit in response.hits.hits:
+            hits.append(hit['_source'])
+
+        print(term)
+        print(response)
+        serializer = PublikacijaResponseSerializer(hits, many=True)
+        data = serializer.data
+
+        return Response(data, status=HTTP_200_OK, content_type=JSON)
+    except ElasticsearchException as error:
+        return server_error(error.args)
 
 
-def NotFound(error):
-    return Response(
-        error,
-        status=HTTP_404_NOT_FOUND,
-        content_type=JSON
-    )
+def bad_request(error):
+    return Response(error, status=HTTP_400_BAD_REQUEST, content_type=JSON)
 
 
-def ServerError(error):
-    return Response(
-        error,
-        status=HTTP_500_INTERNAL_SERVER_ERROR,
-        content_type=JSON
-    )
+def not_found(error):
+    return Response(error, status=HTTP_404_NOT_FOUND, content_type=JSON)
+
+
+def server_error(error):
+    return Response(error, status=HTTP_500_INTERNAL_SERVER_ERROR, content_type=JSON)

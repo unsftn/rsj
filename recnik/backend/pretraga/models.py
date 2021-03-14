@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models import IntegerField, CharField
 from elasticsearch_dsl import Document, analyzer, Keyword, SearchAsYouType, Text
-from .config import *
 
 
 class OdrednicaDocument(Document):
@@ -24,3 +23,10 @@ class KorpusDocument(Document):
 
 class KorpusResponse(models.Model):
     osnovniOblik = CharField(max_length=50)
+
+
+class PublikacijaDocument(Document):
+    pk = Keyword()
+    skracenica = Keyword()
+    naslov = Keyword()
+    tekst = SearchAsYouType()

@@ -1,7 +1,7 @@
 import unicodedata
 from rest_framework import serializers
 from odrednice.models import VRSTA_ODREDNICE
-from .models import OdrednicaDocument, KorpusDocument, OdrednicaResponse, KorpusResponse
+from .models import OdrednicaDocument, KorpusDocument, OdrednicaResponse, KorpusResponse, PublikacijaDocument
 from .cyrlat import cyr_to_lat
 
 
@@ -35,6 +35,10 @@ def add_latin(lst):
     for item in lst:
         result.append(cyr_to_lat(item))
     return result
+
+
+def append_latin(tekst):
+    return tekst + ' ' + cyr_to_lat(tekst)
 
 
 class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
@@ -111,3 +115,33 @@ class KorpusResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = KorpusResponse
         fields = ('pk', 'osnovniOblik')
+
+
+class CreatePublikacijaDocumentSerializer(serializers.ModelSerializer):
+    pk = serializers.IntegerField(required=True)
+    skracenica = serializers.CharField(max_length=100, required=True, allow_blank=True)
+    naslov = serializers.CharField(max_length=300, required=True, allow_blank=True)
+    tekst = serializers.CharField(max_length=1000, required=True, allow_blank=True)
+
+    class Meta:
+        model = PublikacijaDocument
+        fields = ('pk', 'skracenica', 'naslov', 'tekst')
+
+    def create(self, validated_data):
+        tekst = validated_data.pop('tekst')
+        tekst = clear_accents(tekst)
+        tekst = append_latin(tekst)
+        return PublikacijaDocument(tekst=tekst, **validated_data)
+
+
+class PublikacijaResponseSerializer(serializers.Serializer):
+    pk = serializers.IntegerField(required=True)
+    skracenica = serializers.CharField(max_length=100, required=True, allow_blank=True)
+    naslov = serializers.CharField(max_length=300, required=True, allow_blank=True)
+
+    def create(self, validated_data):
+        return {
+            'pk': validated_data.get('pk'),
+            'skracenica': validated_data.get('skracenica'),
+            'naslov': validated_data.get('naslov')
+        }

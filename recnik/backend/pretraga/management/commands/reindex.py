@@ -1,9 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.conf import settings
-from elasticsearch_dsl import Search, analyzer, Index
 from odrednice.models import Odrednica
-from pretraga.models import OdrednicaDocument, KorpusDocument
-from pretraga.indexer import save_odrednica_model, recreate_index, check_elasticsearch
+from publikacije.models import Publikacija
+from pretraga.indexer import save_odrednica_model, save_publikacija_model, recreate_index, check_elasticsearch
+
 
 class Command(BaseCommand):
     help = 'Reindex database in Elasticsearch'
@@ -21,3 +21,12 @@ class Command(BaseCommand):
             if count % 1000 == 0 and count > 0:
                 self.stdout.write(f'Indeksirano {count} odrednica.')
         self.stdout.write(f'Ukupno indeksirano {count} odrednica.')
+        self.stdout.write(f'Ukupno {Publikacija.objects.count()} publikacija za indeksiranje.')
+        count = 0
+        for pub in Publikacija.objects.all():
+            if save_publikacija_model(pub):
+                count += 1
+            if count % 1000 == 0 and count > 0:
+                self.stdout.write(f'Indeksirano {count} publikacija.')
+        self.stdout.write(f'Ukupno indeksirano {count} publikacija.')
+
