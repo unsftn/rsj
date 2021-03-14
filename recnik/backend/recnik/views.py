@@ -8,6 +8,5 @@ from rest_framework.decorators import api_view
 def serve_media_file(request, file_path):
     absolute_path = f'{settings.MEDIA_ROOT}/{file_path}'
     content_type, encoding = mimetypes.guess_type(absolute_path)
-    print(absolute_path, content_type)
     response = FileResponse(open(absolute_path, 'rb'), as_attachment=True, content_type=content_type)
     return response
