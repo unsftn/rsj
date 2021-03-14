@@ -25,11 +25,11 @@ class Command(BaseCommand):
             log.info(f'Generisanje .docx za ceo recnik')
             file_name = render_recnik('docx')
         if file_name:
-            pdf_file = os.path.join(settings.MEDIA_ROOT, file_name)
-            self.stdout.write(self.style.SUCCESS(f'Uspesno generisan .docx: {pdf_file}'))
+            full_path = os.path.join(settings.MEDIA_ROOT, file_name)
+            self.stdout.write(self.style.SUCCESS(f'Uspesno generisan .docx: {full_path}'))
             if options['open']:
                 if platform.system() == 'Darwin':
-                    subprocess.Popen(['open', pdf_file])
+                    subprocess.Popen(['open', full_path])
         else:
             self.stdout.write(self.style.ERROR('.docx fajl nije generisan'))
         log.info('Generisanje .docx zavrseno.')

@@ -16,4 +16,4 @@ class RenderovaniDokumentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RenderovaniDokument
-        fields = ('id', 'vreme_rendera', 'opis', 'napomena', 'rendered_file', 'tip_dokumenta')
+        fields = ('id', 'vreme_rendera', 'opis', 'napomena', 'rendered_file', 'tip_dokumenta', 'file_type')

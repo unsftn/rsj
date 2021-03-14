@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenStorageService } from "../auth/token-storage.service";
+import { TokenStorageService } from '../auth/token-storage.service';
 import { Render } from '../../models';
 
 @Injectable({
@@ -24,7 +24,6 @@ export class RenderService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.httpClient.get(render.rendered_file, { headers, responseType: 'blob' as 'json'}).subscribe(
       (data: any) => {
-        console.log(data.type);
         const dataType = data.type;
         const binaryData = [];
         binaryData.push(data);
