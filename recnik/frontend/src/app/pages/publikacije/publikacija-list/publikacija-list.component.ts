@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Table } from 'primeng/table';
 import { PublikacijaService } from '../../../services/publikacije';
 
 @Component({
@@ -49,5 +50,10 @@ export class PublikacijaListComponent implements OnInit {
   delete(pub: any): void {
     this.message = 'Да ли сте сигурни да желите да обришете ову публикацију?';
     this.showDeleteWarningDialog = true;
+  }
+
+  clear(table: Table, filter: HTMLInputElement): void {
+    filter.value = '';
+    table.clear();
   }
 }

@@ -13,27 +13,34 @@
   </div>
 </p-dialog>
 <div class="container">
-    <h3>Публикације</h3>
-    <p-table [value]="publikacije" [paginator]="true" [rows]="10">
-        <ng-template pTemplate="header">
-            <tr>
-<!--                <th class="pubid">ID</th>-->
-                <th class="skracenica">Скраћеница</th>
-                <th class="opis">Опис</th>
-                <th class="operacije">Операције</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-pub>
-            <tr>
-<!--                <td>{{pub.id}}</td>-->
-                <td>{{pub.skracenica}}</td>
-                <td [innerHTML]="opis(pub)"></td>
-                <td>
-                  <span class="pi pi-pencil pointer p-mr-3" (click)="edit(pub)"></span>
-                  <span class="pi pi-times pointer" (click)="delete(pub)"></span>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+  <h3>Публикације</h3>
+  <p-table #table [value]="publikacije" [paginator]="true" [rows]="10" [globalFilterFields]="['naslov']">
+    <ng-template pTemplate="caption">
+      <div class="p-d-flex p-p-0">
+        <span class="p-input-icon-left p-ml-auto">
+          <i class="pi pi-search"></i>
+          <input #filter pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')" placeholder="Претрага по наслову"/>
+        </span>
+        <button pButton pRipple class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(table, filter)"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="skracenica">Скраћеница</th>
+        <th class="opis">Опис</th>
+        <th class="operacije">Операције</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-pub>
+      <tr>
+        <td>{{pub.skracenica}}</td>
+        <td [innerHTML]="opis(pub)"></td>
+        <td>
+          <span class="pi pi-pencil pointer p-mr-3" (click)="edit(pub)"></span>
+          <span class="pi pi-times pointer" (click)="delete(pub)"></span>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
 
