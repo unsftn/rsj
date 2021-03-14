@@ -78,7 +78,6 @@ export class PublikacijaComponent implements OnInit {
     if (author.prezime.trim().length > 0) {
       delete this.clonedAuthors[author.index];
       this.messageService.add({severity:'success', summary: 'Успех', detail:'Аутор је ажуриран'});
-      console.log(this.pub.autori);
     } else {
       this.messageService.add({severity:'error', summary: 'Грешка', detail:'Презиме је обавезно'});
     }
@@ -118,6 +117,7 @@ export class PublikacijaComponent implements OnInit {
             izdavac: '',
             vrsta: this.publikacijaService.getFirstPubType(),
           };
+          console.log(this.pub);
           break;
         case 'edit':
           this.editMode = true;

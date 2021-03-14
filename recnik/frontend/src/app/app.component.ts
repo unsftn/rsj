@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
         },
       },
     ];
-    this.qualificatorService.fetchAllQualificators();
-    this.publikacijaService.fetchAllPubTypes();
+    this.qualificatorService.fetchAllQualificators().subscribe((values) => {});
+    this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
   }
 }
