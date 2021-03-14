@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from pretraga import indexer
 from .models import *
 from .serializers import *
 
@@ -92,6 +93,7 @@ def api_create_publication(request):
             return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
     if serializer.is_valid():
         publikacija = serializer.save(user=request.user)
+        indexer.save_publikacija_model(publikacija)
         ser2 = PublikacijaSerializer(publikacija)
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
