@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { Observable, of } from 'rxjs';
+import { PublikacijaService } from '../../services/publikacije';
 
 interface Concordance {
   concordance: string;
-  book?: string;
-  // pageNumber: number;
+  bookId?: number;
+  searchText: string;
 }
 
 @Component({
@@ -13,19 +15,18 @@ interface Concordance {
   styleUrls: ['./concordance.component.scss'],
 })
 export class ConcordanceComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig, private publikacijaService: PublikacijaService) {}
 
   @Input() concordances;
-  books = [];
 
   showQuotesDialog = false;
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  searchResults: any[];
 
   add(): void {
-    console.log(this.concordances);
-    this.concordances.push({ concordance: '', book: this.books[0] });
+    this.concordances.push({ concordance: '', bookId: null, searchText: '', naslov$: of('') });
   }
 
   remove(concordance): void {
@@ -34,7 +35,10 @@ export class ConcordanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.books = ['Књига 1', 'Књига 2', 'Књига 3'];
+    this.concordances.forEach((c) => {
+      if (c.bookId)
+        this.publikacijaService.getTitle(c.bookId).subscribe((naslov) => c.naslov$ = of(naslov));
+    });
   }
 
   insertQuote(char: string): void {
@@ -53,5 +57,27 @@ export class ConcordanceComponent implements OnInit {
       this.caretTarget = event.target;
       this.showQuotesDialog = true;
     }
+  }
+
+  search(event): void {
+    this.publikacijaService.search(event.query).subscribe(
+      (data) => {
+        this.searchResults = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  select(event, index): void {
+    this.concordances[index].bookId = event.pk;
+    this.publikacijaService.getTitle(event.pk).subscribe((naslov) => this.concordances[index].naslov$ = of(naslov));
+    this.concordances[index].searchText = '';
+  }
+
+  removePub(concordance): void {
+    concordance.bookId = null;
+    concordance.naslov$ = of('');
   }
 }

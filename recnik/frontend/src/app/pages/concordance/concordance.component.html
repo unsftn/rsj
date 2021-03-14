@@ -17,17 +17,24 @@
 </div>
 <form #formRef="ngForm">
   <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
-    <div class="p-d-flex p-flex-column">
+    <div class="p-d-flex p-flex-column p-mb-2">
       <div class="p-d-flex">
-        <div class="p-mb-2">
-          <!-- <input type="text" pInputText [(ngModel)]="concordances[i].concordance" class="long-input" name="cname{{i}}" placeholder="конкорданса"/> -->
+        <div class="p-mb-2 p-mr-2">
           <textarea rows="2" cols="40" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца" (keyup)="keyup($event, i)"></textarea>
         </div>
-        <div class="p-mb-2 p-ml-4 p-mr-1 p-mt-2 red">
-          Извор:
-        </div>
-        <div class="p-mb-2">
-          <p-dropdown [options]="books" [(ngModel)]="concordances[i].book" name="selectedBook{{i}}"></p-dropdown>
+        <div class="p-d-flex p-flex-column">
+          <div class="p-mb-2">
+            <p-autoComplete [(ngModel)]="concordances[i].searchText" name="book{{i}}" [suggestions]="searchResults" (completeMethod)="search($event)" scrollHeight="300px" (onSelect)="select($event, i)" placeholder="Претрага извора" class="search-component">
+              <ng-template let-pub pTemplate="item">
+                <span class="skracenica">{{pub.skracenica}}</span>
+                <span class="naslov">{{pub.naslov}}</span>
+              </ng-template>
+            </p-autoComplete>
+            <p-button *ngIf="concordances[i].bookId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removePub(concordances[i])" class="p-ml-2"></p-button>
+          </div>
+          <div class="naslov">
+            {{concordances[i].naslov$ | async}}
+          </div>
         </div>
         <div class="p-mr-2">
           <button

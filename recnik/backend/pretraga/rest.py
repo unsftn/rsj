@@ -221,8 +221,6 @@ def _search_publikacija(request):
         for hit in response.hits.hits:
             hits.append(hit['_source'])
 
-        print(term)
-        print(response)
         serializer = PublikacijaResponseSerializer(hits, many=True)
         data = serializer.data
 

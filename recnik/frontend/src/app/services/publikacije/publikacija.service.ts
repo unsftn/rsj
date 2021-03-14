@@ -23,6 +23,10 @@ export class PublikacijaService {
     return this.httpClient.get<any>(`/api/publikacije/publikacija/${id}/`);
   }
 
+  getTitle(id: number): Observable<string> {
+    return this.httpClient.get<any>(`/api/publikacije/publikacija/${id}`).pipe(map((v: any) => v.naslov), shareReplay(1));
+  }
+
   getAll(): Observable<any[]> {
     return this.httpClient.get<any[]>(`/api/publikacije/publikacija/`);
   }
@@ -33,6 +37,10 @@ export class PublikacijaService {
 
   save(publikacija: any): Observable<any> {
     return this.httpClient.put<any>(`/api/publikacije/save/`, publikacija);
+  }
+
+  search(text: string): Observable<any> {
+    return this.httpClient.get(`/api/pretraga/publikacija/?q=${text}`);
   }
 
   getPubType(id: number): PubType {
@@ -64,15 +72,19 @@ export class PublikacijaService {
     for (const autor of pub.autor_set) {
       retVal += autor.prezime + ', ' + autor.ime;
     }
-    if (retVal.length > 0)
+    if (retVal.length > 0) {
       retVal += ': ';
+    }
     retVal += '<i>' + pub.naslov + '</i>';
-    if (pub.izdavac.length > 0)
+    if (pub.izdavac.length > 0) {
       retVal += ', ' + pub.izdavac;
-    if (pub.godina.length > 0)
+    }
+    if (pub.godina.length > 0) {
       retVal += ', ' + pub.godina;
-    if (retVal[-1] !== '.')
+    }
+    if (retVal[-1] !== '.') {
       retVal += '.';
+    }
     return this.domSanitizer.bypassSecurityTrustHtml(retVal);
   }
 }

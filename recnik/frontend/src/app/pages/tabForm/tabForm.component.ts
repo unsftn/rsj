@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { of } from 'rxjs';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 import * as primeri from '../../examples';
@@ -462,6 +463,7 @@ export class TabFormComponent implements OnInit {
               return {
                 redni_broj: idx2 + 1,
                 opis: c.concordance.trim(),
+                publikacija_id: c.bookId ? c.bookId : null,
               };
             }),
           };
@@ -484,6 +486,7 @@ export class TabFormComponent implements OnInit {
           return {
             redni_broj: idx + 1,
             opis: c.concordance.trim(),
+            publikacija_id: c.bookId ? c.bookId : null,
           };
         }),
       };
@@ -502,7 +505,7 @@ export class TabFormComponent implements OnInit {
         };
       }),
       qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-      concordances: z.konkordansa_set.map((k) => ({concordance: k.opis})),
+      concordances: z.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined})),
       submeanings: z.podznacenje_set.map((pz) => ({
         value: pz.tekst,
         expressions: pz.izrazfraza_set.map((e, idx) => {
@@ -514,7 +517,7 @@ export class TabFormComponent implements OnInit {
           };
         }),
         qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-        concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis})),
+        concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined})),
     }))}));
   }
 

@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { ConcordanceComponent } from './concordance.component';
-
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,6 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DialogModule } from 'primeng/dialog';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
+import { ConcordanceComponent } from './concordance.component';
 
 @NgModule({
   declarations: [ConcordanceComponent],
@@ -24,6 +24,7 @@ import { DialogModule } from 'primeng/dialog';
     InputNumberModule,
     FieldsetModule,
     DialogModule,
+    AutoCompleteModule,
   ],
   exports: [ConcordanceComponent],
   providers: [],

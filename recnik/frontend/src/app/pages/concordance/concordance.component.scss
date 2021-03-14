@@ -5,3 +5,19 @@
 .accent-button {
   font-size: 80px;
 }
+
+div.naslov {
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-component {
+  .skracenica {
+    float: left;
+  }
+  .naslov {
+    float: right;
+  }
+}

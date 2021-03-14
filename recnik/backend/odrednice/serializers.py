@@ -194,7 +194,7 @@ class CreateIzrazFrazaSerializer(NoSaveSerializer):
 class CreateKonkordansaSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     opis = serializers.CharField(max_length=2000, allow_blank=True)
-    publikacija_id = serializers.IntegerField(required=False)
+    publikacija_id = serializers.IntegerField(required=False, allow_null=True)
 
 
 class CreatePodznacenjeSerializer(NoSaveSerializer):
