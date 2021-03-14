@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   signedIn(): boolean {
-    return this.tokenStorageService.getUser() != null;
+    return this.tokenStorageService.getUser() !== null;
   }
 
   signOut(): void {
@@ -58,10 +58,12 @@ export class AppComponent implements OnInit {
         label: 'Пријава',
         icon: 'pi pi-sign-in',
         routerLink: ['/login'],
+        disabled: this.signedIn(),
       },
       {
         label: 'Профил',
         icon: 'pi pi-user',
+        disabled: !this.signedIn(),
       },
       {
         separator: true,
@@ -69,12 +71,14 @@ export class AppComponent implements OnInit {
       {
         label: 'Рендери',
         icon: 'pi pi-book',
-        url: '/renders',
+        routerLink: ['/renders'],
+        disabled: !this.signedIn(),
       },
       {
         label: 'Публикације',
         icon: 'pi pi-bookmark',
-        url: '/pubs',
+        routerLink: ['/pubs'],
+        disabled: !this.signedIn(),
       },
       {
         separator: true,
@@ -83,6 +87,7 @@ export class AppComponent implements OnInit {
         label: 'Администрација',
         icon: 'pi pi-cog',
         url: '/admin',
+        disabled: !this.signedIn(),
       },
       {
         separator: true,
@@ -93,9 +98,20 @@ export class AppComponent implements OnInit {
         command: (event: any) => {
           this.signOut();
         },
+        disabled: !this.signedIn(),
       },
     ];
     this.qualificatorService.fetchAllQualificators().subscribe((values) => {});
     this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
+    this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
+      this.items.forEach((item, index) => {
+        if (item.separator)
+          return;
+        if (index === 0)
+          item.disabled = loggedIn;
+        else
+          item.disabled = !loggedIn;
+      });
+    });
   }
 }

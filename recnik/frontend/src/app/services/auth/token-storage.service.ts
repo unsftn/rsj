@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Observer, of } from 'rxjs';
 
 const ACCESS_TOKEN = 'access-token';
 const REFRESH_TOKEN = 'refresh-token';
@@ -6,10 +7,18 @@ const USER = 'user';
 
 @Injectable({ providedIn: 'root' })
 export class TokenStorageService {
-  constructor() { }
+  loggedIn$: Observable<boolean>;
+  private observers: any[] = [];
+
+  constructor() {
+    this.loggedIn$ = new Observable((observer) => {
+      this.observers.push(observer);
+    });
+  }
 
   signOut(): void {
     sessionStorage.clear();
+    this.observers.forEach(observer => observer.next(false));
   }
 
   public saveToken(accessToken: string, refreshToken: string): void {
@@ -30,6 +39,7 @@ export class TokenStorageService {
   public saveUser(user): void {
     sessionStorage.removeItem(USER);
     sessionStorage.setItem(USER, JSON.stringify(user));
+    this.observers.forEach(observer => observer.next(true));
   }
 
   public isLoggedIn(): boolean {
