@@ -36,7 +36,9 @@
               "node_modules/primeflex/primeflex.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -106,7 +108,9 @@
               "./node_modules/primeflex/primeflex.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/Chart.js"
+            ]
           }
         },
         "lint": {

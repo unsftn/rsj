@@ -13,7 +13,7 @@ import { StaticHtmlService } from '../../services/static-html';
   templateUrl: './rendered-odrednice.component.html',
   styleUrls: ['./rendered-odrednice.component.scss'],
 })
-export class RenderedOdredniceComponent implements OnInit, OnChanges {
+export class RenderedOdredniceComponent implements OnInit {
   innerHtml: SafeHtml;
 
   @Input() source: string;
@@ -25,13 +25,6 @@ export class RenderedOdredniceComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.insertStaticView();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!this.source) {
-      return;
-    }
     this.insertStaticView();
   }
 
