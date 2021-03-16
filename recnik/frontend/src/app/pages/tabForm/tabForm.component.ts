@@ -50,6 +50,7 @@ export class TabFormComponent implements OnInit {
   editMode: boolean;  // false: nova odrednica; true: edit postojece
   version = 1;
   optionalSe: boolean;
+  homonim?: number;
 
   meanings: any[] = [];
   meanings2: any[] = [];
@@ -404,6 +405,7 @@ export class TabFormComponent implements OnInit {
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: this.version,
       opciono_se: this.optionalSe,
+      rbr_homonima: this.homonim === 0 ? null : this.homonim,
       kolokacija_set: this.collocations ? this.collocations : [],
       kvalifikatori: this.qualificators.map((q, index) => {
         return {
@@ -535,6 +537,7 @@ export class TabFormComponent implements OnInit {
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);
     this.optionalSe = value.opciono_se;
+    this.homonim = value.rbr_homonima;
     switch (value.vrsta) {
       case 0:
         this.selectedGender = this.enumService.getGender(value.rod);

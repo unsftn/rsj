@@ -140,7 +140,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'prezent', 'prezent_ij', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'version',
                   'varijantaodrednice_set', 'imaantonim_set', 'imasinonim_set', 'antonimuvezi_set', 'sinonimuvezi_set',
                   'kolokacija_set', 'recukolokaciji_set', 'znacenje_set', 'izrazfraza_set',
-                  'kvalifikatorodrednice_set', 'izmenaodrednice_set', 'opciono_se')
+                  'kvalifikatorodrednice_set', 'izmenaodrednice_set', 'opciono_se', 'rbr_homonima')
 
 
 # insert/update serializers
@@ -255,6 +255,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
     sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False)
     antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
+    rbr_homonima = serializers.IntegerField(required=False, allow_null=True)
 
     def instantiate(self):
         return self._save(self.validated_data, None, 'memory')

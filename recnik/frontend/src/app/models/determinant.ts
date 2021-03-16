@@ -15,6 +15,7 @@ export interface Determinant {
   stanje: number;
   version: number;
   opciono_se?: boolean;
+  rbr_homonima?: number;
   kolokacija_set?: any[];
   kvalifikatori: any[];
   znacenja: any[];

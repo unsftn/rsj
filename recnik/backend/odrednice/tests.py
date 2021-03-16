@@ -43,6 +43,7 @@ class TestOdredniceApi(TestCase):
             'prezent': '',
             'stanje': 1,
             'varijante': [],
+            'rbr_homonima': None,
             'znacenja': [{
                 'redni_broj': 1,
                 'tekst': '',

@@ -133,8 +133,8 @@ def render_one(odrednica):
     html = f'<b>{odrednica.rec}'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         html += f' (се)'
-    if hasattr(odrednica, 'rbr'):
-        html += f' <sup>{odrednica.rbr}</sup>'
+    if odrednica.rbr_homonima:
+        html += f' <sup>{odrednica.rbr_homonima}</sup>'
     html += f'</b>'
 
     # imenica
@@ -272,8 +272,8 @@ def render_slovo(slovo, file_format='pdf'):
     except TipRenderovanogDokumenta.DoesNotExist:
         log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
         return
-    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec')
-    enumerate_odrednice(odrednice)
+    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec', 'rbr_homonima')
+    # enumerate_odrednice(odrednice)
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     if file_format == 'pdf':
@@ -292,8 +292,8 @@ def render_recnik(file_format='pdf'):
         return
     slova = []
     for s in AZBUKA:
-        odrednice = Odrednica.objects.filter(rec__startswith=s).order_by('rec')
-        enumerate_odrednice(odrednice)
+        odrednice = Odrednica.objects.filter(rec__startswith=s).order_by('rec', 'rbr_homonima')
+        # enumerate_odrednice(odrednice)
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]

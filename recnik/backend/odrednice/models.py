@@ -68,6 +68,7 @@ class Odrednica(models.Model):
     stanje = models.IntegerField('стање', choices=STANJE_ODREDNICE, default=1)
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     version = AutoIncVersionField()
+    rbr_homonima = models.PositiveSmallIntegerField('редни број хомонима', null=True, default=None)
 
     def __str__(self):
         return self.rec if self.rec else '-'

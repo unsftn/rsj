@@ -175,6 +175,16 @@
           <textarea rows="2" cols="60" pInputTextarea style="resize: vertical" [(ngModel)]="details" (keyup)="keyup($event, 'details')"></textarea>
         </div>
       </div>
+      <div class="p-d-flex p-ai-start">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Р.бр. хомонима:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <div class="p-mb-2 p-mr-2">
+            <input type="number" class="input-field" pInputText [(ngModel)]="homonim" [size]="2"/>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="p-col-7">
       <div class="tab-container">
