@@ -222,6 +222,11 @@ def render_one(odrednica):
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
 
+    # ostalo
+    if odrednica.vrsta == 10:
+        if odrednica.info:
+            html += f' {process_special_marks(odrednica.info)} '
+
     html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())

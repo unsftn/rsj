@@ -50,6 +50,7 @@ export class EnumService {
       { name: 'речца', id: 7 },
       { name: 'везник', id: 8 },
       { name: 'број', id: 9 },
+      { name: 'остало', id: 10 },
     ];
   }
 
