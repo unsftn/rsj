@@ -26,7 +26,8 @@ export class ConcordanceComponent implements OnInit {
   searchResults: any[];
 
   add(): void {
-    this.concordances.push({ concordance: '', bookId: null, searchText: '', naslov$: of('') });
+    this.concordances.push({ concordance: '', bookId: null, searchText: '', naslov$: of(''), skracenica$: of('') });
+    console.log(this.concordances);
   }
 
   remove(concordance): void {
@@ -47,7 +48,7 @@ export class ConcordanceComponent implements OnInit {
     this.concordances[this.caretIndex].concordance = newText;
     this.showQuotesDialog = false;
     this.caretTarget.focus();
-    setTimeout(() => {this.caretTarget.setSelectionRange(this.caretPos + 1, this.caretPos + 1, 'none')});
+    setTimeout(() => { this.caretTarget.setSelectionRange(this.caretPos + 1, this.caretPos + 1, 'none')});
   }
 
   keyup(event, index: number): void {
@@ -72,12 +73,16 @@ export class ConcordanceComponent implements OnInit {
 
   select(event, index): void {
     this.concordances[index].bookId = event.pk;
-    this.publikacijaService.getTitle(event.pk).subscribe((naslov) => this.concordances[index].naslov$ = of(naslov));
+    this.publikacijaService.get(event.pk).subscribe((pub) => {
+      this.concordances[index].naslov$ = of(pub.naslov);
+      this.concordances[index].skracenica$ = of(pub.skracenica);
+    });
     this.concordances[index].searchText = '';
   }
 
   removePub(concordance): void {
     concordance.bookId = null;
     concordance.naslov$ = of('');
+    concordance.skracenica$ = of('');
   }
 }

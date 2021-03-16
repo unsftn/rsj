@@ -34,7 +34,7 @@
             <p-button *ngIf="concordances[i].bookId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removePub(concordances[i])" class="p-ml-2"></p-button>
           </div>
           <div class="naslov">
-            {{concordances[i].naslov$ | async}}
+            <span *ngIf="concordances[i].skracenica$ | async as skr">{{skr}}: </span> <span *ngIf="concordances[i].naslov$ | async as naslov">{{naslov}}</span>
           </div>
         </div>
         <div class="p-mr-2">
