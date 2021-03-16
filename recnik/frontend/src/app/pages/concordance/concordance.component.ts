@@ -38,7 +38,10 @@ export class ConcordanceComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.concordances.forEach((c) => {
       if (c.bookId)
-        this.publikacijaService.getTitle(c.bookId).subscribe((naslov) => c.naslov$ = of(naslov));
+        this.publikacijaService.get(c.bookId).subscribe((pub) => {
+          c.naslov$ = of(pub.naslov);
+          c.skracenica$ = of(pub.skracenica);
+        });
     });
   }
 

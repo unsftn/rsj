@@ -1,7 +1,9 @@
 import logging
 from django.contrib.auth.models import User
+from django.forms.models import model_to_dict
 from rest_framework import serializers
 from render.renderer import render_one
+from publikacije.models import Publikacija
 from .models import *
 
 log = logging.getLogger(__name__)
@@ -316,7 +318,12 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 for kv in kvalifikatori_fraze:
                     KvalifikatorFraze.objects.using(database).create(izrazfraza=ifz, **kv)  # izrazfraza=iz
             for konz in konkordanse_znacenja:
-                Konkordansa.objects.using(database).create(znacenje=z, **konz)
+                if database != 'default':
+                    dst_pub = self._make_fake_pub(konz, database)
+                    del konz['publikacija_id']
+                    Konkordansa.objects.using(database).create(znacenje=z, publikacija=dst_pub, **konz)
+                else:
+                    Konkordansa.objects.using(database).create(znacenje=z, **konz)
             for podz in podznacenja:
                 kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
                 izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
@@ -330,7 +337,12 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     for kv in kvalifikatori_fraze:
                         KvalifikatorFraze.objects.using(database).create(izrazfraza=ifp, **kv)  # izrazfraza=iz
                 for konz in konkordanse_podznacenja:
-                    Konkordansa.objects.using(database).create(podznacenje=p, **konz)
+                    if database != 'default':
+                        dst_pub = self._make_fake_pub(konz, database)
+                        del konz['publikacija_id']
+                        Konkordansa.objects.using(database).create(podznacenje=p, publikacija=dst_pub, **konz)
+                    else:
+                        Konkordansa.objects.using(database).create(podznacenje=p, **konz)
         for sin in sinonimi:
             Sinonim.objects.using(database).create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
         for ant in antonimi:
@@ -341,3 +353,12 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             IzmenaOdrednice.objects.using(database).create(user_id=user.id, vreme=sada, odrednica=odrednica,
                                                            operacija_izmene_id=operacija_izmene_id)
         return odrednica
+
+    def _make_fake_pub(self, konk, database):
+        src_pub = Publikacija.objects.using('default').get(id=konk['publikacija_id'])
+        dic = model_to_dict(src_pub)
+        dic['vrsta_id'] = dic['vrsta']
+        dic['user_id'] = 1
+        del dic['vrsta']
+        del dic['user']
+        return Publikacija.objects.using(database).create(**dic)

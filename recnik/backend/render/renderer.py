@@ -69,7 +69,12 @@ def process_tags(tekst, in_italic=False):
 
 
 def render_konkordanse(konkordanse):
-    return tacka(', '.join([f'<i>{process_tags(k.opis, True)}</i>' for k in konkordanse]))
+    retval = ''
+    for k in konkordanse:
+        retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
+        if k.publikacija:
+            retval += f'{tacka(k.publikacija.skracenica)}'
+    return tacka(retval)
 
 
 def render_izrazi_fraze_znacenja(izrazifraze):
