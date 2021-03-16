@@ -1,6 +1,7 @@
 <p-dialog header="Унос наводника" [(visible)]="showQuotesDialog" [style]="{width: '50vw'}" [resizable]="false" [modal]="true" [closable]="true">
   <button pButton label="„" (click)="insertQuote('„')" class="accent-button p-mr-3"></button>
   <button pButton label="”" (click)="insertQuote('”')" class="accent-button p-mr-3"></button>
+  <button pButton label="’" (click)="insertQuote('’')" class="accent-button p-mr-3"></button>
 </p-dialog>
 <div class="p-d-flex">
   <div class="p-mr-2">
