@@ -289,6 +289,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         sinonimi = validated_data.pop('sinonimi', [])
         antonimi = validated_data.pop('antonimi', [])
 
+        validated_data['poslednja_izmena'] = sada
         odrednica, created = Odrednica.objects.using(database).update_or_create(defaults=validated_data, id=odrednica_id)
 
         for var_odr in varijante:
