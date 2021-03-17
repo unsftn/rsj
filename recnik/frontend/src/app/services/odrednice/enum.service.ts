@@ -22,6 +22,7 @@ export class EnumService {
       { name: 'женски и средњи', id: 6 },
     ];
     this.verbKinds = [
+      { name: '---', id: null, def2: false },
       { name: 'прелазни', id: 1, def2: false },
       { name: 'непрелазни', id: 2, def2: false },
       { name: 'повратни', id: 3, def2: false },
@@ -29,6 +30,7 @@ export class EnumService {
       { name: 'непрелазни + повратни', id: 5, def2: true },
     ];
     this.verbForms = [
+      { name: '---', id: null },
       { name: 'свршен', id: 1 },
       { name: 'несвршен', id: 2 },
       { name: 'двовидски', id: 3 },
@@ -79,11 +81,11 @@ export class EnumService {
   }
 
   getVerbKind(id: number): VerbKind {
-    return this.verbKinds[id - 1];
+    return this.verbKinds[id];
   }
 
   getVerbForm(id: number): VerbForm {
-    return this.verbForms[id - 1];
+    return this.verbForms[id];
   }
 
   getEntryState(id: number): StanjeOdrednice {
