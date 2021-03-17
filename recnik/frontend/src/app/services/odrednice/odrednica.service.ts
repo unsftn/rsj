@@ -10,6 +10,7 @@ export class OdrednicaService {
   constructor(private httpClient: HttpClient) {}
 
   get(id: number): Observable<any> {
+    console.log('citam odrednicu', id);
     return this.httpClient.get(`/api/odrednice/odrednica/${id}/`);
   }
 

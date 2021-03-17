@@ -411,8 +411,8 @@ export class TabFormComponent implements OnInit {
       nastavak: this.extensionE ? this.extensionE.trim() : '',
       nastavak_ij: this.extensionI ? this.extensionI.trim() : '',
       info: this.details ? this.details.trim() : '',
-      glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : 0,
-      glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : 0,
+      glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : null,
+      glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : null,
       prezent: this.presentE ? this.presentE.trim() : '',
       prezent_ij: this.presentI ? this.presentI.trim() : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
@@ -432,7 +432,7 @@ export class TabFormComponent implements OnInit {
           redni_broj: idx + 1,
           opis: value.value.trim(),
           tekst: value.tekst.trim(),
-          vezana_odrednica_id: value.determinantId,
+          vezana_odrednica_id: value.determinantId ? value.determinantId : null,
           kvalifikatori: value.qualificators.map((q, idx2) => {
             return {
               redni_broj: idx2 + 1,
@@ -466,7 +466,7 @@ export class TabFormComponent implements OnInit {
                 redni_broj: idx2 + 1,
                 opis: value.value.trim(),
                 tekst: value.tekst.trim(),
-                vezana_odrednica_id: value.determinantId,
+                vezana_odrednica_id: value.determinantId ? value.determinantId : null,
               };
             }),
             kvalifikatori: pz.qualificators.map((q, idx2) => {
@@ -490,7 +490,7 @@ export class TabFormComponent implements OnInit {
             redni_broj: idx + 1,
             opis: value.value.trim(),
             tekst: value.tekst.trim(),
-            vezana_odrednica_id: value.determinantId,
+            vezana_odrednica_id: value.determinantId ? value.determinantId : null,
           };
         }),
         kvalifikatori: z.qualificators.map((q, idx) => {
@@ -587,7 +587,9 @@ export class TabFormComponent implements OnInit {
     this.expressions = value.izrazfraza_set.map((expr) => ({
       value: expr.opis,
       tekst: expr.tekst,
-      keywords: [],
+      determinantId: expr.vezana_odrednica_id,
+      searchText: '',
+      rec$: undefined,
       qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id))
     }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));

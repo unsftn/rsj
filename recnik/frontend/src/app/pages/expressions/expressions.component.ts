@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
@@ -9,13 +9,13 @@ import { OdrednicaService } from '../../services/odrednice';
   templateUrl: './expressions.component.html',
   styleUrls: ['./expressions.component.scss'],
 })
-export class ExpressionsComponent implements OnInit {
+export class ExpressionsComponent implements OnInit, OnChanges {
   filteredKeywords: any[];
   keyWords = [];
   selectedKeyWord: string;
 
   @Input() isTopLevel: boolean;
-  @Input() expressions = [];
+  @Input() expressions;
 
   showQuotesDialog = false;
   caretPos: number;
@@ -63,11 +63,15 @@ export class ExpressionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.expressions.forEach((e) => {
-      if (e.determinantId)
+      if (e.determinantId) {
         this.odrednicaService.get(e.determinantId).subscribe((odr) => {
           e.rec$ = of(odr.rec);
         });
+      }
     });
   }
 

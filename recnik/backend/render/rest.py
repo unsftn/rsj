@@ -39,16 +39,18 @@ def render_odrednice_by(sort_order, page_size):
 
 @api_view(['POST'])
 def api_preview_odrednica(request):
-    serializer = CreateOdrednicaSerializer(data=request.data)
-    if serializer.is_valid():
-        try:
+    try:
+        serializer = CreateOdrednicaSerializer(data=request.data)
+        if serializer.is_valid():
             odrednica = serializer.instantiate()
             text = render_one_div(odrednica)
             odrednica.delete()
             return Response(text, status=status.HTTP_200_OK, content_type='text/html')
-        except Exception as ex:
-            logger.fatal(ex)
-            return Response({'error': str(ex)}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+        else:
+            return Response({'serializer_errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+    except Exception as ex:
+        logger.fatal(ex)
+        return Response({'error': str(ex)}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
 
 
 class TipRenderovanogDokumentaList(generics.ListAPIView):

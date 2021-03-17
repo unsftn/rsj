@@ -191,7 +191,7 @@ class CreateIzrazFrazaSerializer(NoSaveSerializer):
     opis = serializers.CharField(max_length=2000, allow_blank=True)
     tekst = serializers.CharField(max_length=200, required=False, allow_blank=True)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
-    vezana_odrednica_id = serializers.IntegerField()
+    vezana_odrednica_id = serializers.IntegerField(required=False, allow_null=True)
 
 
 class CreateKonkordansaSerializer(NoSaveSerializer):
@@ -302,8 +302,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             KvalifikatorOdrednice.objects.using(database).create(odrednica=odrednica, **kvod)
         for izr_frz in izrazi_fraze:
             kvalifikatori_fraze = izr_frz.pop('kvalifikatori', [])
-            if database != 'default':
-                del izr_frz['vezana_odrednica_id']
+            if database != 'default' and izr_frz.get('vezana_odrednica_id'):
+                izr_frz['vezana_odrednica_id'] = None
             iz = IzrazFraza.objects.using(database).create(odrednica=odrednica, **izr_frz)
             for kv in kvalifikatori_fraze:
                 KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
@@ -317,8 +317,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 KvalifikatorZnacenja.objects.using(database).create(znacenje=z, **k)
             for ifz in izrazi_fraze_znacenja:
                 kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
-                if database != 'default':
-                    del ifz['vezana_odrednica_id']
+                if database != 'default' and ifz.get('vezana_odrednica_id'):
+                    ifz['vezana_odrednica_id'] = None
                 IzrazFraza.objects.using(database).create(znacenje=z, **ifz)
                 for kv in kvalifikatori_fraze:
                     KvalifikatorFraze.objects.using(database).create(izrazfraza=ifz, **kv)  # izrazfraza=iz
@@ -338,8 +338,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     KvalifikatorPodznacenja.objects.using(database).create(podznacenje=p, **k)
                 for ifp in izrazi_fraze_podznacenja:
                     kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
-                    if database != 'default':
-                        del ifp['vezana_odrednica_id']
+                    if database != 'default' and ifp.get('vezana_odrednica_id'):
+                        ifp['vezana_odrednica_id'] = None
                     IzrazFraza.objects.using(database).create(podznacenje=p, **ifp)
                     for kv in kvalifikatori_fraze:
                         KvalifikatorFraze.objects.using(database).create(izrazfraza=ifp, **kv)  # izrazfraza=iz

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { PublikacijaService } from '../../services/publikacije';
 
 interface Concordance {
@@ -14,7 +14,7 @@ interface Concordance {
   templateUrl: './concordance.component.html',
   styleUrls: ['./concordance.component.scss'],
 })
-export class ConcordanceComponent implements OnInit {
+export class ConcordanceComponent implements OnInit, OnChanges {
   constructor(private primengConfig: PrimeNGConfig, private publikacijaService: PublikacijaService) {}
 
   @Input() concordances;
@@ -27,7 +27,6 @@ export class ConcordanceComponent implements OnInit {
 
   add(): void {
     this.concordances.push({ concordance: '', bookId: null, searchText: '', naslov$: of(''), skracenica$: of('') });
-    console.log(this.concordances);
   }
 
   remove(concordance): void {
@@ -36,6 +35,9 @@ export class ConcordanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
     this.concordances.forEach((c) => {
       if (c.bookId)
         this.publikacijaService.get(c.bookId).subscribe((pub) => {
