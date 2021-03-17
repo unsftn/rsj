@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DialogModule } from 'primeng/dialog';
+import { TagModule } from 'primeng/tag';
 
 import { ExpressionsComponent } from './expressions.component';
 import { QualificatorModule } from '../qualificators/qualificator.module';
@@ -22,6 +23,7 @@ import { QualificatorModule } from '../qualificators/qualificator.module';
     InputTextareaModule,
     ButtonModule,
     DialogModule,
+    TagModule,
     QualificatorModule,
   ],
   exports: [ExpressionsComponent],

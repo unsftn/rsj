@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { OdrednicaService } from '../../services/odrednice';
 
 @Component({
   selector: 'expressions',
@@ -19,42 +21,48 @@ export class ExpressionsComponent implements OnInit {
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  searchResults: any[];
 
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
+    private odrednicaService: OdrednicaService,
   ) {}
 
   add(): void {
-    this.expressions.push({ value: '', tekst: '', keywords: [], qualificators: [] });
+    this.expressions.push({ value: '', tekst: '', searchText: '', determinantId: null, rec$: of(''), qualificators: [] });
   }
 
   remove(expression): void {
     this.expressions.splice(this.expressions.indexOf(expression), 1);
   }
 
-  async fetch(): Promise<void> {
-    const response: any = await this.httpClient
-      .get('api/odrednice/odrednica')
-      .toPromise();
-
-    if (response) {
-      this.keyWords = response.map((item) => {
-        return item.rec;
-      });
-    }
+  search(event): void {
+    this.odrednicaService.search(event.query).subscribe(
+      (data) => {
+        this.searchResults = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
-  filterKeyword(event): void {
-    const query = event.query;
-    this.filteredKeywords = this.keyWords.filter((kw) =>
-      kw.toLowerCase().startsWith(query.toLowerCase()),
-    );
+  select(event, index): void {
+    this.expressions[index].determinantId = event.pk;
+    this.odrednicaService.get(event.pk).subscribe((odr) => {
+      this.expressions[index].rec$ = of(odr.rec);
+    });
+    this.expressions[index].searchText = '';
+  }
+
+  removeDeterminant(expression): void {
+    expression.determinantId = null;
+    expression.rec$ = of('');
   }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.fetch();
   }
 
   insertQuote(char: string): void {
