@@ -44,7 +44,7 @@ export class ConcordanceComponent implements OnInit, OnChanges {
           c.naslov$ = of(pub.naslov);
           c.skracenica$ = of(pub.skracenica);
         });
-    });
+      });
   }
 
   insertQuote(char: string): void {
