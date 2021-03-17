@@ -71,7 +71,7 @@ class IzrazFrazaSerializer(serializers.ModelSerializer):
     class Meta:
         model = IzrazFraza
         fields = ('id', 'opis', 'tekst', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id',
-                  'kvalifikatorfraze_set')
+                  'kvalifikatorfraze_set', 'vezana_odrednica_id')
 
 
 class KonkordansaSerializer(serializers.ModelSerializer):
@@ -191,6 +191,7 @@ class CreateIzrazFrazaSerializer(NoSaveSerializer):
     opis = serializers.CharField(max_length=2000, allow_blank=True)
     tekst = serializers.CharField(max_length=200, required=False, allow_blank=True)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
+    vezana_odrednica_id = serializers.IntegerField()
 
 
 class CreateKonkordansaSerializer(NoSaveSerializer):

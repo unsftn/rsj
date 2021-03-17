@@ -177,6 +177,8 @@ def render_one(odrednica):
             html += f' {process_special_marks(odrednica.info)} '
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
+        else:
+            html += ' '
 
     # pridev
     if odrednica.vrsta == 2:
@@ -229,6 +231,7 @@ def render_one(odrednica):
 
     # ostalo
     if odrednica.vrsta == 10:
+        html += ' '
         if odrednica.info:
             html += f' {process_special_marks(odrednica.info)} '
 

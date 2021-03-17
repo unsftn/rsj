@@ -63,6 +63,12 @@ export class ExpressionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.expressions.forEach((e) => {
+      if (e.determinantId)
+        this.odrednicaService.get(e.determinantId).subscribe((odr) => {
+          e.rec$ = of(odr.rec);
+        });
+    });
   }
 
   insertQuote(char: string): void {

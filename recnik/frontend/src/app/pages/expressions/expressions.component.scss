@@ -14,3 +14,7 @@
     float: right;
   }
 }
+
+::ng-deep .p-tag-value {
+  font-size: 14px;
+}

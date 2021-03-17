@@ -11,6 +11,7 @@ from .models import TipRenderovanogDokumenta, RenderovaniDokument
 from .serializers import *
 
 logger = logging.getLogger(__name__)
+JSON = 'application/json'
 
 
 def odrednice_latest(request, page_size):

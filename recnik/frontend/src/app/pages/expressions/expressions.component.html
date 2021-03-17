@@ -33,9 +33,9 @@
                 <div class="p-mb-2">
                   <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе" (keyup)="keyup($event, i)"></textarea>
                 </div>
-                <div class="p-d-flex">
-                  <div class="p-mr-2"><p class="label">Одредница:</p></div>
-                  <div class="p-mr-2 p-mb-2">
+                <div class="p-d-flex p-ai-center">
+                  <div class="p-mr-2">Одредница:</div>
+                  <div class="p-mr-2">
                     <p-autoComplete
                       [(ngModel)]="expressions[i].searchText"
                       [suggestions]="searchResults"
@@ -52,10 +52,10 @@
                       </ng-template>
                     </p-autoComplete>
                   </div>
-                  <p-button *ngIf="expressions[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(expressions[i])" class="p-ml-2"></p-button>
                   <p-tag *ngIf="expressions[i].rec$ | async as rec" value="{{rec}}"></p-tag>
+                  <p-button *ngIf="expressions[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(expressions[i])" class="p-ml-2"></p-button>
                 </div>
-                <div class="p-d-flex">
+                <div class="p-d-flex p-mt-2">
                   <div class="p-mr-2">
                     <p class="label">Квалификатори:</p>
                   </div>

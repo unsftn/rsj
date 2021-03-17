@@ -340,9 +340,10 @@ class IzrazFraza(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број', default=1)
     tekst = models.CharField('текст', max_length=200, default='', blank=True, null=True)
     opis = models.CharField('опис', max_length=2000, default='')
-    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', blank=True, null=True, on_delete=models.CASCADE)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='припада одредници', blank=True, null=True, on_delete=models.CASCADE)
     znacenje = models.ForeignKey(Znacenje, verbose_name='значење', blank=True, null=True, on_delete=models.CASCADE)
     podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
+    vezana_odrednica = models.ForeignKey(Odrednica, verbose_name='везана одредница', blank=True, null=True, on_delete=models.CASCADE, related_name='vezana_odrednica')
 
     class Meta:
         verbose_name = 'израз фраза'

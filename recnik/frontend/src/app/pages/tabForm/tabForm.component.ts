@@ -428,6 +428,7 @@ export class TabFormComponent implements OnInit {
           redni_broj: idx + 1,
           opis: value.value.trim(),
           tekst: value.tekst.trim(),
+          vezana_odrednica_id: value.determinantId,
           kvalifikatori: value.qualificators.map((q, idx2) => {
             return {
               redni_broj: idx2 + 1,
@@ -461,6 +462,7 @@ export class TabFormComponent implements OnInit {
                 redni_broj: idx2 + 1,
                 opis: value.value.trim(),
                 tekst: value.tekst.trim(),
+                vezana_odrednica_id: value.determinantId,
               };
             }),
             kvalifikatori: pz.qualificators.map((q, idx2) => {
@@ -484,6 +486,7 @@ export class TabFormComponent implements OnInit {
             redni_broj: idx + 1,
             opis: value.value.trim(),
             tekst: value.tekst.trim(),
+            vezana_odrednica_id: value.determinantId,
           };
         }),
         kvalifikatori: z.qualificators.map((q, idx) => {
@@ -511,7 +514,9 @@ export class TabFormComponent implements OnInit {
         return {
           value: e.opis,
           tekst: e.tekst,
-          keywords: [],
+          determinantId: e.vezana_odrednica_id,
+          searchText: '',
+          rec$: undefined,
           qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
         };
       }),
@@ -523,7 +528,9 @@ export class TabFormComponent implements OnInit {
           return {
             value: e.opis,
             tekst: e.tekst,
-            keywords: [],
+            determinantId: e.vezana_odrednica_id,
+            searchText: '',
+            rec$: undefined,
             qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
           };
         }),
