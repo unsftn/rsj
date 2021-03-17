@@ -74,7 +74,7 @@ def render_konkordanse(konkordanse):
         retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
         if k.publikacija:
             retval += f'{tacka(k.publikacija.skracenica)}'
-    return tacka(retval)
+    return retval
 
 
 def render_izrazi_fraze_znacenja(izrazifraze):
@@ -243,7 +243,6 @@ def render_one(odrednica):
             for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
                 html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze_odrednice(odrednica.izrazfraza_set.all().order_by('redni_broj'))
-    html = tacka(html)
     return mark_safe(html)
 
 
