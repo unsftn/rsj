@@ -262,17 +262,18 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
-def enumerate_odrednice(odrednice):
-    prev = None
-    for o in odrednice:
-        curr = o
-        if prev and prev.rec == curr.rec:
-            if not hasattr(prev, 'rbr'):
-                prev.rbr = 1
-                curr.rbr = 2
-            else:
-                curr.rbr = prev.rbr + 1
-        prev = o
+# prethodni nacin za automatsku numeraciju homonima; sada se to radi rucno, kroz polje na formi
+# def enumerate_odrednice(odrednice):
+#     prev = None
+#     for o in odrednice:
+#         curr = o
+#         if prev and prev.rec == curr.rec:
+#             if not hasattr(prev, 'rbr'):
+#                 prev.rbr = 1
+#                 curr.rbr = 2
+#             else:
+#                 curr.rbr = prev.rbr + 1
+#         prev = o
 
 
 def render_slovo(slovo, file_format='pdf'):
