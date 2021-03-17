@@ -21,6 +21,7 @@ export class ExpressionsComponent implements OnInit, OnChanges {
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  caretInOpis: boolean;
   searchResults: any[];
 
   constructor(
@@ -76,16 +77,23 @@ export class ExpressionsComponent implements OnInit, OnChanges {
   }
 
   insertQuote(char: string): void {
-    const text = this.expressions[this.caretIndex].value;
-    const newText = text.slice(0, this.caretPos) + char + text.slice(this.caretPos);
-    this.expressions[this.caretIndex].value = newText;
+    if (this.caretInOpis) {
+      const text = this.expressions[this.caretIndex].value;
+      const newText = text.slice(0, this.caretPos) + char + text.slice(this.caretPos);
+      this.expressions[this.caretIndex].value = newText;
+    } else {
+      const text = this.expressions[this.caretIndex].tekst;
+      const newText = text.slice(0, this.caretPos) + char + text.slice(this.caretPos);
+      this.expressions[this.caretIndex].tekst = newText;
+    }
     this.showQuotesDialog = false;
     this.caretTarget.focus();
     setTimeout(() => {this.caretTarget.setSelectionRange(this.caretPos + 1, this.caretPos + 1, 'none')});
   }
 
-  keyup(event, index: number): void {
+  keyup(event, index: number, opis: boolean): void {
     if (event.key === 'F1') {
+      this.caretInOpis = opis;
       this.caretPos = event.target.selectionStart;
       this.caretIndex = index;
       this.caretTarget = event.target;
