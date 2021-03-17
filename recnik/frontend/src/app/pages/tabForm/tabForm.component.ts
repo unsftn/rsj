@@ -370,10 +370,19 @@ export class TabFormComponent implements OnInit {
     }
   }
 
+  emptyVariant(): boolean {
+    for (let v of this.variants) {
+      if (v.nameE.trim().length === 0 && v.nameI.trim().length === 0 && v.extensionE.trim().length === 0 && v.extensionI.trim().length === 0)
+        return true;
+    }
+    return false;
+  }
+
   check(): boolean {
     try {
       this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');
       this.assert(this.selectedWordType?.id === 0 && !this.selectedGender, '<p>За именице је обавезно унети род.</p>');
+      this.assert(this.emptyVariant(), '<p>Постоји (бар) једна празна варијанта.</p>');
       return true;
     } catch (e) {
       return false;
