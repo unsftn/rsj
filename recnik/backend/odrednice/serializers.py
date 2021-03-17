@@ -355,10 +355,14 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         return odrednica
 
     def _make_fake_pub(self, konk, database):
-        src_pub = Publikacija.objects.using('default').get(id=konk['publikacija_id'])
-        dic = model_to_dict(src_pub)
-        dic['vrsta_id'] = dic['vrsta']
-        dic['user_id'] = 1
-        del dic['vrsta']
-        del dic['user']
-        return Publikacija.objects.using(database).create(**dic)
+        try:
+            retval = Publikacija.objects.using(database).get(id=konk['publikacija_id'])
+            return retval
+        except Publikacija.DoesNotExist:
+            src_pub = Publikacija.objects.using('default').get(id=konk['publikacija_id'])
+            dic = model_to_dict(src_pub)
+            dic['vrsta_id'] = dic['vrsta']
+            dic['user_id'] = 1
+            del dic['vrsta']
+            del dic['user']
+            return Publikacija.objects.using(database).create(**dic)
