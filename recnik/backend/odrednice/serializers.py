@@ -318,7 +318,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 for kv in kvalifikatori_fraze:
                     KvalifikatorFraze.objects.using(database).create(izrazfraza=ifz, **kv)  # izrazfraza=iz
             for konz in konkordanse_znacenja:
-                if database != 'default':
+                if database != 'default' and konz['publikacija_id']:
                     dst_pub = self._make_fake_pub(konz, database)
                     del konz['publikacija_id']
                     Konkordansa.objects.using(database).create(znacenje=z, publikacija=dst_pub, **konz)
@@ -337,7 +337,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     for kv in kvalifikatori_fraze:
                         KvalifikatorFraze.objects.using(database).create(izrazfraza=ifp, **kv)  # izrazfraza=iz
                 for konz in konkordanse_podznacenja:
-                    if database != 'default':
+                    if database != 'default' and konz['publikacija_id']:
                         dst_pub = self._make_fake_pub(konz, database)
                         del konz['publikacija_id']
                         Konkordansa.objects.using(database).create(podznacenje=p, publikacija=dst_pub, **konz)
