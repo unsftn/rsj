@@ -76,10 +76,10 @@ export class PublikacijaService {
       retVal += ': ';
     }
     retVal += '<i>' + pub.naslov + '</i>';
-    if (pub.izdavac.length > 0) {
+    if (pub.izdavac && pub.izdavac.length > 0) {
       retVal += ', ' + pub.izdavac;
     }
-    if (pub.godina.length > 0) {
+    if (pub.godina && pub.godina.length > 0) {
       retVal += ', ' + pub.godina;
     }
     if (retVal[-1] !== '.') {
