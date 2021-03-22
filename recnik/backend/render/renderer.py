@@ -81,7 +81,7 @@ def render_konkordanse(konkordanse):
 def render_izrazi_fraze_znacenja(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
-        tekst += f' &bull; <i>{process_tags(tacka(izfr.opis), True)}</i>'  # bilo &#8212;
+        tekst += f' &bull; {process_tags(tacka(izfr.opis), True)}'  # bilo &#8212;
     return tekst
 
 
