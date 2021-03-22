@@ -360,7 +360,6 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 odrednice = kol.pop('odrednice', [])
                 k = Kolokacija.objects.using(database).create(**kol, odrednica=odrednica)
                 for odr in odrednice:
-                    print(odr)
                     RecUKolokaciji.objects.using(database).create(kolokacija=k, **odr)
             for sin in sinonimi:
                 Sinonim.objects.using(database).create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
