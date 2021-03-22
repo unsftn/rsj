@@ -1,51 +1,66 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { of } from 'rxjs';
+import { OdrednicaService } from '../../services/odrednice';
 
 @Component({
   selector: 'determinant',
   templateUrl: './determinant.component.html',
+  styleUrls: ['./determinant.component.scss'],
 })
-export class DeterminantComponent implements OnInit {
+export class DeterminantComponent implements OnInit, OnChanges {
   constructor(
     private primengConfig: PrimeNGConfig,
-    private httpClient: HttpClient,
+    private odrednicaService: OdrednicaService,
   ) {}
 
-  determinants: string[];
-  selectedDeterminant: string;
-  keywords = [{ determinant: '' }];
-  filteredDeterminants: any[];
+  searchResults: any[];
+  @Input() determinants: any[];
 
-  add() {
-    this.keywords.push({ determinant: '' });
+  add(): void {
+    this.determinants.push({ searchText: '', determinantId: null, rec$: of('') });
   }
 
-  remove(keyword) {
-    this.keywords.splice(this.keywords.indexOf(keyword), 1);
+  remove(index: number): void {
+    this.determinants.splice(index, 1);
   }
 
-  filterDeterminants(event) {
-    const query = event.query;
-    this.filteredDeterminants = this.determinants.filter((kw) =>
-      kw.toLowerCase().startsWith(query.toLowerCase()),
+  search(event): void {
+    this.odrednicaService.search(event.query).subscribe(
+      (data) => {
+        this.searchResults = data;
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }
 
-  async fetch() {
-    const response: any = await this.httpClient
-      .get('api/odrednice/odrednica')
-      .toPromise();
-
-    if (response) {
-      this.determinants = response.map((item) => {
-        return item.rec;
-      });
-    }
+  select(event, index): void {
+    this.determinants[index].determinantId = event.pk;
+    this.odrednicaService.get(event.pk).subscribe((odr) => {
+      this.determinants[index].rec$ = of(odr.rec);
+    });
+    this.determinants[index].searchText = '';
   }
 
-  ngOnInit() {
+  removeDeterminant(index): void {
+    this.determinants[index].determinantId = null;
+    this.determinants[index].rec$ = of('');
+  }
+
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.fetch();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.determinants.forEach((d) => {
+      if (d.determinantId) {
+        this.odrednicaService.get(d.determinantId).subscribe((odr) => {
+          d.rec$ = of(odr.rec);
+        });
+      }
+    });
+  }
+
 }

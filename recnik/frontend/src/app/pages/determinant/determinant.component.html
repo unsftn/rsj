@@ -1,6 +1,6 @@
 <div class="p-d-flex">
   <div class="p-mr-2">
-    <h4>Кључна реч</h4>
+    <h4>Одредница</h4>
   </div>
   <div class="p-mr-2" style="width: 200px" class="center-container">
     <button
@@ -12,34 +12,43 @@
   </div>
 </div>
 <form #formRef="ngForm">
-  <div *ngFor="let keyword of keywords; let i=index" class="col-sm-3">
+  <div *ngFor="let determinant of determinants; let i=index" class="col-sm-3">
     <div class="form-group">
-      <div class="p-d-flex" style="margin-bottom: 20px;">
+      <div class="p-d-flex p-mb-2">
         <div class="p-d-flex">
-          <div class="p-mr-2">
-            <p class="label">Одредница:</p>
-          </div>
-          <div class="p-mr-2" class="center-container">
+          <div class="p-mr-2 center-container">
             <p-autoComplete
-              [(ngModel)]="keywords[i].determinant"
-              [suggestions]="filteredDeterminants"
-              (completeMethod)="filterDeterminants($event)"
+              [(ngModel)]="determinants[i].searchText"
+              [suggestions]="searchResults"
+              (completeMethod)="search($event)"
+              (onSelect)="select($event, i)"
+              placeholder="Претрага одреднице"
               name="selectedDeterminant{{i}}"
-              placeholder="Претражи"
-              (onChange)="changeDeterminant()"
-              [minLength]="1">
+              scrollHeight="300px"
+              [minLength]="1"
+              class="search-component">
+              <ng-template let-word pTemplate="item">
+                <span class="rec">{{word.rec}}</span>
+                <span class="vrsta">{{word.vrsta_text}}</span>
+              </ng-template>
             </p-autoComplete>
           </div>
-        </div>
-        <div class="center-container">
-          <button
-            pButton
-            pRipple
-            type="button"
-            icon="pi pi-minus"
-            class="p-button-rounded p-button-outlined p-button-danger add-button"
-            (click)="remove(keyword)">
-          </button>
+          <div class="center-container w38">
+            <p-button *ngIf="determinants[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(i)"></p-button>
+          </div>
+          <div class="center-container w200">
+            <p-tag *ngIf="determinants[i].rec$ | async as rec" value="{{rec}}"></p-tag>
+          </div>
+          <div class="p-mr-2 center-container">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-minus"
+              class="p-button-rounded p-button-outlined p-button-danger add-button"
+              (click)="remove(i)">
+            </button>
+          </div>
         </div>
       </div>
     </div>

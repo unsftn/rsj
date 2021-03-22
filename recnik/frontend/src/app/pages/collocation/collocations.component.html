@@ -1,7 +1,7 @@
 <div class="p-d-flex p-flex-column">
   <div class="p-d-flex">
     <div class="p-mr-2">
-      <h4 >Колокације</h4>
+      <h4>Колокације</h4>
     </div>
     <div class="p-mr-2" style="width: 200px;" class="center-container">
       <button
@@ -12,16 +12,16 @@
       </button>
     </div>
   </div>
-  <div class="p-mb-2" style="margin-left: 20px;">
+  <div class="p-mb-2">
     <form #formRef="ngForm">
-      <div *ngFor="let collocation of collocations; let i=index" class="col-sm-3">
+      <div *ngFor="let collocation of collocations; let i=index" class="col-sm-3 nice-border p-mb-3">
         <div class="form-group">
-          <determinant></determinant>
+          <determinant [determinants]="collocation.determinants"></determinant>
         </div>
         <div class="p-d-flex p-flex-column">
-          <div class="p-mb-2" style="margin-bottom: 20px;">
-            <h4 class="label">Напомене:</h4>
-          </div>
+<!--          <div class="p-mb-2" style="margin-bottom: 20px;">-->
+<!--            <h4 class="label">Напомене:</h4>-->
+<!--          </div>-->
           <div class="p-mb-2">
             <textarea
               [rows]="7"
@@ -29,7 +29,7 @@
               [(ngModel)]="collocations[i].note"
               #name="ngModel"
               name="collocations-name{{i}}"
-              (ngModelChange)="changeCollocation()"
+              placeholder="Напомене"
               pInputTextarea style="height: 142px">
             </textarea>
           </div>

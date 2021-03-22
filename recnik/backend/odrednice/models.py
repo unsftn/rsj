@@ -185,12 +185,17 @@ class Sinonim(models.Model):
 
 
 class Kolokacija(models.Model):
-    napomena = models.CharField('напомена', max_length=2000)
+    napomena = models.CharField('напомена', max_length=2000, blank=True, null=True)
     odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
+    redni_broj = models.PositiveSmallIntegerField('редни број')
 
     class Meta:
         verbose_name = 'колокација'
         verbose_name_plural = 'колокације'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
 
     def __str__(self):
         return str(self.odrednica)
@@ -213,7 +218,7 @@ class RecUKolokaciji(models.Model):
         ]
 
     def __str__(self):
-        return str(self.redni_broj)
+        return f'{self.kolokacija.odrednica.rec}: {str(self.redni_broj)} / {self.odrednica.rec}'
 
     def get_absolute_url(self):
         return reverse("odrednice:rec-u-kolokaciji-detail", kwargs={"pk": self.pk})

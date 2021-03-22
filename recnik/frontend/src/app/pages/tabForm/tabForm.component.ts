@@ -41,7 +41,6 @@ export class TabFormComponent implements OnInit {
   presentE: string;
   presentI: string;
   details: string;
-  collocations: any[];
 
   selectedWordType: WordType;
   selectedState: StanjeOdrednice;
@@ -55,6 +54,7 @@ export class TabFormComponent implements OnInit {
   meanings: any[] = [];
   meanings2: any[] = [];
   expressions: any[] = [];
+  collocations: any[] = [];
 
   errorMsg: string;
   showInfoDialog = false;
@@ -419,7 +419,7 @@ export class TabFormComponent implements OnInit {
       version: this.version,
       opciono_se: this.optionalSe,
       rbr_homonima: this.homonim === 0 ? null : this.homonim,
-      kolokacija_set: this.collocations ? this.collocations : [],
+      kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: c.note, odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1}))})),
       kvalifikatori: this.qualificators.map((q, index) => {
         return {
           redni_broj: index + 1,
@@ -511,38 +511,6 @@ export class TabFormComponent implements OnInit {
     }) : [];
   }
 
-  makeMeanings(znacenja): any[] {
-    return znacenja.map(z => ({
-      value: z.tekst,
-      expressions: z.izrazfraza_set.map((e) => {
-        return {
-          value: e.opis,
-          tekst: e.tekst,
-          determinantId: e.vezana_odrednica_id,
-          searchText: '',
-          rec$: undefined,
-          qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-        };
-      }),
-      qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-      concordances: z.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
-      submeanings: z.podznacenje_set.map((pz) => ({
-        value: pz.tekst,
-        expressions: pz.izrazfraza_set.map((e, idx) => {
-          return {
-            value: e.opis,
-            tekst: e.tekst,
-            determinantId: e.vezana_odrednica_id,
-            searchText: '',
-            rec$: undefined,
-            qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-          };
-        }),
-        qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
-        concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
-    }))}));
-  }
-
   fillForm(value: any): void {
     console.log('Procitano sa servera:', value);
     this.id = value.id;
@@ -593,6 +561,7 @@ export class TabFormComponent implements OnInit {
       qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id))
     }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
+    this.collocations = value.kolokacija_set.map((k) => ({note: k.napomena, determinants: k.recukolokaciji_set.map((r) => ({ determinantId: r.odrednica_id, searchText: '', rec$: undefined }))}));
   }
 
   fillTestOdrednica(odrednica): void {
@@ -603,5 +572,37 @@ export class TabFormComponent implements OnInit {
       return;
     }
     this.fillForm(odrednica);
+  }
+
+  makeMeanings(znacenja): any[] {
+    return znacenja.map(z => ({
+      value: z.tekst,
+      expressions: z.izrazfraza_set.map((e) => {
+        return {
+          value: e.opis,
+          tekst: e.tekst,
+          determinantId: e.vezana_odrednica_id,
+          searchText: '',
+          rec$: undefined,
+          qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+        };
+      }),
+      qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+      concordances: z.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
+      submeanings: z.podznacenje_set.map((pz) => ({
+        value: pz.tekst,
+        expressions: pz.izrazfraza_set.map((e, idx) => {
+          return {
+            value: e.opis,
+            tekst: e.tekst,
+            determinantId: e.vezana_odrednica_id,
+            searchText: '',
+            rec$: undefined,
+            qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+          };
+        }),
+        qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
+        concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
+    }))}));
   }
 }

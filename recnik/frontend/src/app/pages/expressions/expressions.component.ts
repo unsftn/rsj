@@ -26,7 +26,7 @@ export class ExpressionsComponent implements OnInit, OnChanges {
 
   constructor(
     private primengConfig: PrimeNGConfig,
-    private httpClient: HttpClient,
+    // private httpClient: HttpClient,
     private odrednicaService: OdrednicaService,
   ) {}
 

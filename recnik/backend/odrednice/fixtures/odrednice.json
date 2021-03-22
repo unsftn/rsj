@@ -121,7 +121,8 @@
         "pk": 1,
         "fields": {
             "napomena":"test napomena kolokacija",
-            "odrednica_id": 2
+            "odrednica_id": 2,
+            "redni_broj": 1
         }
     },
     {

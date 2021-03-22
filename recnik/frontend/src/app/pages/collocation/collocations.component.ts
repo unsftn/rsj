@@ -3,7 +3,7 @@ import { PrimeNGConfig } from 'primeng/api';
 
 interface Collocation {
   note: string;
-  selectedKeywords: string[];
+  determinants: any[];
 }
 
 @Component({
@@ -14,23 +14,13 @@ interface Collocation {
 export class CollocationsComponent implements OnInit {
   @Input() collocations: Collocation[];
 
-  @Output() collocationChanged: EventEmitter<
-    Collocation[]
-  > = new EventEmitter();
-
   constructor(private primengConfig: PrimeNGConfig) {}
 
-  changeCollocation() {
-    this.collocationChanged.emit(this.collocations);
+  add(): void {
+    this.collocations.push({ determinants: [], note: '' });
   }
 
-  async add() {
-    this.collocations.push({ selectedKeywords: [], note: '' });
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.collocations = [];
-    this.add();
   }
 }

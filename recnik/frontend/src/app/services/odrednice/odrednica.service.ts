@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Determinant } from '../../models/determinant';
+import { Determinant } from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,6 @@ export class OdrednicaService {
   constructor(private httpClient: HttpClient) {}
 
   get(id: number): Observable<any> {
-    console.log('citam odrednicu', id);
     return this.httpClient.get(`/api/odrednice/odrednica/${id}/`);
   }
 
