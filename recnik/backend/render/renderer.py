@@ -97,7 +97,7 @@ def render_izrazi_fraze_odrednice(izrazifraze):
     for izfr in izrazifraze:
         tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
         tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
-        tekst += f' <i>{process_tags(tacka(izfr.opis), True)}</i>'
+        tekst += f' {process_tags(tacka(izfr.opis), True)}'
     return tekst
 
 
