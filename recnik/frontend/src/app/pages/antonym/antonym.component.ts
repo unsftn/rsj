@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'antonym',
@@ -9,43 +9,23 @@ import { PrimeNGConfig } from 'primeng/api';
 export class AntonymComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
-    private httpClient: HttpClient,
   ) {}
+
+  @Input() antonyms: any[];
 
   determinants: string[];
   selectedDeterminant: string;
-  antonyms = [{ determinant: '' }];
   filteredDeterminants: any[];
 
-  add() {
-    this.antonyms.push({ determinant: '' });
+  add(): void {
+    this.antonyms.push({ determinantId: null, searchText: '', rec$: of('') });
   }
 
-  remove(antonym) {
-    this.antonyms.splice(this.antonyms.indexOf(antonym), 1);
-  }
-
-  filterDeterminants(event) {
-    const query = event.query;
-    this.filteredDeterminants = this.determinants.filter((kw) =>
-      kw.toLowerCase().startsWith(query.toLowerCase()),
-    );
-  }
-
-  async fetch() {
-    const response: any = await this.httpClient
-      .get('api/odrednice/odrednica')
-      .toPromise();
-
-    if (response) {
-      this.determinants = response.map((item) => {
-        return item.rec;
-      });
-    }
+  remove(index: number): void {
+    this.antonyms.splice(index, 1);
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.fetch();
   }
 }

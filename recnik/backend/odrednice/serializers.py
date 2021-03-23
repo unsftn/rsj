@@ -126,10 +126,8 @@ class VarijantaOdredniceSerializer(serializers.ModelSerializer):
 
 
 class OdrednicaSerializer(serializers.ModelSerializer):
-    imaantonim_set = AntonimSerializer(many=True, read_only=True)
-    antonimuvezi_set = AntonimSerializer(many=True, read_only=True)
-    imasinonim_set = SinonimSerializer(many=True, read_only=True)
-    sinonimuvezi_set = SinonimSerializer(many=True, read_only=True)
+    ima_antonim = AntonimSerializer(many=True, read_only=True)
+    ima_sinonim = SinonimSerializer(many=True, read_only=True)
     kolokacija_set = KolokacijaSerializer(many=True, read_only=True)
     znacenje_set = ZnacenjeSerializer(many=True, read_only=True)
     izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
@@ -141,8 +139,8 @@ class OdrednicaSerializer(serializers.ModelSerializer):
         model = Odrednica
         fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'nastavak_ij', 'info', 'glagolski_vid',
                   'glagolski_rod', 'prezent', 'prezent_ij', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena',
-                  'stanje', 'version', 'varijantaodrednice_set', 'imaantonim_set', 'imasinonim_set', 'antonimuvezi_set',
-                  'sinonimuvezi_set', 'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
+                  'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim',
+                  'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
                   'izmenaodrednice_set', 'opciono_se', 'rbr_homonima')
 
 
