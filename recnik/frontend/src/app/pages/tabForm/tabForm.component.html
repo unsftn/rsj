@@ -199,15 +199,15 @@
             <expressions [expressions]="expressions" [isTopLevel]="true"></expressions>
           </p-tabPanel>
           <p-tabPanel header="Синоними">
-            <synonym></synonym>
+            <synonym [synonyms]="synonyms"></synonym>
           </p-tabPanel>
           <p-tabPanel header="Антоними">
-            <antonym></antonym>
+            <antonym [antonyms]="antonyms"></antonym>
           </p-tabPanel>
           <p-tabPanel header="Колокације">
-            <collocations [collocations]=collocations (collocationChanged)="collocationsChangedHandler($event)"></collocations>
+            <collocations [collocations]="collocations"></collocations>
           </p-tabPanel>
-          <p-tabPanel header="Дневник измена">
+          <p-tabPanel header="Дневник">
             <changesForm></changesForm>
           </p-tabPanel>
         </p-tabView>

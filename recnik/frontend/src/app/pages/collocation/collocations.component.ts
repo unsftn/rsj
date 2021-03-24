@@ -20,6 +20,10 @@ export class CollocationsComponent implements OnInit {
     this.collocations.push({ determinants: [], note: '' });
   }
 
+  remove(index: number): void {
+    this.collocations.splice(index, 1);
+  }
+
   ngOnInit(): void {
     this.primengConfig.ripple = true;
   }

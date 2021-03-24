@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+import { OdrednicaService } from '../../services/odrednice';
 
 @Component({
   selector: 'synonym',
@@ -9,43 +10,20 @@ import { HttpClient } from '@angular/common/http';
 export class SynonymComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
-    private httpClient: HttpClient,
+    private odrednicaService: OdrednicaService,
   ) {}
 
-  determinants: string[];
-  selectedDeterminant: string;
-  synonyms = [{ determinant: '' }];
-  filteredDeterminants: any[];
+  @Input() synonyms;
 
-  add() {
-    this.synonyms.push({ determinant: '' });
+  add(): void {
+    this.synonyms.push({ determinantId: null, searchText: '', rec$: of('') });
   }
 
-  remove(synonym) {
-    this.synonyms.splice(this.synonyms.indexOf(synonym), 1);
+  remove(index: number): void {
+    this.synonyms.splice(index, 1);
   }
 
-  filterDeterminants(event) {
-    const query = event.query;
-    this.filteredDeterminants = this.determinants.filter((kw) =>
-      kw.toLowerCase().startsWith(query.toLowerCase()),
-    );
-  }
-
-  async fetch() {
-    const response: any = await this.httpClient
-      .get('api/odrednice/odrednica')
-      .toPromise();
-
-    if (response) {
-      this.determinants = response.map((item) => {
-        return item.rec;
-      });
-    }
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.fetch();
   }
 }

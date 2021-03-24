@@ -16,8 +16,10 @@ export interface Determinant {
   version: number;
   opciono_se?: boolean;
   rbr_homonima?: number;
-  kolokacije: any[];
   kvalifikatori: any[];
   znacenja: any[];
   izrazi_fraze: any[];
+  sinonimi: any[];
+  antonimi: any[];
+  kolokacije: any[];
 }

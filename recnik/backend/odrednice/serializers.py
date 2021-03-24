@@ -275,9 +275,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         KvalifikatorOdrednice.objects.filter(odrednica_id=instance.id).delete()
         VarijantaOdrednice.objects.filter(odrednica_id=instance.id).delete()
         Kolokacija.objects.filter(odrednica_id=instance.id).delete()
-        # TODO: delete all related objects properly
-        # Antonim.objects.filter(ima_antonim_id=instance.id).delete()
-        # Sinonim.objects.filter(ima_sinonim_id=instance.id).delete()
+        Antonim.objects.filter(ima_antonim_id=instance.id).delete()
+        Sinonim.objects.filter(ima_sinonim_id=instance.id).delete()
 
         return self._save(validated_data, instance)
 

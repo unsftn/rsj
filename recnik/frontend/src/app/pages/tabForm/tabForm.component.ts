@@ -55,6 +55,8 @@ export class TabFormComponent implements OnInit {
   meanings2: any[] = [];
   expressions: any[] = [];
   collocations: any[] = [];
+  synonyms: any[] = [];
+  antonyms: any[] = [];
 
   errorMsg: string;
   showInfoDialog = false;
@@ -420,6 +422,8 @@ export class TabFormComponent implements OnInit {
       opciono_se: this.optionalSe,
       rbr_homonima: this.homonim === 0 ? null : this.homonim,
       kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: c.note, odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1}))})),
+      sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId})),
+      antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId})),
       kvalifikatori: this.qualificators.map((q, index) => {
         return {
           redni_broj: index + 1,
@@ -562,11 +566,13 @@ export class TabFormComponent implements OnInit {
     }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
     this.collocations = value.kolokacija_set.map((k) => ({note: k.napomena, determinants: k.recukolokaciji_set.map((r) => ({ determinantId: r.odrednica_id, searchText: '', rec$: undefined }))}));
+    this.synonyms = value.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
+    this.antonyms = value.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
   }
 
   fillTestOdrednica(odrednica): void {
     if (this.editMode) {
-      this.message = 'Унос примера одреднице могућ је само у режиму уноса нове одреднице, не и уређивања постојеће.'
+      this.message = 'Унос примера одреднице могућ је само у режиму уноса нове одреднице, не и уређивања постојеће.';
       this.showInfoDialog = true;
       this.nextRoute = [];
       return;

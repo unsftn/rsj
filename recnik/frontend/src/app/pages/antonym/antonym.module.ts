@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-import { AntonymComponent } from './antonym.component';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
-import { HttpClientModule } from '@angular/common/http';
+import { DeterminantModule } from '../determinant/determinant.module';
+import { AntonymComponent } from './antonym.component';
 
 @NgModule({
   declarations: [AntonymComponent],
   imports: [
-    FormsModule,
-    AutoCompleteModule,
     CommonModule,
-    ButtonModule,
+    FormsModule,
     HttpClientModule,
+    AutoCompleteModule,
+    ButtonModule,
+    DeterminantModule,
   ],
   exports: [AntonymComponent],
   providers: [],

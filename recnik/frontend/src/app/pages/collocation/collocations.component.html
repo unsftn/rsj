@@ -3,7 +3,7 @@
     <div class="p-mr-2">
       <h4>Колокације</h4>
     </div>
-    <div class="p-mr-2" style="width: 200px;" class="center-container">
+    <div class="p-mr-2" class="center-container">
       <button
         pButton
         icon="pi pi-plus"
@@ -15,13 +15,14 @@
   <div class="p-mb-2">
     <form #formRef="ngForm">
       <div *ngFor="let collocation of collocations; let i=index" class="col-sm-3 nice-border p-mb-3">
+        <div style="float:right">
+          <p-button icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="remove(i)">
+          </p-button>
+        </div>
         <div class="form-group">
           <determinant [determinants]="collocation.determinants"></determinant>
         </div>
         <div class="p-d-flex p-flex-column">
-<!--          <div class="p-mb-2" style="margin-bottom: 20px;">-->
-<!--            <h4 class="label">Напомене:</h4>-->
-<!--          </div>-->
           <div class="p-mb-2">
             <textarea
               [rows]="7"
