@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { of } from 'rxjs';
 import { OdrednicaService } from '../../services/odrednice';
@@ -16,13 +16,16 @@ export class DeterminantComponent implements OnInit, OnChanges {
 
   searchResults: any[];
   @Input() determinants: any[];
+  @Output() determinantsChange = new EventEmitter();
 
   add(): void {
     this.determinants.push({ searchText: '', determinantId: null, rec$: of('') });
+    this.determinantsChange.emit();
   }
 
   remove(index: number): void {
     this.determinants.splice(index, 1);
+    this.determinantsChange.emit();
   }
 
   search(event): void {
@@ -42,11 +45,13 @@ export class DeterminantComponent implements OnInit, OnChanges {
       this.determinants[index].rec$ = of(odr.rec);
     });
     this.determinants[index].searchText = '';
+    this.determinantsChange.emit();
   }
 
   removeDeterminant(index): void {
     this.determinants[index].determinantId = null;
     this.determinants[index].rec$ = of('');
+    this.determinantsChange.emit();
   }
 
   ngOnInit(): void {

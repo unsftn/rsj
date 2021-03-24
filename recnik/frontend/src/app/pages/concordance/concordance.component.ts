@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { of } from 'rxjs';
 import { PublikacijaService } from '../../services/publikacije';
@@ -18,26 +18,31 @@ export class ConcordanceComponent implements OnInit, OnChanges {
   constructor(private primengConfig: PrimeNGConfig, private publikacijaService: PublikacijaService) {}
 
   @Input() concordances;
+  @Output() concordancesChange = new EventEmitter();
 
   showQuotesDialog = false;
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
   searchResults: any[];
+  dirty: boolean;
 
   add(): void {
     this.concordances.push({ concordance: '', bookId: null, searchText: '', naslov$: of(''), skracenica$: of('') });
+    this.concordancesChange.emit();
   }
 
   remove(concordance): void {
     this.concordances.splice(this.concordances.indexOf(concordance), 1);
+    this.concordancesChange.emit();
   }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.dirty = false;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     this.concordances.forEach((c) => {
       if (c.bookId)
         this.publikacijaService.get(c.bookId).subscribe((pub) => {
@@ -83,11 +88,24 @@ export class ConcordanceComponent implements OnInit, OnChanges {
       this.concordances[index].skracenica$ = of(pub.skracenica);
     });
     this.concordances[index].searchText = '';
+    this.concordancesChange.emit();
   }
 
   removePub(concordance): void {
     concordance.bookId = null;
     concordance.naslov$ = of('');
     concordance.skracenica$ = of('');
+    this.concordancesChange.emit();
+  }
+
+  onValueChange(value: any): void {
+    this.dirty = true;
+  }
+
+  onFocusLeave(): void {
+    if (this.dirty) {
+      this.dirty = false;
+      this.concordancesChange.emit();
+    }
   }
 }

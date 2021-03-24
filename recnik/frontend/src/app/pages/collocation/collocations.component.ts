@@ -13,15 +13,22 @@ interface Collocation {
 })
 export class CollocationsComponent implements OnInit {
   @Input() collocations: Collocation[];
+  @Output() collocationsChange = new EventEmitter();
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
   add(): void {
     this.collocations.push({ determinants: [], note: '' });
+    this.collocationsChange.emit();
   }
 
   remove(index: number): void {
     this.collocations.splice(index, 1);
+    this.collocationsChange.emit();
+  }
+
+  onChange(): void {
+    this.collocationsChange.emit();
   }
 
   ngOnInit(): void {

@@ -22,16 +22,16 @@ export class QualificatorComponent implements OnInit {
   selectedLeft: Qualificator;
   selectedRight: Qualificator;
 
-  @Output() selectedLeftChanged: EventEmitter<Qualificator> = new EventEmitter();
-  @Output() selectedRightChanged: EventEmitter<Qualificator> = new EventEmitter();
+  @Output() selectedLeftChange: EventEmitter<Qualificator> = new EventEmitter();
+  @Output() selectedRightChange: EventEmitter<Qualificator> = new EventEmitter();
   @Output() selectedQualificatorsChange: EventEmitter<Qualificator[]> = new EventEmitter();
 
   selectLeftQualificator(): void {
-    this.selectedLeftChanged.emit(this.selectedLeft);
+    this.selectedLeftChange.emit(this.selectedLeft);
   }
 
   selectRightQualificator(): void {
-    this.selectedRightChanged.emit(this.selectedRight);
+    this.selectedRightChange.emit(this.selectedRight);
   }
 
   moveRight(): void {

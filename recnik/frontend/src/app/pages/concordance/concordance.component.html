@@ -24,7 +24,10 @@
     <div class="p-d-flex p-flex-column p-mb-2">
       <div class="p-d-flex">
         <div class="p-mb-2 p-mr-2">
-          <textarea rows="2" cols="40" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца" (keyup)="keyup($event, i)"></textarea>
+          <textarea rows="2" cols="40" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"
+                    (ngModelChange)="onValueChange($event)"
+                    (focusout)="onFocusLeave()"
+                    (keyup)="keyup($event, i)"></textarea>
         </div>
         <div class="p-d-flex p-flex-column">
           <div class="p-mb-2">

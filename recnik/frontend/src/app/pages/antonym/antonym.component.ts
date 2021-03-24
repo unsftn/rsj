@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'antonym',
@@ -12,6 +11,11 @@ export class AntonymComponent implements OnInit {
   ) {}
 
   @Input() antonyms: any[];
+  @Output() antonymsChange = new EventEmitter();
+
+  onChange(): void {
+    this.antonymsChange.emit();
+  }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;

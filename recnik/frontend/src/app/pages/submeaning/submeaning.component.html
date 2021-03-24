@@ -28,7 +28,10 @@
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
                 <p class="label">Подзначење {{znacenjeRbr}}{{azbuka[i]}}:</p>
-                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel" (keyup)="keyup($event, i)"></textarea>
+                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel"
+                          (ngModelChange)="onValueChange($event)"
+                          (focusout)="onFocusLeave()"
+                          (keyup)="keyup($event, i)"></textarea>
               </div>
             </div>
           </div>
@@ -47,17 +50,17 @@
       </div>
       <div>
         <p-fieldset legend="Конкорданце:" [toggleable]="true" collapsed="true">
-          <concordance [concordances]="submeanings[i].concordances"></concordance>
+          <concordance [concordances]="submeanings[i].concordances" (concordancesChange)="onChange()"></concordance>
         </p-fieldset>
       </div>
       <div style="margin-top: 20px;">
         <p-fieldset legend="Квалификатори:" [toggleable]="true" collapsed="true">
-          <qualificator [(selectedQualificators)]="submeanings[i].qualificators"></qualificator>
+          <qualificator [(selectedQualificators)]="submeanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
         </p-fieldset>
       </div>
       <div style="margin-top: 20px;">
         <p-fieldset legend="Изрази и фразе:" [toggleable]="true" collapsed="true">
-          <expressions [expressions]="submeanings[i].expressions" [isTopLevel]="false"></expressions>
+          <expressions [expressions]="submeanings[i].expressions" [isTopLevel]="false" (expressionsChange)="onChange()"></expressions>
         </p-fieldset>
       </div>
     </div>

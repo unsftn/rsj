@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -10,24 +10,29 @@ export class SubmeaningComponent implements OnInit {
   azbuka = 'абвгдђежзијклљмнњопрстћуфхцчџш';
   @Input() znacenjeRbr: number;
   @Input() submeanings;
+  @Output() submeaningsChange = new EventEmitter();
 
   showQuotesDialog = false;
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  dirty: boolean;
 
   constructor(private primengConfig: PrimeNGConfig) {}
 
   add(): void {
     this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [] });
+    this.submeaningsChange.emit();
   }
 
   remove(submeaning): void {
     this.submeanings.splice(this.submeanings.indexOf(submeaning), 1);
+    this.submeaningsChange.emit();
   }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.dirty = false;
   }
 
   insertQuote(char: string): void {
@@ -45,6 +50,21 @@ export class SubmeaningComponent implements OnInit {
       this.caretIndex = index;
       this.caretTarget = event.target;
       this.showQuotesDialog = true;
+    }
+  }
+
+  onChange(): void {
+    this.submeaningsChange.emit();
+  }
+
+  onValueChange(value: any): void {
+    this.dirty = true;
+  }
+
+  onFocusLeave(): void {
+    if (this.dirty) {
+      this.dirty = false;
+      this.submeaningsChange.emit();
     }
   }
 }

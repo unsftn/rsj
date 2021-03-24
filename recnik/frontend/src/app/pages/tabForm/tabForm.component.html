@@ -6,6 +6,8 @@
   <div class="p-toolbar-group-right">
     <p-menu #primeriMenu [model]="primeri" [popup]="true" appendTo="body"></p-menu>
     <p-button label="Примери" icon="pi pi-list" styleClass="p-button-help" (click)="primeriMenu.toggle($event)" class="p-ml-2"></p-button>
+    <p-button icon="pi pi-undo" styleClass="p-button-secondary" class="p-ml-2" [disabled]="!undoAvailable()" (click)="undo()"></p-button>
+    <p-button icon="pi pi-refresh" styleClass="p-button-secondary" class="p-ml-1" [disabled]="!redoAvailable()" (click)="redo()"></p-button>
     <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>
     <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search" class="p-ml-2"></p-button>
     <p-button label="Сачувај" (click)="save()" icon="pi pi-save" class="p-ml-2"></p-button>
@@ -47,13 +49,21 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="екавица" (keyup)="keyup($event, 'wordE')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="екавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'wordE')"/>
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="ијекавица" (keyup)="keyup($event, 'wordI')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="ијекавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'wordI')"/>
             </div>
             <div class="p-mb-2 p-mt-2" *ngIf="isVerb">
-              <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"></p-checkbox>
+              <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"
+                          (ngModelChange)="onValueChange($event)"
+                          (focusout)="onFocusLeave()"></p-checkbox>
             </div>
           </div>
         </div>
@@ -65,10 +75,16 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица" (keyup)="keyup($event, 'extensionE')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'extensionE')"/>
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица" (keyup)="keyup($event, 'extensionI')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'extensionI')"/>
             </div>
           </div>
         </div>
@@ -83,10 +99,16 @@
             <div *ngFor="let variant of variants; let i=index" class="col-sm-3">
               <div class="p-d-flex p-flex-column p-flex-lg-row">
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица" (keyup)="keyup($event, 'variants.nameE', i)"/>
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, 'variants.nameE', i)"/>
                 </div>
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица" (keyup)="keyup($event, 'variants.nameI', i)"/>
+                  <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, 'variants.nameI', i)"/>
                 </div>
                 <div class="p-mb-2 p-mr-2" style="width: 200px">
                   <button
@@ -101,10 +123,16 @@
               </div>
               <div class="p-d-flex p-flex-column p-flex-lg-row">
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица" (keyup)="keyup($event, 'variants.extensionE', i)"/>
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, 'variants.extensionE', i)"/>
                 </div>
                 <div class="p-mb-2 p-mr-2">
-                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица" (keyup)="keyup($event, 'variants.extensionI', i)"/>
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, 'variants.extensionI', i)"/>
                 </div>
               </div>
             </div>
@@ -116,7 +144,10 @@
           <p class="label p-m-0">Врста речи:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-dropdown [options]="wordTypes" [(ngModel)]="selectedWordType" (onChange)="onChangeWordType()" optionLabel="name" placeholder="Врста речи"></p-dropdown>
+          <p-dropdown [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="Врста речи"
+                      (onChange)="onChangeWordType()"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex p-ai-start">
@@ -124,7 +155,7 @@
           <p class="label p-m-0">Квалификатори:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <qualificator [(selectedQualificators)]="qualificators"></qualificator>
+          <qualificator [(selectedQualificators)]="qualificators" (selectedQualificatorsChange)="saveChange()"></qualificator>
         </div>
       </div>
 
@@ -133,7 +164,9 @@
           <p class="label p-m-0">Род:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex p-ai-start" *ngIf="isVerb">
@@ -141,7 +174,9 @@
           <p class="label p-m-0">Глаголски вид:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-dropdown [options]="verbForms" [(ngModel)]="selectedVerbForm" placeholder="Глаголски вид" optionLabel="name"></p-dropdown>
+          <p-dropdown [options]="verbForms" [(ngModel)]="selectedVerbForm" placeholder="Глаголски вид" optionLabel="name"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex p-ai-start" *ngIf="isVerb">
@@ -149,7 +184,9 @@
           <p class="label p-m-0">Глаголски род:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
-          <p-dropdown class="wider" [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"></p-dropdown>
+          <p-dropdown class="wider" [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex p-ai-start" *ngIf="isVerb">
@@ -159,10 +196,16 @@
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-d-flex p-flex-column p-flex-lg-row">
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица"  (keyup)="keyup($event, 'presentE')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'presentE')"/>
             </div>
             <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица"  (keyup)="keyup($event, 'presentI')"/>
+              <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'presentI')"/>
             </div>
           </div>
         </div>
@@ -172,7 +215,10 @@
           <p class="label p-m-0">Додатне информације:</p>
         </div>
         <div>
-          <textarea rows="2" cols="60" pInputTextarea style="resize: vertical" [(ngModel)]="details" (keyup)="keyup($event, 'details')"></textarea>
+          <textarea rows="2" cols="60" pInputTextarea style="resize: vertical" [(ngModel)]="details"
+                    (ngModelChange)="onValueChange($event)"
+                    (focusout)="onFocusLeave()"
+                    (keyup)="keyup($event, 'details')"></textarea>
         </div>
       </div>
       <div class="p-d-flex p-ai-start">
@@ -181,7 +227,9 @@
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
           <div class="p-mb-2 p-mr-2">
-            <input type="number" class="input-field" pInputText [(ngModel)]="homonim" [size]="2"/>
+            <input type="number" class="input-field" pInputText [(ngModel)]="homonim" [size]="2"
+                   (ngModelChange)="onValueChange($event)"
+                   (focusout)="onFocusLeave()"/>
           </div>
         </div>
       </div>
@@ -190,22 +238,22 @@
       <div class="tab-container">
         <p-tabView>
           <p-tabPanel header="Значења">
-            <meaning [meanings]="meanings"></meaning>
+            <meaning [meanings]="meanings" (meaningsChange)="saveChange()"></meaning>
           </p-tabPanel>
           <p-tabPanel header="Значења (се)" *ngIf="def2visible()">
-            <meaning [meanings]="meanings2"></meaning>
+            <meaning [meanings]="meanings2" (meaningsChange)="saveChange()"></meaning>
           </p-tabPanel>
           <p-tabPanel header="Изрази и фразе">
             <expressions [expressions]="expressions" [isTopLevel]="true"></expressions>
           </p-tabPanel>
           <p-tabPanel header="Синоними">
-            <synonym [synonyms]="synonyms"></synonym>
+            <synonym [synonyms]="synonyms" (synonymsChange)="saveChange()"></synonym>
           </p-tabPanel>
           <p-tabPanel header="Антоними">
-            <antonym [antonyms]="antonyms"></antonym>
+            <antonym [antonyms]="antonyms" (antonymsChange)="saveChange()"></antonym>
           </p-tabPanel>
           <p-tabPanel header="Колокације">
-            <collocations [collocations]="collocations"></collocations>
+            <collocations [collocations]="collocations" (collocationsChange)="saveChange()"></collocations>
           </p-tabPanel>
           <p-tabPanel header="Дневник">
             <changesForm></changesForm>

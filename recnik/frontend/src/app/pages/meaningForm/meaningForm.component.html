@@ -27,7 +27,10 @@
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
                 <p class="label">Значење {{i + 1}}:</p>
-                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel" (keyup)="keyup($event, i)"></textarea>
+                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel"
+                          (ngModelChange)="onValueChange($event)"
+                          (focusout)="onFocusLeave()"
+                          (keyup)="keyup($event, i)"></textarea>
               </div>
             </div>
           </div>
@@ -47,22 +50,22 @@
           <div class="concordance-container">
             <div class="p-mr-2">
               <p-fieldset legend="Конкорданце:" [toggleable]="true" collapsed="true">
-                <concordance [concordances]="meanings[i].concordances"></concordance>
+                <concordance [concordances]="meanings[i].concordances" (concordancesChange)="onChange()"></concordance>
               </p-fieldset>
             </div>
             <div class="p-mr-2" style="margin-top: 10px;">
               <p-fieldset legend="Подзначење:" [toggleable]="true" collapsed="true">
-                <submeaning [submeanings]="meanings[i].submeanings" [znacenjeRbr]="i+1"></submeaning>
+                <submeaning [submeanings]="meanings[i].submeanings" [znacenjeRbr]="i+1" (submeaningsChange)="onChange()"></submeaning>
               </p-fieldset>
             </div>
             <div class="p-mr-2" style="margin-top: 10px;">
               <p-fieldset legend="Квалификатори:" [toggleable]="true" collapsed="true">
-                <qualificator [(selectedQualificators)]="meanings[i].qualificators"></qualificator>
+                <qualificator [(selectedQualificators)]="meanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
               </p-fieldset>
             </div>
             <div class="p-mr-2" style="margin-top: 10px;">
               <p-fieldset legend="Изрази и фразе:" [toggleable]="true" collapsed="true">
-                <expressions [expressions]="meanings[i].expressions" [isTopLevel]="false"></expressions>
+                <expressions [expressions]="meanings[i].expressions" [isTopLevel]="false" (expressionsChange)="onChange()"></expressions>
               </p-fieldset>
             </div>
           </div>

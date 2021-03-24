@@ -31,10 +31,16 @@
                   <p class="label">Израз/фраза {{i + 1}}:</p>
                 </div>
                 <div class="p-mb-2" *ngIf="isTopLevel">
-                  <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе" (keyup)="keyup($event, i, false)"/>
+                  <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, i, false)"/>
                 </div>
                 <div class="p-mb-2">
-                  <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе" (keyup)="keyup($event, i, true)"></textarea>
+                  <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"
+                            (ngModelChange)="onValueChange($event)"
+                            (focusout)="onFocusLeave()"
+                            (keyup)="keyup($event, i, true)"></textarea>
                 </div>
                 <div class="p-d-flex p-ai-center">
                   <div class="p-mr-2">Одредница:</div>
@@ -63,7 +69,7 @@
                     <p class="label">Квалификатори:</p>
                   </div>
                   <div class="p-mr-2">
-                    <qualificator [(selectedQualificators)]="expressions[i].qualificators"></qualificator>
+                    <qualificator [(selectedQualificators)]="expressions[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
                   </div>
                 </div>
               </div>

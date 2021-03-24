@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -10,27 +10,43 @@ export class MeaningFormComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
   @Input() meanings: any[] = [];
+  @Output() meaningsChange = new EventEmitter();
 
   showQuotesDialog = false;
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  dirty: boolean;
 
   add(): void {
     this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [] });
+    this.meaningsChange.emit();
   }
 
   remove(meaning): void {
     this.meanings.splice(this.meanings.indexOf(meaning), 1);
+    this.meaningsChange.emit();
   }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.dirty = false;
   }
 
-  // show(obj): void {
-  //   console.log(obj);
-  // }
+  onChange(): void {
+    this.meaningsChange.emit();
+  }
+
+  onValueChange(value: any): void {
+    this.dirty = true;
+  }
+
+  onFocusLeave(): void {
+    if (this.dirty) {
+      this.dirty = false;
+      this.meaningsChange.emit();
+    }
+  }
 
   insertQuote(char: string): void {
     const text = this.meanings[this.caretIndex].value;

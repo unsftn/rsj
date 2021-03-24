@@ -71,6 +71,11 @@ export class TabFormComponent implements OnInit {
   message: SafeHtml;
   nextRoute: any[];
 
+  undoStack: any[] = [];
+  redoStack: any[] = [];
+  currentState: any = null;
+  dirty: boolean;
+
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
       command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_1),
@@ -357,11 +362,13 @@ export class TabFormComponent implements OnInit {
             this.id = +params.id;
             this.odrednicaService.get(this.id).subscribe((value) => {
               this.fillForm(value);
+              this.currentState = this.cloneState();
             });
           });
           break;
       }
     });
+    this.dirty = false;
   }
 
   showError(message): void {
@@ -610,5 +617,138 @@ export class TabFormComponent implements OnInit {
         qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
         concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
     }))}));
+  }
+
+  isQualificator(obj: any): boolean {
+    return 'id' in obj && 'name' in obj && 'abbreviation' in obj;
+  }
+
+  clone(srcObj: any): any {
+    if (!srcObj)
+      return srcObj;
+    if (typeof srcObj === 'string')
+      return `${srcObj}`;
+    if (['number', 'boolean', 'bigint'].includes(typeof srcObj))
+      return srcObj;
+    if (this.isQualificator(srcObj))
+      return srcObj;
+    if (Array.isArray(srcObj)) {
+      const arr = Object.assign([], srcObj);
+      for (let i = 0; i < arr.length; i++)
+        arr[i] = this.clone(srcObj[i]);
+      return arr;
+    }
+    const cloneObj = Object.assign({}, srcObj);
+    for (const attr in srcObj) {
+      if (attr.endsWith('$'))
+        cloneObj[attr] = undefined;
+      else
+        cloneObj[attr] = this.clone(srcObj[attr]);
+    }
+    return cloneObj;
+  }
+
+  cloneState(): any {
+    const stateObj = {
+      id: this.id,
+      version: this.version,
+      wordE: this.clone(this.wordE),
+      wordI: this.clone(this.wordI),
+      extensionE: this.clone(this.extensionE),
+      extensionI: this.clone(this.extensionI),
+      variants: this.clone(this.variants),
+      selectedWordType: this.selectedWordType,
+      selectedState: this.selectedState,
+      optionalSe: this.clone(this.optionalSe),
+      homonim: this.clone(this.homonim),
+      selectedGender: this.selectedGender,
+      isNoun: this.isNoun,
+      isVerb: this.isVerb,
+      selectedVerbKind: this.selectedVerbKind,
+      selectedVerbForm: this.selectedVerbForm,
+      presentE: this.clone(this.presentE),
+      presentI: this.clone(this.presentI),
+      details: this.clone(this.details),
+      meanings: this.clone(this.meanings),
+      meanings2: this.clone(this.meanings2),
+      expressions: this.clone(this.expressions),
+      qualificators: this.clone(this.qualificators),
+      collocations: this.clone(this.collocations),
+      antonyms: this.clone(this.antonyms),
+      synonyms: this.clone(this.synonyms),
+    };
+    return stateObj;
+  }
+
+  setState(stateObj): void {
+    this.id = stateObj.id;
+    this.version = stateObj.version;
+    this.wordE = stateObj.wordE;
+    this.wordI = stateObj.wordI;
+    this.extensionE = stateObj.extensionE;
+    this.extensionI = stateObj.extensionI;
+    this.variants = stateObj.variants;
+    this.selectedWordType = stateObj.selectedWordType;
+    this.selectedState = stateObj.selectedState;
+    this.optionalSe = stateObj.optionalSe;
+    this.homonim = stateObj.homonim;
+    this.selectedGender = stateObj.selectedGender;
+    this.isNoun = stateObj.isNoun;
+    this.isVerb = stateObj.isVerb;
+    this.selectedVerbKind = stateObj.selectedVerbKind;
+    this.selectedVerbForm = stateObj.selectedVerbForm;
+    this.presentE = stateObj.presentE;
+    this.presentI = stateObj.presentI;
+    this.details = stateObj.details;
+    this.meanings = stateObj.meanings;
+    this.meanings2 = stateObj.meanings2;
+    this.expressions = stateObj.expressions;
+    this.qualificators = stateObj.qualificators;
+    this.collocations = stateObj.collocations;
+    this.antonyms = stateObj.antonyms;
+    this.synonyms = stateObj.synonyms;
+  }
+
+  saveChange(): void {
+    this.undoStack.push(this.currentState);
+    console.log('Pre:', this.currentState);
+    this.currentState = this.cloneState();
+    console.log('Posle:', this.currentState);
+    this.redoStack = [];
+  }
+
+  undo(): void {
+    if (this.undoStack.length > 0) {
+      this.redoStack.push(this.cloneState());
+      this.currentState = this.undoStack.pop();
+      this.setState(this.currentState);
+    }
+  }
+
+  redo(): void {
+    if (this.redoStack.length > 0) {
+      this.undoStack.push(this.currentState);
+      this.currentState = this.redoStack.pop();
+      this.setState(this.currentState);
+    }
+  }
+
+  undoAvailable(): boolean {
+    return this.undoStack.length > 0;
+  }
+
+  redoAvailable(): boolean {
+    return this.redoStack.length > 0;
+  }
+
+  onValueChange(value: any): void {
+    this.dirty = true;
+  }
+
+  onFocusLeave(): void {
+    if (this.dirty) {
+      this.saveChange();
+      this.dirty = false;
+    }
   }
 }

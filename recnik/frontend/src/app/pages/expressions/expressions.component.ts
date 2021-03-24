@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { OdrednicaService } from '../../services/odrednice';
 
@@ -16,6 +15,7 @@ export class ExpressionsComponent implements OnInit, OnChanges {
 
   @Input() isTopLevel: boolean;
   @Input() expressions;
+  @Output() expressionsChange = new EventEmitter();
 
   showQuotesDialog = false;
   caretPos: number;
@@ -23,19 +23,21 @@ export class ExpressionsComponent implements OnInit, OnChanges {
   caretTarget: HTMLTextAreaElement;
   caretInOpis: boolean;
   searchResults: any[];
+  dirty: boolean;
 
   constructor(
     private primengConfig: PrimeNGConfig,
-    // private httpClient: HttpClient,
     private odrednicaService: OdrednicaService,
   ) {}
 
   add(): void {
     this.expressions.push({ value: '', tekst: '', searchText: '', determinantId: null, rec$: of(''), qualificators: [] });
+    this.expressionsChange.emit();
   }
 
   remove(expression): void {
     this.expressions.splice(this.expressions.indexOf(expression), 1);
+    this.expressionsChange.emit();
   }
 
   search(event): void {
@@ -55,11 +57,13 @@ export class ExpressionsComponent implements OnInit, OnChanges {
       this.expressions[index].rec$ = of(odr.rec);
     });
     this.expressions[index].searchText = '';
+    this.expressionsChange.emit();
   }
 
   removeDeterminant(expression): void {
     expression.determinantId = null;
     expression.rec$ = of('');
+    this.expressionsChange.emit();
   }
 
   ngOnInit(): void {
@@ -74,6 +78,10 @@ export class ExpressionsComponent implements OnInit, OnChanges {
         });
       }
     });
+  }
+
+  onChange(): void {
+    this.expressionsChange.emit();
   }
 
   insertQuote(char: string): void {
@@ -100,4 +108,16 @@ export class ExpressionsComponent implements OnInit, OnChanges {
       this.showQuotesDialog = true;
     }
   }
+
+  onValueChange(value: any): void {
+    this.dirty = true;
+  }
+
+  onFocusLeave(): void {
+    if (this.dirty) {
+      this.dirty = false;
+      this.expressionsChange.emit();
+    }
+  }
+
 }
