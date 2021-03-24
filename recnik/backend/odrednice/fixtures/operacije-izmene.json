@@ -17,19 +17,26 @@
     "model": "odrednice.operacijaizmene",
     "pk": 3,
     "fields": {
-      "naziv": "Предаја одреднице на редактуру 1"
+      "naziv": "Предаја одреднице обрађивачу"
     }
   },
   {
     "model": "odrednice.operacijaizmene",
     "pk": 4,
     "fields": {
-      "naziv": "Предаја одреднице на редактуру 2"
+      "naziv": "Предаја одреднице редактору"
     }
   },
   {
     "model": "odrednice.operacijaizmene",
     "pk": 5,
+    "fields": {
+      "naziv": "Предаја одреднице уреднику"
+    }
+  },
+  {
+    "model": "odrednice.operacijaizmene",
+    "pk": 6,
     "fields": {
       "naziv": "Завршетак уређивања одреднице"
     }

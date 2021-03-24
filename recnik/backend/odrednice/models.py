@@ -51,6 +51,32 @@ ROD = [
 ]
 
 
+class UserProxy(User):
+    class Meta:
+        proxy = True
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name + ' (' + self.email + ')'
+
+    def je_obradjivac(self):
+        return self._in_group(1)
+
+    def je_redaktor(self):
+        return self._in_group(2)
+
+    def je_urednik(self):
+        return self._in_group(3)
+
+    def je_administrator(self):
+        return self._in_group(4)
+
+    def _in_group(self, group_id):
+        group = self.groups.all().first()
+        if not group:
+            return False
+        return group.id == group_id
+
+
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
     ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
@@ -70,6 +96,9 @@ class Odrednica(models.Model):
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     version = AutoIncVersionField()
     rbr_homonima = models.PositiveSmallIntegerField('редни број хомонима', null=True, default=None)
+    obradjivac = models.ForeignKey(UserProxy, verbose_name='obradjivac', on_delete=models.PROTECT, related_name='odrednice_obradjivaca', default=1)
+    redaktor = models.ForeignKey(UserProxy, verbose_name='obradjivac', on_delete=models.PROTECT, related_name='odrednice_redaktora', blank=True, null=True)
+    urednik = models.ForeignKey(UserProxy, verbose_name='obradjivac', on_delete=models.PROTECT, related_name='odrednice_urednika', blank=True, null=True)
 
     def __str__(self):
         return self.rec if self.rec else '-'
@@ -101,7 +130,7 @@ class IzmenaOdrednice(models.Model):
     odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
     operacija_izmene = models.ForeignKey(OperacijaIzmene, verbose_name='операција измене одреднице',
                                          on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
 
     class Meta:

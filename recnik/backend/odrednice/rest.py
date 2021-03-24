@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.exceptions import PermissionDenied, NotFound
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
@@ -240,6 +241,21 @@ def api_save_odrednica(request):
         try:
             odrednica_id = request.data['id']
             odrednica = Odrednica.objects.get(id=odrednica_id)
+            if request.user.je_obradjivac():
+                if odrednica.stanje > 1:
+                    raise PermissionDenied(detail='Одредница није у фази обраде', code=403)
+                if odrednica.obradjivac != request.user:
+                    raise PermissionDenied(detail='Други обрађивач је задужен за ову одредницу', code=403)
+            elif request.user.je_redaktor():
+                if odrednica.stanje > 2:
+                    raise PermissionDenied(detail='Одредница није у фази редактуре или обраде', code=403)
+                if odrednica.stanje == 2 and odrednica.redaktor != request.user:
+                    raise PermissionDenied(detail='Други редактор је задужен за ову одредницу', code=403)
+            elif request.user.je_urednik():
+                if odrednica.stanje > 3:
+                    raise PermissionDenied(detail='Одредница је у стању завршене обраде', code=403)
+                if odrednica.stanje == 3 and odrednica.urednik != request.user:
+                    raise PermissionDenied(detail='Други уредник је задужен за ову одредницу', code=403)
             serializer = CreateOdrednicaSerializer(odrednica, data=request.data)
         except (KeyError, Odrednica.DoesNotExist):
             return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
@@ -268,3 +284,95 @@ def api_delete_odrednica(request, odrednica_id):
     except Odrednica.DoesNotExist:
         return Response({'error': 'entry not found'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+
+
+@api_view(['POST'])
+def api_predaj_obradjivacu(request, odrednica_id):
+    try:
+        odrednica = Odrednica.objects.get(id=odrednica_id)
+        if request.user.je_obradjivac():
+            raise PermissionDenied(detail='Obraђивач не може вратити одредницу у обраду', code=403)
+        sada = now()
+        odrednica.stanje = 1
+        odrednica.poslednja_izmena = sada
+        odrednica.save()
+        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=3)
+    except Odrednica.DoesNotExist:
+        raise NotFound(detail='Одредница није пронађена', code=404)
+    return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+
+
+@api_view(['POST'])
+def api_predaj_redaktoru(request, odrednica_id):
+    try:
+        odrednica = Odrednica.objects.get(id=odrednica_id)
+        if request.user.je_obradjivac():
+            if odrednica.stanje > 1:
+                raise PermissionDenied(detail='Одредница није у обради', code=403)
+        sada = now()
+        odrednica.stanje = 2
+        odrednica.poslednja_izmena = sada
+        odrednica.save()
+        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=4)
+    except Odrednica.DoesNotExist:
+        raise NotFound(detail='Одредница није пронађена', code=404)
+    return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+
+
+@api_view(['POST'])
+def api_predaj_uredniku(request, odrednica_id):
+    try:
+        odrednica = Odrednica.objects.get(id=odrednica_id)
+        if odrednica.stanje != 2:
+            raise PermissionDenied(detail='Одредница није у стању редактуре', code=403)
+        if request.user.je_obradjivac():
+            raise PermissionDenied(detail='Обрађивач нема права проследити одредницу уреднику', code=403)
+        sada = now()
+        odrednica.stanje = 3
+        odrednica.poslednja_izmena = sada
+        odrednica.save()
+        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=5)
+    except Odrednica.DoesNotExist:
+        raise NotFound(detail='Одредница није пронађена', code=404)
+    return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+
+
+@api_view(['POST'])
+def api_zavrsi_obradu(request, odrednica_id):
+    try:
+        odrednica = Odrednica.objects.get(id=odrednica_id)
+        if odrednica.stanje != 3:
+            raise PermissionDenied(detail='Одредница није код уредника', code=403)
+        if not request.user.je_urednik():
+            raise PermissionDenied(detail='Само уредник има права да заврши обраду одреднице', code=403)
+        sada = now()
+        odrednica.stanje = 4
+        odrednica.poslednja_izmena = sada
+        odrednica.save()
+        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=6)
+    except Odrednica.DoesNotExist:
+        raise NotFound(detail='Одредница није пронађена', code=404)
+    return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+
+
+@api_view(['GET'])
+def api_moje_odrednice(request, page_size):
+    user = UserProxy.objects.get(id=request.user.id)
+    if user.je_obradjivac():
+        odrednice1 = Odrednica.objects.filter(obradjivac=user, stanje=1).order_by('-poslednja_izmena')[:page_size]
+        odrednice2 = Odrednica.objects.none()
+    elif user.je_redaktor():
+        odrednice1 = Odrednica.objects.filter(redaktor=user, stanje=2).order_by('-poslednja_izmena')[:page_size]
+        odrednice2 = Odrednica.objects.filter(redaktor__isnull=True, stanje=2).order_by('-poslednja_izmena')[:page_size]
+    elif user.je_urednik():
+        odrednice1 = Odrednica.objects.filter(urednik=user, stanje=3).order_by('-poslednja_izmena')[:page_size]
+        odrednice2 = Odrednica.objects.filter(urednik__isnull=True, stanje=3).order_by('-poslednja_izmena')[:page_size]
+    else:
+        odrednice1 = Odrednica.objects.order_by('-poslednja_izmena')[:page_size*2]
+        odrednice2 = Odrednica.objects.none()
+    result = []
+    for odr in odrednice1.union(odrednice2):
+        izmena = odr.izmenaodrednice_set.all().order_by('-vreme').first()
+        name = izmena.user.first_name if izmena else ''
+        result.append({'odrednica_id': odr.id, 'rec': odr.rec, 'datum': odr.poslednja_izmena, 'autor': name})
+    return Response(result, status=status.HTTP_200_OK, content_type=JSON)

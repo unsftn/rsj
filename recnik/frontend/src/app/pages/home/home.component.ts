@@ -1,6 +1,8 @@
 import { Component, Injectable, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
+import { Table } from 'primeng/table';
+import { OdrednicaService } from '../../services/odrednice';
 
 @Component({
   selector: 'home',
@@ -68,11 +70,18 @@ export class HomeComponent implements OnInit {
     }
   };
 
-  constructor(private primengConfig: PrimeNGConfig, private router: Router) {
-  }
+  myDeterminants: any[];
+
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private odrednicaService: OdrednicaService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.odrednicaService.my(20).subscribe(
+      (data) => this.myDeterminants = data,
+      (error) => console.log(error));
   }
 
   @HostListener('document:click', ['$event'])
@@ -88,4 +97,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  clear(table: Table, filter: HTMLInputElement): void {
+    filter.value = '';
+    table.clear();
+  }
+
+  goto(odrId: number): void {
+    this.router.navigate(['/edit', odrId]);
+  }
 }

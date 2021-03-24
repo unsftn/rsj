@@ -32,4 +32,8 @@ export class OdrednicaService {
   search(text: string): Observable<any> {
     return this.httpClient.get(`/api/pretraga/odrednica/?q=${text}`);
   }
+
+  my(pageSize: number): Observable<any> {
+    return this.httpClient.get(`/api/odrednice/workflow/moje-odrednice/${pageSize}/`);
+  }
 }

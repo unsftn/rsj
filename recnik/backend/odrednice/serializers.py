@@ -1,8 +1,6 @@
 import logging
-from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from rest_framework import serializers
-from render.renderer import render_one
 from publikacije.models import Publikacija
 from .models import *
 
@@ -141,7 +139,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'glagolski_rod', 'prezent', 'prezent_ij', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena',
                   'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim',
                   'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
-                  'izmenaodrednice_set', 'opciono_se', 'rbr_homonima')
+                  'izmenaodrednice_set', 'opciono_se', 'rbr_homonima', 'obradjivac', 'redaktor', 'urednik')
 
 
 # insert/update serializers
@@ -282,8 +280,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
     def _save(self, validated_data, odrednica=None, database='default'):
         radimo_update = odrednica is None
-        if database == 'default':
-            user = validated_data.pop('user')
+        user = validated_data.pop('user') if database == 'default' else None
+
         odrednica_id = validated_data.get('id')
 
         sada = now()
@@ -296,6 +294,13 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         kolokacije = validated_data.pop('kolokacije', [])
 
         validated_data['poslednja_izmena'] = sada
+        if database == 'default':
+            if validated_data['stanje'] == 1:
+                validated_data['obradjivac'] = user
+            elif validated_data['stanje'] == 2:
+                validated_data['redaktor'] = user
+            elif validated_data['stanje'] == 3:
+                validated_data['urednik'] = user
         odrednica, created = Odrednica.objects.using(database).update_or_create(defaults=validated_data, id=odrednica_id)
 
         for var_odr in varijante:

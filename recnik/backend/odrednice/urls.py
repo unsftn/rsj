@@ -38,6 +38,11 @@ urlpatterns = [
     path('odrednica-popular/', OdrednicaPopularList.as_view(), name='odrednica-popular-list'),
     path('save/', api_save_odrednica),
     path('delete/<int:odrednica_id>/', api_delete_odrednica),
+    path('workflow/za-obradjivaca/<int:odrednica_id>/', api_predaj_obradjivacu),
+    path('workflow/za-redaktora/<int:odrednica_id>/', api_predaj_redaktoru),
+    path('workflow/za-urednika/<int:odrednica_id>/', api_predaj_uredniku),
+    path('workflow/kraj/<int:odrednica_id>/', api_zavrsi_obradu),
+    path('workflow/moje-odrednice/<int:page_size>/', api_moje_odrednice),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
