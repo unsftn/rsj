@@ -36,4 +36,20 @@ export class OdrednicaService {
   my(pageSize: number): Observable<any> {
     return this.httpClient.get(`/api/odrednice/workflow/moje-odrednice/${pageSize}/`);
   }
+
+  toObradjivac(id: number): Observable<any> {
+    return this.httpClient.post(`/api/odrednice/workflow/za-obradjivaca/${id}/`, {});
+  }
+
+  toRedaktor(id: number): Observable<any> {
+    return this.httpClient.post(`/api/odrednice/workflow/za-redaktora/${id}/`, {});
+  }
+
+  toUrednik(id: number): Observable<any> {
+    return this.httpClient.post(`/api/odrednice/workflow/za-urednika/${id}/`, {});
+  }
+
+  toKraj(id: number): Observable<any> {
+    return this.httpClient.post(`/api/odrednice/workflow/kraj/${id}/`, {});
+  }
 }

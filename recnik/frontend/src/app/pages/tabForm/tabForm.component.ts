@@ -7,6 +7,7 @@ import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { of } from 'rxjs';
 import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
+import { TokenStorageService } from '../../services/auth/token-storage.service';
 import * as primeri from '../../examples';
 
 interface Variant {
@@ -75,6 +76,7 @@ export class TabFormComponent implements OnInit {
   redoStack: any[] = [];
   currentState: any = null;
   dirty: boolean;
+  yesHandler: () => void;
 
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
@@ -114,6 +116,42 @@ export class TabFormComponent implements OnInit {
       command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_12),
     }
   ];
+
+  workflowItems: MenuItem[];
+  wfObradjivac: MenuItem[] = [{
+      label: 'Проследи редактору',
+      command: (event) => this.toRedaktor(),
+  }];
+  wfRedaktor: MenuItem[] = [{
+      label: 'Врати на обраду',
+      command: (event) => this.toObradjivac(),
+    },{
+      label: 'Проследи уреднику',
+      command: (event) => this.toUrednik(),
+  }];
+  wfUrednik: MenuItem[] = [{
+      label: 'Врати на обраду',
+      command: (event) => this.toObradjivac(),
+    },{
+      label: 'Врати редактору',
+      command: (event) => this.toRedaktor(),
+    },{
+      label: 'Затвори одредницу',
+      command: (event) => this.toKraj(),
+  }];
+  wfAdministrator: MenuItem[] = [{
+      label: 'Врати на обраду',
+      command: (event) => this.toObradjivac(),
+    },{
+      label: 'Врати редактору',
+      command: (event) => this.toRedaktor(),
+    },{
+      label: 'Врати уреднику',
+      command: (event) => this.toUrednik(),
+    },{
+      label: 'Затвори одредницу',
+      command: (event) => this.toKraj(),
+  }];
 
   addVariant(): void {
     this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '' });
@@ -163,6 +201,7 @@ export class TabFormComponent implements OnInit {
     private previewService: PreviewService,
     private qualificatorService: QualificatorService,
     private enumService: EnumService,
+    private tokenStorageService: TokenStorageService,
     private domSanitizer: DomSanitizer,
     private router: Router,
   ) {
@@ -181,19 +220,7 @@ export class TabFormComponent implements OnInit {
   }
 
   yes(): void {
-    this.odrednicaService.delete(this.id).subscribe(
-      (status) => {
-        this.showWarningDialog = false;
-        this.message = 'Одредница је успешно обрисана.';
-        this.showInfoDialog = true;
-        this.nextRoute = ['/'];
-      },
-      (error) => {
-        this.showWarningDialog = false;
-        this.message = 'Грешка: ' + error;
-        this.showInfoDialog = true;
-        this.nextRoute = [];
-      });
+    this.yesHandler();
   }
 
   no(): void {
@@ -205,6 +232,21 @@ export class TabFormComponent implements OnInit {
       return;
     }
     this.message = 'Да ли сте сигурни да желите да обришете ову одредницу? Брисање се не може опозвати.';
+    this.yesHandler = () => {
+      this.odrednicaService.delete(this.id).subscribe(
+        (status) => {
+          this.showWarningDialog = false;
+          this.message = 'Одредница је успешно обрисана.';
+          this.showInfoDialog = true;
+          this.nextRoute = ['/'];
+        },
+        (error) => {
+          this.showWarningDialog = false;
+          this.message = 'Грешка: ' + error;
+          this.showInfoDialog = true;
+          this.nextRoute = [];
+        });
+    };
     this.showWarningDialog = true;
   }
 
@@ -345,6 +387,21 @@ export class TabFormComponent implements OnInit {
     this.verbKinds = this.enumService.getAllVerbKinds();
     this.verbForms = this.enumService.getAllVerbForms();
     this.wordTypes = this.enumService.getAllWordTypes();
+    const user = this.tokenStorageService.getUser();
+    switch (user.group) {
+      case 'Администратор':
+        this.workflowItems = this.wfAdministrator;
+        break;
+      case 'Уредник':
+        this.workflowItems = this.wfUrednik;
+        break;
+      case 'Редактор':
+        this.workflowItems = this.wfRedaktor;
+        break;
+      case 'Обрађивач':
+        this.workflowItems = this.wfObradjivac;
+        break;
+    }
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
@@ -750,5 +807,94 @@ export class TabFormComponent implements OnInit {
       this.saveChange();
       this.dirty = false;
     }
+  }
+
+  toObradjivac(): void {
+    if (!this.editMode)
+      return;
+    this.message = 'Да ли сте сигурни да желите да проследите одредницу обрађивачу?';
+    this.yesHandler = () => {
+      this.odrednicaService.toObradjivac(this.id).subscribe(
+        (success) => {
+          this.showWarningDialog = false;
+          this.message = 'Одредница је прослеђена обрађивачу.';
+          this.showInfoDialog = true;
+          this.nextRoute = ['/'];
+        },
+        (error) => {
+          this.showWarningDialog = false;
+          this.message = 'Грешка: ' + error;
+          this.showInfoDialog = true;
+          this.nextRoute = [];
+        });
+    };
+    this.showWarningDialog = true;
+  }
+
+  toRedaktor(): void {
+    if (!this.editMode)
+      return;
+    this.message = 'Да ли сте сигурни да желите да проследите одредницу редактору?';
+    this.yesHandler = () => {
+      this.odrednicaService.toRedaktor(this.id).subscribe(
+        (success) => {
+          this.showWarningDialog = false;
+          this.message = 'Одредница је прослеђена редактору.';
+          this.showInfoDialog = true;
+          this.nextRoute = ['/'];
+        },
+        (error) => {
+          this.showWarningDialog = false;
+          this.message = 'Грешка: ' + error;
+          this.showInfoDialog = true;
+          this.nextRoute = [];
+        });
+    };
+    this.showWarningDialog = true;
+  }
+
+  toUrednik(): void {
+    if (!this.editMode)
+      return;
+    this.message = 'Да ли сте сигурни да желите да проследите одредницу уреднику?';
+    this.yesHandler = () => {
+      this.odrednicaService.toUrednik(this.id).subscribe(
+        (success) => {
+          this.showWarningDialog = false;
+          this.message = 'Одредница је прослеђена уреднику.';
+          this.showInfoDialog = true;
+          this.nextRoute = ['/'];
+        },
+        (error) => {
+          this.showWarningDialog = false;
+          this.message = 'Грешка: ' + error;
+          this.showInfoDialog = true;
+          this.nextRoute = [];
+        });
+    };
+    this.showWarningDialog = true;
+  }
+
+  toKraj(): void {
+    if (!this.editMode)
+      return;
+    this.message = 'Да ли сте сигурни да желите да затворите одредницу?'
+    this.showWarningDialog = true;
+    this.yesHandler = () => {
+      this.odrednicaService.toKraj(this.id).subscribe(
+        (success) => {
+          this.showWarningDialog = false;
+          this.message = 'Одредница је затворена за обраду.';
+          this.showInfoDialog = true;
+          this.nextRoute = ['/'];
+        },
+        (error) => {
+          this.showWarningDialog = false;
+          this.message = 'Грешка: ' + error;
+          this.showInfoDialog = true;
+          this.nextRoute = [];
+        });
+    };
+    this.showWarningDialog = true;
   }
 }

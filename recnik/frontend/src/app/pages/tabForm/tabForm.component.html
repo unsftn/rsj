@@ -11,7 +11,8 @@
     <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>
     <p-button label="Преглед" (click)="preview()" styleClass="p-button-secondary" icon="pi pi-search" class="p-ml-2"></p-button>
     <p-button label="Сачувај" (click)="save()" icon="pi pi-save" class="p-ml-2"></p-button>
-    <p-button label="Заврши обраду" (click)="finish()" styleClass="p-button-success" icon="pi pi-check" class="p-ml-2"></p-button>
+    <p-menu #workflowMenu [model]="workflowItems" [popup]="true" appendTo="body"></p-menu>
+    <p-button label="Процес" (click)="workflowMenu.toggle($event)" [disabled]="!editMode" styleClass="p-button-success" icon="pi pi-angle-double-right" class="p-ml-2"></p-button>
   </div>
 </p-toolbar>
 <p-dialog header="&nbsp;" [(visible)]="showInfoDialog" [style]="{width: '70vw'}">
@@ -23,8 +24,8 @@
 <p-dialog header="Упозорење" [(visible)]="showWarningDialog" [style]="{width: '50vw'}">
   <div [innerHTML]="message"></div>
   <div class="p-d-flex p-jc-end">
-    <p-button label="Да" (click)="yes()" styleClass="p-button-danger" icon="pi pi-times"></p-button>
-    <p-button label="Не" (click)="no()" styleClass="p-button-secondary" icon="pi pi-undo" class="p-ml-3"></p-button>
+    <p-button label="Да" (click)="yes()" styleClass="p-button-success" icon="pi pi-check"></p-button>
+    <p-button label="Не" (click)="no()" styleClass="p-button-second ary" icon="pi pi-undo" class="p-ml-3"></p-button>
   </div>
 </p-dialog>
 <p-dialog header="Молимо сачекајте" [(visible)]="showWaitDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="false">

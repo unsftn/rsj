@@ -36,10 +36,10 @@ export class EnumService {
       { name: 'двовидски', id: 3 },
     ];
     this.entryStates = [
-      { id: 1, opis: 'почетна обрада' },
-      { id: 2, opis: 'редактура 1' },
-      { id: 3, opis: 'редактура 2' },
-      { id: 4, opis: 'коначан запис' },
+      { id: 1, opis: 'обрада' },
+      { id: 2, opis: 'редактура' },
+      { id: 3, opis: 'ureђивање' },
+      { id: 4, opis: 'коначна' },
     ];
     this.wordTypes = [
       { name: 'именица', id: 0 },

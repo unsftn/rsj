@@ -348,7 +348,7 @@ def api_zavrsi_obradu(request, odrednica_id):
         odrednica = Odrednica.objects.get(id=odrednica_id)
         if odrednica.stanje != 3:
             raise PermissionDenied(detail='Одредница није код уредника', code=403)
-        if not user.je_urednik():
+        if not user.je_urednik() and not user.je_administrator():
             raise PermissionDenied(detail='Само уредник има права да заврши обраду одреднице', code=403)
         sada = now()
         odrednica.stanje = 4

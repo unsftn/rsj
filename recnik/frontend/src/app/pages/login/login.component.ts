@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe(
       (data) => {
         this.tokenStorage.saveToken(data.access, data.refresh);
-        this.tokenStorage.saveUser({ email, password });
+        console.log(data);
+        this.tokenStorage.saveUser({ email, password, firstName: data.first_name, lastName: data.last_name, isStaff: data.is_staff, group: data.groups[0]});
         this.router.navigate([this.returnUrl]);
       },
       (err) => {

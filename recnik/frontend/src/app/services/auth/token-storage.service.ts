@@ -18,7 +18,7 @@ export class TokenStorageService {
 
   signOut(): void {
     sessionStorage.clear();
-    this.observers.forEach(observer => observer.next(false));
+    this.observers.forEach((observer) => observer.next(false));
   }
 
   public saveToken(accessToken: string, refreshToken: string): void {
@@ -39,7 +39,7 @@ export class TokenStorageService {
   public saveUser(user): void {
     sessionStorage.removeItem(USER);
     sessionStorage.setItem(USER, JSON.stringify(user));
-    this.observers.forEach(observer => observer.next(true));
+    this.observers.forEach((observer) => observer.next(true));
   }
 
   public isLoggedIn(): boolean {
