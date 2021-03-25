@@ -233,28 +233,29 @@ JSON = 'application/json'
 
 
 @api_view(['POST', 'PUT'])
-@permission_classes([permissions.AllowAny])
+# @permission_classes([permissions.AllowAny])
 def api_save_odrednica(request):
+    user = UserProxy.objects.get(id=request.user.id)
     if request.method == 'POST':
         serializer = CreateOdrednicaSerializer(data=request.data)
     elif request.method == 'PUT':
         try:
             odrednica_id = request.data['id']
             odrednica = Odrednica.objects.get(id=odrednica_id)
-            if request.user.je_obradjivac():
+            if user.je_obradjivac():
                 if odrednica.stanje > 1:
                     raise PermissionDenied(detail='Одредница није у фази обраде', code=403)
-                if odrednica.obradjivac != request.user:
+                if odrednica.obradjivac != user:
                     raise PermissionDenied(detail='Други обрађивач је задужен за ову одредницу', code=403)
-            elif request.user.je_redaktor():
+            elif user.je_redaktor():
                 if odrednica.stanje > 2:
                     raise PermissionDenied(detail='Одредница није у фази редактуре или обраде', code=403)
-                if odrednica.stanje == 2 and odrednica.redaktor != request.user:
+                if odrednica.stanje == 2 and odrednica.redaktor != user:
                     raise PermissionDenied(detail='Други редактор је задужен за ову одредницу', code=403)
-            elif request.user.je_urednik():
+            elif user.je_urednik():
                 if odrednica.stanje > 3:
                     raise PermissionDenied(detail='Одредница је у стању завршене обраде', code=403)
-                if odrednica.stanje == 3 and odrednica.urednik != request.user:
+                if odrednica.stanje == 3 and odrednica.urednik != user:
                     raise PermissionDenied(detail='Други уредник је задужен за ову одредницу', code=403)
             serializer = CreateOdrednicaSerializer(odrednica, data=request.data)
         except (KeyError, Odrednica.DoesNotExist):
@@ -288,15 +289,16 @@ def api_delete_odrednica(request, odrednica_id):
 
 @api_view(['POST'])
 def api_predaj_obradjivacu(request, odrednica_id):
+    user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        if request.user.je_obradjivac():
+        if user.je_obradjivac():
             raise PermissionDenied(detail='Obraђивач не може вратити одредницу у обраду', code=403)
         sada = now()
         odrednica.stanje = 1
         odrednica.poslednja_izmena = sada
         odrednica.save()
-        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=3)
+        IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=3)
     except Odrednica.DoesNotExist:
         raise NotFound(detail='Одредница није пронађена', code=404)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
@@ -304,16 +306,17 @@ def api_predaj_obradjivacu(request, odrednica_id):
 
 @api_view(['POST'])
 def api_predaj_redaktoru(request, odrednica_id):
+    user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        if request.user.je_obradjivac():
+        if user.je_obradjivac():
             if odrednica.stanje > 1:
                 raise PermissionDenied(detail='Одредница није у обради', code=403)
         sada = now()
         odrednica.stanje = 2
         odrednica.poslednja_izmena = sada
         odrednica.save()
-        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=4)
+        IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=4)
     except Odrednica.DoesNotExist:
         raise NotFound(detail='Одредница није пронађена', code=404)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
@@ -321,17 +324,18 @@ def api_predaj_redaktoru(request, odrednica_id):
 
 @api_view(['POST'])
 def api_predaj_uredniku(request, odrednica_id):
+    user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
         if odrednica.stanje != 2:
             raise PermissionDenied(detail='Одредница није у стању редактуре', code=403)
-        if request.user.je_obradjivac():
+        if user.je_obradjivac():
             raise PermissionDenied(detail='Обрађивач нема права проследити одредницу уреднику', code=403)
         sada = now()
         odrednica.stanje = 3
         odrednica.poslednja_izmena = sada
         odrednica.save()
-        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=5)
+        IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=5)
     except Odrednica.DoesNotExist:
         raise NotFound(detail='Одредница није пронађена', code=404)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
@@ -339,17 +343,18 @@ def api_predaj_uredniku(request, odrednica_id):
 
 @api_view(['POST'])
 def api_zavrsi_obradu(request, odrednica_id):
+    user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
         if odrednica.stanje != 3:
             raise PermissionDenied(detail='Одредница није код уредника', code=403)
-        if not request.user.je_urednik():
+        if not user.je_urednik():
             raise PermissionDenied(detail='Само уредник има права да заврши обраду одреднице', code=403)
         sada = now()
         odrednica.stanje = 4
         odrednica.poslednja_izmena = sada
         odrednica.save()
-        IzmenaOdrednice.objects.create(user_id=request.user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=6)
+        IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=6)
     except Odrednica.DoesNotExist:
         raise NotFound(detail='Одредница није пронађена', code=404)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)

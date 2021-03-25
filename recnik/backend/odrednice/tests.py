@@ -169,7 +169,7 @@ class TestOdredniceApi(TestCase):
         response = c.get(OPERACIJA_IZMENE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(len(result), 5)
+        self.assertEquals(len(result), 6)
 
     def test_get_izmena_odrednice_by_id(self):
         c = Client()
@@ -461,7 +461,8 @@ class TestOdredniceApi(TestCase):
             'vrsta': odr1.vrsta,
             'rod': odr1.rod,
             'version': odr1.version,
-            'znacenja': []
+            'znacenja': [],
+            'stanje': 1,
         }
         data_obj2 = {
             'id': odr2.id,
@@ -469,7 +470,8 @@ class TestOdredniceApi(TestCase):
             'vrsta': odr2.vrsta,
             'rod': odr2.rod,
             'version': odr2.version,
-            'znacenja': []
+            'znacenja': [],
+            'stanje': 1,
         }
         c1 = Client()
         r1 = c1.put('/api/odrednice/save/', data=data_obj1, HTTP_AUTHORIZATION=self.token,

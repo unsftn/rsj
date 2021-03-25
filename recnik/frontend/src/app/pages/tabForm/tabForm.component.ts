@@ -46,7 +46,7 @@ export class TabFormComponent implements OnInit {
   selectedState: StanjeOdrednice;
   qualificators: Qualificator[] = [];
   id: number;
-  editMode: boolean;  // false: nova odrednica; true: edit postojece
+  editMode: boolean; // false: nova odrednica; true: edit postojece
   version = 1;
   optionalSe: boolean;
   homonim?: number;
