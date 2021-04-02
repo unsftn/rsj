@@ -17,7 +17,7 @@ AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м и ж', 5: 'м и с', 6: 'ж и с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
 SPECIAL_MARKS = ['аор.', 'пр.', ' р.', 'трп.', 'вок.', 'ген.', 'мн.', 'зб.', 'им.', 'инстр.', 'лок.', 'дат.', 'јек.',
-                 'имп.', 'ном.']
+                 'имп.', 'ном.', 'импф.']
 REGEX_ITALIC = re.compile('#+(.+)#+')
 REGEX_SMALL = re.compile('\\$+(.+)\\$+')
 
@@ -74,7 +74,7 @@ def render_konkordanse(konkordanse):
     for k in konkordanse:
         retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
         if k.publikacija:
-            retval += f'{tacka(k.publikacija.skracenica)}'
+            retval += f'{tacka(k.publikacija.skracenica)} '
     return retval
 
 
