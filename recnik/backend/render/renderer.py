@@ -17,7 +17,7 @@ AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м и ж', 5: 'м и с', 6: 'ж и с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
 SPECIAL_MARKS = ['аор.', 'пр.', ' р.', 'трп.', 'вок.', 'ген.', 'мн.', 'зб.', 'им.', 'инстр.', 'лок.', 'дат.', 'јек.',
-                 'имп.', 'ном.', 'импф.']
+                 'имп.', 'ном.', 'импф.', 'арх.']
 REGEX_ITALIC = re.compile('#+(.+)#+')
 REGEX_SMALL = re.compile('\\$+(.+)\\$+')
 
@@ -45,9 +45,25 @@ def tacka(tekst):
     return tekst
 
 
+def nbsp(tekst):
+    if len(tekst) < 1:
+        return tekst
+    return tekst.replace(' ', '&nbsp;')
+
+
 def process_special_marks(tekst):
     for mark in SPECIAL_MARKS:
         tekst = tekst.replace(mark, f'<small>{mark}</small>')
+    for znak in ['м', 'ж', 'с']:
+        if tekst.startswith(f'({znak} '):
+            tekst = f'(<small>{znak}</small> ' + tekst[3:]
+        if tekst.startswith(f'{znak} '):
+            tekst = f'<small>{znak}</small> ' + tekst[2:]
+        if tekst.endswith(f' {znak})'):
+            tekst = tekst[:-3] + f' <small>{znak}</small>'
+        if tekst.endswith(f' {znak}'):
+            tekst = tekst[:-2] + f' <small>{znak}</small>'
+        tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
     return tekst
 
 
@@ -74,7 +90,7 @@ def render_konkordanse(konkordanse):
     for k in konkordanse:
         retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
         if k.publikacija:
-            retval += f'{tacka(k.publikacija.skracenica)} '
+            retval += f'{nbsp(tacka(k.publikacija.skracenica))} '
     return retval
 
 
@@ -107,7 +123,8 @@ def render_podznacenje(podznacenje):
     tekst += f'{process_tags(tacka(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
-        tekst = dvotacka(tekst)
+        # tekst = dvotacka(tekst)
+        tekst = tacka(tekst) + ' &mdash; '
         tekst += render_konkordanse(podznacenje.konkordansa_set.all().order_by('redni_broj'))
 
     tekst += render_izrazi_fraze_znacenja(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
@@ -120,7 +137,8 @@ def render_znacenje(znacenje):
     tekst += f'{process_tags(tacka(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
-        tekst = dvotacka(tekst)
+        # tekst = dvotacka(tekst)
+        tekst = tacka(tekst) + ' &mdash; '
         tekst += render_konkordanse(znacenje.konkordansa_set.all().order_by('redni_broj'))
 
     tekst += render_izrazi_fraze_znacenja(znacenje.izrazfraza_set.all().order_by('redni_broj'))
