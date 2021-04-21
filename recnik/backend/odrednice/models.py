@@ -260,6 +260,10 @@ class Kvalifikator(models.Model):
     class Meta:
         verbose_name = 'квалификатор'
         verbose_name_plural = 'квалификатори'
+        ordering = [models.functions.Collate('skracenica', 'utf8mb4_unicode_ci')]
+        indexes = [
+            models.Index(fields=['skracenica']),
+        ]
 
     def __str__(self):
         return f'{self.skracenica}. / {self.naziv}'

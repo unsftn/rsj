@@ -1470,5 +1470,29 @@
       "skracenica": "штамп",
       "naziv": "штампарство; штампарски"
     }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 187,
+    "fields": {
+      "skracenica": "индив",
+      "naziv": "индивидуално, индивидуализам"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 188,
+    "fields": {
+      "skracenica": "покр",
+      "naziv": "покрајински"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 189,
+    "fields": {
+      "skracenica": "изр",
+      "naziv": "израз"
+    }
   }
 ]
