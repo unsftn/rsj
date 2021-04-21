@@ -29,7 +29,7 @@
                     (focusout)="onFocusLeave()"
                     (keyup)="keyup($event, i)"></textarea>
         </div>
-        <div class="p-d-flex p-flex-column">
+        <div class="p-d-flex p-flex-column" style="width:250px;">
           <div class="p-mb-2">
             <p-autoComplete [(ngModel)]="concordances[i].searchText" name="book{{i}}" [suggestions]="searchResults" (completeMethod)="search($event)" scrollHeight="300px" (onSelect)="select($event, i)" placeholder="Претрага извора" class="search-pub">
               <ng-template let-pub pTemplate="item">

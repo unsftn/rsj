@@ -30,14 +30,14 @@
                 <div class="p-mb-2">
                   <p class="label">Израз/фраза {{i + 1}}:</p>
                 </div>
-                <div class="p-mb-2" *ngIf="isTopLevel">
+                <div class="p-mb-2">
                   <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, i, false)"/>
                 </div>
                 <div class="p-mb-2">
-                  <textarea rows="2" cols="80" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"
+                  <textarea rows="2" cols="50" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"
                             (ngModelChange)="onValueChange($event)"
                             (focusout)="onFocusLeave()"
                             (keyup)="keyup($event, i, true)"></textarea>
