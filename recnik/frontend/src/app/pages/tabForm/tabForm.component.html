@@ -53,13 +53,13 @@
               <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'wordE')"/>
+                     (keyup)="keyup($event, 'wordE')" style="width:150px"/>
             </div>
             <div class="p-mb-2 p-mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="ијекавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'wordI')"/>
+                     (keyup)="keyup($event, 'wordI')" style="width:150px"/>
             </div>
             <div class="p-mb-2 p-mt-2" *ngIf="isVerb">
               <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"
@@ -79,13 +79,13 @@
               <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'extensionE')"/>
+                     (keyup)="keyup($event, 'extensionE')" style="width:150px"/>
             </div>
             <div class="p-mb-2 p-mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'extensionI')"/>
+                     (keyup)="keyup($event, 'extensionI')" style="width:150px"/>
             </div>
           </div>
         </div>
@@ -103,13 +103,13 @@
                   <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
-                         (keyup)="keyup($event, 'variants.nameE', i)"/>
+                         (keyup)="keyup($event, 'variants.nameE', i)" style="width:150px"/>
                 </div>
                 <div class="p-mb-2 p-mr-2">
                   <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
-                         (keyup)="keyup($event, 'variants.nameI', i)"/>
+                         (keyup)="keyup($event, 'variants.nameI', i)" style="width:150px"/>
                 </div>
                 <div class="p-mb-2 p-mr-2" style="width: 200px">
                   <button
@@ -127,13 +127,13 @@
                   <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
-                         (keyup)="keyup($event, 'variants.extensionE', i)"/>
+                         (keyup)="keyup($event, 'variants.extensionE', i)" style="width:150px"/>
                 </div>
                 <div class="p-mb-2 p-mr-2">
                   <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
-                         (keyup)="keyup($event, 'variants.extensionI', i)"/>
+                         (keyup)="keyup($event, 'variants.extensionI', i)" style="width:150px"/>
                 </div>
               </div>
             </div>
@@ -200,13 +200,13 @@
               <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'presentE')"/>
+                     (keyup)="keyup($event, 'presentE')" style="width:150px"/>
             </div>
             <div class="p-mb-2 p-mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'presentI')"/>
+                     (keyup)="keyup($event, 'presentI')" style="width:150px"/>
             </div>
           </div>
         </div>
@@ -219,7 +219,7 @@
           <textarea rows="2" cols="60" pInputTextarea style="resize: vertical" [(ngModel)]="details"
                     (ngModelChange)="onValueChange($event)"
                     (focusout)="onFocusLeave()"
-                    (keyup)="keyup($event, 'details')"></textarea>
+                    (keyup)="keyup($event, 'details')" style="border: 1px solid darkgray; color: #495057"></textarea>
         </div>
       </div>
       <div class="p-d-flex p-ai-start">

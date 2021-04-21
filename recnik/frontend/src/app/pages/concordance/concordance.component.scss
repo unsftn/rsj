@@ -13,7 +13,11 @@ div.naslov {
   text-overflow: ellipsis;
 }
 
-.search-component {
+.search-pub {
+  ::ng-deep .p-inputtext {
+    border-radius: 50px;
+  }
+  width: 150px;
   .skracenica {
     float: left;
   }
@@ -21,3 +25,4 @@ div.naslov {
     float: right;
   }
 }
+

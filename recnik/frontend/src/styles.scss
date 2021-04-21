@@ -2,6 +2,7 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-size: 11pt;
 }
 
 body {
@@ -31,28 +32,23 @@ a, p, h1, h2, h3, h4, h5, h6 {
 }
 
 .p-component {
-  // font-family: 'Lucida Sans Unicode' !important;
   font-family: "Fira Sans";
 }
 
 .p-inputtext {
-  // font-family: 'Lucida Sans Unicode' !important;
   font-family: "Fira Sans";
   min-height: 40px !important;
 }
 
 .p-tooltip {
-  // font-family: 'Lucida Sans Unicode' !important;
   font-family: "Fira Sans";
 }
 
 textarea {
-  // font-family: 'Lucida Sans Unicode' !important;
   font-family: "Fira Sans";
 }
 
 .p-checkbox-label {
-  // font-family: 'Lucida Sans Unicode' !important;
   font-family: "Fira Sans";
 }
 

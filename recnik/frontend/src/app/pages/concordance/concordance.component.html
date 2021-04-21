@@ -24,14 +24,14 @@
     <div class="p-d-flex p-flex-column p-mb-2">
       <div class="p-d-flex">
         <div class="p-mb-2 p-mr-2">
-          <textarea rows="2" cols="40" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"
+          <textarea rows="2" cols="30" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"
                     (ngModelChange)="onValueChange($event)"
                     (focusout)="onFocusLeave()"
                     (keyup)="keyup($event, i)"></textarea>
         </div>
         <div class="p-d-flex p-flex-column">
           <div class="p-mb-2">
-            <p-autoComplete [(ngModel)]="concordances[i].searchText" name="book{{i}}" [suggestions]="searchResults" (completeMethod)="search($event)" scrollHeight="300px" (onSelect)="select($event, i)" placeholder="Претрага извора" class="search-component">
+            <p-autoComplete [(ngModel)]="concordances[i].searchText" name="book{{i}}" [suggestions]="searchResults" (completeMethod)="search($event)" scrollHeight="300px" (onSelect)="select($event, i)" placeholder="Претрага извора" class="search-pub">
               <ng-template let-pub pTemplate="item">
                 <span class="skracenica">{{pub.skracenica}}</span>
                 <span class="naslov">{{pub.naslov}}</span>
