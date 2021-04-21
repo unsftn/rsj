@@ -13,7 +13,7 @@ export class ExpressionsComponent implements OnInit, OnChanges {
   keyWords = [];
   selectedKeyWord: string;
 
-  @Input() isTopLevel: boolean;
+  // @Input() isTopLevel: boolean;
   @Input() expressions;
   @Output() expressionsChange = new EventEmitter();
 
