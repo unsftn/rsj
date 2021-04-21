@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   items: MenuItem[];
   searchText: string;
   searchResults: any[];
+  username = '';
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.username = this.tokenStorageService.getUser()?.firstName ?? '';
     this.items = [
       {
         label: 'Пријава',
@@ -104,6 +106,7 @@ export class AppComponent implements OnInit {
     this.qualificatorService.fetchAllQualificators().subscribe((values) => {});
     this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
+      this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
       this.items.forEach((item, index) => {
         if (item.separator)
           return;

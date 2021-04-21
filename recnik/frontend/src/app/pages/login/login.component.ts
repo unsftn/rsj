@@ -40,9 +40,6 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     if (this.loginForm.invalid) {
-      console.log('invalid');
-      console.log(this.f.username.value);
-      console.log(this.f.password.value);
       return;
     }
     this.loading = true;
@@ -52,12 +49,10 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe(
       (data) => {
         this.tokenStorage.saveToken(data.access, data.refresh);
-        console.log(data);
         this.tokenStorage.saveUser({ email, password, firstName: data.first_name, lastName: data.last_name, isStaff: data.is_staff, group: data.groups[0]});
         this.router.navigate([this.returnUrl]);
       },
       (err) => {
-        console.log(err);
         this.messageService.add({
           severity: 'error',
           summary: 'Грешка',

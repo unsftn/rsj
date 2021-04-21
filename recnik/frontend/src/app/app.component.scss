@@ -31,13 +31,21 @@
   justify-content: center;
 }
 
+.search-container:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+
 .add-button {
   margin-left: 10px;
 }
 
 .button-header {
-  width: 35px !important;
-  height: 35px !important;
+  width: 40px !important;
+  height: 40px !important;
   margin-left: 10px;
 }
 
@@ -70,8 +78,18 @@
 .menu-container {
   flex: 1;
   text-align: right;
+  .username {
+    vertical-align: middle;
+    display: inline-block;
+  }
 }
 
+.menu-container:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
 
 .menu-button {
   height: 30px !important;
@@ -84,3 +102,4 @@
   width: 100%;
   z-index: 5;
 }
+

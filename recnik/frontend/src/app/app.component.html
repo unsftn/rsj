@@ -14,7 +14,8 @@
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>
-    <button #btn type="button" class="p-button-rounded p-button-outlined menu-button" pButton icon="pi pi-user" (click)="menu.toggle($event)"></button>
+    <div class="username">{{username}}</div>
+    <button #btn type="button" class="p-button-rounded p-button-outlined button-header" pButton icon="pi pi-user" (click)="menu.toggle($event)"></button>
   </div>
 </p-menubar>
 <router-outlet></router-outlet>
