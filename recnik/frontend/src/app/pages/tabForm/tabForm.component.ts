@@ -768,9 +768,7 @@ export class TabFormComponent implements OnInit {
 
   saveChange(): void {
     this.undoStack.push(this.currentState);
-    console.log('Pre:', this.currentState);
     this.currentState = this.cloneState();
-    console.log('Posle:', this.currentState);
     this.redoStack = [];
   }
 

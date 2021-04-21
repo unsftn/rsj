@@ -18,9 +18,12 @@ export class MeaningFormComponent implements OnInit {
   caretTarget: HTMLTextAreaElement;
   dirty: boolean;
 
-  add(): void {
+  add(scrollToBottom: boolean = false): void {
     this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [] });
     this.meaningsChange.emit();
+    if (scrollToBottom) {
+      setInterval(() => { scrollTo(0, document.body.scrollHeight); });
+    }
   }
 
   remove(meaning): void {

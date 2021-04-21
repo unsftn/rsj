@@ -65,7 +65,7 @@
             </div>
             <div class="p-mr-2" style="margin-top: 10px;">
               <p-fieldset legend="Изрази и фразе:" [toggleable]="true" collapsed="true">
-                <expressions [expressions]="meanings[i].expressions" [isTopLevel]="false" (expressionsChange)="onChange()"></expressions>
+                <expressions [expressions]="meanings[i].expressions" (expressionsChange)="onChange()"></expressions>
               </p-fieldset>
             </div>
           </div>
@@ -73,3 +73,4 @@
     </div>
   </div>
 </form>
+<button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="add(true)"></button>
