@@ -86,8 +86,11 @@ export class HomeComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   public handleClick(event: Event): void {
-    if (event.target instanceof HTMLDivElement) {
-      const element = event.target as HTMLDivElement;
+    let targetDiv = event.target;
+    if (!(targetDiv instanceof HTMLDivElement))
+      targetDiv = (targetDiv as HTMLElement).parentElement;
+    if (targetDiv instanceof HTMLDivElement) {
+      const element = targetDiv as HTMLDivElement;
       if (element.className === 'odrednica') {
         const odrednicaId = element?.getAttribute('data-id');
         if (odrednicaId) {
