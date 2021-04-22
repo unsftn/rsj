@@ -243,8 +243,10 @@ export class TabFormComponent implements OnInit {
           this.nextRoute = ['/'];
         },
         (error) => {
+          const errorMessage = sessionStorage.getItem('errorMessage');
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            `<p>Грешка приликом брисања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
-          this.message = 'Грешка: ' + error;
           this.showInfoDialog = true;
           this.nextRoute = [];
         });

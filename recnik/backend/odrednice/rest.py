@@ -245,13 +245,13 @@ def api_save_odrednica(request):
                     raise PermissionDenied(detail='Други уредник је задужен за ову одредницу', code=403)
             serializer = CreateOdrednicaSerializer(odrednica, data=request.data)
         except (KeyError, Odrednica.DoesNotExist):
-            return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
+            raise PermissionDenied(detail='Покушано ажурирање непостојеће одреднице', code=404)
     if serializer.is_valid():
         try:
             odrednica = serializer.save(user=request.user)
             indexer.save_odrednica_model(odrednica)
         except RecordModifiedError:
-            return Response({'error': 'optimistic lock exception'}, status=status.HTTP_409_CONFLICT, content_type=JSON)
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао одредницу', code=409)
         ser2 = OdrednicaSerializer(odrednica)
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
@@ -264,12 +264,27 @@ def api_save_odrednica(request):
 
 @api_view(['DELETE'])
 def api_delete_odrednica(request, odrednica_id):
+    user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        # TODO: proveri da li korisnik ima pravo da obrise odrednicu
+        if user.je_obradjivac():
+            if odrednica.stanje > 1:
+                raise PermissionDenied(detail='Покушано брисање одреднице која није у стању обраде', code=403)
+            if user != odrednica.obradjivac:
+                raise PermissionDenied(detail='Покушано брисање одреднице која није у власништву овог обрађивача', code=403)
+        if user.je_redaktor():
+            if odrednica.stanje > 2:
+                raise PermissionDenied(detail='Покушано брисање одреднице која није у стању обраде или редактуре', code=403)
+            if user != odrednica.redaktor:
+                raise PermissionDenied(detail='Покушано брисање одреднице која није у власништву овог редактора', code=403)
+        if user.je_urednik():
+            if odrednica.stanje > 3:
+                raise PermissionDenied(detail='Покушано брисање затворене одреднице', code=403)
+            if user != odrednica.urednik:
+                raise PermissionDenied(detail='Покушано брисање одреднице која није у власништву овог urednika', code=403)
         odrednica.delete()
     except Odrednica.DoesNotExist:
-        return Response({'error': 'entry not found'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
+        raise PermissionDenied(detail='Покушано брисање непостојеће одреднице', code=404)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
 
 
