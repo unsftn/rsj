@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(private tokenStorageService: TokenStorageService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {

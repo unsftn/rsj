@@ -1,3 +1,4 @@
+# coding=utf-8
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound
@@ -233,7 +234,6 @@ JSON = 'application/json'
 
 
 @api_view(['POST', 'PUT'])
-# @permission_classes([permissions.AllowAny])
 def api_save_odrednica(request):
     user = UserProxy.objects.get(id=request.user.id)
     if request.method == 'POST':

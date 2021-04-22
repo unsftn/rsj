@@ -294,9 +294,9 @@ export class TabFormComponent implements OnInit {
           this.version += 1;
         },
         (error) => {
-          console.log(error);
+          const errorMessage = sessionStorage.getItem('errorMessage');
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
-            `<p>Грешка приликом снимања одреднице: ${error}</p>`);
+            `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWaitDialog = false;
           this.showInfoDialog = true;
         });
@@ -310,9 +310,9 @@ export class TabFormComponent implements OnInit {
           this.nextRoute = ['/edit', data.id];
         },
         (error) => {
-          console.log(error);
+          const errorMessage = sessionStorage.getItem('errorMessage');
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
-            '<p>Није могуће додати нову одредницу. Унесите све потребне податке.</p>');
+            `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWaitDialog = false;
           this.showInfoDialog = true;
         });
@@ -337,8 +337,9 @@ export class TabFormComponent implements OnInit {
         this.nextRoute = [];
       },
       (error) => {
+        const errorMessage = sessionStorage.getItem('errorMessage');
         this.message = this.domSanitizer.bypassSecurityTrustHtml(
-          '<p>Грешка у генерисању приказа одреднице.</p>');
+            `<p>Грешка у генерисању приказа одреднице.<br/> <b>${errorMessage}</b></p>`);
         this.showWaitDialog = false;
         this.showInfoDialog = true;
       }
@@ -820,8 +821,10 @@ export class TabFormComponent implements OnInit {
           this.nextRoute = ['/'];
         },
         (error) => {
+          const errorMessage = sessionStorage.getItem('errorMessage');
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
-          this.message = 'Грешка: ' + error;
           this.showInfoDialog = true;
           this.nextRoute = [];
         });
@@ -842,8 +845,10 @@ export class TabFormComponent implements OnInit {
           this.nextRoute = ['/'];
         },
         (error) => {
+          const errorMessage = sessionStorage.getItem('errorMessage');
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
-          this.message = 'Грешка: ' + error;
           this.showInfoDialog = true;
           this.nextRoute = [];
         });
@@ -864,8 +869,10 @@ export class TabFormComponent implements OnInit {
           this.nextRoute = ['/'];
         },
         (error) => {
+          const errorMessage = sessionStorage.getItem('errorMessage');
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
-          this.message = 'Грешка: ' + error;
           this.showInfoDialog = true;
           this.nextRoute = [];
         });
@@ -887,8 +894,10 @@ export class TabFormComponent implements OnInit {
           this.nextRoute = ['/'];
         },
         (error) => {
+          const errorMessage = sessionStorage.getItem('errorMessage');
+          this.message = this.domSanitizer.bypassSecurityTrustHtml(
+            `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
-          this.message = 'Грешка: ' + error;
           this.showInfoDialog = true;
           this.nextRoute = [];
         });
