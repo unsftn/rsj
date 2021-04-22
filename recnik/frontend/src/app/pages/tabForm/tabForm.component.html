@@ -257,7 +257,7 @@
             <collocations [collocations]="collocations" (collocationsChange)="saveChange()"></collocations>
           </p-tabPanel>
           <p-tabPanel header="Дневник">
-            <changesForm></changesForm>
+            <changesForm [changes]="changes"></changesForm>
           </p-tabPanel>
         </p-tabView>
       </div>

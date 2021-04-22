@@ -3,6 +3,7 @@ from django.forms.models import model_to_dict
 from rest_framework import serializers
 from publikacije.models import Publikacija
 from .models import *
+from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
 
@@ -103,18 +104,25 @@ class ZnacenjeSerializer(serializers.ModelSerializer):
                   'izrazfraza_set', 'konkordansa_set', 'redni_broj')
 
 
-class IzmenaOdredniceSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = IzmenaOdrednice
-        fields = ('id', 'odrednica_id', 'operacija_izmene_id', 'user_id', 'vreme',)
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email')
 
 
-class OperacijaIzmeneOdredniceSerializer(serializers.ModelSerializer):
-    izmenaodrednice_set = IzmenaOdredniceSerializer(many=True, read_only=True)
-
+class OperacijaIzmeneSerializer(serializers.ModelSerializer):
     class Meta:
         model = OperacijaIzmene
-        fields = ('id', 'naziv', 'izmenaodrednice_set')
+        fields = ('id', 'naziv')
+
+
+class IzmenaOdredniceSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    operacija_izmene = OperacijaIzmeneSerializer()
+
+    class Meta:
+        model = IzmenaOdrednice
+        fields = ('id', 'odrednica_id', 'operacija_izmene', 'user', 'vreme')
 
 
 class VarijantaOdredniceSerializer(serializers.ModelSerializer):
@@ -279,7 +287,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         return self._save(validated_data, instance)
 
     def _save(self, validated_data, odrednica=None, database='default'):
-        radimo_update = odrednica is None
+        radimo_update = odrednica is not None
         user = validated_data.pop('user') if database == 'default' else None
 
         odrednica_id = validated_data.get('id')

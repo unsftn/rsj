@@ -178,20 +178,6 @@ class IzmenaOdredniceDetail(generics.RetrieveAPIView):
     serializer_class = IzmenaOdredniceSerializer
 
 
-class OperacijaIzmeneOdredniceList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    queryset = OperacijaIzmene.objects.all()
-    serializer_class = OperacijaIzmeneOdredniceSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
-
-
-class OperacijaIzmeneOdredniceDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    queryset = OperacijaIzmene.objects.all()
-    serializer_class = OperacijaIzmeneOdredniceSerializer
-
-
 class OdrednicaList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all()

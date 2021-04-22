@@ -78,6 +78,8 @@ export class TabFormComponent implements OnInit {
   dirty: boolean;
   yesHandler: () => void;
 
+  changes: any[];
+
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
       command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_1),
@@ -633,6 +635,7 @@ export class TabFormComponent implements OnInit {
     this.collocations = value.kolokacija_set.map((k) => ({note: k.napomena, determinants: k.recukolokaciji_set.map((r) => ({ determinantId: r.odrednica_id, searchText: '', rec$: undefined }))}));
     this.synonyms = value.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
     this.antonyms = value.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
+    this.changes = value.izmenaodrednice_set;
   }
 
   fillTestOdrednica(odrednica): void {

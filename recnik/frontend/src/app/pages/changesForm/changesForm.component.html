@@ -1,18 +1,16 @@
 <p-table [value]="changes">
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="user">Корисник <p-sortIcon field="user"></p-sortIcon></th>
-      <th>Улога</th>
-      <th pSortableColumn="date">Датум и време <p-sortIcon field="date"></p-sortIcon></th>
-      <th>Операција</th>
+      <th class="korisnik">Корисник</th>
+      <th class="datum">Датум и време</th>
+      <th class="operacija">Операција</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-changes>
     <tr>
-      <td>{{changes.user}}</td>
-      <td>{{changes.role}}</td>
-      <td>{{changes.date}}</td>
-      <td>{{changes.operation}}</td>
+      <td class="korisnik">{{changes.user.first_name}} {{changes.user.last_name}}</td>
+      <td class="datum">{{changes.vreme|date:'dd.MM.YYYY. hh:mm'}}</td>
+      <td class="operacija">{{changes.operacija_izmene.naziv}}</td>
       </tr>
   </ng-template>
 </p-table>
