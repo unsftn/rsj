@@ -22,7 +22,7 @@ export class MeaningFormComponent implements OnInit {
     this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [] });
     this.meaningsChange.emit();
     if (scrollToBottom) {
-      setInterval(() => { scrollTo(0, document.body.scrollHeight); });
+      setTimeout(() => { scrollTo(0, document.body.scrollHeight); });
     }
   }
 
