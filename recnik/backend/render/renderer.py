@@ -262,8 +262,11 @@ def render_one(odrednica):
             html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
         if odrednica.znacenje_set.filter(znacenje_se=True).count() > 0:
             html += f' <b>&#9632; ~ се</b> '
-            for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
-                html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+            if odrednica.znacenje_set.filter(znacenje_se=True).count() == 1:
+                html += render_znacenje(odrednica.znacenje_set.filter(znacenje_se=True).first())
+            else:
+                for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
+                    html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze_odrednice(odrednica.izrazfraza_set.all().order_by('redni_broj'))
     return mark_safe(html)
 
