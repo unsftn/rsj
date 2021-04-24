@@ -324,7 +324,6 @@ def render_recnik(file_format='pdf'):
     slova = []
     for s in AZBUKA:
         odrednice = Odrednica.objects.filter(rec__startswith=s).order_by('rec', 'rbr_homonima')
-        # enumerate_odrednice(odrednice)
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
