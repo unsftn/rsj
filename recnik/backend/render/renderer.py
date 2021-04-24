@@ -36,7 +36,6 @@ def dvotacka(tekst):
 
 
 def tacka(tekst):
-    print(f'x{tekst}x')
     if len(tekst) < 1:
         return tekst
     if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] == '.':
@@ -103,7 +102,9 @@ def render_konkordanse(konkordanse):
 def render_izrazi_fraze_znacenja(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
-        tekst += f' &bull; {process_tags(tacka(izfr.opis), True)}'  # bilo &#8212;
+        tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
+        tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
+        tekst += f' {tacka(process_tags(izfr.opis, False))}'
     return tekst
 
 
@@ -119,7 +120,7 @@ def render_izrazi_fraze_odrednice(izrazifraze):
     for izfr in izrazifraze:
         tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
         tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
-        tekst += f' {process_tags(tacka(izfr.opis), True)}'
+        tekst += f' {tacka(process_tags(izfr.opis, False))}'
     return tekst
 
 
