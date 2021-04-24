@@ -17,7 +17,7 @@ AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м и ж', 5: 'м и с', 6: 'ж и с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
 SPECIAL_MARKS = ['аор.', 'пр.', ' р.', 'трп.', 'вок.', 'ген.', 'мн.', 'зб.', 'им.', 'инстр.', 'лок.', 'дат.', 'јек.',
-                 'имп.', 'ном.', 'импф.', 'арх.']
+                 'имп.', 'ном.', 'импф.', 'арх.', 'гл.']
 REGEX_ITALIC = re.compile('#+(.+)#+')
 REGEX_SMALL = re.compile('\\$+(.+)\\$+')
 
@@ -59,10 +59,14 @@ def process_special_marks(tekst):
     for znak in ['м', 'ж', 'с']:
         if tekst.startswith(f'({znak} '):
             tekst = f'(<small>{znak}</small> ' + tekst[3:]
+        if tekst.startswith(f'[{znak} '):
+            tekst = f'[<small>{znak}</small> ' + tekst[3:]
         if tekst.startswith(f'{znak} '):
             tekst = f'<small>{znak}</small> ' + tekst[2:]
         if tekst.endswith(f' {znak})'):
-            tekst = tekst[:-3] + f' <small>{znak}</small>'
+            tekst = tekst[:-3] + f' <small>{znak}</small>)'
+        if tekst.endswith(f' {znak}]'):
+            tekst = tekst[:-3] + f' <small>{znak}</small>]'
         if tekst.endswith(f' {znak}'):
             tekst = tekst[:-2] + f' <small>{znak}</small>'
         tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
