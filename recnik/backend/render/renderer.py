@@ -99,7 +99,7 @@ def render_konkordanse(konkordanse):
     return retval
 
 
-def render_izrazi_fraze_znacenja(izrazifraze):
+def render_izrazi_fraze(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
         tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
@@ -115,15 +115,6 @@ def render_kvalifikatori(kvalifikatori):
     return tekst
 
 
-def render_izrazi_fraze_odrednice(izrazifraze):
-    tekst = ''
-    for izfr in izrazifraze:
-        tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
-        tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
-        tekst += f' {tacka(process_tags(izfr.opis, False))}'
-    return tekst
-
-
 def render_podznacenje(podznacenje):
     tekst = '' + render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
 
@@ -134,7 +125,7 @@ def render_podznacenje(podznacenje):
         tekst = tacka(tekst) + ' &mdash; '
         tekst += render_konkordanse(podznacenje.konkordansa_set.all().order_by('redni_broj'))
 
-    tekst += render_izrazi_fraze_znacenja(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
+    tekst += render_izrazi_fraze(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
     return tekst
 
 
@@ -148,12 +139,16 @@ def render_znacenje(znacenje):
         tekst = tacka(tekst) + ' &mdash; '
         tekst += render_konkordanse(znacenje.konkordansa_set.all().order_by('redni_broj'))
 
-    tekst += render_izrazi_fraze_znacenja(znacenje.izrazfraza_set.all().order_by('redni_broj'))
+    tekst += render_izrazi_fraze(znacenje.izrazfraza_set.all().order_by('redni_broj'))
 
     if znacenje.podznacenje_set.count() > 0:
         for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all().order_by('redni_broj')):
             tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
     return tekst
+
+
+def render_info(info):
+    return f' {process_tags(process_special_marks(info))} '
 
 
 def render_varijanta(var):
@@ -184,7 +179,7 @@ def render_one(odrednica):
             html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
         html += f' <small>{ROD[odrednica.rod]}</small> '  # 4 roda
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # glagol
     if odrednica.vrsta == 1:
@@ -200,7 +195,7 @@ def render_one(odrednica):
             else:
                 html += f', <small>јек.</small> {odrednica.prezent_ij}'
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
         else:
@@ -211,7 +206,7 @@ def render_one(odrednica):
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # prilog
     if odrednica.vrsta == 3:
@@ -220,49 +215,49 @@ def render_one(odrednica):
             html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
         html += f' <small>прил.</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # predlog
     if odrednica.vrsta == 4:
         html += f' <small>предл.</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # zamenica
     if odrednica.vrsta == 5:
         html += f' <small>предл.</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # uzvik
     if odrednica.vrsta == 6:
         html += f' <small>узв.</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # recca
     if odrednica.vrsta == 7:
         html += f' <small>речца</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # veznik
     if odrednica.vrsta == 8:
         html += f' <small>везн.</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # broj
     if odrednica.vrsta == 9:
         html += f' <small>број</small> '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     # ostalo
     if odrednica.vrsta == 10:
         html += ' '
         if odrednica.info:
-            html += f' {process_special_marks(odrednica.info)} '
+            html += render_info(odrednica.info)
 
     html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
     if odrednica.znacenje_set.count() == 1:
@@ -277,7 +272,7 @@ def render_one(odrednica):
             else:
                 for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
                     html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
-    html += render_izrazi_fraze_odrednice(odrednica.izrazfraza_set.all().order_by('redni_broj'))
+    html += render_izrazi_fraze(odrednica.izrazfraza_set.all().order_by('redni_broj'))
     return mark_safe(html)
 
 
@@ -304,7 +299,6 @@ def render_slovo(slovo, file_format='pdf'):
         log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
         return
     odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec', 'rbr_homonima')
-    # enumerate_odrednice(odrednice)
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     if file_format == 'pdf':
