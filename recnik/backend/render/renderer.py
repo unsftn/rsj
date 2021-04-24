@@ -36,9 +36,12 @@ def dvotacka(tekst):
 
 
 def tacka(tekst):
+    print(f'x{tekst}x')
     if len(tekst) < 1:
         return tekst
-    if tekst[-1] == '>' and tekst[-5] == '.':
+    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] == '.':
+        return tekst
+    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] == '.':
         return tekst
     if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
         return tekst + '.'
@@ -82,7 +85,10 @@ def process_dollar(tekst, in_italic=False):
 
 
 def process_tags(tekst, in_italic=False):
-    return process_dollar(process_hash(tekst, in_italic), in_italic)
+    retval = process_dollar(process_hash(tekst, in_italic), in_italic)
+    if retval.endswith('<i>'):
+        retval = retval[:-3]
+    return retval
 
 
 def render_konkordanse(konkordanse):
