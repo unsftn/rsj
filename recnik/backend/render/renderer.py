@@ -120,7 +120,7 @@ def render_izrazi_fraze_odrednice(izrazifraze):
 def render_podznacenje(podznacenje):
     tekst = '' + render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
 
-    tekst += f'{process_tags(tacka(podznacenje.tekst))}'
+    tekst += f'{tacka(process_tags(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
         # tekst = dvotacka(tekst)
@@ -134,7 +134,7 @@ def render_podznacenje(podznacenje):
 def render_znacenje(znacenje):
     tekst = '' + render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
 
-    tekst += f'{process_tags(tacka(znacenje.tekst))}'
+    tekst += f'{tacka(process_tags(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
         # tekst = dvotacka(tekst)
