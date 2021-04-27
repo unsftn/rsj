@@ -96,9 +96,11 @@ class Odrednica(models.Model):
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     version = AutoIncVersionField()
     rbr_homonima = models.PositiveSmallIntegerField('редни број хомонима', null=True, blank=True, default=None)
-    obradjivac = models.ForeignKey(UserProxy, verbose_name='obradjivac', on_delete=models.PROTECT, related_name='odrednice_obradjivaca', default=1)
-    redaktor = models.ForeignKey(UserProxy, verbose_name='obradjivac', on_delete=models.PROTECT, related_name='odrednice_redaktora', blank=True, null=True)
-    urednik = models.ForeignKey(UserProxy, verbose_name='obradjivac', on_delete=models.PROTECT, related_name='odrednice_urednika', blank=True, null=True)
+    obradjivac = models.ForeignKey(UserProxy, verbose_name='обрађивач', on_delete=models.PROTECT, related_name='odrednice_obradjivaca', default=1)
+    redaktor = models.ForeignKey(UserProxy, verbose_name='редактор', on_delete=models.PROTECT, related_name='odrednice_redaktora', blank=True, null=True)
+    urednik = models.ForeignKey(UserProxy, verbose_name='уредник', on_delete=models.PROTECT, related_name='odrednice_urednika', blank=True, null=True)
+    napomene = models.TextField('напомене', max_length=2000, blank=True, null=True)
+    freetext = models.TextField('алтернативни опис', max_length=2000, blank=True, null=True)
 
     def __str__(self):
         return self.rec if self.rec else '-'

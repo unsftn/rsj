@@ -58,6 +58,9 @@ export class TabFormComponent implements OnInit {
   collocations: any[] = [];
   synonyms: any[] = [];
   antonyms: any[] = [];
+  changes: any[];
+  notes: string;
+  freetext: string;
 
   errorMsg: string;
   showInfoDialog = false;
@@ -78,7 +81,6 @@ export class TabFormComponent implements OnInit {
   dirty: boolean;
   yesHandler: () => void;
 
-  changes: any[];
 
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
@@ -516,6 +518,8 @@ export class TabFormComponent implements OnInit {
         };
       }),
       znacenja: this.makeZnacenja(this.meanings, false).concat(this.makeZnacenja(this.meanings2, true)),
+      napomene: this.notes,
+      freetext: this.freetext,
     };
     if (this.editMode) {
       determinant.id = this.id;
@@ -638,6 +642,8 @@ export class TabFormComponent implements OnInit {
     this.synonyms = value.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
     this.antonyms = value.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
     this.changes = value.izmenaodrednice_set;
+    this.notes = value.napomene;
+    this.freetext = value.freetext;
   }
 
   fillTestOdrednica(odrednica): void {

@@ -217,10 +217,11 @@
           <p class="label p-m-0">Додатне информације:</p>
         </div>
         <div>
-          <textarea rows="2" cols="60" pInputTextarea style="resize: vertical" [(ngModel)]="details"
+          <textarea rows="2" cols="60" pInputTextarea [(ngModel)]="details"
                     (ngModelChange)="onValueChange($event)"
                     (focusout)="onFocusLeave()"
-                    (keyup)="keyup($event, 'details')" style="border: 1px solid darkgray; color: #495057"></textarea>
+                    (keyup)="keyup($event, 'details')"
+                    style="resize: vertical; border: 1px solid darkgray; color: #495057"></textarea>
         </div>
       </div>
       <div class="p-d-flex p-ai-start">
@@ -234,6 +235,18 @@
                    (focusout)="onFocusLeave()"/>
           </div>
         </div>
+      </div>
+      <div class="p-ml-2 p-mt-3">
+        <textarea rows="4" cols="60" pInputTextarea [(ngModel)]="notes" (focusout)="onFocusLeave()"
+                  style="resize: vertical; border: 1px solid darkgray; color: #495057;" placeholder="Напомене">
+
+        </textarea>
+      </div>
+      <div class="p-ml-2 p-mt-3">
+        <textarea rows="7" cols="60" pInputTextarea [(ngModel)]="freetext" (focusout)="onFocusLeave()"
+                  style="resize: vertical; border: 1px solid darkgray; color: #495057;"
+                  placeholder="Алтернативни опис">
+        </textarea>
       </div>
     </div>
     <div class="p-col-7">
