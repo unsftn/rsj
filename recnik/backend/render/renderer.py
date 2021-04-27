@@ -129,7 +129,7 @@ def render_konkordanse(konkordanse):
 def render_izrazi_fraze(izrazifraze):
     tekst = ''
     for izfr in izrazifraze:
-        tekst += f' &bull; <small><b>{izfr.tekst}</b></small> '
+        tekst += f' <b>&bull;</b> <small><b>{izfr.tekst}</b></small> '
         tekst += render_kvalifikatori(izfr.kvalifikatorfraze_set.all().order_by('redni_broj'))
         tekst += f' {tacka(process_tags(izfr.opis, False))}'
     return tekst
