@@ -18,8 +18,10 @@ ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м и ж', 5: 'м и с', 6: 'ж и с'}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.'}
 SPECIAL_MARKS = ['аор.', 'пр.', ' р.', 'трп.', 'вок.', 'ген.', 'мн.', 'зб.', 'им.', 'инстр.', 'лок.', 'дат.', 'јек.',
                  'имп.', 'ном.', 'импф.', 'арх.', 'гл.']
+REGEX_BOLD = re.compile('@+(.+)@+')
 REGEX_ITALIC = re.compile('#+(.+)#+')
 REGEX_SMALL = re.compile('\\$+(.+)\\$+')
+REGEX_SMALL_BOLD = re.compile('%+(.+)%+')
 
 
 def touch(path):
@@ -73,6 +75,13 @@ def process_special_marks(tekst):
     return tekst
 
 
+def process_monkey(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_BOLD.sub('</i><b>\\1</b><i>', tekst)
+    else:
+        return REGEX_BOLD.sub('<b>\\1</b>', tekst)
+
+
 def process_hash(tekst, in_italic=False):
     if in_italic:
         return REGEX_ITALIC.sub('</i>\\1<i>', tekst)
@@ -87,9 +96,19 @@ def process_dollar(tekst, in_italic=False):
         return REGEX_SMALL.sub('<small>\\1</small>', tekst)
 
 
+def process_percent(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_SMALL_BOLD.sub('</i><small><b>\\1</b></small><i>', tekst)
+    else:
+        return REGEX_SMALL_BOLD.sub('<small><b>\\1</b></small>', tekst)
+
+
 def process_tags(tekst, in_italic=False):
-    retval = process_dollar(process_hash(tekst, in_italic), in_italic)
-    if retval.endswith('<i>'):
+    retval = process_monkey(
+        process_dollar(
+            process_hash(
+                process_percent(tekst, in_italic), in_italic), in_italic), in_italic)
+    if retval.endswith('<i>') or retval.endswith('<b>'):
         retval = retval[:-3]
     return retval
 
