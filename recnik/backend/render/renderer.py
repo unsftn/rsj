@@ -183,6 +183,9 @@ def render_varijanta(var):
 
 
 def render_one(odrednica):
+    if odrednica.freetext:
+        return process_tags(odrednica.freetext)
+
     html = f'<b>{odrednica.rec}'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         html += f' (се)'
