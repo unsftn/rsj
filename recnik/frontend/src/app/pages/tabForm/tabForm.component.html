@@ -91,6 +91,27 @@
           </div>
         </div>
       </div>
+      <div class="p-d-flex p-ai-start" *ngIf="isVerb">
+        <div class="p-col-12 p-md-4 p-lg-3">
+          <p class="label p-m-0">Презент:</p>
+        </div>
+        <div class="p-col-12 p-md-8 p-lg-9">
+          <div class="p-d-flex p-flex-column p-flex-lg-row">
+            <div class="p-mb-2 p-mr-2">
+              <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'presentE')" style="width:150px"/>
+            </div>
+            <div class="p-mb-2 p-mr-2">
+              <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица"
+                     (ngModelChange)="onValueChange($event)"
+                     (focusout)="onFocusLeave()"
+                     (keyup)="keyup($event, 'presentI')" style="width:150px"/>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="p-d-flex">
         <div class="p-md-4 p-lg-3">
           <p class="label p-m-0">Варијанта:</p>
@@ -189,27 +210,6 @@
           <p-dropdown class="wider" [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-dropdown>
-        </div>
-      </div>
-      <div class="p-d-flex p-ai-start" *ngIf="isVerb">
-        <div class="p-col-12 p-md-4 p-lg-3">
-          <p class="label p-m-0">Презент:</p>
-        </div>
-        <div class="p-col-12 p-md-8 p-lg-9">
-          <div class="p-d-flex p-flex-column p-flex-lg-row">
-            <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица"
-                     (ngModelChange)="onValueChange($event)"
-                     (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'presentE')" style="width:150px"/>
-            </div>
-            <div class="p-mb-2 p-mr-2">
-              <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица"
-                     (ngModelChange)="onValueChange($event)"
-                     (focusout)="onFocusLeave()"
-                     (keyup)="keyup($event, 'presentI')" style="width:150px"/>
-            </div>
-          </div>
         </div>
       </div>
       <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">
