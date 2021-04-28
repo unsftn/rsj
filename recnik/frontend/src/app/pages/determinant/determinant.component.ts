@@ -16,10 +16,11 @@ export class DeterminantComponent implements OnInit, OnChanges {
 
   searchResults: any[];
   @Input() determinants: any[];
+  @Input() context: string;
   @Output() determinantsChange = new EventEmitter();
 
   add(): void {
-    this.determinants.push({ searchText: '', determinantId: null, rec$: of('') });
+    this.determinants.push({ searchText: '', determinantId: null, rec$: of(''), text: '' });
     this.determinantsChange.emit();
   }
 

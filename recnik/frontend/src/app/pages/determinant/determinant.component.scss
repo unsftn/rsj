@@ -1,4 +1,8 @@
-.search-component {
+.determinant-search {
+  width: 150px;
+  ::ng-deep .p-inputtext {
+    border-radius: 50px;
+  }
   .rec {
     float: left;
   }
@@ -11,5 +15,6 @@
   font-size: 14px;
 }
 
+.w150 { width: 150px; }
 .w200 { width: 200px; }
 .w38 { width: 38px; }

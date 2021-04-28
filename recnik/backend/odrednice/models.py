@@ -179,7 +179,8 @@ class Antonim(models.Model):
     ima_antonim = models.ForeignKey(Odrednica,  verbose_name='одредница има антоним', on_delete=models.CASCADE,
                                     related_name='ima_antonim')
     u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
-                                  related_name='antonim_u_vezi_sa')
+                                  related_name='antonim_u_vezi_sa', null=True, blank=True)
+    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
 
     class Meta:
         verbose_name = 'антоним'
@@ -190,7 +191,7 @@ class Antonim(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.redni_broj}: {self.ima_antonim.id} -> {self.u_vezi_sa.id}'
+        return f'{self.redni_broj}: {self.ima_antonim.id} -> {self.u_vezi_sa.id if self.u_vezi_sa else self.tekst}'
 
     def get_absolute_url(self):
         return reverse("odrednice:antonim-detail", kwargs={"pk": self.pk})
@@ -201,7 +202,8 @@ class Sinonim(models.Model):
     ima_sinonim = models.ForeignKey(Odrednica, verbose_name='одредница има синоним', on_delete=models.CASCADE,
                                     related_name='ima_sinonim')
     u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
-                                  related_name='sinonim_u_vezi_sa')
+                                  related_name='sinonim_u_vezi_sa', null=True, blank=True)
+    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
 
     class Meta:
         verbose_name = 'синоним'
@@ -212,7 +214,7 @@ class Sinonim(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.redni_broj}: {self.ima_sinonim.id} -> {self.u_vezi_sa.id}'
+        return f'{self.redni_broj}: {self.ima_sinonim.id} -> {self.u_vezi_sa.id if self.u_vezi_sa else self.tekst}'
 
     def get_absolute_url(self):
         return reverse("odrednice:sinonim-detail", kwargs={"pk": self.pk})
@@ -232,7 +234,7 @@ class Kolokacija(models.Model):
         ]
 
     def __str__(self):
-        return str(self.odrednica)
+        return str(self.odrednica) + f'[{self.redni_broj}]'
 
     def get_absolute_url(self):
         return reverse("odrednice:kolokacija-detail", kwargs={"pk": self.pk})
@@ -241,7 +243,8 @@ class Kolokacija(models.Model):
 class RecUKolokaciji(models.Model):
     redni_broj = models.PositiveSmallIntegerField('редни број')
     kolokacija = models.ForeignKey(Kolokacija, verbose_name='колокација', on_delete=models.CASCADE)
-    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE)
+    odrednica = models.ForeignKey(Odrednica, verbose_name='одредница', on_delete=models.CASCADE, blank=True, null=True)
+    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
 
     class Meta:
         verbose_name = 'реч у колокацији'
@@ -252,7 +255,7 @@ class RecUKolokaciji(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.kolokacija.odrednica.rec}: {str(self.redni_broj)} / {self.odrednica.rec}'
+        return f'{self.kolokacija.odrednica.rec}: {str(self.redni_broj)}'
 
     def get_absolute_url(self):
         return reverse("odrednice:rec-u-kolokaciji-detail", kwargs={"pk": self.pk})

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { InputTextModule } from 'primeng/inputtext';
 import { DeterminantComponent } from './determinant.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { DeterminantComponent } from './determinant.component';
     ButtonModule,
     AutoCompleteModule,
     TagModule,
+    InputTextModule,
   ],
   exports: [DeterminantComponent],
   providers: [],

@@ -37,19 +37,19 @@ class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
 class AntonimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Antonim
-        fields = ('id', 'redni_broj', 'ima_antonim_id', 'u_vezi_sa_id',)
+        fields = ('id', 'redni_broj', 'ima_antonim_id', 'u_vezi_sa_id', 'tekst')
 
 
 class SinonimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sinonim
-        fields = ('id', 'redni_broj', 'ima_sinonim_id', 'u_vezi_sa_id',)
+        fields = ('id', 'redni_broj', 'ima_sinonim_id', 'u_vezi_sa_id', 'tekst')
 
 
 class RecUKolokacijiSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecUKolokaciji
-        fields = ('id', 'redni_broj', 'kolokacija_id', 'odrednica_id')
+        fields = ('id', 'redni_broj', 'kolokacija_id', 'odrednica_id', 'tekst')
 
 
 class KolokacijaSerializer(serializers.ModelSerializer):
@@ -186,7 +186,8 @@ class CreateUpdateOperacijaIzmeneSerializer(NoSaveSerializer):
 
 class CreateRecUKolokacijiSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
-    odrednica_id = serializers.IntegerField()
+    odrednica_id = serializers.IntegerField(allow_null=True)
+    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
 
 
 class CreateKolokacijaSerializer(NoSaveSerializer):
@@ -229,12 +230,14 @@ class CreateZnacenjeSerializer(NoSaveSerializer):
 
 class CreateSinonimSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
-    sinonim_id = serializers.IntegerField()
+    sinonim_id = serializers.IntegerField(allow_null=True)
+    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
 
 
 class CreateAntonimSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
-    antonim_id = serializers.IntegerField()
+    antonim_id = serializers.IntegerField(allow_null=True)
+    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
 
 
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
@@ -375,9 +378,13 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 for odr in odrednice:
                     RecUKolokaciji.objects.using(database).create(kolokacija=k, **odr)
             for sin in sinonimi:
-                Sinonim.objects.using(database).create(redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'], ima_sinonim=odrednica)
+                Sinonim.objects.using(database).create(
+                    redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'],  tekst=sin['tekst'],
+                    ima_sinonim=odrednica)
             for ant in antonimi:
-                Antonim.objects.using(database).create(redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], ima_antonim=odrednica)
+                Antonim.objects.using(database).create(
+                    redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], tekst=ant['tekst'],
+                    ima_antonim=odrednica)
 
         operacija_izmene_id = 2 if radimo_update else 1
         if database == 'default':

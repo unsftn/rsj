@@ -20,7 +20,7 @@
           </p-button>
         </div>
         <div class="form-group">
-          <determinant [determinants]="collocation.determinants" (determinantsChange)="onChange()"></determinant>
+          <determinant [determinants]="collocation.determinants" (determinantsChange)="onChange()" [context]="'col'+i+'-'"></determinant>
         </div>
         <div class="p-d-flex p-flex-column">
           <div class="p-mb-2">

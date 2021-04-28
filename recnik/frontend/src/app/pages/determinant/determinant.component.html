@@ -26,7 +26,7 @@
               name="selectedDeterminant{{i}}"
               scrollHeight="300px"
               [minLength]="1"
-              class="search-component">
+              class="determinant-search">
               <ng-template let-word pTemplate="item">
                 <span class="rec">{{word.rec}}</span>
                 <span class="vrsta">{{word.vrsta_text}}</span>
@@ -36,8 +36,11 @@
           <div class="center-container w38">
             <p-button *ngIf="determinants[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(i)"></p-button>
           </div>
-          <div class="center-container w200">
+          <div class="center-container w150">
             <p-tag *ngIf="determinants[i].rec$ | async as rec" value="{{rec}}"></p-tag>
+          </div>
+          <div class="center-container w200">
+            <input type="text" pInputText class="input-field" [(ngModel)]="determinants[i].text" name="det{{context}}{{i}}" placeholder="одредница" />
           </div>
           <div class="p-mr-2 center-container">
             <button

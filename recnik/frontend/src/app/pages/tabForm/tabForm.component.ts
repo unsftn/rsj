@@ -165,37 +165,37 @@ export class TabFormComponent implements OnInit {
     this.variants.splice(this.variants.indexOf(variant), 1);
   }
 
-  selectedKindChangedHandler(selectedKind): void {
-    this.selectedGender = selectedKind;
-  }
-
-  selectedVerbKindChangedHandler(selectedVerbKind): void {
-    this.selectedVerbKind = selectedVerbKind;
-  }
-
-  selectedVerbFormChangedHandler(selectedVerbForm): void {
-    this.selectedVerbForm = selectedVerbForm;
-  }
-
-  extensionChangedHandler(extension): void {
-    this.extensionE = extension;
-  }
-
-  presentChangedHandler(presentE): void {
-    this.presentE = presentE;
-  }
-
-  detailsChangedHandler(details): void {
-    this.details = details;
-  }
-
-  collocationsChangedHandler(collocations): void {
-    this.collocations = collocations;
-  }
-
-  selectedQualificatorsHandler(qualificators): void {
-    this.qualificators = qualificators;
-  }
+  // selectedKindChangedHandler(selectedKind): void {
+  //   this.selectedGender = selectedKind;
+  // }
+  //
+  // selectedVerbKindChangedHandler(selectedVerbKind): void {
+  //   this.selectedVerbKind = selectedVerbKind;
+  // }
+  //
+  // selectedVerbFormChangedHandler(selectedVerbForm): void {
+  //   this.selectedVerbForm = selectedVerbForm;
+  // }
+  //
+  // extensionChangedHandler(extension): void {
+  //   this.extensionE = extension;
+  // }
+  //
+  // presentChangedHandler(presentE): void {
+  //   this.presentE = presentE;
+  // }
+  //
+  // detailsChangedHandler(details): void {
+  //   this.details = details;
+  // }
+  //
+  // collocationsChangedHandler(collocations): void {
+  //   this.collocations = collocations;
+  // }
+  //
+  // selectedQualificatorsHandler(qualificators): void {
+  //   this.qualificators = qualificators;
+  // }
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -448,8 +448,32 @@ export class TabFormComponent implements OnInit {
   }
 
   emptyVariant(): boolean {
-    for (let v of this.variants) {
+    for (const v of this.variants) {
       if (v.nameE.trim().length === 0 && v.nameI.trim().length === 0 && v.extensionE.trim().length === 0 && v.extensionI.trim().length === 0)
+        return true;
+    }
+    return false;
+  }
+
+  emptyDeterminant(dets: any[]): boolean {
+    for (const s of dets) {
+      if (!s.determinantId && !s.text)
+        return true;
+    }
+    return false;
+  }
+
+  emptySynonym(): boolean {
+    return this.emptyDeterminant(this.synonyms);
+  }
+
+  emptyAntonym(): boolean {
+    return this.emptyDeterminant(this.antonyms);
+  }
+
+  emptyCollocation(): boolean {
+    for (const c of this.collocations) {
+      if (this.emptyDeterminant(c.determinants))
         return true;
     }
     return false;
@@ -460,6 +484,9 @@ export class TabFormComponent implements OnInit {
       this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');
       this.assert(this.selectedWordType?.id === 0 && !this.selectedGender, '<p>За именице је обавезно унети род.</p>');
       this.assert(this.emptyVariant(), '<p>Постоји (бар) једна празна варијанта.</p>');
+      this.assert(this.emptySynonym(), '<p>Постоји (бар) један празан синоним.</p>');
+      this.assert(this.emptyAntonym(), '<p>Постоји (бар) један празан антоним.</p>');
+      this.assert(this.emptyCollocation(), '<p>Постоји (бар) једна празна одредница у колокацијама.</p>');
       return true;
     } catch (e) {
       return false;
@@ -492,9 +519,9 @@ export class TabFormComponent implements OnInit {
       version: this.version,
       opciono_se: this.optionalSe,
       rbr_homonima: this.homonim === 0 ? null : this.homonim,
-      kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: c.note, odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1}))})),
-      sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId})),
-      antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId})),
+      kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: c.note, odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1, tekst: d.text}))})),
+      sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: s.text})),
+      antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId, tekst: a.text})),
       kvalifikatori: this.qualificators.map((q, index) => {
         return {
           redni_broj: index + 1,
@@ -638,9 +665,9 @@ export class TabFormComponent implements OnInit {
       qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id))
     }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
-    this.collocations = value.kolokacija_set.map((k) => ({note: k.napomena, determinants: k.recukolokaciji_set.map((r) => ({ determinantId: r.odrednica_id, searchText: '', rec$: undefined }))}));
-    this.synonyms = value.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
-    this.antonyms = value.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined}));
+    this.collocations = value.kolokacija_set.map((k) => ({note: k.napomena, determinants: k.recukolokaciji_set.map((r) => ({ determinantId: r.odrednica_id, searchText: '', rec$: undefined, text: r.tekst }))}));
+    this.synonyms = value.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst}));
+    this.antonyms = value.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst}));
     this.changes = value.izmenaodrednice_set;
     this.notes = value.napomene;
     this.freetext = value.freetext;
