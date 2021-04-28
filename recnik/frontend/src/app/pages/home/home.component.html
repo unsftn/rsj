@@ -16,7 +16,7 @@
             <tr>
               <th class="odrednica">Одредница</th>
               <th class="izmena">Измена</th>
-              <th class="autor">Аутор</th>
+              <th class="autor">Лексикограф</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item>
@@ -38,9 +38,25 @@
     <div class="p-col-4">
       <p-fieldset legend="Динамика обраде">
 <!--        <app-rendered-odrednice source="/api/render/odrednice/popular/10/" [isTrusted]="true"></app-rendered-odrednice>-->
-        <div><p-chart type="pie" [data]="data1" [options]="options1"></p-chart></div>
-        <div class="p-mt-4"><p-chart type="line" [data]="data2" [options]="options2"></p-chart></div>
-        <div class="p-mt-4"><p-chart type="line" [data]="data3" [options]="options3"></p-chart></div>
+<!--        <div><p-chart type="pie" [data]="data1" [options]="options1"></p-chart></div>-->
+<!--        <div class="p-mt-4"><p-chart type="line" [data]="data2" [options]="options2"></p-chart></div>-->
+<!--        <div class="p-mt-4"><p-chart type="line" [data]="data3" [options]="options3"></p-chart></div>-->
+        <p-table [value]="users">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="obradjivac">Аутор</th>
+              <th class="brojodrednica"># odrednica</th>
+              <th class="brojznakova"># знакова</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-user>
+            <tr>
+              <td class="obradjivac">{{user.first_name}} {{user.last_name}}</td>
+              <td class="brojodrednica">{{user.broj_odrednica}}</td>
+              <td class="brojznakova">{{user.broj_znakova}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
       </p-fieldset>
     </div>
   </div>

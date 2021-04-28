@@ -379,6 +379,22 @@ def api_moje_odrednice(request, page_size):
     result = []
     for odr in odrednice1.union(odrednice2):
         izmena = odr.izmenaodrednice_set.all().order_by('-vreme').first()
-        name = izmena.user.first_name if izmena else ''
+        name = (izmena.user.first_name + ' ' + izmena.user.last_name) if izmena else ''
         result.append({'odrednica_id': odr.id, 'rec': odr.rec, 'datum': odr.poslednja_izmena, 'autor': name})
+    return Response(result, status=status.HTTP_200_OK, content_type=JSON)
+
+
+@api_view(['GET'])
+def api_statistika_obradjivaca(request):
+    result = []
+    stat = StatistikaUnosa.objects.all().order_by('-vreme').first()
+    for su in stat.stavkastatistikeunosa_set.all():
+        result.append({
+            'user_id': su.user.id,
+            'email': su.user.email,
+            'first_name': su.user.first_name,
+            'last_name': su.user.last_name,
+            'broj_znakova': su.broj_znakova,
+            'broj_odrednica': su.broj_odrednica,
+        })
     return Response(result, status=status.HTTP_200_OK, content_type=JSON)

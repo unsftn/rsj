@@ -440,3 +440,32 @@ class KvalifikatorFraze(models.Model):
 
     def get_absolute_url(self):
         return reverse("odrednice:kvalifikator-fraze-detail", kwargs={"pk": self.pk})
+
+
+class StatistikaUnosa(models.Model):
+    vreme = models.DateTimeField('време генерисања')
+
+    class Meta:
+        verbose_name = 'статистика уноса'
+        verbose_name_plural = 'статистике уноса'
+        ordering = ['-vreme']
+        indexes = [
+            models.Index(fields=['vreme']),
+        ]
+
+    def __str__(self):
+        return str(self.vreme)
+
+
+class StavkaStatistikeUnosa(models.Model):
+    statistika = models.ForeignKey(StatistikaUnosa, verbose_name='статистика', on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.PROTECT)
+    broj_odrednica = models.IntegerField('број одредница')
+    broj_znakova = models.IntegerField('број знакова')
+
+    class Meta:
+        verbose_name = 'ставка статистике уноса'
+        verbose_name_plural = 'ставке статистике уноса'
+
+    def __str__(self):
+        return str(self.statistika) + ' / ' + self.user.first_name + ' ' + self.user.last_name

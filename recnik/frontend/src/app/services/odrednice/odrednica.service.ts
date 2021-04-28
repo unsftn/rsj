@@ -52,4 +52,8 @@ export class OdrednicaService {
   toKraj(id: number): Observable<any> {
     return this.httpClient.post(`/api/odrednice/workflow/kraj/${id}/`, {});
   }
+
+  statObradjivaca(): Observable<any> {
+    return this.httpClient.get('/api/odrednice/stats/obradjivaci/');
+  }
 }

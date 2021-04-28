@@ -13,7 +13,7 @@
   overflow: scroll;
 }
 
-.autor { width: 150px; }
+.autor { width: 220px; }
 .izmena { width: 110px; }
 .pointer { cursor: pointer; }
 .pointer:hover {
@@ -22,3 +22,7 @@
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   padding: 5px;
 }
+
+.obradjivac {  }
+.brojodrednica { text-align: right !important; width: 120px; }
+.brojznakova { text-align: right !important; width: 120px; }
