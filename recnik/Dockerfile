@@ -5,7 +5,7 @@ WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json /app/
 RUN npm install
 COPY frontend /app
-RUN npm run build -- --output-path=/app/frontend/dist/
+RUN npm run build --prod -- --output-path=/app/frontend/dist/
 
 FROM python:3.9-slim-buster
 MAINTAINER Branko Milosavljevic <mbranko@uns.ac.rs>
