@@ -4,13 +4,17 @@ import os
 
 DEBUG = False
 ALLOWED_HOSTS = ['*']
+SECRET_KEY = read_or_get('/private/secrets', 'SECRET_KEY', '123456789012345678901234567890123456789')
+DB_HOST = read_or_get('/private/secrets', 'DB_HOST', 'recnik-mysql')
+ELASTICSEARCH_HOST = read_or_get('/private/secrets', 'ELASTICSEARCH_HOST', 'elastic-recnik')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'recnik',
         'USER': 'recnik',
         'PASSWORD': 'recnik',
-        'HOST': 'recnik-mysql',
+        'HOST': DB_HOST,
         'PORT': '',
         'STORAGE_ENGINE': 'INNODB',
         'OPTIONS': {
@@ -22,6 +26,4 @@ DATABASES = {
         'NAME': 'file:memorydb?mode=memory&cache=shared',
     }
 }
-ELASTICSEARCH_HOST = 'elastic-recnik'
 
-SECRET_KEY = read_or_get('/private/secrets', 'SECRET_KEY', None)
