@@ -16,6 +16,8 @@ export interface Determinant {
   version: number;
   opciono_se?: boolean;
   rbr_homonima?: number;
+  napomene: string;
+  freetext: string;
   kvalifikatori: any[];
   znacenja: any[];
   izrazi_fraze: any[];

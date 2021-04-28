@@ -5,7 +5,6 @@ from rest_framework import status
 from .models import *
 
 KVALIFIKATOR_LIST = reverse('odrednice:kvalifikator-list')
-OPERACIJA_IZMENE_LIST = reverse('odrednice:operacija-izmene-list')
 IZMENA_ODREDNICE_LIST = reverse('odrednice:izmena-odrednice-list')
 KVALIFIKATOR_ODREDNICE_LIST = reverse('odrednice:kvalifikator-odrednice-list')
 IZRAZFRAZA_LIST = reverse('odrednice:izrazfraza-list')
@@ -139,7 +138,7 @@ class TestOdredniceApi(TestCase):
         response = c.get(KVALIFIKATOR_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(len(result), 186)
+        self.assertEquals(len(result), 189)
 
     def test_get_kvalikator_odrednice_by_id(self):
         c = Client()
@@ -156,30 +155,15 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(len(result), 1)
 
-    def test_get_operacija_izmene_by_id(self):
-        c = Client()
-        oper = OperacijaIzmene.objects.get(pk=2)
-        response = c.get(oper.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
-        result = json.loads(response.content.decode('UTF-8'))
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(result['naziv'], 'Ажурирање одреднице')
-
-    def test_get_operacije_izmena_list(self):
-        c = Client()
-        response = c.get(OPERACIJA_IZMENE_LIST, HTTP_AUTHORIZATION=self.token, content_type=JSON)
-        result = json.loads(response.content.decode('UTF-8'))
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(len(result), 6)
-
     def test_get_izmena_odrednice_by_id(self):
         c = Client()
         prvaIzmena = IzmenaOdrednice.objects.get(pk=1)
         response = c.get(prvaIzmena.get_absolute_url(), HTTP_AUTHORIZATION=self.token, content_type=JSON)
         result = json.loads(response.content.decode('UTF-8'))
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(result['user_id'], 1)
+        self.assertEquals(result['user']['id'], 1)
         self.assertEquals(result['odrednica_id'], 1)
-        self.assertEquals(result['operacija_izmene_id'], 1)
+        self.assertEquals(result['operacija_izmene']['id'], 1)
 
     def test_get_izemene_odrednica_list(self):
         c = Client()
@@ -451,7 +435,8 @@ class TestOdredniceApi(TestCase):
         self.assertEquals(odrednica.ima_antonim.get(redni_broj=1).ima_antonim.id, odrednica.id)
         self.assertEquals(odrednica.ima_antonim.get(redni_broj=1).u_vezi_sa.id, 2)
 
-    def test_concurrent_update_odrednice(self):
+    def xtest_concurrent_update_odrednice(self):
+        # TODO: treba da uzme u obzir prava pristupa odrednici
         odr1 = Odrednica.objects.get(pk=1)
         odr2 = Odrednica.objects.get(pk=1)
 
