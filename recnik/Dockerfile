@@ -19,6 +19,7 @@ RUN mkdir -p /app/static
 COPY --from=angular /app/frontend/dist /app/static
 WORKDIR /app
 RUN mkdir /private
+RUN touch /private/secrets
 RUN rm -rf /app/log
 RUN mkdir /app/log
 ARG django_settings=prod

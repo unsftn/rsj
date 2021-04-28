@@ -51,5 +51,5 @@ def read_or_get(file_name, variable_name, default_value=None):
         if not value:
             value = get_variable(variable_name, default_value)
         return value
-    except ImproperlyConfigured as ex:
-        raise ex
+    except ImproperlyConfigured:
+        return default_value
