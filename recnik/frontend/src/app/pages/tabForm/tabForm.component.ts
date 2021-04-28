@@ -15,6 +15,8 @@ interface Variant {
   nameI: string;
   extensionE: string;
   extensionI: string;
+  presentE: string;
+  presentI: string;
 }
 
 @Component({
@@ -157,46 +159,6 @@ export class TabFormComponent implements OnInit {
       command: (event) => this.toKraj(),
   }];
 
-  addVariant(): void {
-    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '' });
-  }
-
-  removeVariant(variant): void {
-    this.variants.splice(this.variants.indexOf(variant), 1);
-  }
-
-  // selectedKindChangedHandler(selectedKind): void {
-  //   this.selectedGender = selectedKind;
-  // }
-  //
-  // selectedVerbKindChangedHandler(selectedVerbKind): void {
-  //   this.selectedVerbKind = selectedVerbKind;
-  // }
-  //
-  // selectedVerbFormChangedHandler(selectedVerbForm): void {
-  //   this.selectedVerbForm = selectedVerbForm;
-  // }
-  //
-  // extensionChangedHandler(extension): void {
-  //   this.extensionE = extension;
-  // }
-  //
-  // presentChangedHandler(presentE): void {
-  //   this.presentE = presentE;
-  // }
-  //
-  // detailsChangedHandler(details): void {
-  //   this.details = details;
-  // }
-  //
-  // collocationsChangedHandler(collocations): void {
-  //   this.collocations = collocations;
-  // }
-  //
-  // selectedQualificatorsHandler(qualificators): void {
-  //   this.qualificators = qualificators;
-  // }
-
   constructor(
     private primengConfig: PrimeNGConfig,
     private httpClient: HttpClient,
@@ -214,6 +176,14 @@ export class TabFormComponent implements OnInit {
     this.isVerb = false;
     this.selectedState = this.enumService.getEntryState(1);
     this.selectedWordType = this.enumService.getWordType(1);
+  }
+
+  addVariant(): void {
+    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '' });
+  }
+
+  removeVariant(variant): void {
+    this.variants.splice(this.variants.indexOf(variant), 1);
   }
 
   close(): void {
@@ -449,8 +419,13 @@ export class TabFormComponent implements OnInit {
 
   emptyVariant(): boolean {
     for (const v of this.variants) {
-      if (v.nameE.trim().length === 0 && v.nameI.trim().length === 0 && v.extensionE.trim().length === 0 && v.extensionI.trim().length === 0)
-        return true;
+      if (this.isVerb) {
+        if (v.nameE.trim().length === 0 && v.nameI.trim().length === 0 && v.extensionE.trim().length === 0 && v.extensionI.trim().length === 0 && v.presentE.trim().length === 0 && v.presentI.trim().length === 0)
+          return true;
+      } else {
+        if (v.nameE.trim().length === 0 && v.nameI.trim().length === 0 && v.extensionE.trim().length === 0 && v.extensionI.trim().length === 0)
+          return true;
+      }
     }
     return false;
   }
@@ -504,6 +479,8 @@ export class TabFormComponent implements OnInit {
           ijekavski: variant.nameI.trim(),
           nastavak: variant.extensionE.trim(),
           nastavak_ij: variant.extensionI.trim(),
+          prezent: variant.presentE.trim(),
+          prezent_ij: variant.presentI.trim(),
         };
       }),
       vrsta: this.selectedWordType?.id,
@@ -624,7 +601,7 @@ export class TabFormComponent implements OnInit {
     this.extensionE = value.nastavak;
     this.extensionI = value.nastavak_ij;
     for (const v of value.varijantaodrednice_set) {
-      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij });
+      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij });
     }
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);

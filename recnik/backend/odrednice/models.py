@@ -158,6 +158,8 @@ class VarijantaOdrednice(models.Model):
     tekst = models.CharField('текст', max_length=50)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
     nastavak_ij = models.CharField('наставак ијекавски', max_length=50, blank=True, null=True)
+    prezent = models.CharField('презент', max_length=50, blank=True, null=True)
+    prezent_ij = models.CharField('презент ијекавски', max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f'{str(self.odrednica)} / {self.redni_broj}: {self.tekst}'

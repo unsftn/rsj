@@ -128,7 +128,7 @@ class IzmenaOdredniceSerializer(serializers.ModelSerializer):
 class VarijantaOdredniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = VarijantaOdrednice
-        fields = ('id', 'redni_broj', 'tekst', 'ijekavski', 'nastavak', 'nastavak_ij')
+        fields = ('id', 'redni_broj', 'tekst', 'ijekavski', 'nastavak', 'nastavak_ij', 'prezent', 'prezent_ij')
 
 
 class OdrednicaSerializer(serializers.ModelSerializer):
@@ -246,6 +246,8 @@ class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     nastavak_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    prezent = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
+    prezent_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
 
 
 class CreateOdrednicaSerializer(serializers.Serializer):

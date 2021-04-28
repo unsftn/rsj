@@ -158,6 +158,20 @@
                          (keyup)="keyup($event, 'variants.extensionI', i)" style="width:150px"/>
                 </div>
               </div>
+              <div class="p-d-flex p-flex-column p-flex-lg-row" *ngIf="isVerb">
+                <div class="p-mb-2 p-mr-2">
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].presentE" name="inputPresentE{{i}}" pInputText placeholder="презент екавица"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, 'variants.presentE', i)" style="width:150px"/>
+                </div>
+                <div class="p-mb-2 p-mr-2">
+                  <input type="text" class="input-field" [(ngModel)]="variants[i].presentI" name="inputPresentI{{i}}" pInputText placeholder="презент ијекавица"
+                         (ngModelChange)="onValueChange($event)"
+                         (focusout)="onFocusLeave()"
+                         (keyup)="keyup($event, 'variants.presentI', i)" style="width:150px"/>
+                </div>
+              </div>
             </div>
           </form>
         </div>

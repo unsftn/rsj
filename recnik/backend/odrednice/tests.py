@@ -110,19 +110,23 @@ class TestOdredniceApi(TestCase):
         }
         self.sinonim_1 = {
             'redni_broj': 1,
-            'sinonim_id': 2
+            'sinonim_id': 2,
+            'tekst': ''
         }
         self.sinonim_2 = {
             'redni_broj': 2,
-            'sinonim_id': 1
+            'sinonim_id': 1,
+            'tekst': ''
         }
         self.antonim_1 = {
             'redni_broj': 1,
-            'antonim_id': 2
+            'antonim_id': 2,
+            'tekst': ''
         }
         self.antonim_2 = {
             'redni_broj': 2,
-            'antonim_id': 1
+            'antonim_id': 1,
+            'tekst': ''
         }
 
     def test_get_kvalikator_by_id(self):
