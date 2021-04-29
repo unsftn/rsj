@@ -22,10 +22,10 @@ SPECIAL_MARKS = ['ак.', 'аор.', 'безл.', 'бр.', 'везн.', 'вок.
                  'предл.', 'през.', 'прел.', 'прил.', 'р. пр.', 'р.пр.', 'речца.', 'свр.', 'суп.', 'суп.мн.',
                  'суп. мн.', 'трен.', 'трп.пр.', 'трп. пр.', 'уз. повр.', 'уз.повр.', 'узв.', 'уч.', 'арх.', 'гл.',
                  '\u2205']
-REGEX_BOLD = re.compile('@+(.+)@+')
-REGEX_ITALIC = re.compile('#+(.+)#+')
-REGEX_SMALL = re.compile('\\$+(.+)\\$+')
-REGEX_SMALL_BOLD = re.compile('%+(.+)%+')
+REGEX_BOLD = re.compile('@+(.*?)@+')
+REGEX_ITALIC = re.compile('#+(.*?)#+')
+REGEX_SMALL = re.compile('\\$+(.*?)\\$+')
+REGEX_SMALL_BOLD = re.compile('%+(.*?)%+')
 
 
 def touch(path):
