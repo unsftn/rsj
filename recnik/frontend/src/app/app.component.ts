@@ -31,6 +31,12 @@ export class AppComponent implements OnInit {
     return this.tokenStorageService.getUser() !== null;
   }
 
+  isAdmin(): boolean {
+    if (!this.signedIn())
+      return false;
+    return this.tokenStorageService.getUser().isStaff;
+  }
+
   signOut(): void {
     this.tokenStorageService.signOut();
     this.router.navigate(['/']);
@@ -89,7 +95,7 @@ export class AppComponent implements OnInit {
         label: 'Администрација',
         icon: 'pi pi-cog',
         url: '/admin',
-        disabled: !this.signedIn(),
+        disabled: !this.isAdmin(),
       },
       {
         separator: true,

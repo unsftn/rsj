@@ -388,13 +388,14 @@ def api_moje_odrednice(request, page_size):
 def api_statistika_obradjivaca(request):
     result = []
     stat = StatistikaUnosa.objects.all().order_by('-vreme').first()
-    for su in stat.stavkastatistikeunosa_set.all():
-        result.append({
-            'user_id': su.user.id,
-            'email': su.user.email,
-            'first_name': su.user.first_name,
-            'last_name': su.user.last_name,
-            'broj_znakova': su.broj_znakova,
-            'broj_odrednica': su.broj_odrednica,
-        })
+    if stat:
+        for su in stat.stavkastatistikeunosa_set.all():
+            result.append({
+                'user_id': su.user.id,
+                'email': su.user.email,
+                'first_name': su.user.first_name,
+                'last_name': su.user.last_name,
+                'broj_znakova': su.broj_znakova,
+                'broj_odrednica': su.broj_odrednica,
+            })
     return Response(result, status=status.HTTP_200_OK, content_type=JSON)
