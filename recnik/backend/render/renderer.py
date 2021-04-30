@@ -220,7 +220,7 @@ def render_one(odrednica):
                 html += ' и ' + varijante[0]
             elif len(varijante) > 1:
                 html += ', ' + nabrajanje(varijante)
-        if odrednica.ijekavski or odrednica.nastavak_ij or odrednica.prezent_ij:
+        if odrednica.ijekavski or odrednica.nastavak_ij:
             html += ', <small>јек.</small> '
         if odrednica.ijekavski and odrednica.rec != odrednica.ijekavski:
             html += f'<b>{odrednica.ijekavski}</b>'
