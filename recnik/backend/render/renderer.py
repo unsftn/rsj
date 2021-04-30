@@ -266,6 +266,8 @@ def render_one(odrednica):
             html += ' ' + render_info(odrednica.info) + ' '
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
+        else:
+            html += ' '
 
     # pridev
     if odrednica.vrsta == 2:
