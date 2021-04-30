@@ -15,8 +15,7 @@ RUN pip3 install -U pip setuptools
 COPY backend/requirements.txt /app/requirements.txt
 RUN pip3 install -r /app/requirements.txt
 COPY backend /app
-RUN mkdir -p /app/static
-COPY --from=angular /app/frontend/dist /app/static
+RUN mkdir -p /app/staticfiles
 WORKDIR /app
 RUN mkdir /private
 RUN touch /private/secrets
@@ -27,6 +26,7 @@ ENV DJANGO_SETTINGS=$django_settings
 RUN python3 /app/manage.py collectstatic --noinput
 RUN rm -rf /app/log/*
 RUN rm -rf /private
+COPY --from=angular /app/frontend/dist /app/staticfiles
 RUN chmod +x /app/run_prod.sh
 EXPOSE 8000
 ENTRYPOINT ["/app/run_prod.sh"]
