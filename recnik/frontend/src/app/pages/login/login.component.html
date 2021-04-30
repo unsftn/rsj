@@ -18,7 +18,8 @@
           </div>
       </div>
 
-      <button pButton type="button" label="Пријави се" (click)="onSubmit()" [disabled]="loginForm.invalid"></button>
+      <button pButton type="button" label="Пријави се" (click)="onSubmit()" [disabled]="loginForm.invalid" class="p-mr-3"></button>
+      <button pButton type="button" label="Заборавих лозинку" (click)="forgotPassword()" [disabled]="f.username.errors"></button>
     </form>
   </div>
 </div>

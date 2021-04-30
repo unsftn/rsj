@@ -62,4 +62,26 @@ export class LoginComponent implements OnInit {
       },
     );
   }
+
+  forgotPassword(): void {
+    const email = this.f.username.value.trim();
+    this.authService.forgotPassword(email).subscribe(
+      (data) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Послат и-мејл',
+          life: 5000,
+          detail: 'На Вашу и-мејл адресу је послатa нова лозинка.'
+        });
+      },
+      (еrror) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: 'Корисник са датом и-мејл адресом није познат.'
+        });
+      }
+    );
+  }
 }

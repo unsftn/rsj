@@ -3,15 +3,6 @@
     <div class="p-col-4">
       <p-fieldset legend="Моје активности">
         <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="20">
-<!--          <ng-template pTemplate="caption">-->
-<!--            <div class="p-d-flex p-p-0">-->
-<!--              <span class="p-input-icon-left p-ml-auto">-->
-<!--                <i class="pi pi-search"></i>-->
-<!--                <input #filter pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')" placeholder="Претрага"/>-->
-<!--              </span>-->
-<!--              <button pButton pRipple class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(table, filter)"></button>-->
-<!--            </div>-->
-<!--          </ng-template>-->
           <ng-template pTemplate="header">
             <tr>
               <th class="odrednica">Одредница</th>

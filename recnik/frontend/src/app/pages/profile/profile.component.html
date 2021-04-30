@@ -10,7 +10,7 @@
       <div class="text"><p-toggleButton [(ngModel)]="changePass" onLabel="Промена лозинке" offLabel="Промена лозинке" onIcon="pi pi-lock" offIcon="pi pi-lock" class="p-button-secondary"></p-toggleButton></div>
       <div *ngIf="changePass" class="p-mt-3">
         <form [formGroup]="changePassForm" novalidate action="#">
-            <p-password [formControlName]="'lozinka1'" name="lozinka1" promptLabel="Квалитет лозинке" weakLabel="Слаб" mediumLabel="Средњи" strongLabel="Јак">
+            <p-password [formControlName]="'lozinka1'" placeholder="Нова лозинка" name="lozinka1" promptLabel="Квалитет лозинке" weakLabel="Слаб" mediumLabel="Средњи" strongLabel="Јак">
               <ng-template pTemplate="footer">
                   <p-divider></p-divider>
                   <p class="p-mt-2">Предлози:</p>

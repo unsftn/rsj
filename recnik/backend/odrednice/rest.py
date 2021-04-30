@@ -1,6 +1,8 @@
 # coding=utf-8
+import random
+from django.core.mail import send_mail
 from rest_framework import generics, permissions, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -411,3 +413,43 @@ def change_password(request):
         return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     except:
         raise ValidationError(detail='Није могуће променити лозинку', code=400)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def forgot_password(request):
+    try:
+        email = request.data['email']
+        user = UserProxy.objects.get(email=email)
+        new_password = generate_password()
+        user.set_password(new_password)
+        user.save()
+        send_mail('Nova lozinka za Recnik',
+                  EMAIL_TEXT % new_password,
+                  'mbranko@uns.ac.rs',
+                  [email],
+                  fail_silently=True)
+        return Response({}, status=status.HTTP_201_CREATED, content_type=JSON)
+    except:
+        raise ValidationError(detail='Непознат корисник', code=404)
+
+
+def generate_password():
+    digits = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
+              "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    random.shuffle(digits)
+    return "".join(digits[:12])
+
+
+EMAIL_TEXT = """
+
+Poštovani,
+
+Zatražili ste kreiranje nove lozinke za sajt Rečnika srpskog jezika. 
+
+Vaša nova lozinka je %s
+
+---
+pozdrav,
+RSJ
+"""
