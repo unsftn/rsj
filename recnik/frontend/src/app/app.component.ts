@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
+import { UserService } from './services/auth/user.service';
 import { OdrednicaService, QualificatorService } from './services/odrednice';
 import { PublikacijaService } from './services/publikacije';
 
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
     private qualificatorService: QualificatorService,
     private odrednicaService: OdrednicaService,
     private publikacijaService: PublikacijaService,
+    private userService: UserService,
     private router: Router,
   ) {}
 
@@ -112,6 +114,7 @@ export class AppComponent implements OnInit {
     ];
     this.qualificatorService.fetchAllQualificators().subscribe((values) => {});
     this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
+    this.userService.fetchKorisnici().subscribe(() => {});
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
       this.items.forEach((item, index) => {

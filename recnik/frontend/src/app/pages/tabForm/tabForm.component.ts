@@ -89,52 +89,16 @@ export class TabFormComponent implements OnInit {
   obradjivac: any = null;
   redaktor: any = null;
   urednik: any = null;
-
-  primeri: MenuItem[] = [{
-      label: 'ски̏нути',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_1),
-    }, {
-      label: 'а (узвик)',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_2),
-    }, {
-      label: 'али',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_3),
-    }, {
-      label: 'ски̏јати (се)',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_4),
-    }, {
-      label: 'скло̀нити',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_5),
-    }, {
-      label: 'сѐдети',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_6),
-    }, {
-      label: 'ра̑днӣк',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_7),
-    }, {
-      label: 'мѐњати',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_8),
-    }, {
-      label: 'мле́ко',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_9),
-    }, {
-      label: 'ве̏ра',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_10),
-    }, {
-      label: 'дѐте',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_11),
-    }, {
-      label: 'ре̑ч',
-      command: (event) => this.fillTestOdrednica(primeri.ODREDNICA_12),
-    }
-  ];
+  obradjivaci: any[] = [];
+  redaktori: any[] = [];
+  urednici: any[] = [];
 
   workflowItems: MenuItem[];
   wfObradjivac: MenuItem[] = [{
       label: 'Проследи редактору',
       command: (event) => this.toRedaktor(),
     },{
-      label: 'Задужења на одредници',
+      label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfRedaktor: MenuItem[] = [{
@@ -144,7 +108,7 @@ export class TabFormComponent implements OnInit {
       label: 'Проследи уреднику',
       command: (event) => this.toUrednik(),
     },{
-      label: 'Задужења на одредници',
+      label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfUrednik: MenuItem[] = [{
@@ -157,7 +121,7 @@ export class TabFormComponent implements OnInit {
       label: 'Затвори одредницу',
       command: (event) => this.toKraj(),
     },{
-      label: 'Задужења на одредници',
+      label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfAdministrator: MenuItem[] = [{
@@ -173,7 +137,7 @@ export class TabFormComponent implements OnInit {
       label: 'Затвори одредницу',
       command: (event) => this.toKraj(),
     },{
-      label: 'Задужења на одредници',
+      label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
 
@@ -195,6 +159,63 @@ export class TabFormComponent implements OnInit {
     this.isVerb = false;
     this.selectedState = this.enumService.getEntryState(1);
     this.selectedWordType = this.enumService.getWordType(1);
+  }
+
+  ngOnInit(): void {
+    this.primengConfig.ripple = true;
+    this.genders = this.enumService.getAllGenders();
+    this.verbKinds = this.enumService.getAllVerbKinds();
+    this.verbForms = this.enumService.getAllVerbForms();
+    this.wordTypes = this.enumService.getAllWordTypes();
+    const user = this.tokenStorageService.getUser();
+    switch (user.group) {
+      case 'Администратор':
+        this.workflowItems = this.wfAdministrator;
+        this.groupId = 4;
+        break;
+      case 'Уредник':
+        this.workflowItems = this.wfUrednik;
+        this.groupId = 3;
+        break;
+      case 'Редактор':
+        this.workflowItems = this.wfRedaktor;
+        this.groupId = 2;
+        break;
+      case 'Обрађивач':
+        this.workflowItems = this.wfObradjivac;
+        this.groupId = 1;
+        break;
+    }
+    this.route.data.subscribe((data) => {
+      switch (data.mode) {
+        case 'add':
+          this.editMode = false;
+          this.id = null;
+          this.selectedState = this.enumService.getEntryState(1);
+          this.selectedWordType = this.enumService.getWordType(0);
+          this.selectedVerbForm = this.enumService.getVerbForm(0);
+          this.selectedVerbKind = this.enumService.getVerbKind(0);
+          this.onChangeWordType();
+          break;
+        case 'edit':
+          this.editMode = true;
+          this.route.params.subscribe((params) => {
+            this.id = +params.id;
+            this.odrednicaService.get(this.id).subscribe((value) => {
+              this.fillForm(value);
+              this.currentState = this.cloneState();
+            });
+          });
+          break;
+      }
+    });
+    if (this.obradjivaci.length === 0)
+      this.obradjivaci = this.userService.getObradjivaci();
+    if (this.redaktori.length === 0)
+      this.redaktori = this.userService.getRedaktori();
+    if (this.urednici.length === 0)
+      this.urednici = this.userService.getUrednici();
+    this.dirty = false;
   }
 
   addVariant(): void {
@@ -377,57 +398,6 @@ export class TabFormComponent implements OnInit {
     return this.selectedVerbKind.def2;
   }
 
-  ngOnInit(): void {
-    this.primengConfig.ripple = true;
-    this.genders = this.enumService.getAllGenders();
-    this.verbKinds = this.enumService.getAllVerbKinds();
-    this.verbForms = this.enumService.getAllVerbForms();
-    this.wordTypes = this.enumService.getAllWordTypes();
-    const user = this.tokenStorageService.getUser();
-    switch (user.group) {
-      case 'Администратор':
-        this.workflowItems = this.wfAdministrator;
-        this.groupId = 4;
-        break;
-      case 'Уредник':
-        this.workflowItems = this.wfUrednik;
-        this.groupId = 3;
-        break;
-      case 'Редактор':
-        this.workflowItems = this.wfRedaktor;
-        this.groupId = 2;
-        break;
-      case 'Обрађивач':
-        this.workflowItems = this.wfObradjivac;
-        this.groupId = 1;
-        break;
-    }
-    this.route.data.subscribe((data) => {
-      switch (data.mode) {
-        case 'add':
-          this.editMode = false;
-          this.id = null;
-          this.selectedState = this.enumService.getEntryState(1);
-          this.selectedWordType = this.enumService.getWordType(0);
-          this.selectedVerbForm = this.enumService.getVerbForm(0);
-          this.selectedVerbKind = this.enumService.getVerbKind(0);
-          this.onChangeWordType();
-          break;
-        case 'edit':
-          this.editMode = true;
-          this.route.params.subscribe((params) => {
-            this.id = +params.id;
-            this.odrednicaService.get(this.id).subscribe((value) => {
-              this.fillForm(value);
-              this.currentState = this.cloneState();
-            });
-          });
-          break;
-      }
-    });
-    this.dirty = false;
-  }
-
   showError(message): void {
     this.message = this.domSanitizer.bypassSecurityTrustHtml(message);
     this.showInfoDialog = true;
@@ -545,8 +515,8 @@ export class TabFormComponent implements OnInit {
         };
       }),
       znacenja: this.makeZnacenja(this.meanings, false).concat(this.makeZnacenja(this.meanings2, true)),
-      napomene: this.notes.trim(),
-      freetext: this.freetext.trim(),
+      napomene: this.notes ? this.notes.trim() : '',
+      freetext: this.freetext ? this.freetext.trim() : '',
     };
     if (this.editMode) {
       determinant.id = this.id;
@@ -672,15 +642,15 @@ export class TabFormComponent implements OnInit {
     this.notes = value.napomene;
     this.freetext = value.freetext;
     if (value.obradjivac)
-      this.userService.getKorisnik(value.obradjivac).subscribe((data) => { this.obradjivac = data; });
+      this.obradjivac = this.userService.getUser(value.obradjivac);
     else
       this.obradjivac = null;
     if (value.redaktor)
-      this.userService.getKorisnik(value.redaktor).subscribe((data) => { this.redaktor = data; });
+      this.redaktor = this.userService.getUser(value.redaktor);
     else
       this.redaktor = null;
     if (value.urednik)
-      this.userService.getKorisnik(value.urednik).subscribe((data) => { this.urednik = data; });
+      this.urednik = this.userService.getUser(value.urednik);
     else
       this.urednik = null;
   }
@@ -956,11 +926,24 @@ export class TabFormComponent implements OnInit {
   }
 
   showOwnership(): void {
+    if (!this.editMode)
+      return;
     this.showOwnershipDialog = true;
   }
 
   saveOwnership(): void {
-    this.showOwnershipDialog = false;
+    const obradjivacId = this.obradjivac.id;
+    const redaktorId = this.redaktor ? this.redaktor.id : null;
+    const urednikId = this.urednik ? this.urednik.id : null;
+    this.odrednicaService.zaduzenja(this.id, obradjivacId, redaktorId, urednikId).subscribe(
+      (data) => {
+        this.showOwnershipDialog = false;
+      },
+      (error) => {
+        console.log(error);
+        this.showOwnershipDialog = false;
+      }
+    );
   }
 
   closeOwnership(): void {

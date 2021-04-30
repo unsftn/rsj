@@ -4,8 +4,6 @@
     <span class="word-state">[{{selectedState.opis}}]</span>
   </div>
   <div class="p-toolbar-group-right">
-<!--    <p-menu #primeriMenu [model]="primeri" [popup]="true" appendTo="body"></p-menu>-->
-<!--    <p-button label="Примери" icon="pi pi-list" styleClass="p-button-help" (click)="primeriMenu.toggle($event)" class="p-ml-2"></p-button>-->
     <p-button icon="pi pi-undo" styleClass="p-button-secondary" class="p-ml-2" [disabled]="!undoAvailable()" (click)="undo()"></p-button>
     <p-button icon="pi pi-refresh" styleClass="p-button-secondary" class="p-ml-1" [disabled]="!redoAvailable()" (click)="redo()"></p-button>
     <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>
@@ -18,17 +16,30 @@
 <p-dialog header="Задужења за ову одредницу" [(visible)]="showOwnershipDialog" [style]="{width: '70vw'}">
   <div class="p-d-inline-flex p-flex-column">
     <div class="p-d-flex">
-      <div class="center-container">Обрађивач:</div>
-      <div class="center-container">{{obradjivac?.first_name}} {{obradjivac?.last_name}}</div>
+      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Обрађивач:</p></div>
+      <div *ngIf="groupId == 1" class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{obradjivac?.full_name}}</p></div>
+      <div *ngIf="groupId > 1" class="p-md-9 p-mb-3">
+        <p-dropdown [options]="obradjivaci" [(ngModel)]="obradjivac" optionLabel="full_name" placeholder="Избор обрађивача"></p-dropdown>
+      </div>
     </div>
     <div class="p-d-flex">
-      <div class="center-container">Редактор:</div>
-      <div class="center-container">{{redaktor?.first_name}} {{redaktor?.last_name}}</div>
+      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Редактор:</p></div>
+      <div *ngIf="groupId < 3" class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{redaktor?.full_name}}</p></div>
+      <div *ngIf="groupId > 2" class="p-md-9 p-mb-3">
+        <p-dropdown [options]="redaktori" [(ngModel)]="redaktor" optionLabel="full_name" [showClear]="true" placeholder="Избор редактора"></p-dropdown>
+      </div>
     </div>
     <div class="p-d-flex">
-      <div class="center-container">Уредник:</div>
-      <div class="center-container">{{urednik?.first_name}} {{urednik?.last_name}}</div>
+      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Уредник:</p></div>
+      <div *ngIf="groupId < 4"  class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{urednik?.full_name}}</p></div>
+      <div *ngIf="groupId == 4" class="p-md-9 p-mb-3">
+        <p-dropdown [options]="urednici" [(ngModel)]="urednik" optionLabel="full_name" [showClear]="true" placeholder="Избор уредника"></p-dropdown>
+      </div>
     </div>
+  </div>
+  <div style="height: 200px"></div>
+  <div class="p-d-flex p-jc-end">
+    <div><p-button label="Сачувај" (click)="saveOwnership()" styleClass="p-button-success"></p-button></div>
   </div>
 </p-dialog>
 <p-dialog header="&nbsp;" [(visible)]="showInfoDialog" [style]="{width: '70vw'}">

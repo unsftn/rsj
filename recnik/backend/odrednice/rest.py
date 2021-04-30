@@ -464,6 +464,45 @@ def get_korisnik(request, id):
         raise NotFound(detail='Није пронађен корисник са датим идентификатором', code=404)
 
 
+@api_view(['GET'])
+def get_korisnici(request):
+    try:
+        users = UserProxy.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)
+    except Exception as ex:
+        print(ex)
+        raise NotFound(detail='Нема регистрованих корисника', code=404)
+
+
+@api_view(['PUT'])
+def api_change_roles(request, odrednica_id):
+    try:
+        user = UserProxy.objects.get(id=request.user.id)
+        odrednica = Odrednica.objects.get(id=odrednica_id)
+        obradjivac_id = request.data.get('obradjivac')
+        redaktor_id = request.data.get('redaktor')
+        urednik_id = request.data.get('urednik')
+        novi_obradjivac = UserProxy.objects.get(id=obradjivac_id)
+        novi_redaktor = UserProxy.objects.get(id=redaktor_id) if redaktor_id else None
+        novi_urednik = UserProxy.objects.get(id=urednik_id) if urednik_id else None
+        if user.je_obradjivac():
+            raise PermissionDenied(detail='Обрађивач нема право да мења задужења за одредницу', code=403)
+        if user.je_redaktor():
+            odrednica.obradjivac = novi_obradjivac
+        if user.je_urednik():
+            odrednica.obradjivac = novi_obradjivac
+            odrednica.redaktor = novi_redaktor
+        if user.je_administrator():
+            odrednica.obradjivac = novi_obradjivac
+            odrednica.redaktor = novi_redaktor
+            odrednica.urednik = novi_urednik
+        odrednica.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except:
+        raise NotFound(detail='Грешка у захтеву за промену задужења', code=404)
+
+
 def get_users_by_role(role_id):
     users = UserProxy.objects.filter(groups__id__contains=role_id)
     serializer = UserSerializer(users, many=True)

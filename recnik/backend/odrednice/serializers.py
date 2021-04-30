@@ -105,9 +105,14 @@ class ZnacenjeSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    group = serializers.SerializerMethodField()
+
+    def get_group(self, obj):
+        return obj.group_id()
+
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'email')
+        fields = ('id', 'first_name', 'last_name', 'email', 'group')
 
 
 class OperacijaIzmeneSerializer(serializers.ModelSerializer):

@@ -56,4 +56,8 @@ export class OdrednicaService {
   statObradjivaca(): Observable<any> {
     return this.httpClient.get('/api/odrednice/stats/obradjivaci/');
   }
+
+  zaduzenja(id: number, obradjivac: number, redaktor: number, urednik: number): Observable<any> {
+    return this.httpClient.put(`/api/odrednice/workflow/zaduzenja/${id}/`, {obradjivac, redaktor, urednik});
+  }
 }

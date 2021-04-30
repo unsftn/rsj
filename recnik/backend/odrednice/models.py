@@ -73,6 +73,12 @@ class UserProxy(User):
     def je_administrator(self):
         return self._in_group(4)
 
+    def group_id(self):
+        group = self.groups.all().first()
+        if not group:
+            return None
+        return group.id
+
     def _in_group(self, group_id):
         group = self.groups.all().first()
         if not group:
