@@ -86,9 +86,9 @@ export class TabFormComponent implements OnInit {
   yesHandler: () => void;
 
   groupId: number = 0;
-  obradjivac: any;
-  redaktor: any;
-  urednik: any;
+  obradjivac: any = null;
+  redaktor: any = null;
+  urednik: any = null;
 
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
