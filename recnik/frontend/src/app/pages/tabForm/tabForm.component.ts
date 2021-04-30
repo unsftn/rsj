@@ -522,8 +522,8 @@ export class TabFormComponent implements OnInit {
         };
       }),
       znacenja: this.makeZnacenja(this.meanings, false).concat(this.makeZnacenja(this.meanings2, true)),
-      napomene: this.notes,
-      freetext: this.freetext,
+      napomene: this.notes.trim(),
+      freetext: this.freetext.trim(),
     };
     if (this.editMode) {
       determinant.id = this.id;
