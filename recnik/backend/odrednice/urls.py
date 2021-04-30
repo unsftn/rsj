@@ -42,6 +42,7 @@ urlpatterns = [
     path('workflow/kraj/<int:odrednica_id>/', api_zavrsi_obradu),
     path('workflow/moje-odrednice/<int:page_size>/', api_moje_odrednice),
     path('stats/obradjivaci/', api_statistika_obradjivaca),
+    path('password/change/', change_password),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

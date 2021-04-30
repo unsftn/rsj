@@ -22,6 +22,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { MenuModule } from 'primeng/menu';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { PasswordModule } from 'primeng/password';
 
 import { HomeModule } from './pages/home/home.module';
 import { TabFormModule } from './pages/tabForm/tabForm.module';
@@ -29,9 +31,10 @@ import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacij
 import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
 import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/publikacija-list.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RendersComponent, PublikacijaComponent, PublikacijaListComponent],
+  declarations: [AppComponent, LoginComponent, RendersComponent, PublikacijaComponent, PublikacijaListComponent, ProfileComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -54,6 +57,8 @@ import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/p
     MenuModule,
     DialogModule,
     DropdownModule,
+    ToggleButtonModule,
+    PasswordModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

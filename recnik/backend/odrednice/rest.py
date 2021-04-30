@@ -1,7 +1,7 @@
 # coding=utf-8
 from rest_framework import generics, permissions, status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import PermissionDenied, NotFound
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
@@ -399,3 +399,15 @@ def api_statistika_obradjivaca(request):
                 'broj_odrednica': su.broj_odrednica,
             })
     return Response(result, status=status.HTTP_200_OK, content_type=JSON)
+
+
+@api_view(['PUT'])
+def change_password(request):
+    try:
+        user = UserProxy.objects.get(id=request.user.id)
+        new_password = request.data['newPassword']
+        user.set_password(new_password)
+        user.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except:
+        raise ValidationError(detail='Није могуће променити лозинку', code=400)

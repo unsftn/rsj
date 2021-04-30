@@ -10,3 +10,5 @@ def serve_media_file(request, file_path):
     content_type, encoding = mimetypes.guess_type(absolute_path)
     response = FileResponse(open(absolute_path, 'rb'), as_attachment=True, content_type=content_type)
     return response
+
+

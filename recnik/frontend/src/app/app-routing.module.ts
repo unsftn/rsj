@@ -7,6 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { TabFormComponent } from './pages/tabForm/tabForm.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,11 @@ const routes: Routes = [
     component: PublikacijaComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' },
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '' },
 ];

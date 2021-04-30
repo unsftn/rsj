@@ -16,4 +16,8 @@ export class AuthService {
     const formData = `username=${email}&password=${password}`;
     return this.http.post('/api/token/', formData, httpOptions);
   }
+
+  changePassword(newPassword: string): Observable<any> {
+    return this.http.put('/api/odrednice/password/change/', {newPassword});
+  }
 }

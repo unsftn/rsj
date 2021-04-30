@@ -1,0 +1,37 @@
+<div class="profile-container">
+  <div class="p-d-flex p-jc-center p-mt-5">
+    <div class="p-mr-3">
+      <img src="assets/images/blank-profile-picture.png" height="100"/>
+    </div>
+    <div class="p-mr-3">
+      <div class="text name">{{user.firstName}} {{user.lastName}}</div>
+      <div class="text email">{{user.email}}</div>
+      <div class="text group">{{user.group}}</div>
+      <div class="text"><p-toggleButton [(ngModel)]="changePass" onLabel="Промена лозинке" offLabel="Промена лозинке" onIcon="pi pi-lock" offIcon="pi pi-lock" class="p-button-secondary"></p-toggleButton></div>
+      <div *ngIf="changePass" class="p-mt-3">
+        <form [formGroup]="changePassForm" novalidate action="#">
+            <p-password [formControlName]="'lozinka1'" name="lozinka1" promptLabel="Квалитет лозинке" weakLabel="Слаб" mediumLabel="Средњи" strongLabel="Јак">
+              <ng-template pTemplate="footer">
+                  <p-divider></p-divider>
+                  <p class="p-mt-2">Предлози:</p>
+                  <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                      <li>Бар једно мало слово</li>
+                      <li>Бар једно велико слово</li>
+                      <li>Бар једна цифра</li>
+                      <li>Најмање осам знакова</li>
+                  </ul>
+              </ng-template>
+            </p-password>
+          <div class="p-field p-mt-2">
+            <input type="password" [formControlName]="'lozinka2'" name="lozinka2" pInputText placeholder="Поновљена лозинка">
+          </div>
+          <div class="text p-mt-2 p-mb-2 error" *ngIf="changePassForm.errors?.mismatch && changePassForm.dirty">
+            Лозинке се не поклапају.
+          </div>
+          <button pButton type="button" class="p-button-secondary" label="Промени лозинку" (click)="onSubmit()" [disabled]="changePassForm.invalid || submitted"></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

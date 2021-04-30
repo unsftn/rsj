@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
       {
         label: 'Профил',
         icon: 'pi pi-user',
+        routerLink: ['/profile'],
         disabled: !this.signedIn(),
       },
       {
