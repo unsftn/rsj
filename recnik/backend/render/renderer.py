@@ -210,19 +210,39 @@ def render_one(odrednica):
     if odrednica.vrsta == 0:
         if odrednica.nastavak:
             html += f', {odrednica.nastavak} '
-        if odrednica.ijekavski:
-            html += f' <small>јек.</small> <b>{odrednica.ijekavski}</b>'
-        if odrednica.nastavak_ij:
-            if odrednica.ijekavski:
-                html += f', {odrednica.nastavak_ij}'
-            else:
-                html += f', <small>јек.</small> {odrednica.nastavak_ij}'
         if odrednica.varijantaodrednice_set.count() > 0:
+            varijante = []
+            for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
+                var = render_varijanta(vod.tekst, vod.nastavak)
+                if var:
+                    varijante.append(var)
+            if len(varijante) == 1:
+                html += ' и ' + varijante[0]
+            elif len(varijante) > 1:
+                html += ', ' + nabrajanje(varijante)
+        if odrednica.ijekavski or odrednica.nastavak_ij or odrednica.prezent_ij:
+            html += ', <small>јек.</small> '
+        if odrednica.ijekavski and odrednica.rec != odrednica.ijekavski:
+            html += f'<b>{odrednica.ijekavski}</b>'
+        elif odrednica.ijekavski and odrednica.rec == odrednica.ijekavski:
             html += ' и '
-            # html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
+        if odrednica.nastavak_ij:
+            html += f', {odrednica.nastavak_ij}'
+        if odrednica.varijantaodrednice_set.count() > 0:
+            varijante = []
+            for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
+                var = render_varijanta(vod.ijekavski, vod.nastavak_ij)
+                if var:
+                    varijante.append(var)
+            if len(varijante) == 1:
+                if odrednica.rec != odrednica.ijekavski:
+                    html += ' и '
+                html += varijante[0]
+            elif len(varijante) > 1:
+                html += ', ' + nabrajanje(varijante)
         html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
-            html += render_info(odrednica.info)
+            html += ' ' + render_info(odrednica.info) + ' '
 
     # glagol
     if odrednica.vrsta == 1:
