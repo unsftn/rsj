@@ -59,6 +59,14 @@ def nbsp(tekst):
     return tekst.replace(' ', '&nbsp;')
 
 
+def nabrajanje(items):
+    if len(items) == 0:
+        return ''
+    if len(items) == 1:
+        return items[0]
+    return ', '.join(items[:-1]) + ' и ' + items[-1]
+
+
 def process_special_marks(tekst):
     for mark in SPECIAL_MARKS:
         tekst = tekst.replace(mark, f'<small>{mark}</small>')
@@ -178,8 +186,13 @@ def render_info(info):
     return f' {process_tags(process_special_marks(info))} '
 
 
-def render_varijanta(var):
-    return f'<b>{var.tekst}</b>' + ((', ' + var.nastavak) if var.nastavak else '')
+def render_varijanta(tekst, nastavak, prezent=''):
+    def zarez(text):
+        return f', {text}' if text else ''
+
+    if not tekst and not nastavak and not prezent:
+        return ''
+    return f'<b>{tekst}</b>' + zarez(nastavak) + zarez(prezent)
 
 
 def render_one(odrednica):
@@ -206,30 +219,53 @@ def render_one(odrednica):
                 html += f', <small>јек.</small> {odrednica.nastavak_ij}'
         if odrednica.varijantaodrednice_set.count() > 0:
             html += ' и '
-            html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
-        html += f' <small>{ROD[odrednica.rod]}</small> '  # 4 roda
+            # html += f' {", ".join([render_varijanta(vod) for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])}'
+        html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
             html += render_info(odrednica.info)
 
     # glagol
     if odrednica.vrsta == 1:
-        if odrednica.varijantaodrednice_set.count() > 0:
-            html += f' ({", ".join([vod.tekst for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj")])})'
+        if odrednica.nastavak:
+            html += f', {odrednica.nastavak}'
         if odrednica.prezent:
             html += f', {odrednica.prezent}'
-        if odrednica.ijekavski:
-            html += f', <small>јек.</small> <b>{odrednica.ijekavski}</b>'
+        if odrednica.varijantaodrednice_set.count() > 0:
+            varijante = []
+            for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
+                var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent)
+                if var:
+                    varijante.append(var)
+            if len(varijante) == 1:
+                html += ' и ' + varijante[0]
+            elif len(varijante) > 1:
+                html += ', ' + nabrajanje(varijante)
+        if odrednica.ijekavski or odrednica.nastavak_ij or odrednica.prezent_ij:
+            html += ', <small>јек.</small> '
+        if odrednica.ijekavski and odrednica.rec != odrednica.ijekavski:
+            html += f'<b>{odrednica.ijekavski}</b>'
+        elif odrednica.ijekavski and odrednica.rec == odrednica.ijekavski:
+            html += ' и '
+        if odrednica.nastavak_ij:
+            html += f', {odrednica.nastavak_ij}'
         if odrednica.prezent_ij:
-            if odrednica.ijekavski:
-                html += f', {odrednica.prezent_ij}'
-            else:
-                html += f', <small>јек.</small> {odrednica.prezent_ij}'
+            html += f', {odrednica.prezent_ij}'
+        if odrednica.varijantaodrednice_set.count() > 0:
+            varijante = []
+            for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
+                var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij)
+                if var:
+                    varijante.append(var)
+            if len(varijante) == 1:
+                if odrednica.rec != odrednica.ijekavski:
+                    html += ' и '
+                html += varijante[0]
+            elif len(varijante) > 1:
+                html += ', ' + nabrajanje(varijante)
         if odrednica.info:
-            html += render_info(odrednica.info)
+            html += ' ' + render_info(odrednica.info) + ' '
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
-        else:
-            html += ' '
 
     # pridev
     if odrednica.vrsta == 2:
