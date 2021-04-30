@@ -44,6 +44,11 @@ urlpatterns = [
     path('stats/obradjivaci/', api_statistika_obradjivaca),
     path('password/change/', change_password),
     path('password/forgot/', forgot_password),
+    path('korisnici/obradjivaci/', get_obradjivaci),
+    path('korisnici/redaktori/', get_redaktori),
+    path('korisnici/urednici/', get_urednici),
+    path('korisnici/administratori/', get_administratori),
+    path('korisnici/<int:id>/', get_korisnik),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

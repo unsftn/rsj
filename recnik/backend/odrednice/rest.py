@@ -434,6 +434,42 @@ def forgot_password(request):
         raise ValidationError(detail='Непознат корисник', code=404)
 
 
+@api_view(['GET'])
+def get_obradjivaci(request):
+    return get_users_by_role(1)
+
+
+@api_view(['GET'])
+def get_redaktori(request):
+    return get_users_by_role(2)
+
+
+@api_view(['GET'])
+def get_urednici(request):
+    return get_users_by_role(3)
+
+
+@api_view(['GET'])
+def get_administratori(request):
+    return get_users_by_role(4)
+
+
+@api_view(['GET'])
+def get_korisnik(request, id):
+    try:
+        user = UserProxy.objects.get(id=id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)
+    except:
+        raise NotFound(detail='Није пронађен корисник са датим идентификатором', code=404)
+
+
+def get_users_by_role(role_id):
+    users = UserProxy.objects.filter(groups__id__contains=role_id)
+    serializer = UserSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)
+
+
 def generate_password():
     digits = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
               "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]

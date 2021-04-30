@@ -9,6 +9,7 @@ import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm,
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
 import * as primeri from '../../examples';
+import {UserService} from "../../services/auth/user.service";
 
 interface Variant {
   nameE: string;
@@ -69,6 +70,7 @@ export class TabFormComponent implements OnInit {
   showWarningDialog = false;
   showWaitDialog = false;
   showAccentDialog = false;
+  showOwnershipDialog = false;
   baseChar = 'а';
   accentCaretPos = 0;
   accentModelName: string;
@@ -83,6 +85,10 @@ export class TabFormComponent implements OnInit {
   dirty: boolean;
   yesHandler: () => void;
 
+  groupId: number = 0;
+  obradjivac: any;
+  redaktor: any;
+  urednik: any;
 
   primeri: MenuItem[] = [{
       label: 'ски̏нути',
@@ -127,6 +133,9 @@ export class TabFormComponent implements OnInit {
   wfObradjivac: MenuItem[] = [{
       label: 'Проследи редактору',
       command: (event) => this.toRedaktor(),
+    },{
+      label: 'Задужења на одредници',
+      command: (event) => this.showOwnership(),
   }];
   wfRedaktor: MenuItem[] = [{
       label: 'Врати на обраду',
@@ -134,6 +143,9 @@ export class TabFormComponent implements OnInit {
     },{
       label: 'Проследи уреднику',
       command: (event) => this.toUrednik(),
+    },{
+      label: 'Задужења на одредници',
+      command: (event) => this.showOwnership(),
   }];
   wfUrednik: MenuItem[] = [{
       label: 'Врати на обраду',
@@ -144,6 +156,9 @@ export class TabFormComponent implements OnInit {
     },{
       label: 'Затвори одредницу',
       command: (event) => this.toKraj(),
+    },{
+      label: 'Задужења на одредници',
+      command: (event) => this.showOwnership(),
   }];
   wfAdministrator: MenuItem[] = [{
       label: 'Врати на обраду',
@@ -157,6 +172,9 @@ export class TabFormComponent implements OnInit {
     },{
       label: 'Затвори одредницу',
       command: (event) => this.toKraj(),
+    },{
+      label: 'Задужења на одредници',
+      command: (event) => this.showOwnership(),
   }];
 
   constructor(
@@ -170,6 +188,7 @@ export class TabFormComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private domSanitizer: DomSanitizer,
     private router: Router,
+    private userService: UserService,
   ) {
     this.variants = [];
     this.isNoun = true;
@@ -368,15 +387,19 @@ export class TabFormComponent implements OnInit {
     switch (user.group) {
       case 'Администратор':
         this.workflowItems = this.wfAdministrator;
+        this.groupId = 4;
         break;
       case 'Уредник':
         this.workflowItems = this.wfUrednik;
+        this.groupId = 3;
         break;
       case 'Редактор':
         this.workflowItems = this.wfRedaktor;
+        this.groupId = 2;
         break;
       case 'Обрађивач':
         this.workflowItems = this.wfObradjivac;
+        this.groupId = 1;
         break;
     }
     this.route.data.subscribe((data) => {
@@ -648,6 +671,18 @@ export class TabFormComponent implements OnInit {
     this.changes = value.izmenaodrednice_set;
     this.notes = value.napomene;
     this.freetext = value.freetext;
+    if (value.obradjivac)
+      this.userService.getKorisnik(value.obradjivac).subscribe((data) => { this.obradjivac = data; });
+    else
+      this.obradjivac = null;
+    if (value.redaktor)
+      this.userService.getKorisnik(value.redaktor).subscribe((data) => { this.redaktor = data; });
+    else
+      this.redaktor = null;
+    if (value.urednik)
+      this.userService.getKorisnik(value.urednik).subscribe((data) => { this.urednik = data; });
+    else
+      this.urednik = null;
   }
 
   fillTestOdrednica(odrednica): void {
@@ -918,5 +953,17 @@ export class TabFormComponent implements OnInit {
         });
     };
     this.showWarningDialog = true;
+  }
+
+  showOwnership(): void {
+    this.showOwnershipDialog = true;
+  }
+
+  saveOwnership(): void {
+    this.showOwnershipDialog = false;
+  }
+
+  closeOwnership(): void {
+    this.showOwnershipDialog = false;
   }
 }
