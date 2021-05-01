@@ -1,18 +1,18 @@
 @font-face {
     font-family: 'Dijakritika';
-    src: url("file:///app/static/fonts/Dijakritika-Regular.otf");
+    src: url("file:///app/staticfiles/fonts/Dijakritika-Regular.otf");
     font-style: normal;
     font-weight: normal;
 }
 @font-face {
     font-family: 'Dijakritika';
-    src: url("file:///app/static/fonts/Dijakritika-Bold.otf");
+    src: url("file:///app/staticfiles/fonts/Dijakritika-Bold.otf");
     font-style: normal;
     font-weight: bold;
 }
 @font-face {
     font-family: 'Dijakritika';
-    src: url("file:///app/static/fonts/Dijakritika-Italic.otf");
+    src: url("file:///app/staticfiles/fonts/Dijakritika-Italic.otf");
     font-style: italic;
     font-weight: normal;
 }
