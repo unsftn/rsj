@@ -932,6 +932,10 @@ export class TabFormComponent implements OnInit {
   }
 
   saveOwnership(): void {
+    if (this.groupId === 1) {
+      this.showOwnershipDialog = false;
+      return;
+    }
     const obradjivacId = this.obradjivac.id;
     const redaktorId = this.redaktor ? this.redaktor.id : null;
     const urednikId = this.urednik ? this.urednik.id : null;

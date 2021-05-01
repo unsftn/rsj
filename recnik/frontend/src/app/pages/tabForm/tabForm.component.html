@@ -39,7 +39,10 @@
   </div>
   <div style="height: 200px"></div>
   <div class="p-d-flex p-jc-end">
-    <div><p-button label="Сачувај" (click)="saveOwnership()" styleClass="p-button-success"></p-button></div>
+    <div>
+      <p-button label="Затвори" (click)="closeOwnership()" styleClass="p-button-secondary p-mr-3"></p-button>
+      <p-button label="Сачувај" (click)="saveOwnership()" styleClass="p-button-success"></p-button>
+    </div>
   </div>
 </p-dialog>
 <p-dialog header="&nbsp;" [(visible)]="showInfoDialog" [style]="{width: '70vw'}">
