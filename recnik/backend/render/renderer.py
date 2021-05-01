@@ -269,6 +269,8 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # prilog
     if odrednica.vrsta == 3:
@@ -276,6 +278,8 @@ def render_one(odrednica):
         html += f' <small>прил.</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # predlog
     if odrednica.vrsta == 4:
@@ -283,6 +287,8 @@ def render_one(odrednica):
         html += f' <small>предл.</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # zamenica
     if odrednica.vrsta == 5:
@@ -290,6 +296,8 @@ def render_one(odrednica):
         html += f' <small>предл.</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # uzvik
     if odrednica.vrsta == 6:
@@ -297,6 +305,8 @@ def render_one(odrednica):
         html += f' <small>узв.</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # recca
     if odrednica.vrsta == 7:
@@ -304,6 +314,8 @@ def render_one(odrednica):
         html += f' <small>речца</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # veznik
     if odrednica.vrsta == 8:
@@ -311,6 +323,8 @@ def render_one(odrednica):
         html += f' <small>везн.</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # broj
     if odrednica.vrsta == 9:
@@ -318,12 +332,16 @@ def render_one(odrednica):
         html += f' <small>број</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     # ostalo
     if odrednica.vrsta == 10:
         html += render_nastavci_varijante(odrednica)
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
+        else:
+            html += ' '
 
     html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
     if odrednica.znacenje_set.count() == 1:
