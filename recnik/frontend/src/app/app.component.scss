@@ -103,3 +103,7 @@
   z-index: 5;
 }
 
+:host ::ng-deep .p-submenu-list {
+  left: -30px !important;
+  top: 20px !important;
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { of } from 'rxjs';
@@ -153,6 +153,7 @@ export class TabFormComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private router: Router,
     private userService: UserService,
+    private titleService: Title,
   ) {
     this.variants = [];
     this.isNoun = true;
@@ -590,6 +591,7 @@ export class TabFormComponent implements OnInit {
     this.id = value.id;
     this.version = value.version;
     this.wordE = value.rec;
+    this.titleService.setTitle(value.rec);
     this.wordI = value.ijekavski;
     this.extensionE = value.nastavak;
     this.extensionI = value.nastavak_ij;

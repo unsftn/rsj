@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/publikacija-list.component';
 import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
+import { AllComponent } from './pages/review/all/all.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TabFormComponent } from './pages/tabForm/tabForm.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { PersonComponent } from './pages/review/person/person.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,16 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'review/by-person',
+    component: PersonComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'review/alphabetical',
+    component: AllComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '' },

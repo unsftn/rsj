@@ -4,9 +4,9 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from odrednice.models import Odrednica
+from odrednice.models import Odrednica, UserProxy
 from odrednice.serializers import CreateOdrednicaSerializer
-from .renderer import render_many, render_one_div
+from .renderer import render_many, render_one_div, render_to_list
 from .models import TipRenderovanogDokumenta, RenderovaniDokument
 from .serializers import *
 
@@ -35,6 +35,24 @@ def render_odrednice_by(sort_order, page_size):
     """
     odrednice = Odrednica.objects.all().order_by(sort_order)[:page_size]
     return render_many(odrednice)
+
+
+@api_view(['GET'])
+def render_odrednice_obradjivaca(request, obradjivac_id):
+    try:
+        obradjivac = UserProxy.objects.get(id=obradjivac_id)
+        odrednice = Odrednica.objects.filter(obradjivac=obradjivac)
+        rendered_list = render_to_list(odrednice)
+        return Response(rendered_list, status=status.HTTP_200_OK, content_type=JSON)
+    except UserProxy.DoesNotExist:
+        return Response({'error': 'Обрађивач није пронађен'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
+
+
+@api_view(['GET'])
+def render_all(request):
+    odrednice = Odrednica.objects.all().order_by('rec')
+    rendered_list = render_to_list(odrednice)
+    return Response(rendered_list, status=status.HTTP_200_OK, content_type=JSON)
 
 
 @api_view(['POST'])

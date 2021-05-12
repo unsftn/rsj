@@ -368,6 +368,10 @@ def render_many(odrednice, css_class='odrednica'):
     return mark_safe(''.join([render_one_div(od, css_class) for od in odrednice]))
 
 
+def render_to_list(odrednice, css_class='odrednica'):
+    return [render_one_div(od, css_class) for od in odrednice]
+
+
 def font_fetcher(url):
     if url.startswith('fonts/'):
         font_path = finders.find(url)

@@ -12,4 +12,6 @@ urlpatterns = [
     path('tip-dokumenta/<int:pk>/', TipRenderovanogDokumentaDetail.as_view(), name='tip-renderovanog-dokumenta-detail'),
     path('dokument/', RenderovaniDokumentList.as_view(), name='renderovani-dokument-list'),
     path('dokument/<int:pk>/', RenderovaniDokumentDetail.as_view(), name='renderovani-dokument-detail'),
+    path('odrednice/obradjivac/<int:obradjivac_id>/', render_odrednice_obradjivaca),
+    path('odrednice/sve/', render_all),
 ]

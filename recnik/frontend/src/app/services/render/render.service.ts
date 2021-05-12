@@ -18,8 +18,16 @@ export class RenderService {
     return this.httpClient.get<Render>(`/api/render/dokument/${id}/`);
   }
 
+  getRenderiZaObradjivaca(obradjivacId: number): Observable<any> {
+    return this.httpClient.get<any>(`/api/render/odrednice/obradjivac/${obradjivacId}/`);
+  }
+
+  getRenderiSvi(): Observable<any> {
+    return this.httpClient.get<any>(`/api/render/odrednice/sve/`);
+  }
+
   download(render: Render): void {
-    const filename = render.rendered_file.substring(render.rendered_file.lastIndexOf('/')+1);
+    const filename = render.rendered_file.substring(render.rendered_file.lastIndexOf('/') + 1);
     const token = this.tokenStorageService.getAccessToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     this.httpClient.get(render.rendered_file, { headers, responseType: 'blob' as 'json'}).subscribe(

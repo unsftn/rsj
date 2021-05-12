@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
 import { ErrorInterceptor } from './services/error';
@@ -25,16 +26,21 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { PasswordModule } from 'primeng/password';
 
-import { HomeModule } from './pages/home/home.module';
+// import { HomeModule } from './pages/home/home.module';
 import { TabFormModule } from './pages/tabForm/tabForm.module';
 import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
 import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/publikacija-list.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { PersonComponent } from './pages/review/person/person.component';
+import { RenderedOdredniceComponent } from './pages/rendered-odrednice/rendered-odrednice.component';
+import { HomeComponent } from './pages/home/home.component';
+import { AllComponent } from './pages/review/all/all.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RendersComponent, PublikacijaComponent, PublikacijaListComponent, ProfileComponent],
+  declarations: [AppComponent, LoginComponent, RendersComponent, PublikacijaComponent, PublikacijaListComponent,
+    ProfileComponent, PersonComponent, RenderedOdredniceComponent, HomeComponent, AllComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -50,7 +56,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
     TabViewModule,
     TabFormModule,
     ToastModule,
-    HomeModule,
+    //HomeModule,
     AutoCompleteModule,
     TableModule,
     ToolbarModule,

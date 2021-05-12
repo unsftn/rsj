@@ -101,6 +101,23 @@ export class AppComponent implements OnInit {
         disabled: !this.isAdmin(),
       },
       {
+        label: 'Прегледи',
+        icon: 'pi pi-fw pi-calendar',
+        disabled: !this.isAdmin(),
+        items: [
+          {
+            label: 'По обрађивачу',
+            icon: 'pi pi-users',
+            routerLink: ['/review/by-person'],
+          },
+          {
+            label: 'Азбучни преглед',
+            icon: 'pi pi-sort-alpha-up',
+            routerLink: ['/review/alphabetical'],
+          },
+        ]
+      },
+      {
         separator: true,
       },
       {
