@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.odrednicaService.my(20).subscribe(
+    this.odrednicaService.my(100).subscribe(
       (data) => this.myDeterminants = data,
       (error) => console.log(error)
     );
