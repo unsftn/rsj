@@ -84,6 +84,11 @@ def process_special_marks(tekst):
         if tekst.endswith(f' {znak}'):
             tekst = tekst[:-2] + f' <small>{znak}</small>'
         tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
+    tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
+    tekst = tekst.replace(f' {znak}) ', f' <small>{znak}</small>) ')
+    tekst = tekst.replace(f' ({znak} ', f' (<small>{znak}</small>) ')
+    tekst = tekst.replace(f' {znak}] ', f' <small>{znak}</small>] ')
+    tekst = tekst.replace(f' [{znak} ', f' [<small>{znak}</small> ')
     return tekst
 
 
