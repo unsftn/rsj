@@ -30,6 +30,6 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.uns.ac.rs'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'mbranko'
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = read_or_get('/private/secrets', 'EMAIL_HOST_USER', '******')
 EMAIL_HOST_PASSWORD = read_or_get('/private/secrets', 'EMAIL_HOST_PASSWORD', '**********')
