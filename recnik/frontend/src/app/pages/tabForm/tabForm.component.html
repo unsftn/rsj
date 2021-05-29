@@ -72,10 +72,10 @@
   <button pButton label="&#x2205;" (click)="insertAccent('\u2205')" class="accent-button p-mr-3" *ngIf="accentModelName==='details'"></button>
 </p-dialog>
 <div class="basic-information-container">
-  <div class="p-d-flex p-flex-column p-flex-md-row">
-    <div class="p-col-5">
-      <div class="p-d-flex">
-        <div class="p-col-12 p-md-4 p-lg-3">
+  <div class="p-d-flex p-flex-column p-flex-xl-row" style="background-color: blue">
+    <div class="p-lg-12 p-xl-5 p-md-12 p-sm-12 p-col-12" style="background: yellow">
+      <div class="p-d-flex" style="background: purple">
+        <div class="p-col-12 p-md-4 p-lg-3" style="background: red">
           <p class="label p-m-0">Реч:</p>
         </div>
         <div class="p-col-12 p-md-8 p-lg-9">
@@ -293,7 +293,7 @@
         </textarea>
       </div>
     </div>
-    <div class="p-col-7">
+    <div class="p-lg-12 p-xl-7 p-md-12 p-sm-12 p-col-12" style="background-color: lightgray;">
       <div class="tab-container">
         <p-tabView>
           <p-tabPanel header="Значења">
