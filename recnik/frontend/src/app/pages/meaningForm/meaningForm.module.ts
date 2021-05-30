@@ -15,6 +15,7 @@ import { QualificatorModule } from '../qualificators/qualificator.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
 
 import { MeaningFormComponent } from './meaningForm.component';
+import { ShortCollocationModule } from '../short-collocation/short-collocation.module';
 
 @NgModule({
   declarations: [MeaningFormComponent],
@@ -31,6 +32,7 @@ import { MeaningFormComponent } from './meaningForm.component';
     SubmeaningModule,
     QualificatorModule,
     ExpressionsModule,
+    ShortCollocationModule,
   ],
   exports: [MeaningFormComponent],
   providers: [],

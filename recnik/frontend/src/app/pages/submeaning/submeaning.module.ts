@@ -14,6 +14,7 @@ import { ConcordanceModule } from '../concordance/concordance.module';
 import { QualificatorModule } from '../qualificators/qualificator.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
 import { FieldsetModule } from 'primeng/fieldset';
+import { ShortCollocationModule } from '../short-collocation/short-collocation.module';
 
 @NgModule({
   declarations: [SubmeaningComponent],
@@ -29,6 +30,7 @@ import { FieldsetModule } from 'primeng/fieldset';
     QualificatorModule,
     FieldsetModule,
     ExpressionsModule,
+    ShortCollocationModule,
   ],
   exports: [SubmeaningComponent],
   providers: [],

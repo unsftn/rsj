@@ -70,5 +70,4 @@ export class MeaningFormComponent implements OnInit {
       this.baseChar = event.target.value[this.caretPos - 1];
     }
   }
-
 }

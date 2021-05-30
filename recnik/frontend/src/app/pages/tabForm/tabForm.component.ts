@@ -449,6 +449,22 @@ export class TabFormComponent implements OnInit {
     return false;
   }
 
+  emptyShortCollocation(): boolean {
+    for (const z of this.meanings) {
+      for (const coll of z.collocations) {
+        if (!coll.tekst)
+          return true;
+        for (const podz of z.submeanings) {
+          for (const coll2 of podz.collocations) {
+            if (!coll2.tekst)
+              return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   check(): boolean {
     try {
       this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');
@@ -457,6 +473,7 @@ export class TabFormComponent implements OnInit {
       this.assert(this.emptySynonym(), '<p>Постоји (бар) један празан синоним.</p>');
       this.assert(this.emptyAntonym(), '<p>Постоји (бар) један празан антоним.</p>');
       this.assert(this.emptyCollocation(), '<p>Постоји (бар) једна празна одредница у колокацијама.</p>');
+      this.assert(this.emptyShortCollocation(), '<p>Постоји (бар) једна празна колокација у оквиру значења или подзначења.</p>');
       return true;
     } catch (e) {
       return false;
@@ -567,6 +584,12 @@ export class TabFormComponent implements OnInit {
                 publikacija_id: c.bookId ? c.bookId : null,
               };
             }),
+            kolokacije: pz.collocations.map((coll, idx2) => {
+              return {
+                redni_broj: idx2 + 1,
+                tekst: coll.tekst
+              }
+            }),
           };
         }),
         izrazi_fraze: z.expressions.map((value, idx) => {
@@ -597,6 +620,12 @@ export class TabFormComponent implements OnInit {
             opis: c.concordance.trim(),
             publikacija_id: c.bookId ? c.bookId : null,
           };
+        }),
+        kolokacije: z.collocations.map((coll, idx) => {
+          return {
+            redni_broj: idx + 1,
+            tekst: coll.tekst
+          }
         }),
       };
     }) : [];
@@ -674,16 +703,6 @@ export class TabFormComponent implements OnInit {
       this.urednik = null;
   }
 
-  fillTestOdrednica(odrednica): void {
-    if (this.editMode) {
-      this.message = 'Унос примера одреднице могућ је само у режиму уноса нове одреднице, не и уређивања постојеће.';
-      this.showInfoDialog = true;
-      this.nextRoute = [];
-      return;
-    }
-    this.fillForm(odrednica);
-  }
-
   makeMeanings(znacenja): any[] {
     return znacenja.map(z => ({
       value: z.tekst,
@@ -699,6 +718,7 @@ export class TabFormComponent implements OnInit {
       }),
       qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
       concordances: z.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
+      collocations: z.kolokacijaznacenja_set.map((kol) => ({tekst: kol.tekst})),
       submeanings: z.podznacenje_set.map((pz) => ({
         value: pz.tekst,
         expressions: pz.izrazfraza_set.map((e, idx) => {
@@ -713,6 +733,7 @@ export class TabFormComponent implements OnInit {
         }),
         qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
         concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
+        collocations: pz.kolokacijapodznacenja_set.map((kol) => ({tekst: kol.tekst})),
     }))}));
   }
 

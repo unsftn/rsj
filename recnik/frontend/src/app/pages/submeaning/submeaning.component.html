@@ -69,6 +69,11 @@
           <expressions [expressions]="submeanings[i].expressions" (expressionsChange)="onChange()"></expressions>
         </p-fieldset>
       </div>
+      <div style="margin-top: 20px;">
+        <p-fieldset legend="Колокације:" [toggleable]="true" collapsed="true">
+          <short-collocations [shortCollocations]="submeanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
+        </p-fieldset>
+      </div>
     </div>
   </div>
 </form>

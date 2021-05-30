@@ -1,4 +1,4 @@
-<p-dialog header="Унос наводника" [(visible)]="showQuotesDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
+<p-dialog header="Унос знакова" [(visible)]="showQuotesDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
   <button pButton label="„" (click)="insertQuote('„')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="”" (click)="insertQuote('”')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="’" (click)="insertQuote('’')" class="accent-button p-mr-3 p-mb-2"></button>
@@ -72,6 +72,11 @@
             <div class="p-mr-2" style="margin-top: 10px;">
               <p-fieldset legend="Изрази и фразе:" [toggleable]="true" collapsed="true">
                 <expressions [expressions]="meanings[i].expressions" (expressionsChange)="onChange()"></expressions>
+              </p-fieldset>
+            </div>
+            <div class="p-mr-2" style="margin-top: 10px;">
+              <p-fieldset legend="Колокације:" [toggleable]="true" collapsed="true">
+                <short-collocations [shortCollocations]="meanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
               </p-fieldset>
             </div>
           </div>

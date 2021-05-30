@@ -454,6 +454,40 @@ class KvalifikatorFraze(models.Model):
         return reverse("odrednice:kvalifikator-fraze-detail", kwargs={"pk": self.pk})
 
 
+class KolokacijaZnacenja(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    znacenje = models.ForeignKey(Znacenje, verbose_name='значење', on_delete=models.CASCADE)
+    tekst = models.CharField('текст', max_length=2000, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'колокација значења'
+        verbose_name_plural = 'колокације значења'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
+
+    def __str__(self):
+        return f'{str(self.znacenje)} [{self.redni_broj}] {self.tekst}'
+
+
+class KolokacijaPodznacenja(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    podznacenje = models.ForeignKey(Podznacenje, verbose_name='значење', on_delete=models.CASCADE)
+    tekst = models.CharField('текст', max_length=2000, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'колокација подзначења'
+        verbose_name_plural = 'колокације подзначења'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+        ]
+
+    def __str__(self):
+        return f'{str(self.podznacenje)} [{self.redni_broj}] {self.tekst}'
+
+
 class StatistikaUnosa(models.Model):
     vreme = models.DateTimeField('време генерисања')
 

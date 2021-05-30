@@ -164,10 +164,19 @@ def render_kvalifikatori(kvalifikatori):
     return tekst
 
 
+def render_kratke_kolokacije(kolokacija):
+    return f'<i>{tacka(process_tags(kolokacija.tekst, True))}</i>'
+
+
 def render_podznacenje(podznacenje):
     tekst = '' + render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
 
-    tekst += f'{tacka(process_tags(podznacenje.tekst))}'
+    if podznacenje.kolokacijapodznacenja_set.count() > 0:
+        tekst += f'{dvotacka(process_tags(podznacenje.tekst))}'
+        for kol in podznacenje.kolokacijapodznacenja_set.all().order_by('redni_broj'):
+            tekst += ' ' + render_kratke_kolokacije(kol)
+    else:
+        tekst += f'{tacka(process_tags(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
         # tekst = dvotacka(tekst)
@@ -181,7 +190,12 @@ def render_podznacenje(podznacenje):
 def render_znacenje(znacenje):
     tekst = '' + render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
 
-    tekst += f'{tacka(process_tags(znacenje.tekst))}'
+    if znacenje.kolokacijaznacenja_set.count() > 0:
+        tekst += f'{dvotacka(process_tags(znacenje.tekst))}'
+        for kol in znacenje.kolokacijaznacenja_set.all().order_by('redni_broj'):
+            tekst += ' ' + render_kratke_kolokacije(kol)
+    else:
+        tekst += f'{tacka(process_tags(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
         # tekst = dvotacka(tekst)

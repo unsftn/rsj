@@ -25,8 +25,6 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { PasswordModule } from 'primeng/password';
-
-// import { HomeModule } from './pages/home/home.module';
 import { TabFormModule } from './pages/tabForm/tabForm.module';
 import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
 import { LoginComponent } from './pages/login/login.component';
