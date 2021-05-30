@@ -93,7 +93,7 @@
                      (focusout)="onFocusLeave()"
                      (keyup)="keyup($event, 'wordI')" style="width:150px"/>
             </div>
-            <div class="p-mt-2" *ngIf="isVerb" style="background: greenyellow">
+            <div class="p-mt-2" *ngIf="isVerb">
               <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"
                           (ngModelChange)="onValueChange($event)"
                           (focusout)="onFocusLeave()"></p-checkbox>
@@ -163,6 +163,11 @@
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.nameI', i)" style="width:150px"/>
+                </div>
+                <div class="p-mt-2" *ngIf="isVerb">
+                  <p-checkbox [binary]="true" label="(се)" [(ngModel)]="variants[i].optionalSe"
+                              (ngModelChange)="onValueChange($event)" [ngModelOptions]="{standalone: true}"
+                              (focusout)="onFocusLeave()"></p-checkbox>
                 </div>
                 <div class="p-mr-2" style="width: 200px">
                   <button

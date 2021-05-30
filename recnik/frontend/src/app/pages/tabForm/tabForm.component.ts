@@ -18,6 +18,7 @@ interface Variant {
   extensionI: string;
   presentE: string;
   presentI: string;
+  optionalSe: boolean;
 }
 
 @Component({
@@ -220,7 +221,7 @@ export class TabFormComponent implements OnInit {
   }
 
   addVariant(): void {
-    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '' });
+    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '', optionalSe: false });
   }
 
   removeVariant(variant): void {
@@ -475,6 +476,7 @@ export class TabFormComponent implements OnInit {
           nastavak_ij: variant.extensionI.trim(),
           prezent: variant.presentE.trim(),
           prezent_ij: variant.presentI.trim(),
+          opciono_se: variant.optionalSe,
         };
       }),
       vrsta: this.selectedWordType?.id,
@@ -597,7 +599,7 @@ export class TabFormComponent implements OnInit {
     this.extensionI = value.nastavak_ij;
     this.variants = [];
     for (const v of value.varijantaodrednice_set) {
-      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij });
+      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij, optionalSe: v.opciono_se ? true : false });
     }
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);

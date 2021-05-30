@@ -200,13 +200,13 @@ def render_info(info):
     return f' {process_tags(process_special_marks(info))} '
 
 
-def render_varijanta(tekst, nastavak, prezent=''):
+def render_varijanta(tekst, nastavak, prezent='', opciono_se=False):
     def zarez(text):
         return f', {text}' if text else ''
 
     if not tekst and not nastavak and not prezent:
         return ''
-    return f'<b>{tekst}</b>' + zarez(nastavak) + zarez(prezent)
+    return f'<b>{tekst} {"(ce)" if opciono_se else ""}</b>' + zarez(nastavak) + zarez(prezent)
 
 
 def render_nastavci_varijante(odrednica):
@@ -218,7 +218,7 @@ def render_nastavci_varijante(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent)
+            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se)
             if var:
                 varijante.append(var)
         if len(varijante) == 1:
@@ -238,7 +238,7 @@ def render_nastavci_varijante(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij)
+            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se)
             if var:
                 varijante.append(var)
         if len(varijante) == 1:
