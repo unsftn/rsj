@@ -28,7 +28,7 @@
             <div class="p-d-flex p-flex-column">
               <div class="p-mb-2">
                 <p class="label">Значење {{i + 1}}:</p>
-                <textarea rows="2" cols="80" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel"
+                <textarea rows="2" cols="60" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel"
                           (ngModelChange)="onValueChange($event)"
                           (focusout)="onFocusLeave()"
                           (keyup)="keyup($event, i)"></textarea>
