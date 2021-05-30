@@ -1,6 +1,6 @@
 <div class="home-container">
   <div class="p-grid">
-    <div class="p-col-4">
+    <div class="p-sm-12 p-md-12 p-lg-4 p-xl-4">
       <p-fieldset legend="Моје активности">
         <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="20">
           <ng-template pTemplate="header">
@@ -21,12 +21,12 @@
         </p-table>
       </p-fieldset>
     </div>
-    <div class="p-col-4">
+    <div class="p-sm-12 p-md-12 p-lg-4 p-xl-4">
       <p-fieldset legend="Последње измене">
         <app-rendered-odrednice source="/api/render/odrednice/latest/10/" [isTrusted]="true"></app-rendered-odrednice>
       </p-fieldset>
     </div>
-    <div class="p-col-4">
+    <div class="p-sm-12 p-md-12 p-lg-4 p-xl-4">
       <p-fieldset legend="Динамика обраде">
         <p-table [value]="users">
           <ng-template pTemplate="header">
