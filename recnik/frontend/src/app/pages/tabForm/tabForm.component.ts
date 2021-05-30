@@ -595,6 +595,7 @@ export class TabFormComponent implements OnInit {
     this.wordI = value.ijekavski;
     this.extensionE = value.nastavak;
     this.extensionI = value.nastavak_ij;
+    this.variants = [];
     for (const v of value.varijantaodrednice_set) {
       this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij });
     }
