@@ -63,13 +63,13 @@
     <p-progressSpinner></p-progressSpinner>
   </div>
 </p-dialog>
-<p-dialog header="Избор акцента" [(visible)]="showAccentDialog" [style]="{width: '50vw'}" [resizable]="false" [modal]="true" [closable]="true">
-  <button pButton label="{{baseChar}}̀" (click)="insertAccent('̀')" class="accent-button p-mr-3"></button>
-  <button pButton label="{{baseChar}}̄" (click)="insertAccent('̄')" class="accent-button p-mr-3"></button>
-  <button pButton label="{{baseChar}}̏" (click)="insertAccent('̏')" class="accent-button p-mr-3"></button>
-  <button pButton label="{{baseChar}}́" (click)="insertAccent('́')" class="accent-button p-mr-3"></button>
-  <button pButton label="{{baseChar}}̑" (click)="insertAccent('̑')" class="accent-button p-mr-3"></button>
-  <button pButton label="&#x2205;" (click)="insertAccent('\u2205')" class="accent-button p-mr-3" *ngIf="accentModelName==='details'"></button>
+<p-dialog header="Унос знакова" [(visible)]="showAccentDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
+  <button pButton label="{{baseChar}}̀" (click)="insertAccent('̀')" class="accent-button p-mr-3 p-mb-2"></button>
+  <button pButton label="{{baseChar}}̄" (click)="insertAccent('̄')" class="accent-button p-mr-3 p-mb-2"></button>
+  <button pButton label="{{baseChar}}̏" (click)="insertAccent('̏')" class="accent-button p-mr-3 p-mb-2"></button>
+  <button pButton label="{{baseChar}}́" (click)="insertAccent('́')" class="accent-button p-mr-3 p-mb-2"></button>
+  <button pButton label="{{baseChar}}̑" (click)="insertAccent('̑')" class="accent-button p-mr-3 p-mb-2"></button>
+  <button pButton label="&#x2205;" (click)="insertAccent('\u2205')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
 </p-dialog>
 
 <div class="basic-information-container">

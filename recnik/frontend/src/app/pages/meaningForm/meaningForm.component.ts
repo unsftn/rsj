@@ -16,6 +16,7 @@ export class MeaningFormComponent implements OnInit {
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  baseChar = 'a';
   dirty: boolean;
 
   add(scrollToBottom: boolean = false): void {
@@ -66,6 +67,7 @@ export class MeaningFormComponent implements OnInit {
       this.caretIndex = index;
       this.caretTarget = event.target;
       this.showQuotesDialog = true;
+      this.baseChar = event.target.value[this.caretPos - 1];
     }
   }
 

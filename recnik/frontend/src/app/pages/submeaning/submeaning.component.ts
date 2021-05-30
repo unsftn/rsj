@@ -16,6 +16,7 @@ export class SubmeaningComponent implements OnInit {
   caretPos: number;
   caretIndex: number;
   caretTarget: HTMLTextAreaElement;
+  baseChar = 'a';
   dirty: boolean;
 
   constructor(private primengConfig: PrimeNGConfig) {}
@@ -50,6 +51,7 @@ export class SubmeaningComponent implements OnInit {
       this.caretIndex = index;
       this.caretTarget = event.target;
       this.showQuotesDialog = true;
+      this.baseChar = event.target.value[this.caretPos - 1];
     }
   }
 
