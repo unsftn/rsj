@@ -544,6 +544,13 @@ export class TabFormComponent implements OnInit {
                 opis: value.value.trim(),
                 tekst: value.tekst.trim(),
                 vezana_odrednica_id: value.determinantId ? value.determinantId : null,
+                kvalifikatori: value.qualificators.map((q, idx3) => {
+                  return {
+                    redni_broj: idx3 + 1,
+                    kvalifikator_id: q.id,
+                    skracenica: q.abbreviation
+                  }
+                }),
               };
             }),
             kvalifikatori: pz.qualificators.map((q, idx2) => {
@@ -568,6 +575,13 @@ export class TabFormComponent implements OnInit {
             opis: value.value.trim(),
             tekst: value.tekst.trim(),
             vezana_odrednica_id: value.determinantId ? value.determinantId : null,
+            kvalifikatori: value.qualificators.map((q, idx2) => {
+              return {
+                redni_broj: idx2 + 1,
+                kvalifikator_id: q.id,
+                skracenica: q.abbreviation
+              }
+            }),
           };
         }),
         kvalifikatori: z.qualificators.map((q, idx) => {
