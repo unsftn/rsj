@@ -26,6 +26,7 @@ REGEX_BOLD = re.compile('@+(.*?)@+')
 REGEX_ITALIC = re.compile('#+(.*?)#+')
 REGEX_SMALL = re.compile('\\$+(.*?)\\$+')
 REGEX_SMALL_BOLD = re.compile('%+(.*?)%+')
+REGEX_SUPERSCRIPT = re.compile('\\^+(.*?)\\^+')
 
 
 def touch(path):
@@ -120,11 +121,19 @@ def process_percent(tekst, in_italic=False):
         return REGEX_SMALL_BOLD.sub('<small><b>\\1</b></small>', tekst)
 
 
+def process_circumflex(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_SUPERSCRIPT.sub('</i><sup>\\1</sup><i>', tekst)
+    else:
+        return REGEX_SUPERSCRIPT.sub('<sup>\\1</sup>', tekst)
+
+
 def process_tags(tekst, in_italic=False):
     retval = process_monkey(
         process_dollar(
             process_hash(
-                process_percent(tekst, in_italic), in_italic), in_italic), in_italic)
+                process_percent(
+                    process_circumflex(tekst, in_italic), in_italic), in_italic), in_italic), in_italic)
     if retval.endswith('<i>') or retval.endswith('<b>'):
         retval = retval[:-3]
     return retval
