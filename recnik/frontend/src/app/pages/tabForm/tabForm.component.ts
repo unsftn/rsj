@@ -476,6 +476,7 @@ export class TabFormComponent implements OnInit {
       this.assert(this.emptyShortCollocation(), '<p>Постоји (бар) једна празна колокација у оквиру значења или подзначења.</p>');
       return true;
     } catch (e) {
+      console.log(e);
       return false;
     }
   }

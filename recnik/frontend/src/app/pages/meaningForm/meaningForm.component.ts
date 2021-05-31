@@ -20,7 +20,7 @@ export class MeaningFormComponent implements OnInit {
   dirty: boolean;
 
   add(scrollToBottom: boolean = false): void {
-    this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [] });
+    this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [], collocations: [] });
     this.meaningsChange.emit();
     if (scrollToBottom) {
       setTimeout(() => { scrollTo(0, document.body.scrollHeight); });

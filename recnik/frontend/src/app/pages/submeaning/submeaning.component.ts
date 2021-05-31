@@ -22,7 +22,7 @@ export class SubmeaningComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
   add(): void {
-    this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [] });
+    this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [], collocations: [] });
     this.submeaningsChange.emit();
   }
 
