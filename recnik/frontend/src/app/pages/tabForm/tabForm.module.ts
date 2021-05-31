@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TabFormComponent } from './tabForm.component';
 import { TabViewModule } from 'primeng/tabview';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { ListboxModule } from 'primeng/listbox';
 import { ButtonModule } from 'primeng/button';
@@ -29,6 +30,7 @@ import { QualificatorModule } from '../qualificators/qualificator.module';
     BrowserModule,
     TabViewModule,
     InputTextModule,
+    InputTextareaModule,
     DropdownModule,
     FormsModule,
     ListboxModule,

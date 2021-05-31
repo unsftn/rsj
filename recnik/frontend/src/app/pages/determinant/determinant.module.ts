@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 import { TagModule } from 'primeng/tag';
 import { InputTextModule } from 'primeng/inputtext';
 import { DeterminantComponent } from './determinant.component';
@@ -18,6 +19,7 @@ import { DeterminantComponent } from './determinant.component';
     AutoCompleteModule,
     TagModule,
     InputTextModule,
+    RippleModule,
   ],
   exports: [DeterminantComponent],
   providers: [],
