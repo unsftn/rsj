@@ -34,24 +34,24 @@ def touch(path):
         os.utime(path, None)
 
 
-def dvotacka(tekst):
+def interpunkcija(tekst, znak):
     if len(tekst) < 1:
         return tekst
-    if tekst[-1] == '.':
-        return tekst[:-1] + ': '
-    return tekst + ': '
+    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] == znak:
+        return tekst
+    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] == znak:
+        return tekst
+    if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
+        return tekst + znak
+    return tekst
+
+
+def dvotacka(tekst):
+    return interpunkcija(tekst, ':')
 
 
 def tacka(tekst):
-    if len(tekst) < 1:
-        return tekst
-    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] == '.':
-        return tekst
-    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] == '.':
-        return tekst
-    if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
-        return tekst + '.'
-    return tekst
+    return interpunkcija(tekst, '.')
 
 
 def nbsp(tekst):
@@ -165,21 +165,20 @@ def render_kvalifikatori(kvalifikatori):
 
 
 def render_kratke_kolokacije(kolokacija):
-    return f'<i>{tacka(process_tags(kolokacija.tekst, True))}</i>'
+    return f'<i>{process_tags(kolokacija.tekst, True)}</i>'
 
 
 def render_podznacenje(podznacenje):
     tekst = '' + render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
 
     if podznacenje.kolokacijapodznacenja_set.count() > 0:
-        tekst += f'{dvotacka(process_tags(podznacenje.tekst))}'
-        for kol in podznacenje.kolokacijapodznacenja_set.all().order_by('redni_broj'):
-            tekst += ' ' + render_kratke_kolokacije(kol)
+        tekst += f'{dvotacka(process_tags(podznacenje.tekst))} '
+        tekst += ', '.join([render_kratke_kolokacije(kol) for kol in podznacenje.kolokacijapodznacenja_set.all().order_by('redni_broj')])
+        tekst = tacka(tekst)
     else:
         tekst += f'{tacka(process_tags(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
-        # tekst = dvotacka(tekst)
         tekst = tacka(tekst) + ' &mdash; '
         tekst += render_konkordanse(podznacenje.konkordansa_set.all().order_by('redni_broj'))
 
@@ -189,16 +188,14 @@ def render_podznacenje(podznacenje):
 
 def render_znacenje(znacenje):
     tekst = '' + render_kvalifikatori(znacenje.kvalifikatorznacenja_set.all().order_by('redni_broj'))
-
     if znacenje.kolokacijaznacenja_set.count() > 0:
-        tekst += f'{dvotacka(process_tags(znacenje.tekst))}'
-        for kol in znacenje.kolokacijaznacenja_set.all().order_by('redni_broj'):
-            tekst += ' ' + render_kratke_kolokacije(kol)
+        tekst += f'{dvotacka(process_tags(znacenje.tekst))} '
+        tekst += ', '.join([render_kratke_kolokacije(kol) for kol in znacenje.kolokacijaznacenja_set.all().order_by('redni_broj')])
+        tekst = tacka(tekst)
     else:
         tekst += f'{tacka(process_tags(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
-        # tekst = dvotacka(tekst)
         tekst = tacka(tekst) + ' &mdash; '
         tekst += render_konkordanse(znacenje.konkordansa_set.all().order_by('redni_broj'))
 
