@@ -408,13 +408,16 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
-def render_slovo(slovo, file_format='pdf'):
+def render_slovo(slovo, file_format='pdf', status=None):
     try:
         trd = TipRenderovanogDokumenta.objects.get(id=1)
     except TipRenderovanogDokumenta.DoesNotExist:
         log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
         return
-    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).order_by('rec', 'rbr_homonima')
+    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower())
+    if status:
+        odrednice = odrednice.filter(status_id=status)
+    odrednice = odrednice.order_by('rec', 'rbr_homonima')
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     if file_format == 'pdf':
@@ -425,7 +428,7 @@ def render_slovo(slovo, file_format='pdf'):
         return None
 
 
-def render_recnik(file_format='pdf'):
+def render_recnik(file_format='pdf', status=None):
     try:
         trd = TipRenderovanogDokumenta.objects.get(id=2)
     except TipRenderovanogDokumenta.DoesNotExist:
@@ -433,7 +436,10 @@ def render_recnik(file_format='pdf'):
         return
     slova = []
     for s in AZBUKA:
-        odrednice = Odrednica.objects.filter(rec__startswith=s).order_by('rec', 'rbr_homonima')
+        odrednice = Odrednica.objects.filter(rec__startswith=s)
+        if status:
+            odrednice = odrednice.filter(status_id=status)
+        odrednice = odrednice.order_by('rec', 'rbr_homonima')
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
