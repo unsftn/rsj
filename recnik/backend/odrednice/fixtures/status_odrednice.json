@@ -1,0 +1,30 @@
+[
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 1,
+    "fields": {
+      "naziv": "За речник"
+    }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 2,
+    "fields": {
+      "naziv": "Проширена обрада 1"
+    }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 3,
+    "fields": {
+      "naziv": "Проширена обрада 2"
+    }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 4,
+    "fields": {
+      "naziv": "Проширена обрада 3"
+    }
+  }
+]

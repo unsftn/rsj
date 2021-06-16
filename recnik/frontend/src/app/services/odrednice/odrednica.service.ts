@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Determinant } from '../../models';
+import { EMPTY, Observable } from 'rxjs';
+import { Determinant, DeterminantStatus } from '../../models';
+import { catchError, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OdrednicaService {
+
+  statusCache: Observable<DeterminantStatus[]>;
+
   constructor(private httpClient: HttpClient) {}
 
   get(id: number): Observable<any> {
@@ -60,4 +64,19 @@ export class OdrednicaService {
   zaduzenja(id: number, obradjivac: number, redaktor: number, urednik: number): Observable<any> {
     return this.httpClient.put(`/api/odrednice/workflow/zaduzenja/${id}/`, {obradjivac, redaktor, urednik});
   }
+
+  getStatuses(): Observable<DeterminantStatus[]> {
+    if (this.statusCache) {
+      return this.statusCache;
+    }
+    this.statusCache = this.httpClient.get<DeterminantStatus[]>('/api/odrednice/status-odrednice/').pipe(
+      shareReplay(1),
+      catchError((err) => {
+        this.statusCache = null;
+        return EMPTY;
+      })
+    );
+    return this.statusCache;
+  }
+
 }

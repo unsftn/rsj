@@ -151,6 +151,12 @@ class VarijantaOdredniceSerializer(serializers.ModelSerializer):
                   'opciono_se')
 
 
+class StatusOdredniceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StatusOdrednice
+        fields = ('id', 'naziv')
+
+
 class OdrednicaSerializer(serializers.ModelSerializer):
     ima_antonim = AntonimSerializer(many=True, read_only=True)
     ima_sinonim = SinonimSerializer(many=True, read_only=True)
@@ -168,7 +174,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim',
                   'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
                   'izmenaodrednice_set', 'opciono_se', 'rbr_homonima', 'obradjivac', 'redaktor', 'urednik', 'napomene',
-                  'freetext')
+                  'freetext', 'status')
 
 
 # insert/update serializers
@@ -309,6 +315,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
     rbr_homonima = serializers.IntegerField(required=False, allow_null=True)
     kolokacije = serializers.ListField(child=CreateKolokacijaSerializer(), required=False)
+    status_id = serializers.IntegerField(required=False, allow_null=True)
 
     def instantiate(self):
         return self._save(self.validated_data, None, 'memory')

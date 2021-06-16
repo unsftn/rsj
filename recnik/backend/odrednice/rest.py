@@ -12,6 +12,20 @@ from .models import *
 from .serializers import *
 
 
+class StatusList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = StatusOdrednice.objects.all()
+    serializer_class = StatusOdredniceSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['naziv']
+
+
+class StatusDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = StatusOdrednice.objects.all()
+    serializer_class = StatusOdredniceSerializer
+
+
 class AntonimList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Antonim.objects.all()

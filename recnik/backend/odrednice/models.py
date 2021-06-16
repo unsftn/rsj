@@ -86,6 +86,18 @@ class UserProxy(User):
         return group.id == group_id
 
 
+class StatusOdrednice(models.Model):
+    naziv = models.CharField('назив', max_length=50)
+
+    def __str__(self):
+        return self.naziv
+
+    class Meta:
+        verbose_name = 'статус одреднице'
+        verbose_name_plural = 'статуси одредница'
+        ordering = ['id']
+
+
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
     ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
@@ -110,6 +122,7 @@ class Odrednica(models.Model):
     urednik = models.ForeignKey(UserProxy, verbose_name='уредник', on_delete=models.PROTECT, related_name='odrednice_urednika', blank=True, null=True)
     napomene = models.TextField('напомене', max_length=2000, blank=True, null=True)
     freetext = models.TextField('алтернативни опис', max_length=2000, blank=True, null=True)
+    status = models.ForeignKey(StatusOdrednice, verbose_name='статус одреднице', null=True, blank=True, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.rec if self.rec else '-'

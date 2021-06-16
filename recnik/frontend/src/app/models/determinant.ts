@@ -16,6 +16,7 @@ export interface Determinant {
   version: number;
   opciono_se?: boolean;
   rbr_homonima?: number;
+  status_id?: number;
   napomene: string;
   freetext: string;
   kvalifikatori: any[];
@@ -24,4 +25,9 @@ export interface Determinant {
   sinonimi: any[];
   antonimi: any[];
   kolokacije: any[];
+}
+
+export interface DeterminantStatus {
+  id: number;
+  naziv: string;
 }

@@ -5,7 +5,16 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 import { of } from 'rxjs';
-import { Gender, StanjeOdrednice, Determinant, Qualificator, VerbKind, VerbForm, WordType } from '../../models';
+import {
+  Gender,
+  StanjeOdrednice,
+  Determinant,
+  Qualificator,
+  VerbKind,
+  VerbForm,
+  WordType,
+  DeterminantStatus
+} from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
 import * as primeri from '../../examples';
@@ -50,6 +59,8 @@ export class TabFormComponent implements OnInit {
   selectedWordType: WordType;
   selectedState: StanjeOdrednice;
   qualificators: Qualificator[] = [];
+  selectedStatus: DeterminantStatus;
+  statuses: DeterminantStatus[];
   id: number;
   editMode: boolean; // false: nova odrednica; true: edit postojece
   version = 1;
@@ -211,6 +222,11 @@ export class TabFormComponent implements OnInit {
           break;
       }
     });
+    this.odrednicaService.getStatuses().subscribe(data => {
+      this.statuses = data;
+    }, error => {
+      console.log(error);
+    });
     if (this.obradjivaci.length === 0)
       this.obradjivaci = this.userService.getObradjivaci();
     if (this.redaktori.length === 0)
@@ -218,6 +234,15 @@ export class TabFormComponent implements OnInit {
     if (this.urednici.length === 0)
       this.urednici = this.userService.getUrednici();
     this.dirty = false;
+  }
+
+  getStatus(id: number): DeterminantStatus {
+    if (id === null)
+      return null;
+    for (const st of this.statuses)
+      if (st.id === id)
+        return st;
+    return null;
   }
 
   addVariant(): void {
@@ -510,6 +535,7 @@ export class TabFormComponent implements OnInit {
       version: this.version,
       opciono_se: this.optionalSe,
       rbr_homonima: this.homonim === 0 ? null : this.homonim,
+      status_id: this.selectedStatus === null ? null : this.selectedStatus.id,
       kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: c.note, odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1, tekst: d.text}))})),
       sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: s.text})),
       antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId, tekst: a.text})),
@@ -649,6 +675,7 @@ export class TabFormComponent implements OnInit {
     this.selectedWordType = this.enumService.getWordType(value.vrsta);
     this.optionalSe = value.opciono_se;
     this.homonim = value.rbr_homonima;
+    this.selectedStatus = this.getStatus(value.status);
     switch (value.vrsta) {
       case 0:
         this.selectedGender = this.enumService.getGender(value.rod);
