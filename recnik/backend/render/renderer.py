@@ -140,12 +140,13 @@ def process_tags(tekst, in_italic=False):
 
 
 def render_konkordanse(konkordanse):
-    retval = ''
+    delovi = []
     for k in konkordanse:
-        retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
+        deo = f'<i>{process_tags(k.opis, True)}</i>'
         if k.publikacija:
-            retval += f'{nbsp(tacka(k.publikacija.skracenica))} '
-    return retval
+            deo += f' {tacka(k.publikacija.skracenica)}'
+        delovi.append(deo)
+    return tacka(', '.join(delovi))
 
 
 def render_izrazi_fraze(izrazifraze):
@@ -179,7 +180,7 @@ def render_podznacenje(podznacenje):
         tekst += f'{tacka(process_tags(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
-        tekst = tacka(tekst) + ' &mdash; '
+        tekst = dvotacka(tekst) + ' '
         tekst += render_konkordanse(podznacenje.konkordansa_set.all().order_by('redni_broj'))
 
     tekst += render_izrazi_fraze(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
@@ -193,11 +194,13 @@ def render_znacenje(znacenje):
         tekst += ', '.join([render_kratke_kolokacije(kol) for kol in znacenje.kolokacijaznacenja_set.all().order_by('redni_broj')])
         tekst = tacka(tekst)
     else:
-        tekst += f'{tacka(process_tags(znacenje.tekst))}'
+        tekst += f'{process_tags(znacenje.tekst)}'
 
     if znacenje.konkordansa_set.count() > 0:
-        tekst = tacka(tekst) + ' &mdash; '
+        tekst = dvotacka(tekst) + ' '
         tekst += render_konkordanse(znacenje.konkordansa_set.all().order_by('redni_broj'))
+    else:
+        tekst = tacka(tekst)
 
     tekst += render_izrazi_fraze(znacenje.izrazfraza_set.all().order_by('redni_broj'))
 
