@@ -208,6 +208,7 @@ export class TabFormComponent implements OnInit {
           this.selectedWordType = this.enumService.getWordType(0);
           this.selectedVerbForm = this.enumService.getVerbForm(0);
           this.selectedVerbKind = this.enumService.getVerbKind(0);
+          this.selectedStatus = null;
           this.onChangeWordType();
           break;
         case 'edit':

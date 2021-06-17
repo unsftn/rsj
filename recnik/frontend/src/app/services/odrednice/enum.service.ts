@@ -29,8 +29,8 @@ export class EnumService {
       { name: 'прелазни', id: 1, def2: false },
       { name: 'непрелазни', id: 2, def2: false },
       { name: 'повратни', id: 3, def2: false },
-      { name: 'прелазни + повратни', id: 4, def2: true },
-      { name: 'непрелазни + повратни', id: 5, def2: true },
+      { name: 'прелазни + (ce)', id: 4, def2: true },
+      { name: 'непрелазни + (ce)', id: 5, def2: true },
     ];
     this.verbForms = [
       { name: '---', id: null },
