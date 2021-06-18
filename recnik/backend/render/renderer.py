@@ -321,7 +321,7 @@ def render_one(odrednica):
     # zamenica
     if odrednica.vrsta == 5:
         html += render_nastavci_varijante(odrednica)
-        html += f' <small>предл.</small> '
+        html += f' <small>зам.</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
         else:
