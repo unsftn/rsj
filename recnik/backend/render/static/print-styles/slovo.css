@@ -20,6 +20,9 @@
     size: a4 portrait;
     margin: 10mm;
 }
+
+html { hyphens: auto; }
+
 body{
     font-family: "Dijakritika", serif;
     font-feature-settings: "mark";
