@@ -223,14 +223,6 @@
                       (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
-      <div class="p-d-flex p-ai-start">
-        <div class="p-sm-3 p-md-3 p-lg-2">
-          <p class="label p-m-0" style="text-overflow: ellipsis">Квалиф.</p>
-        </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
-          <qualificator [(selectedQualificators)]="qualificators" (selectedQualificatorsChange)="saveChange()"></qualificator>
-        </div>
-      </div>
 
       <div class="p-d-flex" *ngIf="isNoun">
         <div class="p-m-0 p-sm-3 p-sm-3 p-lg-2">
@@ -272,6 +264,14 @@
                     (focusout)="onFocusLeave()"
                     (keyup)="keyup($event, 'details')"
                     style="resize: vertical; border: 1px solid darkgray; color: #495057"></textarea>
+        </div>
+      </div>
+      <div class="p-d-flex p-flex-column p-mt-4 p-ml-2">
+        <div>
+          <p class="label p-m-0">Квалификатори:</p>
+        </div>
+        <div>
+          <qualificator [(selectedQualificators)]="qualificators" (selectedQualificatorsChange)="saveChange()"></qualificator>
         </div>
       </div>
       <div class="p-d-flex">
