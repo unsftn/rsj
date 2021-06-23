@@ -65,6 +65,10 @@ export class OdrednicaService {
     return this.httpClient.put(`/api/odrednice/workflow/zaduzenja/${id}/`, {obradjivac, redaktor, urednik});
   }
 
+  odredniceObradjivaca(userId: number): Observable<any> {
+    return this.httpClient.get(`/api/odrednice/short-odrednica/?obradjivac_id=${userId}`);
+  }
+
   getStatuses(): Observable<DeterminantStatus[]> {
     if (this.statusCache) {
       return this.statusCache;

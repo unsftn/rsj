@@ -36,6 +36,8 @@ urlpatterns = [
     path('odrednica-latest/', OdrednicaLatestList.as_view(), name='odrednica-latest-list'),
     path('odrednica-changed/', OdrednicaLatestList.as_view(), name='odrednica-changed-list'),
     path('odrednica-popular/', OdrednicaPopularList.as_view(), name='odrednica-popular-list'),
+    path('short-odrednica/', ShortOdrednicaList.as_view(), name='short-odrednica-list'),
+    path('short-odrednica/<int:pk>/', ShortOdrednicaDetail.as_view(), name='short-odrednica-detail'),
     path('save/', api_save_odrednica),
     path('delete/<int:odrednica_id>/', api_delete_odrednica),
     path('workflow/za-obradjivaca/<int:odrednica_id>/', api_predaj_obradjivacu),

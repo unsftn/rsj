@@ -199,7 +199,27 @@ class OdrednicaList(generics.ListAPIView):
     queryset = Odrednica.objects.all()
     serializer_class = OdrednicaSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+
+
+class OdrednicaDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all()
+    serializer_class = OdrednicaSerializer
+
+
+class ShortOdrednicaList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all().order_by('-poslednja_izmena')
+    serializer_class = ShortOdrednicaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+
+
+class ShortOdrednicaDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all()
+    serializer_class = ShortOdrednicaSerializer
 
 
 class OdrednicaLatestList(generics.ListAPIView):
@@ -224,12 +244,6 @@ class OdrednicaPopularList(generics.ListAPIView):
     serializer_class = OdrednicaSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['rec', 'rod', 'vreme_kreiranja']
-
-
-class OdrednicaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
-    queryset = Odrednica.objects.all()
-    serializer_class = OdrednicaSerializer
 
 
 JSON = 'application/json'

@@ -177,6 +177,13 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'freetext', 'status')
 
 
+class ShortOdrednicaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Odrednica
+        fields = ('id', 'rec', 'vrsta', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'obradjivac', 'redaktor',
+                  'urednik', 'status')
+
+
 # insert/update serializers
 
 class NoSaveSerializer(serializers.Serializer):

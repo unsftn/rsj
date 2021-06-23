@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/auth/user.service';
-import { RenderService } from '../../../services/render';
+import { EnumService, OdrednicaService } from '../../../services/odrednice';
 
 @Component({
   selector: 'app-person',
@@ -13,44 +13,34 @@ export class PersonComponent implements OnInit {
 
   obradjivaci: any[] = [];
   selected: any = {};
-  odrednice: string[] = [];
+  odrednice: any[] = [];
 
   constructor(
     private userService: UserService,
     private router: Router,
-    private renderService: RenderService,
-    private domSanitizer: DomSanitizer) { }
+    private odrednicaService: OdrednicaService,
+    private enumService: EnumService) { }
 
   ngOnInit(): void {
     this.obradjivaci = this.userService.getObradjivaci();
-    // console.log(this.obradjivaci);
   }
 
   showUser(user: any): void {
     this.selected = user;
-    this.renderService.getRenderiZaObradjivaca(user.id).subscribe(
+    this.odrednicaService.odredniceObradjivaca(user.id).subscribe(
       (data) => {
-        this.odrednice = data.map((item) => this.domSanitizer.bypassSecurityTrustHtml(item));
+        this.odrednice = data;
+        this.odrednice.forEach(item => {
+          item.stanjeStr = this.enumService.getEntryState(item.stanje).opis;
+          item.vrstaStr = this.enumService.getWordType(item.vrsta).name;
+        });
       },
       (error) => console.log(error)
     );
   }
 
-  @HostListener('document:click', ['$event'])
-  public handleClick(event: Event): void {
-    let targetDiv = event.target;
-    if (!(targetDiv instanceof HTMLDivElement))
-      targetDiv = (targetDiv as HTMLElement).parentElement;
-    if (targetDiv instanceof HTMLDivElement) {
-      const element = targetDiv as HTMLDivElement;
-      if (element.className === 'odrednica') {
-        const odrednicaId = element?.getAttribute('data-id');
-        if (odrednicaId) {
-          const url = this.router.serializeUrl(this.router.createUrlTree([`/edit/${odrednicaId}`]));
-          window.open(url, '_blank');
-        }
-      }
-    }
+  open(odrednicaId: number): void {
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/edit/${odrednicaId}`]));
+    window.open(url, '_blank');
   }
-
 }
