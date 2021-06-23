@@ -130,6 +130,10 @@ class Odrednica(models.Model):
     class Meta:
         verbose_name = 'одредница'
         verbose_name_plural = 'одреднице'
+        indexes = [
+            models.Index(fields=['rec']),
+            models.Index(fields=['poslednja_izmena'])
+        ]
 
     def get_absolute_url(self):
         return reverse("odrednice:odrednica-detail",

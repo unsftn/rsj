@@ -216,6 +216,14 @@ class ShortOdrednicaList(generics.ListAPIView):
     filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
 
 
+class ShortOdrednicaListAlpha(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Odrednica.objects.all().order_by('rec')
+    serializer_class = ShortOdrednicaSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+
+
 class ShortOdrednicaDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all()

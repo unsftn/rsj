@@ -17,6 +17,10 @@ export class OdrednicaService {
     return this.httpClient.get(`/api/odrednice/odrednica/${id}/`);
   }
 
+  getAllSorted(): Observable<any> {
+    return this.httpClient.get(`/api/odrednice/short-odrednica-alpha/`);
+  }
+
   save(odrednica: Determinant): Observable<any> {
     return this.httpClient.post('/api/odrednice/save/', odrednica);
   }

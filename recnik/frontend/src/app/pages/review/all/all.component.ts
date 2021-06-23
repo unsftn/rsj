@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { RenderService } from '../../../services/render';
+import { EnumService, OdrednicaService } from '../../../services/odrednice';
 
 @Component({
   selector: 'app-all',
@@ -10,35 +9,27 @@ import { RenderService } from '../../../services/render';
 })
 export class AllComponent implements OnInit {
 
-  odrednice: string[] = [];
+  odrednice: any[] = [];
 
   constructor(
     private router: Router,
-    private renderService: RenderService,
-    private domSanitizer: DomSanitizer
-  ) { }
+    private odrednicaService: OdrednicaService,
+    private enumService: EnumService) { }
 
   ngOnInit(): void {
-    this.renderService.getRenderiSvi().subscribe(
-      (data) => this.odrednice = data.map((item) => this.domSanitizer.bypassSecurityTrustHtml(item)),
-      (error) => console.log(error)
+    this.odrednicaService.getAllSorted().subscribe(data => {
+        this.odrednice = data;
+        this.odrednice.forEach(item => {
+          item.stanjeStr = this.enumService.getEntryState(item.stanje).opis;
+          item.vrstaStr = this.enumService.getWordType(item.vrsta).name;
+        });
+      },
+      error => console.log(error)
     );
   }
 
-  @HostListener('document:click', ['$event'])
-  public handleClick(event: Event): void {
-    let targetDiv = event.target;
-    if (!(targetDiv instanceof HTMLDivElement))
-      targetDiv = (targetDiv as HTMLElement).parentElement;
-    if (targetDiv instanceof HTMLDivElement) {
-      const element = targetDiv as HTMLDivElement;
-      if (element.className === 'odrednica') {
-        const odrednicaId = element?.getAttribute('data-id');
-        if (odrednicaId) {
-          const url = this.router.serializeUrl(this.router.createUrlTree([`/edit/${odrednicaId}`]));
-          window.open(url, '_blank');
-        }
-      }
-    }
+  open(odrednicaId: number): void {
+    const url = this.router.serializeUrl(this.router.createUrlTree([`/edit/${odrednicaId}`]));
+    window.open(url, '_blank');
   }
 }
