@@ -519,8 +519,10 @@ class StatistikaUnosa(models.Model):
 class StavkaStatistikeUnosa(models.Model):
     statistika = models.ForeignKey(StatistikaUnosa, verbose_name='статистика', on_delete=models.CASCADE)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.PROTECT)
-    broj_odrednica = models.IntegerField('број одредница')
-    broj_znakova = models.IntegerField('број знакова')
+    broj_odrednica = models.IntegerField('сачуваних одредница')
+    broj_znakova = models.IntegerField('сачуваних знакова')
+    zavrsenih_odrednica = models.IntegerField('завршених одредница', default=0)
+    zavrsenih_znakova = models.IntegerField('завршених знакова', default=0)
 
     class Meta:
         verbose_name = 'ставка статистике уноса'

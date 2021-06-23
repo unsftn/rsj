@@ -4,6 +4,13 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { OdrednicaService } from '../../services/odrednice';
 
+class UserCollection extends Array {
+  sum(key): number {
+    return this.reduce((a, b) => a + (b[key] || 0), 0);
+  }
+}
+
+
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
@@ -12,66 +19,8 @@ import { OdrednicaService } from '../../services/odrednice';
 @Injectable({providedIn: 'root'})
 export class HomeComponent implements OnInit {
 
-  // data1 = {
-  //   labels: ['именице', 'глаголи', 'придеви', 'прилози', 'заменице', 'речце', 'узвици', 'предлози', 'везници', 'бројеви'],
-  //   datasets: [{
-  //     data: [75, 82, 49, 12, 11, 7, 9, 12, 5, 8],
-  //     backgroundColor: ['#AA3939', '#AA6C39', '#2D882D', '#226666', '#FFAAAA', '#552700', '#88CC88', '#003333', '#D46A6A', '#804515']
-  //   }],
-  // };
-  // options1 = {
-  //   title: { display: true, text: 'Број одредница по врсти речи [fake]', fontSize: 16, fontFamily: 'Fira Sans', fontColor: '#999b9b' },
-  //   legend: { position: 'left', labels: { fontFamily: 'Fira Sans' } },
-  //   tooltips: { bodyFontFamily: 'Fira Sans' },
-  // };
-  // data2 = {
-  //   labels: ['2021-01-01', '2021-01-08', '2021-01-15', '2021-01-22', '2021-01-29', '2021-02-05', '2021-02-12'],
-  //   datasets: [{
-  //     label: 'Број унетих одредница по недељи [fake]',
-  //     data: [28, 34, 45, 51, 72, 84, 95],
-  //     fill: true,
-  //     borderColor: '#AA3939'
-  //   }],
-  // };
-  // options2 = {
-  //   legend: { labels: { fontColor: '#999b9b', fontFamily: 'Fira Sans', fontSize: 16 } },
-  //   scales: {
-  //     xAxes: [{
-  //       ticks: { fontColor: '#999b9b', fontFamily: 'Fira Sans' },
-  //       gridLines: { color: 'rgba(255,255,255,0.4)' }
-  //     }],
-  //     yAxes: [{
-  //       ticks: { fontColor: '#999b9b', fontFamily: 'Fira Sans' },
-  //       gridLines: { color: 'rgba(255,255,255,0.4)' }
-  //     }]
-  //   }
-  // };
-  //
-  // data3 = {
-  //   labels: ['2021-01-01', '2021-01-08', '2021-01-15', '2021-01-22', '2021-01-29', '2021-02-05', '2021-02-12'],
-  //   datasets: [{
-  //     label: 'Број конкорданци по недељи [fake]',
-  //     data: [28, 34, 45, 51, 72, 84, 95],
-  //     fill: true,
-  //     borderColor: '#2D882D'
-  //   }],
-  // };
-  // options3 = {
-  //   legend: { labels: { fontColor: '#999b9b', fontFamily: 'Fira Sans', fontSize: 16 } },
-  //   scales: {
-  //     xAxes: [{
-  //       ticks: { fontColor: '#999b9b', fontFamily: 'Fira Sans' },
-  //       gridLines: { color: 'rgba(255,255,255,0.4)' }
-  //     }],
-  //     yAxes: [{
-  //       ticks: { fontColor: '#999b9b', fontFamily: 'Fira Sans' },
-  //       gridLines: { color: 'rgba(255,255,255,0.4)' }
-  //     }]
-  //   }
-  // };
-
   myDeterminants: any[];
-  users: any[] = [];
+  users: UserCollection;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -85,7 +34,17 @@ export class HomeComponent implements OnInit {
       (error) => console.log(error)
     );
     this.odrednicaService.statObradjivaca().subscribe(
-      (data) => this.users = data,
+      (data) => {
+        this.users = new UserCollection(...data);
+        this.users.push({
+          first_name: 'УКУПНО',
+          last_name: '',
+          broj_odrednica: this.users.sum('broj_odrednica'),
+          broj_znakova: this.users.sum('broj_znakova'),
+          zavrsenih_odrednica: this.users.sum('zavrsenih_odrednica'),
+          zavrsenih_znakova: this.users.sum('zavrsenih_znakova'),
+        });
+      },
       (error) => console.log(error)
     );
   }

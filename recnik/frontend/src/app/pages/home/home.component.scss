@@ -7,11 +7,11 @@
   border: none;
 }
 
-:host ::ng-deep .p-fieldset {
-  min-height: max-content;
-  height: 90vh;
-  overflow: scroll;
-}
+//:host ::ng-deep .p-fieldset {
+//  min-height: max-content;
+//  height: 90vh;
+//  overflow: scroll;
+//}
 
 .autor { /*width: 200px;*/ }
 .izmena { width: 90px; }
@@ -24,6 +24,9 @@
   padding: 5px;
 }
 
-.obradjivac {  }
-.brojodrednica { text-align: right !important; width: 110px; }
-.brojznakova { text-align: right !important; width: 110px; }
+.obradjivac { white-space: nowrap; }
+.brojodrednica { text-align: right !important; width: 80px !important; }
+.brojznakova { text-align: right !important; }
+.centered { text-align: center !important; }
+.table-header { padding: 5px !important; }
+.total { font-weight: bold; background-color: #f8f9fa; }

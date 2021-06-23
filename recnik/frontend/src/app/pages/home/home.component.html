@@ -1,6 +1,6 @@
 <div class="home-container">
   <div class="p-grid">
-    <div class="p-sm-12 p-md-12 p-lg-4 p-xl-4">
+    <div class="p-sm-12 p-md-12 p-lg-5 p-xl-5">
       <p-fieldset legend="Моје активности">
         <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="20">
           <ng-template pTemplate="header">
@@ -21,29 +21,48 @@
         </p-table>
       </p-fieldset>
     </div>
-    <div class="p-sm-12 p-md-12 p-lg-4 p-xl-4">
-      <p-fieldset legend="Последње измене">
-        <app-rendered-odrednice source="/api/render/odrednice/latest/10/" [isTrusted]="true"></app-rendered-odrednice>
-      </p-fieldset>
-    </div>
-    <div class="p-sm-12 p-md-12 p-lg-4 p-xl-4">
+    <div class="p-sm-12 p-md-12 p-lg-7 p-xl-7">
       <p-fieldset legend="Динамика обраде">
         <p-table [value]="users">
           <ng-template pTemplate="header">
             <tr>
-              <th class="obradjivac">Обрађивач</th>
-              <th class="brojodrednica"># odrednica</th>
-              <th class="brojznakova"># знакова</th>
+              <th class="table-header">&nbsp;</th>
+              <th colspan="2" class="centered table-header">Сачувано</th>
+              <th colspan="2" class="centered table-header">Завршено</th>
+            </tr>
+            <tr>
+              <th class="obradjivac table-header">Обрађивач</th>
+              <th class="brojodrednica table-header"># odrednica</th>
+              <th class="brojznakova table-header"># знакова</th>
+              <th class="brojodrednica table-header"># odrednica</th>
+              <th class="brojznakova table-header"># знакова</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-user>
             <tr>
-              <td class="obradjivac">{{user.first_name}} {{user.last_name}}</td>
-              <td class="brojodrednica">{{user.broj_odrednica}}</td>
-              <td class="brojznakova">{{user.broj_znakova}}</td>
+              <td class="obradjivac" [ngClass]="{total: user.first_name=='УКУПНО'}">
+                {{user.first_name}} {{user.last_name}}
+              </td>
+              <td class="brojodrednica" [ngClass]="{total: user.first_name=='УКУПНО'}">
+                {{user.broj_odrednica}}
+              </td>
+              <td class="brojznakova" [ngClass]="{total: user.first_name=='УКУПНО'}">
+                {{user.broj_znakova}}
+              </td>
+              <td class="brojodrednica" [ngClass]="{total: user.first_name=='УКУПНО'}">
+                {{user.zavrsenih_odrednica}}
+              </td>
+              <td class="brojznakova" [ngClass]="{total: user.first_name=='УКУПНО'}">
+                {{user.zavrsenih_znakova}}
+              </td>
             </tr>
           </ng-template>
         </p-table>
+      </p-fieldset>
+    </div>
+    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+      <p-fieldset legend="Последње измене">
+        <app-rendered-odrednice source="/api/render/odrednice/latest/20/" [isTrusted]="true"></app-rendered-odrednice>
       </p-fieldset>
     </div>
   </div>

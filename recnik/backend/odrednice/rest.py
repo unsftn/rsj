@@ -363,10 +363,10 @@ def api_zavrsi_obradu(request, odrednica_id):
     user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        if odrednica.stanje != 3:
-            raise PermissionDenied(detail='Одредница није код уредника', code=403)
         if not user.je_urednik() and not user.je_administrator():
-            raise PermissionDenied(detail='Само уредник има права да заврши обраду одреднице', code=403)
+            raise PermissionDenied(detail='Само уредник и администратор имају права да заврше обраду одреднице', code=403)
+        if odrednica.stanje != 3 and not user.je_administrator():
+            raise PermissionDenied(detail='Одредница није код уредника', code=403)
         sada = now()
         odrednica.stanje = 4
         odrednica.poslednja_izmena = sada
@@ -413,6 +413,8 @@ def api_statistika_obradjivaca(request):
                 'last_name': su.user.last_name,
                 'broj_znakova': su.broj_znakova,
                 'broj_odrednica': su.broj_odrednica,
+                'zavrsenih_znakova': su.zavrsenih_znakova,
+                'zavrsenih_odrednica': su.zavrsenih_odrednica,
             })
     return Response(result, status=status.HTTP_200_OK, content_type=JSON)
 
