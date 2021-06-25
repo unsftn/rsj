@@ -1,6 +1,6 @@
 <div class="home-container">
   <div class="p-grid">
-    <div class="p-sm-12 p-md-12 p-lg-5 p-xl-5">
+    <div class="p-sm-12 p-md-12 p-lg-5 p-xl-5" *ngIf="isLoggedIn()">
       <p-fieldset legend="Моје активности">
         <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="20">
           <ng-template pTemplate="header">
@@ -21,7 +21,7 @@
         </p-table>
       </p-fieldset>
     </div>
-    <div class="p-sm-12 p-md-12 p-lg-7 p-xl-7">
+    <div class="p-sm-12 p-md-12 p-lg-7 p-xl-7" *ngIf="isLoggedIn()">
       <p-fieldset legend="Динамика обраде">
         <p-table [value]="users">
           <ng-template pTemplate="header">

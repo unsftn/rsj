@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { OdrednicaService } from '../../services/odrednice';
+import { TokenStorageService } from '../../services/auth/token-storage.service';
 
 class UserCollection extends Array {
   sum(key): number {
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private odrednicaService: OdrednicaService,
+    private tokenStorageService: TokenStorageService,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -72,5 +74,9 @@ export class HomeComponent implements OnInit {
 
   goto(odrId: number): void {
     this.router.navigate(['/edit', odrId]);
+  }
+
+  isLoggedIn(): boolean {
+    return this.tokenStorageService.isLoggedIn();
   }
 }
