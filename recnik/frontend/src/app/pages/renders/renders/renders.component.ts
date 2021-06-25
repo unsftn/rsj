@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RenderService } from '../../../services/render/';
 import { Render } from '../../../models';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-renders',
@@ -8,11 +9,12 @@ import { Render } from '../../../models';
   styleUrls: ['./renders.component.scss']
 })
 export class RendersComponent implements OnInit {
-  constructor(private renderService: RenderService) {}
+  constructor(private renderService: RenderService, private titleService: Title) {}
 
   renders: Render[];
 
   ngOnInit(): void {
+    this.titleService.setTitle('Рендери');
     this.renderService.getRenderi().subscribe(
       (data) => {
         this.renders = data;

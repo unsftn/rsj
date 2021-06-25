@@ -4,6 +4,7 @@ import { PrimeNGConfig } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { OdrednicaService } from '../../services/odrednice';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
+import { Title } from '@angular/platform-browser';
 
 class UserCollection extends Array {
   sum(key): number {
@@ -27,9 +28,11 @@ export class HomeComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private odrednicaService: OdrednicaService,
     private tokenStorageService: TokenStorageService,
+    private titleService: Title,
     private router: Router) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('Почетна');
     this.primengConfig.ripple = true;
     this.odrednicaService.my(100).subscribe(
       (data) => this.myDeterminants = data,

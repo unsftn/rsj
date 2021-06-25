@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EnumService, OdrednicaService } from '../../../services/odrednice';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-all',
@@ -14,9 +15,11 @@ export class AllComponent implements OnInit {
   constructor(
     private router: Router,
     private odrednicaService: OdrednicaService,
-    private enumService: EnumService) { }
+    private enumService: EnumService,
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Азбучни преглед');
     this.odrednicaService.getAllSorted().subscribe(data => {
         this.odrednice = data;
         this.odrednice.forEach(item => {

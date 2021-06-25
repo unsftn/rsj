@@ -3,6 +3,7 @@ import re
 import tempfile
 from django.core.files import File
 from django.contrib.staticfiles import finders
+from django.db.models.functions import Collate
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
@@ -35,17 +36,13 @@ def touch(path):
 
 
 def interpunkcija(tekst, znak):
-    print(tekst)
     if len(tekst) < 1:
         return tekst
     if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':
-        print('prvi')
         return tekst
     if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':
-        print('drugi')
         return tekst
     if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
-        print('treci')
         return tekst + znak
     return tekst
 
@@ -420,7 +417,7 @@ def render_slovo(slovo, file_format='pdf', status=None):
     odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower())
     if status:
         odrednice = odrednice.filter(status_id=status)
-    odrednice = odrednice.order_by('rec', 'rbr_homonima')
+    odrednice = odrednice.order_by(Collate('rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     if file_format == 'pdf':
@@ -442,7 +439,7 @@ def render_recnik(file_format='pdf', status=None):
         odrednice = Odrednica.objects.filter(rec__startswith=s)
         if status:
             odrednice = odrednice.filter(status_id=status)
-        odrednice = odrednice.order_by('rec', 'rbr_homonima')
+        odrednice = odrednice.order_by(Collate('rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]

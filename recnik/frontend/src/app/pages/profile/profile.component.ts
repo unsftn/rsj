@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {TokenStorageService} from "../../services/auth/token-storage.service";
-import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth/auth.service";
-import {MessageService} from "primeng/api";
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { TokenStorageService } from '../../services/auth/token-storage.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-profile',
@@ -12,17 +13,19 @@ import {MessageService} from "primeng/api";
 export class ProfileComponent implements OnInit {
 
   user: any;
-  changePass: boolean = false;
+  changePass = false;
   changePassForm: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
 
   constructor(
     private tokenStorageService: TokenStorageService,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Профил');
     this.user = this.tokenStorageService.getUser();
     console.log(this.user);
     this.changePassForm = this.formBuilder.group({

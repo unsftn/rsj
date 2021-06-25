@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/auth/user.service';
 import { EnumService, OdrednicaService } from '../../../services/odrednice';
@@ -19,9 +19,11 @@ export class PersonComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private odrednicaService: OdrednicaService,
-    private enumService: EnumService) { }
+    private enumService: EnumService,
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Преглед по обрађивачу');
     this.obradjivaci = this.userService.getObradjivaci();
   }
 

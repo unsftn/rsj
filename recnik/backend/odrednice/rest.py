@@ -1,6 +1,7 @@
 # coding=utf-8
 import random
 from django.core.mail import send_mail
+from django.db.models.functions import Collate
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
@@ -218,7 +219,7 @@ class ShortOdrednicaList(generics.ListAPIView):
 
 class ShortOdrednicaListAlpha(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Odrednica.objects.all().order_by('rec')
+    queryset = Odrednica.objects.all().order_by(Collate('rec', 'utf8mb4_croatian_ci'))
     serializer_class = ShortOdrednicaSerializer
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']

@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
-import { of } from 'rxjs';
 import {
   Gender,
   StanjeOdrednice,
@@ -17,8 +16,7 @@ import {
 } from '../../models';
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
-import * as primeri from '../../examples';
-import {UserService} from "../../services/auth/user.service";
+import {UserService} from '../../services/auth/user.service';
 
 interface Variant {
   nameE: string;
@@ -210,6 +208,7 @@ export class TabFormComponent implements OnInit {
           this.selectedVerbKind = this.enumService.getVerbKind(0);
           this.selectedStatus = null;
           this.onChangeWordType();
+          this.titleService.setTitle('Нова одредница');
           break;
         case 'edit':
           this.editMode = true;

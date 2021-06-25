@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SafeHtml } from '@angular/platform-browser';
+import { SafeHtml, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { PublikacijaService } from '../../../services/publikacije';
@@ -18,9 +18,10 @@ export class PublikacijaListComponent implements OnInit {
   constructor(
     private publikacijaService: PublikacijaService,
     private router: Router,
-  ) { }
+    private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Публикације');
     this.publikacijaService.getAll().subscribe((value) => {
       this.publikacije = value;
     });
