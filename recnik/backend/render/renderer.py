@@ -35,13 +35,17 @@ def touch(path):
 
 
 def interpunkcija(tekst, znak):
+    print(tekst)
     if len(tekst) < 1:
         return tekst
-    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] == znak:
+    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':
+        print('prvi')
         return tekst
-    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] == znak:
+    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':
+        print('drugi')
         return tekst
     if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
+        print('treci')
         return tekst + znak
     return tekst
 
@@ -140,13 +144,12 @@ def process_tags(tekst, in_italic=False):
 
 
 def render_konkordanse(konkordanse):
-    delovi = []
+    retval = ''
     for k in konkordanse:
-        deo = f'<i>{process_tags(k.opis, True)}</i>'
+        retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
         if k.publikacija:
-            deo += f' {tacka(k.publikacija.skracenica)}'
-        delovi.append(deo)
-    return tacka(', '.join(delovi))
+            retval += f'{nbsp(tacka(k.publikacija.skracenica))} '
+    return retval
 
 
 def render_izrazi_fraze(izrazifraze):
@@ -180,7 +183,7 @@ def render_podznacenje(podznacenje):
         tekst += f'{tacka(process_tags(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
-        tekst = dvotacka(tekst) + ' '
+        tekst = tekst + ' &mdash; '
         tekst += render_konkordanse(podznacenje.konkordansa_set.all().order_by('redni_broj'))
 
     tekst += render_izrazi_fraze(podznacenje.izrazfraza_set.all().order_by('redni_broj'))
@@ -194,10 +197,10 @@ def render_znacenje(znacenje):
         tekst += ', '.join([render_kratke_kolokacije(kol) for kol in znacenje.kolokacijaznacenja_set.all().order_by('redni_broj')])
         tekst = tacka(tekst)
     else:
-        tekst += f'{process_tags(znacenje.tekst)}'
+        tekst += f'{tacka(process_tags(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
-        tekst = dvotacka(tekst) + ' '
+        tekst = tekst + ' &mdash; '
         tekst += render_konkordanse(znacenje.konkordansa_set.all().order_by('redni_broj'))
     else:
         tekst = tacka(tekst)
