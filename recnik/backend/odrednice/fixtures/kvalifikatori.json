@@ -1494,5 +1494,21 @@
       "skracenica": "изр",
       "naziv": "израз"
     }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 190,
+    "fields": {
+      "skracenica": "лат.-грч",
+      "naziv": "латиногрецизам"
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 191,
+    "fields": {
+      "skracenica": "грч-.лат",
+      "naziv": "грколатинизам"
+    }
   }
 ]

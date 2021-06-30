@@ -3,28 +3,35 @@
     "model": "odrednice.statusodrednice",
     "pk": 1,
     "fields": {
-      "naziv": "За речник"
+      "naziv": "За обраду"
     }
   },
   {
     "model": "odrednice.statusodrednice",
     "pk": 2,
     "fields": {
-      "naziv": "Проширена обрада 1"
+      "naziv": "За РСЈ"
     }
   },
   {
     "model": "odrednice.statusodrednice",
     "pk": 3,
     "fields": {
-      "naziv": "Проширена обрада 2"
+      "naziv": "Није за РСЈ (проширена грађа)"
     }
   },
   {
     "model": "odrednice.statusodrednice",
     "pk": 4,
     "fields": {
-      "naziv": "Проширена обрада 3"
+      "naziv": "Упитни примери"
+    }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 5,
+    "fields": {
+      "naziv": "Остало"
     }
   }
 ]
