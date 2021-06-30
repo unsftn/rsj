@@ -87,4 +87,10 @@ export class OdrednicaService {
     return this.statusCache;
   }
 
+  checkDuplicate(word: string, id: number): Observable<any> {
+    let req = `/api/pretraga/odrednica/duplicate/?q=${word}`;
+    if (id)
+      req += `&id=${id}`;
+    return this.httpClient.get(req);
+  }
 }

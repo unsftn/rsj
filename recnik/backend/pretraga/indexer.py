@@ -2,6 +2,7 @@ import requests
 from django.conf import settings
 from elasticsearch_dsl import analyzer, Index
 from elasticsearch_dsl.connections import connections
+from elasticsearch.exceptions import ElasticsearchException, NotFoundError
 from .models import OdrednicaDocument, KorpusDocument
 from .serializers import CreateOdrednicaDocumentSerializer, CreatePublikacijaDocumentSerializer
 from .config import *
@@ -71,6 +72,17 @@ def save_odrednica_dict(odr_dict):
     except Exception as ex:
         log.fatal(ex)
         return None
+
+
+def delete_odrednica(odrednica_id):
+    odrednica = OdrednicaDocument()
+    try:
+        odrednica.delete(id=odrednica_id, index=ODREDNICA_INDEX)
+    except NotFoundError:
+        return False
+    except ElasticsearchException:
+        return False
+    return True
 
 
 def save_publikacija_model(publikacija):

@@ -98,6 +98,17 @@ def _save_odrednica(item):
         return server_error(ee.args)
 
 
+def _delete_odrednica_by_id(id):
+    odrednica = OdrednicaDocument()
+    try:
+        odrednica.delete(id=pk, index=ODREDNICA_INDEX)
+        return Response(status=HTTP_200_OK)
+    except NotFoundError:
+        return not_found('requested object not found')
+    except ElasticsearchException as error:
+        return server_error(error.args)
+
+
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def korpus(request):
     create_index_if_needed()
@@ -225,6 +236,39 @@ def _search_publikacija(request):
         data = serializer.data
 
         return Response(data, status=HTTP_200_OK, content_type=JSON)
+    except ElasticsearchException as error:
+        return server_error(error.args)
+
+
+@api_view(['GET'])
+def check_duplicate(request):
+    term = request.GET.get('q')
+    sid = request.GET.get('id')
+    if sid:
+        termid = int(sid)
+    else:
+        termid = None
+    hits = []
+    s = Search(index=ODREDNICA_INDEX)
+    s = s.source(includes=['pk', 'rec', 'vrsta'])
+    s.query = MultiMatch(
+        type='bool_prefix',
+        query=term,
+        fields=['varijante'],
+    )
+    try:
+        response = s.execute()
+        for hit in response.hits.hits:
+            if hit['_source']['rec'] == term and hit['_source']['pk'] != termid:
+                hits.append(hit['_source'])
+        serializer = OdrednicaResponseSerializer(hits, many=True)
+        data = serializer.data
+
+        return Response(
+            data,
+            status=HTTP_200_OK,
+            content_type=JSON
+        )
     except ElasticsearchException as error:
         return server_error(error.args)
 

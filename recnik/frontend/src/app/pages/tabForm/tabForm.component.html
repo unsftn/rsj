@@ -84,7 +84,7 @@
             <div class="p-mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
-                     (focusout)="onFocusLeave()"
+                     (focusout)="onFocusLeave(); checkDuplicate(false)"
                      (keyup)="keyup($event, 'wordE')" style="width:150px"/>
             </div>
             <div class="p-mr-2">

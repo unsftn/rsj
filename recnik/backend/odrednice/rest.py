@@ -322,6 +322,7 @@ def api_delete_odrednica(request, odrednica_id):
             if user != odrednica.urednik:
                 raise PermissionDenied(detail='Покушано брисање одреднице која није у власништву овог urednika', code=403)
         odrednica.delete()
+        indexer.delete_odrednica(odrednica_id)
     except Odrednica.DoesNotExist:
         raise PermissionDenied(detail='Покушано брисање непостојеће одреднице', code=404)
     return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)

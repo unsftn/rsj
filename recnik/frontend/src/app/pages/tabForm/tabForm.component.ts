@@ -320,46 +320,72 @@ export class TabFormComponent implements OnInit {
     }
     this.showAccentDialog = false;
     this.accentTarget.focus();
-    setTimeout(() => {this.accentTarget.setSelectionRange(this.accentCaretPos + 1, this.accentCaretPos + 1, 'none')});
+    setTimeout(() => { this.accentTarget.setSelectionRange(this.accentCaretPos + 1, this.accentCaretPos + 1, 'none') });
+  }
+
+  checkDuplicate(showAllowSave: boolean): void {
+    if (this.wordE === undefined)
+      return;
+    this.odrednicaService.checkDuplicate(this.wordE, this.id).subscribe(data => {
+      if (data.length > 0) {
+        console.log(data);
+        if (showAllowSave) {
+          console.log('prikazi pitanje za save');
+        } else {
+          this.showError('Ова одредница је већ унета!');
+        }
+      }
+    });
   }
 
   save(): void {
     if (!this.check()) return;
-    this.showWaitDialog = true;
-    if (this.editMode) {
-      this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
-        (data) => {
-          this.message = this.domSanitizer.bypassSecurityTrustHtml(
-            '<p>Успешно aжурирана одредница.</p>');
-          this.showWaitDialog = false;
-          this.showInfoDialog = true;
-          this.nextRoute = [];
-          this.version += 1;
-        },
-        (error) => {
-          const errorMessage = sessionStorage.getItem('errorMessage');
-          this.message = this.domSanitizer.bypassSecurityTrustHtml(
-            `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
-          this.showWaitDialog = false;
-          this.showInfoDialog = true;
-        });
-    } else {
-      this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
-        (data) => {
-          this.message = this.domSanitizer.bypassSecurityTrustHtml(
-            '<p>Успешно додата нова одредница.</p>');
-          this.showWaitDialog = false;
-          this.showInfoDialog = true;
-          this.nextRoute = ['/edit', data.id];
-        },
-        (error) => {
-          const errorMessage = sessionStorage.getItem('errorMessage');
-          this.message = this.domSanitizer.bypassSecurityTrustHtml(
-            `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
-          this.showWaitDialog = false;
-          this.showInfoDialog = true;
-        });
-    }
+    const saveDeterminant = () => {
+      this.showWaitDialog = true;
+      if (this.editMode) {
+        this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
+          (data) => {
+            this.message = this.domSanitizer.bypassSecurityTrustHtml(
+              '<p>Успешно aжурирана одредница.</p>');
+            this.showWaitDialog = false;
+            this.showInfoDialog = true;
+            this.nextRoute = [];
+            this.version += 1;
+          },
+          (error) => {
+            const errorMessage = sessionStorage.getItem('errorMessage');
+            this.message = this.domSanitizer.bypassSecurityTrustHtml(
+              `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
+            this.showWaitDialog = false;
+            this.showInfoDialog = true;
+          });
+      } else {
+        this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
+          (data) => {
+            this.message = this.domSanitizer.bypassSecurityTrustHtml(
+              '<p>Успешно додата нова одредница.</p>');
+            this.showWaitDialog = false;
+            this.showInfoDialog = true;
+            this.nextRoute = ['/edit', data.id];
+          },
+          (error) => {
+            const errorMessage = sessionStorage.getItem('errorMessage');
+            this.message = this.domSanitizer.bypassSecurityTrustHtml(
+              `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
+            this.showWaitDialog = false;
+            this.showInfoDialog = true;
+          });
+      }
+    };
+    this.odrednicaService.checkDuplicate(this.wordE, this.id).subscribe(data => {
+      if (data.length > 0) {
+        this.yesHandler = saveDeterminant;
+        this.message = 'Ова одредница је већ унета! Да ли желите да је сачувате као дупликат?';
+        this.showWarningDialog = true;
+      } else {
+        saveDeterminant();
+      }
+    });
   }
 
   finish(): void {
@@ -425,9 +451,14 @@ export class TabFormComponent implements OnInit {
     return this.selectedVerbKind.def2;
   }
 
-  showError(message): void {
+  showError(message: string): void {
     this.message = this.domSanitizer.bypassSecurityTrustHtml(message);
     this.showInfoDialog = true;
+  }
+
+  showWarning(message: string): void {
+    this.message = this.domSanitizer.bypassSecurityTrustHtml(message);
+    this.showWarningDialog = true;
   }
 
   assert(condition: boolean, message: string): void {

@@ -7,6 +7,7 @@ app_name = 'претрага'
 
 urlpatterns = [
     path('odrednica/', odrednica),
+    path('odrednica/duplicate/', check_duplicate),
     path('korpus/', korpus),
     path('publikacija/', publikacija),
 ]
