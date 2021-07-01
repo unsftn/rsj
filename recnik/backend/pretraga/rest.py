@@ -259,7 +259,6 @@ def check_duplicate(request):
     try:
         response = s.execute()
         for hit in response.hits.hits:
-            print(hit['_source'], term, termid)
             if hit['_source']['rec'] == term and termid is None:
                 hits.append(hit['_source'])
             if hit['_source']['rec'] == term and termid is not None and hit['_source']['pk'] != termid:

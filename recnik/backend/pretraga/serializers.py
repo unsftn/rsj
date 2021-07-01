@@ -1,8 +1,12 @@
+import re
 import unicodedata
 from rest_framework import serializers
 from odrednice.models import VRSTA_ODREDNICE
 from .models import OdrednicaDocument, KorpusDocument, OdrednicaResponse, KorpusResponse, PublikacijaDocument
 from .cyrlat import cyr_to_lat
+
+
+REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)$')
 
 
 def clear_accents(obj):
@@ -13,6 +17,29 @@ def clear_accents(obj):
         for item in obj:
             if isinstance(item, str):
                 new_list.append(''.join(c for c in item if unicodedata.category(c) != 'Mn'))
+            else:
+                new_list.append(item)
+        return new_list
+    return obj
+
+
+def clear_parentheses(obj):
+    if not obj:
+        return obj
+    if isinstance(obj, str):
+        if not REGEX_CONTAINS_PARENTHESES.match(obj):
+            return obj
+        else:
+            return [REGEX_CONTAINS_PARENTHESES.sub('\\1', obj), REGEX_CONTAINS_PARENTHESES.sub('\\1\\2', obj)]
+    if isinstance(obj, list):
+        new_list = []
+        for item in obj:
+            if isinstance(item, str):
+                if not REGEX_CONTAINS_PARENTHESES.match(item):
+                    new_list.append(obj)
+                else:
+                    new_list.append(REGEX_CONTAINS_PARENTHESES.sub('\\1', item))
+                    new_list.append(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2', item))
             else:
                 new_list.append(item)
         return new_list
@@ -57,16 +84,17 @@ class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
         varijante = validated_data.pop('varijante', [])
         varijante.append(rec)
         varijante = clear_accents(varijante)
+        varijante = clear_parentheses(varijante)
         varijante = add_latin(varijante)
         var_set = set(varijante)
         varijante = list(var_set)
-        recSaVarijantama = ' '.join(varijante)
+        rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
 
         return OdrednicaDocument(
             pk=pk,
             rec=rec,
-            varijante=recSaVarijantama,
+            varijante=rec_sa_varijantama,
             vrsta=vrsta
         )
 

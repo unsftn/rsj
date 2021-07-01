@@ -113,7 +113,7 @@ class Odrednica(models.Model):
     broj_pregleda = models.IntegerField('број прегледа', default=0)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
-    stanje = models.IntegerField('стање', choices=STANJE_ODREDNICE, default=1)
+    stanje = models.IntegerField('фаза обраде', choices=STANJE_ODREDNICE, default=1)
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     version = AutoIncVersionField()
     rbr_homonima = models.PositiveSmallIntegerField('редни број хомонима', null=True, blank=True, default=None)
