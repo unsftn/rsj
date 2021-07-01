@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from django.db import models
+from odrednice.models import StatusOdrednice
 
 FILE_TYPES = [
     (1, 'pdf'),
@@ -10,6 +11,7 @@ FILE_TYPES = [
 
 class TipRenderovanogDokumenta(models.Model):
     naziv = models.CharField('назив', max_length=200)
+    statusi = models.ManyToManyField(StatusOdrednice)
 
     def __str__(self):
         return self.naziv

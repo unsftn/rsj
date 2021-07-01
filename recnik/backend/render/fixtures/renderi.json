@@ -3,14 +3,47 @@
     "model": "render.TipRenderovanogDokumenta",
     "pk": 1,
     "fields": {
-      "naziv": "слово"
+      "naziv": "Слово"
     }
   },
   {
     "model": "render.TipRenderovanogDokumenta",
     "pk": 2,
     "fields": {
-      "naziv": "цео речник"
+      "naziv": "Комплетан речник",
+      "statusi": [1, 2, 3, 4, 5]
+    }
+  },
+  {
+    "model": "render.TipRenderovanogDokumenta",
+    "pk": 3,
+    "fields": {
+      "naziv": "Чека на обраду",
+      "statusi": [1]
+    }
+  },
+  {
+    "model": "render.TipRenderovanogDokumenta",
+    "pk": 4,
+    "fields": {
+      "naziv": "РСЈ",
+      "statusi": [2]
+    }
+  },
+  {
+    "model": "render.TipRenderovanogDokumenta",
+    "pk": 5,
+    "fields": {
+      "naziv": "Не улази у РСЈ",
+      "statusi": [3]
+    }
+  },
+  {
+    "model": "render.TipRenderovanogDokumenta",
+    "pk": 6,
+    "fields": {
+      "naziv": "Нејасни примери",
+      "statusi": [4]
     }
   }
 ]

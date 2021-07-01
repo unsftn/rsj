@@ -408,15 +408,15 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
-def render_slovo(slovo, file_format='pdf', status=None):
+def render_slovo(slovo, file_format='pdf', tip_dokumenta=None):
+    if not tip_dokumenta:
+        tip_dokumenta = 2
     try:
-        trd = TipRenderovanogDokumenta.objects.get(id=1)
+        trd = TipRenderovanogDokumenta.objects.get(id=tip_dokumenta)
     except TipRenderovanogDokumenta.DoesNotExist:
-        log.fatal('Nije pronadjen tip renderovanog dokumenta: id=1')
+        log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
         return
-    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower())
-    if status:
-        odrednice = odrednice.filter(status_id=status)
+    odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).filter(status_id__in=trd.statusi.values_list('id', flat=True))
     odrednice = odrednice.order_by(Collate('rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
@@ -428,17 +428,17 @@ def render_slovo(slovo, file_format='pdf', status=None):
         return None
 
 
-def render_recnik(file_format='pdf', status=None):
+def render_recnik(file_format='pdf', tip_dokumenta=None):
+    if not tip_dokumenta:
+        tip_dokumenta = 2
     try:
-        trd = TipRenderovanogDokumenta.objects.get(id=2)
+        trd = TipRenderovanogDokumenta.objects.get(id=tip_dokumenta)
     except TipRenderovanogDokumenta.DoesNotExist:
-        log.fatal('Nije pronadjen tip renderovanog dokumenta: id=2')
+        log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
         return
     slova = []
     for s in AZBUKA:
-        odrednice = Odrednica.objects.filter(rec__startswith=s)
-        if status:
-            odrednice = odrednice.filter(status_id=status)
+        odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))
         odrednice = odrednice.order_by(Collate('rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
         slova.append({
             'slovo': s.upper(),
