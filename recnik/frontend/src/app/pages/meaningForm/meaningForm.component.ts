@@ -22,6 +22,8 @@ export class MeaningFormComponent implements OnInit {
   add(scrollToBottom: boolean = false): void {
     this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [], collocations: [] });
     this.meaningsChange.emit();
+    const last = this.meanings.length - 1;
+    setTimeout(() => { document.getElementById(`meaningtext${last}`).focus(); });
     if (scrollToBottom) {
       setTimeout(() => { scrollTo(0, document.body.scrollHeight); });
     }

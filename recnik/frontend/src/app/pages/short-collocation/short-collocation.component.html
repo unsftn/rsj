@@ -12,6 +12,7 @@
   <button pButton label="{{baseChar}}́" (click)="insertQuote('́')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="{{baseChar}}̑" (click)="insertQuote('̑')" class="accent-button p-mr-3 p-mb-2"></button>
 </p-dialog>
+<!--
 <div class="p-d-flex">
   <div class="p-mr-2">
     <h4>Колокације</h4>
@@ -24,6 +25,15 @@
       (click)="add()">
     </button>
   </div>
+</div>
+-->
+<div>
+  <button
+    pButton
+    icon="pi pi-plus"
+    class="p-button-rounded p-button-raised fab p-mb-2"
+    (click)="add()">
+  </button>
 </div>
 <div *ngFor="let coll of shortCollocations; let i = index">
   <div class="p-d-flex p-ai-center p-mb-1">

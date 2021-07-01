@@ -7,6 +7,7 @@
   <button pButton label="~" (click)="insertQuote('~')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="–" (click)="insertQuote('–')" class="accent-button p-mr-3 p-mb-2"></button>
 </p-dialog>
+<!--
 <div class="p-d-flex">
   <div class="p-mr-2">
     <h4>Конкорданца</h4>
@@ -20,12 +21,21 @@
     </button>
   </div>
 </div>
+-->
+<div>
+  <button
+    pButton
+    icon="pi pi-plus"
+    class="p-button-rounded p-button-raised p-mb-2"
+    (click)="add()">
+  </button>
+</div>
 <form #formRef="ngForm">
   <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
     <div class="p-d-flex p-flex-column p-mb-2">
       <div class="p-d-flex">
         <div class="p-mb-2 p-mr-2">
-          <textarea rows="2" cols="30" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"
+          <textarea rows="2" cols="20" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"
                     (ngModelChange)="onValueChange($event)"
                     (focusout)="onFocusLeave()"
                     (keyup)="keyup($event, i)"></textarea>

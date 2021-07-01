@@ -7,6 +7,7 @@
   <button pButton label="~" (click)="insertQuote('~')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="–" (click)="insertQuote('–')" class="accent-button p-mr-3 p-mb-2"></button>
 </p-dialog>
+<!--
 <div class="p-d-flex">
   <div class="p-mr-2">
     <h4>Изрази и фразе</h4>
@@ -19,6 +20,15 @@
       (click)="add()">
     </button>
   </div>
+</div>
+-->
+<div>
+  <button
+    pButton
+    icon="pi pi-plus"
+    class="p-button-rounded p-button-raised p-mb-2"
+    (click)="add()">
+  </button>
 </div>
 <form #formRef="ngForm">
   <div *ngFor="let expression of expressions; let i=index" class="col-sm-3">
@@ -44,7 +54,7 @@
                             (keyup)="keyup($event, i, true)"></textarea>
                 </div>
                 <div class="p-d-flex p-ai-center">
-                  <div class="p-mr-2">Одредница:</div>
+                  <!--<div class="p-mr-2">Одредница:</div>-->
                   <div class="p-mr-2">
                     <p-autoComplete
                       [(ngModel)]="expressions[i].searchText"
@@ -66,9 +76,11 @@
                   <p-button *ngIf="expressions[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(expressions[i])" class="p-ml-2"></p-button>
                 </div>
                 <div class="p-d-flex p-mt-2">
+                  <!--
                   <div class="p-mr-2">
                     <p class="label">Квалификатори:</p>
                   </div>
+                  -->
                   <div class="p-mr-2">
                     <qualificator [(selectedQualificators)]="expressions[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
                   </div>

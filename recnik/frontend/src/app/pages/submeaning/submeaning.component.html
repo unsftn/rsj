@@ -12,6 +12,7 @@
   <button pButton label="{{baseChar}}́" (click)="insertQuote('́')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="{{baseChar}}̑" (click)="insertQuote('̑')" class="accent-button p-mr-3 p-mb-2"></button>
 </p-dialog>
+<!--
 <div class="p-d-flex">
   <div class="p-mr-2">
     <h4>Подзначење</h4>
@@ -25,8 +26,75 @@
     </button>
   </div>
 </div>
+-->
+<div>
+  <button
+    pButton
+    icon="pi pi-plus"
+    class="p-button-rounded p-button-raised p-mb-1"
+    (click)="add()">
+  </button>
+</div>
 <form #formRef="ngForm">
-  <div *ngFor="let submeaning of submeanings; let i=index" class="col-sm-3">
+  <div *ngFor="let submeaning of submeanings; let i=index" class="col-sm-3" style="position: relative">
+    <p-tabView>
+      <p-tabPanel header="#{{znacenjeRbr}}{{azbuka[i]}}">
+        <textarea rows="2" cols="40" style="resize:vertical" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel"
+                  (ngModelChange)="onValueChange($event)"
+                  (focusout)="onFocusLeave()"
+                  (keyup)="keyup($event, i)" id="submeaningtext{{i}}"></textarea>
+      </p-tabPanel>
+      <p-tabPanel header="Конкорданце">
+        <concordance [concordances]="submeanings[i].concordances" (concordancesChange)="onChange()"></concordance>
+      </p-tabPanel>
+      <p-tabPanel header="Квалификатори">
+        <qualificator [(selectedQualificators)]="submeanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
+      </p-tabPanel>
+      <p-tabPanel header="Фразе">
+        <expressions [expressions]="submeanings[i].expressions" (expressionsChange)="onChange()"></expressions>
+      </p-tabPanel>
+      <p-tabPanel header="Колокације">
+        <short-collocations [shortCollocations]="submeanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
+      </p-tabPanel>
+    </p-tabView>
+    <div class="p-d-flex mgmt-buttons">
+      <div class="p-mr-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          style="margin-top: 10px"
+          icon="pi pi-arrow-up"
+          class="p-button-rounded p-button-outlined smaller-button"
+          (click)="moveSubmeaningUp(i)"
+          [disabled]="i === 0">
+        </button>
+      </div>
+      <div class="p-mr-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          style="margin-top: 10px"
+          icon="pi pi-arrow-down"
+          class="p-button-rounded p-button-outlined smaller-button"
+          (click)="moveSubmeaningDown(i)"
+          [disabled]="i === submeanings.length-1">
+        </button>
+      </div>
+      <div class="p-mr-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          style="margin-top: 10px"
+          icon="pi pi-minus"
+          class="p-button-rounded p-button-outlined p-button-danger smaller-button"
+          (click)="remove(submeaning)">
+        </button>
+      </div>
+    </div>
+    <!--
     <div class="p-d-flex p-flex-column">
       <div class="p-mb-2">
         <div class="p-d-flex">
@@ -75,5 +143,6 @@
         </p-fieldset>
       </div>
     </div>
+    -->
   </div>
 </form>

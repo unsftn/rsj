@@ -24,6 +24,8 @@ export class SubmeaningComponent implements OnInit {
   add(): void {
     this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [], collocations: [] });
     this.submeaningsChange.emit();
+    const last = this.submeanings.length - 1;
+    setTimeout(() => { document.getElementById(`submeaningtext${last}`).focus(); });
   }
 
   remove(submeaning): void {
@@ -53,6 +55,22 @@ export class SubmeaningComponent implements OnInit {
       this.showQuotesDialog = true;
       this.baseChar = event.target.value[this.caretPos - 1];
     }
+  }
+
+  moveSubmeaningUp(index: number): void {
+    if (index === 0)
+      return;
+    const submeaning = this.submeanings.splice(index, 1)[0];
+    this.submeanings.splice(index - 1, 0, submeaning);
+    this.submeaningsChange.emit();
+  }
+
+  moveSubmeaningDown(index: number): void {
+    if (index === this.submeanings.length - 1)
+      return;
+    const meaning = this.submeanings.splice(index, 1)[0];
+    this.submeanings.splice(index + 1, 0, meaning);
+    this.submeaningsChange.emit();
   }
 
   onChange(): void {

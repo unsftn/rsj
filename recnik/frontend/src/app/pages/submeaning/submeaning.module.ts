@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { SubmeaningComponent } from './submeaning.component';
-
 import { DropdownModule } from 'primeng/dropdown';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-
+import { TabViewModule } from 'primeng/tabview';
 import { ConcordanceModule } from '../concordance/concordance.module';
 import { QualificatorModule } from '../qualificators/qualificator.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ShortCollocationModule } from '../short-collocation/short-collocation.module';
+import { SubmeaningComponent } from './submeaning.component';
 
 @NgModule({
   declarations: [SubmeaningComponent],
@@ -26,6 +24,7 @@ import { ShortCollocationModule } from '../short-collocation/short-collocation.m
     FormsModule,
     ButtonModule,
     DialogModule,
+    TabViewModule,
     ConcordanceModule,
     QualificatorModule,
     FieldsetModule,
