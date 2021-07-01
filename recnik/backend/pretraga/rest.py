@@ -253,13 +253,16 @@ def check_duplicate(request):
     s = s.source(includes=['pk', 'rec', 'vrsta'])
     s.query = MultiMatch(
         type='bool_prefix',
-        query=term,
+        query=clear_accents(term),
         fields=['varijante'],
     )
     try:
         response = s.execute()
         for hit in response.hits.hits:
-            if hit['_source']['rec'] == term and hit['_source']['pk'] != termid:
+            print(hit['_source'], term, termid)
+            if hit['_source']['rec'] == term and termid is None:
+                hits.append(hit['_source'])
+            if hit['_source']['rec'] == term and termid is not None and hit['_source']['pk'] != termid:
                 hits.append(hit['_source'])
         serializer = OdrednicaResponseSerializer(hits, many=True)
         data = serializer.data
