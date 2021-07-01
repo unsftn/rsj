@@ -8,6 +8,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
 
 import { ConcordanceModule } from '../concordance/concordance.module';
 import { SubmeaningModule } from '../submeaning/submeaning.module';
@@ -28,6 +29,7 @@ import { ShortCollocationModule } from '../short-collocation/short-collocation.m
     ButtonModule,
     FieldsetModule,
     DialogModule,
+    TabViewModule,
     ConcordanceModule,
     SubmeaningModule,
     QualificatorModule,

@@ -52,6 +52,22 @@ export class MeaningFormComponent implements OnInit {
     }
   }
 
+  moveMeaningUp(index: number): void {
+    if (index === 0)
+      return;
+    const meaning = this.meanings.splice(index, 1)[0];
+    this.meanings.splice(index - 1, 0, meaning);
+    this.meaningsChange.emit();
+  }
+
+  moveMeaningDown(index: number): void {
+    if (index === this.meanings.length - 1)
+      return;
+    const meaning = this.meanings.splice(index, 1)[0];
+    this.meanings.splice(index + 1, 0, meaning);
+    this.meaningsChange.emit();
+  }
+
   insertQuote(char: string): void {
     const text = this.meanings[this.caretIndex].value;
     const newText = text.slice(0, this.caretPos) + char + text.slice(this.caretPos);

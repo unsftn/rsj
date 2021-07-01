@@ -12,6 +12,7 @@
   <button pButton label="{{baseChar}}́" (click)="insertQuote('́')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="{{baseChar}}̑" (click)="insertQuote('̑')" class="accent-button p-mr-3 p-mb-2"></button>
 </p-dialog>
+<!--
 <div class="p-d-flex">
   <div class="p-mr-2">
     <h4>Значење</h4>
@@ -25,8 +26,69 @@
     </button>
   </div>
 </div>
+-->
 <form #formRef="ngForm">
-  <div *ngFor="let meaning of meanings; let i=index" class="col-sm-3">
+  <div *ngFor="let meaning of meanings; let i=index" class="col-sm-3 p-d-flex">
+    <p-tabView>
+      <p-tabPanel header="#{{i + 1}}">
+        <textarea rows="2" cols="60" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel"
+                  (ngModelChange)="onValueChange($event)"
+                  (focusout)="onFocusLeave()"
+                  (keyup)="keyup($event, i)"></textarea>
+      </p-tabPanel>
+      <p-tabPanel header="Конкорданце">
+        <concordance [concordances]="meanings[i].concordances" (concordancesChange)="onChange()"></concordance>
+      </p-tabPanel>
+      <p-tabPanel header="Подзначења">
+        <submeaning [submeanings]="meanings[i].submeanings" [znacenjeRbr]="i+1" (submeaningsChange)="onChange()"></submeaning>
+      </p-tabPanel>
+      <p-tabPanel header="Квалификатори">
+        <qualificator [(selectedQualificators)]="meanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
+      </p-tabPanel>
+      <p-tabPanel header="Фразе">
+        <expressions [expressions]="meanings[i].expressions" (expressionsChange)="onChange()"></expressions>
+      </p-tabPanel>
+      <p-tabPanel header="Колокације">
+        <short-collocations [shortCollocations]="meanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
+      </p-tabPanel>
+    </p-tabView>
+    <div class="p-mr-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        style="margin-top: 10px"
+        icon="pi pi-arrow-up"
+        class="p-button-rounded p-button-outlined add-button"
+        (click)="moveMeaningUp(i)"
+        [disabled]="i === 0">
+      </button>
+    </div>
+    <div class="p-mr-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        style="margin-top: 10px"
+        icon="pi pi-arrow-down"
+        class="p-button-rounded p-button-outlined add-button"
+        (click)="moveMeaningDown(i)"
+        [disabled]="i === meanings.length-1">
+      </button>
+    </div>
+    <div class="p-mr-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        style="margin-top: 10px"
+        icon="pi pi-minus"
+        class="p-button-rounded p-button-outlined p-button-danger add-button"
+        (click)="remove(meaning)">
+      </button>
+    </div>
+
+    <!--
     <div class="form-group">
         <div class="p-d-flex">
           <div class="p-mr-2">
@@ -82,6 +144,7 @@
           </div>
         </div>
     </div>
+    -->
   </div>
 </form>
 <button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="add(true)"></button>
