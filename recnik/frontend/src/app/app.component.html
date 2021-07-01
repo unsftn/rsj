@@ -6,7 +6,7 @@
   <div class="search-container">
     <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="600px" (onSelect)="select($event)" placeholder="Претрага">
       <ng-template let-word pTemplate="item">
-        <span class="rec">{{word.rec}}</span>
+        <span class="rec">{{word.rec}}<span *ngIf="word.rbr_homo"><sup>{{word.rbr_homo}}</sup></span></span>
         <span class="vrsta">{{word.vrsta_text}}</span>
       </ng-template>
     </p-autoComplete>

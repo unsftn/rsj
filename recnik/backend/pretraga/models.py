@@ -8,11 +8,13 @@ class OdrednicaDocument(Document):
     rec = Keyword()
     varijante = SearchAsYouType()  # analyzer=SERBIAN_ANALYZER
     vrsta = Keyword()
+    rbr_homo = Keyword()
 
 
 class OdrednicaResponse(models.Model):
     rec = CharField(max_length=50)
     vrsta = IntegerField()
+    rbr_homo = IntegerField(null=True)
 
 
 class KorpusDocument(Document):

@@ -36,7 +36,7 @@ def clear_parentheses(obj):
         for item in obj:
             if isinstance(item, str):
                 if not REGEX_CONTAINS_PARENTHESES.match(item):
-                    new_list.append(obj)
+                    new_list.append(item)
                 else:
                     new_list.append(REGEX_CONTAINS_PARENTHESES.sub('\\1', item))
                     new_list.append(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2', item))
@@ -73,6 +73,7 @@ class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
     rec = serializers.CharField(max_length=50, required=True, allow_blank=True)
     varijante = serializers.ListField(child=serializers.CharField(), required=True)
     vrsta = serializers.IntegerField(required=True)
+    rbr_homo = serializers.IntegerField(required=True, allow_null=True)
 
     class Meta:
         model = OdrednicaDocument
@@ -90,12 +91,14 @@ class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
+        rbr_homo = validated_data.pop('rbr_homo')
 
         return OdrednicaDocument(
             pk=pk,
             rec=rec,
             varijante=rec_sa_varijantama,
-            vrsta=vrsta
+            vrsta=vrsta,
+            rbr_homo=rbr_homo
         )
 
 
@@ -104,13 +107,14 @@ class OdrednicaResponseSerializer(serializers.ModelSerializer):
     rec = serializers.CharField(max_length=50, required=True, allow_blank=True)
     vrsta = serializers.IntegerField(required=True)
     vrsta_text = serializers.SerializerMethodField()
+    rbr_homo = serializers.IntegerField(required=True, allow_null=True)
 
     def get_vrsta_text(self, obj):
         return VRSTA_ODREDNICE[obj.vrsta][1]
 
     class Meta:
         model = OdrednicaResponse
-        fields = ('pk', 'rec', 'vrsta', 'vrsta_text')
+        fields = ('pk', 'rec', 'vrsta', 'vrsta_text', 'rbr_homo')
 
 
 class CreateKorpusDocumentSerializer(serializers.ModelSerializer):
