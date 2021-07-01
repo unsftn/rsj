@@ -16,6 +16,10 @@
 <p-dialog header="Задужења за ову одредницу" [(visible)]="showOwnershipDialog" [style]="{width: '70vw'}">
   <div class="p-d-inline-flex p-flex-column">
     <div class="p-d-flex">
+      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Стање:</p></div>
+      <div class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{selectedState.opis}}</p></div>
+    </div>
+    <div class="p-d-flex">
       <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Обрађивач:</p></div>
       <div *ngIf="groupId == 1" class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{obradjivac?.full_name}}</p></div>
       <div *ngIf="groupId > 1" class="p-md-9 p-mb-3">
