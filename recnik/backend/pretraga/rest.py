@@ -257,9 +257,7 @@ def check_duplicate(request):
     )
     try:
         response = s.execute()
-        print(term, termid, rbr_homo)
         for hit in response.hits.hits:
-            print(hit['_source'])
             try:
                 found_homo = hit['_source']['rbr_homo']
             except KeyError:
