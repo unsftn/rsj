@@ -518,6 +518,12 @@ export class TabFormComponent implements OnInit {
         }
       }
     }
+    for (const expr of this.expressions) {
+      for (const coll of expr.collocations) {
+        if (!coll.tekst)
+          return true;
+      }
+    }
     return false;
   }
 
@@ -529,7 +535,7 @@ export class TabFormComponent implements OnInit {
       this.assert(this.emptySynonym(), '<p>Постоји (бар) један празан синоним.</p>');
       this.assert(this.emptyAntonym(), '<p>Постоји (бар) један празан антоним.</p>');
       this.assert(this.emptyCollocation(), '<p>Постоји (бар) једна празна одредница у колокацијама.</p>');
-      this.assert(this.emptyShortCollocation(), '<p>Постоји (бар) једна празна колокација у оквиру значења или подзначења.</p>');
+      this.assert(this.emptyShortCollocation(), '<p>Постоји (бар) једна празна колокација у оквиру значења, подзначења или фразе.</p>');
       return true;
     } catch (e) {
       console.log(e);
@@ -583,6 +589,13 @@ export class TabFormComponent implements OnInit {
           opis: value.value.trim(),
           tekst: value.tekst.trim(),
           vezana_odrednica_id: value.determinantId ? value.determinantId : null,
+          konkordanse: value.concordances.map((c, idx2) => {
+            return {
+              redni_broj: idx2 + 1,
+              opis: c.concordance.trim(),
+              publikacija_id: c.bookId ? c.bookId : null,
+            };
+          }),
           kvalifikatori: value.qualificators.map((q, idx2) => {
             return {
               redni_broj: idx2 + 1,
@@ -619,6 +632,13 @@ export class TabFormComponent implements OnInit {
                 opis: value.value.trim(),
                 tekst: value.tekst.trim(),
                 vezana_odrednica_id: value.determinantId ? value.determinantId : null,
+                konkordanse: value.concordances.map((c, idx3) => {
+                  return {
+                    redni_broj: idx3 + 1,
+                    opis: c.concordance.trim(),
+                    publikacija_id: c.bookId ? c.bookId : null,
+                  };
+                }),
                 kvalifikatori: value.qualificators.map((q, idx3) => {
                   return {
                     redni_broj: idx3 + 1,
@@ -656,6 +676,13 @@ export class TabFormComponent implements OnInit {
             opis: value.value.trim(),
             tekst: value.tekst.trim(),
             vezana_odrednica_id: value.determinantId ? value.determinantId : null,
+            konkordanse: value.concordances.map((c, idx2) => {
+              return {
+                redni_broj: idx2 + 1,
+                opis: c.concordance.trim(),
+                publikacija_id: c.bookId ? c.bookId : null,
+              };
+            }),
             kvalifikatori: value.qualificators.map((q, idx2) => {
               return {
                 redni_broj: idx2 + 1,
@@ -739,6 +766,7 @@ export class TabFormComponent implements OnInit {
       determinantId: expr.vezana_odrednica_id,
       searchText: '',
       rec$: undefined,
+      concordances: expr.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
       qualificators: expr.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id))
     }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
@@ -772,6 +800,7 @@ export class TabFormComponent implements OnInit {
           determinantId: e.vezana_odrednica_id,
           searchText: '',
           rec$: undefined,
+          concordances: e.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
           qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
         };
       }),
@@ -787,6 +816,7 @@ export class TabFormComponent implements OnInit {
             determinantId: e.vezana_odrednica_id,
             searchText: '',
             rec$: undefined,
+            concordances: e.konkordansa_set.map((k) => ({concordance: k.opis, bookId: k.publikacija_id, searchText: '', naslov$: undefined, skracenica$: undefined})),
             qualificators: e.kvalifikatorfraze_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
           };
         }),

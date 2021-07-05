@@ -24,7 +24,7 @@ export class MeaningFormComponent implements OnInit {
     this.meaningsChange.emit();
     const last = this.meanings.length - 1;
     setTimeout(() => { document.getElementById(`meaningtext${last}`).focus(); });
-    if (scrollToBottom) {
+    if (scrollToBottom && this.meanings.length > 2) {
       setTimeout(() => { scrollTo(0, document.body.scrollHeight); });
     }
   }

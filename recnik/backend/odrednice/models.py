@@ -437,6 +437,7 @@ class Konkordansa(models.Model):
     opis = models.CharField('опис', max_length=2000)
     znacenje = models.ForeignKey(Znacenje, verbose_name='значење', blank=True, null=True, on_delete=models.CASCADE)
     podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
+    izraz_fraza = models.ForeignKey(IzrazFraza, verbose_name='фраза', blank=True, null=True, on_delete=models.CASCADE)
     publikacija = models.ForeignKey(publikacije_models.Publikacija, verbose_name='публикација', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:

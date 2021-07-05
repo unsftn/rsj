@@ -68,11 +68,12 @@ class KvalifikatorFrazeSerializer(serializers.ModelSerializer):
 
 class IzrazFrazaSerializer(serializers.ModelSerializer):
     kvalifikatorfraze_set = KvalifikatorFrazeSerializer(many=True)
+    konkordansa_set = KonkordansaSerializer(many=True)
 
     class Meta:
         model = IzrazFraza
         fields = ('id', 'opis', 'tekst', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id',
-                  'kvalifikatorfraze_set', 'vezana_odrednica_id')
+                  'kvalifikatorfraze_set', 'vezana_odrednica_id', 'konkordansa_set')
 
 
 class KonkordansaSerializer(serializers.ModelSerializer):
