@@ -230,18 +230,19 @@ class CreateKolokacijaSerializer(NoSaveSerializer):
     napomena = serializers.CharField(max_length=2000, required=True, allow_null=True, allow_blank=True)
 
 
+class CreateKonkordansaSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    opis = serializers.CharField(max_length=2000, allow_blank=True)
+    publikacija_id = serializers.IntegerField(required=False, allow_null=True)
+
+
 class CreateIzrazFrazaSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     opis = serializers.CharField(max_length=2000, allow_blank=True)
     tekst = serializers.CharField(max_length=200, required=False, allow_blank=True)
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
+    konkordanse = serializers.ListField(child=CreateKonkordansaSerializer(), required=False)
     vezana_odrednica_id = serializers.IntegerField(required=False, allow_null=True)
-
-
-class CreateKonkordansaSerializer(NoSaveSerializer):
-    redni_broj = serializers.IntegerField()
-    opis = serializers.CharField(max_length=2000, allow_blank=True)
-    publikacija_id = serializers.IntegerField(required=False, allow_null=True)
 
 
 class CreateKolokacijaPodznacenjaSerializer(NoSaveSerializer):
@@ -373,11 +374,19 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             KvalifikatorOdrednice.objects.using(database).create(odrednica=odrednica, **kvod)
         for izr_frz in izrazi_fraze:
             kvalifikatori_fraze = izr_frz.pop('kvalifikatori', [])
+            konkordanse_fraze = izr_frz.pop('konkordanse', [])
             if database != 'default' and izr_frz.get('vezana_odrednica_id'):
                 izr_frz['vezana_odrednica_id'] = None
             iz = IzrazFraza.objects.using(database).create(odrednica=odrednica, **izr_frz)
             for kv in kvalifikatori_fraze:
                 KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
+            for kk in konkordanse_fraze:
+                if database != 'default' and kk['publikacija_id']:
+                    dst_pub = self._make_fake_pub(kk, database)
+                    del kk['publikacija_id']
+                    Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
+                else:
+                    Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
         for znacenje in znacenja:
             kvalifikatori = znacenje.pop('kvalifikatori', [])
             podznacenja = znacenje.pop('podznacenja', [])
@@ -388,12 +397,20 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             for k in kvalifikatori:
                 KvalifikatorZnacenja.objects.using(database).create(znacenje=z, **k)
             for ifz in izrazi_fraze_znacenja:
+                konkordanse1 = ifz.pop('konkordanse', [])
                 kvalifikatori_fraze = ifz.pop('kvalifikatori', [])
                 if database != 'default' and ifz.get('vezana_odrednica_id'):
                     ifz['vezana_odrednica_id'] = None
                 iz = IzrazFraza.objects.using(database).create(znacenje=z, **ifz)
                 for kv in kvalifikatori_fraze:
                     KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
+                for kk in konkordanse1:
+                    if database != 'default' and kk['publikacija_id']:
+                        dst_pub = self._make_fake_pub(kk, database)
+                        del kk['publikacija_id']
+                        Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
+                    else:
+                        Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
             for konz in konkordanse_znacenja:
                 if database != 'default' and konz['publikacija_id']:
                     dst_pub = self._make_fake_pub(konz, database)
@@ -413,11 +430,19 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     KvalifikatorPodznacenja.objects.using(database).create(podznacenje=p, **k)
                 for ifp in izrazi_fraze_podznacenja:
                     kvalifikatori_fraze = ifp.pop('kvalifikatori', [])
+                    konkordanse2 = ifp.pop('konkordanse', [])
                     if database != 'default' and ifp.get('vezana_odrednica_id'):
                         ifp['vezana_odrednica_id'] = None
                     iz = IzrazFraza.objects.using(database).create(podznacenje=p, **ifp)
                     for kv in kvalifikatori_fraze:
                         KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
+                    for kk in konkordanse2:
+                        if database != 'default' and kk['publikacija_id']:
+                            dst_pub = self._make_fake_pub(kk, database)
+                            del kk['publikacija_id']
+                            Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
+                        else:
+                            Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
                 for konz in konkordanse_podznacenja:
                     if database != 'default' and konz['publikacija_id']:
                         dst_pub = self._make_fake_pub(konz, database)
