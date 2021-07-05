@@ -95,7 +95,7 @@ export class TabFormComponent implements OnInit {
   dirty: boolean;
   yesHandler: () => void;
 
-  groupId: number = 0;
+  groupId = 0;
   obradjivac: any = null;
   redaktor: any = null;
   urednik: any = null;
@@ -320,13 +320,13 @@ export class TabFormComponent implements OnInit {
     }
     this.showAccentDialog = false;
     this.accentTarget.focus();
-    setTimeout(() => { this.accentTarget.setSelectionRange(this.accentCaretPos + 1, this.accentCaretPos + 1, 'none') });
+    setTimeout(() => { this.accentTarget.setSelectionRange(this.accentCaretPos + 1, this.accentCaretPos + 1, 'none'); });
   }
 
   checkDuplicate(showAllowSave: boolean): void {
     if (this.wordE === undefined)
       return;
-    this.odrednicaService.checkDuplicate(this.wordE, this.id).subscribe(data => {
+    this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {
       if (data.length > 0) {
         console.log(data);
         if (showAllowSave) {
@@ -518,12 +518,6 @@ export class TabFormComponent implements OnInit {
         }
       }
     }
-    for (const expr of this.expressions) {
-      for (const coll of expr.collocations) {
-        if (!coll.tekst)
-          return true;
-      }
-    }
     return false;
   }
 
@@ -644,7 +638,7 @@ export class TabFormComponent implements OnInit {
                     redni_broj: idx3 + 1,
                     kvalifikator_id: q.id,
                     skracenica: q.abbreviation
-                  }
+                  };
                 }),
               };
             }),
@@ -666,7 +660,7 @@ export class TabFormComponent implements OnInit {
               return {
                 redni_broj: idx2 + 1,
                 tekst: coll.tekst
-              }
+              };
             }),
           };
         }),
@@ -688,7 +682,7 @@ export class TabFormComponent implements OnInit {
                 redni_broj: idx2 + 1,
                 kvalifikator_id: q.id,
                 skracenica: q.abbreviation
-              }
+              };
             }),
           };
         }),
@@ -710,7 +704,7 @@ export class TabFormComponent implements OnInit {
           return {
             redni_broj: idx + 1,
             tekst: coll.tekst
-          }
+          };
         }),
       };
     }) : [];
@@ -1032,7 +1026,7 @@ export class TabFormComponent implements OnInit {
   toKraj(): void {
     if (!this.editMode)
       return;
-    this.message = 'Да ли сте сигурни да желите да затворите одредницу?'
+    this.message = 'Да ли сте сигурни да желите да затворите одредницу?';
     this.showWarningDialog = true;
     this.yesHandler = () => {
       this.odrednicaService.toKraj(this.id).subscribe(

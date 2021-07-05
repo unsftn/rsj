@@ -31,7 +31,7 @@ export class ExpressionsComponent implements OnInit, OnChanges {
   ) {}
 
   add(): void {
-    this.expressions.push({ value: '', tekst: '', searchText: '', determinantId: null, rec$: of(''), qualificators: [] });
+    this.expressions.push({ value: '', tekst: '', searchText: '', determinantId: null, rec$: of(''), qualificators: [], concordances: [] });
     this.expressionsChange.emit();
   }
 

@@ -249,7 +249,7 @@ def check_duplicate(request):
     rbr_homo = int(shomo) if shomo else None
     hits = []
     s = Search(index=ODREDNICA_INDEX)
-    s = s.source(includes=['pk', 'rec', 'vrsta'])
+    s = s.source(includes=['pk', 'rec', 'vrsta', 'rbr_homo'])
     s.query = MultiMatch(
         type='bool_prefix',
         query=clear_accents(term),
@@ -257,11 +257,19 @@ def check_duplicate(request):
     )
     try:
         response = s.execute()
+        print(term, termid, rbr_homo)
         for hit in response.hits.hits:
-            if hit['_source']['rec'] == term and termid is None and hit['_source']['rbr_homo'] == rbr_homo:
-                hits.append(hit['_source'])
-            if hit['_source']['rec'] == term and termid is not None and hit['_source']['rbr_homo'] == rbr_homo and hit['_source']['pk'] != termid:
-                hits.append(hit['_source'])
+            print(hit['_source'])
+            try:
+                found_homo = hit['_source']['rbr_homo']
+            except KeyError:
+                found_homo = None
+            if hit['_source']['rec'] == term and termid is None:
+                if found_homo and found_homo == rbr_homo:
+                    hits.append(hit['_source'])
+            if hit['_source']['rec'] == term and termid is not None and hit['_source']['pk'] != termid:
+                if found_homo and found_homo == rbr_homo:
+                    hits.append(hit['_source'])
         serializer = OdrednicaResponseSerializer(hits, many=True)
         data = serializer.data
 

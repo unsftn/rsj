@@ -66,6 +66,12 @@ class KvalifikatorFrazeSerializer(serializers.ModelSerializer):
         fields = ('redni_broj', 'kvalifikator_id', 'izrazfraza_id',)
 
 
+class KonkordansaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Konkordansa
+        fields = ('id', 'redni_broj', 'opis', 'znacenje_id', 'podznacenje_id', 'izraz_fraza_id', 'publikacija_id')
+
+
 class IzrazFrazaSerializer(serializers.ModelSerializer):
     kvalifikatorfraze_set = KvalifikatorFrazeSerializer(many=True)
     konkordansa_set = KonkordansaSerializer(many=True)
@@ -74,12 +80,6 @@ class IzrazFrazaSerializer(serializers.ModelSerializer):
         model = IzrazFraza
         fields = ('id', 'opis', 'tekst', 'redni_broj', 'odrednica_id', 'znacenje_id', 'podznacenje_id',
                   'kvalifikatorfraze_set', 'vezana_odrednica_id', 'konkordansa_set')
-
-
-class KonkordansaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Konkordansa
-        fields = ('id', 'redni_broj', 'opis', 'znacenje_id', 'podznacenje_id', 'publikacija_id')
 
 
 class KolokacijaZnacenjaSerializer(serializers.ModelSerializer):

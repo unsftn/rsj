@@ -12,7 +12,7 @@ import { TagModule } from 'primeng/tag';
 
 import { ExpressionsComponent } from './expressions.component';
 import { QualificatorModule } from '../qualificators/qualificator.module';
-import { ShortCollocationModule } from '../short-collocation/short-collocation.module';
+import { ConcordanceModule } from '../concordance/concordance.module';
 
 @NgModule({
   declarations: [ExpressionsComponent],
@@ -26,7 +26,7 @@ import { ShortCollocationModule } from '../short-collocation/short-collocation.m
     DialogModule,
     TagModule,
     QualificatorModule,
-    ShortCollocationModule,
+    ConcordanceModule,
   ],
   exports: [ExpressionsComponent],
   providers: [],
