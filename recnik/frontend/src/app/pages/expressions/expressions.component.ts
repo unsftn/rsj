@@ -100,7 +100,7 @@ export class ExpressionsComponent implements OnInit, OnChanges {
   }
 
   keyup(event, index: number, opis: boolean): void {
-    if (event.key === 'F1') {
+    if (event.key === 'F1' || event.key === 'F4') {
       this.caretInOpis = opis;
       this.caretPos = event.target.selectionStart;
       this.caretIndex = index;

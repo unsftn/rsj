@@ -62,7 +62,7 @@ export class ConcordanceComponent implements OnInit, OnChanges {
   }
 
   keyup(event, index: number): void {
-    if (event.key === 'F1') {
+    if (event.key === 'F1' || event.key === 'F4') {
       this.caretPos = event.target.selectionStart;
       this.caretIndex = index;
       this.caretTarget = event.target;
