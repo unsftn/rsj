@@ -120,4 +120,20 @@ export class ExpressionsComponent implements OnInit, OnChanges {
     }
   }
 
+  moveExpressionUp(index: number): void {
+    if (index === 0)
+      return;
+    const expr = this.expressions.splice(index, 1)[0];
+    this.expressions.splice(index - 1, 0, expr);
+    this.expressionsChange.emit();
+  }
+
+  moveExpressionDown(index: number): void {
+    if (index === this.expressions.length - 1)
+      return;
+    const expr = this.expressions.splice(index, 1)[0];
+    this.expressions.splice(index + 1, 0, expr);
+    this.expressionsChange.emit();
+  }
+
 }

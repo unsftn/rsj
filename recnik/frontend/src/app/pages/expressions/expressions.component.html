@@ -31,7 +31,94 @@
   </button>
 </div>
 <form #formRef="ngForm">
-  <div *ngFor="let expression of expressions; let i=index" class="col-sm-3">
+  <div *ngFor="let expression of expressions; let i=index" class="col-sm-3" style="position: relative">
+    <p-tabView>
+      <p-tabPanel header="Ф{{i + 1}}">
+        <div class="p-d-flex p-flex-column">
+          <div class="p-mb-2">
+            <input type="text" pInputText [(ngModel)]="expressions[i].tekst" class="long-input" name="tekst{{i}}" placeholder="Текст фразе"
+                   (ngModelChange)="onValueChange($event)"
+                   (focusout)="onFocusLeave()"
+                   (keyup)="keyup($event, i, false)"/>
+          </div>
+          <div class="p-mb-2">
+            <textarea rows="2" cols="50" pInputTextarea style="resize:vertical" [(ngModel)]="expressions[i].value" name="name{{i}}" #name="ngModel" placeholder="Опис фразе"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"
+                      (keyup)="keyup($event, i, true)"></textarea>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Одредница">
+        <div class="p-d-flex p-ai-center">
+          <!--<div class="p-mr-2">Одредница:</div>-->
+          <div class="p-mr-2">
+            <p-autoComplete
+              [(ngModel)]="expressions[i].searchText"
+              [suggestions]="searchResults"
+              (completeMethod)="search($event)"
+              (onSelect)="select($event, i)"
+              placeholder="Претрага одреднице"
+              name="selectedDeterminant{{i}}"
+              scrollHeight="300px"
+              [minLength]="1"
+              class="search-component">
+              <ng-template let-word pTemplate="item">
+                <span class="rec">{{word.rec}}</span>
+                <span class="vrsta">{{word.vrsta_text}}</span>
+              </ng-template>
+            </p-autoComplete>
+          </div>
+          <p-tag *ngIf="expressions[i].rec$ | async as rec" value="{{rec}}"></p-tag>
+          <p-button *ngIf="expressions[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(expressions[i])" class="p-ml-2"></p-button>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Квалификатори">
+        <qualificator [(selectedQualificators)]="expressions[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
+      </p-tabPanel>
+      <p-tabPanel header="Конкорданце">
+        <concordance [concordances]="expressions[i].concordances" (concordancesChange)="onChange()"></concordance>
+      </p-tabPanel>
+    </p-tabView>
+    <div class="p-d-flex mgmt-buttons">
+      <div class="p-mr-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          style="margin-top: 10px"
+          icon="pi pi-arrow-up"
+          class="p-button-rounded p-button-outlined smaller-button"
+          (click)="moveExpressionUp(i)"
+          [disabled]="i === 0">
+        </button>
+      </div>
+      <div class="p-mr-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          style="margin-top: 10px"
+          icon="pi pi-arrow-down"
+          class="p-button-rounded p-button-outlined smaller-button"
+          (click)="moveExpressionDown(i)"
+          [disabled]="i === expressions.length-1">
+        </button>
+      </div>
+      <div class="p-mr-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          style="margin-top: 10px"
+          icon="pi pi-minus"
+          class="p-button-rounded p-button-outlined p-button-danger smaller-button"
+          (click)="remove(expression)">
+        </button>
+      </div>
+    </div>
+
+    <!--
     <div class="form-group">
       <div class="p-d-flex">
         <div class="p-mr-2">
@@ -54,7 +141,7 @@
                             (keyup)="keyup($event, i, true)"></textarea>
                 </div>
                 <div class="p-d-flex p-ai-center">
-                  <!--<div class="p-mr-2">Одредница:</div>-->
+                  <div class="p-mr-2">Одредница:</div>
                   <div class="p-mr-2">
                     <p-autoComplete
                       [(ngModel)]="expressions[i].searchText"
@@ -76,11 +163,9 @@
                   <p-button *ngIf="expressions[i].determinantId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removeDeterminant(expressions[i])" class="p-ml-2"></p-button>
                 </div>
                 <div class="p-d-flex p-mt-2">
-                  <!--
                   <div class="p-mr-2">
                     <p class="label">Квалификатори:</p>
                   </div>
-                  -->
                   <div class="p-mr-2">
                     <qualificator [(selectedQualificators)]="expressions[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
                   </div>
@@ -103,5 +188,6 @@
         </div>
       </div>
     </div>
+    -->
   </div>
 </form>

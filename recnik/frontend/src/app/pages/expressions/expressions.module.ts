@@ -13,6 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { ExpressionsComponent } from './expressions.component';
 import { QualificatorModule } from '../qualificators/qualificator.module';
 import { ConcordanceModule } from '../concordance/concordance.module';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [ExpressionsComponent],
@@ -25,6 +26,7 @@ import { ConcordanceModule } from '../concordance/concordance.module';
     ButtonModule,
     DialogModule,
     TagModule,
+    TabViewModule,
     QualificatorModule,
     ConcordanceModule,
   ],
