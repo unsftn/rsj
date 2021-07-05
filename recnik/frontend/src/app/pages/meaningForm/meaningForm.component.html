@@ -45,7 +45,7 @@
       <p-tabPanel header="Квалификатори">
         <qualificator [(selectedQualificators)]="meanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
       </p-tabPanel>
-      <p-tabPanel header="Фразе">
+      <p-tabPanel header="Фразе" [disabled]="true">
         <expressions [expressions]="meanings[i].expressions" (expressionsChange)="onChange()"></expressions>
       </p-tabPanel>
       <p-tabPanel header="Колокације">
