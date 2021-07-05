@@ -244,10 +244,9 @@ def _search_publikacija(request):
 def check_duplicate(request):
     term = request.GET.get('q')
     sid = request.GET.get('id')
-    if sid:
-        termid = int(sid)
-    else:
-        termid = None
+    shomo = request.GET.get('homo')
+    termid = int(sid) if sid else None
+    rbr_homo = int(shomo) if shomo else None
     hits = []
     s = Search(index=ODREDNICA_INDEX)
     s = s.source(includes=['pk', 'rec', 'vrsta'])
@@ -259,9 +258,9 @@ def check_duplicate(request):
     try:
         response = s.execute()
         for hit in response.hits.hits:
-            if hit['_source']['rec'] == term and termid is None:
+            if hit['_source']['rec'] == term and termid is None and hit['_source']['rbr_homo'] == rbr_homo:
                 hits.append(hit['_source'])
-            if hit['_source']['rec'] == term and termid is not None and hit['_source']['pk'] != termid:
+            if hit['_source']['rec'] == term and termid is not None and hit['_source']['rbr_homo'] == rbr_homo and hit['_source']['pk'] != termid:
                 hits.append(hit['_source'])
         serializer = OdrednicaResponseSerializer(hits, many=True)
         data = serializer.data
