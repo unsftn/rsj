@@ -177,7 +177,8 @@ def render_podznacenje(podznacenje):
         tekst += ', '.join([render_kratke_kolokacije(kol) for kol in podznacenje.kolokacijapodznacenja_set.all().order_by('redni_broj')])
         tekst = tacka(tekst)
     else:
-        tekst += f'{tacka(process_tags(podznacenje.tekst))}'
+        if podznacenje.tekst:
+            tekst += f'{tacka(process_tags(podznacenje.tekst))}'
 
     if podznacenje.konkordansa_set.count() > 0:
         tekst = tekst + ' &mdash; '
@@ -194,7 +195,8 @@ def render_znacenje(znacenje):
         tekst += ', '.join([render_kratke_kolokacije(kol) for kol in znacenje.kolokacijaznacenja_set.all().order_by('redni_broj')])
         tekst = tacka(tekst)
     else:
-        tekst += f'{tacka(process_tags(znacenje.tekst))}'
+        if znacenje.tekst:
+            tekst += f'{tacka(process_tags(znacenje.tekst))}'
 
     if znacenje.konkordansa_set.count() > 0:
         tekst = tekst + ' &mdash; '
