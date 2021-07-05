@@ -114,3 +114,16 @@
   left: -30px !important;
   top: 20px !important;
 }
+
+:host ::ng-deep .gray.p-menubar {
+  background-color: #f8f9fa;
+}
+:host ::ng-deep .blue.p-menubar {
+  background-color: #cae6fc;
+}
+:host ::ng-deep .green.p-menubar {
+  background-color: #d4ecd5;
+}
+:host ::ng-deep .yellow.p-menubar {
+  background-color: #fef0cd;
+}

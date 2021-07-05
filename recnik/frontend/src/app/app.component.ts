@@ -5,6 +5,7 @@ import { TokenStorageService } from './services/auth/token-storage.service';
 import { UserService } from './services/auth/user.service';
 import { OdrednicaService, QualificatorService } from './services/odrednice';
 import { PublikacijaService } from './services/publikacije';
+import { AppConfigService } from './services/config/app-config.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
   searchText: string;
   searchResults: any[];
   username = '';
+  headerStyle: string;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -26,6 +28,7 @@ export class AppComponent implements OnInit {
     private odrednicaService: OdrednicaService,
     private publikacijaService: PublikacijaService,
     private userService: UserService,
+    private appConfigService: AppConfigService,
     private router: Router,
   ) {}
 
@@ -142,6 +145,11 @@ export class AppComponent implements OnInit {
         else
           item.disabled = !loggedIn;
       });
+    });
+    this.appConfigService.getAppConfig().subscribe(data => {
+      this.headerStyle = data.HEADER_COLOR_SCHEME;
+    }, error => {
+      console.log(error);
     });
   }
 }
