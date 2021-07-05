@@ -74,6 +74,8 @@
   <button pButton label="{{baseChar}}́" (click)="insertAccent('́')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="{{baseChar}}̑" (click)="insertAccent('̑')" class="accent-button p-mr-3 p-mb-2"></button>
   <button pButton label="&#x2205;" (click)="insertAccent('\u2205')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
+  <button pButton label="[" (click)="insertAccent('[')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
+  <button pButton label="]" (click)="insertAccent(']')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
 </p-dialog>
 
 <div class="basic-information-container">

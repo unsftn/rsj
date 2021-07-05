@@ -294,7 +294,7 @@ export class TabFormComponent implements OnInit {
   }
 
   keyup(event, modelName: string, index = -1): void {
-    if (event.key === 'F1') {
+    if (event.key === 'F1' || event.key === 'F4') {
       this.accentCaretPos = event.target.selectionStart;
       this.accentIndex = index;
       if (this.accentCaretPos === 0) return;
@@ -377,7 +377,7 @@ export class TabFormComponent implements OnInit {
           });
       }
     };
-    this.odrednicaService.checkDuplicate(this.wordE, this.id).subscribe(data => {
+    this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {
       if (data.length > 0) {
         this.yesHandler = saveDeterminant;
         this.message = 'Ова одредница је већ унета! Да ли желите да је сачувате као дупликат?';
