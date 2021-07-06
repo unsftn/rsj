@@ -43,7 +43,7 @@
     "model": "odrednice.kvalifikator",
     "pk": 8,
     "fields": {
-      "skracenica": "анат.",
+      "skracenica": "анат",
       "naziv": "анатомија; анатомски"
     }
   },
