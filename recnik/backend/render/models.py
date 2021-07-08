@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from odrednice.models import StatusOdrednice
 
 FILE_TYPES = [
@@ -43,3 +45,8 @@ class RenderovaniDokument(models.Model):
         indexes = [
             models.Index(fields=['vreme_rendera']),
         ]
+
+
+@receiver(pre_delete, sender=RenderovaniDokument)
+def render_delete(sender, instance, using, **kwargs):
+    instance.rendered_file.delete(False)
