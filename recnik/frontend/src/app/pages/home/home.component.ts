@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('Почетна');
     this.primengConfig.ripple = true;
-    this.odrednicaService.my(100).subscribe(
+    this.odrednicaService.my(200).subscribe(
       (data) => this.myDeterminants = data,
       (error) => console.log(error)
     );
