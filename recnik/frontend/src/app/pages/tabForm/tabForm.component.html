@@ -235,6 +235,13 @@
                          (keyup)="keyup($event, 'variants.presentI', i)" style="width:150px"/>
                 </div>
               </div>
+              <div class="p-d-flex" *ngIf="isNoun">
+                <div class="p-mr-2">
+                  <p-dropdown [options]="genders" [(ngModel)]="variants[i].gender" placeholder="Род" optionLabel="name"
+                              (ngModelChange)="onValueChange($event)" [showClear]="true"
+                              (focusout)="onFocusLeave()"></p-dropdown>
+                </div>
+              </div>
             </div>
           </form>
         </div>

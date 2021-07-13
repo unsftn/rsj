@@ -216,25 +216,33 @@ def render_info(info):
     return f' {process_tags(process_special_marks(info))} '
 
 
-def render_varijanta(tekst, nastavak, prezent='', opciono_se=False):
+def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None):
     def zarez(text):
         return f', {text}' if text else ''
 
     if not tekst and not nastavak and not prezent:
         return ''
-    return f'<b>{tekst} {"(ce)" if opciono_se else ""}</b>' + zarez(nastavak) + zarez(prezent)
+    rod_text = f' <small>{ROD[rod]}</small>' if rod else ''
+    return f'<b>{tekst}{" (ce)" if opciono_se else ""}</b>' + zarez(nastavak) + rod_text + zarez(prezent)
 
 
 def render_nastavci_varijante(odrednica):
     html = ''
     if odrednica.nastavak:
         html += f', {odrednica.nastavak}'
+    ima_razlicit_rod = False
+    if odrednica.vrsta == 0 and odrednica.rod:
+        for vod in odrednica.varijantaodrednice_set.all():
+            if vod.rod and vod.rod != odrednica.rod:
+                ima_razlicit_rod = True
+    if ima_razlicit_rod:
+        html += f' <small>{ROD[odrednica.rod]}</small> '
     if odrednica.prezent:
         html += f', {odrednica.prezent}'
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se)
+            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod)
             if var:
                 varijante.append(var)
         if len(varijante) == 1:
@@ -254,7 +262,7 @@ def render_nastavci_varijante(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se)
+            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod)
             if var:
                 varijante.append(var)
         if len(varijante) == 1:
@@ -263,6 +271,8 @@ def render_nastavci_varijante(odrednica):
             html += varijante[0]
         elif len(varijante) > 1:
             html += ', ' + nabrajanje(varijante)
+    if odrednica.vrsta == 0 and not ima_razlicit_rod:
+        html += f' <small>{ROD[odrednica.rod]}</small> '
     return html
 
 
@@ -280,7 +290,7 @@ def render_one(odrednica):
     # imenica
     if odrednica.vrsta == 0:
         html += render_nastavci_varijante(odrednica)
-        html += f' <small>{ROD[odrednica.rod]}</small> '
+        # html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
             html += ' ' + render_info(odrednica.info) + ' '
 
