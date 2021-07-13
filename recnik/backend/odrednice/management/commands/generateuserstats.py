@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from django.utils.timezone import now
 from odrednice.models import Odrednica, StatistikaUnosa, StavkaStatistikeUnosa
-from render.renderer import render_one
+from render.renderer import count_printable_chars
 
 log = logging.getLogger(__name__)
 
@@ -18,12 +18,12 @@ class Command(BaseCommand):
         log.info('Generisanje statistike obradjivaca...')
         users = {}
         for odr in Odrednica.objects.all():
-            text = render_one(odr)
+            length = count_printable_chars(odr)
             if odr.obradjivac:
                 if odr.stanje == 1:
                     if users.get(odr.obradjivac.email):
                         users[odr.obradjivac.email]['broj_odrednica'] += 1
-                        users[odr.obradjivac.email]['broj_znakova'] += len(text)
+                        users[odr.obradjivac.email]['broj_znakova'] += length
                     else:
                         users[odr.obradjivac.email] = {
                             'id': odr.obradjivac.id,
@@ -31,14 +31,14 @@ class Command(BaseCommand):
                             'first_name': odr.obradjivac.first_name,
                             'last_name': odr.obradjivac.last_name,
                             'broj_odrednica': 1,
-                            'broj_znakova': len(text),
+                            'broj_znakova': length,
                             'zavrsenih_odrednica': 0,
                             'zavrsenih_znakova': 0
                         }
                 else:
                     if users.get(odr.obradjivac.email):
                         users[odr.obradjivac.email]['zavrsenih_odrednica'] += 1
-                        users[odr.obradjivac.email]['zavrsenih_znakova'] += len(text)
+                        users[odr.obradjivac.email]['zavrsenih_znakova'] += length
                     else:
                         users[odr.obradjivac.email] = {
                             'id': odr.obradjivac.id,
@@ -48,7 +48,7 @@ class Command(BaseCommand):
                             'broj_odrednica': 0,
                             'broj_znakova': 0,
                             'zavrsenih_odrednica': 1,
-                            'zavrsenih_znakova': len(text)
+                            'zavrsenih_znakova': length
                         }
 
         sada = now()

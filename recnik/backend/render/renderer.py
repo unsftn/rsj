@@ -28,6 +28,9 @@ REGEX_ITALIC = re.compile('#+(.*?)#+')
 REGEX_SMALL = re.compile('\\$+(.*?)\\$+')
 REGEX_SMALL_BOLD = re.compile('%+(.*?)%+')
 REGEX_SUPERSCRIPT = re.compile('\\^+(.*?)\\^+')
+REGEX_REMOVE_HTML_TAGS = re.compile(r'<[^>]+>')
+REGEX_REPLACE_HTML_ENTITIES = re.compile(r'&[^;]+;')
+REGEX_REMOVE_WHITESPACE = re.compile(r'^\s+')
 
 
 def touch(path):
@@ -506,3 +509,15 @@ def add_file_to_django(doc_type, opis, file_path, file_type):
     django_file = File(file_path)
     novi_dokument.rendered_file.save(get_rendered_file_path(novi_dokument, None), django_file, True)
     return novi_dokument
+
+
+def count_printable_chars(odrednica):
+    if not odrednica:
+        return 0
+    text = render_one(odrednica)
+    if not text:
+        return 0
+    text = REGEX_REPLACE_HTML_ENTITIES.sub('.', text)
+    text = REGEX_REMOVE_HTML_TAGS.sub('', text)
+    text = REGEX_REMOVE_WHITESPACE.sub('', text)
+    return len(text)
