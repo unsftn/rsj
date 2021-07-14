@@ -1510,5 +1510,13 @@
       "skracenica": "грч-.лат",
       "naziv": "грколатинизам"
     }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 192,
+    "fields": {
+      "skracenica": "биохем",
+      "naziv": "биохемијски"
+    }
   }
 ]
