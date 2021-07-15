@@ -1,9 +1,5 @@
 import logging
-import os
-import platform
-import subprocess
 from django.core.management.base import BaseCommand
-from django.conf import settings
 from django.utils.timezone import now
 from odrednice.models import Odrednica, StatistikaUnosa, StavkaStatistikeUnosa
 from render.renderer import count_printable_chars

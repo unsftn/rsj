@@ -26,6 +26,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { PasswordModule } from 'primeng/password';
 import { TabFormModule } from './pages/tabForm/tabForm.module';
+import { ChartModule } from 'primeng/chart';
 import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
@@ -54,7 +55,6 @@ import { AllComponent } from './pages/review/all/all.component';
     TabViewModule,
     TabFormModule,
     ToastModule,
-    //HomeModule,
     AutoCompleteModule,
     TableModule,
     ToolbarModule,
@@ -63,6 +63,7 @@ import { AllComponent } from './pages/review/all/all.component';
     DropdownModule,
     ToggleButtonModule,
     PasswordModule,
+    ChartModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

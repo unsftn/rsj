@@ -12,7 +12,6 @@ class UserCollection extends Array {
   }
 }
 
-
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
@@ -23,6 +22,11 @@ export class HomeComponent implements OnInit {
 
   myDeterminants: any[];
   users: UserCollection;
+  graphData = {
+    labels: [],
+    datasets: []
+  };
+  colors = ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff', '#ef476f', '#06d6a0', '#118ab2', '#073b4c'];
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -52,6 +56,15 @@ export class HomeComponent implements OnInit {
       },
       (error) => console.log(error)
     );
+    this.odrednicaService.grafikon(1).subscribe(data => {
+      this.graphData = data;
+      this.graphData.datasets.forEach((dataset, index) => {
+        dataset.data = dataset.data.map(item => item.broj_znakova);
+        dataset.borderColor = this.colors[index % this.colors.length];
+        dataset.fill = false;
+      });
+      console.log(this.graphData);
+    }, error => console.log(error));
   }
 
   @HostListener('document:click', ['$event'])

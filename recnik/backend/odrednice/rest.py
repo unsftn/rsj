@@ -2,6 +2,7 @@
 import random
 from django.core.mail import send_mail
 from django.db.models.functions import Collate
+from django.http import HttpResponse
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
@@ -547,6 +548,15 @@ def api_change_roles(request, odrednica_id):
         return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     except:
         raise NotFound(detail='Грешка у захтеву за промену задужења', code=404)
+
+
+@api_view(['GET'])
+def api_grafikon(request, tip_grafikona):
+    try:
+        graph = GrafikonUnosa.objects.get(tip=tip_grafikona)
+        return HttpResponse(graph.chart, content_type=JSON)
+    except GrafikonUnosa.DoesNotExist:
+        return Response([], status=status.HTTP_404_NOT_FOUND, content_type=JSON)
 
 
 def get_users_by_role(role_id):

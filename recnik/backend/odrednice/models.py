@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from random import choices
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -53,6 +55,15 @@ ROD = [
     (9, 'средњи (женски)'),
 ]
 
+TIP_GRAFIKONA = [
+    (1, 'недељни принос'),
+    (2, 'месечни принос'),
+    (3, 'годишњи принос'),
+    (4, 'недељни кумулативно'),
+    (5, 'месечни кумулативно'),
+    (6, 'годишњи кумулативно'),
+]
+
 
 class UserProxy(User):
     class Meta:
@@ -60,6 +71,9 @@ class UserProxy(User):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ' (' + self.email + ')'
+
+    def puno_ime(self):
+        return self.first_name + ' ' + self.last_name
 
     def je_obradjivac(self):
         return self._in_group(1)
@@ -536,3 +550,17 @@ class StavkaStatistikeUnosa(models.Model):
 
     def __str__(self):
         return str(self.statistika) + ' / ' + self.user.first_name + ' ' + self.user.last_name
+
+
+class GrafikonUnosa(models.Model):
+    tip = models.IntegerField('тип графикона', choices=TIP_GRAFIKONA)
+    vreme = models.DateTimeField('време генерисања', default=now)
+    data = models.TextField('подаци')
+    chart = models.TextField('графикон')
+
+    class Meta:
+        verbose_name = 'графикон уноса'
+        verbose_name_plural = 'графикони уноса'
+
+    def __str__(self):
+        return f'{str(self.tip)} / {self.vreme.strftime("%Y-%m-%d %H:%M")}'

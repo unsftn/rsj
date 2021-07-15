@@ -48,6 +48,7 @@ urlpatterns = [
     path('workflow/zaduzenja/<int:odrednica_id>/', api_change_roles),
     path('workflow/moje-odrednice/<int:page_size>/', api_moje_odrednice),
     path('stats/obradjivaci/', api_statistika_obradjivaca),
+    path('stats/grafikon/<int:tip_grafikona>/', api_grafikon),
     path('password/change/', change_password),
     path('password/forgot/', forgot_password),
     path('korisnici/', get_korisnici),
