@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     labels: [],
     datasets: []
   };
-  colors = ['#ffbe0b', '#fb5607', '#ff006e', '#8338ec', '#3a86ff', '#ef476f', '#06d6a0', '#118ab2', '#073b4c'];
+  colors = ['#ffbe0b', '#fb5607', '#8338ec', '#06d6a0', '#ff006e', '#3a86ff', '#ef476f', '#118ab2', '#073b4c'];
 
   constructor(
     private primengConfig: PrimeNGConfig,
