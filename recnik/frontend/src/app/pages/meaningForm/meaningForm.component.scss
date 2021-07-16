@@ -5,8 +5,16 @@
 
 .accent-button {
   font-size: 80px;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+  padding: 10px 10px 5px 10px;
+  border-radius: 5px;
 }
 
+:host ::ng-deep .p-dialog-content {
+  padding-top: 2rem !important;
+}
 
 .fab {
   z-index: 100;

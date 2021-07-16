@@ -82,7 +82,7 @@ export class TabFormComponent implements OnInit {
   showWaitDialog = false;
   showAccentDialog = false;
   showOwnershipDialog = false;
-  baseChar = 'а';
+  accentChar = 'а';
   accentCaretPos = 0;
   accentModelName: string;
   accentTarget: HTMLInputElement;
@@ -301,7 +301,7 @@ export class TabFormComponent implements OnInit {
       if (this.accentCaretPos === 0) return;
       this.accentModelName = modelName;
       this.accentTarget = event.target;
-      this.baseChar = event.target.value[this.accentCaretPos - 1];
+      this.accentChar = event.target.value[this.accentCaretPos - 1];
       this.showAccentDialog = true;
     }
   }
@@ -325,6 +325,8 @@ export class TabFormComponent implements OnInit {
   }
 
   checkDuplicate(showAllowSave: boolean): void {
+    if (this.showAccentDialog)
+      return;
     if (this.wordE === undefined)
       return;
     this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {

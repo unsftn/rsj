@@ -68,14 +68,14 @@
   </div>
 </p-dialog>
 <p-dialog header="Унос знакова" [(visible)]="showAccentDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
-  <button pButton label="{{baseChar}}̀" (click)="insertAccent('̀')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̄" (click)="insertAccent('̄')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̏" (click)="insertAccent('̏')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}́" (click)="insertAccent('́')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̑" (click)="insertAccent('̑')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="&#x2205;" (click)="insertAccent('\u2205')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
-  <button pButton label="[" (click)="insertAccent('[')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
-  <button pButton label="]" (click)="insertAccent(']')" class="accent-button p-mr-3 p-mb-2" *ngIf="accentModelName==='details'"></button>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̀')">{{accentChar}}̀</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̄')">{{accentChar}}̄</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̏')">{{accentChar}}̏</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('́')">{{accentChar}}́</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̑')">{{accentChar}}̑</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('\u2205')" *ngIf="accentModelName==='details'">&#x2205;</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('[')" *ngIf="accentModelName==='details'">[</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent(']')" *ngIf="accentModelName==='details'">]</span>
 </p-dialog>
 
 <div class="basic-information-container">

@@ -1,16 +1,16 @@
 <p-dialog header="Унос наводника" [(visible)]="showQuotesDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
-  <button pButton label="„" (click)="insertQuote('„')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="”" (click)="insertQuote('”')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="’" (click)="insertQuote('’')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="[" (click)="insertQuote('[')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="]" (click)="insertQuote(']')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="~" (click)="insertQuote('~')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="–" (click)="insertQuote('–')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̀" (click)="insertQuote('̀')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̄" (click)="insertQuote('̄')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̏" (click)="insertQuote('̏')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}́" (click)="insertQuote('́')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̑" (click)="insertQuote('̑')" class="accent-button p-mr-3 p-mb-2"></button>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('„')">„</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('”')">”</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('’')">’</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('[')">[</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote(']')">]</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('~')">~</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('–')">–</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̀')">{{baseChar}}̀</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̄')">{{baseChar}}̄</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̏')">{{baseChar}}̏</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('́')">{{baseChar}}́</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̑')">{{baseChar}}̑</span>
 </p-dialog>
 <!--
 <div class="p-d-flex">
