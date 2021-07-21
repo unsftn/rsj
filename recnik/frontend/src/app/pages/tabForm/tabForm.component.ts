@@ -225,6 +225,8 @@ export class TabFormComponent implements OnInit {
     });
     this.odrednicaService.getStatuses().subscribe(data => {
       this.statuses = data;
+      if (!this.selectedStatus)
+        this.selectedStatus = this.statuses[0];
     }, error => {
       console.log(error);
     });
