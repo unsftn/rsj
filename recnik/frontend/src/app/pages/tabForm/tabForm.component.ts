@@ -310,7 +310,6 @@ export class TabFormComponent implements OnInit {
 
   @HostListener("window:keyup", ["$event"])
   keyEvent(event: KeyboardEvent) {
-    console.log(event.key);
     if (event.key === 'Enter') {
       if (this.showWarningDialog) {
         this.yes();
