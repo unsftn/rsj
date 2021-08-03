@@ -77,6 +77,12 @@ export class QualificatorComponent implements OnInit {
     }
   }
 
+  handleEnter(event) {
+    if (event.key === 'Enter') {
+      this.moveRight();
+    }
+  }
+
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.qualificatorService.fetchAllQualificators().subscribe((q) => this.allQualificators = q);

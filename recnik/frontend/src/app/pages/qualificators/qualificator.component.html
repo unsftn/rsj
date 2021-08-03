@@ -7,7 +7,8 @@
       [listStyle]="{'max-height':'150px'}"
       [style]="{'width':'145px'}"
       filterPlaceHolder="Претражи"
-      (onChange)="selectLeftQualificator()">
+      (onChange)="selectLeftQualificator()"
+      (keyup)="handleEnter($event)">
       <ng-template let-qualificator pTemplate="item">
         <div style="width: 100%">
           <div pTooltip="{{qualificator.name}}">{{qualificator.abbreviation}}</div>
