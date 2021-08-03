@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
@@ -305,6 +305,28 @@ export class TabFormComponent implements OnInit {
       this.accentTarget = event.target;
       this.accentChar = event.target.value[this.accentCaretPos - 1];
       this.showAccentDialog = true;
+    }
+  }
+
+  @HostListener("window:keyup", ["$event"])
+  keyEvent(event: KeyboardEvent) {
+    console.log(event.key);
+    if (event.key === 'Enter') {
+      if (this.showWarningDialog) {
+        this.yes();
+      } else if (this.showInfoDialog) {
+        this.close();
+      } else if (this.showOwnershipDialog) {
+        this.saveOwnership();
+      }
+    } else if (event.key === 'Esc') {
+      if (this.showWarningDialog) {
+        this.no();
+      } else if (this.showInfoDialog) {
+        this.close();
+      } else if (this.showOwnershipDialog) {
+        this.closeOwnership();
+      }
     }
   }
 
