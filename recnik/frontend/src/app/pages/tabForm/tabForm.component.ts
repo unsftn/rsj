@@ -308,22 +308,39 @@ export class TabFormComponent implements OnInit {
     }
   }
 
-  @HostListener("window:keyup", ["$event"])
-  keyEvent(event: KeyboardEvent) {
+  @HostListener("window:keydown", ["$event"])
+  keyEventDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      if (this.showWarningDialog) {
+      event.preventDefault();
+    }
+  }
+
+  @HostListener("window:keyup", ["$event"])
+  keyEventUp(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      if (this.showWaitDialog) {
+        event.preventDefault();
+      } else if (this.showWarningDialog) {
+        event.preventDefault();
         this.yes();
       } else if (this.showInfoDialog) {
+        event.preventDefault();
         this.close();
       } else if (this.showOwnershipDialog) {
+        event.preventDefault();
         this.saveOwnership();
       }
     } else if (event.key === 'Esc') {
-      if (this.showWarningDialog) {
+      if (this.showWaitDialog) {
+        event.preventDefault();
+      } else if (this.showWarningDialog) {
+        event.preventDefault();
         this.no();
       } else if (this.showInfoDialog) {
+        event.preventDefault();
         this.close();
       } else if (this.showOwnershipDialog) {
+        event.preventDefault();
         this.closeOwnership();
       }
     }
