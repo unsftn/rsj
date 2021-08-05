@@ -114,6 +114,7 @@ class StatusOdrednice(models.Model):
 
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
+    sortable_rec = models.CharField('реч за сортирање', max_length=50, blank=True, null=True)
     ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
     rod = models.IntegerField('род', choices=ROD, default=0, blank=True, null=True)

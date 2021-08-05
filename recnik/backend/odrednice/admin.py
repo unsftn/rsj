@@ -35,7 +35,11 @@ class IzrazFrazaForm(forms.ModelForm):
         fields = '__all__'
 
 
-admin.site.register(Odrednica)
+class OdrednicaAdmin(admin.ModelAdmin):
+    readonly_fields = ['sortable_rec']
+
+
+admin.site.register(Odrednica, OdrednicaAdmin)
 admin.site.register(OperacijaIzmene)
 admin.site.register(IzmenaOdrednice)
 admin.site.register(Antonim)
