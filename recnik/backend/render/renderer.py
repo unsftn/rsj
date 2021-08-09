@@ -432,7 +432,7 @@ def render_slovo(slovo, file_format='pdf', tip_dokumenta=None):
         log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
         return
     odrednice = Odrednica.objects.filter(rec__startswith=slovo[0].lower()).filter(status_id__in=trd.statusi.values_list('id', flat=True))
-    odrednice = odrednice.order_by(Collate('rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
+    odrednice = odrednice.order_by(Collate('sortable_rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
     rendered_odrednice = [render_one(o) for o in odrednice]
     context = {'odrednice': rendered_odrednice, 'slovo': slovo.upper()}
     if file_format == 'pdf':
@@ -452,14 +452,16 @@ def render_recnik(file_format='pdf', tip_dokumenta=None):
         log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
         return
     slova = []
+    log.info('Generisanje odrednica...')
     for s in AZBUKA:
         odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))
-        odrednice = odrednice.order_by(Collate('rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
+        odrednice = odrednice.order_by(Collate('sortable_rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
         })
     context = {'slova': slova}
+    log.info(f'Generisanje fajla, tip: {file_format}...')
     if file_format == 'pdf':
         return render_to_pdf(context, 'render/pdf/recnik.html', trd)
     elif file_format == 'docx':
@@ -471,7 +473,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None):
 def render_to_pdf(context, template, doc_type, opis=''):
     tpl = get_template(template)
     html_text = tpl.render(context)
-    html_text = html_text.replace('&#9632;', '<small>&#9632;</small>')
+    # html_text = html_text.replace('&#9632;', '<small>&#9632;</small>')
     html = HTML(string=html_text, url_fetcher=font_fetcher)
     css_file_name = finders.find('print-styles/slovo.css')
     with open(css_file_name, 'r') as css_file:

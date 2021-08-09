@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 import logging
 import os
 import platform
@@ -27,17 +27,18 @@ class Command(BaseCommand):
         tip = options.get('type') or 2
         stari = options.get('expired') or 60
         format = options.get('format') or 'pdf'
-        log.info(f'File format: {format}')
-        log.info(f'Delete files older than (days): {stari}')
-        log.info(f'Generation type: {tip}')
-        log.info(f'Generation content: {("letter "+slovo) if slovo else "all letters"}')
+        log.info(f'Fromat fajla: {format}')
+        log.info(f'Brisanje fajlova starijih od (dana): {stari}')
+        log.info(f'Tip generisanja: {tip}')
+        log.info(f'Sadrzaj generisanja: {("slovo "+slovo) if slovo else "sva slova"}')
+        start_time = datetime.now()
         if slovo:
             file_name = render_slovo(slovo, format, tip)
         else:
             file_name = render_recnik(format, tip)
         if file_name:
             pdf_file = os.path.join(settings.MEDIA_ROOT, file_name)
-            self.stdout.write(self.style.SUCCESS(f'Uspesno generisan PDF: {pdf_file}'))
+            self.stdout.write(self.style.SUCCESS(f'Uspesno generisan fajl: {pdf_file}'))
             cutoff_date = timezone.now() - timedelta(days=stari)
             log.info(f'Brisanje generisanih fajlova starijih od {cutoff_date}')
             RenderovaniDokument.objects.filter(vreme_rendera__lt=cutoff_date).delete()
@@ -45,4 +46,6 @@ class Command(BaseCommand):
                 if platform.system() == 'Darwin':
                     subprocess.Popen(['open', pdf_file])
         else:
-            self.stdout.write(self.style.ERROR('PDF fajl nije generisan'))
+            self.stdout.write(self.style.ERROR('Fajl nije generisan.'))
+        end_time = datetime.now()
+        log.info(f'Generisanje trajalo ukupno {str(end_time-start_time)}')

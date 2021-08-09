@@ -147,6 +147,7 @@ class Odrednica(models.Model):
         verbose_name_plural = 'одреднице'
         indexes = [
             models.Index(fields=['rec']),
+            models.Index(fields=['sortable_rec', 'rbr_homonima']),
             models.Index(fields=['poslednja_izmena'])
         ]
 
