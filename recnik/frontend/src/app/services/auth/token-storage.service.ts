@@ -17,28 +17,28 @@ export class TokenStorageService {
   }
 
   signOut(): void {
-    sessionStorage.clear();
+    localStorage.clear();
     this.observers.forEach((observer) => observer.next(false));
   }
 
   public saveToken(accessToken: string, refreshToken: string): void {
-    sessionStorage.removeItem(ACCESS_TOKEN);
-    sessionStorage.setItem(ACCESS_TOKEN, accessToken);
-    sessionStorage.removeItem(REFRESH_TOKEN);
-    sessionStorage.setItem(REFRESH_TOKEN, refreshToken);
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.setItem(ACCESS_TOKEN, accessToken);
+    localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.setItem(REFRESH_TOKEN, refreshToken);
   }
 
   public getAccessToken(): string {
-    return sessionStorage.getItem(ACCESS_TOKEN);
+    return localStorage.getItem(ACCESS_TOKEN);
   }
 
   public getRefreshToken(): string {
-    return sessionStorage.getItem(REFRESH_TOKEN);
+    return localStorage.getItem(REFRESH_TOKEN);
   }
 
   public saveUser(user): void {
-    sessionStorage.removeItem(USER);
-    sessionStorage.setItem(USER, JSON.stringify(user));
+    localStorage.removeItem(USER);
+    localStorage.setItem(USER, JSON.stringify(user));
     this.observers.forEach((observer) => observer.next(true));
   }
 
@@ -47,7 +47,7 @@ export class TokenStorageService {
   }
 
   public getUser(): any {
-    const user = sessionStorage.getItem(USER);
+    const user = localStorage.getItem(USER);
     if (user == null) {
       return null;
     }

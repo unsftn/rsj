@@ -160,7 +160,7 @@ LOGGING = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=96)
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=336)
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
