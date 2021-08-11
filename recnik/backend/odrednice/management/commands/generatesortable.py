@@ -1,7 +1,7 @@
 import logging
 from django.core.management.base import BaseCommand
 from odrednice.models import Odrednica
-from odrednice.signals import remove_punctuation
+from odrednice.text import remove_punctuation
 
 log = logging.getLogger(__name__)
 

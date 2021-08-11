@@ -1,12 +1,7 @@
-import unicodedata
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Kvalifikator, Odrednica
-
-
-def remove_punctuation(text):
-    cleared_text = ''.join(c for c in text if unicodedata.category(c) in ['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'NI'])
-    return cleared_text
+from .text import remove_punctuation
 
 
 @receiver(post_save, sender=Kvalifikator)

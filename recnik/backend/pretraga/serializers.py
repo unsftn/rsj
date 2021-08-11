@@ -2,14 +2,15 @@ import re
 import unicodedata
 from rest_framework import serializers
 from odrednice.models import VRSTA_ODREDNICE
+from odrednice.text import remove_punctuation
 from .models import OdrednicaDocument, KorpusDocument, OdrednicaResponse, KorpusResponse, PublikacijaDocument
 from .cyrlat import cyr_to_lat
 
 
-REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)$')
+REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 
 
-def clear_accents(obj):
+def clear_accents_old(obj):
     if isinstance(obj, str):
         return ''.join(c for c in obj if unicodedata.category(c) != 'Mn')
     if isinstance(obj, list):
@@ -23,7 +24,7 @@ def clear_accents(obj):
     return obj
 
 
-def clear_parentheses(obj):
+def clear_parentheses_old(obj):
     if not obj:
         return obj
     if isinstance(obj, str):
@@ -46,11 +47,34 @@ def clear_parentheses(obj):
     return obj
 
 
+def clear_text(obj):
+    if not obj:
+        return obj
+    if isinstance(obj, str):
+        if not REGEX_CONTAINS_PARENTHESES.match(obj):
+            return remove_punctuation(obj)
+        else:
+            return [remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', obj)), remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', obj))]
+    if isinstance(obj, list):
+        new_list = []
+        for item in obj:
+            if isinstance(item, str):
+                if not REGEX_CONTAINS_PARENTHESES.match(item):
+                    new_list.append(remove_punctuation(item))
+                else:
+                    new_list.append(remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', item)))
+                    new_list.append(remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', item)))
+            else:
+                new_list.append(item)
+        return new_list
+    return obj
+
+
 def clear_accents_in_dict(obj, skip=[]):
     new_dict = {}
     for key in obj.keys():
         if key not in skip:
-            new_dict[key] = clear_accents(obj[key])
+            new_dict[key] = clear_accents_old(obj[key])
         else:
             new_dict[key] = obj[key]
     return new_dict
@@ -84,8 +108,9 @@ class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
         rec = validated_data.pop('rec')
         varijante = validated_data.pop('varijante', [])
         varijante.append(rec)
-        varijante = clear_accents(varijante)
-        varijante = clear_parentheses(varijante)
+        # varijante = clear_accents_old(varijante)
+        # varijante = clear_parentheses_old(varijante)
+        varijante = clear_text(varijante)
         varijante = add_latin(varijante)
         var_set = set(varijante)
         varijante = list(var_set)
@@ -161,7 +186,7 @@ class CreatePublikacijaDocumentSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         tekst = validated_data.pop('tekst')
-        tekst = clear_accents(tekst)
+        tekst = clear_accents_old(tekst)
         tekst = append_latin(tekst)
         return PublikacijaDocument(tekst=tekst, **validated_data)
 
