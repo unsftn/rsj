@@ -210,6 +210,13 @@ export class TabFormComponent implements OnInit {
           this.selectedStatus = null;
           this.onChangeWordType();
           this.titleService.setTitle('Нова одредница');
+          this.odrednicaService.getStatuses().subscribe(data1 => {
+            this.statuses = data1;
+            if (!this.selectedStatus)
+              this.selectedStatus = this.statuses[0];
+          }, error => {
+            console.log(error);
+          });
           break;
         case 'edit':
           this.editMode = true;
@@ -222,13 +229,6 @@ export class TabFormComponent implements OnInit {
           });
           break;
       }
-    });
-    this.odrednicaService.getStatuses().subscribe(data => {
-      this.statuses = data;
-      if (!this.selectedStatus)
-        this.selectedStatus = this.statuses[0];
-    }, error => {
-      console.log(error);
     });
     if (this.obradjivaci.length === 0)
       this.obradjivaci = this.userService.getObradjivaci();
@@ -308,15 +308,15 @@ export class TabFormComponent implements OnInit {
     }
   }
 
-  @HostListener("window:keydown", ["$event"])
-  keyEventDown(event: KeyboardEvent) {
+  @HostListener('window:keydown', ['$event'])
+  keyEventDown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
   }
 
-  @HostListener("window:keyup", ["$event"])
-  keyEventUp(event: KeyboardEvent) {
+  @HostListener('window:keyup', ['$event'])
+  keyEventUp(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       if (this.showWaitDialog) {
         event.preventDefault();
@@ -371,7 +371,6 @@ export class TabFormComponent implements OnInit {
       return;
     this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {
       if (data.length > 0) {
-        console.log(data);
         if (showAllowSave) {
           console.log('prikazi pitanje za save');
         } else {
@@ -771,7 +770,10 @@ export class TabFormComponent implements OnInit {
     this.selectedWordType = this.enumService.getWordType(value.vrsta);
     this.optionalSe = value.opciono_se;
     this.homonim = value.rbr_homonima;
-    this.selectedStatus = this.getStatus(value.status);
+    this.odrednicaService.getStatuses().subscribe(data1 => {
+      this.statuses = data1;
+      this.selectedStatus = this.getStatus(value.status);
+    });
     switch (value.vrsta) {
       case 0:
         this.selectedGender = this.enumService.getGender(value.rod);

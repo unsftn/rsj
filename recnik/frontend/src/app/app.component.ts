@@ -146,6 +146,7 @@ export class AppComponent implements OnInit {
           item.disabled = !loggedIn;
       });
     });
+    this.odrednicaService.getStatuses().subscribe(() => {});
     this.appConfigService.getAppConfig().subscribe(data => {
       this.headerStyle = data.HEADER_COLOR_SCHEME;
     }, error => {
