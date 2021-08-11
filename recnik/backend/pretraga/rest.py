@@ -263,10 +263,16 @@ def check_duplicate(request):
             except KeyError:
                 found_homo = None
             if hit['_source']['rec'] == term and termid is None:
-                if found_homo and found_homo == rbr_homo:
+                if found_homo:
+                    if found_homo == rbr_homo:
+                        hits.append(hit['_source'])
+                else:
                     hits.append(hit['_source'])
             if hit['_source']['rec'] == term and termid is not None and hit['_source']['pk'] != termid:
-                if found_homo and found_homo == rbr_homo:
+                if found_homo:
+                    if found_homo == rbr_homo:
+                        hits.append(hit['_source'])
+                else:
                     hits.append(hit['_source'])
         serializer = OdrednicaResponseSerializer(hits, many=True)
         data = serializer.data
