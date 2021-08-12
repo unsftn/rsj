@@ -2,7 +2,7 @@
   <div class="p-grid">
     <div class="p-sm-12 p-md-12 p-lg-5 p-xl-5" *ngIf="isLoggedIn()">
       <p-fieldset legend="Моје активности">
-        <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="20">
+        <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="30">
           <ng-template pTemplate="header">
             <tr>
               <th class="odrednica">Одредница</th>
@@ -59,7 +59,9 @@
           </ng-template>
         </p-table>
         <h4 class="p-mt-5">Број знакова недељно</h4>
-        <p-chart type="line" [data]="graphData"></p-chart>
+        <p-chart type="line" [data]="graphDataChars"></p-chart>
+        <h4 class="p-mt-5">Број одредница недељно</h4>
+        <p-chart type="line" [data]="graphDataDeterminants"></p-chart>
       </p-fieldset>
     </div>
     <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">

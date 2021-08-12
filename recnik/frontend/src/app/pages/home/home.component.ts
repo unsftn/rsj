@@ -22,7 +22,11 @@ export class HomeComponent implements OnInit {
 
   myDeterminants: any[];
   users: UserCollection;
-  graphData = {
+  graphDataChars = {
+    labels: [],
+    datasets: []
+  };
+  graphDataDeterminants = {
     labels: [],
     datasets: []
   };
@@ -57,13 +61,20 @@ export class HomeComponent implements OnInit {
       (error) => console.log(error)
     );
     this.odrednicaService.grafikon(1).subscribe(data => {
-      this.graphData = data;
-      this.graphData.datasets.forEach((dataset, index) => {
+      this.graphDataChars = data;
+      this.graphDataChars.datasets.forEach((dataset, index) => {
         dataset.data = dataset.data.map(item => item.broj_znakova);
         dataset.borderColor = this.colors[index % this.colors.length];
         dataset.fill = false;
       });
-      console.log(this.graphData);
+    }, error => console.log(error));
+    this.odrednicaService.grafikon(1).subscribe(data => {
+      this.graphDataDeterminants = data;
+      this.graphDataDeterminants.datasets.forEach((dataset, index) => {
+        dataset.data = dataset.data.map(item => item.broj_odrednica);
+        dataset.borderColor = this.colors[index % this.colors.length];
+        dataset.fill = false;
+      });
     }, error => console.log(error));
   }
 
