@@ -307,9 +307,27 @@ class RecUKolokaciji(models.Model):
         return reverse("odrednice:rec-u-kolokaciji-detail", kwargs={"pk": self.pk})
 
 
+class GrupaKvalifikatora(models.Model):
+    skracenica = models.CharField('скраћеница', max_length=15)
+    naziv = models.CharField('назив', max_length=50)
+    nadgrupa = models.ForeignKey('self', verbose_name='надгрупа', blank=True, null=True, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = 'група квалификатора'
+        verbose_name_plural = 'групе квалификатора'
+        ordering = [models.functions.Collate('skracenica', 'utf8mb4_unicode_ci')]
+        indexes = [
+            models.Index(fields=['skracenica']),
+        ]
+
+    def __str__(self):
+        return f'{self.skracenica}. / {self.naziv}'
+
+
 class Kvalifikator(models.Model):
     skracenica = models.CharField('скраћеница', max_length=15)
     naziv = models.CharField('назив', max_length=50)
+    grupa = models.ForeignKey(GrupaKvalifikatora, verbose_name='група', blank=True, null=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'квалификатор'
