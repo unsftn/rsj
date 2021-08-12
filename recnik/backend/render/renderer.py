@@ -300,10 +300,10 @@ def render_one(odrednica):
     # glagol
     if odrednica.vrsta == 1:
         html += render_nastavci_varijante(odrednica)
-        if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
+        if odrednica.info:
+            html += ' ' + render_info(odrednica.info) + ' '
         else:
             html += ' '
 
