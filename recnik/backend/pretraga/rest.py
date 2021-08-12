@@ -35,7 +35,7 @@ def _search_odrednica(request):
     s = s.source(includes=['pk', 'rec', 'vrsta', 'rbr_homo'])
     s.query = MultiMatch(
         type='bool_prefix',
-        query=clear_text(term),
+        query=remove_punctuation(term),
         fields=['varijante'],
         # analyzer=SERBIAN_ANALYZER
     )
@@ -252,7 +252,7 @@ def check_duplicate(request):
     s = s.source(includes=['pk', 'rec', 'vrsta', 'rbr_homo'])
     s.query = MultiMatch(
         type='bool_prefix',
-        query=clear_text(term),  # clear_accents_old(term),
+        query=remove_punctuation(term),  # clear_accents_old(term),
         fields=['varijante'],
     )
     try:
