@@ -73,9 +73,9 @@
   <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̏')">{{accentChar}}̏</span>
   <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('́')">{{accentChar}}́</span>
   <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̑')">{{accentChar}}̑</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('\u2205')" *ngIf="accentModelName==='details'">&#x2205;</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('[')" *ngIf="accentModelName==='details'">[</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent(']')" *ngIf="accentModelName==='details'">]</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('\u2205')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">&#x2205;</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('[')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">[</span>
+  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent(']')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">]</span>
 </p-dialog>
 
 <div class="basic-information-container">
@@ -344,7 +344,7 @@
             <div class="p-ml-2 p-mt-3">
               <textarea rows="7" cols="50" pInputTextarea [(ngModel)]="freetext" (focusout)="onFocusLeave()"
                         style="resize: vertical; border: 1px solid darkgray; color: #495057;"
-                        placeholder="Алтернативни опис">
+                        placeholder="Алтернативни опис" (keyup)="keyup($event, 'freetext')">
               </textarea>
             </div>
           </p-tabPanel>
