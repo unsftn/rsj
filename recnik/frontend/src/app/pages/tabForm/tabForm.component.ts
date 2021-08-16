@@ -381,8 +381,10 @@ export class TabFormComponent implements OnInit {
   }
 
   save(): void {
+    let saving: boolean;
     if (!this.check()) return;
     const saveDeterminant = () => {
+      saving = true;
       this.showWaitDialog = true;
       if (this.editMode) {
         this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
@@ -393,6 +395,7 @@ export class TabFormComponent implements OnInit {
             this.showInfoDialog = true;
             this.nextRoute = [];
             this.version += 1;
+            saving = false;
           },
           (error) => {
             const errorMessage = sessionStorage.getItem('errorMessage');
@@ -400,6 +403,7 @@ export class TabFormComponent implements OnInit {
               `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
             this.showWaitDialog = false;
             this.showInfoDialog = true;
+            saving = false;
           });
       } else {
         this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
@@ -409,6 +413,7 @@ export class TabFormComponent implements OnInit {
             this.showWaitDialog = false;
             this.showInfoDialog = true;
             this.nextRoute = ['/edit', data.id];
+            saving = false;
           },
           (error) => {
             const errorMessage = sessionStorage.getItem('errorMessage');
@@ -416,9 +421,12 @@ export class TabFormComponent implements OnInit {
               `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
             this.showWaitDialog = false;
             this.showInfoDialog = true;
+            saving = false;
           });
       }
     };
+    if (saving)
+      return;
     this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {
       if (data.length > 0) {
         this.yesHandler = saveDeterminant;
