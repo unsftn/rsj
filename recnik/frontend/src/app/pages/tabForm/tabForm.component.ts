@@ -566,7 +566,7 @@ export class TabFormComponent implements OnInit {
   check(): boolean {
     try {
       this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');
-      this.assert(this.selectedWordType?.id === 0 && !this.selectedGender, '<p>За именице је обавезно унети род.</p>');
+      this.assert(this.selectedWordType?.id === 0 && !this.selectedGender && !this.freetext, '<p>За именице је обавезно унети род.</p>');
       this.assert(this.emptyVariant(), '<p>Постоји (бар) једна празна варијанта.</p>');
       this.assert(this.emptySynonym(), '<p>Постоји (бар) један празан синоним.</p>');
       this.assert(this.emptyAntonym(), '<p>Постоји (бар) један празан антоним.</p>');
