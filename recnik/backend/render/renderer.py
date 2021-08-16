@@ -92,7 +92,7 @@ def process_special_marks(tekst):
         tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
         tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
         tekst = tekst.replace(f' {znak}) ', f' <small>{znak}</small>) ')
-        tekst = tekst.replace(f' ({znak} ', f' (<small>{znak}</small>) ')
+        tekst = tekst.replace(f' ({znak} ', f' (<small>{znak}</small> ')
         tekst = tekst.replace(f' {znak}] ', f' <small>{znak}</small>] ')
         tekst = tekst.replace(f' [{znak} ', f' [<small>{znak}</small> ')
     return tekst
@@ -296,7 +296,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         # html += f' <small>{ROD[odrednica.rod]}</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
 
     # glagol
     if odrednica.vrsta == 1:
@@ -304,7 +304,7 @@ def render_one(odrednica):
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -312,7 +312,7 @@ def render_one(odrednica):
     if odrednica.vrsta == 2:
         html += render_nastavci_varijante(odrednica)
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -321,7 +321,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>прил.</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -330,7 +330,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>предл.</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -339,7 +339,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>зам.</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -348,7 +348,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>узв.</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -357,7 +357,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>речца</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -366,7 +366,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>везн.</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -375,7 +375,7 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         html += f' <small>број</small> '
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
@@ -383,7 +383,7 @@ def render_one(odrednica):
     if odrednica.vrsta == 10:
         html += render_nastavci_varijante(odrednica)
         if odrednica.info:
-            html += ' ' + render_info(odrednica.info) + ' '
+            html += render_info(odrednica.info)
         else:
             html += ' '
 
