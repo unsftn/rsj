@@ -42,7 +42,7 @@
         <textarea rows="2" cols="40" style="resize:vertical" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel"
                   (ngModelChange)="onValueChange($event)"
                   (focusout)="onFocusLeave()"
-                  (keyup)="keyup($event, i)" id="submeaningtext{{i}}"></textarea>
+                  (keyup)="keyup($event, i)" id="meaning{{znacenjeRbr}}submeaningtext{{i}}"></textarea>
       </p-tabPanel>
       <p-tabPanel header="Конкорданце">
         <concordance [concordances]="submeanings[i].concordances" (concordancesChange)="onChange()"></concordance>

@@ -25,7 +25,7 @@ export class SubmeaningComponent implements OnInit {
     this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [], collocations: [] });
     this.submeaningsChange.emit();
     const last = this.submeanings.length - 1;
-    setTimeout(() => { document.getElementById(`submeaningtext${last}`).focus(); });
+    setTimeout(() => { document.getElementById(`meaning${this.znacenjeRbr}submeaningtext${last}`).focus(); });
   }
 
   remove(submeaning): void {
