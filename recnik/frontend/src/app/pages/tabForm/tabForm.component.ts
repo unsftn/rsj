@@ -49,8 +49,9 @@ export class TabFormComponent implements OnInit {
   verbKinds: VerbKind[];
   verbForms: VerbForm[];
 
-  selectedVerbKind: VerbKind;
   selectedVerbForm: VerbForm;
+  selectedVerbKind: VerbKind;
+  showVerbKind: boolean;
   presentE: string;
   presentI: string;
   details: string;
@@ -611,6 +612,7 @@ export class TabFormComponent implements OnInit {
       info: this.details ? this.details.trim() : '',
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : null,
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : null,
+      prikazi_gl_rod: this.showVerbKind,
       prezent: this.presentE ? this.presentE.trim() : '',
       prezent_ij: this.presentI ? this.presentI.trim() : '',
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
@@ -795,6 +797,7 @@ export class TabFormComponent implements OnInit {
       case 1:
         this.selectedVerbForm = this.enumService.getVerbForm(value.glagolski_vid);
         this.selectedVerbKind = this.enumService.getVerbKind(value.glagolski_rod);
+        this.showVerbKind = value.prikazi_gl_rod;
         this.presentE = value.prezent;
         this.presentI = value.prezent_ij;
         this.isNoun = false;

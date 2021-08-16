@@ -175,7 +175,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim',
                   'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
                   'izmenaodrednice_set', 'opciono_se', 'rbr_homonima', 'obradjivac', 'redaktor', 'urednik', 'napomene',
-                  'freetext', 'status')
+                  'freetext', 'status', 'prikazi_gl_rod')
 
 
 class ShortOdrednicaSerializer(serializers.ModelSerializer):
@@ -310,6 +310,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     info = serializers.CharField(max_length=2000, required=False, allow_blank=True, allow_null=True)
     glagolski_vid = serializers.IntegerField(required=False, allow_null=True)
     glagolski_rod = serializers.IntegerField(required=False, allow_null=True)
+    prikazi_gl_rod = serializers.NullBooleanField(required=False)
     prezent = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     prezent_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     stanje = serializers.IntegerField(required=False, allow_null=True)

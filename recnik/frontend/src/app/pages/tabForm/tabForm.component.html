@@ -261,10 +261,15 @@
         <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
           <p class="label">Глаголски род:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
+        <div class="p-sm-6 p-md-6 p-lg-5">
           <p-dropdown class="wider" [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-dropdown>
+        </div>
+        <div class="p-sm-3 p-md-3 p-lg-2">
+          <p-checkbox [binary]="true" label="прикажи" [(ngModel)]="showVerbKind"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"></p-checkbox>
         </div>
       </div>
       <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">

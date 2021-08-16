@@ -18,6 +18,7 @@ AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м (ж)', 5: 'ж (м)', 6: 'м (с)', 7: 'с (м)', 8: 'ж (с)', 9: 'с (ж)', 10: 'м/ж',
        11: 'м/с', 12: 'ж/с', 13: ''}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.',  4: 'несвр. и свр.', 5: 'свр. (несвр)',  6: 'несвр. (свр)'}
+GROD = {1: 'прел.', 2: 'непрел.', 3: 'повр.', 4: 'прел. непрел.', 5: 'непрел. прел.', 6: ''}
 SPECIAL_MARKS = ['ак.', 'аор.', 'безл.', 'бр.', 'везн.', 'вок.', 'ген.', 'гл.им.', 'дат.', 'зам.', 'зб.',
                  'изр.', 'имп.', 'импф.', 'инстр.', 'јд.', 'јек.', 'комп.', 'лок.', 'мн.', 'неодр.', 'непрел.',
                  'непром.', 'несвр.', 'ном.', 'одр.', 'оном.', 'повр.', 'пр.пр.', 'пр.сад.',
@@ -303,6 +304,8 @@ def render_one(odrednica):
         html += render_nastavci_varijante(odrednica)
         if odrednica.glagolski_vid:
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
+        if odrednica.glagolski_rod and odrednica.prikazi_gl_rod:
+            html += f' <small>{GROD[odrednica.glagolski_rod]}</small> '
         if odrednica.info:
             html += render_info(odrednica.info)
         else:

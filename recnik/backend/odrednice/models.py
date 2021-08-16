@@ -131,6 +131,7 @@ class Odrednica(models.Model):
     info = models.CharField('инфо', max_length=2000, blank=True, null=True)
     glagolski_vid = models.IntegerField('глаголски вид', choices=GLAGOLSKI_VID, blank=True, null=True)
     glagolski_rod = models.IntegerField('глаголски род', choices=GLAGOLSKI_ROD, blank=True, null=True)
+    prikazi_gl_rod = models.BooleanField('прикажи глаголски род', null=True, blank=True)
     prezent = models.CharField('презент', max_length=50, blank=True, null=True)
     prezent_ij = models.CharField('презент', max_length=50, blank=True, null=True)
     broj_pregleda = models.IntegerField('број прегледа', default=0)
