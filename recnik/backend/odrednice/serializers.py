@@ -361,11 +361,11 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
         validated_data['poslednja_izmena'] = sada
         if database == 'default':
-            if validated_data['stanje'] == 1:
+            if validated_data['stanje'] == 1 and not odrednica_id:
                 validated_data['obradjivac'] = user
-            elif validated_data['stanje'] == 2:
+            elif validated_data['stanje'] == 2 and not odrednica_id:
                 validated_data['redaktor'] = user
-            elif validated_data['stanje'] == 3:
+            elif validated_data['stanje'] == 3 and not odrednica_id:
                 validated_data['urednik'] = user
         odrednica, created = Odrednica.objects.using(database).update_or_create(defaults=validated_data, id=odrednica_id)
 
