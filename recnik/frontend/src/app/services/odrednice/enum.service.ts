@@ -35,7 +35,9 @@ export class EnumService {
       { name: 'повратни', id: 3, def2: false },
       { name: 'прелазни и непрелазни', id: 4, def2: false },
       { name: 'непрелазни и прелазни', id: 5, def2: false },
-      { name: '(ce) облик', id: 6, def2: true },
+      { name: 'прелазни (непрелазни)', id: 6, def2: false },
+      { name: 'непрелазни (прелазни)', id: 7, def2: false },
+      { name: '"ce" облик', id: 8, def2: true },
     ];
     this.verbForms = [
       { name: '---', id: null },
