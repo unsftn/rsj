@@ -39,7 +39,10 @@ export class EnumService {
       { name: '---', id: null },
       { name: 'свршен', id: 1 },
       { name: 'несвршен', id: 2 },
-      { name: 'двовидски', id: 3 },
+      { name: 'свршен и несвршен', id: 3 },
+      { name: 'несвршен и свршен', id: 4 },
+      { name: 'свршен (несвршен)', id: 5 },
+      { name: 'несвршен (свршен)', id: 6 },
     ];
     this.entryStates = [
       { id: 1, opis: 'обрада' },
