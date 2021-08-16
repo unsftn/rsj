@@ -6,7 +6,6 @@ export interface Gender {
 export interface VerbKind {
   name: string;
   id: number;
-  def2: boolean;
 }
 
 export interface VerbForm {

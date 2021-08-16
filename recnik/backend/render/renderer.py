@@ -19,7 +19,7 @@ ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м (ж)', 5: 'ж (м)', 6: 'м (с)', 7: '
        11: 'м/с', 12: 'ж/с', 13: ''}
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.',  4: 'несвр. и свр.', 5: 'свр. (несвр)',  6: 'несвр. (свр)'}
 GROD = {1: 'прел.', 2: 'непрел.', 3: 'повр.', 4: 'прел. и непрел.', 5: 'непрел. и прел.', 6: 'прел. (непрел)',
-        7: 'непрел. (прел)', 8: ''}
+        7: 'непрел. (прел)'}
 SPECIAL_MARKS = ['ак.', 'аор.', 'безл.', 'бр.', 'везн.', 'вок.', 'ген.', 'гл.им.', 'дат.', 'зам.', 'зб.',
                  'изр.', 'имп.', 'импф.', 'инстр.', 'јд.', 'јек.', 'комп.', 'лок.', 'мн.', 'неодр.', 'непрел.',
                  'непром.', 'несвр.', 'ном.', 'одр.', 'оном.', 'повр.', 'пр.пр.', 'пр.сад.',
@@ -395,8 +395,11 @@ def render_one(odrednica):
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())
     else:
-        for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=False), start=1):
-            html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+        if odrednica.znacenje_set.filter(znacenje_se=False).count() == 1:
+            html += render_znacenje(odrednica.znacenje_set.first())
+        else:
+            for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=False), start=1):
+                html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
         if odrednica.znacenje_set.filter(znacenje_se=True).count() > 0:
             html += f' <b>&#9632; ~ се</b> '
             if odrednica.znacenje_set.filter(znacenje_se=True).count() == 1:

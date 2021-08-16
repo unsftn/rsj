@@ -11,6 +11,7 @@ export interface Determinant {
   glagolski_vid?: number;
   glagolski_rod?: number;
   prikazi_gl_rod?: boolean;
+  ima_se_znacenja?: boolean;
   prezent?: string;
   prezent_ij?: string;
   stanje: number;

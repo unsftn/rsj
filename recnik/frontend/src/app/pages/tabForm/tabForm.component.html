@@ -272,6 +272,16 @@
                       (focusout)="onFocusLeave()"></p-checkbox>
         </div>
       </div>
+      <div class="p-d-flex" *ngIf="isVerb">
+        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+          <p class="label"> </p>
+        </div>
+        <div class="p-sm-9 p-md-9 p-lg-8">
+          <p-checkbox [binary]="true" label="има посебна значења за ~ се" [(ngModel)]="hasSeMeanings"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"></p-checkbox>
+        </div>
+      </div>
       <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">
         <div>
           <p class="label p-m-0">Додатне информације:</p>

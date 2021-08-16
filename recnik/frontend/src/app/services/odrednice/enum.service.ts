@@ -29,15 +29,14 @@ export class EnumService {
       { name: '---', id: 13 },
     ];
     this.verbKinds = [
-      { name: '---', id: null, def2: false },
-      { name: 'прелазни', id: 1, def2: false },
-      { name: 'непрелазни', id: 2, def2: false },
-      { name: 'повратни', id: 3, def2: false },
-      { name: 'прелазни и непрелазни', id: 4, def2: false },
-      { name: 'непрелазни и прелазни', id: 5, def2: false },
-      { name: 'прелазни (непрелазни)', id: 6, def2: false },
-      { name: 'непрелазни (прелазни)', id: 7, def2: false },
-      { name: '"ce" облик', id: 8, def2: true },
+      { name: '---', id: null },
+      { name: 'прелазни', id: 1 },
+      { name: 'непрелазни', id: 2 },
+      { name: 'повратни', id: 3 },
+      { name: 'прелазни и непрелазни', id: 4 },
+      { name: 'непрелазни и прелазни', id: 5 },
+      { name: 'прелазни (непрелазни)', id: 6 },
+      { name: 'непрелазни (прелазни)', id: 7 },
     ];
     this.verbForms = [
       { name: '---', id: null },

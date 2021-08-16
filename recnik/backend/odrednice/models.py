@@ -46,7 +46,6 @@ GLAGOLSKI_ROD = [
     (5, 'непрелазни и прелазни'),
     (6, 'прелазни (непрелазни)'),
     (7, 'непрелазни (прелазни)'),
-    (8, '(се) облик'),
 ]
 
 ROD = [
@@ -134,6 +133,7 @@ class Odrednica(models.Model):
     glagolski_vid = models.IntegerField('глаголски вид', choices=GLAGOLSKI_VID, blank=True, null=True)
     glagolski_rod = models.IntegerField('глаголски род', choices=GLAGOLSKI_ROD, blank=True, null=True)
     prikazi_gl_rod = models.BooleanField('прикажи глаголски род', null=True, blank=True)
+    ima_se_znacenja = models.BooleanField('има значења за ~ ce', null=True, blank=True)
     prezent = models.CharField('презент', max_length=50, blank=True, null=True)
     prezent_ij = models.CharField('презент', max_length=50, blank=True, null=True)
     broj_pregleda = models.IntegerField('број прегледа', default=0)
