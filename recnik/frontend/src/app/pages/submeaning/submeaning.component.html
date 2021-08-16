@@ -44,17 +44,21 @@
                   (focusout)="onFocusLeave()"
                   (keyup)="keyup($event, i)" id="meaning{{znacenjeRbr}}submeaningtext{{i}}"></textarea>
       </p-tabPanel>
-      <p-tabPanel header="Конкорданце">
+      <p-tabPanel header="Конк" tooltip="Конкорданце">
         <concordance [concordances]="submeanings[i].concordances" (concordancesChange)="onChange()"></concordance>
       </p-tabPanel>
-      <p-tabPanel header="Квалификатори">
+      <p-tabPanel header="Квал" tooltip="Квалификатори">
         <qualificator [(selectedQualificators)]="submeanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
       </p-tabPanel>
       <p-tabPanel header="Фразе" [disabled]="true">
         <expressions [expressions]="submeanings[i].expressions" (expressionsChange)="onChange()"></expressions>
       </p-tabPanel>
-      <p-tabPanel header="Колокације">
+      <p-tabPanel header="Кол" tooltip="Колокације">
         <short-collocations [shortCollocations]="submeanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
+      </p-tabPanel>
+      <p-tabPanel header="Син" tooltip="Синоними">
+      </p-tabPanel>
+      <p-tabPanel header="Ант" tooltip="Антоними">
       </p-tabPanel>
     </p-tabView>
     <div class="p-d-flex mgmt-buttons">
