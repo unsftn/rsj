@@ -277,7 +277,7 @@ def render_nastavci_varijante(odrednica):
             html += varijante[0]
         elif len(varijante) > 1:
             html += ', ' + nabrajanje(varijante)
-    if odrednica.vrsta == 0 and not ima_razlicit_rod:
+    if odrednica.vrsta == 0 and not ima_razlicit_rod and odrednica.rod:
         html += f' <small>{ROD[odrednica.rod]}</small> '
     return html
 
