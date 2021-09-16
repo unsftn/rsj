@@ -7,7 +7,7 @@ from django.db.models.functions import Collate
 from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
-from weasyprint.fonts import FontConfiguration
+from weasyprint.text.fonts import FontConfiguration
 from docx import Document
 from htmldocx import HtmlToDocx
 from odrednice.models import *
