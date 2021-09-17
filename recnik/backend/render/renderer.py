@@ -259,6 +259,8 @@ def render_nastavci_varijante(odrednica):
         html += ' <small>јек.</small> '
     if odrednica.ijekavski and odrednica.rec != odrednica.ijekavski:
         html += f'<b>{odrednica.ijekavski}</b>'
+        if odrednica.vrsta == 1 and odrednica.opciono_se:
+            html += f' <b>(се)</b>'
     elif odrednica.ijekavski and odrednica.rec == odrednica.ijekavski:
         html += ' и '
     if odrednica.nastavak_ij:
@@ -287,10 +289,10 @@ def render_one(odrednica):
         return process_tags(odrednica.freetext)
 
     html = f'<b>{odrednica.rec}'
+    if odrednica.rbr_homonima:
+        html += f'<sup>{odrednica.rbr_homonima}</sup>'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         html += f' (се)'
-    if odrednica.rbr_homonima:
-        html += f' <sup>{odrednica.rbr_homonima}</sup>'
     html += f'</b>'
 
     # imenica
