@@ -27,6 +27,7 @@ interface Variant {
   presentI: string;
   optionalSe: boolean;
   gender: Gender;
+  ravnopravna: boolean;
 }
 
 @Component({
@@ -251,7 +252,7 @@ export class TabFormComponent implements OnInit {
   }
 
   addVariant(): void {
-    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '', optionalSe: false, gender: null });
+    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '', optionalSe: false, gender: null, ravnopravna: true });
   }
 
   removeVariant(variant): void {
@@ -609,6 +610,7 @@ export class TabFormComponent implements OnInit {
           prezent_ij: variant.presentI.trim(),
           opciono_se: variant.optionalSe,
           rod: variant.gender?.id ? variant.gender?.id : null,
+          ravnopravna: variant.ravnopravna,
         };
       }),
       vrsta: this.selectedWordType?.id,
@@ -781,7 +783,7 @@ export class TabFormComponent implements OnInit {
     this.extensionI = value.nastavak_ij;
     this.variants = [];
     for (const v of value.varijantaodrednice_set) {
-      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij, optionalSe: v.opciono_se ? true : false, gender: this.enumService.getGender(v.rod) });
+      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij, optionalSe: v.opciono_se ? true : false, gender: this.enumService.getGender(v.rod), ravnopravna: v.ravnopravna });
     }
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);

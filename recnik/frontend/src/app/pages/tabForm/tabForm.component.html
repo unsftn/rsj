@@ -242,6 +242,13 @@
                               (focusout)="onFocusLeave()"></p-dropdown>
                 </div>
               </div>
+              <div class="p-d-flex">
+                <div class="p-mr-2">
+                  <p-checkbox [binary]="true" label="равноправна" [(ngModel)]="variants[i].ravnopravna"
+                              (ngModelChange)="onValueChange($event)" [ngModelOptions]="{standalone: true}"
+                              (focusout)="onFocusLeave()"></p-checkbox>
+                </div>
+              </div>
             </div>
           </form>
         </div>

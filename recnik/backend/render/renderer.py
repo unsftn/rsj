@@ -214,7 +214,7 @@ def render_info(info):
     return f' {process_tags(process_special_marks(info))} '
 
 
-def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None):
+def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None, ravnopravna=True):
     def zarez(text):
         return f', {text}' if text else ''
 
@@ -228,8 +228,10 @@ def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None):
     if not tekst and not nastavak and not prezent:
         return ''
     rod_text = f' <small>{ROD[rod]}</small>' if rod else ''
-    # return f'<b>{tekst}{" (ce)" if opciono_se else ""}</b>' + zarez(nastavak) + rod_text + zarez(prezent)
-    return f'<b>{se(tekst, opciono_se)}</b>' + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))
+    if ravnopravna:
+        return f'<b>{se(tekst, opciono_se)}</b>' + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))
+    else:
+        return f'({se(tekst, opciono_se) + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))})'
 
 
 def render_nastavci_varijante(odrednica):
@@ -252,7 +254,7 @@ def render_nastavci_varijante(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod)
+            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod, vod.ravnopravna)
             if var:
                 varijante.append(var)
         if len(varijante) == 1:
@@ -278,7 +280,7 @@ def render_nastavci_varijante(odrednica):
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod)
+            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod, vod.ravnopravna)
             if var:
                 varijante.append(var)
         if len(varijante) == 1:

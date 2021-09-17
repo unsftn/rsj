@@ -217,6 +217,7 @@ class VarijantaOdrednice(models.Model):
     prezent_ij = models.CharField('презент ијекавски', max_length=50, blank=True, null=True)
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     rod = models.IntegerField('род', choices=ROD, default=0, blank=True, null=True)
+    ravnopravna = models.BooleanField('равноправна', default=True)
 
     def __str__(self):
         return f'{str(self.odrednica)} / {self.redni_broj}: {self.tekst}'
