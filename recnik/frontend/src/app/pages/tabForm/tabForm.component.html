@@ -349,7 +349,7 @@
           <p-tabPanel header="Дневник">
             <changesForm [changes]="changes"></changesForm>
           </p-tabPanel>
-          <p-tabPanel header="Остало">
+          <p-tabPanel header="Остало" [headerStyleClass]="hasMisc() ? 'red-tab' : ''" [rightIcon]="hasMisc() ? 'pi pi-flag' : ''">
             <div class="p-ml-2 p-mt-3">
               <textarea rows="4" cols="50" pInputTextarea [(ngModel)]="notes" (focusout)="onFocusLeave()"
                         style="resize: vertical; border: 1px solid darkgray; color: #495057;" placeholder="Напомене">

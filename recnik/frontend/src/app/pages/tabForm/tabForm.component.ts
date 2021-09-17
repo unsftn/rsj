@@ -570,6 +570,14 @@ export class TabFormComponent implements OnInit {
     return false;
   }
 
+  hasMisc(): boolean {
+    if (this.freetext)
+      return true;
+    if (this.notes)
+      return true;
+    return false;
+  }
+
   check(): boolean {
     try {
       this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');

@@ -78,3 +78,8 @@
 :host ::ng-deep .p-dialog-content {
   padding-top: 2rem !important;
 }
+
+:host ::ng-deep li.red-tab span.p-tabview-title,
+:host ::ng-deep li.red-tab span.p-tabview-right-icon {
+  color: red !important;
+}
