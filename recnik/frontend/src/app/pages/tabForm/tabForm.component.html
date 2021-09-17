@@ -282,6 +282,14 @@
                       (focusout)="onFocusLeave()"></p-checkbox>
         </div>
       </div>
+      <div class="p-d-flex p-flex-column p-mt-4 p-ml-2">
+        <div>
+          <p class="label p-m-0">Квалификатори:</p>
+        </div>
+        <div>
+          <qualificator [(selectedQualificators)]="qualificators" (selectedQualificatorsChange)="saveChange()"></qualificator>
+        </div>
+      </div>
       <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">
         <div>
           <p class="label p-m-0">Додатне информације:</p>
@@ -292,14 +300,6 @@
                     (focusout)="onFocusLeave()"
                     (keyup)="keyup($event, 'details')"
                     style="resize: vertical; border: 1px solid darkgray; color: #495057"></textarea>
-        </div>
-      </div>
-      <div class="p-d-flex p-flex-column p-mt-4 p-ml-2">
-        <div>
-          <p class="label p-m-0">Квалификатори:</p>
-        </div>
-        <div>
-          <qualificator [(selectedQualificators)]="qualificators" (selectedQualificatorsChange)="saveChange()"></qualificator>
         </div>
       </div>
       <div class="p-d-flex">

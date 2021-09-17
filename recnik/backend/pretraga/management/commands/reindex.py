@@ -23,7 +23,7 @@ class Command(BaseCommand):
         for odr in Odrednica.objects.all():
             if save_odrednica_model(odr):
                 count += 1
-            if count % 1000 == 0 and count > 0:
+            if count % 10000 == 0 and count > 0:
                 self.stdout.write(f'Indeksirano {count} odrednica.')
         self.stdout.write(f'Ukupno indeksirano {count} odrednica.')
         self.stdout.write(f'Ukupno {Publikacija.objects.count()} publikacija za indeksiranje.')

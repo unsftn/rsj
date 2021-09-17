@@ -79,24 +79,16 @@ def process_special_marks(tekst):
     for mark in SPECIAL_MARKS:
         tekst = tekst.replace(mark, f'<small>{mark}</small>')
     for znak in ['м', 'ж', 'с']:
-        if tekst.startswith(f'({znak} '):
-            tekst = f'(<small>{znak}</small> ' + tekst[3:]
-        if tekst.startswith(f'[{znak} '):
-            tekst = f'[<small>{znak}</small> ' + tekst[3:]
         if tekst.startswith(f'{znak} '):
             tekst = f'<small>{znak}</small> ' + tekst[2:]
-        if tekst.endswith(f' {znak})'):
-            tekst = tekst[:-3] + f' <small>{znak}</small>)'
-        if tekst.endswith(f' {znak}]'):
-            tekst = tekst[:-3] + f' <small>{znak}</small>]'
         if tekst.endswith(f' {znak}'):
             tekst = tekst[:-2] + f' <small>{znak}</small>'
         tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
         tekst = tekst.replace(f' {znak} ', f' <small>{znak}</small> ')
-        tekst = tekst.replace(f' {znak}) ', f' <small>{znak}</small>) ')
-        tekst = tekst.replace(f' ({znak} ', f' (<small>{znak}</small> ')
-        tekst = tekst.replace(f' {znak}] ', f' <small>{znak}</small>] ')
-        tekst = tekst.replace(f' [{znak} ', f' [<small>{znak}</small> ')
+        tekst = tekst.replace(f' {znak})', f' <small>{znak}</small>)')
+        tekst = tekst.replace(f'({znak} ', f'(<small>{znak}</small> ')
+        tekst = tekst.replace(f' {znak}]', f' <small>{znak}</small>]')
+        tekst = tekst.replace(f'[{znak} ', f'[<small>{znak}</small> ')
     return tekst
 
 
@@ -314,9 +306,6 @@ def render_one(odrednica):
     # imenica
     if odrednica.vrsta == 0:
         html += render_nastavci_varijante(odrednica)
-        # html += f' <small>{ROD[odrednica.rod]}</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
 
     # glagol
     if odrednica.vrsta == 1:
@@ -325,91 +314,56 @@ def render_one(odrednica):
             html += f' <small>{GVID[odrednica.glagolski_vid]}</small> '
         if odrednica.glagolski_rod and odrednica.prikazi_gl_rod:
             html += f' <small>{GROD[odrednica.glagolski_rod]}</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # pridev
     if odrednica.vrsta == 2:
         html += render_nastavci_varijante(odrednica)
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # prilog
     if odrednica.vrsta == 3:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>прил.</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # predlog
     if odrednica.vrsta == 4:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>предл.</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # zamenica
     if odrednica.vrsta == 5:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>зам.</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # uzvik
     if odrednica.vrsta == 6:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>узв.</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # recca
     if odrednica.vrsta == 7:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>речца</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # veznik
     if odrednica.vrsta == 8:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>везн.</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # broj
     if odrednica.vrsta == 9:
         html += render_nastavci_varijante(odrednica)
         html += f' <small>број</small> '
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     # ostalo
     if odrednica.vrsta == 10:
         html += render_nastavci_varijante(odrednica)
-        if odrednica.info:
-            html += render_info(odrednica.info)
-        else:
-            html += ' '
 
     html += render_kvalifikatori(odrednica.kvalifikatorodrednice_set.all().order_by('redni_broj'))
+    if odrednica.info:
+        html += render_info(odrednica.info)
+    else:
+        html += ' '
+
     if odrednica.znacenje_set.count() == 1:
         html += render_znacenje(odrednica.znacenje_set.first())
     else:
