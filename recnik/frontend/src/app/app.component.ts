@@ -109,6 +109,11 @@ export class AppComponent implements OnInit {
         disabled: !this.isAdmin(),
         items: [
           {
+            label: 'Са напоменом',
+            icon: 'pi pi-flag',
+            routerLink: ['/review/with-notes'],
+          },
+          {
             label: 'По обрађивачу',
             icon: 'pi pi-users',
             routerLink: ['/review/by-person'],

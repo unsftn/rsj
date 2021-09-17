@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PublikacijaListComponent } from './pages/publikacije/publikacija-list/publikacija-list.component';
 import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
 import { AllComponent } from './pages/review/all/all.component';
+import { WithNoteComponent } from './pages/review/with-note/with-note.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { TabFormComponent } from './pages/tabForm/tabForm.component';
@@ -67,6 +68,11 @@ const routes: Routes = [
   {
     path: 'review/alphabetical',
     component: AllComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'review/with-notes',
+    component: WithNoteComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '' },

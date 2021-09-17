@@ -39,6 +39,7 @@ urlpatterns = [
     path('short-odrednica/', ShortOdrednicaList.as_view(), name='short-odrednica-list'),
     path('short-odrednica/<int:pk>/', ShortOdrednicaDetail.as_view(), name='short-odrednica-detail'),
     path('short-odrednica-alpha/', ShortOdrednicaListAlpha.as_view(), name='short-odrednica-list-alpha'),
+    path('short-odrednica-with-notes/', ShortOdrednicaListWithNotes.as_view(), name='short-odrednica-list-with-notes'),
     path('save/', api_save_odrednica),
     path('delete/<int:odrednica_id>/', api_delete_odrednica),
     path('workflow/za-obradjivaca/<int:odrednica_id>/', api_predaj_obradjivacu),

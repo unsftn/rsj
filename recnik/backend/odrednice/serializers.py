@@ -182,7 +182,7 @@ class ShortOdrednicaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Odrednica
         fields = ('id', 'rec', 'vrsta', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'obradjivac', 'redaktor',
-                  'urednik', 'status')
+                  'urednik', 'status', 'napomene')
 
 
 # insert/update serializers

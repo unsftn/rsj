@@ -36,10 +36,11 @@ import { PersonComponent } from './pages/review/person/person.component';
 import { RenderedOdredniceComponent } from './pages/rendered-odrednice/rendered-odrednice.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AllComponent } from './pages/review/all/all.component';
+import { WithNoteComponent } from './pages/review/with-note/with-note.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, RendersComponent, PublikacijaComponent, PublikacijaListComponent,
-    ProfileComponent, PersonComponent, RenderedOdredniceComponent, HomeComponent, AllComponent],
+    ProfileComponent, PersonComponent, RenderedOdredniceComponent, HomeComponent, AllComponent, WithNoteComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

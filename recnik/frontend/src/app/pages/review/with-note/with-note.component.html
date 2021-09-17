@@ -1,0 +1,23 @@
+<div class="page-container">
+  <h2>Преглед одредница са напоменом</h2>
+  <p-table [value]="odrednice" [rows]="10" [paginator]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="glava">Реч</th>
+        <th class="vrsta">Врста</th>
+        <th class="stanje">Стање</th>
+        <th class="datum">Последња измена</th>
+        <th>Напомене</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-odr>
+      <tr class="pointer" (click)="open(odr.id)">
+        <td>{{odr.rec}}</td>
+        <td>{{odr.vrstaStr}}</td>
+        <td>{{odr.stanjeStr}}</td>
+        <td>{{odr.poslednja_izmena|date: 'dd.MM.yyyy. HH:mm'}}</td>
+        <td>{{odr.napomene}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
