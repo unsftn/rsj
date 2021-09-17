@@ -20,7 +20,7 @@ ROD = {1: 'м', 2: 'ж', 3: 'с', 4: 'м (ж)', 5: 'ж (м)', 6: 'м (с)', 7: '
 GVID = {1: 'свр.', 2: 'несвр.', 3: 'свр. и несвр.',  4: 'несвр. и свр.', 5: 'свр. (несвр)',  6: 'несвр. (свр)'}
 GROD = {1: 'прел.', 2: 'непрел.', 3: 'повр.', 4: 'прел. и непрел.', 5: 'непрел. и прел.', 6: 'прел. (непрел)',
         7: 'непрел. (прел)'}
-SPECIAL_MARKS = ['ак.', 'аор.', 'безл.', 'бр.', 'везн.', 'вок.', 'ген.', 'гл.им.', 'дат.', 'зам.', 'зб.',
+SPECIAL_MARKS = ['ак.', 'аор.', 'безл.', 'бр.', 'везн.', 'вок.', 'ген.', 'гл.им.', 'дат.', 'зам.', 'зб.', 'им.',
                  'имп.', 'импф.', 'инстр.', 'јд.', 'јек.', 'комп.', 'лок.', 'мн.', 'неодр.', 'непрел.',
                  'непром.', 'несвр.', 'ном.', 'одр.', 'оном.', 'повр.', 'пр.пр.', 'пр.сад.',
                  'предл.', 'през.', 'прел.', 'прил.', 'р.пр.', 'речца.', 'свр.', 'суп.', 'суп.мн.',
@@ -226,16 +226,26 @@ def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None):
     def zarez(text):
         return f', {text}' if text else ''
 
+    def se(text, s):
+        if not text:
+            return text
+        if text.find('(се)') != -1:
+            return text
+        return f'{text} (се)' if s else text
+
     if not tekst and not nastavak and not prezent:
         return ''
     rod_text = f' <small>{ROD[rod]}</small>' if rod else ''
-    return f'<b>{tekst}{" (ce)" if opciono_se else ""}</b>' + zarez(nastavak) + rod_text + zarez(prezent)
+    # return f'<b>{tekst}{" (ce)" if opciono_se else ""}</b>' + zarez(nastavak) + rod_text + zarez(prezent)
+    return f'<b>{se(tekst, opciono_se)}</b>' + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))
 
 
 def render_nastavci_varijante(odrednica):
     html = ''
     if odrednica.nastavak:
         html += f', {odrednica.nastavak}'
+        if odrednica.vrsta == 1 and odrednica.opciono_se:
+            html += ' (се)'
     ima_razlicit_rod = False
     if odrednica.vrsta == 0 and odrednica.rod:
         for vod in odrednica.varijantaodrednice_set.all():
@@ -245,6 +255,8 @@ def render_nastavci_varijante(odrednica):
         html += f' <small>{ROD[odrednica.rod]}</small> '
     if odrednica.prezent:
         html += f', {odrednica.prezent}'
+        if odrednica.opciono_se:
+            html += ' (се)'
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
@@ -265,8 +277,12 @@ def render_nastavci_varijante(odrednica):
         html += ' и '
     if odrednica.nastavak_ij:
         html += f', {odrednica.nastavak_ij}'
+        if odrednica.vrsta == 1 and odrednica.opciono_se:
+            html += ' (се)'
     if odrednica.prezent_ij:
         html += f', {odrednica.prezent_ij}'
+        if odrednica.opciono_se:
+            html += ' (се)'
     if odrednica.varijantaodrednice_set.count() > 0:
         varijante = []
         for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
