@@ -12,7 +12,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr class="pointer" (click)="goto(item.odrednica_id)">
-              <td>{{item.rec}}</td>
+              <td>{{item.rec}} <span *ngIf="item.ima_napomene" class="red-asterisk">*</span></td>
               <td>{{item.datum|date:'dd.MM.yyyy.'}}</td>
               <td>{{item.autor}}
               </td>

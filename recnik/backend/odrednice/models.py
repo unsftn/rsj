@@ -153,6 +153,11 @@ class Odrednica(models.Model):
     def __str__(self):
         return self.rec if self.rec else '-'
 
+    def ima_napomene(self):
+        if not self.napomene:
+            return False
+        return True
+
     class Meta:
         verbose_name = 'одредница'
         verbose_name_plural = 'одреднице'

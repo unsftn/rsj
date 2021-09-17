@@ -427,7 +427,13 @@ def api_moje_odrednice(request, page_size):
     for odr in odrednice1.union(odrednice2):
         izmena = odr.izmenaodrednice_set.all().order_by('-vreme').first()
         name = (izmena.user.first_name + ' ' + izmena.user.last_name) if izmena else ''
-        result.append({'odrednica_id': odr.id, 'rec': odr.rec, 'datum': odr.poslednja_izmena, 'autor': name})
+        result.append({
+            'odrednica_id': odr.id,
+            'rec': odr.rec,
+            'rbr_homo': odr.rbr_homonima,
+            'datum': odr.poslednja_izmena,
+            'autor': name,
+            'ima_napomene': odr.ima_napomene()})
     return Response(result, status=status.HTTP_200_OK, content_type=JSON)
 
 
