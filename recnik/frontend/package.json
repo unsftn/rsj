@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~12.2.6",
     "@angular/platform-browser-dynamic": "~12.2.6",
     "@angular/router": "~12.2.6",
+    "@types/chart.js": "^2.9.34",
     "chart.js": "^3.5.1",
     "npm-check-updates": "^11.8.5",
     "primeflex": "^2.0.0",
