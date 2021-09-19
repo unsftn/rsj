@@ -99,12 +99,14 @@ export class OdrednicaService {
     return this.statusCache;
   }
 
-  checkDuplicate(word: string, id: number, homo: number): Observable<any> {
+  checkDuplicate(word: string, id: number, homo: number, vrsta: number): Observable<any> {
     let req = `/api/pretraga/odrednica/duplicate/?q=${word}`;
     if (id)
       req += `&id=${id}`;
     if (homo)
       req += `&homo=${homo}`;
+    if (vrsta)
+      req += `&vrsta=${vrsta}`;
     return this.httpClient.get(req);
   }
 }

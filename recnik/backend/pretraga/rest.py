@@ -245,8 +245,10 @@ def check_duplicate(request):
     term = request.GET.get('q')
     sid = request.GET.get('id')
     shomo = request.GET.get('homo')
+    svrsta = request.GET.get('vrsta')
     termid = int(sid) if sid else None
     rbr_homo = int(shomo) if shomo else None
+    vrsta = int(svrsta) if svrsta else None
     hits = []
     s = Search(index=ODREDNICA_INDEX)
     s = s.source(includes=['pk', 'rec', 'vrsta', 'rbr_homo'])
@@ -262,18 +264,14 @@ def check_duplicate(request):
                 found_homo = hit['_source']['rbr_homo']
             except KeyError:
                 found_homo = None
-            if hit['_source']['rec'] == term and termid is None:
-                if found_homo:
-                    if found_homo == rbr_homo:
-                        hits.append(hit['_source'])
-                else:
-                    hits.append(hit['_source'])
-            if hit['_source']['rec'] == term and termid is not None and hit['_source']['pk'] != termid:
-                if found_homo:
-                    if found_homo == rbr_homo:
-                        hits.append(hit['_source'])
-                else:
-                    hits.append(hit['_source'])
+
+            # ako je nova rec
+            if termid is None:
+                append_to_hits(hits, termid, vrsta, term, hit, found_homo, rbr_homo)
+            # ako je postojeca rec a nije ona sama
+            elif hit['_source']['rec'] == term and hit['_source']['pk'] != termid:
+                append_to_hits(hits, termid, vrsta, term, hit, found_homo, rbr_homo)
+
         serializer = OdrednicaResponseSerializer(hits, many=True)
         data = serializer.data
 
@@ -284,6 +282,22 @@ def check_duplicate(request):
         )
     except ElasticsearchException as error:
         return server_error(error.args)
+
+
+def append_if_term_and_homo_match(hits, term, hit, found_homo, rbr_homo):
+    if hit['_source']['rec'] == term:
+        if found_homo:
+            if found_homo == rbr_homo:
+                hits.append(hit['_source'])
+        else:
+            hits.append(hit['_source'])
+
+
+def append_to_hits(hits, termid, vrsta, term, hit, found_homo, rbr_homo):
+    if not vrsta:
+        append_if_term_and_homo_match(hits, term, hit, found_homo, rbr_homo)
+    elif vrsta == hit['_source']['vrsta']:
+        append_if_term_and_homo_match(hits, term, hit, found_homo, rbr_homo)
 
 
 def bad_request(error):

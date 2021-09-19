@@ -58,11 +58,8 @@ export class HomeComponent implements OnInit {
     this.odrednicaService.nobodys(1000).subscribe(
       (data) => {
         this.nobodysDeterminants = data;
-        console.log(data);
         const indexOfNobody = this.nobodysDeterminants.map((item) => item.id).indexOf(null);
-        console.log(indexOfNobody);
         this.nobodysDeterminants.push(this.nobodysDeterminants.splice(indexOfNobody, 1)[0]);
-        console.log(this.nobodysDeterminants);
       },
       (error) => console.log(error)
     );
@@ -97,11 +94,10 @@ export class HomeComponent implements OnInit {
       });
     }, error => console.log(error));
     this.odrednicaService.grafikon(9).subscribe(data => {
-      console.log(data);
       this.graphDataLetters = {
         labels: ['А', 'Б', 'В', 'Г', 'Д', 'Ђ', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш'],
         datasets: [{
-          data: data,
+          data,
           backgroundColor: '#42A5F5'
         }]
       };

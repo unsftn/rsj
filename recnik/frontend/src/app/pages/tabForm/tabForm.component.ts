@@ -30,6 +30,18 @@ interface Variant {
   ravnopravna: boolean;
 }
 
+function clean(text: string): string {
+  if (!text)
+    return text;
+  return text.replace('\xad', '').trim();
+}
+
+function cleanE(text: string): string {
+  if (!text)
+    return '';
+  return text.replace('\xad', '').trim();
+}
+
 @Component({
   selector: 'app-tab-form',
   templateUrl: './tabForm.component.html',
@@ -372,7 +384,10 @@ export class TabFormComponent implements OnInit {
       return;
     if (this.wordE === undefined)
       return;
-    this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {
+    this.wordE = clean(this.wordE);
+    this.wordI = clean(this.wordI);
+    const wordType = this.selectedWordType ? this.selectedWordType.id : null;
+    this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim, wordType).subscribe(data => {
       if (data.length > 0) {
         if (showAllowSave) {
           console.log('prikazi pitanje za save');
@@ -430,7 +445,8 @@ export class TabFormComponent implements OnInit {
     };
     if (saving)
       return;
-    this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim).subscribe(data => {
+    const wordType = this.selectedWordType ? this.selectedWordType.id : null;
+    this.odrednicaService.checkDuplicate(this.wordE, this.id, this.homonim, wordType).subscribe(data => {
       if (data.length > 0) {
         this.yesHandler = saveDeterminant;
         this.message = 'Ова одредница је већ унета! Да ли желите да је сачувате као дупликат?';
@@ -597,17 +613,17 @@ export class TabFormComponent implements OnInit {
 
   makeNewDeterminant(): Determinant {
     const determinant: Determinant = {
-      rec: this.wordE ? this.wordE.trim() : '',
-      ijekavski: this.wordI ? this.wordI.trim() : null,
+      rec: clean(this.wordE),
+      ijekavski: this.wordI ? clean(this.wordI) : null,
       varijante: this.variants.map((variant, index) => {
         return {
           redni_broj: index + 1,
-          tekst: variant.nameE.trim(),
-          ijekavski: variant.nameI.trim(),
-          nastavak: variant.extensionE.trim(),
-          nastavak_ij: variant.extensionI.trim(),
-          prezent: variant.presentE.trim(),
-          prezent_ij: variant.presentI.trim(),
+          tekst: clean(variant.nameE),
+          ijekavski: clean(variant.nameI),
+          nastavak: clean(variant.extensionE),
+          nastavak_ij: clean(variant.extensionI),
+          prezent: clean(variant.presentE),
+          prezent_ij: clean(variant.presentI),
           opciono_se: variant.optionalSe,
           rod: variant.gender?.id ? variant.gender?.id : null,
           ravnopravna: variant.ravnopravna,
@@ -615,23 +631,23 @@ export class TabFormComponent implements OnInit {
       }),
       vrsta: this.selectedWordType?.id,
       rod: this.selectedGender?.id ? this.selectedGender?.id : null,
-      nastavak: this.extensionE ? this.extensionE.trim() : '',
-      nastavak_ij: this.extensionI ? this.extensionI.trim() : '',
-      info: this.details ? this.details.trim() : '',
+      nastavak: cleanE(this.extensionE),
+      nastavak_ij: cleanE(this.extensionI),
+      info: cleanE(this.details),
       glagolski_vid: this.selectedVerbForm?.id ? this.selectedVerbForm?.id : null,
       glagolski_rod: this.selectedVerbKind?.id ? this.selectedVerbKind?.id : null,
       prikazi_gl_rod: this.showVerbKind,
       ima_se_znacenja: this.hasSeMeanings,
-      prezent: this.presentE ? this.presentE.trim() : '',
-      prezent_ij: this.presentI ? this.presentI.trim() : '',
+      prezent: cleanE(this.presentE),
+      prezent_ij: cleanE(this.presentI),
       stanje: this.selectedState?.id ? this.selectedState?.id : 1,
       version: this.version,
       opciono_se: this.optionalSe,
       rbr_homonima: this.homonim === 0 ? null : this.homonim,
       status_id: this.selectedStatus === null ? null : this.selectedStatus.id,
-      kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: c.note, odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1, tekst: d.text}))})),
-      sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: s.text})),
-      antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId, tekst: a.text})),
+      kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: clean(c.note), odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1, tekst: clean(d.text)}))})),
+      sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: clean(s.text)})),
+      antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId, tekst: clean(a.text)})),
       kvalifikatori: this.qualificators.map((q, index) => {
         return {
           redni_broj: index + 1,
@@ -642,8 +658,8 @@ export class TabFormComponent implements OnInit {
       izrazi_fraze: this.expressions.map((value, idx) => {
         return {
           redni_broj: idx + 1,
-          opis: value.value.trim(),
-          tekst: value.tekst.trim(),
+          opis: clean(value.value),
+          tekst: clean(value.tekst),
           vezana_odrednica_id: value.determinantId ? value.determinantId : null,
           konkordanse: value.concordances.map((c, idx2) => {
             return {
@@ -662,8 +678,8 @@ export class TabFormComponent implements OnInit {
         };
       }),
       znacenja: this.makeZnacenja(this.meanings, false).concat(this.makeZnacenja(this.meanings2, true)),
-      napomene: this.notes ? this.notes.trim() : '',
-      freetext: this.freetext ? this.freetext.trim() : '',
+      napomene: cleanE(this.notes),
+      freetext: cleanE(this.freetext)
     };
     if (this.editMode) {
       determinant.id = this.id;
@@ -676,17 +692,17 @@ export class TabFormComponent implements OnInit {
     return meanings ? meanings.map((z, index) => {
       return {
         redni_broj: index + 1,
-        tekst: z.value.trim(),
+        tekst: clean(z.value),
         znacenje_se: znacenjeSe,
         podznacenja: z.submeanings.map((pz, idx) => {
           return {
             redni_broj: idx + 1,
-            tekst: pz.value.trim(),
+            tekst: clean(pz.value),
             izrazi_fraze: pz.expressions.map((value, idx2) => {
               return {
                 redni_broj: idx2 + 1,
-                opis: value.value.trim(),
-                tekst: value.tekst.trim(),
+                opis: clean(value.value),
+                tekst: clean(value.tekst),
                 vezana_odrednica_id: value.determinantId ? value.determinantId : null,
                 konkordanse: value.concordances.map((c, idx3) => {
                   return {
@@ -721,7 +737,7 @@ export class TabFormComponent implements OnInit {
             kolokacije: pz.collocations.map((coll, idx2) => {
               return {
                 redni_broj: idx2 + 1,
-                tekst: coll.tekst
+                tekst: clean(coll.tekst)
               };
             }),
           };
@@ -729,13 +745,13 @@ export class TabFormComponent implements OnInit {
         izrazi_fraze: z.expressions.map((value, idx) => {
           return {
             redni_broj: idx + 1,
-            opis: value.value.trim(),
-            tekst: value.tekst.trim(),
+            opis: clean(value.value),
+            tekst: clean(value.tekst),
             vezana_odrednica_id: value.determinantId ? value.determinantId : null,
             konkordanse: value.concordances.map((c, idx2) => {
               return {
                 redni_broj: idx2 + 1,
-                opis: c.concordance.trim(),
+                opis: clean(c.concordance),
                 publikacija_id: c.bookId ? c.bookId : null,
               };
             }),
@@ -758,14 +774,14 @@ export class TabFormComponent implements OnInit {
         konkordanse: z.concordances.map((c, idx) => {
           return {
             redni_broj: idx + 1,
-            opis: c.concordance.trim(),
+            opis: clean(c.concordance),
             publikacija_id: c.bookId ? c.bookId : null,
           };
         }),
         kolokacije: z.collocations.map((coll, idx) => {
           return {
             redni_broj: idx + 1,
-            tekst: coll.tekst
+            tekst: clean(coll.tekst)
           };
         }),
       };
