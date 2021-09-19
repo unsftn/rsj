@@ -279,8 +279,9 @@ def api_save_odrednica(request):
             if user.je_obradjivac():
                 if odrednica.stanje > 1:
                     raise PermissionDenied(detail='Одредница није у фази обраде', code=403)
-                if odrednica.obradjivac != user:
-                    raise PermissionDenied(detail='Други обрађивач је задужен за ову одредницу', code=403)
+                if odrednica.obradjivac:
+                    if odrednica.obradjivac != user:
+                        raise PermissionDenied(detail='Други обрађивач је задужен за ову одредницу', code=403)
             elif user.je_redaktor():
                 if odrednica.stanje > 2:
                     raise PermissionDenied(detail='Одредница није у фази редактуре или обраде', code=403)
@@ -318,8 +319,9 @@ def api_delete_odrednica(request, odrednica_id):
         if user.je_obradjivac():
             if odrednica.stanje > 1:
                 raise PermissionDenied(detail='Покушано брисање одреднице која није у стању обраде', code=403)
-            if user != odrednica.obradjivac:
-                raise PermissionDenied(detail='Покушано брисање одреднице која није у власништву овог обрађивача', code=403)
+            if odrednica.obradjivac:
+                if user != odrednica.obradjivac:
+                    raise PermissionDenied(detail='Покушано брисање одреднице која није у власништву овог обрађивача', code=403)
         if user.je_redaktor():
             if odrednica.stanje > 2:
                 raise PermissionDenied(detail='Покушано брисање одреднице која није у стању обраде или редактуре', code=403)
@@ -429,7 +431,7 @@ def api_moje_odrednice(request, page_size):
         odrednice1 = Odrednica.objects.filter(urednik=user, stanje=3).order_by('-poslednja_izmena')[:page_size]
         odrednice2 = Odrednica.objects.filter(urednik__isnull=True, stanje=3).order_by('-poslednja_izmena')[:page_size]
     else:
-        odrednice1 = Odrednica.objects.order_by('-poslednja_izmena')[:page_size*2]
+        odrednice1 = Odrednica.objects.filter(obradjivac__isnull=False).order_by('-poslednja_izmena')[:page_size*2]
         odrednice2 = Odrednica.objects.none()
     result = []
     for odr in odrednice1.union(odrednice2):
@@ -446,16 +448,28 @@ def api_moje_odrednice(request, page_size):
 
 
 @api_view(['GET'])
+def api_nicije_odrednice(request, page_size):
+    odrednice = Odrednica.objects.filter(obradjivac__isnull=True).order_by('-poslednja_izmena')[:page_size]
+    result = []
+    for odr in odrednice:
+        result.append({
+            'odrednica_id': odr.id,
+            'rec': odr.rec,
+            'datum': odr.poslednja_izmena})
+    return Response(result, status=status.HTTP_200_OK, content_type=JSON)
+
+
+@api_view(['GET'])
 def api_statistika_obradjivaca(request):
     result = []
     stat = StatistikaUnosa.objects.all().order_by('-vreme').first()
     if stat:
         for su in stat.stavkastatistikeunosa_set.all():
             result.append({
-                'user_id': su.user.id,
-                'email': su.user.email,
-                'first_name': su.user.first_name,
-                'last_name': su.user.last_name,
+                'user_id': su.user.id if su.user else 0,
+                'email': su.user.email if su.user else '',
+                'first_name': su.user.first_name if su.user else '(није',
+                'last_name': su.user.last_name if su.user else 'преузето)',
                 'broj_znakova': su.broj_znakova,
                 'broj_odrednica': su.broj_odrednica,
                 'zavrsenih_znakova': su.zavrsenih_znakova,

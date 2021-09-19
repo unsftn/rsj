@@ -1,8 +1,8 @@
 import logging
-from django.core.management.base import BaseCommand
+import os
+from django.core.management.base import BaseCommand, CommandError
 import docx
 from odrednice.models import Odrednica
-from odrednice.text import remove_punctuation
 
 log = logging.getLogger(__name__)
 
@@ -11,10 +11,12 @@ class Command(BaseCommand):
     help = 'Import headings from a Word file'
 
     def add_arguments(self, parser):
-        parser.add_argument('--file', type=str, help='Word file with headings')
+        parser.add_argument('file', type=str, help='Word file with headings')
 
     def handle(self, *args, **options):
         file = options.get('file')
+        if not os.path.exists(file):
+            raise CommandError(f'File {file} does not exist.')
         log.info(f'Import glava iz fajla {file}')
         word_count = 0
         try:
@@ -44,18 +46,11 @@ class Command(BaseCommand):
                 try:
                     Odrednica.objects.get(rec=word)
                 except Odrednica.DoesNotExist:
-                    clean = remove_punctuation(word)
-                    vrsta = 0
-                    if clean.endswith('ти'):
-                        vrsta = 1
-                    elif clean.endswith('ски') or clean.endswith('шки') or clean.endswith('чки'):
-                        vrsta = 2
-                    Odrednica.objects.create(rec=word, vrsta=vrsta, opciono_se=has_se)
+                    Odrednica.objects.create(rec=word, vrsta=10, opciono_se=has_se)
                     word_count += 1
         except Exception as ex:
             log.fatal(ex)
 
-        self.style.SUCCESS(f'Zavrsen import {word_count} glava.')
         log.info(f'Zavrsen import {word_count} glava.')
 
 

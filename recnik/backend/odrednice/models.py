@@ -146,7 +146,7 @@ class Odrednica(models.Model):
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     version = AutoIncVersionField()
     rbr_homonima = models.PositiveSmallIntegerField('редни број хомонима', null=True, blank=True, default=None)
-    obradjivac = models.ForeignKey(UserProxy, verbose_name='обрађивач', on_delete=models.PROTECT, related_name='odrednice_obradjivaca', default=1)
+    obradjivac = models.ForeignKey(UserProxy, verbose_name='обрађивач', on_delete=models.PROTECT, related_name='odrednice_obradjivaca', blank=True, null=True)
     redaktor = models.ForeignKey(UserProxy, verbose_name='редактор', on_delete=models.PROTECT, related_name='odrednice_redaktora', blank=True, null=True)
     urednik = models.ForeignKey(UserProxy, verbose_name='уредник', on_delete=models.PROTECT, related_name='odrednice_urednika', blank=True, null=True)
     napomene = models.TextField('напомене', max_length=2000, blank=True, null=True)
@@ -578,7 +578,7 @@ class StatistikaUnosa(models.Model):
 
 class StavkaStatistikeUnosa(models.Model):
     statistika = models.ForeignKey(StatistikaUnosa, verbose_name='статистика', on_delete=models.CASCADE)
-    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.PROTECT)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.PROTECT, blank=True, null=True)
     broj_odrednica = models.IntegerField('сачуваних одредница')
     broj_znakova = models.IntegerField('сачуваних знакова')
     zavrsenih_odrednica = models.IntegerField('завршених одредница', default=0)

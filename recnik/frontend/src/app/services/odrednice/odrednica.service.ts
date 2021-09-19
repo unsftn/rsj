@@ -49,6 +49,10 @@ export class OdrednicaService {
     return this.httpClient.get(`/api/odrednice/workflow/moje-odrednice/${pageSize}/`);
   }
 
+  nobodys(pageSize: number): Observable<any> {
+    return this.httpClient.get(`/api/odrednice/workflow/nicije-odrednice/${pageSize}/`);
+  }
+
   toObradjivac(id: number): Observable<any> {
     return this.httpClient.post(`/api/odrednice/workflow/za-obradjivaca/${id}/`, {});
   }

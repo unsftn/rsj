@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
@@ -12,6 +13,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         log.info('Generisanje statistike obradjivaca...')
+        start_time = datetime.now()
         users = {}
         for odr in Odrednica.objects.all():
             length = count_printable_chars(odr)
@@ -46,7 +48,21 @@ class Command(BaseCommand):
                             'zavrsenih_odrednica': 1,
                             'zavrsenih_znakova': length
                         }
-
+            else:
+                if users.get('0000'):
+                    users['0000']['broj_odrednica'] += 1
+                    users['0000']['broj_znakova'] += length
+                else:
+                    users['0000'] = {
+                        'id': None,
+                        'email': '0000@rsj.rs',
+                        'first_name': 'Није',
+                        'last_name': 'преузето',
+                        'broj_odrednica': 1,
+                        'broj_znakova': length,
+                        'zavrsenih_odrednica': 0,
+                        'zavrsenih_znakova': 0
+                    }
         sada = now()
         stat = StatistikaUnosa.objects.create(vreme=sada)
         for user in users.values():
@@ -58,5 +74,6 @@ class Command(BaseCommand):
                 zavrsenih_odrednica=user['zavrsenih_odrednica'],
                 zavrsenih_znakova=user['zavrsenih_znakova']
             )
-        self.style.SUCCESS(f'Uspesno generisana statistika ID: {stat.id}')
         log.info('Generisanje statistike obradjivaca zavrseno.')
+        end_time = datetime.now()
+        log.info(f'Generisanje trajalo ukupno {str(end_time-start_time)}')

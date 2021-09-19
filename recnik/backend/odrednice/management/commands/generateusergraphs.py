@@ -15,6 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         log.info('Generisanje grafikona obradjivaca...')
+        start_time = datetime.now()
 
         # izracunaj datume za nedelje izmedju pocetnog i krajnjeg datuma
         start_date = make_aware(datetime(2021, 5, 1, 23, 59))
@@ -44,7 +45,7 @@ class Command(BaseCommand):
                 'week': sunday.strftime('%U'),
                 'users': {u.puno_ime(): {'broj_odrednica': 0, 'broj_znakova': 0, 'zavrsenih_odrednica': 0, 'zavrsenih_znakova': 0} for u in users}
             }
-            for stavka in statistika_unosa.stavkastatistikeunosa_set.all():
+            for stavka in statistika_unosa.stavkastatistikeunosa_set.filter(user__isnull=False):
                 i = source_item['users'][stavka.user.puno_ime()]
                 i['broj_odrednica'] = stavka.broj_odrednica
                 i['broj_znakova'] = stavka.broj_znakova
@@ -76,14 +77,15 @@ class Command(BaseCommand):
         data = json.dumps(source_data, cls=DjangoJSONEncoder)
         chart = json.dumps(self._for_chart(source_data), cls=DjangoJSONEncoder)
         GrafikonUnosa.objects.update_or_create(tip=1, defaults={'data': data, 'chart': chart})
-        self.style.SUCCESS(f'Uspesno generisan grafikon ID: 1')
 
         letter_counts = []
         for slovo in AZBUKA:
             letter_counts.append(Odrednica.objects.filter(rec__istartswith=slovo).count())
         GrafikonUnosa.objects.update_or_create(tip=9, defaults={'data': letter_counts, 'chart': letter_counts})
-        self.style.SUCCESS(f'Uspesno generisan grafikon ID: 9')
         log.info('Generisanje grafikona zavrseno.')
+        end_time = datetime.now()
+        log.info(f'Generisanje trajalo ukupno {str(end_time-start_time)}')
+
 
     def _subtract(self, current, previous):
         for user in current['users'].keys():

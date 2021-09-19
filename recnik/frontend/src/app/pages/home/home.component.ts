@@ -21,6 +21,7 @@ class UserCollection extends Array {
 export class HomeComponent implements OnInit {
 
   myDeterminants: any[];
+  nobodysDeterminants: any[];
   users: UserCollection;
   graphDataChars = {
     labels: [],
@@ -52,6 +53,17 @@ export class HomeComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.odrednicaService.my(200).subscribe(
       (data) => this.myDeterminants = data,
+      (error) => console.log(error)
+    );
+    this.odrednicaService.nobodys(1000).subscribe(
+      (data) => {
+        this.nobodysDeterminants = data;
+        console.log(data);
+        const indexOfNobody = this.nobodysDeterminants.map((item) => item.id).indexOf(null);
+        console.log(indexOfNobody);
+        this.nobodysDeterminants.push(this.nobodysDeterminants.splice(indexOfNobody, 1)[0]);
+        console.log(this.nobodysDeterminants);
+      },
       (error) => console.log(error)
     );
     this.odrednicaService.statObradjivaca().subscribe(
