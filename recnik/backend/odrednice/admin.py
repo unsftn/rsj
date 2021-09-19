@@ -38,6 +38,7 @@ class IzrazFrazaForm(forms.ModelForm):
 class OdrednicaAdmin(admin.ModelAdmin):
     readonly_fields = ['sortable_rec']
     list_display = ['rec', 'sortable_rec']
+    list_filter = ['obradjivac']
 
 
 admin.site.register(Odrednica, OdrednicaAdmin)

@@ -38,4 +38,3 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f'Ukupno indeksirano {count} publikacija.'))
         end_time = datetime.now()
         log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
-
