@@ -58,15 +58,22 @@
             </tr>
           </ng-template>
         </p-table>
-        <h4 class="p-mt-5">Број знакова недељно</h4>
+      </p-fieldset>
+    </div>
+    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+      <p-fieldset legend="Број знакова недељно">
         <p-chart type="line" [data]="graphDataChars"></p-chart>
-        <h4 class="p-mt-5">Број одредница недељно</h4>
+      </p-fieldset>
+    </div>
+    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+      <p-fieldset legend="Број одредница недељно">
         <p-chart type="line" [data]="graphDataDeterminants"></p-chart>
       </p-fieldset>
     </div>
     <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
-      <p-fieldset legend="Последње измене">
-        <app-rendered-odrednice source="/api/render/odrednice/latest/20/" [isTrusted]="true"></app-rendered-odrednice>
+<!--        <app-rendered-odrednice source="/api/render/odrednice/latest/20/" [isTrusted]="true"></app-rendered-odrednice>-->
+      <p-fieldset legend="Број одредница по словима">
+        <p-chart type="bar" [data]="graphDataLetters" [options]="optionsNoLegend"></p-chart>
       </p-fieldset>
     </div>
   </div>

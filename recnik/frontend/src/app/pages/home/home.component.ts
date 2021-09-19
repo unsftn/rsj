@@ -30,6 +30,14 @@ export class HomeComponent implements OnInit {
     labels: [],
     datasets: []
   };
+  graphDataLetters = {
+    labels: ['А', 'Б', 'В', 'Г', 'Д', 'Ђ', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш'],
+    datasets: [{
+      data: [],
+      backgroundColor: '#42A5F5'
+    }]
+  };
+  optionsNoLegend = { plugins: { legend: { display: false } } };
   colors = ['#ffbe0b', '#fb5607', '#8338ec', '#06d6a0', '#ff006e', '#3a86ff', '#ef476f', '#118ab2', '#073b4c'];
 
   constructor(
@@ -75,6 +83,16 @@ export class HomeComponent implements OnInit {
         dataset.borderColor = this.colors[index % this.colors.length];
         dataset.fill = false;
       });
+    }, error => console.log(error));
+    this.odrednicaService.grafikon(9).subscribe(data => {
+      console.log(data);
+      this.graphDataLetters = {
+        labels: ['А', 'Б', 'В', 'Г', 'Д', 'Ђ', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш'],
+        datasets: [{
+          data: data,
+          backgroundColor: '#42A5F5'
+        }]
+      };
     }, error => console.log(error));
   }
 

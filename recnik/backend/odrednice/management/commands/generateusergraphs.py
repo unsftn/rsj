@@ -4,9 +4,10 @@ import logging
 from django.core.management.base import BaseCommand
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.timezone import now, make_aware
-from odrednice.models import StatistikaUnosa, UserProxy, GrafikonUnosa
+from odrednice.models import StatistikaUnosa, UserProxy, GrafikonUnosa, Odrednica
 
 log = logging.getLogger(__name__)
+AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
 
 
 class Command(BaseCommand):
@@ -75,8 +76,13 @@ class Command(BaseCommand):
         data = json.dumps(source_data, cls=DjangoJSONEncoder)
         chart = json.dumps(self._for_chart(source_data), cls=DjangoJSONEncoder)
         GrafikonUnosa.objects.update_or_create(tip=1, defaults={'data': data, 'chart': chart})
+        self.style.SUCCESS(f'Uspesno generisan grafikon ID: 1')
 
-        self.style.SUCCESS(f'Uspesno generisan grafikon ID: ')
+        letter_counts = []
+        for slovo in AZBUKA:
+            letter_counts.append(Odrednica.objects.filter(rec__istartswith=slovo).count())
+        GrafikonUnosa.objects.update_or_create(tip=9, defaults={'data': letter_counts, 'chart': letter_counts})
+        self.style.SUCCESS(f'Uspesno generisan grafikon ID: 9')
         log.info('Generisanje grafikona zavrseno.')
 
     def _subtract(self, current, previous):
