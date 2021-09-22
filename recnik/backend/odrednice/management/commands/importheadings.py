@@ -50,7 +50,10 @@ class Command(BaseCommand):
                     word = word.replace('(се)', '')
                 word = word.strip()
                 try:
-                    Odrednica.objects.get(rec=word)
+                    if rbr_homo:
+                        Odrednica.objects.get(rec=word, rbr_homonima=rbr_homo)
+                    else:
+                        Odrednica.objects.get(rec=word)
                 except Odrednica.DoesNotExist:
                     Odrednica.objects.create(rec=word, vrsta=10, rbr_homonima=rbr_homo, opciono_se=has_se)
                     word_count += 1
