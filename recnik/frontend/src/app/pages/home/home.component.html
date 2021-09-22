@@ -12,7 +12,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr class="pointer" (click)="goto(item.odrednica_id)">
-              <td>{{item.rec}}{{item.rbr_homo}} <span *ngIf="item.ima_napomene" class="red-asterisk">*</span></td>
+              <td>{{item.rec}}<sup *ngIf="item.rbr_homo">{{item.rbr_homo}}</sup> <span *ngIf="item.ima_napomene" class="red-asterisk">*</span></td>
               <td>{{item.datum|date:'dd.MM.yyyy.'}}</td>
               <td>{{item.autor}}</td>
             </tr>
@@ -31,7 +31,7 @@
           </ng-template>
           <ng-template pTemplate="body" let-item>
             <tr class="pointer" (click)="goto(item.odrednica_id)">
-              <td>{{item.rec}}{{item.rbr_homo}} <span *ngIf="item.ima_napomene" class="red-asterisk">*</span></td>
+              <td>{{item.rec}}<sup *ngIf="item.rbr_homo">{{item.rbr_homo}}</sup> <span *ngIf="item.ima_napomene" class="red-asterisk">*</span></td>
               <td>{{item.datum|date:'dd.MM.yyyy.'}}</td>
             </tr>
           </ng-template>
