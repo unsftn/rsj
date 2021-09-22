@@ -54,7 +54,7 @@ class Command(BaseCommand):
                         Odrednica.objects.get(rec=word, rbr_homonima=rbr_homo)
                     else:
                         Odrednica.objects.get(rec=word)
-                except Odrednica.DoesNotExist:
+                except (Odrednica.DoesNotExist, Odrednica.MultipleObjectsRetuned):
                     Odrednica.objects.create(rec=word, vrsta=10, rbr_homonima=rbr_homo, opciono_se=has_se)
                     word_count += 1
         except Exception as ex:
