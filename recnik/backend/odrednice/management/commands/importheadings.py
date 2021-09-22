@@ -23,9 +23,15 @@ class Command(BaseCommand):
             document = docx.Document(file)
             for para in document.paragraphs:
                 word = ''
+                rbr_homo = None
                 for run in para.runs:
                     font_name = run.font.name
-                    if not font_name:
+                    if run.font.superscript:
+                        try:
+                            rbr_homo = int(run.text)
+                        except:
+                            pass
+                    elif not font_name:
                         word += run.text
                     elif font_name == 'Bg knjiga':
                         word += run.text
@@ -46,7 +52,7 @@ class Command(BaseCommand):
                 try:
                     Odrednica.objects.get(rec=word)
                 except Odrednica.DoesNotExist:
-                    Odrednica.objects.create(rec=word, vrsta=10, opciono_se=has_se)
+                    Odrednica.objects.create(rec=word, vrsta=10, rbr_homonima=rbr_homo, opciono_se=has_se)
                     word_count += 1
         except Exception as ex:
             log.fatal(ex)
