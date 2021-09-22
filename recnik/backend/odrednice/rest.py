@@ -455,6 +455,7 @@ def api_nicije_odrednice(request, page_size):
         result.append({
             'odrednica_id': odr.id,
             'rec': odr.rec,
+            'rbr_homo': odr.rbr_homonima,
             'datum': odr.poslednja_izmena})
     return Response(result, status=status.HTTP_200_OK, content_type=JSON)
 
