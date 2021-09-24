@@ -214,7 +214,7 @@ def render_info(info):
     return f' {process_tags(process_special_marks(info))} '
 
 
-def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None, ravnopravna=True):
+def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None, bold=True):
     def zarez(text):
         return f', {text}' if text else ''
 
@@ -228,10 +228,42 @@ def render_varijanta(tekst, nastavak, prezent='', opciono_se=False, rod=None, ra
     if not tekst and not nastavak and not prezent:
         return ''
     rod_text = f' <small>{ROD[rod]}</small>' if rod else ''
-    if ravnopravna:
-        return f'<b>{se(tekst, opciono_se)}</b>' + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))
-    else:
-        return f'({se(tekst, opciono_se) + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))})'
+    glava = f'<b>{se(tekst, opciono_se)}</b>' if bold else f'{se(tekst, opciono_se)}'
+    return glava + zarez(se(nastavak, opciono_se)) + rod_text + zarez(se(prezent, opciono_se))
+
+
+def render_varijante(odr, ijekavski=False):
+    html = ''
+    if odr.varijantaodrednice_set.count() > 0:
+        if odr.ravnopravne_varijante:
+            varijante = []
+            for vod in odr.varijantaodrednice_set.all().order_by("redni_broj"):
+                if not ijekavski:
+                    var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod, True)
+                else:
+                    var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod, True)
+                if var:
+                    varijante.append(var)
+            if len(varijante) == 1:
+                if not ijekavski:
+                    html = ' и ' + varijante[0]
+                else:
+                    if odr.rec != odr.ijekavski:
+                        html = ' и '
+                    html += varijante[0]
+            elif len(varijante) > 1:
+                html = ', ' + nabrajanje(varijante)
+        else:
+            varijante = []
+            for vod in odr.varijantaodrednice_set.all().order_by("redni_broj"):
+                if not ijekavski:
+                    var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod, False)
+                else:
+                    var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod, False)
+                if var:
+                    varijante.append(var)
+            html = f' ({nabrajanje(varijante)})'
+    return html
 
 
 def render_nastavci_varijante(odrednica):
@@ -251,16 +283,17 @@ def render_nastavci_varijante(odrednica):
         html += f', {odrednica.prezent}'
         if odrednica.opciono_se:
             html += ' (се)'
-    if odrednica.varijantaodrednice_set.count() > 0:
-        varijante = []
-        for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod, vod.ravnopravna)
-            if var:
-                varijante.append(var)
-        if len(varijante) == 1:
-            html += ' и ' + varijante[0]
-        elif len(varijante) > 1:
-            html += ', ' + nabrajanje(varijante)
+    html += render_varijante(odrednica, False)
+    # if odrednica.varijantaodrednice_set.count() > 0:
+    #     varijante = []
+    #     for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
+    #         var = render_varijanta(vod.tekst, vod.nastavak, vod.prezent, vod.opciono_se, vod.rod)
+    #         if var:
+    #             varijante.append(var)
+    #     if len(varijante) == 1:
+    #         html += ' и ' + varijante[0]
+    #     elif len(varijante) > 1:
+    #         html += ', ' + nabrajanje(varijante)
     if odrednica.ijekavski or odrednica.nastavak_ij or odrednica.prezent_ij:
         html += ' <small>јек.</small> '
     if odrednica.ijekavski and odrednica.rec != odrednica.ijekavski:
@@ -277,18 +310,19 @@ def render_nastavci_varijante(odrednica):
         html += f', {odrednica.prezent_ij}'
         if odrednica.opciono_se:
             html += ' (се)'
-    if odrednica.varijantaodrednice_set.count() > 0:
-        varijante = []
-        for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
-            var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod, vod.ravnopravna)
-            if var:
-                varijante.append(var)
-        if len(varijante) == 1:
-            if odrednica.rec != odrednica.ijekavski:
-                html += ' и '
-            html += varijante[0]
-        elif len(varijante) > 1:
-            html += ', ' + nabrajanje(varijante)
+    html += render_varijante(odrednica, True)
+    # if odrednica.varijantaodrednice_set.count() > 0:
+    #     varijante = []
+    #     for vod in odrednica.varijantaodrednice_set.all().order_by("redni_broj"):
+    #         var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod)
+    #         if var:
+    #             varijante.append(var)
+    #     if len(varijante) == 1:
+    #         if odrednica.rec != odrednica.ijekavski:
+    #             html += ' и '
+    #         html += varijante[0]
+    #     elif len(varijante) > 1:
+    #         html += ', ' + nabrajanje(varijante)
     if odrednica.vrsta == 0 and not ima_razlicit_rod and odrednica.rod:
         html += f' <small>{ROD[odrednica.rod]}</small> '
     return html
