@@ -262,7 +262,8 @@ def render_varijante(odr, ijekavski=False):
                     var = render_varijanta(vod.ijekavski, vod.nastavak_ij, vod.prezent_ij, vod.opciono_se, vod.rod, False)
                 if var:
                     varijante.append(var)
-            html = f' ({nabrajanje(varijante)})'
+            if len(varijante) > 0:
+                html = f' ({nabrajanje(varijante)})'
     return html
 
 
