@@ -27,7 +27,7 @@ interface Variant {
   presentI: string;
   optionalSe: boolean;
   gender: Gender;
-  ravnopravna: boolean;
+  // ravnopravna: boolean;
 }
 
 function clean(text: string): string {
@@ -80,6 +80,7 @@ export class TabFormComponent implements OnInit {
   version = 1;
   optionalSe: boolean;
   homonim?: number;
+  ravnopravne: boolean;
 
   meanings: any[] = [];
   meanings2: any[] = [];
@@ -223,6 +224,7 @@ export class TabFormComponent implements OnInit {
           this.selectedVerbForm = this.enumService.getVerbForm(0);
           this.selectedVerbKind = this.enumService.getVerbKind(0);
           this.selectedStatus = null;
+          this.ravnopravne = true;
           this.onChangeWordType();
           this.titleService.setTitle('Нова одредница');
           this.odrednicaService.getStatuses().subscribe(data1 => {
@@ -264,7 +266,7 @@ export class TabFormComponent implements OnInit {
   }
 
   addVariant(): void {
-    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '', optionalSe: false, gender: null, ravnopravna: true });
+    this.variants.push({ nameE: '', nameI: '', extensionE: '', extensionI: '', presentE: '', presentI: '', optionalSe: false, gender: null /*, ravnopravna: true */});
   }
 
   removeVariant(variant): void {
@@ -626,9 +628,10 @@ export class TabFormComponent implements OnInit {
           prezent_ij: clean(variant.presentI),
           opciono_se: variant.optionalSe,
           rod: variant.gender?.id ? variant.gender?.id : null,
-          ravnopravna: variant.ravnopravna,
+          // ravnopravna: variant.ravnopravna,
         };
       }),
+      ravnopravne_varijante: this.ravnopravne,
       vrsta: this.selectedWordType?.id,
       rod: this.selectedGender?.id ? this.selectedGender?.id : null,
       nastavak: cleanE(this.extensionE),
@@ -799,8 +802,9 @@ export class TabFormComponent implements OnInit {
     this.extensionI = value.nastavak_ij;
     this.variants = [];
     for (const v of value.varijantaodrednice_set) {
-      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij, optionalSe: v.opciono_se ? true : false, gender: this.enumService.getGender(v.rod), ravnopravna: v.ravnopravna });
+      this.variants.push({ nameE: v.tekst, nameI: v.ijekavski, extensionE: v.nastavak, extensionI: v.nastavak_ij, presentE: v.prezent, presentI: v.prezent_ij, optionalSe: v.opciono_se ? true : false, gender: this.enumService.getGender(v.rod)/*, ravnopravna: v.ravnopravna*/ });
     }
+    this.ravnopravne = value.ravnopravne_varijante;
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);
     this.optionalSe = value.opciono_se;

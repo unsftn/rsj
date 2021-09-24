@@ -152,6 +152,7 @@ class Odrednica(models.Model):
     napomene = models.TextField('напомене', max_length=2000, blank=True, null=True)
     freetext = models.TextField('алтернативни опис', max_length=2000, blank=True, null=True)
     status = models.ForeignKey(StatusOdrednice, verbose_name='статус одреднице', null=True, blank=True, on_delete=models.PROTECT)
+    ravnopravne_varijante = models.BooleanField('равноправне варијанте', default=True)
 
     def __str__(self):
         return self.rec if self.rec else '-'
@@ -171,8 +172,7 @@ class Odrednica(models.Model):
         ]
 
     def get_absolute_url(self):
-        return reverse("odrednice:odrednica-detail",
-                       kwargs={"pk": self.pk})
+        return reverse("odrednice:odrednica-detail", kwargs={"pk": self.pk})
 
 
 class OperacijaIzmene(models.Model):
@@ -220,7 +220,7 @@ class VarijantaOdrednice(models.Model):
     prezent_ij = models.CharField('презент ијекавски', max_length=50, blank=True, null=True)
     opciono_se = models.BooleanField('опционо се', null=True, blank=True)
     rod = models.IntegerField('род', choices=ROD, default=0, blank=True, null=True)
-    ravnopravna = models.BooleanField('равноправна', default=True)
+    # ravnopravna = models.BooleanField('равноправна', default=True)
 
     def __str__(self):
         return f'{str(self.odrednica)} / {self.redni_broj}: {self.tekst}'

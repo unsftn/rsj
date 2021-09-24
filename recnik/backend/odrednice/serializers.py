@@ -149,7 +149,7 @@ class VarijantaOdredniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = VarijantaOdrednice
         fields = ('id', 'redni_broj', 'tekst', 'ijekavski', 'nastavak', 'nastavak_ij', 'prezent', 'prezent_ij',
-                  'opciono_se', 'rod', 'ravnopravna')
+                  'opciono_se', 'rod')  # , 'ravnopravna')
 
 
 class StatusOdredniceSerializer(serializers.ModelSerializer):
@@ -175,7 +175,7 @@ class OdrednicaSerializer(serializers.ModelSerializer):
                   'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim',
                   'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
                   'izmenaodrednice_set', 'opciono_se', 'rbr_homonima', 'obradjivac', 'redaktor', 'urednik', 'napomene',
-                  'freetext', 'status', 'prikazi_gl_rod', 'ima_se_znacenja')
+                  'freetext', 'status', 'prikazi_gl_rod', 'ima_se_znacenja', 'ravnopravne_varijante')
 
 
 class ShortOdrednicaSerializer(serializers.ModelSerializer):
@@ -297,7 +297,7 @@ class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
     prezent_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     opciono_se = serializers.NullBooleanField(required=False)
     rod = serializers.IntegerField(required=False, allow_null=True)
-    ravnopravna = serializers.BooleanField()
+    # ravnopravna = serializers.BooleanField()
 
 
 class CreateOdrednicaSerializer(serializers.Serializer):
@@ -329,6 +329,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     rbr_homonima = serializers.IntegerField(required=False, allow_null=True)
     kolokacije = serializers.ListField(child=CreateKolokacijaSerializer(), required=False)
     status_id = serializers.IntegerField(required=False, allow_null=True)
+    ravnopravne_varijante = serializers.NullBooleanField(required=False)
 
     def instantiate(self):
         return self._save(self.validated_data, None, 'memory')

@@ -27,6 +27,7 @@ export interface Determinant {
   sinonimi: any[];
   antonimi: any[];
   kolokacije: any[];
+  ravnopravne_varijante: boolean;
 }
 
 export interface DeterminantStatus {
