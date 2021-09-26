@@ -41,6 +41,11 @@ class OdrednicaAdmin(admin.ModelAdmin):
     list_filter = ['obradjivac']
 
 
+class PodvrstaReciAdmin(admin.ModelAdmin):
+    list_display = ['vrsta', 'naziv', 'skracenica']
+    list_filter = ['vrsta']
+
+
 admin.site.register(Odrednica, OdrednicaAdmin)
 admin.site.register(OperacijaIzmene)
 admin.site.register(IzmenaOdrednice)
@@ -62,3 +67,4 @@ admin.site.register(VarijantaOdrednice)
 admin.site.register(StatistikaUnosa)
 admin.site.register(StavkaStatistikeUnosa)
 admin.site.register(StatusOdrednice)
+admin.site.register(PodvrstaReci, PodvrstaReciAdmin)

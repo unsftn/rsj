@@ -4,6 +4,7 @@ export interface Determinant {
   varijante: any[];
   ijekavski?: string;
   vrsta: number;
+  podvrsta_id?: number;
   rod?: number;
   nastavak?: string;
   nastavak_ij?: string;

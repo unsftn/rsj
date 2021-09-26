@@ -5,6 +5,8 @@ from .rest import *
 app_name = 'одреднице'
 
 urlpatterns = [
+    path('podvrsta-reci/', PodvrstaReciList.as_view(), name='podvrsta-reci-list'),
+    path('podvrsta-reci/<int:pk>/', PodvrstaReciDetail.as_view(), name='podvrsta-reci-detail'),
     path('antonim/', AntonimList.as_view(), name='antonim-list'),
     path('antonim/<int:pk>/', AntonimDetail.as_view(), name='antonim-detail'),
     path('sinonim/', SinonimList.as_view(), name='sinonim-list'),

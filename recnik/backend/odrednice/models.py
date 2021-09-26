@@ -124,11 +124,26 @@ class StatusOdrednice(models.Model):
         ordering = ['id']
 
 
+class PodvrstaReci(models.Model):
+    vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
+    naziv = models.CharField('назив', max_length=80)
+    skracenica = models.CharField('скраћеница', max_length=15)
+
+    def __str__(self):
+        return f'{VRSTA_ODREDNICE[self.vrsta][1]} / {self.naziv} ({self.skracenica})'
+
+    class Meta:
+        verbose_name = 'подврста речи'
+        verbose_name_plural = 'подврсте речи'
+        ordering = ['vrsta', 'id']
+
+
 class Odrednica(models.Model):
     rec = models.CharField('реч', max_length=50, blank=True, null=True)
     sortable_rec = models.CharField('реч за сортирање', max_length=50, blank=True, null=True)
     ijekavski = models.CharField('ијекавски', max_length=50, blank=True, null=True)
     vrsta = models.IntegerField('врста', choices=VRSTA_ODREDNICE)
+    podvrsta = models.ForeignKey(PodvrstaReci, verbose_name='подврста', on_delete=models.PROTECT, blank=True, null=True)
     rod = models.IntegerField('род', choices=ROD, default=0, blank=True, null=True)
     nastavak = models.CharField('наставак', max_length=50, blank=True, null=True)
     nastavak_ij = models.CharField('наставак ијекавски', max_length=50, blank=True, null=True)

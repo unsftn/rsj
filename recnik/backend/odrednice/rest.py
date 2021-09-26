@@ -14,6 +14,20 @@ from .models import *
 from .serializers import *
 
 
+class PodvrstaReciList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = PodvrstaReci.objects.all()
+    serializer_class = PodvrstaReciSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['naziv']
+
+
+class PodvrstaReciDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = PodvrstaReci.objects.all()
+    serializer_class = PodvrstaReciSerializer
+
+
 class StatusList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = StatusOdrednice.objects.all()

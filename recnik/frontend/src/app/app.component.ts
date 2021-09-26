@@ -6,6 +6,7 @@ import { UserService } from './services/auth/user.service';
 import { OdrednicaService, QualificatorService } from './services/odrednice';
 import { PublikacijaService } from './services/publikacije';
 import { AppConfigService } from './services/config/app-config.service';
+import { PodvrstaReciService } from './services/odrednice/podvrsta-reci.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
     private qualificatorService: QualificatorService,
     private odrednicaService: OdrednicaService,
     private publikacijaService: PublikacijaService,
+    private podvrstaReciService: PodvrstaReciService,
     private userService: UserService,
     private appConfigService: AppConfigService,
     private router: Router,
@@ -138,6 +140,7 @@ export class AppComponent implements OnInit {
       },
     ];
     this.qualificatorService.fetchAllQualificators().subscribe((values) => {});
+    this.podvrstaReciService.fetchAllPodvrsta().subscribe(() => {});
     this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
     this.userService.fetchKorisnici().subscribe(() => {});
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {

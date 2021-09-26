@@ -158,6 +158,12 @@ class StatusOdredniceSerializer(serializers.ModelSerializer):
         fields = ('id', 'naziv')
 
 
+class PodvrstaReciSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PodvrstaReci
+        fields = ('id', 'vrsta', 'naziv', 'skracenica')
+
+
 class OdrednicaSerializer(serializers.ModelSerializer):
     ima_antonim = AntonimSerializer(many=True, read_only=True)
     ima_sinonim = SinonimSerializer(many=True, read_only=True)
@@ -167,12 +173,13 @@ class OdrednicaSerializer(serializers.ModelSerializer):
     varijantaodrednice_set = VarijantaOdredniceSerializer(many=True, read_only=True)
     kvalifikatorodrednice_set = KvalifikatorOdredniceSerializer(many=True, read_only=True)
     izmenaodrednice_set = IzmenaOdredniceSerializer(many=True, read_only=True)
+    podvrsta = PodvrstaReciSerializer(read_only=True)
 
     class Meta:
         model = Odrednica
         fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'nastavak_ij', 'info', 'glagolski_vid',
                   'glagolski_rod', 'prezent', 'prezent_ij', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena',
-                  'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim',
+                  'stanje', 'version', 'varijantaodrednice_set', 'ima_antonim', 'ima_sinonim', 'podvrsta',
                   'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
                   'izmenaodrednice_set', 'opciono_se', 'rbr_homonima', 'obradjivac', 'redaktor', 'urednik', 'napomene',
                   'freetext', 'status', 'prikazi_gl_rod', 'ima_se_znacenja', 'ravnopravne_varijante')
@@ -305,6 +312,7 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     rec = serializers.CharField(max_length=50)
     ijekavski = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     vrsta = serializers.IntegerField(required=False)
+    podvrsta_id = serializers.IntegerField(required=False, allow_null=True)
     rod = serializers.IntegerField(required=False, allow_null=True)
     nastavak = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)
     nastavak_ij = serializers.CharField(max_length=50, required=False, allow_blank=True, allow_null=True)

@@ -118,6 +118,17 @@
                       (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
+      <div class="p-d-flex">
+        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+          <p class="label">Подврста:</p>
+        </div>
+        <div class="p-sm-9 p-md-9 p-lg-10">
+          <p-dropdown [options]="wordSubTypes" [(ngModel)]="selectedWordSubType" optionLabel="name" placeholder="Подврста речи"
+                      (ngModelChange)="onValueChange($event)"
+                      (focusout)="onFocusLeave()"
+                      [showClear]="true"></p-dropdown>
+        </div>
+      </div>
       <div class="p-d-flex" *ngIf="isNoun">
         <div class="p-m-0 p-sm-3 p-sm-3 p-lg-2">
           <p class="label">Род:</p>

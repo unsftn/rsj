@@ -17,6 +17,7 @@ import {
 import { OdrednicaService, PreviewService, QualificatorService, EnumService } from '../../services/odrednice';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
 import {UserService} from '../../services/auth/user.service';
+import { PodvrstaReciService } from '../../services/odrednice/podvrsta-reci.service';
 
 interface Variant {
   nameE: string;
@@ -49,6 +50,7 @@ function cleanE(text: string): string {
 })
 export class TabFormComponent implements OnInit {
   wordTypes: WordType[];
+  wordSubTypes: any[];
   isNoun: boolean;
   isVerb: boolean;
   wordE: string;
@@ -71,6 +73,7 @@ export class TabFormComponent implements OnInit {
   details: string;
 
   selectedWordType: WordType;
+  selectedWordSubType: any;
   selectedState: StanjeOdrednice;
   qualificators: Qualificator[] = [];
   selectedStatus: DeterminantStatus;
@@ -124,46 +127,46 @@ export class TabFormComponent implements OnInit {
   wfObradjivac: MenuItem[] = [{
       label: 'Проследи редактору',
       command: (event) => this.toRedaktor(),
-    },{
+    }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfRedaktor: MenuItem[] = [{
       label: 'Врати на обраду',
       command: (event) => this.toObradjivac(),
-    },{
+    }, {
       label: 'Проследи уреднику',
       command: (event) => this.toUrednik(),
-    },{
+    }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfUrednik: MenuItem[] = [{
       label: 'Врати на обраду',
       command: (event) => this.toObradjivac(),
-    },{
+    }, {
       label: 'Врати редактору',
       command: (event) => this.toRedaktor(),
-    },{
+    }, {
       label: 'Затвори одредницу',
       command: (event) => this.toKraj(),
-    },{
+    }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfAdministrator: MenuItem[] = [{
       label: 'Врати на обраду',
       command: (event) => this.toObradjivac(),
-    },{
+    }, {
       label: 'Врати редактору',
       command: (event) => this.toRedaktor(),
-    },{
+    }, {
       label: 'Врати уреднику',
       command: (event) => this.toUrednik(),
-    },{
+    }, {
       label: 'Затвори одредницу',
       command: (event) => this.toKraj(),
-    },{
+    }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
@@ -177,6 +180,7 @@ export class TabFormComponent implements OnInit {
     private qualificatorService: QualificatorService,
     private enumService: EnumService,
     private tokenStorageService: TokenStorageService,
+    private podvrstaReciService: PodvrstaReciService,
     private domSanitizer: DomSanitizer,
     private router: Router,
     private userService: UserService,
@@ -510,6 +514,8 @@ export class TabFormComponent implements OnInit {
         this.selectedVerbKind = this.enumService.getVerbKind(0);
         break;
     }
+    this.wordSubTypes = this.podvrstaReciService.getPodvrste(this.selectedWordType.id);
+    this.selectedWordSubType = undefined;
   }
 
   def2visible(): boolean {
@@ -633,6 +639,7 @@ export class TabFormComponent implements OnInit {
       }),
       ravnopravne_varijante: this.ravnopravne,
       vrsta: this.selectedWordType?.id,
+      podvrsta_id: this.selectedWordSubType ? this.selectedWordSubType.id : null,
       rod: this.selectedGender?.id ? this.selectedGender?.id : null,
       nastavak: cleanE(this.extensionE),
       nastavak_ij: cleanE(this.extensionI),
@@ -807,6 +814,8 @@ export class TabFormComponent implements OnInit {
     this.ravnopravne = value.ravnopravne_varijante;
     this.selectedState = this.enumService.getEntryState(value.stanje);
     this.selectedWordType = this.enumService.getWordType(value.vrsta);
+    this.wordSubTypes = this.podvrstaReciService.getPodvrste(value.vrsta);
+    this.selectedWordSubType = this.podvrstaReciService.getPodvrsta(value.podvrsta?.id);
     this.optionalSe = value.opciono_se;
     this.homonim = value.rbr_homonima;
     this.odrednicaService.getStatuses().subscribe(data1 => {
