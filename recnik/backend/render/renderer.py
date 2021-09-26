@@ -369,7 +369,10 @@ def render_one(odrednica):
     # zamenica
     if odrednica.vrsta == 5:
         html += render_nastavci_varijante(odrednica)
-        html += f' <small>зам.</small> '
+        if odrednica.podvrsta:
+            html += f' <small>{odrednica.podvrsta.skracenica}</small>'
+        else:
+            html += f' <small>зам.</small> '
 
     # uzvik
     if odrednica.vrsta == 6:
