@@ -40,6 +40,10 @@ a, p, h1, h2, h3, h4, h5, h6 {
   font-family: "Fira Sans";
 }
 
+.p-float-label {
+  font-family: "Fira Sans";
+}
+
 .p-inputtext {
   font-family: "Fira Sans";
   min-height: 40px !important;
@@ -59,6 +63,10 @@ textarea {
 
 .p-dropdown {
   width: 200px;
+}
+
+label {
+  font-family: "Fira Sans";
 }
 
 .search-component .p-inputtext {

@@ -13,7 +13,8 @@ import { AppConfigService } from './services/config/app-config.service';
 })
 export class AppComponent implements OnInit {
   title = 'korpus';
-  items: MenuItem[];
+  itemsUser: MenuItem[];
+  itemsNew: MenuItem[];
   searchText: string;
   searchResults: any[];
   username = '';
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.username = this.tokenStorageService.getUser()?.firstName ?? '';
-    this.items = [
+    this.itemsUser = [
       {
         label: 'Пријава',
         icon: 'pi pi-sign-in',
@@ -79,10 +80,24 @@ export class AppComponent implements OnInit {
         disabled: !this.signedIn(),
       },
     ];
-    this.userService.fetchKorisnici().subscribe(() => {});
+    this.itemsNew = [
+      {
+        label: 'Именица',
+        routerLink: ['/imenica/add'],
+        disabled: !this.signedIn(),
+      },
+    ];
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
-      this.items.forEach((item, index) => {
+      this.itemsUser.forEach((item, index) => {
+        if (item.separator)
+          return;
+        if (index === 0)
+          item.disabled = loggedIn;
+        else
+          item.disabled = !loggedIn;
+      });
+      this.itemsNew.forEach((item, index) => {
         if (item.separator)
           return;
         if (index === 0)

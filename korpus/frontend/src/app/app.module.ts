@@ -28,9 +28,11 @@ import { PasswordModule } from 'primeng/password';
 import { ChartModule } from 'primeng/chart';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
+import { ToolbarComponent } from './pages/toolbar/toolbar.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
