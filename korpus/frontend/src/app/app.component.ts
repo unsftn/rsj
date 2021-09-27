@@ -4,6 +4,7 @@ import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
 import { UserService } from './services/auth/user.service';
 import { AppConfigService } from './services/config/app-config.service';
+import { SearchService } from './services/search/search.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private appConfigService: AppConfigService,
     private router: Router,
+    private searchService: SearchService,
   ) {}
 
   signedIn(): boolean {
@@ -44,12 +46,32 @@ export class AppComponent implements OnInit {
   }
 
   search(event): void {
-    // TODO: search reci
+    this.searchService.search(event.query).subscribe(
+      (data) => {
+        this.searchResults = data;
+      },
+      (error) => {
+        console.log(error);
+      });
   }
 
   select(value): void {
     this.searchText = '';
-    this.router.navigate(['/edit', value.pk]);
+    let url = '/imenica';
+    switch (value.vrsta) {
+      case 0: url = '/imenica'; break;
+      case 1: url = '/glagol'; break;
+      case 2: url = '/pridev'; break;
+      case 3: url = '/prilog'; break;
+      case 4: url = '/predlog'; break;
+      case 5: url = '/zamenica'; break;
+      case 6: url = '/uzvik'; break;
+      case 7: url = '/recca'; break;
+      case 8: url = '/veznik'; break;
+      case 9: url = '/broj'; break;
+      case 10: url = '/ostalo'; break;
+    }
+    this.router.navigate([url, value.pk]);
   }
 
   ngOnInit(): void {

@@ -3,11 +3,24 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.timezone import now
 
-
 OPERACIJE_IZMENE = [
     (1, 'креирана реч'),
     (2, 'измењена реч'),
 ]
+
+VRSTE_RECI = {
+    0: 'именица',
+    1: 'глагол',
+    2: 'придев',
+    3: 'прилог',
+    4: 'предлог',
+    5: 'заменица',
+    6: 'узвик',
+    7: 'речца',
+    8: 'везник',
+    9: 'број',
+    10: 'остало',
+}
 
 VRSTE_IMENICA = [
     (1, 'апстрактна'),
@@ -57,8 +70,8 @@ class Imenica(models.Model):
     vokmno = models.CharField('вокатив множине', max_length=50, blank=True, null=True)
     insmno = models.CharField('инструментал множине', max_length=50, blank=True, null=True)
     lokmno = models.CharField('локатив множине', max_length=50, blank=True, null=True)
-    vrsta = models.IntegerField('врста именице', choices=VRSTE_IMENICA, null=True)
-    recnik_id = models.IntegerField('ID одреднице у речнику', null=True)
+    vrsta = models.IntegerField('врста именице', choices=VRSTE_IMENICA, blank=True, null=True)
+    recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
@@ -71,9 +84,15 @@ class Imenica(models.Model):
             models.Index(fields=['vrsta']),
             models.Index(fields=['nomjed'])
         ]
-    
+
     def __str__(self):
         return f'{self.id}: {self.nomjed}'
+
+    def oblici(self):
+        retval = _svi_oblici_imenice(self)
+        for var in self.varijantaimenice_set.all():
+            retval.extend(_svi_oblici_imenice(var))
+        return retval
 
 
 class VarijantaImenice(models.Model):
@@ -104,3 +123,36 @@ class IzmenaImenice(models.Model):
     class Meta:
         verbose_name = 'измена именице'
         verbose_name_plural = 'измене именица'
+
+
+def _svi_oblici_imenice(imenica):
+    retval = []
+    if imenica.nomjed:
+        retval.append(imenica.nomjed)
+    if imenica.genjed:
+        retval.append(imenica.genjed)
+    if imenica.datjed:
+        retval.append(imenica.datjed)
+    if imenica.akujed:
+        retval.append(imenica.akujed)
+    if imenica.vokjed:
+        retval.append(imenica.vokjed)
+    if imenica.insjed:
+        retval.append(imenica.insjed)
+    if imenica.lokjed:
+        retval.append(imenica.lokjed)
+    if imenica.nommno:
+        retval.append(imenica.nommno)
+    if imenica.genmno:
+        retval.append(imenica.genmno)
+    if imenica.datmno:
+        retval.append(imenica.datmno)
+    if imenica.akumno:
+        retval.append(imenica.akumno)
+    if imenica.vokmno:
+        retval.append(imenica.vokmno)
+    if imenica.insmno:
+        retval.append(imenica.insmno)
+    if imenica.lokmno:
+        retval.append(imenica.lokmno)
+    return retval
