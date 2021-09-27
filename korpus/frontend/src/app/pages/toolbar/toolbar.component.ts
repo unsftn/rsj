@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem, PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -9,7 +9,8 @@ import { MenuItem, PrimeNGConfig } from 'primeng/api';
 export class ToolbarComponent implements OnInit {
 
   workflowItems: MenuItem[];
-  @Input() title: string = '';
+  @Input() title = '';
+  @Output() saveClicked = new EventEmitter();
 
   constructor(
     private primengConfig: PrimeNGConfig) { }
@@ -17,7 +18,7 @@ export class ToolbarComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
   }
-  
+
   undoAvailable(): boolean {
     return true;
   }
@@ -40,6 +41,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   save(): void {
+    this.saveClicked.emit();
   }
 
   delete(): void {

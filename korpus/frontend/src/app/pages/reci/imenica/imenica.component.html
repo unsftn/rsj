@@ -1,7 +1,12 @@
-<toolbar></toolbar>
+<toolbar (saveClicked)="save()"></toolbar>
 <div class="container">
   <h3>Именица</h3>
   <div class="tableform">
+    <div class="row">
+      <div class="cell"><p class="label">Врста</p></div>
+      <div class="cell"><p-dropdown [options]="vrste" optionLabel="name" optionValue="id" [(ngModel)]="imenica.vrsta"></p-dropdown></div>
+      <div class="cell"></div>
+    </div>
     <div class="row">
       <div class="cell"></div>
       <div class="cell"><p class="label">Једнина</p></div>
@@ -9,38 +14,85 @@
     </div>
     <div class="row">
       <div class="cell"><p class="label">Номинатив</p></div>
-      <div class="cell"><input id="nomjed" type="text" pInputText></div>
-      <div class="cell"><input id="nommno" type="text" pInputText></div>
+      <div class="cell"><input id="nomjed" type="text" pInputText [(ngModel)]="imenica.nomjed"></div>
+      <div class="cell"><input id="nommno" type="text" pInputText [(ngModel)]="imenica.nommno"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Генитив</p></div>
-      <div class="cell"><input id="genjed" type="text" pInputText></div>
-      <div class="cell"><input id="genmno" type="text" pInputText></div>
+      <div class="cell"><input id="genjed" type="text" pInputText [(ngModel)]="imenica.genjed"></div>
+      <div class="cell"><input id="genmno" type="text" pInputText [(ngModel)]="imenica.genmno"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Датив</p></div>
-      <div class="cell"><input id="datjed" type="text" pInputText></div>
-      <div class="cell"><input id="datmno" type="text" pInputText></div>
+      <div class="cell"><input id="datjed" type="text" pInputText [(ngModel)]="imenica.datjed"></div>
+      <div class="cell"><input id="datmno" type="text" pInputText [(ngModel)]="imenica.datmno"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Акузатив</p></div>
-      <div class="cell"><input id="akujed" type="text" pInputText></div>
-      <div class="cell"><input id="akumno" type="text" pInputText></div>
+      <div class="cell"><input id="akujed" type="text" pInputText [(ngModel)]="imenica.akujed"></div>
+      <div class="cell"><input id="akumno" type="text" pInputText [(ngModel)]="imenica.akumno"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Вокатив</p></div>
-      <div class="cell"><input id="vokjed" type="text" pInputText></div>
-      <div class="cell"><input id="vokmno" type="text" pInputText></div>
+      <div class="cell"><input id="vokjed" type="text" pInputText [(ngModel)]="imenica.vokjed"></div>
+      <div class="cell"><input id="vokmno" type="text" pInputText [(ngModel)]="imenica.vokmno"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Инструментал</p></div>
-      <div class="cell"><input id="insjed" type="text" pInputText></div>
-      <div class="cell"><input id="insmno" type="text" pInputText></div>
+      <div class="cell"><input id="insjed" type="text" pInputText [(ngModel)]="imenica.insjed"></div>
+      <div class="cell"><input id="insmno" type="text" pInputText [(ngModel)]="imenica.insmno"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Локатив</p></div>
-      <div class="cell"><input id="lokjed" type="text" pInputText></div>
-      <div class="cell"><input id="lokmno" type="text" pInputText></div>
+      <div class="cell"><input id="lokjed" type="text" pInputText [(ngModel)]="imenica.lokjed"></div>
+      <div class="cell"><input id="lokmno" type="text" pInputText [(ngModel)]="imenica.lokmno"></div>
+    </div>
+  </div>
+  <div *ngFor="let v of imenica.varijante; let i=index" class="tableform">
+    <div class="row">
+      <div class="cell"><h4>#{{i+1}}</h4></div>
+      <div class="cell"></div>
+      <div class="cell" style="text-align: right">
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(i)" [disabled]="i === 0"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(i)" [disabled]="i === imenica.varijante.length-1"></button>
+        <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(i)"></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Номинатив</p></div>
+      <div class="cell"><input id="nomjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].nomjed"></div>
+      <div class="cell"><input id="nommno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].nommno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Генитив</p></div>
+      <div class="cell"><input id="genjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].genjed"></div>
+      <div class="cell"><input id="genmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].genmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Датив</p></div>
+      <div class="cell"><input id="datjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].datjed"></div>
+      <div class="cell"><input id="datmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].datmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Акузатив</p></div>
+      <div class="cell"><input id="akujed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].akujed"></div>
+      <div class="cell"><input id="akumno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].akumno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Вокатив</p></div>
+      <div class="cell"><input id="vokjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].vokjed"></div>
+      <div class="cell"><input id="vokmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].vokmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Инструментал</p></div>
+      <div class="cell"><input id="insjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].insjed"></div>
+      <div class="cell"><input id="insmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].insmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Локатив</p></div>
+      <div class="cell"><input id="lokjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].lokjed"></div>
+      <div class="cell"><input id="lokmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].lokmno"></div>
     </div>
   </div>
 </div>
+<button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="addVarijanta()"></button>

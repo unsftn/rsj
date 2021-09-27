@@ -7,6 +7,7 @@ app_name = 'речи'
 urlpatterns = [
     path('imenice/', ImenicaList.as_view(), name='imenica-list'),
     path('imenice/<int:pk>/', ImenicaDetail.as_view(), name='imenica-detail'),
+    path('save/imenica/', save_imenica, name='save-imenica'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

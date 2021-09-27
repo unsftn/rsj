@@ -4,6 +4,11 @@ from django.db import models
 from django.utils.timezone import now
 
 
+OPERACIJE_IZMENE = [
+    (1, 'креирана реч'),
+    (2, 'измењена реч'),
+]
+
 VRSTE_IMENICA = [
     (1, 'апстрактна'),
     (2, 'заједничка'),
@@ -35,17 +40,6 @@ class StatusReci(models.Model):
         verbose_name = 'статус речи'
         verbose_name_plural = 'статуси речи'
         ordering = ['id']
-
-
-class OperacijaIzmene(models.Model):
-    naziv = models.CharField('назив', max_length=50)
-
-    def __str__(self):
-        return self.naziv
-
-    class Meta:
-        verbose_name = 'операција измене'
-        verbose_name_plural = 'операције измена'
 
 
 class Imenica(models.Model):
@@ -83,6 +77,7 @@ class Imenica(models.Model):
 
 
 class VarijantaImenice(models.Model):
+    imenica = models.ForeignKey(Imenica, verbose_name='именица', on_delete=models.CASCADE)
     redni_broj = models.PositiveSmallIntegerField('редни број')
     nomjed = models.CharField('номинатив једнине', max_length=50, blank=True, null=True)
     genjed = models.CharField('генитив једнине', max_length=50, blank=True, null=True)
@@ -102,7 +97,7 @@ class VarijantaImenice(models.Model):
 
 class IzmenaImenice(models.Model):
     imenica = models.ForeignKey(Imenica, verbose_name='именица', on_delete=models.CASCADE)
-    operacija_izmene = models.ForeignKey(OperacijaIzmene, verbose_name='операција измене', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
 

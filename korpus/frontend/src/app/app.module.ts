@@ -3,13 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-
-import { AuthInterceptor } from './services/auth/auth.interceptor';
-import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
-import { ErrorInterceptor } from './services/error';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { ListboxModule } from 'primeng/listbox';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -30,6 +24,14 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
 import { ToolbarComponent } from './pages/toolbar/toolbar.component';
+import { RippleModule } from 'primeng/ripple';
+
+import { AuthInterceptor } from './services/auth/auth.interceptor';
+import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
+import { ErrorInterceptor } from './services/error';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent],
@@ -56,6 +58,8 @@ import { ToolbarComponent } from './pages/toolbar/toolbar.component';
     ToggleButtonModule,
     PasswordModule,
     ChartModule,
+    ListboxModule,
+    RippleModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
