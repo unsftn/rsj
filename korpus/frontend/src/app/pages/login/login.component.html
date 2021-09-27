@@ -1,24 +1,24 @@
 <div class="login-container">
 
-  <div class="p-d-flex p-flex-column centered">
+  <div class="flex flex-column centered">
     <form [formGroup]="loginForm" novalidate action="#">
       <h2>Пријава</h2>
 
-      <div class="p-field">
+      <div class="field">
           <div class="p-inputgroup">
               <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
               <input type="text" [formControlName]="'username'" pInputText placeholder="Email адреса">
           </div>
       </div>
 
-      <div class="p-field">
+      <div class="field">
           <div class="p-inputgroup">
               <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
               <input type="password" [formControlName]="'password'" name="password" pInputText placeholder="Лозинка" (keyup.enter)="onSubmit()">
           </div>
       </div>
 
-      <button pButton type="button" label="Пријави се" (click)="onSubmit()" [disabled]="loginForm.invalid" class="p-mr-3"></button>
+      <button pButton type="button" label="Пријави се" (click)="onSubmit()" [disabled]="loginForm.invalid" class="mr-3"></button>
       <button pButton type="button" label="Заборавих лозинку" (click)="forgotPassword()" [disabled]="f.username.errors"></button>
     </form>
   </div>
