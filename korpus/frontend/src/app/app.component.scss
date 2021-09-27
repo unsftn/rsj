@@ -1,0 +1,129 @@
+:host ::ng-deep .p-menubar-end {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  align-items: stretch;
+}
+
+:host ::ng-deep .p-menubar {
+  border-radius: 0;
+  margin: 0;
+  width: 100%;
+}
+
+:host ::ng-deep .p-menubar-button {
+  display: none;
+}
+
+.search-component {
+  .rec {
+    float: left;
+  }
+  .vrsta {
+    float: right;
+  }
+}
+
+.search-container {
+  display: flex;
+  flex: 3;
+  justify-content: center;
+}
+
+.search-container:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+
+.add-button {
+  margin-left: 10px;
+}
+
+.button-header {
+  width: 40px !important;
+  height: 40px !important;
+  margin-left: 10px;
+}
+
+.logo-container {
+  cursor: pointer;
+  img {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .logo-text {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 25px;
+    margin: 0;
+    a {
+      font-family: 'Fira Sans Condensed' !important;
+      text-decoration: none;
+      color: #495057;
+    }
+  }
+}
+
+@media only screen and (max-width: 830px) {
+  .logo-container .logo-text {
+    display: none;
+  }
+}
+
+.logo-container:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.menu-container {
+  flex: 1;
+  text-align: right;
+  .username {
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+
+.menu-container:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.menu-button {
+  height: 30px !important;
+  width: 30px;
+}
+
+:host ::ng-deep .p-menubar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 5;
+}
+
+:host ::ng-deep .p-submenu-list {
+  left: -30px !important;
+  top: 20px !important;
+}
+
+:host ::ng-deep .gray.p-menubar {
+  background-color: #f8f9fa;
+}
+:host ::ng-deep .blue.p-menubar {
+  background-color: #cae6fc;
+}
+:host ::ng-deep .green.p-menubar {
+  background-color: #d4ecd5;
+}
+:host ::ng-deep .yellow.p-menubar {
+  background-color: #fef0cd;
+}
