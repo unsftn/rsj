@@ -153,14 +153,15 @@ export class AppComponent implements OnInit {
         else
           item.disabled = !loggedIn;
       });
-      this.appConfigService.getAppConfig().subscribe(data => {
-        if (this.username === 'Дејан')
-          this.headerStyle = 'gray';
-        else
-          this.headerStyle = data.HEADER_COLOR_SCHEME;
-      }, error => {
-        console.log(error);
-      });
+    });
+    this.appConfigService.getAppConfig().subscribe(data => {
+      const user = this.tokenStorageService.getUser();
+      if (user.firstName === 'Дејан' && user.lastName === 'Милорадов')
+        this.headerStyle = 'gray';
+      else
+        this.headerStyle = data.HEADER_COLOR_SCHEME;
+    }, error => {
+      console.log(error);
     });
     this.odrednicaService.getStatuses().subscribe(() => {});
   }
