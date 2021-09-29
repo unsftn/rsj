@@ -115,18 +115,14 @@
           <p-dropdown [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="Врста речи"
                       (onChange)="onChangeWordType()"
                       (ngModelChange)="onValueChange($event)"
-                      (focusout)="onFocusLeave()"></p-dropdown>
-        </div>
-      </div>
-      <div class="p-d-flex">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
-          <p class="label">Подврста:</p>
-        </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
-          <p-dropdown [options]="wordSubTypes" [(ngModel)]="selectedWordSubType" optionLabel="name" placeholder="Подврста речи"
+                      (focusout)="onFocusLeave()"
+                      [style]="{width: '130px', 'margin-right': '8px'}"></p-dropdown>
+          <p-dropdown [options]="wordSubTypes" [(ngModel)]="selectedWordSubType" optionLabel="name" placeholder="Подврста"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"
-                      [showClear]="true"></p-dropdown>
+                      [showClear]="true"
+                      [style]="{width: '220px'}"
+                      *ngIf="[0, 2, 5].includes(selectedWordType.id)"></p-dropdown>
         </div>
       </div>
       <div class="p-d-flex" *ngIf="isNoun">

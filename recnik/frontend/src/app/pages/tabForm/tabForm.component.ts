@@ -514,7 +514,9 @@ export class TabFormComponent implements OnInit {
         this.selectedVerbKind = this.enumService.getVerbKind(0);
         break;
     }
-    this.wordSubTypes = this.podvrstaReciService.getPodvrste(this.selectedWordType.id);
+    this.podvrstaReciService.fetchAllPodvrsta().subscribe(data => {
+      this.wordSubTypes = this.podvrstaReciService.getPodvrste(this.selectedWordType.id);
+    });
     this.selectedWordSubType = undefined;
   }
 
