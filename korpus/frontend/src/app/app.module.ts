@@ -32,9 +32,10 @@ import { ErrorInterceptor } from './services/error';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

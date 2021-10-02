@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'toolbar',
@@ -13,7 +13,9 @@ export class ToolbarComponent implements OnInit {
   @Output() saveClicked = new EventEmitter();
 
   constructor(
-    private primengConfig: PrimeNGConfig) { }
+    private primengConfig: PrimeNGConfig,
+    private messageService: MessageService,
+  ) { }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
@@ -32,12 +34,15 @@ export class ToolbarComponent implements OnInit {
   }
 
   undo(): void {
+    this.notImplemented();
   }
 
   redo(): void {
+    this.notImplemented();
   }
 
   preview(): void {
+    this.notImplemented();
   }
 
   save(): void {
@@ -45,5 +50,15 @@ export class ToolbarComponent implements OnInit {
   }
 
   delete(): void {
+    this.notImplemented();
+  }
+
+  notImplemented(): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Грешка',
+      life: 5000,
+      detail: `Још не ради`,
+    });
   }
 }

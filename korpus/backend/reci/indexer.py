@@ -22,7 +22,6 @@ class KorpusDocument(Document):
     pk = Keyword()
     rec = Keyword()
     vrsta = Keyword()
-    podvrsta = Keyword()
     oblici = SearchAsYouType()
 
 
@@ -130,7 +129,6 @@ def search(request):
             hits.append({
                 'vrsta': hit['_source']['vrsta'],
                 'vrsta_text': VRSTE_RECI[hit['_source']['vrsta']],
-                'podvrsta': hit['_source']['podvrsta'],
                 'rec': hit['_source']['rec'],
                 'pk': hit['_source']['pk']
             })
@@ -143,12 +141,11 @@ class KorpusSerializer(serializers.ModelSerializer):
     pk = serializers.IntegerField(required=True)
     rec = serializers.CharField(max_length=50, required=True)
     vrsta = serializers.IntegerField(required=True)
-    podvrsta = serializers.IntegerField(required=True)
     oblici = serializers.ListField(child=serializers.CharField(), required=True)
 
     class Meta:
         model = KorpusDocument
-        fields = ('pk', 'rec', 'vrsta', 'podvrsta', 'oblici')
+        fields = ('pk', 'rec', 'vrsta', 'oblici')
 
     def create(self, validated_data):
         pk = validated_data.pop('pk')
@@ -160,8 +157,7 @@ class KorpusSerializer(serializers.ModelSerializer):
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
-        podvrsta = validated_data.pop('podvrsta')
-        return KorpusDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, vrsta=vrsta, podvrsta=podvrsta)
+        return KorpusDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, vrsta=vrsta)
 
 
 def save_imenica(imenica):
@@ -169,10 +165,19 @@ def save_imenica(imenica):
         'pk': imenica.pk,
         'rec': imenica.nomjed,
         'vrsta': 0,
-        'podvrsta': imenica.vrsta,
         'oblici': imenica.oblici(),
     }
     return save_dict(imenica_dict)
+
+
+def save_glagol(glagol):
+    glagol_dict = {
+        'pk': glagol.pk,
+        'rec': glagol.infinitiv,
+        'vrsta': 1,
+        'oblici': glagol.oblici(),
+    }
+    return save_dict(glagol_dict)
 
 
 def save_dict(rec_dict):

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './services/auth/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { AuthGuard } from './services/auth/auth.guard';
+import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
-
 
 const routes: Routes = [
   {
@@ -21,6 +21,18 @@ const routes: Routes = [
   {
     path: 'imenica/:id',
     component: ImenicaComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'glagol/add',
+    component: GlagolComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'glagol/:id',
+    component: GlagolComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },

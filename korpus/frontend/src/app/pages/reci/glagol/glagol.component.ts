@@ -1,0 +1,108 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { Glagol, GlagolskiRod, GlagolskiVid, toGlagol } from '../../../models/reci';
+import { GlagolService } from '../../../services/reci';
+
+@Component({
+  selector: 'app-glagol',
+  templateUrl: './glagol.component.html',
+  styleUrls: ['./glagol.component.scss']
+})
+export class GlagolComponent implements OnInit {
+
+  glagol: Glagol;
+
+  id: number;
+  editMode: boolean;
+  rodovi: GlagolskiRod[];
+  vidovi: GlagolskiVid[];
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessageService,
+    private glagolService: GlagolService,
+  ) { }
+
+  ngOnInit(): void {
+    this.initNew();
+    this.rodovi = this.glagolService.getRodovi();
+    this.vidovi = this.glagolService.getVidovi();
+    this.route.data.subscribe((data) => {
+      switch (data.mode) {
+        case 'add':
+          this.editMode = false;
+          document.getElementById('infinitiv').focus();
+          break;
+        case 'edit':
+          this.editMode = true;
+          this.route.params.subscribe(
+            (params) => {
+              this.id = +params.id;
+              this.glagolService.get(this.id).subscribe((item) => {
+                this.glagol = toGlagol(item);
+              }, (error) => console.log(error));
+            });
+          break;
+      }
+    });
+  }
+
+  initNew(): void {
+    this.glagol = this.glagolService.new();
+  }
+
+  addVarijanta(): void {
+    // TODO
+  }
+
+  check(): boolean {
+    return true;
+  }
+
+  save(): void {
+    if (!this.check()) return;
+    console.log('Snimanje glagola:', this.glagol);
+    if (!this.editMode) {
+      this.glagolService.add(this.glagol).subscribe(
+        (data) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Успех',
+            life: 3000,
+            detail: `Глагол је успешно сачуван.`,
+          });
+          this.router.navigate(['/glagol', data.id]);
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: `Неуспешно снимање: ${error}`,
+          });
+        }
+      );
+    } else {
+      this.glagolService.update(this.glagol).subscribe(
+        (data) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Успех',
+            life: 3000,
+            detail: `Глагол је успешно сачуван.`,
+          });
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: `Неуспешно снимање: ${error}`,
+          });
+        }
+      );
+    }
+  }
+}

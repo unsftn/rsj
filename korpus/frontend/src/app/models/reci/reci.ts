@@ -1,3 +1,8 @@
+export interface VrstaImenice {
+  id: number;
+  name: string;
+}
+
 export interface Imenica {
   id?: number;
   vrsta?: number;
@@ -60,7 +65,78 @@ export function toImenica(obj: any): Imenica {
   };
 }
 
-export interface VrstaImenice {
+export interface GlagolskiRod {
   id: number;
   name: string;
+}
+
+export interface GlagolskiVid {
+  id: number;
+  name: string;
+}
+
+export interface VarijantaGlagola {
+  varijanta: number;
+  tekst: string;
+}
+
+export interface OblikGlagola {
+  vreme: number;
+  jd1: string;
+  jd2: string;
+  jd3: string;
+  mn1: string;
+  mn2: string;
+  mn3: string;
+  varijante: VarijantaGlagola[];
+}
+
+export interface Glagol {
+  id?: number;
+  gl_rod: number;
+  gl_vid: number;
+  infinitiv: string;
+  rgp_mj: string;
+  rgp_zj: string;
+  rgp_sj: string;
+  rgp_mm: string;
+  rgp_zm: string;
+  rgp_sm: string;
+  gpp: string;
+  gps: string;
+  recnikID?: number;
+  izmene?: any;
+  oblici: OblikGlagola[];
+}
+
+export function toGlagol(obj: any): Glagol {
+  return {
+    id: obj.id,
+    gl_rod: obj.gl_rod,
+    gl_vid: obj.gl_vid,
+    infinitiv: obj.infinitiv,
+    recnikID: obj.recnik_id,
+    rgp_mj: obj.rgp_mj,
+    rgp_zj: obj.rgp_zj,
+    rgp_sj: obj.rgp_sj,
+    rgp_mm: obj.rgp_mm,
+    rgp_zm: obj.rgp_zm,
+    rgp_sm: obj.rgp_sm,
+    gpp: obj.gpp,
+    gps: obj.gps,
+    izmene: obj.izmenaglagola_set,
+    oblici: obj.oblikglagola_set.map((oblik) => ({
+      vreme: oblik.vreme,
+      jd1: oblik.jd1,
+      jd2: oblik.jd2,
+      jd3: oblik.jd3,
+      mn1: oblik.mn1,
+      mn2: oblik.mn2,
+      mn3: oblik.mn3,
+      varijante: oblik.varijanteglagola_set.map((v) => ({
+        varijanta: v.varijanta,
+        tekst: v.tekst
+      }))
+    }))
+  };
 }

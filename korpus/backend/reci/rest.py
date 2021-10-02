@@ -26,6 +26,20 @@ class ImenicaDetail(generics.RetrieveAPIView):
     serializer_class = ImenicaSerializer
 
 
+class GlagolList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Glagol.objects.all()
+    serializer_class = GlagolSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['infinitiv']
+
+
+class GlagolDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Glagol.objects.all()
+    serializer_class = GlagolSerializer
+
+
 JSON = 'application/json'
 
 
@@ -46,6 +60,32 @@ def save_imenica(request):
         except RecordModifiedError:
             raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао именицу', code=409)
         ser2 = ImenicaSerializer(imenica)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_glagol(request):
+    if request.method == 'POST':
+        serializer = SaveGlagolSerializer(data=request.data)
+    else:
+        try:
+            glagol_id = request.data['id']
+            glagol = Glagol.objects.get(id=glagol_id)
+            serializer = SaveGlagolSerializer(glagol, data=request.data)
+        except (KeyError, Glagol.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојећег глагола', code=404)
+    if serializer.is_valid():
+        try:
+            glagol = serializer.save(user=request.user)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао глагол', code=409)
+        ser2 = GlagolSerializer(glagol)
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
         else:

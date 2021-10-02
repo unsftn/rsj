@@ -108,6 +108,11 @@ export class AppComponent implements OnInit {
         routerLink: ['/imenica/add'],
         disabled: !this.signedIn(),
       },
+      {
+        label: 'Глагол',
+        routerLink: ['/glagol/add'],
+        disabled: !this.signedIn(),
+      },
     ];
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
