@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Glagol, GlagolskiRod, GlagolskiVid } from '../../models/reci';
+import { Glagol, GlagolskaVarijanta, GlagolskiRod, GlagolskiVid } from '../../models/reci';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +27,16 @@ export class GlagolService {
     {id: 4, name: 'несвршени и свршени'},
     {id: 5, name: 'свршени (несвршени)'},
     {id: 6, name: 'несвршени (свршени)'},
+  ];
+
+  varijante: GlagolskaVarijanta[] = [
+    {id: null, name: '---'},
+    {id: 1, name: 'пр.л.јед.'},
+    {id: 2, name: 'др.л.јед.'},
+    {id: 3, name: 'тр.л.јед.'},
+    {id: 4, name: 'пр.л.мн.'},
+    {id: 5, name: 'др.л.мн.'},
+    {id: 6, name: 'тр.л.мн.'},
   ];
 
   constructor(private http: HttpClient) { }
@@ -72,5 +82,9 @@ export class GlagolService {
 
   getVidovi(): GlagolskiVid[] {
     return this.vidovi;
+  }
+
+  getVarijante(): GlagolskaVarijanta[] {
+    return this.varijante;
   }
 }

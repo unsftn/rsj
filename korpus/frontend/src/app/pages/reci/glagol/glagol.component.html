@@ -6,17 +6,14 @@
     <div class="row">
       <div class="cell"><p class="label">Инфинитив</p></div>
       <div class="cell"><input id="infinitiv" type="text" pInputText [(ngModel)]="glagol.infinitiv"></div>
-      <div class="cell"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Гл. род</p></div>
-      <div class="cell"><p-dropdown [options]="rodovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_rod"></p-dropdown></div>
-      <div class="cell"></div>
+      <div class="cell vcenter"><p-dropdown [options]="rodovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_rod"></p-dropdown></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Гл. вид</p></div>
-      <div class="cell"><p-dropdown [options]="vidovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_vid"></p-dropdown></div>
-      <div class="cell"></div>
+      <div class="cell vcenter"><p-dropdown [options]="vidovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_vid"></p-dropdown></div>
     </div>
   </div>
   <p-tabView>
@@ -46,6 +43,22 @@
           <div class="cell"><input id="prez_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn3"></div>
           <div class="cell"></div>
         </div>
+        <div class="row">
+          <div class="cell"><p class="label">Варијанте</p></div>
+          <div class="cell"><button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-raised smaller-button mr-1" (click)="addVarijanta(0)"></button></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="row" *ngFor="let v of glagol.oblici[0].varijante; let i=index">
+          <div class="cell"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[0].varijante[i].varijanta"></p-dropdown></div>
+          <div class="cell"><input id="var_0_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[0].varijante[i].tekst"></div>
+          <div class="cell">
+            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(0, i)" [disabled]="i === 0"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(0, i)" [disabled]="i === glagol.oblici[0].varijante.length-1"></button>
+            <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(0, i)"></button>
+          </div>
+        </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Футур 1">
@@ -73,6 +86,22 @@
           <div class="cell"><input id="fut_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd3"></div>
           <div class="cell"><input id="fut_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn3"></div>
           <div class="cell"></div>
+        </div>
+        <div class="row">
+          <div class="cell"><p class="label">Варијанте</p></div>
+          <div class="cell"><button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-raised smaller-button mr-1" (click)="addVarijanta(1)"></button></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="row" *ngFor="let v of glagol.oblici[1].varijante; let i=index">
+          <div class="cell"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[1].varijante[i].varijanta"></p-dropdown></div>
+          <div class="cell"><input id="var_1_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[1].varijante[i].tekst"></div>
+          <div class="cell">
+            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(1, i)" [disabled]="i === 0"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(1, i)" [disabled]="i === glagol.oblici[1].varijante.length-1"></button>
+            <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(1, i)"></button>
+          </div>
         </div>
       </div>
     </p-tabPanel>
@@ -102,6 +131,22 @@
           <div class="cell"><input id="aor_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn3"></div>
           <div class="cell"></div>
         </div>
+        <div class="row">
+          <div class="cell"><p class="label">Варијанте</p></div>
+          <div class="cell"><button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-raised smaller-button mr-1" (click)="addVarijanta(2)"></button></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="row" *ngFor="let v of glagol.oblici[2].varijante; let i=index">
+          <div class="cell"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[2].varijante[i].varijanta"></p-dropdown></div>
+          <div class="cell"><input id="var_2_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[2].varijante[i].tekst"></div>
+          <div class="cell">
+            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(2, i)" [disabled]="i === 0"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(2, i)" [disabled]="i === glagol.oblici[2].varijante.length-1"></button>
+            <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(2, i)"></button>
+          </div>
+        </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Имперфекат">
@@ -130,6 +175,22 @@
           <div class="cell"><input id="imperfekat_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn3"></div>
           <div class="cell"></div>
         </div>
+        <div class="row">
+          <div class="cell"><p class="label">Варијанте</p></div>
+          <div class="cell"><button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-raised smaller-button mr-1" (click)="addVarijanta(3)"></button></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="row" *ngFor="let v of glagol.oblici[3].varijante; let i=index">
+          <div class="cell"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[3].varijante[i].varijanta"></p-dropdown></div>
+          <div class="cell"><input id="var_3_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[3].varijante[i].tekst"></div>
+          <div class="cell">
+            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(3, i)" [disabled]="i === 0"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(3, i)" [disabled]="i === glagol.oblici[3].varijante.length-1"></button>
+            <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(3, i)"></button>
+          </div>
+        </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Императив">
@@ -157,6 +218,22 @@
           <div class="cell"><input id="imperativ_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd3"></div>
           <div class="cell"><input id="imperativ_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn3"></div>
           <div class="cell"></div>
+        </div>
+        <div class="row">
+          <div class="cell"><p class="label">Варијанте</p></div>
+          <div class="cell"><button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-raised smaller-button mr-1" (click)="addVarijanta(0)"></button></div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+        <div class="row" *ngFor="let v of glagol.oblici[4].varijante; let i=index">
+          <div class="cell"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[4].varijante[i].varijanta"></p-dropdown></div>
+          <div class="cell"><input id="var_4_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[4].varijante[i].tekst"></div>
+          <div class="cell">
+            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(4, i)" [disabled]="i === 0"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(4, i)" [disabled]="i === glagol.oblici[4].varijante.length-1"></button>
+            <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(4, i)"></button>
+          </div>
         </div>
       </div>
     </p-tabPanel>

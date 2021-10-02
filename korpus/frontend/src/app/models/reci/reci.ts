@@ -75,6 +75,11 @@ export interface GlagolskiVid {
   name: string;
 }
 
+export interface GlagolskaVarijanta {
+  id: number;
+  name: string;
+}
+
 export interface VarijantaGlagola {
   varijanta: number;
   tekst: string;

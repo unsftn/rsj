@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Glagol, GlagolskiRod, GlagolskiVid, toGlagol } from '../../../models/reci';
+import {
+  Glagol,
+  GlagolskaVarijanta,
+  GlagolskiRod,
+  GlagolskiVid,
+  toGlagol
+} from '../../../models/reci';
 import { GlagolService } from '../../../services/reci';
 
 @Component({
@@ -17,6 +23,7 @@ export class GlagolComponent implements OnInit {
   editMode: boolean;
   rodovi: GlagolskiRod[];
   vidovi: GlagolskiVid[];
+  varijante: GlagolskaVarijanta[];
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +36,7 @@ export class GlagolComponent implements OnInit {
     this.initNew();
     this.rodovi = this.glagolService.getRodovi();
     this.vidovi = this.glagolService.getVidovi();
+    this.varijante = this.glagolService.getVarijante();
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
@@ -53,12 +61,51 @@ export class GlagolComponent implements OnInit {
     this.glagol = this.glagolService.new();
   }
 
-  addVarijanta(): void {
-    // TODO
+  addVarijanta(index: number): void {
+    this.glagol.oblici[index].varijante.push({varijanta: null, tekst: ''});
+  }
+
+  moveUp(vreme: number, index: number): void {
+    if (index === 0)
+      return;
+    const temp = this.glagol.oblici[vreme].varijante.splice(index, 1)[0];
+    this.glagol.oblici[vreme].varijante.splice(index - 1, 0, temp);
+  }
+
+  moveDown(vreme: number, index: number): void {
+    if (index === this.glagol.oblici[vreme].varijante.length - 1)
+      return;
+    const temp = this.glagol.oblici[vreme].varijante.splice(index, 1)[0];
+    this.glagol.oblici[vreme].varijante.splice(index + 1, 0, temp);
+  }
+
+  remove(vreme: number, index: number): void {
+    this.glagol.oblici[vreme].varijante.splice(index, 1);
+  }
+
+  assert(condition: boolean, message: string): void {
+    if (condition) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Грешка',
+        life: 0,
+        detail: message,
+      });
+      throw new Error();
+    }
   }
 
   check(): boolean {
-    return true;
+    try {
+      for (const oblik of this.glagol.oblici)
+        for (const v of oblik.varijante) {
+          console.log(v);
+          this.assert(v.varijanta === null || v.tekst.trim() === '', 'Бар једна варијанта није попуњена.');
+        }
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   save(): void {
