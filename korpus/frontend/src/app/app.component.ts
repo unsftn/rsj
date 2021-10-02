@@ -82,13 +82,11 @@ export class AppComponent implements OnInit {
         label: 'Пријава',
         icon: 'pi pi-sign-in',
         routerLink: ['/login'],
-        disabled: this.signedIn(),
       },
       {
         label: 'Профил',
         icon: 'pi pi-user',
         routerLink: ['/profile'],
-        disabled: !this.signedIn(),
       },
       {
         separator: true,
@@ -99,44 +97,24 @@ export class AppComponent implements OnInit {
         command: (event: any) => {
           this.signOut();
         },
-        disabled: !this.signedIn(),
       },
     ];
     this.itemsNew = [
       {
         label: 'Именица',
-        routerLink: ['/imenica/add'],
-        disabled: !this.signedIn(),
+        routerLink: ['/imenica/add']
       },
       {
         label: 'Глагол',
-        routerLink: ['/glagol/add'],
-        disabled: !this.signedIn(),
+        routerLink: ['/glagol/add']
       },
       {
         label: 'Придев',
-        routerLink: ['/pridev/add'],
-        disabled: !this.signedIn(),
+        routerLink: ['/pridev/add']
       },
     ];
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
-      this.itemsUser.forEach((item, index) => {
-        if (item.separator)
-          return;
-        if (index === 0)
-          item.disabled = loggedIn;
-        else
-          item.disabled = !loggedIn;
-      });
-      this.itemsNew.forEach((item, index) => {
-        if (item.separator)
-          return;
-        if (index === 0)
-          item.disabled = loggedIn;
-        else
-          item.disabled = !loggedIn;
-      });
     });
     this.appConfigService.getAppConfig().subscribe(data => {
       this.headerStyle = data.HEADER_COLOR_SCHEME;
