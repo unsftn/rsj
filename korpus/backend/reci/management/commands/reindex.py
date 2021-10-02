@@ -24,7 +24,7 @@ class Command(BaseCommand):
         log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
 
     def index_rec(self, naziv, clazz, save_func):
-        self.stdout.write(f'Ukupno {Imenica.objects.count()} {naziv} za indeksiranje.')
+        self.stdout.write(f'Ukupno {clazz.objects.count()} {naziv} za indeksiranje.')
         count = 0
         for rec in clazz.objects.all():
             if save_func(rec):
@@ -33,4 +33,6 @@ class Command(BaseCommand):
                 self.stdout.write('.', ending='')
             if count % 10000 == 0 and count > 0:
                 self.stdout.write(f'{count}')
-        self.stdout.write(self.style.SUCCESS(f'\nUkupno indeksirano {count} {naziv}.'))
+        if count % 10000 != 0 and count > 1000:
+            self.stdout.write('')
+        self.stdout.write(self.style.SUCCESS(f'Ukupno indeksirano {count} {naziv}.'))
