@@ -40,7 +40,17 @@ export class ImenicaComponent implements OnInit {
               this.id = +params.id;
               this.imenicaService.get(this.id).subscribe((item) => {
                 this.imenica = toImenica(item);
-              }, (error) => console.log(error));
+              },
+              (error) => {
+                console.log(error);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Грешка',
+                  life: 5000,
+                  detail: 'Именица није учитана',
+                });
+                this.router.navigate(['/']);
+              });
             });
           break;
       }
