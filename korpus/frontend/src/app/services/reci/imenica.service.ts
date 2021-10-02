@@ -20,6 +20,14 @@ export class ImenicaService {
 
   constructor(private http: HttpClient) { }
 
+  new(): Imenica {
+    return {
+      vrsta: null,
+      nomjed: '', genjed: '', datjed: '', akujed: '', vokjed: '', insjed: '', lokjed: '',
+      nommno: '', genmno: '', datmno: '', akumno: '', vokmno: '', insmno: '', lokmno: '',
+      varijante: []};
+  }
+
   get(id: number): Observable<any> {
     return this.http.get<any>(`/api/reci/imenice/${id}/`);
   }

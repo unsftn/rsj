@@ -58,7 +58,7 @@ export class ImenicaComponent implements OnInit {
   }
 
   initNew(): void {
-    this.imenica = { vrsta: null, nomjed: '', genjed: '', datjed: '', akujed: '', vokjed: '', insjed: '', lokjed: '', nommno: '', genmno: '', datmno: '', akumno: '', vokmno: '', insmno: '', lokmno: '', varijante: []};
+    this.imenica = this.imenicaService.new();
   }
 
   check(): boolean {

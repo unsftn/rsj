@@ -64,6 +64,26 @@ class GlagolSerializer(serializers.ModelSerializer):
                   'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps', 'oblikglagola_set')
 
 
+class VidPridevaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VidPrideva
+        fields = ('id', 'vid', 
+                  'mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed',
+                  'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno', 'minsmno', 'mlokmno',
+                  'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed',
+                  'znommno', 'zgenmno', 'zdatmno', 'zakumno', 'zvokmno', 'zinsmno', 'zlokmno',
+                  'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed',
+                  'snommno', 'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno')
+
+
+class PridevSerializer(serializers.ModelSerializer):
+    vidprideva_set = VidPridevaSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Pridev
+        fields = ('id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vidprideva_set')
+
+
 class NoSaveSerializer(serializers.Serializer):
     def create(self, validated_data):
         return None
@@ -186,3 +206,75 @@ class SaveGlagolSerializer(serializers.Serializer):
         operacija_izmene = 2 if radimo_update else 1
         IzmenaGlagola.objects.create(user_id=user.id, vreme=sada, glagol=glagol, operacija_izmene=operacija_izmene)
         return glagol
+
+
+class SaveVidPridevaSerializer(NoSaveSerializer):
+    vid = serializers.IntegerField(required=False)
+    mnomjed = serializers.CharField(max_length=25, allow_blank=True)
+    mgenjed = serializers.CharField(max_length=25, allow_blank=True)
+    mdatjed = serializers.CharField(max_length=25, allow_blank=True)
+    makujed = serializers.CharField(max_length=25, allow_blank=True)
+    mvokjed = serializers.CharField(max_length=25, allow_blank=True)
+    minsjed = serializers.CharField(max_length=25, allow_blank=True)
+    mlokjed = serializers.CharField(max_length=25, allow_blank=True)
+    mnommno = serializers.CharField(max_length=25, allow_blank=True)
+    mgenmno = serializers.CharField(max_length=25, allow_blank=True)
+    mdatmno = serializers.CharField(max_length=25, allow_blank=True)
+    makumno = serializers.CharField(max_length=25, allow_blank=True)
+    mvokmno = serializers.CharField(max_length=25, allow_blank=True)
+    minsmno = serializers.CharField(max_length=25, allow_blank=True)
+    mlokmno = serializers.CharField(max_length=25, allow_blank=True)
+    znomjed = serializers.CharField(max_length=25, allow_blank=True)
+    zgenjed = serializers.CharField(max_length=25, allow_blank=True)
+    zdatjed = serializers.CharField(max_length=25, allow_blank=True)
+    zakujed = serializers.CharField(max_length=25, allow_blank=True)
+    zvokjed = serializers.CharField(max_length=25, allow_blank=True)
+    zinsjed = serializers.CharField(max_length=25, allow_blank=True)
+    zlokjed = serializers.CharField(max_length=25, allow_blank=True)
+    znommno = serializers.CharField(max_length=25, allow_blank=True)
+    zgenmno = serializers.CharField(max_length=25, allow_blank=True)
+    zdatmno = serializers.CharField(max_length=25, allow_blank=True)
+    zakumno = serializers.CharField(max_length=25, allow_blank=True)
+    zvokmno = serializers.CharField(max_length=25, allow_blank=True)
+    zinsmno = serializers.CharField(max_length=25, allow_blank=True)
+    zlokmno = serializers.CharField(max_length=25, allow_blank=True)
+    snomjed = serializers.CharField(max_length=25, allow_blank=True)
+    sgenjed = serializers.CharField(max_length=25, allow_blank=True)
+    sdatjed = serializers.CharField(max_length=25, allow_blank=True)
+    sakujed = serializers.CharField(max_length=25, allow_blank=True)
+    svokjed = serializers.CharField(max_length=25, allow_blank=True)
+    sinsjed = serializers.CharField(max_length=25, allow_blank=True)
+    slokjed = serializers.CharField(max_length=25, allow_blank=True)
+    snommno = serializers.CharField(max_length=25, allow_blank=True)
+    sgenmno = serializers.CharField(max_length=25, allow_blank=True)
+    sdatmno = serializers.CharField(max_length=25, allow_blank=True)
+    sakumno = serializers.CharField(max_length=25, allow_blank=True)
+    svokmno = serializers.CharField(max_length=25, allow_blank=True)
+    sinsmno = serializers.CharField(max_length=25, allow_blank=True)
+    slokmno = serializers.CharField(max_length=25, allow_blank=True)
+
+
+class SavePridevSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    vidovi = serializers.ListField(child=SaveVidPridevaSerializer())
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        VidPrideva.objects.filter(pridev_id=instance.id).delete()
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, pridev=None):
+        radimo_update = pridev is not None
+        pridev_id = validated_data.get('id')
+        sada = now()
+        vidovi = validated_data.pop('vidovi', [])
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id)
+        for v in vidovi:
+            VidPrideva.objects.create(pridev=pridev, **v)
+        operacija_izmene = 2 if radimo_update else 1
+        IzmenaPrideva.objects.create(user_id=user.id, vreme=sada, pridev=pridev, operacija_izmene=operacija_izmene)
+        return pridev

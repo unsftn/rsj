@@ -145,3 +145,114 @@ export function toGlagol(obj: any): Glagol {
     }))
   };
 }
+
+export interface PridevskiVid {
+  id: number;
+  name: string;
+}
+
+export interface VidPrideva {
+  vid: number;
+  mnomjed: string;
+  mgenjed: string;
+  mdatjed: string;
+  makujed: string;
+  mvokjed: string;
+  minsjed: string;
+  mlokjed: string;
+  mnommno: string;
+  mgenmno: string;
+  mdatmno: string;
+  makumno: string;
+  mvokmno: string;
+  minsmno: string;
+  mlokmno: string;
+  znomjed: string;
+  zgenjed: string;
+  zdatjed: string;
+  zakujed: string;
+  zvokjed: string;
+  zinsjed: string;
+  zlokjed: string;
+  znommno: string;
+  zgenmno: string;
+  zdatmno: string;
+  zakumno: string;
+  zvokmno: string;
+  zinsmno: string;
+  zlokmno: string;
+  snomjed: string;
+  sgenjed: string;
+  sdatjed: string;
+  sakujed: string;
+  svokjed: string;
+  sinsjed: string;
+  slokjed: string;
+  snommno: string;
+  sgenmno: string;
+  sdatmno: string;
+  sakumno: string;
+  svokmno: string;
+  sinsmno: string;
+  slokmno: string;
+}
+
+export interface Pridev {
+  id?: number;
+  vidovi: VidPrideva[];
+  recnikID?: number;
+  izmene?: any;
+}
+
+export function toPridev(obj: any): Pridev {
+  return {
+    id: obj.id,
+    recnikID: obj.recnik_id,
+    izmene: obj.izmenaprideva_set,
+    vidovi: obj.vidprideva_set.map((v) => ({
+      vid: v.vid,
+      mnomjed: v.mnomjed,
+      mgenjed: v.mgenjed,
+      mdatjed: v.mdatjed,
+      makujed: v.makujed,
+      mvokjed: v.mvokjed,
+      minsjed: v.minsjed,
+      mlokjed: v.mlokjed,
+      mnommno: v.mnommno,
+      mgenmno: v.mgenmno,
+      mdatmno: v.mdatmno,
+      makumno: v.makumno,
+      mvokmno: v.mvokmno,
+      minsmno: v.minsmno,
+      mlokmno: v.mlokmno,
+      znomjed: v.znomjed,
+      zgenjed: v.zgenjed,
+      zdatjed: v.zdatjed,
+      zakujed: v.zakujed,
+      zvokjed: v.zvokjed,
+      zinsjed: v.zinsjed,
+      zlokjed: v.zlokjed,
+      znommno: v.znommno,
+      zgenmno: v.zgenmno,
+      zdatmno: v.zdatmno,
+      zakumno: v.zakumno,
+      zvokmno: v.zvokmno,
+      zinsmno: v.zinsmno,
+      zlokmno: v.zlokmno,
+      snomjed: v.snomjed,
+      sgenjed: v.sgenjed,
+      sdatjed: v.sdatjed,
+      sakujed: v.sakujed,
+      svokjed: v.svokjed,
+      sinsjed: v.sinsjed,
+      slokjed: v.slokjed,
+      snommno: v.snommno,
+      sgenmno: v.sgenmno,
+      sdatmno: v.sdatmno,
+      sakumno: v.sakumno,
+      svokmno: v.svokmno,
+      sinsmno: v.sinsmno,
+      slokmno: v.slokmno,
+    }))
+  };
+}

@@ -67,6 +67,13 @@ OBLIK_GLAGOLSKE_VARIJANTE = [
     (6, 'тр.л.мн.'),
 ]
 
+PRIDEVSKI_VID = [
+    (1, 'одређени'),
+    (2, 'неодређени'),
+    (3, 'компаратив'),
+    (4, 'суперлатив'),
+]
+
 
 def _append_attr(array, obj, attr_name):
     """
@@ -227,7 +234,7 @@ class OblikGlagola(models.Model):
     class Meta:
         verbose_name = 'глаголски облик'
         verbose_name_plural = 'глаголски облици'
-        ordering = ['id']
+        ordering = ['vreme']
         indexes = [
             models.Index(fields=['jd1']),
         ]
@@ -268,4 +275,101 @@ def _svi_oblici_glagola(glagol):
             _append_attr(retval, oblik, x)
         for var in oblik.varijanteglagola_set.all():
             _append_attr(retval, var, 'tekst')
+    return retval
+
+
+class Pridev(models.Model):
+    recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
+    status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+
+    class Meta:
+        verbose_name = 'придев'
+        verbose_name_plural = 'придеви'
+        ordering = ['id']
+
+    def __str__(self):
+        return f'{self.id}'
+
+    def oblici(self):
+        return _svi_oblici_prideva(self)
+
+
+class VidPrideva(models.Model):
+    pridev = models.ForeignKey(Pridev, verbose_name='придев', on_delete=models.CASCADE)
+    vid = models.IntegerField('вид', choices=PRIDEVSKI_VID)
+    mnomjed = models.CharField('мушки номинатив једнина', max_length=25, blank=True, null=True)
+    mgenjed = models.CharField('мушки генитив једнина', max_length=25, blank=True, null=True)
+    mdatjed = models.CharField('мушки датив једнина', max_length=25, blank=True, null=True)
+    makujed = models.CharField('мушки акузатив једнина', max_length=25, blank=True, null=True)
+    mvokjed = models.CharField('мушки вокатив једнина', max_length=25, blank=True, null=True)
+    minsjed = models.CharField('мушки инструментал једнина', max_length=25, blank=True, null=True)
+    mlokjed = models.CharField('мушки локатив једнина', max_length=25, blank=True, null=True)
+    mnommno = models.CharField('мушки номинатив множина', max_length=25, blank=True, null=True)
+    mgenmno = models.CharField('мушки генитив множина', max_length=25, blank=True, null=True)
+    mdatmno = models.CharField('мушки датив множина', max_length=25, blank=True, null=True)
+    makumno = models.CharField('мушки акузатив множина', max_length=25, blank=True, null=True)
+    mvokmno = models.CharField('мушки вокатив множина', max_length=25, blank=True, null=True)
+    minsmno = models.CharField('мушки инструментал множина', max_length=25, blank=True, null=True)
+    mlokmno = models.CharField('мушки локатив множина', max_length=25, blank=True, null=True)
+    znomjed = models.CharField('женски номинатив једнина', max_length=25, blank=True, null=True)
+    zgenjed = models.CharField('женски генитив једнина', max_length=25, blank=True, null=True)
+    zdatjed = models.CharField('женски датив једнина', max_length=25, blank=True, null=True)
+    zakujed = models.CharField('женски акузатив једнина', max_length=25, blank=True, null=True)
+    zvokjed = models.CharField('женски вокатив једнина', max_length=25, blank=True, null=True)
+    zinsjed = models.CharField('женски инструментал једнина', max_length=25, blank=True, null=True)
+    zlokjed = models.CharField('женски локатив једнина', max_length=25, blank=True, null=True)
+    znommno = models.CharField('женски номинатив множина', max_length=25, blank=True, null=True)
+    zgenmno = models.CharField('женски генитив множина', max_length=25, blank=True, null=True)
+    zdatmno = models.CharField('женски датив множина', max_length=25, blank=True, null=True)
+    zakumno = models.CharField('женски акузатив множина', max_length=25, blank=True, null=True)
+    zvokmno = models.CharField('женски вокатив множина', max_length=25, blank=True, null=True)
+    zinsmno = models.CharField('женски инструментал множина', max_length=25, blank=True, null=True)
+    zlokmno = models.CharField('женски локатив множина', max_length=25, blank=True, null=True)
+    snomjed = models.CharField('средњи номинатив једнина', max_length=25, blank=True, null=True)
+    sgenjed = models.CharField('средњи генитив једнина', max_length=25, blank=True, null=True)
+    sdatjed = models.CharField('средњи датив једнина', max_length=25, blank=True, null=True)
+    sakujed = models.CharField('средњи акузатив једнина', max_length=25, blank=True, null=True)
+    svokjed = models.CharField('средњи вокатив једнина', max_length=25, blank=True, null=True)
+    sinsjed = models.CharField('средњи инструментал једнина', max_length=25, blank=True, null=True)
+    slokjed = models.CharField('средњи локатив једнина', max_length=25, blank=True, null=True)
+    snommno = models.CharField('средњи номинатив множина', max_length=25, blank=True, null=True)
+    sgenmno = models.CharField('средњи генитив множина', max_length=25, blank=True, null=True)
+    sdatmno = models.CharField('средњи датив множина', max_length=25, blank=True, null=True)
+    sakumno = models.CharField('средњи акузатив множина', max_length=25, blank=True, null=True)
+    svokmno = models.CharField('средњи вокатив множина', max_length=25, blank=True, null=True)
+    sinsmno = models.CharField('средњи инструментал множина', max_length=25, blank=True, null=True)
+    slokmno = models.CharField('средњи локатив множина', max_length=25, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'вид придева'
+        verbose_name_plural = 'видови придева'
+        ordering = ['vid']
+
+    def __str__(self):
+        return f'{self.pridev.id}/{self.id}: {self.mnomjed}'
+
+
+class IzmenaPrideva(models.Model):
+    pridev = models.ForeignKey(Pridev, verbose_name='придев', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена придева'
+        verbose_name_plural = 'измене придева'
+
+
+def _svi_oblici_prideva(pridev):
+    retval = []
+    for vid in pridev.vidprideva_set.all():
+        for attr in ['mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed',
+                     'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno', 'minsmno', 'mlokmno',
+                     'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed',
+                     'znommno', 'zgenmno', 'zdatmno', 'zakumno', 'zvokmno', 'zinsmno', 'zlokmno',
+                     'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed',
+                     'snommno', 'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno']:
+            _append_attr(retval, vid, attr)
     return retval

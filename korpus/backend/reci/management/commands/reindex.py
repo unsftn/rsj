@@ -2,8 +2,8 @@ from datetime import datetime
 import logging
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from ...models import Imenica, Glagol
-from ...indexer import save_imenica, save_glagol, recreate_index, check_elasticsearch
+from ...models import Imenica, Glagol, Pridev
+from ...indexer import index_imenica, index_glagol, index_pridev, recreate_index, check_elasticsearch
 
 log = logging.getLogger(__name__)
 
@@ -17,8 +17,9 @@ class Command(BaseCommand):
             return
         recreate_index()
         start_time = datetime.now()
-        self.index_rec('imenica', Imenica, save_imenica)
-        self.index_rec('glagola', Glagol, save_glagol)
+        self.index_rec('imenica', Imenica, index_imenica)
+        self.index_rec('glagola', Glagol, index_glagol)
+        self.index_rec('prideva', Pridev, index_pridev)
         end_time = datetime.now()
         log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
 

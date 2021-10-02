@@ -160,7 +160,7 @@ class KorpusSerializer(serializers.ModelSerializer):
         return KorpusDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, vrsta=vrsta)
 
 
-def save_imenica(imenica):
+def index_imenica(imenica):
     imenica_dict = {
         'pk': imenica.pk,
         'rec': imenica.nomjed,
@@ -170,7 +170,7 @@ def save_imenica(imenica):
     return save_dict(imenica_dict)
 
 
-def save_glagol(glagol):
+def index_glagol(glagol):
     glagol_dict = {
         'pk': glagol.pk,
         'rec': glagol.infinitiv,
@@ -178,6 +178,18 @@ def save_glagol(glagol):
         'oblici': glagol.oblici(),
     }
     return save_dict(glagol_dict)
+
+
+def index_pridev(pridev):
+    oblici = pridev.oblici()
+    prvi = oblici[0] if len(oblici) > 0 else ''
+    pridev_dict = {
+        'pk': pridev.pk,
+        'rec': prvi,
+        'vrsta': 2,
+        'oblici': pridev.oblici(),
+    }
+    return save_dict(pridev_dict)
 
 
 def save_dict(rec_dict):

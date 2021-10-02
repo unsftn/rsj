@@ -113,6 +113,11 @@ export class AppComponent implements OnInit {
         routerLink: ['/glagol/add'],
         disabled: !this.signedIn(),
       },
+      {
+        label: 'Придев',
+        routerLink: ['/pridev/add'],
+        disabled: !this.signedIn(),
+      },
     ];
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';

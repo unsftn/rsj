@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './services/auth/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
+import { GlagolComponent } from './pages/reci/glagol/glagol.component';
+import { PridevComponent } from './pages/reci/pridev/pridev.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,18 @@ const routes: Routes = [
   {
     path: 'glagol/:id',
     component: GlagolComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'pridev/add',
+    component: PridevComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'pridev/:id',
+    component: PridevComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
