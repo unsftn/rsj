@@ -16,7 +16,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
-    'reci'
+    'reci',
+    'publikacije',
 ]
 
 MIDDLEWARE = [
