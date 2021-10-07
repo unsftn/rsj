@@ -5,4 +5,5 @@
     <h2>{{fragmentNr}}</h2>
     <button pButton pRipple icon="pi pi-arrow-right" class="p-button-lg p-button-rounded ml-3" (click)="next()"></button>
   </div>
+  <p *ngFor="let para of paragraphs" [innerHTML]="para" class="text"></p>
 </div>

@@ -15,6 +15,7 @@ export class PubTextComponent implements OnInit {
   pubId: number;
   fragmentNr: number;
   title: SafeHtml;
+  paragraphs: string[];
 
   constructor(
     private route: ActivatedRoute,
@@ -23,6 +24,7 @@ export class PubTextComponent implements OnInit {
     private publikacijaService: PublikacijaService,
   ) {
     this.pub = {};
+    this.paragraphs = [];
   }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class PubTextComponent implements OnInit {
         delete this.pub.autor_set;
         this.publikacijaService.getFragment(this.pubId, this.fragmentNr).subscribe(
           (tekst) => {
+            this.paragraphs = tekst.tekst.split('\n');
           },
           (error) => {
             console.log(error);
