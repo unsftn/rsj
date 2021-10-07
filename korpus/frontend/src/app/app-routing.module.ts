@@ -58,9 +58,16 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'publikacija/add',
+    component: PublicationComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' },
+  },
+  {
     path: 'publikacija/:id',
     component: PublicationComponent,
     canActivate: [AuthGuard],
+    data: { mode: 'edit' },
   },
   {
     path: 'publikacija/:pid/fragment/:fid',

@@ -1,1 +1,8 @@
-<p>pub-text works!</p>
+<div class="container">
+  <h2 [innerHTML]="title"></h2>
+  <div class="flex justify-content-center align-items-center">
+    <button pButton pRipple icon="pi pi-arrow-left" class="p-button-lg p-button-rounded mr-3" (click)="prev()"></button>
+    <h2>{{fragmentNr}}</h2>
+    <button pButton pRipple icon="pi pi-arrow-right" class="p-button-lg p-button-rounded ml-3" (click)="next()"></button>
+  </div>
+</div>

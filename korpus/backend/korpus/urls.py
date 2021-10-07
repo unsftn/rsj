@@ -38,6 +38,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/config/', get_config),
     path('api/reci/', include('reci.urls', namespace='reci')),
+    path('api/publikacije/', include('publikacije.urls', namespace='publikacije')),
     path(r'swagger<str:format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path(r'swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('media/<path:file_path>/', serve_media_file),

@@ -1,0 +1,22 @@
+.container {
+  margin: 50px 20px 20px;
+  font-family: 'Fira Sans', sans-serif;
+  padding-top: 10px;
+}
+
+.pubid { width: 100px; }
+.skracenica { width: 200px; }
+.operacije { width: 100px; }
+.tekst { width: 50px; }
+.pointer { cursor: pointer; }
+
+:host ::ng-deep .p-toolbar {
+  position: fixed;
+  width: 100%;
+  background-color: #f8f9fa;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  z-index: 1;
+}
+
+.red { color: red; }

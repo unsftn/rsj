@@ -24,7 +24,7 @@ class AutorSerializer(serializers.ModelSerializer):
 class TekstPublikacijeSerializer(serializers.ModelSerializer):
     class Meta:
         model = TekstPublikacije
-        fields = ('id', 'publikacija_id', 'redni_broj', 'tekst')
+        fields = ('id', 'publikacija_id', 'redni_broj', 'tekst', 'tagovan_tekst')
 
 
 class FajlPublikacijeSerializer(serializers.ModelSerializer):

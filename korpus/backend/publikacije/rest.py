@@ -131,3 +131,13 @@ def api_create_text(request):
         return Response(ser2.data, status=code, content_type=JSON)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['GET'])
+def api_get_tekst(request, pid, fid):
+    try:
+        tekst = TekstPublikacije.objects.get(publikacija_id=pid, redni_broj=fid)
+        serializer = TekstPublikacijeSerializer(tekst)
+        return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)
+    except TekstPublikacije.DoesNotExist:
+        return Response({'error': 'text not found'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)

@@ -8,10 +8,11 @@ app_name = 'публикације'
 urlpatterns = [
     path('vrsta-publikacije/', VrstaPublikacijeList.as_view()),
     path('vrsta-publikacije/<int:pk>/', VrstaPublikacijeDetail.as_view()),
-    path('potkorpusi/', PotkorpusList.as_view()),
-    path('potkorpusi/<int:pk>/', PotkorpusDetail.as_view()),
+    path('potkorpus/', PotkorpusList.as_view()),
+    path('potkorpus/<int:pk>/', PotkorpusDetail.as_view()),
     path('publikacija/', PublikacijaList.as_view()),
     path('publikacija/<int:pk>/', PublikacijaDetail.as_view()),
+    path('publikacija/<int:pid>/tekst/<int:fid>/', api_get_tekst),
     path('autor/', AutorList.as_view()),
     path('autor/<int:pk>/', AutorDetail.as_view()),
     path('tekst-publikacije/', TekstPublikacijeList.as_view()),
