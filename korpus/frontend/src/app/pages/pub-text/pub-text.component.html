@@ -5,5 +5,33 @@
     <h2>{{fragmentNr}}</h2>
     <button pButton pRipple icon="pi pi-arrow-right" class="p-button-lg p-button-rounded ml-3" (click)="next()"></button>
   </div>
-  <p *ngFor="let para of paragraphs" [innerHTML]="para" class="text"></p>
+  <p *ngFor="let para of paragraphs" [innerHTML]="para" class="text" (click)="click($event); panel.toggle($event, span)"></p>
 </div>
+
+<p-overlayPanel #panel id="panel" (onShow)="onShow()" [showCloseIcon]="true" [hideTransitionOptions]="'0ms'">
+  <ng-template pTemplate>
+    <div class="word">
+      <strong>{{word}}</strong>
+    </div>
+    <div>
+      <p-checkbox label="Игнориши реч" [(ngModel)]="checked" binary="true" (onChange)="check(checked)"
+                  [disabled]="option != ''"></p-checkbox>
+    </div>
+    <div class="actions" *ngIf="!checked">
+      <div class="options" (click)="click($event)">
+        <div class="option" *ngFor="let option of options; index as i">({{i + 1}}) {{option.word}}
+          - {{option.type}}</div>
+      </div>
+      <div class="links">
+        <div>
+          <button pButton pRipple type="button" label="Додај опис" class="p-button-text"
+                  (click)="addDescription()"></button>
+        </div>
+        <div>
+          <button pButton pRipple type="button" label="Измени опис" class="p-button-text" (click)="changeDescription()"
+                  [disabled]="option == ''"></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

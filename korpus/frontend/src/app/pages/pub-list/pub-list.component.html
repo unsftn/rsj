@@ -36,11 +36,11 @@
       <tr>
         <td>{{pub.skracenica}}</td>
         <td [innerHTML]="opis(pub)"></td>
-        <td>
+        <td style="text-align: center">
           <span class="pi pi-pencil pointer mr-3" (click)="edit(pub)"></span>
           <span class="pi pi-times pointer" (click)="delete(pub)"></span>
         </td>
-        <td>
+        <td style="text-align: center">
           <span class="pi pi-forward red pointer" (click)="annotate(pub)"></span>
         </td>
       </tr>

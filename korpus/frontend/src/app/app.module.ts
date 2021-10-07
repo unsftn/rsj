@@ -20,11 +20,13 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { PasswordModule } from 'primeng/password';
 import { ChartModule } from 'primeng/chart';
+import { RippleModule } from 'primeng/ripple';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { CheckboxModule} from 'primeng/checkbox';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
 import { ToolbarComponent } from './pages/toolbar/toolbar.component';
-import { RippleModule } from 'primeng/ripple';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
@@ -65,6 +67,8 @@ import { PubListComponent } from './pages/pub-list/pub-list.component';
     ChartModule,
     ListboxModule,
     RippleModule,
+    OverlayPanelModule,
+    CheckboxModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
