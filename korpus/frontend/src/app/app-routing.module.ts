@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PubListComponent } from './pages/pub-list/pub-list.component';
+import { PubTextComponent } from './pages/pub-text/pub-text.component';
+import { PublicationComponent } from './pages/publication/publication.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -48,6 +51,21 @@ const routes: Routes = [
     component: PridevComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
+  },
+  {
+    path: 'publikacije',
+    component: PubListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'publikacija/:id',
+    component: PublicationComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'publikacija/:pid/fragment/:fid',
+    component: PubTextComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',

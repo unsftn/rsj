@@ -34,9 +34,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 import { PridevComponent } from './pages/reci/pridev/pridev.component';
+import { PublicationComponent } from './pages/publication/publication.component';
+import { PubTextComponent } from './pages/pub-text/pub-text.component';
+import { PubListComponent } from './pages/pub-list/pub-list.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

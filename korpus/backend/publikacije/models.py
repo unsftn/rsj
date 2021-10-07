@@ -29,7 +29,7 @@ class Potkorpus(models.Model):
 class Publikacija(models.Model):
     naslov = models.CharField('наслов', max_length=300)
     naslov_izdanja = models.CharField('наслов издања', max_length=300, blank=True, null=True)
-    vrsta = models.ForeignKey(VrstaPublikacije, verbose_name='врста', on_delete=models.DO_NOTHING)
+    vrsta = models.ForeignKey(VrstaPublikacije, verbose_name='врста', on_delete=models.DO_NOTHING, blank=True, null=True)
     isbn = models.CharField('ISBN', max_length=13, blank=True, null=True)
     issn = models.CharField('ISSN', max_length=8, blank=True, null=True)
     izdavac = models.CharField('издавач', max_length=200, blank=True, null=True)
@@ -78,6 +78,10 @@ class TekstPublikacije(models.Model):
     class Meta:
         verbose_name = 'текст публикације'
         verbose_name_plural = 'текстови публикација'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj'])
+        ]
 
 
 def get_upload_path(instance, filename):

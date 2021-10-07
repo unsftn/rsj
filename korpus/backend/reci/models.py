@@ -166,6 +166,10 @@ class VarijantaImenice(models.Model):
     insmno = models.CharField('инструментал множине', max_length=50, blank=True, null=True)
     lokmno = models.CharField('локатив множине', max_length=50, blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'варијанта именице'
+        verbose_name_plural = 'варијанте именица'
+
 
 class IzmenaImenice(models.Model):
     imenica = models.ForeignKey(Imenica, verbose_name='именица', on_delete=models.CASCADE)
