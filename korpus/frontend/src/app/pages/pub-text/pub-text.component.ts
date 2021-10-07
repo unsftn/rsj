@@ -105,10 +105,9 @@ export class PubTextComponent implements OnInit {
       this.span = element;
       this.spanX = element.offsetLeft;
       this.spanY = element.offsetTop;
-      this.word = this.span.textContent.replace(/[^\p{L}\s]/gu,""); // remove punctuation
+      this.word = this.span.textContent.replace(/[^\p{L}\s]/gu, ''); // remove punctuation
       this.wordLength = this.word.length;
       setTimeout(() => {
-        console.log('handler1');
         const panelDiv = document.querySelector('#panel > div');
         if (panelDiv && panelDiv.className.includes('flipped'))
           this.flipped = true;
@@ -174,7 +173,7 @@ export class PubTextComponent implements OnInit {
     const paras = text.split('\n');
     for (const para of paras) {
       const words = para.split(' ');
-      const tagged = words.map((word, index) => `<span class="word${index + 1}">${word}</span>`);
+      const tagged = words.map((word, index) => `<span class="word word${index + 1}">${word}</span>`);
       const finalText = this.domSanitizer.bypassSecurityTrustHtml(tagged.join(' '));
       retval.push(finalText);
     }

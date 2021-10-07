@@ -5,7 +5,7 @@
     <h2>{{fragmentNr}}</h2>
     <button pButton pRipple icon="pi pi-arrow-right" class="p-button-lg p-button-rounded ml-3" (click)="next()"></button>
   </div>
-  <p *ngFor="let para of paragraphs" [innerHTML]="para" class="text" (click)="click($event); panel.toggle($event, span)"></p>
+  <p *ngFor="let para of paragraphs" [innerHTML]="para" class="tagged-text" (click)="click($event); panel.toggle($event, span)"></p>
 </div>
 
 <p-overlayPanel #panel id="panel" (onShow)="onShow()" [showCloseIcon]="true" [hideTransitionOptions]="'0ms'">
