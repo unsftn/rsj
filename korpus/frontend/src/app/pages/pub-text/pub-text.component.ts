@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PublikacijaService } from '../../services/publikacije/publikacija.service';
+import { SearchService } from '../../services/search/search.service';
 
 interface Option {
   word: string;
@@ -41,6 +42,7 @@ export class PubTextComponent implements OnInit {
     private messageService: MessageService,
     private domSanitizer: DomSanitizer,
     private publikacijaService: PublikacijaService,
+    private searchService: SearchService,
   ) {
     this.pub = {};
     this.paragraphs = [];
@@ -57,12 +59,6 @@ export class PubTextComponent implements OnInit {
       везник: 'veznik'
     };
     this.option = '';
-    this.options = [ // TODO getOptions
-      {word: 'тест', type: 'именица', id: -1},
-      {word: 'тестирање', type: 'именица', id: -2},
-      {word: 'тестирати', type: 'глагол', id: -3},
-      {word: 'тестиран', type: 'придев', id: -4}
-    ];
   }
 
   ngOnInit(): void {
@@ -96,22 +92,25 @@ export class PubTextComponent implements OnInit {
   }
 
   click(event: MouseEvent): void {
-    console.log(event);
     const element = event.target as HTMLElement;
     this.option = '';
     this.flipped = false;
-
     if (element.className.startsWith('word')) {
       this.span = element;
       this.spanX = element.offsetLeft;
       this.spanY = element.offsetTop;
       this.word = this.span.textContent.replace(/[^\p{L}\s]/gu, ''); // remove punctuation
       this.wordLength = this.word.length;
-      setTimeout(() => {
-        const panelDiv = document.querySelector('#panel > div');
-        if (panelDiv && panelDiv.className.includes('flipped'))
-          this.flipped = true;
-      }, 100);
+      this.searchService.search(this.word).subscribe(
+        (data) => {
+          this.options = data.map((item) => ({word: item.rec, type: item.vrsta_text, id: item.pk}));
+          setTimeout(() => {
+            const panelDiv = document.querySelector('#panel > div');
+            if (panelDiv && panelDiv.className.includes('flipped'))
+              this.flipped = true;
+          }, 100);
+        },
+        (error) => console.log(error));
     }
 
     // panel option selection

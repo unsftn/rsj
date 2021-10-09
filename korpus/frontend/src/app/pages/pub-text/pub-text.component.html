@@ -8,7 +8,7 @@
   <p *ngFor="let para of paragraphs" [innerHTML]="para" class="tagged-text" (click)="click($event); panel.toggle($event, span)"></p>
 </div>
 
-<p-overlayPanel #panel id="panel" (onShow)="onShow()" [showCloseIcon]="true" [hideTransitionOptions]="'0ms'">
+<p-overlayPanel #panel id="panel" (onShow)="onShow()" [showCloseIcon]="false" [hideTransitionOptions]="'0ms'">
   <ng-template pTemplate>
     <div class="word">
       <strong>{{word}}</strong>
