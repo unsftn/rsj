@@ -14,8 +14,7 @@
       <strong>{{word}}</strong>
     </div>
     <div>
-      <p-checkbox label="Игнориши реч" [(ngModel)]="checked" binary="true" (onChange)="check(checked)"
-                  [disabled]="option != ''"></p-checkbox>
+      <p-checkbox label="Игнориши реч" [(ngModel)]="checked" binary="true" (onChange)="check(checked)" [disabled]="option != ''"></p-checkbox>
     </div>
     <div class="actions" *ngIf="!checked">
       <div class="options" (click)="click($event)">
@@ -24,11 +23,16 @@
       </div>
       <div class="links">
         <div>
-          <button pButton pRipple type="button" label="Додај опис" class="p-button-text"
-                  (click)="addDescription()"></button>
+          <button pButton pRipple type="button" label="Додај именицу" class="p-button-text" (click)="addDescription(0)"></button>
         </div>
         <div>
-          <button pButton pRipple type="button" label="Измени опис" class="p-button-text" (click)="changeDescription()"
+          <button pButton pRipple type="button" label="Додај глагол" class="p-button-text" (click)="addDescription(1)"></button>
+        </div>
+        <div>
+          <button pButton pRipple type="button" label="Додај придев" class="p-button-text" (click)="addDescription(2)"></button>
+        </div>
+        <div *ngIf="options.length > 0">
+          <button pButton pRipple type="button" label="Иди на реч" class="p-button-text" (click)="changeDescription()"
                   [disabled]="option == ''"></button>
         </div>
       </div>

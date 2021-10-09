@@ -16,6 +16,7 @@ export class ImenicaComponent implements OnInit {
   id: number;
   editMode: boolean;
   vrste: VrstaImenice[];
+  returnUrl: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +28,7 @@ export class ImenicaComponent implements OnInit {
   ngOnInit(): void {
     this.initNew();
     this.vrste = this.imenicaService.getVrste();
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl;
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':
@@ -103,7 +105,10 @@ export class ImenicaComponent implements OnInit {
             life: 3000,
             detail: `Именица је успешно сачувана.`,
           });
-          this.router.navigate(['/imenica', data.id]);
+          if (this.returnUrl)
+            this.router.navigate([this.returnUrl]);
+          else
+            this.router.navigate(['/imenica', data.id]);
         },
         (error) => {
           this.messageService.add({
@@ -122,6 +127,8 @@ export class ImenicaComponent implements OnInit {
             life: 3000,
             detail: `Именица је успешно сачувана.`,
           });
+          if (this.returnUrl)
+            this.router.navigate([this.returnUrl]);
         },
         (error) => {
           this.messageService.add({

@@ -126,9 +126,12 @@ export class PubTextComponent implements OnInit {
           if (opt.getAttribute('style').includes('#')) { // deselect
             this.option = '';
             opt.setAttribute('style', 'background: white; font-weight: initial');
+            this.span.classList.add('untagged');
           }
-          else
-            opt.setAttribute('style', 'background: #DAEBF9; font-weight: 500')
+          else {
+            opt.setAttribute('style', 'background: #DAEBF9; font-weight: 800');
+            this.span.classList.remove('untagged');
+          }
         }
         else
           opt.setAttribute('style', 'background: white; font-weight: initial');
@@ -172,7 +175,7 @@ export class PubTextComponent implements OnInit {
     const paras = text.split('\n');
     for (const para of paras) {
       const words = para.split(' ');
-      const tagged = words.map((word, index) => `<span class="word word${index + 1}">${word}</span>`);
+      const tagged = words.map((word, index) => `<span class="word word${index + 1} untagged">${word}</span>`);
       const finalText = this.domSanitizer.bypassSecurityTrustHtml(tagged.join(' '));
       retval.push(finalText);
     }
@@ -214,6 +217,10 @@ export class PubTextComponent implements OnInit {
   check(checked: boolean): void {
     this.checked = checked;
     this.option = '';
+    if (this.checked)
+      this.span.classList.remove('untagged');
+    else
+      this.span.classList.add('untagged');
 
     // move the upwards panel to the word's location after (un)checking the checkbox
     if (this.flipped) {
@@ -223,9 +230,15 @@ export class PubTextComponent implements OnInit {
     }
   }
 
-  addDescription(): void {
+  addDescription(wordType: number): void {
+    let url = '/imenica/add';
+    switch (wordType) {
+      case 1: url = '/glagol/add'; break;
+      case 2: url = '/pridev/add'; break;
+    }
+    const returnUrl = `/publikacija/${this.pubId}/fragment/${this.fragmentNr}`;
     if (this.option === '')
-      this.router.navigate(['/add']);
+      this.router.navigate([url], { queryParams: { returnUrl } });
   }
 
   changeDescription(): void {
