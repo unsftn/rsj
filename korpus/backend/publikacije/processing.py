@@ -69,7 +69,7 @@ def init_tags(page_text):
         tagged_words = ' '.join([f'<span class="word word{index} untagged">{word}</span>' for index, word in enumerate(words)])
         tagged_paras.append(tagged_words)
     return '\n'.join(tagged_paras)
-    
+
 
 OPERATION_DEFINITIONS = {
     0: {'description': 'do nothing', 'function': nop, 'params': []},
