@@ -69,8 +69,8 @@ class Autor(models.Model):
 class TekstPublikacije(models.Model):
     publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.DO_NOTHING)
     redni_broj = models.PositiveSmallIntegerField('редни број')
-    tekst = models.TextField('текст')
-    tagovan_tekst = models.TextField('тагован текст')
+    tekst = models.TextField('текст', blank=True)
+    tagovan_tekst = models.TextField('тагован текст', blank=True)
 
     def __str__(self):
         return str(self.publikacija) + ': ' + str(self.redni_broj)

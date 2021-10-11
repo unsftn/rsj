@@ -12,7 +12,7 @@ urlpatterns = [
     path('potkorpus/<int:pk>/', PotkorpusDetail.as_view()),
     path('publikacija/', PublikacijaList.as_view()),
     path('publikacija/<int:pk>/', PublikacijaDetail.as_view()),
-    path('publikacija/<int:pid>/tekst/<int:fid>/', api_get_tekst),
+    path('publikacija/<int:pid>/tekst/<int:fid>/', api_tekst),
     path('autor/', AutorList.as_view()),
     path('autor/<int:pk>/', AutorDetail.as_view()),
     path('tekst-publikacije/', TekstPublikacijeList.as_view()),

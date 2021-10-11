@@ -26,6 +26,10 @@ export class PublikacijaService {
     return this.http.get<any>(`/api/publikacije/publikacija/${pid}/tekst/${fid}/`);
   }
 
+  updateFragment(pid: number, fid: number, text: string): Observable<any> {
+    return this.http.put<any>(`/api/publikacije/publikacija/${pid}/tekst/${fid}/`, text);
+  }
+
   getTitle(id: number): Observable<string> {
     return this.http.get<any>(`/api/publikacije/publikacija/${id}/`).pipe(map((v: any) => v.naslov), shareReplay(1));
   }
@@ -43,7 +47,7 @@ export class PublikacijaService {
   }
 
   search(text: string): Observable<any> {
-    return this.http.get(`/api/pretraga/publikacija/?q=${text}`);
+    return this.http.get<any>(`/api/pretraga/publikacija/?q=${text}`);
   }
 
   getPubType(id: number): PubType {

@@ -31,7 +31,7 @@
         <div>
           <button pButton pRipple type="button" label="Додај придев" class="p-button-text" (click)="addDescription(2)"></button>
         </div>
-        <div *ngIf="options.length > 0">
+        <div *ngIf="options?.length > 0">
           <button pButton pRipple type="button" label="Иди на реч" class="p-button-text" (click)="changeDescription()"
                   [disabled]="option == ''"></button>
         </div>

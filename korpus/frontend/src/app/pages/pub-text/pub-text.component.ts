@@ -73,7 +73,7 @@ export class PubTextComponent implements OnInit {
         delete this.pub.autor_set;
         this.publikacijaService.getFragment(this.pubId, this.fragmentNr).subscribe(
           (tekst) => {
-            this.paragraphs = this.split(tekst.tekst);
+            this.paragraphs = this.split(tekst.tagovan_tekst);
           },
           (error) => {
             console.log(error);
@@ -132,6 +132,9 @@ export class PubTextComponent implements OnInit {
             opt.setAttribute('style', 'background: #DAEBF9; font-weight: 800');
             this.span.classList.remove('untagged');
           }
+          console.log(this.join(this.paragraphs));
+          // this.publikacijaService.updateFragment(this.pubId, this.fragmentNr, this.join(this.paragraphs)).subscribe(
+          //   (data) => {}, (error) => console.log(error));
         }
         else
           opt.setAttribute('style', 'background: white; font-weight: initial');
@@ -174,12 +177,16 @@ export class PubTextComponent implements OnInit {
     const retval: SafeHtml[] = [];
     const paras = text.split('\n');
     for (const para of paras) {
-      const words = para.split(' ');
-      const tagged = words.map((word, index) => `<span class="word word${index + 1} untagged">${word}</span>`);
-      const finalText = this.domSanitizer.bypassSecurityTrustHtml(tagged.join(' '));
+      // const words = para.split(' ');
+      // const tagged = words.map((word, index) => `<span class="word word${index + 1} untagged">${word}</span>`);
+      const finalText = this.domSanitizer.bypassSecurityTrustHtml(para);
       retval.push(finalText);
     }
     return retval;
+  }
+
+  join(paras: SafeHtml[]): string {
+    return paras.map((item) => item['changingThisBreaksApplicationSecurity']).join('\n');
   }
 
   movePanel(onShow: boolean): void {
