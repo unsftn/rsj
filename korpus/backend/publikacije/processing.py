@@ -61,12 +61,11 @@ def clean_pdf_file(file_name, operations):
 
 
 def init_tags(page_text):
-    retval = ''
     paras = page_text.split('\n')
     tagged_paras = []
     for para in paras:
         words = para.split()
-        tagged_words = ' '.join([f'<span class="word word{index} untagged">{word}</span>' for index, word in enumerate(words)])
+        tagged_words = ' '.join([f'<span class="word word{index} untagged">{word}</span>' for index, word in enumerate(words) if word])
         tagged_paras.append(tagged_words)
     return '\n'.join(tagged_paras)
 

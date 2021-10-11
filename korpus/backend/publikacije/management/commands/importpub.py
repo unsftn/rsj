@@ -3,7 +3,7 @@ import os
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Max
 from publikacije.models import Publikacija, TekstPublikacije
-from publikacije.processing import OPERATION_DEFINITIONS, clean_pdf_file
+from publikacije.processing import OPERATION_DEFINITIONS, clean_pdf_file, init_tags
 
 log = logging.getLogger(__name__)
 
@@ -23,7 +23,6 @@ class Command(BaseCommand):
         dry_run = options['dry_run']
         ops = options.get('ops')
         operations = []
-        opdef = None
         expected_params = 0
         current_param_run = []
         for arg in ops:
@@ -58,5 +57,6 @@ class Command(BaseCommand):
         else:
             prethodni = TekstPublikacije.objects.filter(publikacija_id=pub_id).aggregate(Max('redni_broj'))['redni_broj__max'] or 0
             for index, page in enumerate(pages):
-                TekstPublikacije.objects.create(publikacija_id=pub_id, redni_broj=prethodni+index+1, tekst=page)
+                TekstPublikacije.objects.create(publikacija_id=pub_id, redni_broj=prethodni+index+1, tekst=page,
+                                                tagovan_tekst=init_tags(page))
             self.stdout.write(f'Import finished, total number of pages: {len(pages)}')
