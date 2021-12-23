@@ -237,7 +237,7 @@ export class PubTextComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  check(checked: boolean): void {
+  check(event: MouseEvent, checked: boolean): void {
     this.checked = checked;
     this.option = '';
     if (this.checked) {
@@ -248,13 +248,16 @@ export class PubTextComponent implements OnInit, OnDestroy {
       this.span.classList.add('untagged');
     }
 
-    // move the upwards panel to the word's location after (un)checking the checkbox
-    if (this.flipped) {
-      setTimeout(() => {
-        this.movePanel(false);
-      }, 0);
-    }
+    this.panel.toggle(event, this.span);
+    // // move the upwards panel to the word's location after (un)checking the checkbox
+    // if (this.flipped) {
+    //   setTimeout(() => {
+    //     this.movePanel(false);
+    //   }, 0);
+    // }
     this.dirty = true;
+    const messageSpan = document.getElementById('save-message');
+    messageSpan.innerHTML = 'Измене у току...';
   }
 
   selectWord(event: MouseEvent, id: number): void {
@@ -262,10 +265,14 @@ export class PubTextComponent implements OnInit, OnDestroy {
     this.clickedWord.classList.remove('untagged');
     this.panel.toggle(event, this.span);
     this.dirty = true;
+    const messageSpan = document.getElementById('save-message');
+    messageSpan.innerHTML = 'Измене у току...';
   }
 
   updateTaggedText(): void {
     if (this.dirty) {
+      const messageSpan = document.getElementById('save-message');
+      messageSpan.innerHTML = 'Снимам измене...';
       const container = document.getElementById('para-container');
       const paragraphs = container.getElementsByTagName<'p'>('p');
       const paras = [].slice.call(paragraphs).map((item) => item.innerHTML);
@@ -274,6 +281,7 @@ export class PubTextComponent implements OnInit, OnDestroy {
         (data) => {
           console.log(data);
           this.dirty = false;
+          messageSpan.innerHTML = 'Измене су сачуване';
         },
         (error) => {
           console.log(error);
