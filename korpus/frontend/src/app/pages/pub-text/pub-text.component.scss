@@ -30,3 +30,15 @@
 .selected-word {
   font-weight: bold;
 }
+
+.save-message {
+  position:absolute;
+  top: 50%;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  padding: 10px 20px;
+  background-color: aliceblue;
+  border-radius: 5px;
+}
