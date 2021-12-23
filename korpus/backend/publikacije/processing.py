@@ -1,4 +1,5 @@
 import re
+import string
 import pdfplumber
 
 
@@ -60,12 +61,18 @@ def clean_pdf_file(file_name, operations):
     return pages
 
 
+def default_status(word):
+    if word == '—':
+        return 'ignore'
+    return 'ignore' if all(ch.isdigit() or ch in string.punctuation for ch in word) else 'untagged'
+
+
 def init_tags(page_text):
     paras = page_text.split('\n')
     tagged_paras = []
     for para in paras:
         words = para.split()
-        tagged_words = ' '.join([f'<span class="word word{index} untagged">{word}</span>' for index, word in enumerate(words) if word])
+        tagged_words = ' '.join([f'<span class="word w{index} {default_status(word)}">{word}</span>' for index, word in enumerate(words) if word])
         tagged_paras.append(tagged_words)
     return '\n'.join(tagged_paras)
 

@@ -226,6 +226,9 @@ app-rendered-odrednice div.odrednica:hover {
   .untagged {
     text-decoration: underline wavy red;
   }
+  .ignore {
+    text-decoration: none;
+  }
   .word {
     cursor: pointer;
     &:hover {

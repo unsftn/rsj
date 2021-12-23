@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PublikacijaService } from '../../services/publikacije/publikacija.service';
 import { SearchService } from '../../services/search/search.service';
+import { OverlayPanel } from 'primeng/overlaypanel';
 
 interface Option {
   word: string;
@@ -16,13 +17,15 @@ interface Option {
   templateUrl: './pub-text.component.html',
   styleUrls: ['./pub-text.component.scss']
 })
-export class PubTextComponent implements OnInit {
+export class PubTextComponent implements OnInit, OnDestroy {
 
   pub: any;
   pubId: number;
   fragmentNr: number;
   title: SafeHtml;
   paragraphs: SafeHtml[];
+  dirty: boolean;
+  saveTimerId: any;
 
   span: HTMLElement;
   optionsCount: number;
@@ -35,6 +38,9 @@ export class PubTextComponent implements OnInit {
   option: string;
   options: Option[];
   wordTypesMap: any;
+  clickedWord: HTMLElement;
+  selectedWordId: number;
+  @ViewChild(OverlayPanel) panel: OverlayPanel;
 
   constructor(
     private route: ActivatedRoute,
@@ -80,6 +86,12 @@ export class PubTextComponent implements OnInit {
           });
       });
     });
+    this.dirty = false;
+    this.saveTimerId = setInterval(() => { this.updateTaggedText(); }, 5000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.saveTimerId);
   }
 
   next(): void {
@@ -96,6 +108,9 @@ export class PubTextComponent implements OnInit {
     this.option = '';
     this.flipped = false;
     if (element.className.startsWith('word')) {
+      this.checked = (element.classList.contains('ignore'));
+      this.selectedWordId = element.getAttribute('data-id') ? +element.getAttribute('data-id') : null;
+      this.clickedWord = element;
       this.span = element;
       this.spanX = element.offsetLeft;
       this.spanY = element.offsetTop;
@@ -115,6 +130,7 @@ export class PubTextComponent implements OnInit {
 
     // panel option selection
     else if (element.className.includes('option ')) {
+      console.log(element);
       this.option = element.textContent;
       const allOptions = document.getElementsByClassName('option');
 
@@ -132,7 +148,7 @@ export class PubTextComponent implements OnInit {
             opt.setAttribute('style', 'background: #DAEBF9; font-weight: 800');
             this.span.classList.remove('untagged');
           }
-          console.log(this.join(this.paragraphs));
+          // console.log(this.join(this.paragraphs));
           // this.publikacijaService.updateFragment(this.pubId, this.fragmentNr, this.join(this.paragraphs)).subscribe(
           //   (data) => {}, (error) => console.log(error));
         }
@@ -140,11 +156,11 @@ export class PubTextComponent implements OnInit {
           opt.setAttribute('style', 'background: white; font-weight: initial');
       }
 
-      setTimeout(() => {
-        const panelDiv = document.querySelector('#panel > div');
-        if (panelDiv && panelDiv.className.includes('flipped'))
-          this.flipped = true;
-      }, 100);
+      // setTimeout(() => {
+      //   const panelDiv = document.querySelector('#panel > div');
+      //   if (panelDiv && panelDiv.className.includes('flipped'))
+      //     this.flipped = true;
+      // }, 100);
     }
 
     // handle a click between the options
@@ -224,16 +240,45 @@ export class PubTextComponent implements OnInit {
   check(checked: boolean): void {
     this.checked = checked;
     this.option = '';
-    if (this.checked)
+    if (this.checked) {
+      this.span.classList.add('ignore');
       this.span.classList.remove('untagged');
-    else
+    } else {
+      this.span.classList.remove('ignore');
       this.span.classList.add('untagged');
+    }
 
     // move the upwards panel to the word's location after (un)checking the checkbox
     if (this.flipped) {
       setTimeout(() => {
         this.movePanel(false);
       }, 0);
+    }
+    this.dirty = true;
+  }
+
+  selectWord(event: MouseEvent, id: number): void {
+    this.clickedWord.setAttribute('data-id', id.toString());
+    this.clickedWord.classList.remove('untagged');
+    this.panel.toggle(event, this.span);
+    this.dirty = true;
+  }
+
+  updateTaggedText(): void {
+    if (this.dirty) {
+      const container = document.getElementById('para-container');
+      const paragraphs = container.getElementsByTagName<'p'>('p');
+      const paras = [].slice.call(paragraphs).map((item) => item.innerHTML);
+      const text = paras.join('\n');
+      this.publikacijaService.updateFragment(this.pubId, this.fragmentNr, text).subscribe(
+        (data) => {
+          console.log(data);
+          this.dirty = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
 

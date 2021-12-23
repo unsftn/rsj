@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="para-container">
   <h2 [innerHTML]="title"></h2>
   <div class="flex justify-content-center align-items-center">
     <button pButton pRipple icon="pi pi-arrow-left" class="p-button-lg p-button-rounded mr-3" (click)="prev()"></button>
@@ -18,8 +18,9 @@
     </div>
     <div class="actions" *ngIf="!checked">
       <div class="options" (click)="click($event)">
-        <div class="option" *ngFor="let option of options; index as i">({{i + 1}}) {{option.word}}
-          - {{option.type}}</div>
+        <div class="option" (click)="selectWord($event, option.id)" *ngFor="let option of options; index as i">
+          <span [class.selected-word]="selectedWordId === option.id">({{i + 1}}) {{option.word}} - {{option.type}}</span>
+        </div>
       </div>
       <div class="links">
         <div>
