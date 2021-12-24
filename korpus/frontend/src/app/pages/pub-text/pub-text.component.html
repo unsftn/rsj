@@ -19,23 +19,23 @@
     </div>
     <div class="actions" *ngIf="!checked">
       <div class="options" (click)="click($event)">
-        <div class="option" (click)="selectWord($event, option.id)" *ngFor="let option of options; index as i">
+        <div class="option" (click)="selectWord($event, option.id, option.type_id)" *ngFor="let option of options; index as i">
           <span [class.selected-word]="selectedWordId === option.id">({{i + 1}}) {{option.word}} - {{option.type}}</span>
         </div>
       </div>
       <div class="links">
         <div>
-          <button pButton pRipple type="button" label="Додај именицу" class="p-button-text" (click)="addDescription(0)"></button>
+          <button pButton pRipple type="button" label="Додај именицу" class="p-button-text" (click)="addLexeme(0)"></button>
         </div>
         <div>
-          <button pButton pRipple type="button" label="Додај глагол" class="p-button-text" (click)="addDescription(1)"></button>
+          <button pButton pRipple type="button" label="Додај глагол" class="p-button-text" (click)="addLexeme(1)"></button>
         </div>
         <div>
-          <button pButton pRipple type="button" label="Додај придев" class="p-button-text" (click)="addDescription(2)"></button>
+          <button pButton pRipple type="button" label="Додај придев" class="p-button-text" (click)="addLexeme(2)"></button>
         </div>
         <div *ngIf="options?.length > 0">
-          <button pButton pRipple type="button" label="Иди на реч" class="p-button-text" (click)="changeDescription()"
-                  [disabled]="option == ''"></button>
+          <button pButton pRipple type="button" label="Иди на реч" class="p-button-text" (click)="editLexeme()"
+                  [disabled]="!selectedWordId"></button>
         </div>
       </div>
     </div>
