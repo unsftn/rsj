@@ -10,6 +10,7 @@ interface Option {
   word: string;
   type: string;
   id: number;
+  type_id: number;
 }
 
 @Component({
@@ -40,6 +41,7 @@ export class PubTextComponent implements OnInit, OnDestroy {
   wordTypesMap: any;
   clickedWord: HTMLElement;
   selectedWordId: number;
+  selectedWordTypeId: number;
   @ViewChild(OverlayPanel) panel: OverlayPanel;
 
   constructor(
@@ -52,17 +54,29 @@ export class PubTextComponent implements OnInit, OnDestroy {
   ) {
     this.pub = {};
     this.paragraphs = [];
+    // this.wordTypesMap = {
+    //   именица: 'imenica',
+    //   глагол: 'glagol',
+    //   придев: 'pridev',
+    //   заменица: 'zamenica',
+    //   број: 'broj',
+    //   прилог: 'prilog',
+    //   предлог: 'predlog',
+    //   узвик: 'uzvik',
+    //   речца: 'recca',
+    //   везник: 'veznik'
+    // };
     this.wordTypesMap = {
-      именица: 'imenica',
-      глагол: 'glagol',
-      придев: 'pridev',
-      заменица: 'zamenica',
-      број: 'broj',
-      прилог: 'prilog',
-      предлог: 'predlog',
-      узвик: 'uzvik',
-      речца: 'recca',
-      везник: 'veznik'
+      0: 'imenica',
+      1: 'glagol',
+      2: 'pridev',
+      3: 'zamenica',
+      4: 'broj',
+      5: 'prilog',
+      6: 'predlog',
+      7: 'uzvik',
+      8: 'recca',
+      9: 'veznik'
     };
     this.option = '';
   }
@@ -80,6 +94,9 @@ export class PubTextComponent implements OnInit, OnDestroy {
         this.publikacijaService.getFragment(this.pubId, this.fragmentNr).subscribe(
           (tekst) => {
             this.paragraphs = this.split(tekst.tagovan_tekst);
+            this.route.queryParams.subscribe((queryParams) => {
+              // TODO: parametri za povratak iz forme za dodavanje nove lekseme
+            });
           },
           (error) => {
             console.log(error);
@@ -110,6 +127,7 @@ export class PubTextComponent implements OnInit, OnDestroy {
     if (element.className.startsWith('word')) {
       this.checked = (element.classList.contains('ignore'));
       this.selectedWordId = element.getAttribute('data-id') ? +element.getAttribute('data-id') : null;
+      this.selectedWordTypeId = element.getAttribute('data-typeid') ? +element.getAttribute('data-typeid') : null;
       this.clickedWord = element;
       this.span = element;
       this.spanX = element.offsetLeft;
@@ -118,7 +136,7 @@ export class PubTextComponent implements OnInit, OnDestroy {
       this.wordLength = this.word.length;
       this.searchService.search(this.word).subscribe(
         (data) => {
-          this.options = data.map((item) => ({word: item.rec, type: item.vrsta_text, id: item.pk}));
+          this.options = data.map((item) => ({word: item.rec, type: item.vrsta_text, type_id: item.vrsta, id: item.pk}));
           setTimeout(() => {
             const panelDiv = document.querySelector('#panel > div');
             if (panelDiv && panelDiv.className.includes('flipped'))
@@ -243,6 +261,8 @@ export class PubTextComponent implements OnInit, OnDestroy {
     if (this.checked) {
       this.span.classList.add('ignore');
       this.span.classList.remove('untagged');
+      this.span.classList.remove('data-id');
+      this.span.classList.remove('data-typeid');
     } else {
       this.span.classList.remove('ignore');
       this.span.classList.add('untagged');
@@ -260,8 +280,9 @@ export class PubTextComponent implements OnInit, OnDestroy {
     messageSpan.innerHTML = 'Измене у току...';
   }
 
-  selectWord(event: MouseEvent, id: number): void {
+  selectWord(event: MouseEvent, id: number, typeid: number): void {
     this.clickedWord.setAttribute('data-id', id.toString());
+    this.clickedWord.setAttribute('data-typeid', typeid.toString());
     this.clickedWord.classList.remove('untagged');
     this.panel.toggle(event, this.span);
     this.dirty = true;
@@ -290,22 +311,27 @@ export class PubTextComponent implements OnInit, OnDestroy {
     }
   }
 
-  addDescription(wordType: number): void {
+  addLexeme(wordType: number): void {
     let url = '/imenica/add';
     switch (wordType) {
       case 1: url = '/glagol/add'; break;
       case 2: url = '/pridev/add'; break;
     }
     const returnUrl = `/publikacija/${this.pubId}/fragment/${this.fragmentNr}`;
+    const word = this.word;
     if (this.option === '')
-      this.router.navigate([url], { queryParams: { returnUrl } });
+      this.router.navigate([url], { queryParams: { returnUrl, word } });
   }
 
-  changeDescription(): void {
-    const word = this.option.split(' - ')[0].split(') ')[1]; // (1) тест - именица => тест
-    const type = this.option.split(' - ')[1]; // (1) тест - именица => именица
-    const id = this.options.find(opt => opt.word === word && opt.type === type).id;
-    this.router.navigate(['/edit/' + this.wordTypesMap[type] + '/' + id]);
+  editLexeme(): void {
+    // const word = this.option.split(' - ')[0].split(') ')[1]; // (1) тест - именица => тест
+    // const type = this.option.split(' - ')[1]; // (1) тест - именица => именица
+    // const id = this.options.find(opt => opt.word === word && opt.type === type).id;
+    const word = this.word;
+    const returnUrl = `/publikacija/${this.pubId}/fragment/${this.fragmentNr}`;
+    const url = '/' + this.wordTypesMap[this.selectedWordTypeId] + '/' + this.selectedWordId.toString();
+    console.log(url);
+    this.router.navigate([url], { queryParams: { returnUrl, word } });
   }
 
 }

@@ -17,6 +17,7 @@ export class ImenicaComponent implements OnInit {
   editMode: boolean;
   vrste: VrstaImenice[];
   returnUrl: string;
+  sourceWord: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,7 +29,12 @@ export class ImenicaComponent implements OnInit {
   ngOnInit(): void {
     this.initNew();
     this.vrste = this.imenicaService.getVrste();
-    this.returnUrl = this.route.snapshot.queryParams.returnUrl;
+    // this.returnUrl = this.route.snapshot.queryParams.returnUrl;
+    // this.sourceWord = this.route.snapshot.queryParams.sourceWord;
+    this.route.queryParams.subscribe((params) => {
+      this.returnUrl = params.returnUrl;
+      this.sourceWord = params.word;
+    });
     this.route.data.subscribe((data) => {
       switch (data.mode) {
         case 'add':

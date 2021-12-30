@@ -1,6 +1,6 @@
 <toolbar (saveClicked)="save()"></toolbar>
 <div class="container">
-  <h3>Именица</h3>
+  <h3>Именица <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
   <div class="tableform">
     <div class="row">
       <div class="cell"><p class="label">Врста</p></div>
