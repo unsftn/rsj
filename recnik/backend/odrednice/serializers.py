@@ -484,6 +484,10 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         if database == 'default':
             IzmenaOdrednice.objects.using(database).create(user_id=user.id, vreme=sada, odrednica=odrednica,
                                                            operacija_izmene_id=operacija_izmene_id)
+            if not odrednica.obradjivac:
+                odrednica.obradjivac = user
+                odrednica.save()
+
         return odrednica
 
     def _make_fake_pub(self, konk, database):
