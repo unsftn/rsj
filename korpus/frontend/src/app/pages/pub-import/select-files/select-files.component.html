@@ -1,14 +1,16 @@
 <div class="container">
-  <div class="row">
-    <div class="col">
+  <div class="flex flex-row flex-wrap card-container">
+    <div class="flex" style="background-color: cyan;">
       <p-timeline [value]="timelineEvents">
         <ng-template pTemplate="content" let-step>
           {{step.operation}}
         </ng-template>
       </p-timeline>
     </div>
-    <div class="col">
-      <h3 [innerHTML]="opis()"></h3>
+    <div class="flex flex-grow-1" style="background-color: yellow;">
+      <div class="card">
+        <h3 [innerHTML]="opis()"></h3>
+      </div>
     </div>
   </div>
 </div>
