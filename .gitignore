@@ -162,4 +162,4 @@ speed-measure-plugin.json
 .vscode/*
 
 media/
-.angular/cache
+**/.angular/cache
