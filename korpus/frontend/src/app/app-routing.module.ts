@@ -9,6 +9,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
 import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 import { PridevComponent } from './pages/reci/pridev/pridev.component';
+import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
+import { SelectFilesComponent } from './pages/pub-import/select-files/select-files.component';
 
 const routes: Routes = [
   {
@@ -72,6 +74,16 @@ const routes: Routes = [
   {
     path: 'publikacija/:pid/fragment/:fid',
     component: PubTextComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'obrada/:pid/korak/:step',
+    component: ProcessStepComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'obrada/:pid/datoteke',
+    component: SelectFilesComponent,
     canActivate: [AuthGuard],
   },
   {

@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-timeline [value]="timelineEvents">
+        <ng-template pTemplate="content" let-step>
+          {{step.operation}}
+        </ng-template>
+      </p-timeline>
+    </div>
+    <div class="col">
+
+    </div>
+  </div>
+</div>

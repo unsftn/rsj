@@ -77,6 +77,8 @@ export class PublikacijaService {
   }
 
   getOpis(pub: any): SafeHtml {
+    if (!pub)
+      return this.domSanitizer.bypassSecurityTrustHtml('');
     let retVal = '';
     for (const autor of pub.autor_set) {
       retVal += autor.prezime + ', ' + autor.ime;

@@ -128,7 +128,6 @@ export class PublicationComponent implements OnInit {
               this.pub.autori = this.pub.autor_set.map((item, index) => ({ index, ime: item.ime, prezime: item.prezime}));
               this.pub.vrsta = this.publikacijaService.getPubType(this.pub.vrsta?.id);
               delete this.pub.autor_set;
-              console.log(this.pub);
             });
           });
           break;

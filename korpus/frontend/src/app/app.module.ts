@@ -22,26 +22,30 @@ import { PasswordModule } from 'primeng/password';
 import { ChartModule } from 'primeng/chart';
 import { RippleModule } from 'primeng/ripple';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { CheckboxModule} from 'primeng/checkbox';
-import { LoginComponent } from './pages/login/login.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
-import { ToolbarComponent } from './pages/toolbar/toolbar.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { TimelineModule } from 'primeng/timeline';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
 import { ErrorInterceptor } from './services/error';
 
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { LoginComponent } from './pages/login/login.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
+import { ToolbarComponent } from './pages/toolbar/toolbar.component';
 import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 import { PridevComponent } from './pages/reci/pridev/pridev.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PubListComponent } from './pages/pub-list/pub-list.component';
+import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
+import { SelectFilesComponent } from './pages/pub-import/select-files/select-files.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProcessStepComponent, SelectFilesComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -69,6 +73,7 @@ import { PubListComponent } from './pages/pub-list/pub-list.component';
     RippleModule,
     OverlayPanelModule,
     CheckboxModule,
+    TimelineModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

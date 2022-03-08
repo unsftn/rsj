@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <p-timeline [value]="timelineEvents">
+        <ng-template pTemplate="content" let-step>
+          {{step.operation}}
+        </ng-template>
+      </p-timeline>
+    </div>
+    <div class="col">
+      <h3 [innerHTML]="opis()"></h3>
+    </div>
+  </div>
+</div>

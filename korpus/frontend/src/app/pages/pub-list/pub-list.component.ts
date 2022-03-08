@@ -53,6 +53,10 @@ export class PubListComponent implements OnInit {
     this.showDeleteWarningDialog = true;
   }
 
+  configure(pub: any): void {
+    this.router.navigate(['/obrada', pub.id, 'datoteke']);
+  }
+
   annotate(pub: any): void {
     this.router.navigate(['/publikacija', pub.id, 'fragment', 1]);
   }
