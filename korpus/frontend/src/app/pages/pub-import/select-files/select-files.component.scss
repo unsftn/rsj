@@ -1,5 +1,15 @@
 .container {
-  margin: 20px 20px 20px;
+  margin: 5px;
   font-family: 'Fira Sans', sans-serif;
-  padding-top: 10px;
+  padding: 0 10px 0 10px;
+}
+
+.w50 {
+  max-width: 50px;
+}
+.w100 {
+  max-width: 100px;
+}
+.wauto {
+  min-width: 50% !important;
 }

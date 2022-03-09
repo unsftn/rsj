@@ -85,7 +85,7 @@ class TekstPublikacije(models.Model):
 
 
 def get_upload_path(instance, filename):
-    return os.path.join('publikacije', str(instance.publikacija.id), str(instance.redni_broj))
+    return os.path.join('publikacije', str(instance.publikacija.id), filename)
 
 
 class FajlPublikacije(models.Model):
@@ -95,6 +95,15 @@ class FajlPublikacije(models.Model):
 
     def __str__(self):
         return str(self.publikacija) + ': ' + str(self.redni_broj)
+
+    def filename(self):
+        return os.path.basename(self.uploaded_file.name)
+
+    def filepath(self):
+        return self.uploaded_file.path
+
+    def url(self):
+        return self.uploaded_file.url
 
     class Meta:
         verbose_name = 'фајл публикације'

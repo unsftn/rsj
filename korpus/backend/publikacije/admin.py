@@ -16,7 +16,13 @@ class TekstPublikacijeAdmin(admin.ModelAdmin):
     list_filter = ['publikacija__naslov']
 
 
+class FajlPublikacijeAdmin(admin.ModelAdmin):
+    list_display = ['publikacija', 'redni_broj', 'filename']
+    list_filter = ['publikacija__naslov']
+
+
 admin.site.register(VrstaPublikacije, VrstaPublikacijeAdmin)
 admin.site.register(Publikacija, PublikacijaAdmin)
 admin.site.register(Autor)
 admin.site.register(TekstPublikacije, TekstPublikacijeAdmin)
+admin.site.register(FajlPublikacije, FajlPublikacijeAdmin)

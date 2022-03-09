@@ -1,16 +1,40 @@
 <div class="container">
-  <div class="flex flex-row flex-wrap card-container">
-    <div class="flex" style="background-color: cyan;">
-      <p-timeline [value]="timelineEvents">
-        <ng-template pTemplate="content" let-step>
-          {{step.operation}}
+  <p-timeline [value]="timelineEvents" layout="horizontal">
+    <ng-template pTemplate="content" let-step>
+      {{step.operation}}
+    </ng-template>
+  </p-timeline>
+  <h3 [innerHTML]="opis()"></h3>
+  <div class="flex flex-row">
+    <div class="flex mr-3">
+      <p-orderList [value]="pubFiles" [dragdrop]="true">
+        <ng-template pTemplate="item" let-pubfile>
+          <div>
+            {{pubfile.filename}}
+          </div>
         </ng-template>
-      </p-timeline>
+      </p-orderList>
     </div>
-    <div class="flex flex-grow-1" style="background-color: yellow;">
-      <div class="card">
-        <h3 [innerHTML]="opis()"></h3>
-      </div>
+    <div class="flex flex-grow-1">
+      <p-fileUpload #fileUpload
+          name="pubfile[]"
+          url="/api/publikacije/upload"
+          chooseLabel="Изабери"
+          uploadLabel="Пошаљи"
+          cancelLabel="Откажи"
+          multiple="true"
+          [style]="{'width': '700px'}"
+        >
+        <ng-template pTemplate="file" let-upload let-i="index" let-c="count">
+          <div class="p-fileupload-row">
+            <div class="p-fileupload-filename">{{upload.name}}</div>
+            <div class="w100">{{formatSize(upload.size)}}</div>
+            <div class="w50">
+              <button type="button" icon="pi pi-times" pButton (click)="remove($event,i)" [disabled]="fileUpload.uploading"></button>
+            </div>
+          </div>
+        </ng-template>
+      </p-fileUpload>
     </div>
   </div>
 </div>

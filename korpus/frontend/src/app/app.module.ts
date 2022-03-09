@@ -24,6 +24,9 @@ import { RippleModule } from 'primeng/ripple';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TimelineModule } from 'primeng/timeline';
+import { CardModule } from 'primeng/card';
+import { OrderListModule } from 'primeng/orderlist';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
@@ -74,6 +77,9 @@ import { SelectFilesComponent } from './pages/pub-import/select-files/select-fil
     OverlayPanelModule,
     CheckboxModule,
     TimelineModule,
+    CardModule,
+    OrderListModule,
+    FileUploadModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
