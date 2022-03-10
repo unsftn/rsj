@@ -82,8 +82,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'obrada/:pid/datoteke',
-    component: SelectFilesComponent,
+    path: 'import/:pid',
+    // component: SelectFilesComponent,
+    loadChildren: () => import('./pages/pub-import/importer.module').then((m) => m.ImporterModule),
     canActivate: [AuthGuard],
   },
   {

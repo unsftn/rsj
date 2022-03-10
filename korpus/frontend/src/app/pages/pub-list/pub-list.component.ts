@@ -54,7 +54,7 @@ export class PubListComponent implements OnInit {
   }
 
   configure(pub: any): void {
-    this.router.navigate(['/obrada', pub.id, 'datoteke']);
+    this.router.navigate(['/import', pub.id, 'datoteke']);
   }
 
   annotate(pub: any): void {

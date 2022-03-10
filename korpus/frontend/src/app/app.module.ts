@@ -44,11 +44,10 @@ import { PridevComponent } from './pages/reci/pridev/pridev.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PubListComponent } from './pages/pub-list/pub-list.component';
-import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
-import { SelectFilesComponent } from './pages/pub-import/select-files/select-files.component';
+import { ImporterModule } from './pages/pub-import/importer.module';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProcessStepComponent, SelectFilesComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -80,6 +79,7 @@ import { SelectFilesComponent } from './pages/pub-import/select-files/select-fil
     CardModule,
     OrderListModule,
     FileUploadModule,
+    ImporterModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
