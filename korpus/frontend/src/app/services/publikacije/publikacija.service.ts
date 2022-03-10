@@ -98,4 +98,22 @@ export class PublikacijaService {
     }
     return this.domSanitizer.bypassSecurityTrustHtml(retVal);
   }
+
+  uploadFile(pubId: number, file): Observable<any> {
+    const formData = new FormData();
+    formData.append(file.name, file);
+    return this.http.post<any>(`/api/publikacije/save/pubfile/${pubId}/`, formData);
+  }
+
+  uploadFiles(pubId: number, files: any[]): Observable<any> {
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append(file.name, file);
+    }
+    return this.http.post<any>(`/api/publikacije/save/pubfile/${pubId}/`, formData);
+  }
+
+  deleteFiles(pubId: number, fileIds: number[]): Observable<any> {
+    return this.http.post<any>(`/api/publikacije/delete/pubfile/${pubId}/`, fileIds);
+  }
 }

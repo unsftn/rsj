@@ -16,6 +16,7 @@ export class SelectFilesComponent implements OnInit {
   timelineEvents: any[];
   pub: any;
   pubFiles: any[];
+  selectedPubFile: any;
   @ViewChild(FileUpload) fileUpload: FileUpload;
 
   constructor(
@@ -29,16 +30,17 @@ export class SelectFilesComponent implements OnInit {
   fetchData(): void {
     this.publikacijaService.get(this.id).subscribe((value) => {
       this.pub = value;
+      this.id = value.id;
       this.pubFiles = this.pub.fajlpublikacije_set;
-      console.log(value);
+      console.log(this.pub);
     });
   }
 
   ngOnInit(): void {
     this.timelineEvents = [
-      {operation: 'Датотеке', icon: PrimeIcons.FILE_PDF, color: '#9C27B0'},
-      {operation: 'Обрада', icon: PrimeIcons.FILTER, color: '#9C27B0'},
-      {operation: 'Завршетак', icon: PrimeIcons.CHECK, color: '#9C27B0'},
+      {operation: 'Датотеке', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
+      {operation: 'Обрада', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
+      {operation: 'Завршетак', icon: PrimeIcons.CHECK, color: '#9C27B0', active: false},
     ];
     this.route.params.subscribe((params) => {
       this.id = +params.pid;
@@ -66,6 +68,34 @@ export class SelectFilesComponent implements OnInit {
     this.fileUpload.clearInputElement();
     this.fileUpload.onRemove.emit({originalEvent: event, file: this.fileUpload.files[index]});
     this.fileUpload.files.splice(index, 1);
+  }
+
+  next(): void {
+
+  }
+
+  delete(): void {
+    if (this.selectedPubFile.length > 0) {
+      const fileIds = this.selectedPubFile.map((item) => item.id);
+      console.log(fileIds);
+      this.publikacijaService.deleteFiles(this.id, fileIds).subscribe({
+        next: (res) => {
+          this.fetchData();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    }
+  }
+
+  uploadHandler(event): void {
+    this.publikacijaService.uploadFiles(this.id, event.files).subscribe((res) => {
+      this.fileUpload.clear();
+      this.fetchData();
+    }, (error) => {
+      console.log(error);
+    });
   }
 
 }

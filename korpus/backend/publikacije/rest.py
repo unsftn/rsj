@@ -1,5 +1,7 @@
 from rest_framework import generics, permissions, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, parser_classes
+from rest_framework.exceptions import NotFound
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
@@ -153,3 +155,36 @@ def api_tekst(request, pid, fid):
             return Response({'error': 'text not found'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
         except UnicodeDecodeError:
             return Response({'error': 'unicode decoding failed'}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST'])
+@parser_classes([MultiPartParser, FormParser, JSONParser])
+def api_add_files_to_pub(request, pub_id):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        file_count = FajlPublikacije.objects.filter(publikacija=publikacija).count()
+        redni_broj = file_count + 1
+        for item in request.FILES:
+            file = request.FILES[item]
+            FajlPublikacije.objects.create(
+                publikacija=publikacija,
+                redni_broj=redni_broj,
+                uploaded_file=file)
+            redni_broj += 1
+        return Response({}, status=status.HTTP_201_CREATED, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+
+
+@api_view(['POST'])
+def api_remove_files_from_pub(request, pub_id):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        file_ids = request.data
+        if file_ids:
+            FajlPublikacije.objects.filter(id__in=file_ids).delete()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+    except FajlPublikacije.DoesNotExist:
+        raise NotFound()
