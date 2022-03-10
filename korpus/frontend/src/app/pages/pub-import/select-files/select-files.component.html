@@ -1,53 +1,33 @@
-<p-toolbar>
-  <div class="p-toolbar-group-left">
+<div class="flex flex-row">
+  <div class="flex mr-3">
+    <p-orderList [value]="pubFiles" [(selection)]="selectedPubFile">
+      <ng-template pTemplate="item" let-pubfile>
+        <div pDraggable="fileitem">{{pubfile.filename}}</div>
+      </ng-template>
+    </p-orderList>
   </div>
-  <div class="p-toolbar-group-right">
-    <p-button label="Даље" (click)="next()" icon="pi pi-angle-double-right" class="p-ml-2"></p-button>
-  </div>
-</p-toolbar>
-<div class="container">
-  <p-timeline [value]="timelineEvents" layout="horizontal">
-    <ng-template pTemplate="marker" let-step>
-      <div *ngIf="step.active" class="active-timeline-marker"></div>
-      <div *ngIf="!step.active" class="p-timeline-event-marker"></div>
-    </ng-template>
-    <ng-template pTemplate="content" let-step>
-      <span *ngIf="step.active"><b>{{step.operation}}</b></span>
-      <span *ngIf="!step.active">{{step.operation}}</span>
-    </ng-template>
-  </p-timeline>
-  <h3 [innerHTML]="opis()"></h3>
-  <div class="flex flex-row">
-    <div class="flex mr-3">
-      <p-orderList [value]="pubFiles" [(selection)]="selectedPubFile">
-        <ng-template pTemplate="item" let-pubfile>
-          <div pDraggable="fileitem">{{pubfile.filename}}</div>
-        </ng-template>
-      </p-orderList>
-    </div>
-    <div class="flex flex-grow-1">
-      <p-fileUpload #fileUpload
-          name="pubfiles[]"
-          chooseLabel="Изабери"
-          uploadLabel="Пошаљи"
-          cancelLabel="Откажи"
-          multiple="true"
-          [style]="{'width': '700px'}"
-          customUpload="true"
-          (uploadHandler)="uploadHandler($event)">
-        <ng-template pTemplate="file" let-upload let-i="index" let-c="count">
-          <div class="p-fileupload-row">
-            <div class="p-fileupload-filename">{{upload.name}}</div>
-            <div class="w100">{{formatSize(upload.size)}}</div>
-            <div class="w50">
-              <button type="button" icon="pi pi-times" pButton (click)="remove($event,i)" [disabled]="fileUpload.uploading"></button>
-            </div>
+  <div class="flex flex-grow-1">
+    <p-fileUpload #fileUpload
+        name="pubfiles[]"
+        chooseLabel="Изабери"
+        uploadLabel="Пошаљи"
+        cancelLabel="Откажи"
+        multiple="true"
+        [style]="{'width': '700px'}"
+        customUpload="true"
+        (uploadHandler)="uploadHandler($event)">
+      <ng-template pTemplate="file" let-upload let-i="index" let-c="count">
+        <div class="p-fileupload-row">
+          <div class="p-fileupload-filename">{{upload.name}}</div>
+          <div class="w100">{{formatSize(upload.size)}}</div>
+          <div class="w50">
+            <button type="button" icon="pi pi-times" pButton (click)="remove($event,i)" [disabled]="fileUpload.uploading"></button>
           </div>
-        </ng-template>
-      </p-fileUpload>
-    </div>
+        </div>
+      </ng-template>
+    </p-fileUpload>
   </div>
-  <div class="ml-3">
-    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-danger" (click)="delete()"></button>
-  </div>
+</div>
+<div class="ml-3">
+  <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-danger" (click)="delete()"></button>
 </div>

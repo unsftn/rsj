@@ -1,0 +1,21 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <span [innerHTML]="opis()"></span>
+  </div>
+  <div class="p-toolbar-group-right">
+    <p-button label="Даље" (click)="next()" icon="pi pi-angle-double-right" class="p-ml-2"></p-button>
+  </div>
+</p-toolbar>
+<div class="container">
+  <p-timeline [value]="timelineEvents" layout="horizontal">
+    <ng-template pTemplate="marker" let-step>
+      <div *ngIf="step.active" class="active-timeline-marker"></div>
+      <div *ngIf="!step.active" class="p-timeline-event-marker"></div>
+    </ng-template>
+    <ng-template pTemplate="content" let-step>
+      <span *ngIf="step.active"><b>{{step.operation}}</b></span>
+      <span *ngIf="!step.active">{{step.operation}}</span>
+    </ng-template>
+  </p-timeline>
+  <router-outlet></router-outlet>
+</div>

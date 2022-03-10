@@ -13,7 +13,6 @@ import { FileUpload } from 'primeng/fileupload';
 export class SelectFilesComponent implements OnInit {
 
   id: number;
-  timelineEvents: any[];
   pub: any;
   pubFiles: any[];
   selectedPubFile: any;
@@ -32,24 +31,14 @@ export class SelectFilesComponent implements OnInit {
       this.pub = value;
       this.id = value.id;
       this.pubFiles = this.pub.fajlpublikacije_set;
-      console.log(this.pub);
     });
   }
 
   ngOnInit(): void {
-    this.timelineEvents = [
-      {operation: 'Датотеке', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
-      {operation: 'Обрада', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
-      {operation: 'Завршетак', icon: PrimeIcons.CHECK, color: '#9C27B0', active: false},
-    ];
-    this.route.params.subscribe((params) => {
+    this.route.pathFromRoot[2].params.subscribe((params) => {
       this.id = +params.pid;
       this.fetchData();
     });
-  }
-
-  opis(): SafeHtml {
-    return this.publikacijaService.getOpis(this.pub);
   }
 
   formatSize(bytes): string {
@@ -60,7 +49,6 @@ export class SelectFilesComponent implements OnInit {
     const dm = 3;
     const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
@@ -70,14 +58,9 @@ export class SelectFilesComponent implements OnInit {
     this.fileUpload.files.splice(index, 1);
   }
 
-  next(): void {
-
-  }
-
   delete(): void {
     if (this.selectedPubFile.length > 0) {
       const fileIds = this.selectedPubFile.map((item) => item.id);
-      console.log(fileIds);
       this.publikacijaService.deleteFiles(this.id, fileIds).subscribe({
         next: (res) => {
           this.fetchData();
