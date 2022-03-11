@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, PrimeIcons } from 'primeng/api';
@@ -16,6 +16,7 @@ export class SelectFilesComponent implements OnInit {
   pub: any;
   pubFiles: any[];
   selectedPubFile: any;
+
   @ViewChild(FileUpload) fileUpload: FileUpload;
 
   constructor(
@@ -31,10 +32,12 @@ export class SelectFilesComponent implements OnInit {
       this.pub = value;
       this.id = value.id;
       this.pubFiles = this.pub.fajlpublikacije_set;
+      console.log(value);
     });
   }
 
   ngOnInit(): void {
+    this.publikacijaService.changed = false;
     this.route.pathFromRoot[2].params.subscribe((params) => {
       this.id = +params.pid;
       this.fetchData();
@@ -69,16 +72,32 @@ export class SelectFilesComponent implements OnInit {
           console.log(error);
         }
       });
+      this.publikacijaService.changed = true;
     }
   }
 
-  uploadHandler(event): void {
+  reorder(event): void {
+    for (let i = 0; i < this.pubFiles.length; i++) {
+      this.pubFiles[i].redni_broj = i + 1;
+    }
+    const fileIds = this.pubFiles.map((item) => item.id);
+    this.publikacijaService.reorderFiles(this.id, fileIds).subscribe({
+      next: (res) => {
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    this.publikacijaService.changed = true;
+  }
+
+  upload(event): void {
     this.publikacijaService.uploadFiles(this.id, event.files).subscribe((res) => {
       this.fileUpload.clear();
       this.fetchData();
+      this.publikacijaService.changed = true;
     }, (error) => {
       console.log(error);
     });
   }
-
 }

@@ -108,3 +108,4 @@ class FajlPublikacije(models.Model):
     class Meta:
         verbose_name = 'фајл публикације'
         verbose_name_plural = 'фајлови публикација'
+        ordering = ['redni_broj']

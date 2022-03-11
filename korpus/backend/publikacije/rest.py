@@ -188,3 +188,19 @@ def api_remove_files_from_pub(request, pub_id):
         raise NotFound()
     except FajlPublikacije.DoesNotExist:
         raise NotFound()
+
+
+@api_view(['POST'])
+def api_reorder_files(request, pub_id):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        ordered_ids = request.data
+        for index, oid in enumerate(ordered_ids):
+            fp = FajlPublikacije.objects.get(id=oid)
+            fp.redni_broj = index + 1
+            fp.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+    except FajlPublikacije.DoesNotExist:
+        raise NotFound()

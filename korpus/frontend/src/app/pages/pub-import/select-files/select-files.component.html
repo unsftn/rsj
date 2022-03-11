@@ -1,6 +1,6 @@
 <div class="flex flex-row">
   <div class="flex mr-3">
-    <p-orderList [value]="pubFiles" [(selection)]="selectedPubFile">
+    <p-orderList [value]="pubFiles" [(selection)]="selectedPubFile" (onReorder)="reorder($event)">
       <ng-template pTemplate="item" let-pubfile>
         <div pDraggable="fileitem">{{pubfile.filename}}</div>
       </ng-template>
@@ -15,7 +15,7 @@
         multiple="true"
         [style]="{'width': '700px'}"
         customUpload="true"
-        (uploadHandler)="uploadHandler($event)">
+        (uploadHandler)="upload($event)">
       <ng-template pTemplate="file" let-upload let-i="index" let-c="count">
         <div class="p-fileupload-row">
           <div class="p-fileupload-filename">{{upload.name}}</div>

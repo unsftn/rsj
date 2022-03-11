@@ -12,11 +12,21 @@ export class PublikacijaService {
 
   pubTypeCache: { [key: number]: PubType; } = {};
   pubTypeList: PubType[] = [];
+  // tslint:disable-next-line:variable-name
+  private _changed: boolean;
 
   constructor(
     private http: HttpClient,
     private domSanitizer: DomSanitizer,
   ) {}
+
+  public get changed(): boolean {
+    return this._changed;
+  }
+
+  public set changed(changed: boolean) {
+    this._changed = changed;
+  }
 
   get(id: number): Observable<any> {
     return this.http.get<any>(`/api/publikacije/publikacija/${id}/`);
@@ -115,5 +125,9 @@ export class PublikacijaService {
 
   deleteFiles(pubId: number, fileIds: number[]): Observable<any> {
     return this.http.post<any>(`/api/publikacije/delete/pubfile/${pubId}/`, fileIds);
+  }
+
+  reorderFiles(pubId: number, fileIds: number[]): Observable<any> {
+    return this.http.post<any>(`/api/publikacije/reorder/pubfile/${pubId}/`, fileIds);
   }
 }

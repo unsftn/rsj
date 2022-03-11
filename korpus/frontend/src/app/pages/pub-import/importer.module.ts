@@ -5,9 +5,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { OrderListModule } from 'primeng/orderlist';
 import { TimelineModule } from 'primeng/timeline';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MainImportComponent } from './main-import/main-import.component';
 import { SelectFilesComponent } from './select-files/select-files.component';
 import { ProcessStepComponent } from './process-step/process-step.component';
-import { MainImportComponent } from './main-import/main-import.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
     OrderListModule,
     TimelineModule,
     ToolbarModule,
+    ConfirmDialogModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

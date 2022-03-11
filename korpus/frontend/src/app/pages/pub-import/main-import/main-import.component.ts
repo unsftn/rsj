@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService, PrimeIcons } from 'primeng/api';
+import { ConfirmationService, MessageService, PrimeIcons } from 'primeng/api';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
 import { SafeHtml } from '@angular/platform-browser';
 
@@ -20,6 +20,7 @@ export class MainImportComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private messageService: MessageService,
+      private confirmationService: ConfirmationService,
       private publikacijaService: PublikacijaService,
   ) { }
 
@@ -49,7 +50,29 @@ export class MainImportComponent implements OnInit {
   }
 
   next(): void {
+    if (this.changed()) {
+      this.confirmationService.confirm({
+        message: 'Направљене су измене у подацима. Да ли желите да наставите?',
+        accept: () => {
+          switch (this.activeStep) {
+            case 0:
+              this.router.navigate(['/import', this.id, ]);
+          }
+        }
+      });
+    }
+  }
 
+  nextStep(): void {
+    const currentStep = this.activeStep++;
+    switch (currentStep) {
+      case 0:
+        this.router.navigate(['/import', this.id, 'extract']);
+    }
+  }
+
+  changed(): boolean {
+    return this.publikacijaService.changed;
   }
 
   markActiveStep(): void {

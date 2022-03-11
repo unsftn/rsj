@@ -23,6 +23,7 @@ urlpatterns = [
     path('save/pubfile/<int:pub_id>/', api_add_files_to_pub),
     path('save/text/', api_create_text),
     path('delete/pubfile/<int:pub_id>/', api_remove_files_from_pub),
+    path('reorder/pubfile/<int:pub_id>/', api_reorder_files),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
