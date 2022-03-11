@@ -33,7 +33,6 @@ export class SelectFilesComponent implements OnInit {
       this.pub = value;
       this.id = value.id;
       this.pubFiles = this.pub.fajlpublikacije_set;
-      console.log(value);
     });
   }
 

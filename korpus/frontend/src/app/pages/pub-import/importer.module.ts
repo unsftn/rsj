@@ -6,11 +6,13 @@ import { OrderListModule } from 'primeng/orderlist';
 import { TimelineModule } from 'primeng/timeline';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { TableModule } from 'primeng/table';
 import { MainImportComponent } from './main-import/main-import.component';
 import { SelectFilesComponent } from './select-files/select-files.component';
 import { ProcessStepComponent } from './process-step/process-step.component';
 import { ExtractionComponent } from './extraction/extraction.component';
-import { ConfirmationService } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
 
 const routes: Routes = [
   {
@@ -41,6 +43,8 @@ const routes: Routes = [
     TimelineModule,
     ToolbarModule,
     ConfirmDialogModule,
+    TableModule,
+    TagModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

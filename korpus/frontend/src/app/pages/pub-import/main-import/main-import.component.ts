@@ -30,6 +30,7 @@ export class MainImportComponent implements OnInit {
     this.timelineEvents = [
       {operation: 'Датотеке', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
       {operation: 'Екстракција', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
+      {operation: 'Филтери', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
       {operation: 'Завршетак', icon: PrimeIcons.CHECK, color: '#9C27B0', active: false},
     ];
     this.markActiveStep();
@@ -73,6 +74,7 @@ export class MainImportComponent implements OnInit {
 
   nextStep(): void {
     const currentStep = this.activeStep++;
+    this.markActiveStep();
     switch (currentStep) {
       case 0:
         this.router.navigate(['/import', this.id, 'ekstrakcija']);
@@ -88,7 +90,6 @@ export class MainImportComponent implements OnInit {
   }
 
   markActiveStep(): void {
-    console.log(this.activeStep);
     for (let i = 0; i < this.timelineEvents.length; i++)
       this.timelineEvents[i].active = i === this.activeStep;
   }

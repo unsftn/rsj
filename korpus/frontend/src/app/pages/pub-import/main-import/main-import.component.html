@@ -7,7 +7,7 @@
   </div>
 </p-toolbar>
 <div class="container">
-  <p-timeline [value]="timelineEvents" layout="horizontal">
+  <p-timeline [value]="timelineEvents" layout="horizontal" align="bottom">
     <ng-template pTemplate="marker" let-step>
       <div *ngIf="step.active" class="active-timeline-marker"></div>
       <div *ngIf="!step.active" class="p-timeline-event-marker"></div>
