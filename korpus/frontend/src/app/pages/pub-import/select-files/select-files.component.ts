@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { SafeHtml } from '@angular/platform-browser';
+import { SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService, PrimeIcons } from 'primeng/api';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
@@ -23,6 +23,7 @@ export class SelectFilesComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private messageService: MessageService,
+      private titleService: Title,
       private publikacijaService: PublikacijaService,
   ) {
   }
@@ -41,6 +42,9 @@ export class SelectFilesComponent implements OnInit {
     this.route.pathFromRoot[2].params.subscribe((params) => {
       this.id = +params.pid;
       this.fetchData();
+    });
+    this.route.data.subscribe((data) => {
+      this.titleService.setTitle(data.title);
     });
   }
 

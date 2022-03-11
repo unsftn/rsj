@@ -9,6 +9,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MainImportComponent } from './main-import/main-import.component';
 import { SelectFilesComponent } from './select-files/select-files.component';
 import { ProcessStepComponent } from './process-step/process-step.component';
+import { ExtractionComponent } from './extraction/extraction.component';
+import { ConfirmationService } from 'primeng/api';
 
 const routes: Routes = [
   {
@@ -22,12 +24,16 @@ const routes: Routes = [
       path: 'datoteke',
       component: SelectFilesComponent,
       data: { title: 'Избор датотека' }
+    }, {
+      path: 'ekstrakcija',
+      component: ExtractionComponent,
+      data: { title: 'Издвајање текста' }
     }]
   }
 ];
 
 @NgModule({
-  declarations: [SelectFilesComponent, ProcessStepComponent, MainImportComponent],
+  declarations: [SelectFilesComponent, ProcessStepComponent, MainImportComponent, ExtractionComponent],
   imports: [
     CommonModule,
     FileUploadModule,
@@ -38,6 +44,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
+  providers: [ConfirmationService],
   bootstrap: [MainImportComponent]
 })
 export class ImporterModule { }

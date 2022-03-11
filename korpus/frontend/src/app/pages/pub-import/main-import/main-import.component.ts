@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, MessageService, PrimeIcons } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, MessageService, PrimeIcons } from 'primeng/api';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
-import { SafeHtml } from '@angular/platform-browser';
+import { SafeHtml, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main-import',
@@ -22,7 +22,9 @@ export class MainImportComponent implements OnInit {
       private messageService: MessageService,
       private confirmationService: ConfirmationService,
       private publikacijaService: PublikacijaService,
-  ) { }
+  ) {
+    this.activeStep = 0;
+  }
 
   ngOnInit(): void {
     this.timelineEvents = [
@@ -30,7 +32,6 @@ export class MainImportComponent implements OnInit {
       {operation: 'Екстракција', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
       {operation: 'Завршетак', icon: PrimeIcons.CHECK, color: '#9C27B0', active: false},
     ];
-    this.activeStep = 0;
     this.markActiveStep();
     this.route.params.subscribe((params) => {
       this.id = +params.pid;
@@ -54,12 +55,19 @@ export class MainImportComponent implements OnInit {
       this.confirmationService.confirm({
         message: 'Направљене су измене у подацима. Да ли желите да наставите?',
         accept: () => {
-          switch (this.activeStep) {
-            case 0:
-              this.router.navigate(['/import', this.id, ]);
+          this.nextStep();
+        },
+        reject: (type) => {
+          switch (type) {
+            case ConfirmEventType.CANCEL:
+              break;
+            case ConfirmEventType.REJECT:
+              break;
           }
         }
       });
+    } else {
+      this.nextStep();
     }
   }
 
@@ -67,7 +75,11 @@ export class MainImportComponent implements OnInit {
     const currentStep = this.activeStep++;
     switch (currentStep) {
       case 0:
-        this.router.navigate(['/import', this.id, 'extract']);
+        this.router.navigate(['/import', this.id, 'ekstrakcija']);
+        break;
+      default:
+        this.router.navigate(['/publikacije']);
+        break;
     }
   }
 
@@ -76,6 +88,7 @@ export class MainImportComponent implements OnInit {
   }
 
   markActiveStep(): void {
+    console.log(this.activeStep);
     for (let i = 0; i < this.timelineEvents.length; i++)
       this.timelineEvents[i].active = i === this.activeStep;
   }
