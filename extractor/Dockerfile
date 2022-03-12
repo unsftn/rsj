@@ -8,4 +8,5 @@ RUN mvn clean package spring-boot:repackage -B -Dorg.slf4j.simpleLogger.log.org.
 
 FROM openjdk:8
 COPY --from=MAVEN_BUILD /app/target/extractor.jar /extractor.jar
+EXPOSE 8090
 CMD ["java", "-jar", "/extractor.jar"]
