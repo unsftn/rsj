@@ -49,7 +49,6 @@ export class ExtractionComponent implements OnInit {
         item.severity = 'info';
         return item;
       });
-      console.log(this.pubFiles);
     });
   }
 

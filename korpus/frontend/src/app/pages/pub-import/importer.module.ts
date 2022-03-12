@@ -13,6 +13,7 @@ import { SelectFilesComponent } from './select-files/select-files.component';
 import { ProcessStepComponent } from './process-step/process-step.component';
 import { ExtractionComponent } from './extraction/extraction.component';
 import { TagModule } from 'primeng/tag';
+import { PreviewComponent } from './preview/preview.component';
 
 const routes: Routes = [
   {
@@ -35,7 +36,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SelectFilesComponent, ProcessStepComponent, MainImportComponent, ExtractionComponent],
+  declarations: [SelectFilesComponent, ProcessStepComponent, MainImportComponent, ExtractionComponent, PreviewComponent],
   imports: [
     CommonModule,
     FileUploadModule,

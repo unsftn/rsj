@@ -1,0 +1,9 @@
+<div class="container" id="para-container">
+  <div class="flex justify-content-center align-items-center" style="position:relative;">
+    <p-button icon="pi pi-arrow-left" class="p-button-lg p-button-rounded mr-3" (click)="prev()"></p-button>
+    <h2>{{fragmentNr}}</h2>
+    <p-button icon="pi pi-arrow-right" class="p-button-lg p-button-rounded ml-3" (click)="next()"></p-button>
+  </div>
+  <p *ngFor="let para of paragraphs" [innerHTML]="para" class="tagged-text" (click)="click($event); panel.toggle($event, span)"></p>
+</div>
+
