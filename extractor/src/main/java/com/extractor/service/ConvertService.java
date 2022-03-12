@@ -47,13 +47,4 @@ public class ConvertService {
         }
         return null;
     }
-
-    public byte[] multipartFileToByteArray(MultipartFile file) {
-        try {
-            return file.getBytes();
-        } catch (Exception e) {
-            logger.error("multipartFileToByteArray: Could not get byte array from MultiPartFile", e);
-        }
-        return null;
-    }
 }

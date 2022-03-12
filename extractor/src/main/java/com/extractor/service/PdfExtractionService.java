@@ -21,12 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class PdfExtractionService {
 
     @Autowired
-    ConvertService convertService;
+    UtilService utilService;
 
     static final Logger logger = LoggerFactory.getLogger(ConvertService.class);
 
     public PDF extract(MultipartFile multipartFile) {
-        byte[] bytes = convertService.multipartFileToByteArray(multipartFile);
+        byte[] bytes = utilService.multipartFileToByteArray(multipartFile);
         PDDocument document = getPDDocumentFromByteArray(bytes);
         PDF pdf = new PDF();
         addText(document, pdf);

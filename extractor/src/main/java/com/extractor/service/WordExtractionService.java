@@ -22,10 +22,13 @@ public class WordExtractionService {
     @Autowired
     ConvertService convertService;
 
+    @Autowired
+    UtilService utilService;
+
     static final Logger logger = LoggerFactory.getLogger(ConvertService.class);
 
     public PDF extract(MultipartFile multipartFile) {
-        byte[] bytes = convertService.multipartFileToByteArray(multipartFile);
+        byte[] bytes = utilService.multipartFileToByteArray(multipartFile);
         PDF pdf = new PDF();
         XWPFDocument wordDocument = getXWPFDocumentFromByteArray(bytes);
         PDDocument pdfDocument = convertService.wordToPDF(multipartFile);
