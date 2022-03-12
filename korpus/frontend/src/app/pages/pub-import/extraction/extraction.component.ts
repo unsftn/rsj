@@ -56,21 +56,37 @@ export class ExtractionComponent implements OnInit {
     if (this.pubFiles.length > 0) {
       this.running = true;
       this.activeIndex = 0;
-      this.process();
+      this.publikacijaService.deleteTextsForPub(this.id).subscribe({
+        next: () => {
+          this.process();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
     }
   }
 
   process(): void {
     if (this.activeIndex >= this.pubFiles.length) {
-      this.running = false;
+      // this.running = false;
       return;
     }
     this.moveStatus(this.pubFiles[this.activeIndex]);
     switch (this.pubFiles[this.activeIndex].status) {
       case 'у обради':
-        setTimeout(() => {
-          this.process();
-        }, 3000);
+        this.publikacijaService.extractTextFromFile(this.id, this.pubFiles[this.activeIndex].id).subscribe({
+          next: (res) => {
+            this.process();
+          },
+          error: (error) => {
+            console.log(error);
+            this.pubFiles[this.activeIndex].status = 'грешка';
+            this.pubFiles[this.activeIndex].severity = 'error';
+            this.activeIndex++;
+            this.process();
+          }
+        });
         break;
       case 'завршен':
         this.activeIndex++;
@@ -89,6 +105,10 @@ export class ExtractionComponent implements OnInit {
         pubFile.severity = 'success';
         break;
       case 'завршен':
+        pubFile.status = 'спремна';
+        pubFile.severity = 'info';
+        break;
+      case 'грешка':
         pubFile.status = 'спремна';
         pubFile.severity = 'info';
         break;

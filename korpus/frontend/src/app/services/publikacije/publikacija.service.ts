@@ -130,4 +130,12 @@ export class PublikacijaService {
   reorderFiles(pubId: number, fileIds: number[]): Observable<any> {
     return this.http.post<any>(`/api/publikacije/reorder/pubfile/${pubId}/`, fileIds);
   }
+
+  deleteTextsForPub(pubId: number): Observable<any> {
+    return this.http.delete<any>(`/api/publikacije/delete/text/${pubId}/`);
+  }
+
+  extractTextFromFile(pubId: number, fileId: number): Observable<any> {
+    return this.http.put<any>(`/api/publikacije/extract/${pubId}/file/${fileId}/`, {});
+  }
 }

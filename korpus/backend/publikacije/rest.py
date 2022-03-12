@@ -1,3 +1,4 @@
+from django.db.models import Max
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import NotFound
@@ -6,6 +7,8 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
+from .extractor import extract_file
+from .processing import clean_pdf_file
 
 
 class VrstaPublikacijeList(generics.ListAPIView):
@@ -199,6 +202,42 @@ def api_reorder_files(request, pub_id):
             fp = FajlPublikacije.objects.get(id=oid)
             fp.redni_broj = index + 1
             fp.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+    except FajlPublikacije.DoesNotExist:
+        raise NotFound()
+
+
+@api_view(['DELETE'])
+def api_delete_texts_for_pub(request, pub_id):
+    try:
+        Publikacija.objects.get(id=pub_id)
+        TekstPublikacije.objects.filter(publikacija_id=pub_id).delete()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+
+
+@api_view(['PUT'])
+def api_extract_text_from_file(request, pub_id, file_id):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        fajl_publikacije = FajlPublikacije.objects.get(id=file_id)
+        filepath = fajl_publikacije.filepath()
+        if filepath.lower().endswith('.pdf'):
+            pages = clean_pdf_file(filepath, [])
+        else:
+            extract = extract_file(fajl_publikacije)
+            pages = [page['text'] for page in extract['pages']]
+        prethodni = TekstPublikacije.objects.filter(publikacija_id=pub_id).aggregate(Max('redni_broj'))[
+                        'redni_broj__max'] or 0
+        for index, page in enumerate(pages):
+            TekstPublikacije.objects.create(
+                publikacija_id=pub_id,
+                redni_broj=prethodni + index + 1,
+                tekst=page,
+                tagovan_tekst='')
         return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     except Publikacija.DoesNotExist:
         raise NotFound()

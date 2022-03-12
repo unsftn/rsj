@@ -24,6 +24,8 @@ urlpatterns = [
     path('save/text/', api_create_text),
     path('delete/pubfile/<int:pub_id>/', api_remove_files_from_pub),
     path('reorder/pubfile/<int:pub_id>/', api_reorder_files),
+    path('delete/text/<int:pub_id>/', api_delete_texts_for_pub),
+    path('extract/<int:pub_id>/file/<int:file_id>/', api_extract_text_from_file),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
