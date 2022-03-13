@@ -8,11 +8,12 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { PickListModule } from 'primeng/picklist';
 import { MainImportComponent } from './main-import/main-import.component';
 import { SelectFilesComponent } from './select-files/select-files.component';
 import { ProcessStepComponent } from './process-step/process-step.component';
 import { ExtractionComponent } from './extraction/extraction.component';
-import { TagModule } from 'primeng/tag';
 import { PreviewComponent } from './preview/preview.component';
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
       path: 'ekstrakcija',
       component: ExtractionComponent,
       data: { title: 'Издвајање текста' }
+    }, {
+      path: 'filteri',
+      component: ProcessStepComponent,
+      data: { title: 'Примена филтера' }
     }]
   }
 ];
@@ -46,6 +51,7 @@ const routes: Routes = [
     ConfirmDialogModule,
     TableModule,
     TagModule,
+    PickListModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

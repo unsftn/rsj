@@ -18,11 +18,11 @@ export class ExtractionComponent implements OnInit {
   activeIndex: number;
 
   constructor(
-      private route: ActivatedRoute,
-      private router: Router,
-      private messageService: MessageService,
-      private titleService: Title,
-      private publikacijaService: PublikacijaService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessageService,
+    private titleService: Title,
+    private publikacijaService: PublikacijaService,
   ) { }
 
   ngOnInit(): void {
@@ -34,9 +34,6 @@ export class ExtractionComponent implements OnInit {
     this.route.pathFromRoot[2].params.subscribe((params) => {
       this.id = +params.pid;
       this.fetchData();
-    });
-    this.route.data.subscribe((data) => {
-      this.titleService.setTitle(data.title);
     });
   }
 

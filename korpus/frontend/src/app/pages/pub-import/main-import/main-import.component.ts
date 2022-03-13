@@ -79,6 +79,9 @@ export class MainImportComponent implements OnInit {
       case 0:
         this.router.navigate(['/import', this.id, 'ekstrakcija']);
         break;
+      case 1:
+        this.router.navigate(['/import', this.id, 'filteri']);
+        break;
       default:
         this.router.navigate(['/publikacije']);
         break;

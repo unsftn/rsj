@@ -1,5 +1,16 @@
 .container {
-  margin: 10px 10px 10px;
   font-family: 'Fira Sans', sans-serif;
   padding-top: 10px;
+}
+
+.page-container {
+  padding: 10px;
+  background-color: #b0b0b0;
+}
+
+.page-preview {
+  border: 1px solid black;
+  padding: 5px;
+  background-color: white;
+  box-shadow: 3px 3px;
 }

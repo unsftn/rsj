@@ -1,14 +1,20 @@
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <p-timeline [value]="timelineEvents">
-        <ng-template pTemplate="content" let-step>
-          {{step.operation}}
-        </ng-template>
-      </p-timeline>
-    </div>
-    <div class="col">
-
-    </div>
+<div class="grid">
+  <div class="col-6">
+    <p-pickList [source]="operations" [target]="selected" [dragdrop]="true">
+      <ng-template pTemplate="item" let-oper>
+        <div class="operation">
+          <div class="oper-title">{{oper.title}}</div>
+          <div class="oper-params">
+            <div *ngFor="let p of oper.params" class="oper-param">
+              <div class="param-name">{{p.name}}</div>
+              <div class="param-value">{{p.value}}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-pickList>
+  </div>
+  <div class="col-6">
+    <app-preview></app-preview>
   </div>
 </div>
