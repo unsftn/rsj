@@ -6,13 +6,18 @@
           <div class="oper-title">{{oper.title}}</div>
           <div class="oper-params">
             <div *ngFor="let p of oper.params" class="oper-param">
-              <div class="param-name">{{p.name}}</div>
-              <div class="param-value">{{p.value}}</div>
+              <div class="param-name">{{p.name}}:</div>
+              <div class="param-value">
+                <input type="text" [(ngModel)]="p.value"/>
+              </div>
             </div>
           </div>
         </div>
       </ng-template>
     </p-pickList>
+    <div class="mt-2" style="float: right;">
+      <p-button label="Обради" icon="pi pi-angle-right" click="start()" [disabled]="running"></p-button>
+    </div>
   </div>
   <div class="col-6">
     <app-preview></app-preview>

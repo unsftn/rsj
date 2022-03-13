@@ -17,6 +17,7 @@ export class ProcessStepComponent implements OnInit {
   pub: any;
   operations: any[];
   selected: any[];
+  running: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class ProcessStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.running = false;
     this.operations = [{
       title: 'Уклони фиксан садржај',
       code: 0,
@@ -53,6 +55,13 @@ export class ProcessStepComponent implements OnInit {
       title: 'Спој линије које се завршавају размаком',
       code: 3,
       params: []
+    }, {
+      title: 'Уклони почетне странице',
+      code: 4,
+      params: [{
+        name: 'Број страница',
+        value: ''
+      }]
     }];
     this.selected = [];
     this.route.data.subscribe((data) => {
@@ -62,7 +71,10 @@ export class ProcessStepComponent implements OnInit {
       this.id = +params.pid;
       this.fetchData();
     });
+  }
 
+  start(): void {
+    this.running = true;
   }
 
 }

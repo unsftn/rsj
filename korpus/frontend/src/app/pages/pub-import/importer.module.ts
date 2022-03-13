@@ -10,6 +10,7 @@ import { ConfirmationService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { PickListModule } from 'primeng/picklist';
+import { FormsModule } from '@angular/forms';
 import { MainImportComponent } from './main-import/main-import.component';
 import { SelectFilesComponent } from './select-files/select-files.component';
 import { ProcessStepComponent } from './process-step/process-step.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
     TableModule,
     TagModule,
     PickListModule,
+    FormsModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
