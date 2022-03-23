@@ -15,7 +15,7 @@ export class ProcessStepComponent implements OnInit {
   step: number;
   timelineEvents: any[];
   pub: any;
-  operations: any[];
+  filters: any[];
   selected: any[];
   running: boolean;
 
@@ -36,33 +36,14 @@ export class ProcessStepComponent implements OnInit {
 
   ngOnInit(): void {
     this.running = false;
-    this.operations = [{
-      title: 'Уклони фиксан садржај',
-      code: 0,
-      params: [{
-        name: 'Текст',
-        value: ''
-      }]
-    }, {
-      title: 'Уклони хифенацију',
-      code: 1,
-      params: []
-    }, {
-      title: 'Уклони број странице на дну',
-      code: 2,
-      params: []
-    }, {
-      title: 'Спој линије које се завршавају размаком',
-      code: 3,
-      params: []
-    }, {
-      title: 'Уклони почетне странице',
-      code: 4,
-      params: [{
-        name: 'Број страница',
-        value: ''
-      }]
-    }];
+    this.publikacijaService.getFilterList().subscribe({
+      next: (res) => {
+        this.filters = res;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
     this.selected = [];
     this.route.data.subscribe((data) => {
       this.titleService.setTitle(data.title);
@@ -74,7 +55,28 @@ export class ProcessStepComponent implements OnInit {
   }
 
   start(): void {
+    console.log(this.selected);
     this.running = true;
+    const filterList = this.selected.map((item) => ({
+      vrsta: item.code,
+      params: item.params.map((i2) => ({ naziv: i2.name, vrednost: i2.value}))
+    }));
+    this.publikacijaService.saveFilters(this.id, filterList).subscribe({
+      next: (res) => {
+        this.publikacijaService.applyFilters(this.id).subscribe({
+          next: (res2) => {
+            console.log(res, res2);
+            this.running = false;
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
 }

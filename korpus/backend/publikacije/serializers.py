@@ -33,16 +33,31 @@ class FajlPublikacijeSerializer(serializers.ModelSerializer):
         fields = ('id', 'publikacija_id', 'redni_broj', 'filename', 'url')
 
 
+class ParametarFilteraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ParametarFiltera
+        fields = ('id', 'filter_id', 'redni_broj', 'naziv', 'vrednost')
+
+
+class FilterPublikacijeSerializer(serializers.ModelSerializer):
+    parametarfiltera_set = ParametarFilteraSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = FilterPublikacije
+        fields = ('id', 'publikacija_id', 'redni_broj', 'vrsta_filtera', 'parametarfiltera_set')
+
+
 class PublikacijaSerializer(serializers.ModelSerializer):
     autor_set = AutorSerializer(many=True, read_only=True)
     fajlpublikacije_set = FajlPublikacijeSerializer(many=True, read_only=True)
+    filterpublikacije_set = FilterPublikacijeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Publikacija
         fields = ('id', 'naslov', 'naslov_izdanja', 'vrsta', 'isbn', 'issn',
                   'izdavac', 'godina', 'volumen', 'broj', 'url',
                   'vreme_unosa', 'autor_set', 'fajlpublikacije_set',
-                  'user_id', 'skracenica', 'potkorpus')
+                  'user_id', 'skracenica', 'potkorpus', 'filterpublikacije_set',)
 
 
 class NoSaveSerializer(serializers.Serializer):

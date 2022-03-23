@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.utils.timezone import now
 from reci.models import UserProxy
+from .processing import FILTER_CHOICES
 
 
 class VrstaPublikacije(models.Model):
@@ -108,4 +109,33 @@ class FajlPublikacije(models.Model):
     class Meta:
         verbose_name = 'фајл публикације'
         verbose_name_plural = 'фајлови публикација'
+        ordering = ['redni_broj']
+
+
+class FilterPublikacije(models.Model):
+    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.CASCADE)
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    vrsta_filtera = models.IntegerField('врста филтера', choices=FILTER_CHOICES)
+
+    def __str__(self):
+        return f'{str(self.publikacija)}: {self.redni_broj}: {self.vrsta_filtera}'
+
+    class Meta:
+        verbose_name = 'филтер публикације'
+        verbose_name_plural = 'филтери публикација'
+        ordering = ['redni_broj']
+
+
+class ParametarFiltera(models.Model):
+    filter = models.ForeignKey(FilterPublikacije, verbose_name='публикација', on_delete=models.CASCADE)
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    naziv = models.CharField('назив', max_length=30)
+    vrednost = models.CharField('vrednost', max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return f'{str(self.filter)}: {self.redni_broj}: {self.naziv}: {self.vrednost}'
+
+    class Meta:
+        verbose_name = 'параметар филтера'
+        verbose_name_plural = 'параметри филтера'
         ordering = ['redni_broj']

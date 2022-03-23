@@ -1,12 +1,12 @@
 <div class="grid">
   <div class="col-6">
-    <p-pickList [source]="operations" [target]="selected" [dragdrop]="true">
+    <p-pickList [source]="filters" [target]="selected" [dragdrop]="true">
       <ng-template pTemplate="item" let-oper>
         <div class="operation">
-          <div class="oper-title">{{oper.title}}</div>
+          <div class="oper-title">{{oper.description}}</div>
           <div class="oper-params">
             <div *ngFor="let p of oper.params" class="oper-param">
-              <div class="param-name">{{p.name}}:</div>
+              <div class="param-name">{{p.title}}:</div>
               <div class="param-value">
                 <input type="text" [(ngModel)]="p.value"/>
               </div>
@@ -16,7 +16,7 @@
       </ng-template>
     </p-pickList>
     <div class="mt-2" style="float: right;">
-      <p-button label="Обради" icon="pi pi-angle-right" click="start()" [disabled]="running"></p-button>
+      <p-button label="Обради" icon="pi pi-angle-right" (click)="start()" [disabled]="running"></p-button>
     </div>
   </div>
   <div class="col-6">

@@ -1,14 +1,14 @@
 from django.db.models import Max
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, parser_classes
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, UnsupportedMediaType
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
 from .extractor import extract_file
-from .processing import clean_pdf_file
+from .processing import extract_pdf_file, get_filter, invoke_filter, get_filter_list
 
 
 class VrstaPublikacijeList(generics.ListAPIView):
@@ -93,6 +93,34 @@ class FajlPublikacijeDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = FajlPublikacije.objects.all()
     serializer_class = FajlPublikacijeSerializer
+
+
+class FilterPublikacijeList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = FilterPublikacije.objects.all()
+    serializer_class = FilterPublikacijeSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['publikacija_id', 'redni_broj']
+
+
+class FilterPublikacijeDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = FilterPublikacije.objects.all()
+    serializer_class = FilterPublikacijeSerializer
+
+
+class ParametarFilteraList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = ParametarFiltera.objects.all()
+    serializer_class = ParametarFilteraSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['filter_id', 'redni_broj']
+
+
+class ParametarFilteraDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = ParametarFiltera.objects.all()
+    serializer_class = ParametarFilteraSerializer
 
 
 JSON = 'application/json'
@@ -222,14 +250,17 @@ def api_delete_texts_for_pub(request, pub_id):
 @api_view(['PUT'])
 def api_extract_text_from_file(request, pub_id, file_id):
     try:
-        publikacija = Publikacija.objects.get(id=pub_id)
+        Publikacija.objects.get(id=pub_id)
         fajl_publikacije = FajlPublikacije.objects.get(id=file_id)
         filepath = fajl_publikacije.filepath()
-        if filepath.lower().endswith('.pdf'):
-            pages = clean_pdf_file(filepath, [])
-        else:
+        name, ext = os.path.splitext(filepath)
+        if ext.lower().startswith('.pdf'):
+            pages = extract_pdf_file(filepath)
+        elif ext.lower().startswith('.doc'):
             extract = extract_file(fajl_publikacije)
             pages = [page['text'] for page in extract['pages']]
+        else:
+            raise UnsupportedMediaType(ext.lower(), 'Непознат формат фајла')
         prethodni = TekstPublikacije.objects.filter(publikacija_id=pub_id).aggregate(Max('redni_broj'))[
                         'redni_broj__max'] or 0
         for index, page in enumerate(pages):
@@ -243,3 +274,57 @@ def api_extract_text_from_file(request, pub_id, file_id):
         raise NotFound()
     except FajlPublikacije.DoesNotExist:
         raise NotFound()
+
+
+@api_view(['PUT'])
+def api_set_filters(request, pub_id):
+    """
+    PUT /api/rezultati/save/filters/<pub_id>/
+    [{
+      "vrsta": 1,
+      "params": [{
+        "naziv": "tekst",
+        "vrednost": "tekst koji se uklanja"
+      }]
+    }]
+    """
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        FilterPublikacije.objects.filter(publikacija=publikacija).delete()
+        filters = request.data
+        for i, fil in enumerate(filters):
+            f = FilterPublikacije.objects.create(publikacija=publikacija, redni_broj=i+1, vrsta_filtera=fil['vrsta'])
+            for j, p in enumerate(fil['params']):
+                ParametarFiltera.objects.create(filter=f, redni_broj=j+1, naziv=p['naziv'], vrednost=p['vrednost'])
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+
+
+@api_view(['PUT'])
+def api_apply_filters(request, pub_id):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        filteri = []
+        for f in FilterPublikacije.objects.filter(publikacija=publikacija).order_by('redni_broj'):
+            params = []
+            for p in ParametarFiltera.objects.filter(filter=f).order_by('redni_broj'):
+                params.append({'name': p.naziv, 'value': p.vrednost})
+            fil = get_filter(f.vrsta_filtera)
+            if fil:
+                filteri.append({'filter': fil, 'params': params})
+        tekstovi = TekstPublikacije.objects.filter(publikacija=publikacija).order_by('redni_broj')
+        for tekst in tekstovi:
+            page_text = tekst.tekst
+            for fil in filteri:
+                page_text = invoke_filter(fil['filter']['code'], fil['params'], page_text, tekst.redni_broj)
+            tekst.tekst = page_text
+            tekst.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Publikacija.DoesNotExist:
+        raise NotFound()
+
+
+@api_view(['GET'])
+def api_filter_list(request):
+    return Response(get_filter_list(), status=status.HTTP_200_OK, content_type=JSON)

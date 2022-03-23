@@ -138,4 +138,16 @@ export class PublikacijaService {
   extractTextFromFile(pubId: number, fileId: number): Observable<any> {
     return this.http.put<any>(`/api/publikacije/extract/${pubId}/file/${fileId}/`, {});
   }
+
+  getFilterList(): Observable<any[]> {
+    return this.http.get<any[]>('/api/publikacije/svi-filteri/');
+  }
+
+  saveFilters(pubId: number, filters: any[]): Observable<any> {
+    return this.http.put<any>(`/api/publikacije/save/filters/${pubId}/`, filters);
+  }
+
+  applyFilters(pubId: number): Observable<any> {
+    return this.http.put<any[]>(`/api/publikacije/primeni-filtere/${pubId}/`, {});
+  }
 }
