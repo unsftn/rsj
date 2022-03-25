@@ -1,0 +1,10 @@
+.container {
+  margin: 0px 20px 20px;
+  font-family: 'Fira Sans', sans-serif;
+  padding-top: 10px;
+}
+
+:host .p-datatable-thead > tr > th, td {  // ::ng-deep
+  padding: 2px 5px !important;
+  margin: 0 0 !important;
+}

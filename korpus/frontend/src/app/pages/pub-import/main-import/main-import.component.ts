@@ -28,6 +28,7 @@ export class MainImportComponent implements OnInit {
 
   ngOnInit(): void {
     this.timelineEvents = [
+      {operation: 'Метаподаци', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
       {operation: 'Датотеке', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
       {operation: 'Екстракција', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
       {operation: 'Филтери', icon: PrimeIcons.FILTER, color: '#9C27B0', active: false},
@@ -36,6 +37,9 @@ export class MainImportComponent implements OnInit {
     this.markActiveStep();
     this.route.params.subscribe((params) => {
       this.id = +params.pid;
+      this.fetchData();
+    });
+    this.publikacijaService.publicationChanged.subscribe((value) => {
       this.fetchData();
     });
   }
@@ -72,14 +76,60 @@ export class MainImportComponent implements OnInit {
     }
   }
 
+  prev(): void {
+    if (this.changed()) {
+      this.confirmationService.confirm({
+        message: 'Направљене су измене у подацима. Да ли желите да наставите?',
+        accept: () => {
+          this.prevStep();
+        },
+        reject: (type) => {
+          switch (type) {
+            case ConfirmEventType.CANCEL:
+              break;
+            case ConfirmEventType.REJECT:
+              break;
+          }
+        }
+      });
+    } else {
+      this.prevStep();
+    }
+  }
+
   nextStep(): void {
     const currentStep = this.activeStep++;
     this.markActiveStep();
     switch (currentStep) {
       case 0:
-        this.router.navigate(['/import', this.id, 'ekstrakcija']);
+        this.router.navigate(['/import', this.id, 'datoteke']);
         break;
       case 1:
+        this.router.navigate(['/import', this.id, 'ekstrakcija']);
+        break;
+      case 2:
+        this.router.navigate(['/import', this.id, 'filteri']);
+        break;
+      default:
+        this.router.navigate(['/publikacije']);
+        break;
+    }
+  }
+
+  prevStep(): void {
+    const currentStep = this.activeStep--;
+    this.markActiveStep();
+    switch (currentStep) {
+      case 1:
+        this.router.navigate(['/import', this.id, 'metapodaci']);
+        break;
+      case 2:
+        this.router.navigate(['/import', this.id, 'datoteke']);
+        break;
+      case 3:
+        this.router.navigate(['/import', this.id, 'ekstrakcija']);
+        break;
+      case 4:
         this.router.navigate(['/import', this.id, 'filteri']);
         break;
       default:

@@ -26,6 +26,9 @@ export class PreviewComponent implements OnInit {
       this.fragmentNr = 1;
       this.fetchPage();
     });
+    this.publikacijaService.publicationChanged.subscribe((value) => {
+      this.fetchPage();
+    });
   }
 
   fetchPage(): void {

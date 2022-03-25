@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+/* tslint:disable:variable-name */
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
@@ -12,8 +13,8 @@ export class PublikacijaService {
 
   pubTypeCache: { [key: number]: PubType; } = {};
   pubTypeList: PubType[] = [];
-  // tslint:disable-next-line:variable-name
   private _changed: boolean;
+  private _publicationChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private http: HttpClient,
@@ -26,6 +27,10 @@ export class PublikacijaService {
 
   public set changed(changed: boolean) {
     this._changed = changed;
+  }
+
+  public get publicationChanged(): EventEmitter<boolean> {
+    return this._publicationChanged;
   }
 
   get(id: number): Observable<any> {
