@@ -92,6 +92,16 @@ export class AppComponent implements OnInit {
         separator: true,
       },
       {
+        label: 'Администрација',
+        icon: 'pi pi-cog',
+        command: (event: any) => {
+          window.open('/admin', '_blank');
+        },
+      },
+      {
+        separator: true,
+      },
+      {
         label: 'Одјава',
         icon: 'pi pi-sign-out',
         command: (event: any) => {
