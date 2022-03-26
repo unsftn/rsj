@@ -15,6 +15,7 @@ export class PublikacijaService {
   pubTypeList: PubType[] = [];
   private _changed: boolean;
   private _publicationChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  private _importStep: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private http: HttpClient,
@@ -31,6 +32,10 @@ export class PublikacijaService {
 
   public get publicationChanged(): EventEmitter<boolean> {
     return this._publicationChanged;
+  }
+
+  public get importStep(): EventEmitter<number> {
+    return this._importStep;
   }
 
   get(id: number): Observable<any> {

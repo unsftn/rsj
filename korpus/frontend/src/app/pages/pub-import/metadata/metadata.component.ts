@@ -29,40 +29,59 @@ export class MetadataComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.publikacijaService.importStep.emit(0);
     this.publikacijaService.fetchAllPubTypes().subscribe((data) => { this.pubTypes = data; });
-    this.route.data.subscribe((data) => {
-      switch (data.mode) {
-        case 'add':
-          this.editMode = false;
-          this.id = null;
-          this.pub = {
-            autori: [],
-            naslov: '',
-            naslov_izdanja: '',
-            isbn: '',
-            issn: '',
-            godina: '',
-            volumen: '',
-            url: '',
-            izdavac: '',
-            vrsta: this.publikacijaService.getFirstPubType(),
-          };
-          console.log(this.pub);
-          break;
-        case 'edit':
-          this.editMode = true;
-          this.route.pathFromRoot[2].params.subscribe((params) => {
-            this.id = +params.pid;
-            this.publikacijaService.get(this.id).subscribe((value) => {
-              this.pub = value;
-              this.pub.autori = this.pub.autor_set.map((item, index) => ({ index, ime: item.ime, prezime: item.prezime}));
-              this.pub.vrsta = this.publikacijaService.getPubType(this.pub.vrsta?.id);
-              delete this.pub.autor_set;
-            });
-          });
-          break;
+    this.route.pathFromRoot[2].params.subscribe((params) => {
+      if (params.pid === 'nova') {
+        this.editMode = false;
+        this.id = null;
+        this.pub = {
+          autori: [],
+          naslov: '',
+          naslov_izdanja: '',
+          isbn: '',
+          issn: '',
+          godina: '',
+          volumen: '',
+          url: '',
+          izdavac: '',
+          vrsta: this.publikacijaService.getFirstPubType(),
+        };
+      } else {
+        this.editMode = true;
+        this.id = +params.pid;
+        this.publikacijaService.get(this.id).subscribe((value) => {
+          this.pub = value;
+          this.pub.autori = this.pub.autor_set.map((item, index) => ({ index, ime: item.ime, prezime: item.prezime}));
+          this.pub.vrsta = this.publikacijaService.getPubType(this.pub.vrsta?.id);
+          delete this.pub.autor_set;
+        });
       }
     });
+
+    // this.route.data.subscribe((data) => {
+    //   switch (data.mode) {
+    //     case 'add':
+    //       this.editMode = false;
+    //       this.id = null;
+    //       this.pub = {
+    //         autori: [],
+    //         naslov: '',
+    //         naslov_izdanja: '',
+    //         isbn: '',
+    //         issn: '',
+    //         godina: '',
+    //         volumen: '',
+    //         url: '',
+    //         izdavac: '',
+    //         vrsta: this.publikacijaService.getFirstPubType(),
+    //       };
+    //       console.log(this.pub);
+    //       break;
+    //     case 'edit':
+    //       break;
+    //   }
+    // });
   }
 
   check(): boolean {
@@ -105,14 +124,14 @@ export class MetadataComponent implements OnInit {
     } else {
       this.publikacijaService.add(pub).subscribe({
         next: (value) => {
-          console.log(value);
+          this.id = value.id;
           this.messageService.add({
             severity: 'success',
             summary: 'Додата је нова публикација',
             life: 3000,
             detail: ''
           });
-          // this.router.navigate(['/import']);
+          this.router.navigate(['/import', this.id, 'metapodaci']);
         },
         error: (error) => {
           console.log(error);

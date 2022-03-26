@@ -26,6 +26,7 @@ export class ExtractionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.publikacijaService.importStep.emit(2);
     this.running = false;
     this.route.data.subscribe((data) => {
       this.titleService.setTitle(data.title);

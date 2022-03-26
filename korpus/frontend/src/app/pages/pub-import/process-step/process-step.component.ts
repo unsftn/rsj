@@ -58,6 +58,7 @@ export class ProcessStepComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.publikacijaService.importStep.emit(3);
     this.running = false;
     this.selected = [];
     this.route.data.subscribe((data) => {

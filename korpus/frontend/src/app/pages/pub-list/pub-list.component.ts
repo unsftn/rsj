@@ -37,7 +37,7 @@ export class PubListComponent implements OnInit {
   }
 
   add(): void {
-    this.router.navigate(['/publikacija/add']);
+    this.router.navigate(['/import/nova/metapodaci']);
   }
 
   opis(pub: any): SafeHtml {

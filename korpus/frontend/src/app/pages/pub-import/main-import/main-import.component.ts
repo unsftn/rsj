@@ -27,6 +27,10 @@ export class MainImportComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.publikacijaService.importStep.subscribe((value) => {
+      this.activeStep = value;
+      this.markActiveStep();
+    });
     this.timelineEvents = [
       {operation: 'Метаподаци', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
       {operation: 'Датотеке', icon: PrimeIcons.FILE_PDF, color: '#9C27B0', active: true},
@@ -37,7 +41,8 @@ export class MainImportComponent implements OnInit {
     this.markActiveStep();
     this.route.params.subscribe((params) => {
       this.id = +params.pid;
-      this.fetchData();
+      if (!isNaN(this.id))
+        this.fetchData();
     });
     this.publikacijaService.publicationChanged.subscribe((value) => {
       this.fetchData();

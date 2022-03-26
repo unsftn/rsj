@@ -37,6 +37,7 @@ export class SelectFilesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.publikacijaService.importStep.emit(1);
     this.publikacijaService.changed = false;
     this.route.pathFromRoot[2].params.subscribe((params) => {
       this.id = +params.pid;
