@@ -45,7 +45,8 @@ export class PreviewComponent implements OnInit {
     const retval: SafeHtml[] = [];
     const paras = text.split('\n');
     for (const para of paras) {
-      const finalText = this.domSanitizer.bypassSecurityTrustHtml(para);
+      const para2 = para.replace(/ /gi, '<span class="graytext">&#x2e31;</span>') + '<span class="graytext">&para;</span>';
+      const finalText = this.domSanitizer.bypassSecurityTrustHtml(para2);
       retval.push(finalText);
     }
     return retval;

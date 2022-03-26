@@ -14,6 +14,7 @@ def nop(page_text):
 def clean_fixed_content(page_text, page_number, content):
     if not page_text:
         return page_text
+    content = content.replace('\u2e31', ' ')
     return page_text.replace(content+'\n', '').replace(content, '')
 
 
@@ -88,12 +89,12 @@ def clean_pdf_file(file_name, operations):
     return pages
 
 
-def filter_publication(pub_id):
-    try:
-        publikacija = Publikacija.objects.get(id=pub_id)
-
-    except Publikacija.DoesNotExist:
-        return None
+# def filter_publication(pub_id):
+#     try:
+#         publikacija = Publikacija.objects.get(id=pub_id)
+#
+#     except Publikacija.DoesNotExist:
+#         return None
 
 
 def default_status(word):

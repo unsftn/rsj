@@ -66,7 +66,12 @@ export class ExtractionComponent implements OnInit {
 
   process(): void {
     if (this.activeIndex >= this.pubFiles.length) {
-      // this.running = false;
+      for (const pf of this.pubFiles) {
+        pf.status = 'спремна';
+        pf.severity = 'info';
+      }
+      this.running = false;
+      this.publikacijaService.publicationChanged.emit(true);
       return;
     }
     this.moveStatus(this.pubFiles[this.activeIndex]);
