@@ -1,4 +1,4 @@
-FROM node:16.4.2-alpine AS angular
+FROM node:16.14.2-alpine AS angular
 RUN npm update -g
 RUN mkdir /app
 WORKDIR /app
