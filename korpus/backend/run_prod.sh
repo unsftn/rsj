@@ -10,5 +10,5 @@ if [ "$#" -ne 0 ]; then
 else
   python3 manage.py migrate
   # uwsgi --ini /app/config/uwsgi-prod.ini
-  gunicorn -w 4 --access-logfile /app/log/gunicorn.log korpus.wsgi:application
+  gunicorn -b 0.0.0.0:8000 -w 4 --access-logfile /app/log/gunicorn.log korpus.wsgi:application
 fi
