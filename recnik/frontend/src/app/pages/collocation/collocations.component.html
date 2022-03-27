@@ -1,39 +1,24 @@
-<div class="p-d-flex p-flex-column">
-  <!--
-  <div class="p-d-flex">
-    <div class="p-mr-2">
-      <h4>Колокације</h4>
-    </div>
-    <div class="p-mr-2" class="center-container">
-      <button
-        pButton
-        icon="pi pi-plus"
-        class="p-button-rounded p-button-outlined add-button"
-        (click)="add()">
-      </button>
-    </div>
+<div class="flex flex-column">
+  <div class="mb-2">
+    <button
+      pButton
+      icon="pi pi-plus"
+      class="p-button-rounded p-button-raised"
+      (click)="add()">
+    </button>
   </div>
-  -->
-  <div>
-  <button
-    pButton
-    icon="pi pi-plus"
-    class="p-button-rounded p-button-raised p-mb-2"
-    (click)="add()">
-  </button>
-  </div>
-  <div class="p-mb-2">
+  <div class="mb-2">
     <form #formRef="ngForm">
-      <div *ngFor="let collocation of collocations; let i=index" class="col-sm-3 nice-border p-mb-3">
-        <div style="float:right">
+      <div *ngFor="let collocation of collocations; let i=index" class="nice-border mb-3">
+        <div style="float: right;">
           <p-button icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="remove(i)">
           </p-button>
         </div>
         <div class="form-group">
           <determinant [determinants]="collocation.determinants" (determinantsChange)="onChange()" [context]="'col'+i+'-'"></determinant>
         </div>
-        <div class="p-d-flex p-flex-column">
-          <div class="p-mb-2">
+        <div class="flex flex-column">
+          <div class="mb-2">
             <textarea
               [rows]="7"
               [cols]="37"

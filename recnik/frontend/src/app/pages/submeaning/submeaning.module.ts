@@ -7,12 +7,15 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
+import { RippleModule } from 'primeng/ripple';
 import { ConcordanceModule } from '../concordance/concordance.module';
 import { QualificatorModule } from '../qualificators/qualificator.module';
 import { ExpressionsModule } from '../expressions/expressions.module';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ShortCollocationModule } from '../short-collocation/short-collocation.module';
 import { SubmeaningComponent } from './submeaning.component';
+import { SynonymModule } from '../synonym/synonym.module';
+import { AntonymModule } from '../antonym/antonym.module';
 
 @NgModule({
   declarations: [SubmeaningComponent],
@@ -25,11 +28,14 @@ import { SubmeaningComponent } from './submeaning.component';
     ButtonModule,
     DialogModule,
     TabViewModule,
+    RippleModule,
     ConcordanceModule,
     QualificatorModule,
     FieldsetModule,
     ExpressionsModule,
     ShortCollocationModule,
+    SynonymModule,
+    AntonymModule,
   ],
   exports: [SubmeaningComponent],
   providers: [],

@@ -1,6 +1,6 @@
 <div class="home-container">
-  <div class="p-grid">
-    <div class="p-sm-12 p-md-12 p-lg-6 p-xl-6">
+  <div class="grid">
+    <div class="col-6">
       <p-fieldset legend="Моје одреднице">
         <p-table #table [value]="myDeterminants" [paginator]="true" [rows]="30">
           <ng-template pTemplate="header">
@@ -20,7 +20,7 @@
         </p-table>
       </p-fieldset>
     </div>
-    <div class="p-sm-12 p-md-12 p-lg-6 p-xl-6">
+    <div class="col-6">
       <p-fieldset legend="Ничије одреднице">
         <p-table #table [value]="nobodysDeterminants" [paginator]="true" [rows]="30">
           <ng-template pTemplate="header">
@@ -39,7 +39,7 @@
       </p-fieldset>
     </div>
 
-    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+    <div class="col-12">
       <p-fieldset legend="Динамика обраде">
         <p-table [value]="users">
           <ng-template pTemplate="header">
@@ -79,19 +79,19 @@
       </p-fieldset>
     </div>
 
-    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+    <div class="col-12">
       <p-fieldset legend="Број знакова недељно">
         <p-chart type="line" [data]="graphDataChars"></p-chart>
       </p-fieldset>
     </div>
 
-    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+    <div class="col-12">
       <p-fieldset legend="Број одредница недељно">
         <p-chart type="line" [data]="graphDataDeterminants"></p-chart>
       </p-fieldset>
     </div>
 
-    <div class="p-sm-12 p-md-12 p-lg-12 p-xl-12">
+    <div class="col-12">
 <!--        <app-rendered-odrednice source="/api/render/odrednice/latest/20/" [isTrusted]="true"></app-rendered-odrednice>-->
       <p-fieldset legend="Број одредница по словима">
         <p-chart type="bar" [data]="graphDataLetters" [options]="optionsNoLegend"></p-chart>

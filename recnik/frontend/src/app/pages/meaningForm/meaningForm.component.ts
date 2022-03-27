@@ -20,7 +20,7 @@ export class MeaningFormComponent implements OnInit {
   dirty: boolean;
 
   add(scrollToBottom: boolean = false): void {
-    this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [], collocations: [] });
+    this.meanings.push({ value: '', submeanings: [], qualificators: [], concordances: [], expressions: [], collocations: [], synonyms: [], antonyms: [] });
     this.meaningsChange.emit();
     const last = this.meanings.length - 1;
     setTimeout(() => { document.getElementById(`meaningtext${last}`).focus(); });

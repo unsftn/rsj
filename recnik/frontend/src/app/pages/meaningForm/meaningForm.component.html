@@ -1,34 +1,20 @@
 <p-dialog header="Унос знакова" [(visible)]="showQuotesDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('„')">„</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('”')">”</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('’')">’</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('[')">[</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote(']')">]</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('~')">~</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('–')">–</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̀')">{{baseChar}}̀</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̄')">{{baseChar}}̄</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̏')">{{baseChar}}̏</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('́')">{{baseChar}}́</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('̑')">{{baseChar}}̑</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('„')">„</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('”')">”</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('’')">’</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('[')">[</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote(']')">]</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('~')">~</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('–')">–</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('̀')">{{baseChar}}̀</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('̄')">{{baseChar}}̄</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('̏')">{{baseChar}}̏</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('́')">{{baseChar}}́</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('̑')">{{baseChar}}̑</span>
 </p-dialog>
-<!--
-<div class="p-d-flex">
-  <div class="p-mr-2">
-    <h4>Значење</h4>
-  </div>
-  <div class="p-mr-2" style="width: 200px; margin-top: auto; margin-bottom: auto;" class="center-container">
-    <button
-      pButton
-      icon="pi pi-plus"
-      class="p-button-rounded p-button-outlined add-button"
-      (click)="add()">
-    </button>
-  </div>
-</div>
--->
+
 <form #formRef="ngForm">
-  <div *ngFor="let meaning of meanings; let i=index" class="col-sm-3" style="position: relative">
+  <div *ngFor="let meaning of meanings; let i=index" style="position: relative">
     <p-tabView>
       <p-tabPanel header="#{{i + 1}}">
         <textarea rows="2" cols="60" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel"
@@ -52,12 +38,14 @@
         <short-collocations [shortCollocations]="meanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
       </p-tabPanel>
       <p-tabPanel header="Син" tooltip="Синоними">
+        <synonym [synonyms]="meanings[i].synonyms"></synonym>
       </p-tabPanel>
       <p-tabPanel header="Ант" tooltip="Антоними">
+        <antonym [antonyms]="meanings[i].antonyms"></antonym>
       </p-tabPanel>
     </p-tabView>
-    <div class="p-d-flex mgmt-buttons">
-      <div class="p-mr-2">
+    <div class="flex mgmt-buttons">
+      <div class="mr-2">
         <button
           pButton
           pRipple
@@ -69,7 +57,7 @@
           [disabled]="i === 0">
         </button>
       </div>
-      <div class="p-mr-2">
+      <div class="mr-2">
         <button
           pButton
           pRipple
@@ -81,7 +69,7 @@
           [disabled]="i === meanings.length-1">
         </button>
       </div>
-      <div class="p-mr-2">
+      <div class="mr-2">
         <button
           pButton
           pRipple
@@ -93,63 +81,6 @@
         </button>
       </div>
     </div>
-    <!--
-    <div class="form-group">
-        <div class="p-d-flex">
-          <div class="p-mr-2">
-            <div class="p-d-flex p-flex-column">
-              <div class="p-mb-2">
-                <p class="label">Значење {{i + 1}}:</p>
-                <textarea rows="2" cols="60" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="name{{i}}" #name="ngModel"
-                          (ngModelChange)="onValueChange($event)"
-                          (focusout)="onFocusLeave()"
-                          (keyup)="keyup($event, i)"></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="p-mr-2">
-            <button
-              pButton
-              pRipple
-              type="button"
-              style="margin-top: 10px"
-              icon="pi pi-minus"
-              class="p-button-rounded p-button-outlined p-button-danger add-button"
-              (click)="remove(meaning)">
-            </button>
-          </div>
-        </div>
-        <div class="p-d-flex p-flex-column" style="width: fit-content">
-          <div class="concordance-container">
-            <div class="p-mr-2">
-              <p-fieldset legend="Конкорданце:" [toggleable]="true" collapsed="true">
-                <concordance [concordances]="meanings[i].concordances" (concordancesChange)="onChange()"></concordance>
-              </p-fieldset>
-            </div>
-            <div class="p-mr-2" style="margin-top: 10px;">
-              <p-fieldset legend="Подзначење:" [toggleable]="true" collapsed="true">
-                <submeaning [submeanings]="meanings[i].submeanings" [znacenjeRbr]="i+1" (submeaningsChange)="onChange()"></submeaning>
-              </p-fieldset>
-            </div>
-            <div class="p-mr-2" style="margin-top: 10px;">
-              <p-fieldset legend="Квалификатори:" [toggleable]="true" collapsed="true">
-                <qualificator [(selectedQualificators)]="meanings[i].qualificators" (selectedQualificatorsChange)="onChange()"></qualificator>
-              </p-fieldset>
-            </div>
-            <div class="p-mr-2" style="margin-top: 10px;">
-              <p-fieldset legend="Изрази и фразе:" [toggleable]="true" collapsed="true">
-                <expressions [expressions]="meanings[i].expressions" (expressionsChange)="onChange()"></expressions>
-              </p-fieldset>
-            </div>
-            <div class="p-mr-2" style="margin-top: 10px;">
-              <p-fieldset legend="Колокације:" [toggleable]="true" collapsed="true">
-                <short-collocations [shortCollocations]="meanings[i].collocations" (shortCollocationsChange)="onChange()"></short-collocations>
-              </p-fieldset>
-            </div>
-          </div>
-        </div>
-    </div>
-    -->
   </div>
 </form>
 <button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="add(true)"></button>

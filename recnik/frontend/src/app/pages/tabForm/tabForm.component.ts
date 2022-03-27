@@ -217,6 +217,9 @@ export class TabFormComponent implements OnInit {
         this.workflowItems = this.wfObradjivac;
         this.groupId = 1;
         break;
+      default:
+        console.log(user);
+        break;
     }
     this.route.data.subscribe((data) => {
       switch (data.mode) {

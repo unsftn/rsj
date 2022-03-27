@@ -1,42 +1,28 @@
 <p-dialog header="Унос знакова" [(visible)]="showQuotesDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
-  <button pButton label="„" (click)="insertQuote('„')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="”" (click)="insertQuote('”')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="’" (click)="insertQuote('’')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="[" (click)="insertQuote('[')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="]" (click)="insertQuote(']')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="~" (click)="insertQuote('~')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="–" (click)="insertQuote('–')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̀" (click)="insertQuote('̀')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̄" (click)="insertQuote('̄')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̏" (click)="insertQuote('̏')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}́" (click)="insertQuote('́')" class="accent-button p-mr-3 p-mb-2"></button>
-  <button pButton label="{{baseChar}}̑" (click)="insertQuote('̑')" class="accent-button p-mr-3 p-mb-2"></button>
+  <button pButton label="„" (click)="insertQuote('„')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="”" (click)="insertQuote('”')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="’" (click)="insertQuote('’')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="[" (click)="insertQuote('[')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="]" (click)="insertQuote(']')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="~" (click)="insertQuote('~')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="–" (click)="insertQuote('–')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="{{baseChar}}̀" (click)="insertQuote('̀')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="{{baseChar}}̄" (click)="insertQuote('̄')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="{{baseChar}}̏" (click)="insertQuote('̏')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="{{baseChar}}́" (click)="insertQuote('́')" class="accent-button mr-3 mb-2"></button>
+  <button pButton label="{{baseChar}}̑" (click)="insertQuote('̑')" class="accent-button mr-3 mb-2"></button>
 </p-dialog>
-<!--
-<div class="p-d-flex">
-  <div class="p-mr-2">
-    <h4>Колокације</h4>
-  </div>
-  <div class="p-mr-2" style="width: 200px" class="center-container">
-    <button
-      pButton
-      icon="pi pi-plus"
-      class="p-button-rounded p-button-outlined add-button"
-      (click)="add()">
-    </button>
-  </div>
-</div>
--->
+
 <div>
   <button
     pButton
     icon="pi pi-plus"
-    class="p-button-rounded p-button-raised fab p-mb-2"
+    class="p-button-rounded p-button-raised fab mb-2"
     (click)="add()">
   </button>
 </div>
 <div *ngFor="let coll of shortCollocations; let i = index">
-  <div class="p-d-flex p-ai-center p-mb-1">
+  <div class="flex align-items-center mb-1">
     <div>
       <input type="text"
              pInputText
@@ -53,10 +39,9 @@
         pRipple
         type="button"
         icon="pi pi-minus"
-        class="p-button-rounded p-button-outlined p-button-danger add-button p-ml-2"
+        class="p-button-rounded p-button-outlined p-button-danger add-button ml-2"
         (click)="remove(coll)">
       </button>
-
     </div>
   </div>
 </div>

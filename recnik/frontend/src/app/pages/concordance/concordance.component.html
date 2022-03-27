@@ -1,27 +1,12 @@
 <p-dialog header="Унос наводника" [(visible)]="showQuotesDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true">
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('„')">„</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('”')">”</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('’')">’</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('[')">[</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote(']')">]</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('~')">~</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertQuote('–')">–</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('„')">„</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('”')">”</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('’')">’</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('[')">[</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote(']')">]</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('~')">~</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertQuote('–')">–</span>
 </p-dialog>
-<!--
-<div class="p-d-flex">
-  <div class="p-mr-2">
-    <h4>Конкорданца</h4>
-  </div>
-  <div class="p-mr-2" style="width: 200px" class="center-container">
-    <button
-      pButton
-      icon="pi pi-plus"
-      class="p-button-rounded p-button-outlined add-button"
-      (click)="add()">
-    </button>
-  </div>
-</div>
--->
 <div>
   <button
     pButton
@@ -31,30 +16,30 @@
   </button>
 </div>
 <form #formRef="ngForm">
-  <div *ngFor="let concordance of concordances; let i=index" class="col-sm-3">
-    <div class="p-d-flex p-flex-column p-mb-2">
-      <div class="p-d-flex">
-        <div class="p-mb-2 p-mr-2">
+  <div *ngFor="let concordance of concordances; let i=index" class="sm:col-3">
+    <div class="flex flex-column mb-2">
+      <div class="flex">
+        <div class="mr-2">
           <textarea rows="2" cols="20" pInputTextarea style="resize:vertical" [(ngModel)]="concordances[i].concordance" name="cname{{i}}" placeholder="конкорданца"
                     (ngModelChange)="onValueChange($event)"
                     (focusout)="onFocusLeave()"
                     (keyup)="keyup($event, i)"></textarea>
         </div>
-        <div class="p-d-flex p-flex-column" style="width:250px;">
-          <div class="p-mb-2">
+        <div class="flex flex-column" style="width:250px;">
+          <div class="mb-2">
             <p-autoComplete [(ngModel)]="concordances[i].searchText" name="book{{i}}" [suggestions]="searchResults" (completeMethod)="search($event)" scrollHeight="300px" (onSelect)="select($event, i)" placeholder="Претрага извора" class="search-pub">
               <ng-template let-pub pTemplate="item">
                 <span class="skracenica">{{pub.skracenica}}</span>
                 <span class="naslov">{{pub.naslov}}</span>
               </ng-template>
             </p-autoComplete>
-            <p-button *ngIf="concordances[i].bookId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removePub(concordances[i])" class="p-ml-2"></p-button>
+            <p-button *ngIf="concordances[i].bookId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removePub(concordances[i])" class="ml-2"></p-button>
           </div>
           <div class="naslov">
             <span *ngIf="concordances[i].skracenica$ | async as skr">{{skr}}: </span> <span *ngIf="concordances[i].naslov$ | async as naslov">{{naslov}}</span>
           </div>
         </div>
-        <div class="p-mr-2">
+        <div class="mr-2">
           <button
           pButton
           pRipple
@@ -65,22 +50,6 @@
           </button>
         </div>
       </div>
-      <!--
-      <div class="p-grid">
-        <div class="p-col-12 p-md-6 p-lg-2 red">
-          Референца на корпус:
-        </div>
-        <div class="p-col-12 p-md-6 p-lg-4">
-          <p-dropdown [options]="books" [(ngModel)]="concordances[i].books" name="selectedBook{{i}}" #name="ngModel"></p-dropdown>
-        </div>
-        <div class="p-col-12 p-md-6 p-lg-2">
-          Број стране:
-        </div>
-        <div class="p-col-12 p-md-6 p-lg-4">
-          <p-inputNumber [(ngModel)]="concordances[i].pageNumber" name="pageNumber{{i}}" #name="ngModel" [showButtons]="true" [min]="0" [max]="10000"></p-inputNumber>
-        </div>
-      </div>
-      -->
     </div>
   </div>
 </form>

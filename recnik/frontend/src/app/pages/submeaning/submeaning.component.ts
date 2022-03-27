@@ -22,7 +22,7 @@ export class SubmeaningComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
   add(): void {
-    this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [], collocations: [] });
+    this.submeanings.push({ value: '', qualificators: [], expressions: [], concordances: [], collocations: [], synonyms: [], antonyms: [] });
     this.submeaningsChange.emit();
     const last = this.submeanings.length - 1;
     setTimeout(() => { document.getElementById(`meaning${this.znacenjeRbr}submeaningtext${last}`).focus(); });

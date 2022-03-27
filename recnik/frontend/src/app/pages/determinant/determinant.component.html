@@ -1,8 +1,8 @@
-<div class="p-d-flex">
-  <div class="p-mr-2">
+<div class="flex">
+  <div class="mr-2">
     <h4>Одредница</h4>
   </div>
-  <div class="p-mr-2" style="width: 200px" class="center-container">
+  <div style="width: 200px" class="center-container mr-2">
     <button
       pButton
       icon="pi pi-plus"
@@ -11,12 +11,13 @@
     </button>
   </div>
 </div>
+
 <form #formRef="ngForm">
   <div *ngFor="let determinant of determinants; let i=index" class="col-sm-3">
     <div class="form-group">
-      <div class="p-d-flex p-mb-2">
-        <div class="p-d-flex">
-          <div class="p-mr-2 center-container">
+      <div class="flex mb-2">
+        <div class="flex">
+          <div class="mr-2 center-container">
             <p-autoComplete
               [(ngModel)]="determinants[i].searchText"
               [suggestions]="searchResults"
@@ -42,7 +43,7 @@
           <div class="center-container w200">
             <input type="text" pInputText class="input-field" [(ngModel)]="determinants[i].text" name="det{{context}}{{i}}" placeholder="одредница" />
           </div>
-          <div class="p-mr-2 center-container">
+          <div class="mr-2 center-container">
             <button
               pButton
               pRipple
