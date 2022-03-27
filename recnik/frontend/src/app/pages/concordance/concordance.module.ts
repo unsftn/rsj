@@ -9,7 +9,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-
+import { RippleModule } from 'primeng/ripple';
 import { ConcordanceComponent } from './concordance.component';
 
 @NgModule({
@@ -25,6 +25,7 @@ import { ConcordanceComponent } from './concordance.component';
     FieldsetModule,
     DialogModule,
     AutoCompleteModule,
+    RippleModule
   ],
   exports: [ConcordanceComponent],
   providers: [],
