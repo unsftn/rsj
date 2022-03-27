@@ -1,7 +1,6 @@
 #!/bin/sh
 export DJANGO_SETTINGS=prod
 touch /app/log/korpus.log
-touch /app/log/uwsgi.log
 cd /app
 
 if [ "$#" -ne 0 ]; then
