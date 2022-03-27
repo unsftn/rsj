@@ -1,5 +1,5 @@
-<div class="p-d-flex">
-  <div class="p-mr-2">
+<div class="flex">
+  <div class="mr-2">
     <p-listbox [options]="allQualificators"
       [(ngModel)]="selectedLeft"
       [checkbox]="false" optionLabel="abbreviation"
@@ -16,12 +16,12 @@
       </ng-template>
     </p-listbox>
   </div>
-  <div class="p-mr-2">
+  <div class="mr-2">
     <button pButton icon="pi pi-arrow-right" class="p-button-outlined p-button-rounded" (click)="moveRight()"></button>
     <br/><br/>
     <button pButton icon="pi pi-arrow-left" class="p-button-outlined p-button-rounded" (click)="moveLeft()"></button>
   </div>
-  <div class="p-mr-2">
+  <div class="mr-2">
     <p-listbox [options]="selectedQualificators"
       [(ngModel)]="selectedRight"
       [checkbox]="false" optionLabel="name"
@@ -36,7 +36,7 @@
       </ng-template>
     </p-listbox>
   </div>
-  <div class="p-mr-2">
+  <div class="mr-2">
     <button pButton icon="pi pi-arrow-up" class="p-button-outlined p-button-rounded" (click)="moveUp()"></button>
     <br/><br/>
     <button pButton icon="pi pi-arrow-down" class="p-button-outlined p-button-rounded" (click)="moveDown()"></button>

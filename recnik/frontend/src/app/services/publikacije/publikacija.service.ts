@@ -2,8 +2,7 @@ import { Injectable, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/internal/operators';
-import { shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { PubType } from '../../models';
 
 @Injectable({

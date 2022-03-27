@@ -4,62 +4,62 @@
     <span class="word-state">[{{selectedState.opis}}]</span>
   </div>
   <div class="p-toolbar-group-right">
-    <p-button icon="pi pi-undo" styleClass="p-button-secondary" class="p-ml-2" [disabled]="!undoAvailable()" (click)="undo()"></p-button>
-    <p-button icon="pi pi-refresh" styleClass="p-button-secondary" class="p-ml-1" [disabled]="!redoAvailable()" (click)="redo()"></p-button>
-    <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="p-ml-2"></p-button>
-    <p-button label="Преглед" (onClick)="preview()" styleClass="p-button-secondary" icon="pi pi-search" class="p-ml-2"></p-button>
-    <p-button label="Сачувај" (onClick)="save()" icon="pi pi-save" class="p-ml-2"></p-button>
+    <p-button icon="pi pi-undo" styleClass="p-button-secondary" class="ml-2" [disabled]="!undoAvailable()" (click)="undo()"></p-button>
+    <p-button icon="pi pi-refresh" styleClass="p-button-secondary" class="ml-1" [disabled]="!redoAvailable()" (click)="redo()"></p-button>
+    <p-button (click)="delete()" styleClass="p-button-danger" icon="pi pi-times" class="ml-2"></p-button>
+    <p-button label="Преглед" (onClick)="preview()" styleClass="p-button-secondary" icon="pi pi-search" class="ml-2"></p-button>
+    <p-button label="Сачувај" (onClick)="save()" icon="pi pi-save" class="ml-2"></p-button>
     <p-menu #workflowMenu [model]="workflowItems" [popup]="true" appendTo="body"></p-menu>
-    <p-button label="Процес" (onClick)="workflowMenu.toggle($event)" [disabled]="!editMode" styleClass="p-button-success" icon="pi pi-angle-double-right" class="p-ml-2"></p-button>
+    <p-button label="Процес" (onClick)="workflowMenu.toggle($event)" [disabled]="!editMode" styleClass="p-button-success" icon="pi pi-angle-double-right" class="ml-2"></p-button>
   </div>
 </p-toolbar>
 <p-dialog header="Задужења за ову одредницу" [(visible)]="showOwnershipDialog" [style]="{width: '70vw'}" [transitionOptions]="'0ms'">
-  <div class="p-d-inline-flex p-flex-column">
-    <div class="p-d-flex">
-      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Стање:</p></div>
-      <div class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{selectedState.opis}}</p></div>
+  <div class="inline-flex flex-column">
+    <div class="flex">
+      <div class="md:col-3 mb-3 mr-2"><p class="label">Стање:</p></div>
+      <div class="md:col-9 mb-3 ml-2"><p class="label">{{selectedState.opis}}</p></div>
     </div>
-    <div class="p-d-flex">
-      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Обрађивач:</p></div>
-      <div *ngIf="groupId == 1" class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{obradjivac?.full_name}}</p></div>
-      <div *ngIf="groupId > 1" class="p-md-9 p-mb-3">
+    <div class="flex">
+      <div class="md:col-3 mb-3 mr-2"><p class="label">Обрађивач:</p></div>
+      <div *ngIf="groupId == 1" class="md:col-9 mb-3 ml-2"><p class="label">{{obradjivac?.full_name}}</p></div>
+      <div *ngIf="groupId > 1" class="md:col-9 mb-3">
         <p-dropdown [options]="obradjivaci" [(ngModel)]="obradjivac" optionLabel="full_name" placeholder="Избор обрађивача" [style]="{'width':'300px'}"></p-dropdown>
       </div>
     </div>
-    <div class="p-d-flex">
-      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Редактор:</p></div>
-      <div *ngIf="groupId < 3" class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{redaktor?.full_name}}</p></div>
-      <div *ngIf="groupId > 2" class="p-md-9 p-mb-3">
+    <div class="flex">
+      <div class="md:col-3 mb-3 mr-2"><p class="label">Редактор:</p></div>
+      <div *ngIf="groupId < 3" class="md:col-9 mb-3 ml-2"><p class="label">{{redaktor?.full_name}}</p></div>
+      <div *ngIf="groupId > 2" class="md:col-9 mb-3">
         <p-dropdown [options]="redaktori" [(ngModel)]="redaktor" optionLabel="full_name" [showClear]="true" placeholder="Избор редактора" [style]="{'width':'300px'}"></p-dropdown>
       </div>
     </div>
-    <div class="p-d-flex">
-      <div class="p-md-3 p-mb-3 p-mr-2"><p class="label">Уредник:</p></div>
-      <div *ngIf="groupId < 4"  class="p-md-9 p-mb-3 p-ml-2"><p class="label">{{urednik?.full_name}}</p></div>
-      <div *ngIf="groupId == 4" class="p-md-9 p-mb-3">
+    <div class="flex">
+      <div class="md:col-3 mb-3 mr-2"><p class="label">Уредник:</p></div>
+      <div *ngIf="groupId < 4"  class="md:col-9 mb-3 ml-2"><p class="label">{{urednik?.full_name}}</p></div>
+      <div *ngIf="groupId == 4" class="md:col-9 mb-3">
         <p-dropdown [options]="urednici" [(ngModel)]="urednik" optionLabel="full_name" [showClear]="true" placeholder="Избор уредника" [style]="{'width':'300px'}"></p-dropdown>
       </div>
     </div>
   </div>
   <div style="height: 200px"></div>
-  <div class="p-d-flex p-jc-end">
+  <div class="flex justify-content-end">
     <div>
-      <p-button label="Затвори" (click)="closeOwnership()" styleClass="p-button-secondary p-mr-3"></p-button>
+      <p-button label="Затвори" (click)="closeOwnership()" styleClass="p-button-secondary mr-3"></p-button>
       <p-button label="Сачувај" (click)="saveOwnership()" styleClass="p-button-success"></p-button>
     </div>
   </div>
 </p-dialog>
 <p-dialog header="&nbsp;" [(visible)]="showInfoDialog" [style]="{width: '70vw'}" [transitionOptions]="'0ms'">
   <div [innerHTML]="message"></div>
-  <div class="p-d-flex p-jc-end">
+  <div class="flex justify-content-end">
     <div><p-button label="OK" (click)="close()" styleClass="p-button-success"></p-button></div>
   </div>
 </p-dialog>
 <p-dialog header="Упозорење" [(visible)]="showWarningDialog" [style]="{width: '50vw'}" [transitionOptions]="'0ms'">
   <div [innerHTML]="message"></div>
-  <div class="p-d-flex p-jc-end">
+  <div class="flex justify-content-end">
     <p-button label="Да" (click)="yes()" styleClass="p-button-success" icon="pi pi-check"></p-button>
-    <p-button label="Не" (click)="no()" styleClass="p-button-second ary" icon="pi pi-undo" class="p-ml-3"></p-button>
+    <p-button label="Не" (click)="no()" styleClass="p-button-second ary" icon="pi pi-undo" class="ml-3"></p-button>
   </div>
 </p-dialog>
 <p-dialog header="Молимо сачекајте" [(visible)]="showWaitDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="false" [transitionOptions]="'0ms'">
@@ -68,38 +68,38 @@
   </div>
 </p-dialog>
 <p-dialog header="Унос знакова" [(visible)]="showAccentDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="true" [transitionOptions]="'0ms'">
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̀')">{{accentChar}}̀</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̄')">{{accentChar}}̄</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̏')">{{accentChar}}̏</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('́')">{{accentChar}}́</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('̑')">{{accentChar}}̑</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('\u2205')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">&#x2205;</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent('[')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">[</span>
-  <span class="accent-button p-mr-3 p-mb-2" (click)="insertAccent(']')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">]</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('̀')">{{accentChar}}̀</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('̄')">{{accentChar}}̄</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('̏')">{{accentChar}}̏</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('́')">{{accentChar}}́</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('̑')">{{accentChar}}̑</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('\u2205')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">&#x2205;</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent('[')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">[</span>
+  <span class="accent-button mr-3 mb-2" (click)="insertAccent(']')" *ngIf="accentModelName==='details' || accentModelName==='freetext'">]</span>
 </p-dialog>
 
 <div class="basic-information-container">
-  <div class="p-d-flex p-flex-column p-flex-xl-row p-ai-start p-jc-start">
-    <div class="p-lg-12 p-xl-5 p-md-12 p-sm-12">
-      <div class="p-d-flex p-ai-start p-jc-start">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+  <div class="flex flex-column xl:flex-row p-ai-start p-jc-start">
+    <div class="lg:col-12 xl:col-5 md:col-12 sm:col-12">
+      <div class="flex p-ai-start p-jc-start">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Реч:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
-          <div class="p-d-flex">
-            <div class="p-mr-2">
+        <div class="sm:col-9 md:col-9 lg:col-10">
+          <div class="flex">
+            <div class="mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="wordE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave(); checkDuplicate(false)"
                      (keyup)="keyup($event, 'wordE')" style="width:150px"/>
             </div>
-            <div class="p-mr-2">
+            <div class="mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="wordI" pInputText placeholder="ијекавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
                      (keyup)="keyup($event, 'wordI')" style="width:150px"/>
             </div>
-            <div class="p-mt-2" *ngIf="isVerb">
+            <div class="mt-2" *ngIf="isVerb">
               <p-checkbox [binary]="true" label="(се)" [(ngModel)]="optionalSe"
                           (ngModelChange)="onValueChange($event)"
                           (focusout)="onFocusLeave()"></p-checkbox>
@@ -107,11 +107,11 @@
           </div>
         </div>
       </div>
-      <div class="p-d-flex">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Врста:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
+        <div class="sm:col-9 md:col-9 lg:col-10">
           <p-dropdown [options]="wordTypes" [(ngModel)]="selectedWordType" optionLabel="name" placeholder="Врста речи"
                       (onChange)="onChangeWordType()"
                       (ngModelChange)="onValueChange($event)"
@@ -125,29 +125,29 @@
                       *ngIf="[0, 2, 5].includes(selectedWordType.id)"></p-dropdown>
         </div>
       </div>
-      <div class="p-d-flex" *ngIf="isNoun">
-        <div class="p-m-0 p-sm-3 p-sm-3 p-lg-2">
+      <div class="flex" *ngIf="isNoun">
+        <div class="m-0 sm:col-3 sm:col-3 lg:col-2">
           <p class="label">Род:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
+        <div class="sm:col-9 md:col-9 lg:col-10">
           <p-dropdown [options]="genders" [(ngModel)]="selectedGender" placeholder="Род" optionLabel="name"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
-      <div class="p-d-flex p-ai-start p-jc-start">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex p-ai-start p-jc-start">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Наставак:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
-          <div class="p-d-flex">
-            <div class="p-mr-2">
+        <div class="sm:col-9 md:col-9 lg:col-10">
+          <div class="flex">
+            <div class="mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="extensionE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
                      (keyup)="keyup($event, 'extensionE')" style="width:150px"/>
             </div>
-            <div class="p-mr-2">
+            <div class="mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="extensionI" pInputText placeholder="ијекавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
@@ -156,19 +156,19 @@
           </div>
         </div>
       </div>
-      <div class="p-d-flex p-ai-start p-jc-start" *ngIf="isVerb">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex p-ai-start p-jc-start" *ngIf="isVerb">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Презент:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
-          <div class="p-d-flex">
-            <div class="p-mb-2 p-mr-2">
+        <div class="sm:col-9 md:col-9 lg:col-10">
+          <div class="flex">
+            <div class="mb-2 mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="presentE" placeholder="екавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
                      (keyup)="keyup($event, 'presentE')" style="width:150px"/>
             </div>
-            <div class="p-mb-2 p-mr-2">
+            <div class="mb-2 mr-2">
               <input type="text" class="input-field" pInputText [(ngModel)]="presentI" pInputText placeholder="ијекавица"
                      (ngModelChange)="onValueChange($event)"
                      (focusout)="onFocusLeave()"
@@ -177,33 +177,33 @@
           </div>
         </div>
       </div>
-      <div class="p-d-flex">
-        <div class="p-sm-3 p-md-3 p-lg-2">
-          <p class="label p-m-0">Варијанта:</p>
+      <div class="flex">
+        <div class="sm:col-3 md:col-3 lg:col-2">
+          <p class="label m-0">Варијанта:</p>
           <button pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined add-button" (click)="addVariant()"></button>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
+        <div class="sm:col-9 md:col-9 lg:col-10">
           <form #formRef="ngForm">
-            <div *ngFor="let variant of variants; let i=index" class="col-sm-3 p-mb-2">
-              <div class="p-d-flex">
-                <div class="p-mr-2">
+            <div *ngFor="let variant of variants; let i=index" class="sm:col-3 mb-2">
+              <div class="flex">
+                <div class="mr-2">
                   <input type="text" class="input-field" [(ngModel)]=variants[i].nameE name="inputNameE{{i}}" pInputText placeholder="екавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.nameE', i)" style="width:150px"/>
                 </div>
-                <div class="p-mr-2">
+                <div class="mr-2">
                   <input type="text" class="input-field" [(ngModel)]=variants[i].nameI name="inputNameI{{i}}" pInputText placeholder="ијекавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.nameI', i)" style="width:150px"/>
                 </div>
-                <div class="p-mt-2" *ngIf="isVerb">
+                <div class="mt-2" *ngIf="isVerb">
                   <p-checkbox [binary]="true" label="(се)" [(ngModel)]="variants[i].optionalSe"
                               (ngModelChange)="onValueChange($event)" [ngModelOptions]="{standalone: true}"
                               (focusout)="onFocusLeave()"></p-checkbox>
                 </div>
-                <div class="p-mr-2" style="width: 200px">
+                <div class="mr-2" style="width: 200px">
                   <button
                     pButton
                     pRipple
@@ -214,36 +214,36 @@
                   </button>
                 </div>
               </div>
-              <div class="p-d-flex">
-                <div class="p-mr-2">
+              <div class="flex">
+                <div class="mr-2">
                   <input type="text" class="input-field" [(ngModel)]="variants[i].extensionE" name="inputExtesionE{{i}}" pInputText placeholder="наставак екавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.extensionE', i)" style="width:150px"/>
                 </div>
-                <div class="p-mr-2">
+                <div class="mr-2">
                   <input type="text" class="input-field" [(ngModel)]="variants[i].extensionI" name="inputExtensionI{{i}}" pInputText placeholder="наставак ијекавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.extensionI', i)" style="width:150px"/>
                 </div>
               </div>
-              <div class="p-d-flex" *ngIf="isVerb">
-                <div class="p-mr-2">
+              <div class="flex" *ngIf="isVerb">
+                <div class="mr-2">
                   <input type="text" class="input-field" [(ngModel)]="variants[i].presentE" name="inputPresentE{{i}}" pInputText placeholder="презент екавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.presentE', i)" style="width:150px"/>
                 </div>
-                <div class="p-mr-2">
+                <div class="mr-2">
                   <input type="text" class="input-field" [(ngModel)]="variants[i].presentI" name="inputPresentI{{i}}" pInputText placeholder="презент ијекавица"
                          (ngModelChange)="onValueChange($event)"
                          (focusout)="onFocusLeave()"
                          (keyup)="keyup($event, 'variants.presentI', i)" style="width:150px"/>
                 </div>
               </div>
-              <div class="p-d-flex" *ngIf="isNoun">
-                <div class="p-mr-2">
+              <div class="flex" *ngIf="isNoun">
+                <div class="mr-2">
                   <p-dropdown [options]="genders" [(ngModel)]="variants[i].gender" placeholder="Род" optionLabel="name"
                               (ngModelChange)="onValueChange($event)" [showClear]="true"
                               (focusout)="onFocusLeave()"></p-dropdown>
@@ -257,8 +257,8 @@
 <!--                </div>-->
 <!--              </div>-->
             </div>
-            <div class="p-d-flex" *ngIf="variants.length > 0">
-              <div class="p-mr-2">
+            <div class="flex" *ngIf="variants.length > 0">
+              <div class="mr-2">
                 <p-checkbox [binary]="true" label="варијанте су равноправне" [(ngModel)]="ravnopravne"
                             (ngModelChange)="onValueChange($event)" [ngModelOptions]="{standalone: true}"
                             (focusout)="onFocusLeave()"></p-checkbox>
@@ -268,52 +268,52 @@
         </div>
       </div>
 
-      <div class="p-d-flex" *ngIf="isVerb">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex" *ngIf="isVerb">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Глаголски вид:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
+        <div class="sm:col-9 md:Col-9 lg:col-10">
           <p-dropdown [options]="verbForms" [(ngModel)]="selectedVerbForm" placeholder="Глаголски вид" optionLabel="name"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
-      <div class="p-d-flex" *ngIf="isVerb">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex" *ngIf="isVerb">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Глаголски род:</p>
         </div>
-        <div class="p-sm-6 p-md-6 p-lg-5">
+        <div class="sm:col-5 md:col-5 lg:col-5">
           <p-dropdown class="wider" [options]="verbKinds" [(ngModel)]="selectedVerbKind" optionLabel="name" placeholder="Глаголски род"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-dropdown>
         </div>
-        <div class="p-sm-3 p-md-3 p-lg-2">
+        <div class="sm:col-3 md:col-3 lg:col-2">
           <p-checkbox [binary]="true" label="прикажи" [(ngModel)]="showVerbKind"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-checkbox>
         </div>
       </div>
-      <div class="p-d-flex" *ngIf="isVerb">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex" *ngIf="isVerb">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label"> </p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-8">
+        <div class="sm:col-9 md:col-9 lg:col-8">
           <p-checkbox [binary]="true" label="има посебна значења за ~ се" [(ngModel)]="hasSeMeanings"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-checkbox>
         </div>
       </div>
-      <div class="p-d-flex p-flex-column p-mt-4 p-ml-2">
+      <div class="flex flex-column mt-4 ml-2">
         <div>
-          <p class="label p-m-0">Квалификатори:</p>
+          <p class="label m-0">Квалификатори:</p>
         </div>
         <div>
           <qualificator [(selectedQualificators)]="qualificators" (selectedQualificatorsChange)="saveChange()"></qualificator>
         </div>
       </div>
-      <div class="p-d-flex p-flex-column p-ml-2 p-mt-3">
+      <div class="flex flex-column ml-2 mt-3">
         <div>
-          <p class="label p-m-0">Додатне информације:</p>
+          <p class="label m-0">Додатне информације:</p>
         </div>
         <div>
           <textarea rows="2" cols="50" pInputTextarea [(ngModel)]="details"
@@ -323,30 +323,31 @@
                     style="resize: vertical; border: 1px solid darkgray; color: #495057"></textarea>
         </div>
       </div>
-      <div class="p-d-flex">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Р.бр. хомонима:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
-          <div class="p-mb-2 p-mr-2">
+        <div class="sm:col-9 md:col-9 lg:col-10">
+          <div class="mb-2 mr-2">
             <input type="number" class="input-field" pInputText [(ngModel)]="homonim" [size]="2"
                    (ngModelChange)="onValueChange($event)"
                    (focusout)="onFocusLeave()"/>
           </div>
         </div>
       </div>
-      <div class="p-d-flex">
-        <div class="p-m-0 p-sm-3 p-md-3 p-lg-2">
+      <div class="flex">
+        <div class="m-0 sm:col-3 md:col-3 lg:col-2">
           <p class="label">Статус:</p>
         </div>
-        <div class="p-sm-9 p-md-9 p-lg-10">
+        <div class="sm:col-9 md:col-9 lg:col-10">
           <p-dropdown [options]="statuses" [(ngModel)]="selectedStatus" placeholder="Статус" optionLabel="naziv"
                       (ngModelChange)="onValueChange($event)"
                       (focusout)="onFocusLeave()"></p-dropdown>
         </div>
       </div>
     </div>
-    <div class="p-lg-12 p-xl-7 p-md-12 p-sm-12">
+
+    <div class="lg:col-12 xl:col-7 md:col-12 sm:col-12">
       <div class="tab-container">
         <p-tabView>
           <p-tabPanel header="Значења">
@@ -371,13 +372,13 @@
             <changesForm [changes]="changes"></changesForm>
           </p-tabPanel>
           <p-tabPanel header="Остало" [headerStyleClass]="hasMisc() ? 'red-tab' : ''" [rightIcon]="hasMisc() ? 'pi pi-flag' : ''">
-            <div class="p-ml-2 p-mt-3">
+            <div class="ml-2 mt-3">
               <textarea rows="4" cols="50" pInputTextarea [(ngModel)]="notes" (focusout)="onFocusLeave()"
                         style="resize: vertical; border: 1px solid darkgray; color: #495057;" placeholder="Напомене">
 
               </textarea>
             </div>
-            <div class="p-ml-2 p-mt-3">
+            <div class="ml-2 mt-3">
               <textarea rows="7" cols="50" pInputTextarea [(ngModel)]="freetext" (focusout)="onFocusLeave()"
                         style="resize: vertical; border: 1px solid darkgray; color: #495057;"
                         placeholder="Алтернативни опис" (keyup)="keyup($event, 'freetext')">
