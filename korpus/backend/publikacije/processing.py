@@ -1,7 +1,7 @@
 import re
 import string
 import pdfplumber
-
+from .cyrlat import lat_to_cyr
 
 PAGE_NUMBER_AT_END = re.compile(r'[0-9]+$')
 PAGE_NUMBER_AT_TOP = re.compile(r'^[0-9]+')
@@ -47,6 +47,12 @@ def remove_starting_pages(page_text, page_number, numberofpages):
         return ''
     else:
         return page_text
+
+
+def latin_to_cyrillic(page_text, page_number):
+    if not page_text:
+        return page_text
+    return lat_to_cyr(page_text)
 
 
 def clean_page(page_text, operations):
@@ -127,7 +133,9 @@ FILTERS = [
     {'code': 5, 'description': 'Спој линије које се завршавају размаком', 'function': merge_lines_ending_with_blank,
      'params': [], 'page': True},
     {'code': 6, 'description': 'Уклони почетне странице', 'function': remove_starting_pages, 'page': False,
-     'params': [{'name': 'numberofpages', 'title': 'Број страница', 'value': ''}]}
+     'params': [{'name': 'numberofpages', 'title': 'Број страница', 'value': ''}]},
+    {'code': 7, 'description': 'Латиница у ћирилицу', 'function': latin_to_cyrillic, 'page': True,
+     'params': []}
 ]
 
 FILTER_CHOICES = [(x['code'], x['description']) for x in FILTERS]
