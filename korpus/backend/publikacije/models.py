@@ -52,7 +52,7 @@ class Publikacija(models.Model):
 
 
 class Autor(models.Model):
-    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.DO_NOTHING)
+    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.CASCADE)
     ime = models.CharField('име', max_length=50, blank=True, null=True)
     prezime = models.CharField('презиме', max_length=50)
     redni_broj = models.PositiveSmallIntegerField('редни број')
@@ -68,7 +68,7 @@ class Autor(models.Model):
 
 
 class TekstPublikacije(models.Model):
-    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.DO_NOTHING)
+    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.CASCADE)
     redni_broj = models.PositiveSmallIntegerField('редни број')
     tekst = models.TextField('текст', blank=True)
     tagovan_tekst = models.TextField('тагован текст', blank=True)
@@ -90,7 +90,7 @@ def get_upload_path(instance, filename):
 
 
 class FajlPublikacije(models.Model):
-    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.DO_NOTHING)
+    publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.CASCADE)
     redni_broj = models.PositiveSmallIntegerField('редни број')
     uploaded_file = models.FileField('фајл', upload_to=get_upload_path)
 

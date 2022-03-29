@@ -1,6 +1,5 @@
 from .base import *
 from .utils import read_or_get
-import os
 
 DEBUG = False
 ALLOWED_HOSTS = ['*']

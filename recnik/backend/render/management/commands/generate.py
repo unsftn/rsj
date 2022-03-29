@@ -27,7 +27,7 @@ class Command(BaseCommand):
         tip = options.get('type') or 2
         stari = options.get('expired') or 60
         format = options.get('format') or 'pdf'
-        log.info(f'Fromat fajla: {format}')
+        log.info(f'Format fajla: {format}')
         log.info(f'Brisanje fajlova starijih od (dana): {stari}')
         log.info(f'Tip generisanja: {tip}')
         log.info(f'Sadrzaj generisanja: {("slovo "+slovo) if slovo else "sva slova"}')

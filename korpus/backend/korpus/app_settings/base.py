@@ -115,7 +115,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': 'log/korpus.log',
+            'filename': 'log/izbori.log',
             'formatter': 'medium'
         },
         'mail_admins': {
@@ -133,9 +133,13 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        'korpus': {
+        'publikacije': {
             'handlers': ['console', 'file', 'mail_admins'],
-            'level': 'INFO',
+            'level': 'INFO'
+        },
+        'reci': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO'
         },
     }
 }
@@ -145,3 +149,5 @@ SIMPLE_JWT = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+ADMINS = [('Branko Milosavljevic', 'mbranko@uns.ac.rs')]
