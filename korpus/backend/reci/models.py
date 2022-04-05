@@ -200,6 +200,12 @@ class Glagol(models.Model):
     rgp_mm = models.CharField('ргп м.мн.', max_length=50, blank=True, null=True)
     rgp_zm = models.CharField('ргп ж.мн.', max_length=50, blank=True, null=True)
     rgp_sm = models.CharField('ргп с.мн.', max_length=50, blank=True, null=True)
+    tgp_mj = models.CharField('тгп м.јед.', max_length=50, blank=True, null=True)
+    tgp_zj = models.CharField('тгп ж.јед.', max_length=50, blank=True, null=True)
+    tgp_sj = models.CharField('тгп с.јед.', max_length=50, blank=True, null=True)
+    tgp_mm = models.CharField('тгп м.мн.', max_length=50, blank=True, null=True)
+    tgp_zm = models.CharField('тгп ж.мн.', max_length=50, blank=True, null=True)
+    tgp_sm = models.CharField('тгп с.мн.', max_length=50, blank=True, null=True)
     gpp = models.CharField('гл.прил. прошли', max_length=50, blank=True, null=True)
     gps = models.CharField('гл.прил. садашњи', max_length=50, blank=True, null=True)
     recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
@@ -241,6 +247,7 @@ class OblikGlagola(models.Model):
         ordering = ['vreme']
         indexes = [
             models.Index(fields=['jd1']),
+            models.Index(fields=['glagol', 'vreme'])
         ]
 
     def __str__(self):
