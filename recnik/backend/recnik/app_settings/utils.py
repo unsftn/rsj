@@ -8,7 +8,7 @@ from django.core.exceptions import ImproperlyConfigured
 log = logging.getLogger()
 
 
-def read_variable(file_name, variable_name):
+def read_variable(file_name, variable_name, silent=False):
     """
     Reads a variable value from the given config file.
     """
@@ -22,10 +22,12 @@ def read_variable(file_name, variable_name):
             return bool(var.capitalize())
         return parser['top'][variable_name]
     except IOError as ex:
-        log.fatal(ex)
+        if not silent:
+            log.fatal(ex)
         return None
     except KeyError as ex:
-        log.fatal(ex)
+        if not silent:
+            log.fatal(ex)
         raise ImproperlyConfigured(f'Variable not found: {variable_name}')
 
 
@@ -47,7 +49,7 @@ def read_or_get(file_name, variable_name, default_value=None):
     Attempts to read a config variable first from the given file, and if not found then from OS environment.
     """
     try:
-        value = read_variable(file_name, variable_name)
+        value = read_variable(file_name, variable_name, True)
         if not value:
             value = get_variable(variable_name, default_value)
         return value
