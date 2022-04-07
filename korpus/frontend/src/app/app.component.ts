@@ -84,9 +84,9 @@ export class AppComponent implements OnInit {
         routerLink: ['/login'],
       },
       {
-        label: 'Профил',
-        icon: 'pi pi-user',
-        routerLink: ['/profile'],
+        label: 'Публикације',
+        icon: 'pi pi-book',
+        routerLink: ['/publikacije'],
       },
       {
         separator: true,
