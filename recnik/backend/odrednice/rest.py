@@ -1,5 +1,6 @@
 # coding=utf-8
 import random
+from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models.functions import Collate
 from django.http import HttpResponse
@@ -294,7 +295,7 @@ def api_save_odrednica(request):
                 if odrednica.stanje > 1:
                     raise PermissionDenied(detail='Одредница није у фази обраде', code=403)
                 if odrednica.obradjivac:
-                    if odrednica.obradjivac != user:
+                    if not settings.OBRADA_TUDJIH and odrednica.obradjivac != user:
                         raise PermissionDenied(detail='Други обрађивач је задужен за ову одредницу', code=403)
             elif user.je_redaktor():
                 if odrednica.stanje > 2:

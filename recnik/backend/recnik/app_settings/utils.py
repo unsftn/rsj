@@ -37,6 +37,8 @@ def get_variable(variable_name, default_value=None):
     """
     if variable_name in os.environ:
         value = os.environ[variable_name]
+        if value.upper in ('TRUE', 'FALSE'):
+            return bool(value.capitalize())
         log.info(f"Reading variable {variable_name} from environment: {value}")
         return value
     else:
