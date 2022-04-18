@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
   }
 
   search(event): void {
-    this.searchService.search(event.query).subscribe(
+    this.searchService.searchWords(event.query).subscribe(
       (data) => {
         this.searchResults = data;
       },
@@ -57,21 +57,26 @@ export class AppComponent implements OnInit {
 
   select(value): void {
     this.searchText = '';
-    let url = '/imenica';
-    switch (value.vrsta) {
-      case 0: url = '/imenica'; break;
-      case 1: url = '/glagol'; break;
-      case 2: url = '/pridev'; break;
-      case 3: url = '/prilog'; break;
-      case 4: url = '/predlog'; break;
-      case 5: url = '/zamenica'; break;
-      case 6: url = '/uzvik'; break;
-      case 7: url = '/recca'; break;
-      case 8: url = '/veznik'; break;
-      case 9: url = '/broj'; break;
-      case 10: url = '/ostalo'; break;
-    }
-    this.router.navigate([url, value.pk]);
+    this.searchService.selectedWordId = value.pk;
+    this.searchService.selectedWordType = value.vrsta;
+    this.searchService.selectedWordChanged.emit(true);
+    // let url = '/imenica';
+    // switch (value.vrsta) {
+    //   case 0: url = '/imenica'; break;
+    //   case 1: url = '/glagol'; break;
+    //   case 2: url = '/pridev'; break;
+    //   case 3: url = '/prilog'; break;
+    //   case 4: url = '/predlog'; break;
+    //   case 5: url = '/zamenica'; break;
+    //   case 6: url = '/uzvik'; break;
+    //   case 7: url = '/recca'; break;
+    //   case 8: url = '/veznik'; break;
+    //   case 9: url = '/broj'; break;
+    //   case 10: url = '/ostalo'; break;
+    // }
+    // this.searchService.selectedWordId = value.pk;
+    // this.searchService.selectedWordType = value.vrsta;
+    this.router.navigate(['']);
   }
 
   ngOnInit(): void {

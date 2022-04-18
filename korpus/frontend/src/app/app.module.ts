@@ -27,6 +27,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
 import { OrderListModule } from 'primeng/orderlist';
 import { FileUploadModule } from 'primeng/fileupload';
+import { AccordionModule } from 'primeng/accordion';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
@@ -44,9 +45,10 @@ import { PridevComponent } from './pages/reci/pridev/pridev.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PubListComponent } from './pages/pub-list/pub-list.component';
+import { SafePipe } from './utils/safe.pipe';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, SafePipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -78,6 +80,7 @@ import { PubListComponent } from './pages/pub-list/pub-list.component';
     CardModule,
     OrderListModule,
     FileUploadModule,
+    AccordionModule,
     // ImporterModule,
   ],
   providers: [

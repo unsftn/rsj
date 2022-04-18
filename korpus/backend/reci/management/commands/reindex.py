@@ -2,8 +2,9 @@ from datetime import datetime
 import logging
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from indexer.utils import recreate_index, check_elasticsearch
+from indexer.index import index_imenica, index_glagol, index_pridev
 from ...models import Imenica, Glagol, Pridev
-from ...indexer import index_imenica, index_glagol, index_pridev, recreate_index, check_elasticsearch
 
 log = logging.getLogger(__name__)
 

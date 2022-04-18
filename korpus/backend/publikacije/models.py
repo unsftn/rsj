@@ -43,6 +43,19 @@ class Publikacija(models.Model):
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     skracenica = models.CharField('скраћеница', max_length=100, default='-')
 
+    def opis(self, html=False):
+        if self.autor_set.count() > 0:
+            autori = '; '.join([f'{aut.prezime}, {aut.ime}' for aut in self.autor_set.all().order_by('redni_broj')])
+        else:
+            autori = ''
+        retval = f'{autori}: ' if autori else ''
+        retval += ('<i>' if html else '') + self.naslov + ('</i>' if html else '')
+        retval += f', {self.izdavac}' if self.izdavac else ''
+        retval += f', {self.godina}' if self.godina else ''
+        if retval[-1] != '.':
+            retval += '.'
+        return retval
+
     def __str__(self):
         return self.naslov
 

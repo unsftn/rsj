@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { SafeHtml, Title } from '@angular/platform-browser';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService, PrimeIcons } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
 import { FileUpload } from 'primeng/fileupload';
 

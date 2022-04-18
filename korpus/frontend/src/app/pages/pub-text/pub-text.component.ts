@@ -134,7 +134,7 @@ export class PubTextComponent implements OnInit, OnDestroy {
       this.spanY = element.offsetTop;
       this.word = this.span.textContent.replace(/[^\p{L}\s]/gu, ''); // remove punctuation
       this.wordLength = this.word.length;
-      this.searchService.search(this.word).subscribe(
+      this.searchService.searchWords(this.word).subscribe(
         (data) => {
           this.options = data.map((item) => ({word: item.rec, type: item.vrsta_text, type_id: item.vrsta, id: item.pk}));
           setTimeout(() => {
