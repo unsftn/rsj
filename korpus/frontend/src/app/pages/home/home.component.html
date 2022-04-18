@@ -1,5 +1,5 @@
 <div class="home-container" *ngIf="hits">
-  <h4>{{}}</h4>
+  <h4>rec</h4>
   <p-accordion>
     <p-accordionTab [header]="hit.opis" *ngFor="let hit of hits; let i=index">
       <p *ngFor="let excerpt of hit.highlights" [innerHTML]="safe(excerpt)"></p>
