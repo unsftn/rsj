@@ -10,16 +10,20 @@ class Command(BaseCommand):
     help = 'Index publication(s)'
 
     def add_arguments(self, parser):
-        parser.add_argument('pub_id', type=int, help='Publication ID')
+        parser.add_argument('--pub', type=int, nargs='?', help='Publication ID')
 
     def handle(self, *args, **options):
-        pub_id = options.get('pub_id')
+        pub_id = options.get('pub')
         try:
-            Publikacija.objects.get(id=pub_id)
-            status = index_publikacija(pub_id)
-            if status:
-                self.stdout.write(f'Successfully indexed publication ID: {pub_id}')
+            if pub_id:
+                publist = Publikacija.objects.filter(id=pub_id)
             else:
-                self.stdout.write(f'Error indexing publication ID: {pub_id}')
+                publist = Publikacija.objects.all()
+            for pub in publist:
+                status = index_publikacija(pub.id)
+                if status:
+                    self.stdout.write(f'Successfully indexed publication ID: {pub.id}')
+                else:
+                    self.stdout.write(f'Error indexing publication ID: {pub.id}')
         except Publikacija.DoesNotExist:
             raise CommandError(f'Publication with ID {pub_id} does not exist')
