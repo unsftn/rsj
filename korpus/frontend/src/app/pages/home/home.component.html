@@ -1,7 +1,7 @@
 <div class="home-container" *ngIf="hits">
-  <h4>rec</h4>
+  <h3 *ngIf="word">{{word.osnovni_oblik}} <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span></h3>
   <p-accordion>
-    <p-accordionTab [header]="hit.opis" *ngFor="let hit of hits; let i=index">
+    <p-accordionTab [header]="'[' + hit.skracenica + '] ' + hit.opis" *ngFor="let hit of hits; let i=index">
       <p *ngFor="let excerpt of hit.highlights" [innerHTML]="safe(excerpt)"></p>
     </p-accordionTab>
   </p-accordion>

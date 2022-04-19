@@ -54,7 +54,7 @@ def search_pub(request):
     else:
         oblici = []
     s = Search(index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
-        .highlight('tekst', fragment_size=fragment_size, type='unified', boundary_scanner='sentence',
+        .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
                    number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     try:
         retval = []

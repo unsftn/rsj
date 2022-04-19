@@ -141,7 +141,16 @@ class Imenica(models.Model):
     def __str__(self):
         return f'{self.id}: {self.nomjed}'
 
-    def oblici(self):
+    def osnovni_oblik(self) -> str:
+        return self.nomjed
+
+    def vrsta_reci(self) -> int:
+        return 0
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[0]
+
+    def oblici(self) -> list:
         retval = _svi_oblici_imenice(self)
         for var in self.varijantaimenice_set.all():
             retval.extend(_svi_oblici_imenice(var))
@@ -224,7 +233,16 @@ class Glagol(models.Model):
     def __str__(self):
         return f'{self.id}: {self.infinitiv}'
 
-    def oblici(self):
+    def osnovni_oblik(self) -> str:
+        return self.infinitiv
+
+    def vrsta_reci(self) -> int:
+        return 1
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[1]
+
+    def oblici(self) -> list:
         retval = []
         _append_attr(retval, self, 'infinitiv')
         retval.extend(_svi_oblici_glagola(self))
@@ -307,7 +325,16 @@ class Pridev(models.Model):
     def __str__(self):
         return f'{self.id}'
 
-    def oblici(self):
+    def osnovni_oblik(self) -> str:
+        return self.lema
+
+    def vrsta_reci(self) -> int:
+        return 2
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[2]
+
+    def oblici(self) -> list:
         return _svi_oblici_prideva(self)
 
 

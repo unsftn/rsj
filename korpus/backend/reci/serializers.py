@@ -32,7 +32,7 @@ class ImenicaSerializer(serializers.ModelSerializer):
         fields = ('id', 'vrsta', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 
                   'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 
                   'nommno', 'genmno', 'datmno', 'akumno', 'vokmno', 'insmno', 'lokmno',
-                  'varijantaimenice_set', 'izmenaimenice_set')
+                  'varijantaimenice_set', 'izmenaimenice_set', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
 
 
 class VarijantaGlagolaSerializer(serializers.ModelSerializer):
@@ -61,7 +61,8 @@ class GlagolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Glagol
         fields = ('id', 'gl_vid', 'gl_rod', 'infinitiv', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena',
-                  'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps', 'oblikglagola_set')
+                  'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps', 'oblikglagola_set',
+                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
 
 
 class VidPridevaSerializer(serializers.ModelSerializer):
@@ -81,7 +82,8 @@ class PridevSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Pridev
-        fields = ('id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vidprideva_set')
+        fields = ('id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vidprideva_set',
+                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
 
 
 class NoSaveSerializer(serializers.Serializer):
