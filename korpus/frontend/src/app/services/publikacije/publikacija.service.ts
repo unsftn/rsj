@@ -119,6 +119,10 @@ export class PublikacijaService {
     return this.domSanitizer.bypassSecurityTrustHtml(retVal);
   }
 
+  getFilesForPub(pubId: number): Observable<any[]> {
+    return this.http.get<any[]>(`/api/publikacije/fajl-publikacije/?publikacija_id=${pubId}`);
+  }
+
   uploadFile(pubId: number, file): Observable<any> {
     const formData = new FormData();
     formData.append(file.name, file);
@@ -145,8 +149,8 @@ export class PublikacijaService {
     return this.http.delete<any>(`/api/publikacije/delete/text/${pubId}/`);
   }
 
-  extractTextFromFile(pubId: number, fileId: number): Observable<any> {
-    return this.http.put<any>(`/api/publikacije/extract/${pubId}/file/${fileId}/`, {});
+  extractTextForPub(pubId: number): Observable<any> {
+    return this.http.put<any>(`/api/publikacije/extract/${pubId}/`, {});
   }
 
   getFilterList(): Observable<any[]> {

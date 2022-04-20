@@ -30,7 +30,7 @@ class TekstPublikacijeSerializer(serializers.ModelSerializer):
 class FajlPublikacijeSerializer(serializers.ModelSerializer):
     class Meta:
         model = FajlPublikacije
-        fields = ('id', 'publikacija_id', 'redni_broj', 'filename', 'url', 'extracted')
+        fields = ('id', 'publikacija_id', 'redni_broj', 'filename', 'url', 'extraction_status')
 
 
 class ParametarFilteraSerializer(serializers.ModelSerializer):

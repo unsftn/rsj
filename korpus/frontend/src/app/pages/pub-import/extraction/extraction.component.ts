@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -9,13 +9,14 @@ import { PublikacijaService } from '../../../services/publikacije/publikacija.se
   templateUrl: './extraction.component.html',
   styleUrls: ['./extraction.component.scss']
 })
-export class ExtractionComponent implements OnInit {
+export class ExtractionComponent implements OnInit, OnDestroy {
 
   id: number;
   pub: any;
   pubFiles: any[];
   running: boolean;
   activeIndex: number;
+  extractionUpdateTimer: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +39,11 @@ export class ExtractionComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.extractionUpdateTimer)
+      clearInterval(this.extractionUpdateTimer);
+  }
+
   fetchData(): void {
     this.publikacijaService.get(this.id).subscribe((value) => {
       this.pub = value;
@@ -56,7 +62,16 @@ export class ExtractionComponent implements OnInit {
       this.activeIndex = 0;
       this.publikacijaService.deleteTextsForPub(this.id).subscribe({
         next: () => {
-          this.process();
+          this.publikacijaService.extractTextForPub(this.id).subscribe({
+            next: () => {
+              this.extractionUpdateTimer = setInterval(() => {
+                this.updateFileStatuses();
+              }, 1000);
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
         },
         error: (error) => {
           console.log(error);
@@ -65,56 +80,93 @@ export class ExtractionComponent implements OnInit {
     }
   }
 
-  process(): void {
-    if (this.activeIndex >= this.pubFiles.length) {
-      for (const pf of this.pubFiles) {
-        pf.status = 'спремна';
-        pf.severity = 'info';
-      }
-      this.running = false;
-      this.publikacijaService.publicationChanged.emit(true);
-      return;
-    }
-    this.moveStatus(this.pubFiles[this.activeIndex]);
-    switch (this.pubFiles[this.activeIndex].status) {
-      case 'у обради':
-        this.publikacijaService.extractTextFromFile(this.id, this.pubFiles[this.activeIndex].id).subscribe({
-          next: (res) => {
-            this.process();
-          },
-          error: (error) => {
-            console.log(error);
-            this.pubFiles[this.activeIndex].status = 'грешка';
-            this.pubFiles[this.activeIndex].severity = 'error';
-            this.activeIndex++;
-            this.process();
+  updateFileStatuses(): void {
+    this.publikacijaService.getFilesForPub(this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        data.forEach((item, index) => {
+          const pubFile = this.pubFiles[index];
+          switch (item.extraction_status) {
+            case 0:
+              pubFile.status = 'спремна';
+              pubFile.severity = 'info';
+              break;
+            case 1:
+              pubFile.status = 'у обради';
+              pubFile.severity = 'warning';
+              break;
+            case 2:
+              pubFile.status = 'завршен';
+              pubFile.severity = 'success';
+              break;
+            case 3:
+              pubFile.status = 'грешка';
+              pubFile.severity = 'error';
+              break;
           }
         });
-        break;
-      case 'завршен':
-        this.activeIndex++;
-        this.process();
-    }
+        if (data.every((elem) => elem.extraction_status > 1)) {
+          clearInterval(this.extractionUpdateTimer);
+          this.running = false;
+          this.publikacijaService.publicationChanged.emit(true);
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
-  moveStatus(pubFile): void {
-    switch (pubFile.status) {
-      case 'спремна':
-        pubFile.status = 'у обради';
-        pubFile.severity = 'warning';
-        break;
-      case 'у обради':
-        pubFile.status = 'завршен';
-        pubFile.severity = 'success';
-        break;
-      case 'завршен':
-        pubFile.status = 'спремна';
-        pubFile.severity = 'info';
-        break;
-      case 'грешка':
-        pubFile.status = 'спремна';
-        pubFile.severity = 'info';
-        break;
-    }
-  }
+  // process2(): void {
+  //   if (this.activeIndex >= this.pubFiles.length) {
+  //     for (const pf of this.pubFiles) {
+  //       pf.status = 'спремна';
+  //       pf.severity = 'info';
+  //     }
+  //     this.running = false;
+  //     this.publikacijaService.publicationChanged.emit(true);
+  //     return;
+  //   }
+  //   this.moveStatus(this.pubFiles[this.activeIndex]);
+  //   switch (this.pubFiles[this.activeIndex].status) {
+  //     case 'у обради':
+  //       this.publikacijaService.extractTextForPub(this.id).subscribe({
+  //         next: (res) => {
+  //           this.process2();
+  //         },
+  //         error: (error) => {
+  //           console.log(error);
+  //           this.pubFiles[this.activeIndex].status = 'грешка';
+  //           this.pubFiles[this.activeIndex].severity = 'error';
+  //           this.activeIndex++;
+  //           this.process2();
+  //         }
+  //       });
+  //       break;
+  //     case 'завршен':
+  //       this.activeIndex++;
+  //       this.process2();
+  //   }
+  // }
+
+  // moveStatus(pubFile): void {
+  //   switch (pubFile.status) {
+  //     case 'спремна':
+  //       pubFile.status = 'у обради';
+  //       pubFile.severity = 'warning';
+  //       break;
+  //     case 'у обради':
+  //       pubFile.status = 'завршен';
+  //       pubFile.severity = 'success';
+  //       break;
+  //     case 'завршен':
+  //       pubFile.status = 'спремна';
+  //       pubFile.severity = 'info';
+  //       break;
+  //     case 'грешка':
+  //       pubFile.status = 'спремна';
+  //       pubFile.severity = 'info';
+  //       break;
+  //   }
+  // }
 }

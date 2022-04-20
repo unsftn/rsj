@@ -5,6 +5,14 @@ from reci.models import UserProxy
 from .processing import FILTER_CHOICES
 
 
+EXTRACTION_STATUSES = [
+    (0, 'није започета'),
+    (1, 'у току'),
+    (2, 'успешна'),
+    (3, 'неуспешна')
+]
+
+
 class VrstaPublikacije(models.Model):
     naziv = models.CharField('назив', max_length=300)
 
@@ -106,7 +114,7 @@ class FajlPublikacije(models.Model):
     publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.CASCADE)
     redni_broj = models.PositiveSmallIntegerField('редни број')
     uploaded_file = models.FileField('фајл', upload_to=get_upload_path)
-    extracted = models.BooleanField(default=False)
+    extraction_status = models.IntegerField('статус екстракције', choices=EXTRACTION_STATUSES, default=0)
 
     def __str__(self):
         return str(self.publikacija) + ': ' + str(self.redni_broj)
