@@ -133,8 +133,11 @@ def push_highlighting_limit():
             'highlight.max_analyzed_offset': 100000000
         }
     }
-    r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/publikacije/_settings', json=payload)
-    return r.status_code == 200
+    if check_elasticsearch():
+        r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/publikacije/_settings', json=payload)
+        return r.status_code == 200
+    else:
+        return False
 
 
 class RecSerializer(serializers.ModelSerializer):
