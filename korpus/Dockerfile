@@ -11,7 +11,8 @@ FROM python:3.9-slim-bullseye
 LABEL maintainer="Branko Milosavljevic <mbranko@uns.ac.rs>"
 RUN apt -y update
 RUN apt -y install gcc libmariadb-dev-compat graphviz-dev libffi-dev libmagic1 libtiff-dev libopenjp2-7-dev liblcms-dev zlib1g-dev libjpeg-dev musl-dev
-RUN pip3 install -U pip setuptools
+RUN /usr/local/bin/python3 -m pip install --upgrade pip
+RUN pip3 install -U setuptools
 COPY backend/requirements.txt /app/requirements.txt
 RUN pip3 install -r /app/requirements.txt
 COPY backend /app
