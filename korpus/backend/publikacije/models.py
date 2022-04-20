@@ -106,6 +106,7 @@ class FajlPublikacije(models.Model):
     publikacija = models.ForeignKey(Publikacija, verbose_name='публикација', on_delete=models.CASCADE)
     redni_broj = models.PositiveSmallIntegerField('редни број')
     uploaded_file = models.FileField('фајл', upload_to=get_upload_path)
+    extracted = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.publikacija) + ': ' + str(self.redni_broj)

@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'django_filters',
+    'django_q',
     'reci',
     'publikacije',
     'indexer',
@@ -152,3 +153,10 @@ SIMPLE_JWT = {
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 ADMINS = [('Branko Milosavljevic', 'mbranko@uns.ac.rs')]
+
+Q_CLUSTER = {
+    'name': 'publications',
+    'orm': 'default',
+    'retry': 360,
+    'timeout': 350,
+}

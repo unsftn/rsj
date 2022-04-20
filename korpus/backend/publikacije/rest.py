@@ -1,4 +1,5 @@
 from django.db.models import Max
+from django_q.tasks import async_task
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import NotFound, UnsupportedMediaType
@@ -9,6 +10,7 @@ from .models import *
 from .serializers import *
 from .extractor import extract_file
 from .processing import extract_pdf_file, get_filter, invoke_filter, get_filter_list
+from .tasks import extract_text_for_pub
 
 
 class VrstaPublikacijeList(generics.ListAPIView):
@@ -248,31 +250,12 @@ def api_delete_texts_for_pub(request, pub_id):
 
 
 @api_view(['PUT'])
-def api_extract_text_from_file(request, pub_id, file_id):
+def api_extract_text_for_pub(request, pub_id):
     try:
         Publikacija.objects.get(id=pub_id)
-        fajl_publikacije = FajlPublikacije.objects.get(id=file_id)
-        filepath = fajl_publikacije.filepath()
-        name, ext = os.path.splitext(filepath)
-        if ext.lower().startswith('.pdf'):
-            pages = extract_pdf_file(filepath)
-        elif ext.lower().startswith('.doc'):
-            extract = extract_file(fajl_publikacije)
-            pages = [page['text'] for page in extract['pages']]
-        else:
-            raise UnsupportedMediaType(ext.lower(), 'Непознат формат фајла')
-        prethodni = TekstPublikacije.objects.filter(publikacija_id=pub_id).aggregate(Max('redni_broj'))[
-                        'redni_broj__max'] or 0
-        for index, page in enumerate(pages):
-            TekstPublikacije.objects.create(
-                publikacija_id=pub_id,
-                redni_broj=prethodni + index + 1,
-                tekst=page,
-                tagovan_tekst='')
+        async_task(extract_text_for_pub, pub_id)
         return Response({}, status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     except Publikacija.DoesNotExist:
-        raise NotFound()
-    except FajlPublikacije.DoesNotExist:
         raise NotFound()
 
 
