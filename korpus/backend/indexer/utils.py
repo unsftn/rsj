@@ -127,6 +127,16 @@ def recreate_index():
         log.fatal(ex)
 
 
+def push_highlighting_limit():
+    payload = {
+        'index': {
+            'highlight.max_analyzed_offset': 100000000
+        }
+    }
+    r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/publikacije/_settings', json=payload)
+    return r.status_code == 200
+
+
 class RecSerializer(serializers.ModelSerializer):
     pk = serializers.IntegerField(required=True)
     rec = serializers.CharField(max_length=50, required=True)
