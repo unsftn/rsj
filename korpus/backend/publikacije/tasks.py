@@ -14,6 +14,7 @@ def extract_text_for_pub(pub_id):
         TekstPublikacije.objects.filter(publikacija=publikacija).delete()
         for fajl_publikacije in publikacija.fajlpublikacije_set.all().order_by('redni_broj'):
             filepath = fajl_publikacije.filepath()
+            log.info(f'Extracting from {filepath}...')
             name, ext = os.path.splitext(filepath)
             fajl_publikacije.extraction_status = 1
             fajl_publikacije.save()
@@ -21,6 +22,7 @@ def extract_text_for_pub(pub_id):
                 pages = extract_pdf_file(filepath)
             elif ext.lower().startswith('.doc'):
                 extract = extract_file(fajl_publikacije)
+                print(extract)
                 pages = [page['text'] for page in extract['pages']]
             else:
                 log.fatal(f'Unsuported file format for: {filepath}')

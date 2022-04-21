@@ -8,6 +8,5 @@ if [ "$#" -ne 0 ]; then
   python3 manage.py "$@"
 else
   python3 manage.py migrate
-  # uwsgi --ini /app/config/uwsgi-prod.ini
   gunicorn -b 0.0.0.0:8000 -w 4 --access-logfile /app/log/gunicorn.log korpus.wsgi:application
 fi

@@ -16,7 +16,6 @@ def extract_file(fajl_publikacije):
     if not isinstance(fajl_publikacije, FajlPublikacije):
         return None
     filepath = os.path.join(settings.MEDIA_ROOT, fajl_publikacije.filepath())
-    logger.info(f'Ekstrakcija fajla {filepath}')
     files = {'file': open(filepath, 'rb')}
     response = requests.post('https://extractor.rsj.rs/extract', files=files)
     logger.info(f'Status ekstrakcije: {response.status_code}')
