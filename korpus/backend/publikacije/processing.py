@@ -1,10 +1,13 @@
 import re
 import string
-import pdfplumber
+import regex
+# import pdfplumber
 from .cyrlat import lat_to_cyr
 
 PAGE_NUMBER_AT_END = re.compile(r'[0-9]+$')
 PAGE_NUMBER_AT_TOP = re.compile(r'^[0-9]+')
+PAGE_NUMBER_ALONE = re.compile(r'\n[\f\t\r ]*[0-9]+[\f\t\r ]*\n')
+HYPHEN_ANYWHERE = r'(\p{L})-\w+(\p{L})'
 
 
 def nop(page_text):
@@ -24,6 +27,14 @@ def clean_hyphens_at_end_of_line(page_text, page_number):
     return page_text.replace('-\n', '').replace('- \n', '')
 
 
+def clean_hyphens_anywhere(page_text, page_number):
+    if not page_text:
+        return page_text
+    text = page_text.replace('-\n', '').replace('- \n', '')
+    text = regex.sub(HYPHEN_ANYWHERE, r'\1 \2', text)
+    return text
+
+
 def clean_page_number_at_end(page_text, page_number):
     if not page_text:
         return page_text
@@ -36,10 +47,22 @@ def clean_page_number_at_top(page_text, page_number):
     return re.sub(PAGE_NUMBER_AT_TOP, '', page_text)
 
 
+def clean_page_number_anywhere(page_text, page_number):
+    if not page_text:
+        return page_text
+    return re.sub(PAGE_NUMBER_ALONE, '', page_text)
+
+
 def merge_lines_ending_with_blank(page_text, page_number):
     if not page_text:
         return page_text
     return page_text.replace(' \n', ' ')
+
+
+def remove_empty_lines(page_text, page_number):
+    if not page_text:
+        return page_text
+    return ''.join([s for s in page_text.splitlines(True) if s.strip()])
 
 
 def remove_starting_pages(page_text, page_number, numberofpages):
@@ -70,29 +93,29 @@ def clean_page(page_text, operations):
     return page_text.strip()
 
 
-def extract_pdf_file(file_name):
-    pages = []
-    with pdfplumber.open(file_name) as pdf:
-        for page in pdf.pages:
-            page_text = page.extract_text()
-            if not page_text:
-                continue
-            pages.append(page_text)
-    return pages
-
-
-def clean_pdf_file(file_name, operations):
-    pages = []
-    with pdfplumber.open(file_name) as pdf:
-        for page in pdf.pages:
-            page_text = page.extract_text()
-            if not page_text:
-                continue
-            page_text = clean_page(page_text, operations)
-            if not page_text:
-                continue
-            pages.append(page_text)
-    return pages
+# def extract_pdf_file(file_name):
+#     pages = []
+#     with pdfplumber.open(file_name) as pdf:
+#         for page in pdf.pages:
+#             page_text = page.extract_text()
+#             if not page_text:
+#                 continue
+#             pages.append(page_text)
+#     return pages
+#
+#
+# def clean_pdf_file(file_name, operations):
+#     pages = []
+#     with pdfplumber.open(file_name) as pdf:
+#         for page in pdf.pages:
+#             page_text = page.extract_text()
+#             if not page_text:
+#                 continue
+#             page_text = clean_page(page_text, operations)
+#             if not page_text:
+#                 continue
+#             pages.append(page_text)
+#     return pages
 
 
 # def filter_publication(pub_id):
@@ -124,7 +147,7 @@ FILTERS = [
      'params': []},
     {'code': 1, 'description': 'Уклони фиксан садржај', 'function': clean_fixed_content, 'page': True,
      'params': [{'name': 'content', 'title': 'Текст', 'value': ''}]},
-    {'code': 2, 'description': 'Уклони хифенацију', 'function': clean_hyphens_at_end_of_line, 'page': True,
+    {'code': 2, 'description': 'Уклони хифенацију на крају реда', 'function': clean_hyphens_at_end_of_line, 'page': True,
      'params': []},
     {'code': 3, 'description': 'Уклони број странице на дну', 'function': clean_page_number_at_end, 'page': True,
      'params': []},
@@ -135,7 +158,13 @@ FILTERS = [
     {'code': 6, 'description': 'Уклони почетне странице', 'function': remove_starting_pages, 'page': False,
      'params': [{'name': 'numberofpages', 'title': 'Број страница', 'value': ''}]},
     {'code': 7, 'description': 'Латиница у ћирилицу', 'function': latin_to_cyrillic, 'page': True,
-     'params': []}
+     'params': []},
+    {'code': 8, 'description': 'Уклони усамљен број у линији', 'function': clean_page_number_anywhere, 'page': True,
+     'params': []},
+    {'code': 9, 'description': 'Уклони празне линије', 'function': remove_empty_lines, 'page': True,
+     'params': []},
+    {'code': 10, 'description': 'Уклони хифенацију било где', 'function': clean_hyphens_anywhere, 'page': True,
+     'params': []},
 ]
 
 FILTER_CHOICES = [(x['code'], x['description']) for x in FILTERS]

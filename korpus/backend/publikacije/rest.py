@@ -9,7 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
 from .extractor import extract_file
-from .processing import extract_pdf_file, get_filter, invoke_filter, get_filter_list
+from .processing import get_filter, invoke_filter, get_filter_list
 from .tasks import extract_text_for_pub
 
 

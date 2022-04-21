@@ -2,7 +2,7 @@ import logging
 import os
 from django.db.models import Max
 from .extractor import extract_file
-from .processing import extract_pdf_file, get_filter, invoke_filter, get_filter_list
+# from .processing import extract_pdf_file, get_filter, invoke_filter, get_filter_list
 from .models import *
 
 log = logging.getLogger(__name__)
@@ -18,17 +18,20 @@ def extract_text_for_pub(pub_id):
             name, ext = os.path.splitext(filepath)
             fajl_publikacije.extraction_status = 1
             fajl_publikacije.save()
-            if ext.lower().startswith('.pdf'):
-                pages = extract_pdf_file(filepath)
-            elif ext.lower().startswith('.doc'):
-                extract = extract_file(fajl_publikacije)
-                print(extract)
-                pages = [page['text'] for page in extract['pages']]
-            else:
-                log.fatal(f'Unsuported file format for: {filepath}')
-                fajl_publikacije.extraction_status = 3
-                fajl_publikacije.save()
-                return
+            text = extract_file(fajl_publikacije)
+            lines = text.splitlines()
+            pages = ['\n'.join(lines[i:i+50]) for i in range(0, len(lines), 50)]
+            # if ext.lower().startswith('.pdf'):
+            #     pages = extract_pdf_file(filepath)
+            # elif ext.lower().startswith('.doc'):
+            #     extract = extract_file(fajl_publikacije)
+            #     print(extract)
+            #     pages = [page['text'] for page in extract['pages']]
+            # else:
+            #     log.fatal(f'Unsuported file format for: {filepath}')
+            #     fajl_publikacije.extraction_status = 3
+            #     fajl_publikacije.save()
+            #     return
             prethodni = TekstPublikacije.objects.filter(publikacija_id=pub_id).aggregate(Max('redni_broj'))[
                             'redni_broj__max'] or 0
             for index, page in enumerate(pages):
