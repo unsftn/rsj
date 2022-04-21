@@ -54,7 +54,6 @@ sqlparse==0.4.2
 tinycss2==1.1.1
 uritemplate==4.1.1
 urllib3==1.26.9
-uWSGI==2.0.20
 weasyprint==54.2
 webencodings==0.5.1
 whitenoise==5.3.0
