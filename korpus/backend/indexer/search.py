@@ -1,7 +1,6 @@
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK
 from elasticsearch_dsl.query import MultiMatch
 from .utils import *
 from reci.models import *

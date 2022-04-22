@@ -32,8 +32,10 @@ class Command(BaseCommand):
                 count += 1
             if count % 1000 == 0 and count > 0:
                 self.stdout.write('.', ending='')
+                self.stdout.flush()
             if count % 10000 == 0 and count > 0:
                 self.stdout.write(f'{count}')
+                self.stdout.flush()
         if count % 10000 != 0 and count > 1000:
             self.stdout.write('')
         self.stdout.write(self.style.SUCCESS(f'Ukupno indeksirano {count} {naziv}.'))

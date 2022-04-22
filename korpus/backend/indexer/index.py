@@ -48,11 +48,9 @@ def index_glagol(glagol):
 
 
 def index_pridev(pridev):
-    oblici = pridev.oblici()
-    prvi = oblici[0] if len(oblici) > 0 else ''
     pridev_dict = {
         'pk': pridev.pk,
-        'rec': prvi,
+        'rec': pridev.lema,
         'vrsta': 2,
         'oblici': pridev.oblici(),
     }

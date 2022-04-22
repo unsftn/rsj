@@ -58,9 +58,9 @@ export class HomeComponent implements OnInit {
         console.log(error);
       }
     });
-    this.searchService.selectedWordId = 28247;
-    this.searchService.selectedWordType = 0;
-    this.searchService.selectedWordChanged.emit(true);
+    // this.searchService.selectedWordId = 28247;
+    // this.searchService.selectedWordType = 0;
+    // this.searchService.selectedWordChanged.emit(true);
   }
 
   safe(html: string): SafeHtml {

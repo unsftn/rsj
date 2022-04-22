@@ -405,7 +405,7 @@ class IzmenaPrideva(models.Model):
 
 
 def _svi_oblici_prideva(pridev):
-    retval = []
+    retval = [pridev.lema]
     for vid in pridev.vidprideva_set.all():
         for attr in ['mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed',
                      'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno', 'minsmno', 'mlokmno',
