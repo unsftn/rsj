@@ -101,6 +101,9 @@ export class PublikacijaService {
       return this.domSanitizer.bypassSecurityTrustHtml('');
     let retVal = '';
     for (const autor of pub.autor_set) {
+      if (retVal.length > 0) {
+        retVal += '; ';
+      }
       retVal += autor.prezime + ', ' + autor.ime;
     }
     if (retVal.length > 0) {
