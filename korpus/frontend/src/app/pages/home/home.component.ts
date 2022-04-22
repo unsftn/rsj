@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   wordType: number;
   word: any;
   hits: any[];
+  searching: boolean;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -36,10 +37,11 @@ export class HomeComponent implements OnInit {
       next: (data: boolean) => {
         this.wordId = this.searchService.selectedWordId;
         this.wordType = this.searchService.selectedWordType;
+        this.searching = true;
+        this.hits = [];
         this.recService.get(this.wordId, this.wordType).subscribe({
           next: (word: any) => {
             this.word = word;
-            console.log(word);
           },
           error: (error) => {
             console.log(error);
@@ -47,6 +49,7 @@ export class HomeComponent implements OnInit {
         });
         this.searchService.searchPubs(this.wordId, this.wordType).subscribe({
           next: (hits: any[]) => {
+            this.searching = false;
             this.hits = hits;
           },
           error: (error) => {
@@ -58,9 +61,6 @@ export class HomeComponent implements OnInit {
         console.log(error);
       }
     });
-    // this.searchService.selectedWordId = 28247;
-    // this.searchService.selectedWordType = 0;
-    // this.searchService.selectedWordChanged.emit(true);
   }
 
   safe(html: string): SafeHtml {

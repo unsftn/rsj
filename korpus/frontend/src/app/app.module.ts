@@ -46,6 +46,7 @@ import { PublicationComponent } from './pages/publication/publication.component'
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PubListComponent } from './pages/pub-list/pub-list.component';
 import { SafePipe } from './utils/safe.pipe';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, SafePipe],
@@ -81,6 +82,7 @@ import { SafePipe } from './utils/safe.pipe';
     OrderListModule,
     FileUploadModule,
     AccordionModule,
+    ProgressSpinnerModule,
     // ImporterModule,
   ],
   providers: [

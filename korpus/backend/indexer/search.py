@@ -63,7 +63,7 @@ def search_pub(request):
                 'pub_id': hit._source.pk,
                 'skracenica': hit._source.skracenica,
                 'opis': hit._source.opis,
-                'highlights': [t for t in hit.highlight.tekst],
+                'highlights': [t for t in hit.highlight.tekst] if hit['highlight'] else [],
             })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
