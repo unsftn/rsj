@@ -14,7 +14,7 @@ def search_rec(request):
     term = request.GET.get('q')
     hits = []
     s = Search(index=REC_INDEX)
-    s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])
+    s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
     s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
     try:
         response = s.execute()
