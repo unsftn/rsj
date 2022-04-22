@@ -33,29 +33,35 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('Почетна');
     this.primengConfig.ripple = true;
+    if (this.searchService.selectedWordId)
+      this.fetchData();
     this.searchService.selectedWordChanged.subscribe({
       next: (data: boolean) => {
-        this.wordId = this.searchService.selectedWordId;
-        this.wordType = this.searchService.selectedWordType;
-        this.searching = true;
-        this.hits = [];
-        this.recService.get(this.wordId, this.wordType).subscribe({
-          next: (word: any) => {
-            this.word = word;
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
-        this.searchService.searchPubs(this.wordId, this.wordType).subscribe({
-          next: (hits: any[]) => {
-            this.searching = false;
-            this.hits = hits;
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
+        this.fetchData();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  fetchData(): void {
+    this.wordId = this.searchService.selectedWordId;
+    this.wordType = this.searchService.selectedWordType;
+    this.searching = true;
+    this.hits = [];
+    this.recService.get(this.wordId, this.wordType).subscribe({
+      next: (word: any) => {
+        this.word = word;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+    this.searchService.searchPubs(this.wordId, this.wordType).subscribe({
+      next: (hits: any[]) => {
+        this.searching = false;
+        this.hits = hits;
       },
       error: (error) => {
         console.log(error);
