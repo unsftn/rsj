@@ -25,7 +25,8 @@ def search_rec(request):
                 'rec': hit['_source']['rec'],
                 'pk': hit['_source']['pk']
             })
-        return Response(hits, status=HTTP_200_OK, content_type=JSON)
+        result = sorted(hits, key=lambda x: x['rec'])
+        return Response(result, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
         return server_error(error.args)
 

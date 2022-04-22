@@ -4,7 +4,7 @@
     <p class="logo-text"><a [routerLink]="['/']">Корпус српског језика</a></p>
   </div>
   <div class="search-container">
-    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="600px" (onSelect)="select($event)" placeholder="Претрага">
+    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="400px" (onSelect)="select($event)" placeholder="Претрага">
       <ng-template let-word pTemplate="item">
         <span class="rec">{{word.rec}}</span>
         <span class="vrsta">{{word.vrsta_text}}</span>
