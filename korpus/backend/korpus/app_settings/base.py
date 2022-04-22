@@ -117,7 +117,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': 'log/izbori.log',
+            'filename': 'log/korpus.log',
             'formatter': 'medium'
         },
         'mail_admins': {
