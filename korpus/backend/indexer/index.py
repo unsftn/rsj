@@ -29,7 +29,7 @@ def index_publikacija(pub_id):
 
 def index_imenica(imenica):
     imenica_dict = {
-        'pk': imenica.pk,
+        'pk': '0_' + str(imenica.pk),
         'rec': imenica.nomjed,
         'vrsta': 0,
         'oblici': imenica.oblici(),
@@ -39,7 +39,7 @@ def index_imenica(imenica):
 
 def index_glagol(glagol):
     glagol_dict = {
-        'pk': glagol.pk,
+        'pk': '1_' + str(glagol.pk),
         'rec': glagol.infinitiv,
         'vrsta': 1,
         'oblici': glagol.oblici(),
@@ -49,7 +49,7 @@ def index_glagol(glagol):
 
 def index_pridev(pridev):
     pridev_dict = {
-        'pk': pridev.pk,
+        'pk': '2_' + str(pridev.pk),
         'rec': pridev.lema,
         'vrsta': 2,
         'oblici': pridev.oblici(),

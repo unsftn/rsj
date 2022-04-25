@@ -23,7 +23,7 @@ def search_rec(request):
                 'vrsta': hit['_source']['vrsta'],
                 'vrsta_text': VRSTE_RECI[hit['_source']['vrsta']],
                 'rec': hit['_source']['rec'],
-                'pk': hit['_source']['pk']
+                'pk': int(hit['_source']['pk'].split('_')[1])
             })
         result = sorted(hits, key=lambda x: x['rec'])
         return Response(result, status=HTTP_200_OK, content_type=JSON)

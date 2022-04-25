@@ -164,7 +164,6 @@ class RecSerializer(serializers.ModelSerializer):
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
-        # print(f'{vrsta} | {rec} | {rec_sa_varijantama}')
         return RecDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, vrsta=vrsta)
 
 
