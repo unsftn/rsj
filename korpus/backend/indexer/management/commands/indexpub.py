@@ -2,6 +2,7 @@ import logging
 from django.core.management.base import BaseCommand, CommandError
 from publikacije.models import Publikacija, TekstPublikacije
 from ...index import index_publikacija
+from ...utils import recreate_index, PUB_INDEX
 
 log = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ class Command(BaseCommand):
                 publist = Publikacija.objects.filter(id=pub_id)
             else:
                 publist = Publikacija.objects.all()
+                recreate_index(PUB_INDEX)
             for pub in publist:
                 status = index_publikacija(pub.id)
                 if status:

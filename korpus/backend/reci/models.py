@@ -243,8 +243,7 @@ class Glagol(models.Model):
         return VRSTE_RECI[1]
 
     def oblici(self) -> list:
-        retval = []
-        _append_attr(retval, self, 'infinitiv')
+        retval = [self.infinitiv]
         retval.extend(_svi_oblici_glagola(self))
         return retval
 

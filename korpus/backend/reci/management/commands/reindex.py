@@ -2,7 +2,7 @@ from datetime import datetime
 import logging
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from indexer.utils import recreate_index, check_elasticsearch
+from indexer.utils import recreate_index, check_elasticsearch, REC_INDEX
 from indexer.index import index_imenica, index_glagol, index_pridev
 from ...models import Imenica, Glagol, Pridev
 
@@ -16,11 +16,11 @@ class Command(BaseCommand):
         if not check_elasticsearch():
             self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}:9200/')
             return
-        recreate_index()
+        recreate_index(REC_INDEX)
         start_time = datetime.now()
         self.index_rec('imenica', Imenica, index_imenica)
-        self.index_rec('glagola', Glagol, index_glagol)
         self.index_rec('prideva', Pridev, index_pridev)
+        self.index_rec('glagola', Glagol, index_glagol)
         end_time = datetime.now()
         log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
 

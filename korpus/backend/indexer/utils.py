@@ -30,6 +30,9 @@ class RecDocument(TimestampedDocument):
     vrsta = Keyword()
     oblici = SearchAsYouType()
 
+    def __str__(self):
+        return f'{self.pk} | {self.vrsta} | {self.rec} | {self.oblici}'
+
 
 class PubDocument(TimestampedDocument):
     pk = Keyword()
@@ -41,10 +44,10 @@ class PubDocument(TimestampedDocument):
 SERBIAN_ANALYZER = analyzer('serbian')
 PUB_INDEX = 'publikacije'
 REC_INDEX = 'reci'
-ALL_INDEXES = [
-    {'index': PUB_INDEX, 'document': PubDocument},
-    {'index': REC_INDEX, 'document': RecDocument},
-]
+ALL_INDEXES = {
+    PUB_INDEX: {'index': PUB_INDEX, 'document': PubDocument},
+    REC_INDEX: {'index': REC_INDEX, 'document': RecDocument},
+}
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 
 
@@ -107,7 +110,7 @@ def check_elasticsearch():
 
 def create_index_if_needed():
     try:
-        for es_idx in ALL_INDEXES:
+        for es_idx in ALL_INDEXES.values():
             if not connections.get_connection().indices.exists(es_idx['index']):
                 idx = Index(es_idx['index'])
                 idx.analyzer(SERBIAN_ANALYZER)
@@ -117,9 +120,10 @@ def create_index_if_needed():
         log.fatal(ex)
 
 
-def recreate_index():
+def recreate_index(index=None):
+    indexes = [ALL_INDEXES[index]] if index else ALL_INDEXES.values()
     try:
-        for es_idx in ALL_INDEXES:
+        for es_idx in indexes:
             if connections.get_connection().indices.exists(es_idx['index']):
                 connections.get_connection().indices.delete(es_idx['index'])
         create_index_if_needed()
@@ -160,6 +164,7 @@ class RecSerializer(serializers.ModelSerializer):
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
+        # print(f'{vrsta} | {rec} | {rec_sa_varijantama}')
         return RecDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, vrsta=vrsta)
 
 
