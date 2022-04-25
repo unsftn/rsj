@@ -80,4 +80,8 @@ export class HomeComponent implements OnInit {
   isLoggedIn(): boolean {
     return this.tokenStorageService.isLoggedIn();
   }
+
+  get editRouterLink(): any[] {
+    return this.recService.getEditRouterLink(this.wordId, this.wordType);
+  }
 }

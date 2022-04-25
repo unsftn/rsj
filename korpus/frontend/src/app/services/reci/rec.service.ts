@@ -23,4 +23,17 @@ export class RecService {
       case 9: return of({});  // TODO
     }
   }
+
+  getEditLink(wordType: number): string {
+    switch (wordType) {
+      case 0: return '/imenica';
+      case 1: return '/glagol';
+      case 2: return '/pridev';
+      default: return '';
+    }
+  }
+
+  getEditRouterLink(id: number, wordType: number): any[] {
+    return [this.getEditLink(wordType), id];
+  }
 }
