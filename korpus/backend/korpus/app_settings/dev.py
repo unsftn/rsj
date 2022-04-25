@@ -17,10 +17,6 @@ DATABASES = {
             'charset': 'utf8mb4'
         }
     },
-    # 'memory': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': 'file:memorydb?mode=memory&cache=shared',
-    # }
 }
 
 ELASTICSEARCH_HOST = 'localhost'

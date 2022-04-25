@@ -20,15 +20,11 @@ DATABASES = {
             'charset': 'utf8mb4'
         }
     },
-    # 'memory': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': 'file:memorydb?mode=memory&cache=shared',
-    # }
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.uns.ac.rs'
-EMAIL_PORT = 587
+EMAIL_HOST = read_or_get('/private/secrets', 'EMAIL_HOST', 'smtp.uns.ac.rs')
+EMAIL_PORT = eval(read_or_get('/private/secrets', 'EMAIL_PORT', '587')) or 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = read_or_get('/private/secrets', 'EMAIL_HOST_USER', '******')
 EMAIL_HOST_PASSWORD = read_or_get('/private/secrets', 'EMAIL_HOST_PASSWORD', '**********')
