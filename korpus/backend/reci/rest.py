@@ -1,13 +1,16 @@
 # coding=utf-8
+import random
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
+from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
 from .models import *
 from .serializers import *
-from .indexer import *
+from indexer.index import index_imenica, index_glagol, index_pridev
 
 
 class ImenicaList(generics.ListAPIView):
@@ -132,3 +135,56 @@ def save_pridev(request):
         return Response(ser2.data, status=code, content_type=JSON)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['PUT'])
+def change_password(request):
+    try:
+        user = UserProxy.objects.get(id=request.user.id)
+        new_password = request.data['newPassword']
+        user.set_password(new_password)
+        user.save()
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+    except:
+        raise ValidationError(detail='Није могуће променити лозинку', code=400)
+
+
+@api_view(['POST'])
+@csrf_exempt
+@permission_classes([permissions.AllowAny])
+def forgot_password(request):
+    try:
+        email = request.data['email']
+        user = UserProxy.objects.get(email=email)
+        new_password = generate_password()
+        user.set_password(new_password)
+        user.save()
+        send_mail('Nova lozinka za Korpus',
+                  EMAIL_TEXT % new_password,
+                  'recnik@uns.ac.rs',
+                  [email],
+                  fail_silently=True)
+        return Response({}, status=status.HTTP_201_CREATED)
+    except:
+        raise ValidationError(detail='Непознат корисник', code=404)
+
+
+def generate_password():
+    digits = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
+              "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    random.shuffle(digits)
+    return "".join(digits[:12])
+
+
+EMAIL_TEXT = """
+
+Poštovani,
+
+Zatražili ste kreiranje nove lozinke za sajt Korpusa srpskog jezika. 
+
+Vaša nova lozinka je %s
+
+---
+pozdrav,
+RSJ
+"""

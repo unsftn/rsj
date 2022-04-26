@@ -519,7 +519,7 @@ def forgot_password(request):
         user.save()
         send_mail('Nova lozinka za Recnik',
                   EMAIL_TEXT % new_password,
-                  'mbranko@uns.ac.rs',
+                  'recnik@uns.ac.rs',
                   [email],
                   fail_silently=True)
         return Response({}, status=status.HTTP_201_CREATED, content_type=JSON)

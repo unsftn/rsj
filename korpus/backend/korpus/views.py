@@ -19,4 +19,4 @@ def get_config(request):
     resp = {
         'HEADER_COLOR_SCHEME': settings.HEADER_COLOR_SCHEME,
     }
-    return Response(resp, status=status.HTTP_200_OK, content_type='application/json')
+    return Response(resp, status=status.HTTP_200_OK)

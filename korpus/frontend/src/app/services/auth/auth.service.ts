@@ -18,10 +18,10 @@ export class AuthService {
   }
 
   changePassword(newPassword: string): Observable<any> {
-    return this.http.put('/api/odrednice/password/change/', {newPassword});
+    return this.http.put('/api/reci/password/change/', {newPassword});
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.http.post('/api/odrednice/password/forgot/', {email});
+    return this.http.post('/api/reci/password/forgot/', {email});
   }
 }
