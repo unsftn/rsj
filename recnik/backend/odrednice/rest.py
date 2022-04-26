@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models.functions import Collate
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
@@ -507,6 +508,7 @@ def change_password(request):
 
 
 @api_view(['POST'])
+@csrf_exempt
 @permission_classes([permissions.AllowAny])
 def forgot_password(request):
     try:

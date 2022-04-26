@@ -46,13 +46,13 @@ export class LoginComponent implements OnInit {
 
     const email = this.f.username.value.trim();
     const password = this.f.password.value.trim();
-    this.authService.login(email, password).subscribe(
-      (data) => {
+    this.authService.login(email, password).subscribe({
+      next: (data) => {
         this.tokenStorage.saveToken(data.access, data.refresh);
         this.tokenStorage.saveUser({ email, password, firstName: data.first_name, lastName: data.last_name, isStaff: data.is_staff, group: data.groups[0]});
         this.router.navigate([this.returnUrl]);
       },
-      (err) => {
+      error: (err) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Грешка',
@@ -60,13 +60,13 @@ export class LoginComponent implements OnInit {
           detail: 'Неуспешно пријављивање: неисправна адреса е-поште и/или лозинка.',
         });
       },
-    );
+    });
   }
 
   forgotPassword(): void {
     const email = this.f.username.value.trim();
-    this.authService.forgotPassword(email).subscribe(
-      (data) => {
+    this.authService.forgotPassword(email).subscribe({
+      next: (data) => {
         this.messageService.add({
           severity: 'success',
           summary: 'Послат и-мејл',
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
           detail: 'На Вашу и-мејл адресу је послатa нова лозинка.'
         });
       },
-      (еrror) => {
+      error: (еrror) => {
         this.messageService.add({
           severity: 'error',
           summary: 'Грешка',
@@ -82,6 +82,6 @@ export class LoginComponent implements OnInit {
           detail: 'Корисник са датом и-мејл адресом није познат.'
         });
       }
-    );
+    });
   }
 }
