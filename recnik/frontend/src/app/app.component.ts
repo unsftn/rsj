@@ -67,7 +67,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
-    this.username = this.tokenStorageService.getUser()?.firstName ?? '';
+    const user = this.tokenStorageService.getUser();
+    this.username = (user === null) ? '' : (( 'firstName' in user ? user.firstName : ''));
     this.items = [
       {
         label: 'Пријава',
