@@ -22,7 +22,7 @@ def index_publikacija(pub_id, client=None):
     })
     try:
         if not client:
-            client = Elasticsearch()
+            client = get_es_client()
         pub.save(using=client, id=publikacija.id, index=PUB_INDEX)
         return True
     except Exception as ex:
@@ -78,7 +78,7 @@ def delete_imenica(imenica_id):
     imenica = RecDocument()
     try:
         # TODO: select properly
-        client = Elasticsearch()
+        client = get_es_client()
         imenica.delete(using=client, id=imenica_id, index=REC_INDEX)
     except NotFoundError:
         return False

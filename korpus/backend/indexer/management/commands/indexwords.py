@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 from elasticsearch import Elasticsearch
 from reci.models import Imenica, Glagol, Pridev
-from indexer.utils import init_es_connection, recreate_index, check_elasticsearch, REC_INDEX
+from indexer.utils import get_es_client, recreate_index, check_elasticsearch, REC_INDEX
 from indexer.index import index_imenica, index_glagol, index_pridev
 
 log = logging.getLogger(__name__)
@@ -15,16 +15,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not check_elasticsearch():
-            self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}:9200/')
+            self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}/')
             return
-        # if not init_es_connection():
-        #     self.stdout.write(f'Nije inicijalizovana konekcija na Elasticsearch')
-        #     return
         if not recreate_index(REC_INDEX):
             self.stdout.write(f'Nije kreiran indeks {REC_INDEX}')
             return
         start_time = datetime.now()
-        client = Elasticsearch()
+        client = get_es_client()
         self.index_rec('imenica', Imenica, index_imenica, client)
         self.index_rec('prideva', Pridev, index_pridev, client)
         self.index_rec('glagola', Glagol, index_glagol, client)

@@ -16,8 +16,8 @@ def search_rec(request):
     term = request.GET.get('q')
     hits = []
     try:
-        # client = Elasticsearch()
-        s = Search(index=REC_INDEX)
+        client = get_es_client()
+        s = Search(using=client, index=REC_INDEX)
         s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
         s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
         response = s.execute()
@@ -58,8 +58,8 @@ def search_pub(request):
         oblici = Pridev.objects.get(pk=word_id).oblici()
     else:
         oblici = []
-    # client = Elasticsearch()
-    s = Search(index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
+    client = get_es_client()
+    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
         .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
                    number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     try:
@@ -67,7 +67,7 @@ def search_pub(request):
         response = s.execute()
         for hit in response.hits.hits:
             try:
-                highlight = hit['highlight']
+                hit['highlight']
                 highlights = [t for t in hit.highlight.tekst]
             except KeyError:
                 highlights = []

@@ -14,14 +14,15 @@ from .cyrlat import cyr_to_lat
 log = logging.getLogger(__name__)
 
 
-def init_es_connection():
+def get_es_client():
     try:
-        log.info(f'Opening connection to {settings.ELASTICSEARCH_HOST}')
-        connections.create_connection(hosts=[settings.ELASTICSEARCH_HOST])
-        return True
+        host = settings.ELASTICSEARCH_HOST
+        if host.find(':') == -1:
+            host = host + ':9200'
+        return connections.create_connection(hosts=[host])
     except Exception as exc:
         log.fatal(exc)
-        return False
+        return None
 
 
 class TimestampedDocument(Document):
@@ -98,7 +99,10 @@ def add_latin(lst):
 
 def check_elasticsearch():
     try:
-        r = requests.get(f'http://{settings.ELASTICSEARCH_HOST}:9200/')
+        host = settings.ELASTICSEARCH_HOST
+        if host.find(':') == -1:
+            host = host + ':9200'
+        r = requests.get(f'http://{host}/')
         if r.status_code != 200:
             return False
         json = r.json()
@@ -113,7 +117,7 @@ def check_elasticsearch():
 
 def create_index_if_needed():
     try:
-        client = Elasticsearch()
+        client = get_es_client()
         for es_idx in ALL_INDEXES.values():
             if not client.indices.exists(es_idx['index']):
                 idx = Index(es_idx['index'])
@@ -128,8 +132,8 @@ def create_index_if_needed():
 
 def recreate_index(index=None):
     indexes = [ALL_INDEXES[index]] if index else ALL_INDEXES.values()
-    client = Elasticsearch()
     try:
+        client = get_es_client()
         for es_idx in indexes:
             if client.indices.exists(es_idx['index']):
                 client.indices.delete(es_idx['index'])
