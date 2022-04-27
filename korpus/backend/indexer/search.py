@@ -17,7 +17,7 @@ def search_rec(request):
     hits = []
     try:
         client = get_es_client()
-        s = Search(using=client, index=REC_INDEX)
+        s = Search(index=REC_INDEX).using(client)
         s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
         s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
         response = s.execute()
@@ -31,9 +31,12 @@ def search_rec(request):
         result = sorted(hits, key=lambda x: x['rec'])
         return Response(result, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
+        print(error)
         return server_error(error.args)
     except Exception as error:
+        print(error)
         log.fatal(error)
+        return server_error(error.args)
 
 
 @api_view(['GET'])

@@ -30,3 +30,4 @@ EMAIL_HOST_USER = read_or_get('/private/secrets', 'EMAIL_HOST_USER', '******')
 EMAIL_HOST_PASSWORD = read_or_get('/private/secrets', 'EMAIL_HOST_PASSWORD', '**********')
 HEADER_COLOR_SCHEME = read_or_get('/private/secrets', 'HEADER_COLOR_SCHEME', 'green')
 CSRF_TRUSTED_ORIGINS = ['https://*.rsj.rs']
+ADMINS = [('Branko Milosavljevic', 'mbranko@uns.ac.rs')]

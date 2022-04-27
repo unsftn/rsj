@@ -21,5 +21,5 @@ DATABASES = {
 
 ELASTICSEARCH_HOST = 'localhost'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+ADMINS = []
 HEADER_COLOR_SCHEME = 'green'

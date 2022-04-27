@@ -29,6 +29,14 @@ mysql> GRANT ALL PRIVILEGES ON korpus.* TO 'korpus'@'localhost';
 mysql> FLUSH PRIVILEGES;
 ```
 
+Konfiguracija za MariaDB - u fajl `/opt/homebrew/etc/my.cnf.d/many-columns.cnf`
+upisati sledeći tekst:
+```
+[mysqld]
+innodb_log_file_size = 512M
+innodb_strict_mode = 0
+```
+
 Sve naredne operacije obavljaju se iz korenskog direktorijuma Django
 projekta, dakle `korpus/backend`.
 

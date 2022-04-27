@@ -156,8 +156,6 @@ SIMPLE_JWT = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-ADMINS = [('Branko Milosavljevic', 'mbranko@uns.ac.rs')]
-
 Q_CLUSTER = {
     'name': 'publications',
     'orm': 'default',

@@ -16,13 +16,20 @@
   display: none;
 }
 
-.search-component {
+.search-component-1 {
+  border-radius: 50px;
+  width: 300px;
   .rec {
     float: left;
   }
   .vrsta {
     float: right;
   }
+}
+
+.search-component-2 {
+  border-radius: 50px;
+  width: 300px;
 }
 
 .search-container {
@@ -37,7 +44,6 @@
   vertical-align: middle;
   height: 100%;
 }
-
 
 .add-button {
   margin-left: 10px;

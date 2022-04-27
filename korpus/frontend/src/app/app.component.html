@@ -4,12 +4,13 @@
     <p class="logo-text"><a [routerLink]="['/']">Корпус српског језика</a></p>
   </div>
   <div class="search-container">
-    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="400px" (onSelect)="select($event)" placeholder="Претрага">
+    <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component-1" scrollHeight="400px" (onSelect)="select($event)" placeholder="Основна реч">
       <ng-template let-word pTemplate="item">
         <span class="rec">{{word.rec}}</span>
         <span class="vrsta">{{word.vrsta_text}}</span>
       </ng-template>
     </p-autoComplete>
+    <input pInputText type="text" class="search-component ml-2" placeholder="Облик речи"/>
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuNew [model]="itemsNew" [popup]="true"></p-tieredMenu>
     <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined button-header" (click)="menuNew.toggle($event)"></button>
   </div>
