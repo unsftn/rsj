@@ -31,6 +31,8 @@ def search_rec(request):
         return Response(result, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
         return server_error(error.args)
+    except Exception as error:
+        log.fatal(error)
 
 
 @api_view(['GET'])
