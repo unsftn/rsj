@@ -2,6 +2,7 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import HTTP_200_OK
 from elasticsearch import Elasticsearch, ElasticsearchException
+from elasticsearch_dsl import Search
 from elasticsearch_dsl.query import MultiMatch
 from .utils import *
 from reci.models import *
@@ -15,8 +16,8 @@ def search_rec(request):
     term = request.GET.get('q')
     hits = []
     try:
-        client = Elasticsearch()
-        s = Search(using=client, index=REC_INDEX)
+        # client = Elasticsearch()
+        s = Search(index=REC_INDEX)
         s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
         s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
         response = s.execute()
@@ -57,8 +58,8 @@ def search_pub(request):
         oblici = Pridev.objects.get(pk=word_id).oblici()
     else:
         oblici = []
-    client = Elasticsearch()
-    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
+    # client = Elasticsearch()
+    s = Search(index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
         .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
                    number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     try:
