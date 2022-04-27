@@ -8,3 +8,4 @@ class IndexerConfig(AppConfig):
     def ready(self):
         from indexer import utils
         utils.push_highlighting_limit()
+        utils.init_es_connection()

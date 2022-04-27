@@ -7,6 +7,7 @@ from django.conf import settings
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
+from elasticsearch import Elasticsearch
 from elasticsearch_dsl import analyzer, Index, Document, Keyword, SearchAsYouType, Search, Text, Date
 from elasticsearch_dsl.connections import connections
 from .cyrlat import cyr_to_lat
@@ -14,10 +15,11 @@ from .cyrlat import cyr_to_lat
 log = logging.getLogger(__name__)
 
 
-try:
-    connections.create_connection(hosts=[settings.ELASTICSEARCH_HOST], timeout=20, sniff_on_start=True)
-except Exception as exc:
-    log.fatal(exc)
+def init_es_connection():
+    try:
+        connections.create_connection(hosts=[settings.ELASTICSEARCH_HOST])
+    except Exception as exc:
+        log.fatal(exc)
 
 
 class TimestampedDocument(Document):
@@ -109,8 +111,9 @@ def check_elasticsearch():
 
 def create_index_if_needed():
     try:
+        client = Elasticsearch()
         for es_idx in ALL_INDEXES.values():
-            if not connections.get_connection().indices.exists(es_idx['index']):
+            if not client.indices.exists(es_idx['index']):
                 idx = Index(es_idx['index'])
                 idx.analyzer(SERBIAN_ANALYZER)
                 idx.document(es_idx['document'])
@@ -121,10 +124,11 @@ def create_index_if_needed():
 
 def recreate_index(index=None):
     indexes = [ALL_INDEXES[index]] if index else ALL_INDEXES.values()
+    client = Elasticsearch()
     try:
         for es_idx in indexes:
-            if connections.get_connection().indices.exists(es_idx['index']):
-                connections.get_connection().indices.delete(es_idx['index'])
+            if client.indices.exists(es_idx['index']):
+                client.indices.delete(es_idx['index'])
         create_index_if_needed()
     except Exception as ex:
         log.fatal(ex)

@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 from elasticsearch import Elasticsearch
 from publikacije.models import Publikacija, TekstPublikacije
 from ...index import index_publikacija
-from ...utils import recreate_index, PUB_INDEX
+from ...utils import init_es_connection, recreate_index, PUB_INDEX
 
 log = logging.getLogger(__name__)
 
@@ -17,6 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         pub_id = options.get('pub')
         try:
+            init_es_connection()
             if pub_id:
                 publist = Publikacija.objects.filter(id=pub_id)
             else:
