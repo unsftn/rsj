@@ -8,8 +8,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import analyzer, Index, Document, Keyword, SearchAsYouType, Search, Text, Date
-from elasticsearch_dsl.connections import connections
+from elasticsearch_dsl import connections, analyzer, Index, Document, Keyword, SearchAsYouType, Search, Text, Date
 from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)

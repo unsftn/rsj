@@ -20,9 +20,9 @@ class Command(BaseCommand):
             return
         pub_id = options.get('pub')
         try:
-            if not init_es_connection():
-                self.stdout.write(f'Nije inicijalizovana konekcija na Elasticsearch')
-                return
+            # if not init_es_connection():
+            #     self.stdout.write(f'Nije inicijalizovana konekcija na Elasticsearch')
+            #     return
             if pub_id:
                 publist = Publikacija.objects.filter(id=pub_id)
             else:

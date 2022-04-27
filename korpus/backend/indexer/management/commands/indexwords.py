@@ -17,9 +17,9 @@ class Command(BaseCommand):
         if not check_elasticsearch():
             self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}:9200/')
             return
-        if not init_es_connection():
-            self.stdout.write(f'Nije inicijalizovana konekcija na Elasticsearch')
-            return
+        # if not init_es_connection():
+        #     self.stdout.write(f'Nije inicijalizovana konekcija na Elasticsearch')
+        #     return
         if not recreate_index(REC_INDEX):
             self.stdout.write(f'Nije kreiran indeks {REC_INDEX}')
             return
