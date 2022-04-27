@@ -17,9 +17,12 @@ log = logging.getLogger(__name__)
 
 def init_es_connection():
     try:
+        log.info(f'Opening connection to {settings.ELASTICSEARCH_HOST}')
         connections.create_connection(hosts=[settings.ELASTICSEARCH_HOST])
+        return True
     except Exception as exc:
         log.fatal(exc)
+        return False
 
 
 class TimestampedDocument(Document):
@@ -118,8 +121,10 @@ def create_index_if_needed():
                 idx.analyzer(SERBIAN_ANALYZER)
                 idx.document(es_idx['document'])
                 idx.create()
+        return True
     except Exception as ex:
         log.fatal(ex)
+        return False
 
 
 def recreate_index(index=None):
@@ -130,8 +135,10 @@ def recreate_index(index=None):
             if client.indices.exists(es_idx['index']):
                 client.indices.delete(es_idx['index'])
         create_index_if_needed()
+        return True
     except Exception as ex:
         log.fatal(ex)
+        return False
 
 
 def push_highlighting_limit():

@@ -20,12 +20,16 @@ class Command(BaseCommand):
             return
         pub_id = options.get('pub')
         try:
-            init_es_connection()
+            if not init_es_connection():
+                self.stdout.write(f'Nije inicijalizovana konekcija na Elasticsearch')
+                return
             if pub_id:
                 publist = Publikacija.objects.filter(id=pub_id)
             else:
                 publist = Publikacija.objects.all()
-                recreate_index(PUB_INDEX)
+                if not recreate_index(PUB_INDEX):
+                    self.stdout.write(f'Nije kreiran indeks {PUB_INDEX}')
+                    return
             client = Elasticsearch()
             for pub in publist:
                 status = index_publikacija(pub.id, client)
@@ -35,3 +39,5 @@ class Command(BaseCommand):
                     self.stdout.write(f'Error indexing publication ID: {pub.id}')
         except Publikacija.DoesNotExist:
             raise CommandError(f'Publication with ID {pub_id} does not exist')
+        except Exception as ex:
+            raise CommandError(ex)
