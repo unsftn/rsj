@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 
 try:
-    connections.create_connections(hosts=[settings.ELASTICSEARCH_HOST], timeout=20)
+    connections.create_connection(hosts=[settings.ELASTICSEARCH_HOST], timeout=20, sniff_on_start=True)
 except Exception as exc:
     log.fatal(exc)
 

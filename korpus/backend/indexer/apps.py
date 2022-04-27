@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from .utils import push_highlighting_limit
 
 
 class IndexerConfig(AppConfig):
@@ -7,4 +6,5 @@ class IndexerConfig(AppConfig):
     name = 'indexer'
 
     def ready(self):
-        push_highlighting_limit()
+        from indexer import utils
+        utils.push_highlighting_limit()

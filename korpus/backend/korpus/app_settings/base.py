@@ -143,6 +143,10 @@ LOGGING = {
             'handlers': ['console', 'file', 'mail_admins'],
             'level': 'INFO'
         },
+        'indexer': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO'
+        },
     }
 }
 
