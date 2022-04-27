@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 from elasticsearch import Elasticsearch
 from publikacije.models import Publikacija, TekstPublikacije
 from ...index import index_publikacija
-from ...utils import init_es_connection, recreate_index, PUB_INDEX
+from ...utils import init_es_connection, recreate_index, check_elasticsearch, PUB_INDEX
 
 log = logging.getLogger(__name__)
 
@@ -15,6 +15,9 @@ class Command(BaseCommand):
         parser.add_argument('--pub', type=int, nargs='?', help='Publication ID')
 
     def handle(self, *args, **options):
+        if not check_elasticsearch():
+            self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}:9200/')
+            return
         pub_id = options.get('pub')
         try:
             init_es_connection()
