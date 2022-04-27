@@ -9,10 +9,15 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
 from elasticsearch_dsl import analyzer, Index, Document, Keyword, SearchAsYouType, Search, Text, Date
 from elasticsearch_dsl.connections import connections
-from elasticsearch.exceptions import ElasticsearchException, NotFoundError
-from .cyrlat import cyr_to_lat, lat_to_cyr
+from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)
+
+
+try:
+    connections.create_connections(hosts=[settings.ELASTICSEARCH_HOST], timeout=20)
+except Exception as exc:
+    log.fatal(exc)
 
 
 class TimestampedDocument(Document):
@@ -86,12 +91,6 @@ def add_latin(lst):
     for item in lst:
         result.append(cyr_to_lat(item))
     return result
-
-try:
-    connections.create_connection(hosts=[settings.ELASTICSEARCH_HOST], timeout=20)
-except Exception as exc:
-    log.fatal(exc)
-
 
 def check_elasticsearch():
     try:

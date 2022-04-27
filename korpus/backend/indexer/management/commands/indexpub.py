@@ -1,5 +1,6 @@
 import logging
 from django.core.management.base import BaseCommand, CommandError
+from elasticsearch import Elasticsearch
 from publikacije.models import Publikacija, TekstPublikacije
 from ...index import index_publikacija
 from ...utils import recreate_index, PUB_INDEX
@@ -21,8 +22,9 @@ class Command(BaseCommand):
             else:
                 publist = Publikacija.objects.all()
                 recreate_index(PUB_INDEX)
+            client = Elasticsearch()
             for pub in publist:
-                status = index_publikacija(pub.id)
+                status = index_publikacija(pub.id, client)
                 if status:
                     self.stdout.write(f'Successfully indexed publication ID: {pub.id}')
                 else:

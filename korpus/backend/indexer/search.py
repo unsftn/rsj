@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import HTTP_200_OK
+from elasticsearch import Elasticsearch, ElasticsearchException
 from elasticsearch_dsl.query import MultiMatch
 from .utils import *
 from reci.models import *
@@ -13,7 +14,8 @@ def search_rec(request):
 
     term = request.GET.get('q')
     hits = []
-    s = Search(index=REC_INDEX)
+    client = Elasticsearch()
+    s = Search(using=client, index=REC_INDEX)
     s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
     s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
     try:
@@ -53,18 +55,24 @@ def search_pub(request):
         oblici = Pridev.objects.get(pk=word_id).oblici()
     else:
         oblici = []
-    s = Search(index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
+    client = Elasticsearch()
+    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
         .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
                    number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     try:
         retval = []
         response = s.execute()
         for hit in response.hits.hits:
+            try:
+                highlight = hit['highlight']
+                highlights = [t for t in hit.highlight.tekst]
+            except KeyError:
+                highlights = []
             retval.append({
                 'pub_id': hit._source.pk,
                 'skracenica': hit._source.skracenica,
                 'opis': hit._source.opis,
-                'highlights': [t for t in hit.highlight.tekst] if hit['highlight'] else [],
+                'highlights': highlights,
             })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
