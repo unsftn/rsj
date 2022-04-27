@@ -21,21 +21,23 @@ class Command(BaseCommand):
         parser.add_argument('--format', nargs='?', type=str, help='File format: pdf or docx')
         parser.add_argument('--expired', nargs='?', type=int, help='Remove generated files older than the given number of days')
         parser.add_argument('--open', action='store_true', help='Open the file upon creation')
+        parser.add_argument('--wordtype', nargs='?', type=int, help='Filter by word type')
 
     def handle(self, *args, **options):
         slovo = options.get('letter')
         tip = options.get('type') or 2
         stari = options.get('expired') or 60
         format = options.get('format') or 'pdf'
+        word_type = options.get('wordtype')
         log.info(f'Format fajla: {format}')
         log.info(f'Brisanje fajlova starijih od (dana): {stari}')
         log.info(f'Tip generisanja: {tip}')
         log.info(f'Sadrzaj generisanja: {("slovo "+slovo) if slovo else "sva slova"}')
         start_time = datetime.now()
         if slovo:
-            file_name = render_slovo(slovo, format, tip)
+            file_name = render_slovo(slovo, format, tip, word_type)
         else:
-            file_name = render_recnik(format, tip)
+            file_name = render_recnik(format, tip, word_type)
         if file_name:
             pdf_file = os.path.join(settings.MEDIA_ROOT, file_name)
             self.stdout.write(self.style.SUCCESS(f'Uspesno generisan fajl: {pdf_file}'))
