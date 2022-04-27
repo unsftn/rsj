@@ -14,11 +14,11 @@ def search_rec(request):
 
     term = request.GET.get('q')
     hits = []
-    client = Elasticsearch()
-    s = Search(using=client, index=REC_INDEX)
-    s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
-    s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
     try:
+        client = Elasticsearch()
+        s = Search(using=client, index=REC_INDEX)
+        s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
+        s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['oblici'])
         response = s.execute()
         for hit in response.hits.hits:
             hits.append({
