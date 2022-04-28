@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
   title = 'korpus';
   itemsUser: MenuItem[];
   itemsNew: MenuItem[];
-  searchText: string;
+  searchWord: string;
+  searchForm: string;
   searchResults: any[];
   username = '';
   headerStyle: string;
@@ -45,20 +46,31 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  search(event): void {
-    this.searchService.searchWords(event.query).subscribe(
-      (data) => {
+  searchWords(event): void {
+    this.searchService.searchWords(event.query).subscribe({
+      next: (data) => {
         this.searchResults = data;
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
-      });
+      }});
+  }
+
+  searchForms(event): void {
+    this.searchWord = '';
+    this.searchService.selectedWordId = null;
+    this.searchService.selectedWordType = null;
+    this.searchService.selectedWordForm = this.searchForm;
+    this.searchService.selectedWordChanged.emit(true);
+    this.router.navigate(['']);
   }
 
   select(value): void {
-    this.searchText = '';
+    this.searchWord = '';
+    this.searchForm = '';
     this.searchService.selectedWordId = value.pk;
     this.searchService.selectedWordType = value.vrsta;
+    this.searchService.selectedWordForm = null;
     this.searchService.selectedWordChanged.emit(true);
     this.router.navigate(['']);
   }

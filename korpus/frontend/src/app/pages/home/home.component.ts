@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
 
   wordId: number;
   wordType: number;
+  wordForm: string;
   word: any;
   hits: any[];
   searching: boolean;
@@ -48,25 +49,41 @@ export class HomeComponent implements OnInit {
   fetchData(): void {
     this.wordId = this.searchService.selectedWordId;
     this.wordType = this.searchService.selectedWordType;
+    this.wordForm = this.searchService.selectedWordForm;
     this.searching = true;
     this.hits = [];
-    this.recService.get(this.wordId, this.wordType).subscribe({
-      next: (word: any) => {
-        this.word = word;
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
-    this.searchService.searchPubs(this.wordId, this.wordType).subscribe({
-      next: (hits: any[]) => {
-        this.searching = false;
-        this.hits = hits;
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    if (this.wordId) {
+      this.recService.get(this.wordId, this.wordType).subscribe({
+        next: (word: any) => {
+          this.word = word;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+      this.searchService.searchPubs(this.wordId, this.wordType).subscribe({
+        next: (hits: any[]) => {
+          this.searching = false;
+          this.hits = hits;
+        },
+        error: (error) => {
+          this.searching = false;
+          console.log(error);
+        }
+      });  
+    } else {
+      this.word = null;
+      this.searchService.searchForms(this.wordForm).subscribe({
+        next: (hits: any[]) => {
+          this.searching = false;
+          this.hits = hits;
+        },
+        error: (error) => {
+          this.searching = false;
+          console.log(error);
+        }
+      });
+    }
   }
 
   safe(html: string): SafeHtml {

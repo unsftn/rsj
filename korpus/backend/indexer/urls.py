@@ -8,6 +8,7 @@ app_name = 'индексирање'
 urlpatterns = [
     path('reci/', search_rec),
     path('publikacije/', search_pub),
+    path('oblici/', search_oblik_in_pub),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

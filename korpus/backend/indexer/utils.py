@@ -38,6 +38,7 @@ class RecDocument(TimestampedDocument):
     pk = Keyword()
     rec = Keyword()
     vrsta = Keyword()
+    osnovni_oblik = SearchAsYouType()
     oblici = SearchAsYouType()
 
     def __str__(self):
@@ -161,11 +162,12 @@ class RecSerializer(serializers.ModelSerializer):
     pk = serializers.IntegerField(required=True)
     rec = serializers.CharField(max_length=50, required=True)
     vrsta = serializers.IntegerField(required=True)
+    osnovni_oblik = serializers.CharField(max_length=50, required=True)
     oblici = serializers.ListField(child=serializers.CharField(), required=True)
 
     class Meta:
         model = RecDocument
-        fields = ('pk', 'rec', 'vrsta', 'oblici')
+        fields = ('pk', 'rec', 'vrsta', 'osnovni_oblik', 'oblici')
 
     def create(self, validated_data):
         pk = validated_data.pop('pk')
@@ -177,7 +179,8 @@ class RecSerializer(serializers.ModelSerializer):
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
-        return RecDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, vrsta=vrsta)
+        osnovni_oblik = ' '.join(add_latin(clear_text([rec])))
+        return RecDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, osnovni_oblik=osnovni_oblik, vrsta=vrsta)
 
 
 class PubSerializer(serializers.ModelSerializer):

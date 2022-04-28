@@ -10,6 +10,7 @@ export class SearchService {
 
   private _selectedWordId: number;
   private _selectedWordType: number;
+  private _selectedWordForm: string;
   private _selectedWordChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private http: HttpClient) { }
@@ -26,12 +27,20 @@ export class SearchService {
     return this._selectedWordType;
   }
 
+  public get selectedWordForm(): string {
+    return this._selectedWordForm;
+  }
+
   public set selectedWordId(value: number) {
     this._selectedWordId = value;
   }
 
   public set selectedWordType(value: number) {
     this._selectedWordType = value;
+  }
+
+  public set selectedWordForm(value: string) {
+    this._selectedWordForm = value;
   }
 
   searchWords(query: string): Observable<any> {
@@ -41,4 +50,9 @@ export class SearchService {
   searchPubs(wordId: number, wordType: number): Observable<any[]> {
     return this.http.get<any[]>(`/api/pretraga/publikacije/?w=${wordId}&t=${wordType}`);
   }
+
+  searchForms(query: string): Observable<any> {
+    return this.http.get<any>(`/api/pretraga/oblici/?q=${query}`);
+  }
+
 }

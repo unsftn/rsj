@@ -36,6 +36,7 @@ def index_imenica(imenica, client=None):
         'rec': imenica.nomjed,
         'vrsta': 0,
         'oblici': imenica.oblici(),
+        'osnovni_oblik': imenica.nomjed,
     }
     return save_dict(imenica_dict, client)
 
@@ -46,6 +47,7 @@ def index_glagol(glagol, client=None):
         'rec': glagol.infinitiv,
         'vrsta': 1,
         'oblici': glagol.oblici(),
+        'osnovni_oblik': glagol.infinitiv,
     }
     return save_dict(glagol_dict, client)
 
@@ -56,6 +58,7 @@ def index_pridev(pridev, client=None):
         'rec': pridev.lema,
         'vrsta': 2,
         'oblici': pridev.oblici(),
+        'osnovni_oblik': pridev.lema,
     }
     return save_dict(pridev_dict, client)
 
