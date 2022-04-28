@@ -1,6 +1,6 @@
 import { Component, Injectable, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { PrimeNGConfig, MessageService } from 'primeng/api';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { SearchService } from '../../services/search';
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     private titleService: Title,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private messageService: MessageService,
     private searchService: SearchService,
     private recService: RecService,
   ) {}
@@ -69,6 +70,12 @@ export class HomeComponent implements OnInit {
         error: (error) => {
           this.searching = false;
           console.log(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: error,
+          });
         }
       });  
     } else {
@@ -81,6 +88,12 @@ export class HomeComponent implements OnInit {
         error: (error) => {
           this.searching = false;
           console.log(error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: error,
+          });
         }
       });
     }

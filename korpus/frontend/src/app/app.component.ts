@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
-import { UserService } from './services/auth/user.service';
 import { AppConfigService } from './services/config/app-config.service';
 import { SearchService } from './services/search/search.service';
 
@@ -25,7 +24,7 @@ export class AppComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private tokenStorageService: TokenStorageService,
-    private userService: UserService,
+    private messageService: MessageService,
     private appConfigService: AppConfigService,
     private router: Router,
     private searchService: SearchService,
@@ -53,7 +52,14 @@ export class AppComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-      }});
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+      }
+    });
   }
 
   searchForms(event): void {
@@ -137,10 +143,19 @@ export class AppComponent implements OnInit {
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
     });
-    this.appConfigService.getAppConfig().subscribe(data => {
-      this.headerStyle = data.HEADER_COLOR_SCHEME;
-    }, error => {
-      console.log(error);
+    this.appConfigService.getAppConfig().subscribe({
+      next: (data) => {
+        this.headerStyle = data.HEADER_COLOR_SCHEME;
+      }, 
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+      }
     });
   }
 }
