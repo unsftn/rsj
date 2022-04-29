@@ -1,11 +1,14 @@
 <div class="home-container" *ngIf="hits">
   <h3 *ngIf="word">{{word.osnovni_oblik}} &nbsp;&nbsp; <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; <a class="edit-link" [routerLink]="editRouterLink">обрада &gt;&gt;</a></h3>
   <h3 *ngIf="wordForm">{{wordForm}}</h3>
-  <p-accordion>
-    <p-accordionTab [header]="'[' + hit.skracenica + '] ' + hit.opis" *ngFor="let hit of hits; let i=index">
-      <p *ngFor="let excerpt of hit.highlights" [innerHTML]="safe(excerpt)"></p>
-    </p-accordionTab>
-  </p-accordion>
+
+  <div *ngFor="let hit of hits; let i=index">
+    <div *ngFor="let excerpt of hit.highlights">
+      <p class="skr">[{{ hit.skracenica }}]</p>
+      <p class="izv" [innerHTML]="safe(excerpt)"></p>
+    </div>
+  </div>
+
 </div>
 <div class="progress" *ngIf="searching">
   <p-progressSpinner></p-progressSpinner>
