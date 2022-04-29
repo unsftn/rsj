@@ -49,7 +49,61 @@ class PubDocument(TimestampedDocument):
     pk = Keyword()
     skracenica = Keyword()
     opis = Keyword()
-    tekst = Text()
+    tekst = Text(term_vector='with_positions_offset')
+
+
+PUB_MAPPING = {
+    "mappings": {
+        "properties": {
+            "opis": {
+                "type": "keyword"
+            },
+            "pk": {
+                "type": "keyword"
+            },
+            "skracenica": {
+                "type": "keyword"
+            },
+            "tekst": {
+                "type": "text",
+                "term_vector": "with_positions_offsets"
+            },
+            "timestamp": {
+                "type": "date"
+            }
+        }
+    }
+}
+
+
+REC_MAPPING = {
+    "mappings": {
+        "properties": {
+            "oblici": {
+                "type": "search_as_you_type",
+                "doc_values": False,
+                "max_shingle_size": 3
+            },
+            "osnovni_oblik": {
+                "type": "search_as_you_type",
+                "doc_values": False,
+                "max_shingle_size": 3
+            },
+            "pk": {
+                "type": "keyword"
+            },
+            "rec": {
+                "type": "keyword"
+            },
+            "timestamp": {
+                "type": "date"
+            },
+            "vrsta": {
+                "type": "keyword"
+            }
+        }
+    }
+}
 
 
 SERBIAN_ANALYZER = analyzer('serbian')
@@ -98,6 +152,7 @@ def add_latin(lst):
         result.append(cyr_to_lat(item))
     return result
 
+
 def check_elasticsearch():
     try:
         host = settings.ELASTICSEARCH_HOST
@@ -116,7 +171,7 @@ def check_elasticsearch():
         return False
 
 
-def create_index_if_needed():
+def create_index_if_needed_old():
     try:
         client = get_es_client()
         for es_idx in ALL_INDEXES.values():
@@ -127,6 +182,19 @@ def create_index_if_needed():
                 idx.create()
         return True
     except Exception as ex:
+        log.fatal(ex)
+        return False
+
+
+def create_index_if_needed():
+    try:
+        r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/reci', json=REC_MAPPING)
+        success = r.status_code // 100 == 2
+        r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/publikacije', json=PUB_MAPPING)
+        success = (r.status_code // 100 == 2) and success
+        return success
+    except Exception as ex:
+        print(ex)
         log.fatal(ex)
         return False
 

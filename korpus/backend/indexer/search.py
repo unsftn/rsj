@@ -1,3 +1,4 @@
+import logging
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import HTTP_200_OK
@@ -7,6 +8,8 @@ from elasticsearch_dsl.query import MultiMatch
 from .cyrlat import cyr_to_lat, lat_to_cyr
 from .utils import *
 from reci.models import *
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['GET'])
@@ -62,9 +65,12 @@ def search_pub(request):
     else:
         oblici = []
     client = get_es_client()
+    # s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
+    #     .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
+    #                number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
-        .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
-                   number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
+        .highlight('tekst', fragment_size=fragment_size, type='fvh', boundary_scanner='word',
+                   number_of_fragments=250, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     try:
         retval = []
         response = s.execute()
@@ -83,6 +89,8 @@ def search_pub(request):
                 })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
+        print(error)
+        log.fatal(error)
         return server_error(error.args)
 
 
@@ -101,8 +109,8 @@ def search_oblik_in_pub(request):
     client = get_es_client()
     s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis'])\
         .query('terms', tekst=[term_cyr, term_lat])\
-        .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
-                   number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
+        .highlight('tekst', fragment_size=fragment_size, type='fvh', boundary_scanner='word',
+                   number_of_fragments=250, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
     try:
         retval = []
         response = s.execute()
