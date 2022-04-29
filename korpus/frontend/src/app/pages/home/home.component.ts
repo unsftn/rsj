@@ -19,7 +19,10 @@ export class HomeComponent implements OnInit {
   wordForm: string;
   word: any;
   hits: any[];
+  hitPage: any[];
+  hitsPerPage: number;
   searching: boolean;
+  first: number;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -66,6 +69,9 @@ export class HomeComponent implements OnInit {
         next: (hits: any[]) => {
           this.searching = false;
           this.hits = hits;
+          this.first = 0;
+          this.hitsPerPage = 100;
+          this.hitPage = this.hits.slice(this.first, this.first + this.hitsPerPage);
         },
         error: (error) => {
           this.searching = false;
@@ -84,6 +90,10 @@ export class HomeComponent implements OnInit {
         next: (hits: any[]) => {
           this.searching = false;
           this.hits = hits;
+          this.first = 0;
+          this.first = 0;
+          this.hitsPerPage = 100;
+          this.hitPage = this.hits.slice(this.first, this.first + this.hitsPerPage);
         },
         error: (error) => {
           this.searching = false;
@@ -113,5 +123,11 @@ export class HomeComponent implements OnInit {
 
   get editRouterLink(): any[] {
     return this.recService.getEditRouterLink(this.wordId, this.wordType);
+  }
+
+  onPageChange(event: any) {
+    this.first = event.first;
+    this.hitsPerPage = event.rows;
+    this.hitPage = this.hits.slice(this.first, this.first + this.hitsPerPage);
   }
 }

@@ -2,11 +2,11 @@
   <h3 *ngIf="word">{{word.osnovni_oblik}} &nbsp;&nbsp; <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; <a class="edit-link" [routerLink]="editRouterLink">обрада &gt;&gt;</a></h3>
   <h3 *ngIf="wordForm">{{wordForm}}</h3>
 
-  <div *ngFor="let hit of hits; let i=index">
-    <div *ngFor="let excerpt of hit.highlights">
+  <p-paginator [totalRecords]="hits.length" [first]="first" (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" [showJumpToPageDropdown]="true"></p-paginator>
+
+  <div *ngFor="let hit of hitPage">
       <p class="skr">[{{ hit.skracenica }}]</p>
-      <p class="izv" [innerHTML]="safe(excerpt)"></p>
-    </div>
+      <p class="izv" [innerHTML]="safe(hit.highlights)"></p>
   </div>
 
 </div>

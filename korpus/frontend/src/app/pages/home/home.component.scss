@@ -26,3 +26,11 @@
 .skr {
   width: 100px;
 }
+
+:host ::ng-deep .p-paginator-rpp-options {
+  width: 70px;
+}
+
+:host ::ng-deep .p-paginator-page-options {
+  width: 100px;
+}

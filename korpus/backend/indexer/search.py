@@ -74,12 +74,13 @@ def search_pub(request):
                 highlights = [t for t in hit.highlight.tekst]
             except KeyError:
                 highlights = []
-            retval.append({
-                'pub_id': hit._source.pk,
-                'skracenica': hit._source.skracenica,
-                'opis': hit._source.opis,
-                'highlights': highlights,
-            })
+            for high in highlights:                
+                retval.append({
+                    'pub_id': hit._source.pk,
+                    'skracenica': hit._source.skracenica,
+                    'opis': hit._source.opis,
+                    'highlights': high,
+                })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
         return server_error(error.args)
@@ -111,12 +112,13 @@ def search_oblik_in_pub(request):
                 highlights = [t for t in hit.highlight.tekst]
             except KeyError:
                 highlights = []
-            retval.append({
-                'pub_id': hit._source.pk,
-                'skracenica': hit._source.skracenica,
-                'opis': hit._source.opis,
-                'highlights': highlights,
-            })
+            for high in highlights:                
+                retval.append({
+                    'pub_id': hit._source.pk,
+                    'skracenica': hit._source.skracenica,
+                    'opis': hit._source.opis,
+                    'highlights': high,
+                })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
     except ElasticsearchException as error:
         return server_error(error.args)

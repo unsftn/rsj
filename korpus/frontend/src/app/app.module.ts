@@ -29,6 +29,7 @@ import { OrderListModule } from 'primeng/orderlist';
 import { FileUploadModule } from 'primeng/fileupload';
 import { AccordionModule } from 'primeng/accordion';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
@@ -85,7 +86,7 @@ import { SafePipe } from './utils/safe.pipe';
     FileUploadModule,
     AccordionModule,
     ProgressSpinnerModule,
-    // ImporterModule,
+    PaginatorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
