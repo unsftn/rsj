@@ -2,9 +2,10 @@
   padding: 10px;
 }
 
-:host ::ng-deep .highlight {
+:host ::ng-deep .fword {
   color: red;
   font-weight: bold;
+  display: inline;
 }
 
 .vrsta-reci {
@@ -18,13 +19,17 @@
   font-size: small;
 }
 
-.skr, .izv {
-  display: inline-block;
-  margin: 5px 2px;
+.hits {
+  display: table;
 }
 
-.skr {
-  width: 100px;
+.hit-row {
+  display: table-row;
+}
+
+.skr, .izv {
+  display: table-cell;
+  padding: 5px;
 }
 
 :host ::ng-deep .p-paginator-rpp-options {

@@ -1,8 +1,7 @@
 import logging
-from rest_framework import permissions
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
-from elasticsearch import Elasticsearch, ElasticsearchException
+from elasticsearch import ElasticsearchException
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.query import MultiMatch
 from .cyrlat import cyr_to_lat, lat_to_cyr
@@ -53,6 +52,10 @@ def search_pub(request):
         fragment_size = int(request.GET.get('f'))
     else:
         fragment_size = 150
+    if request.GET.get('s'):
+        boundary_scanner = request.GET.get('s')
+    else:
+        boundary_scanner = 'word'
 
     word_id = int(request.GET.get('w'))
     word_type = int(request.GET.get('t'))
@@ -64,13 +67,34 @@ def search_pub(request):
         oblici = Pridev.objects.get(pk=word_id).oblici()
     else:
         oblici = []
+    return search(oblici, fragment_size, boundary_scanner)
+
+
+@api_view(['GET'])
+def search_oblik_in_pub(request):
+    if not request.GET.get('q'):
+        return bad_request('no search term')
+    if request.GET.get('f'):
+        fragment_size = int(request.GET.get('f'))
+    else:
+        fragment_size = 150
+    if request.GET.get('s'):
+        boundary_scanner = request.GET.get('s')
+    else:
+        boundary_scanner = 'word'
+
+    term = request.GET.get('q')
+    term_cyr = lat_to_cyr(term)
+    term_lat = cyr_to_lat(term)
+    return search([term_cyr, term_lat], fragment_size, boundary_scanner)
+
+
+def search(words, fragment_size, scanner):
     client = get_es_client()
-    # s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
-    #     .highlight('tekst', fragment_size=fragment_size, type='plain', boundary_scanner='word',
-    #                number_of_fragments=200, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
-    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis']).query('terms', tekst=oblici)\
-        .highlight('tekst', fragment_size=fragment_size, type='fvh', boundary_scanner='word',
-                   number_of_fragments=250, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
+    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis'])\
+        .query('terms', tekst=words)\
+        .highlight('tekst', fragment_size=fragment_size, type='fvh', boundary_scanner=scanner,
+                   number_of_fragments=1000, pre_tags=['<span class="fword">'], post_tags=['</span>'])
     try:
         retval = []
         response = s.execute()
@@ -91,42 +115,4 @@ def search_pub(request):
     except ElasticsearchException as error:
         print(error)
         log.fatal(error)
-        return server_error(error.args)
-
-
-@api_view(['GET'])
-def search_oblik_in_pub(request):
-    if not request.GET.get('q'):
-        return bad_request('no search term')
-    if request.GET.get('f'):
-        fragment_size = int(request.GET.get('f'))
-    else:
-        fragment_size = 150
-
-    term = request.GET.get('q')
-    term_cyr = lat_to_cyr(term)
-    term_lat = cyr_to_lat(term)
-    client = get_es_client()
-    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis'])\
-        .query('terms', tekst=[term_cyr, term_lat])\
-        .highlight('tekst', fragment_size=fragment_size, type='fvh', boundary_scanner='word',
-                   number_of_fragments=250, pre_tags=['<span class="highlight">'], post_tags=['</span>'])
-    try:
-        retval = []
-        response = s.execute()
-        for hit in response.hits.hits:
-            try:
-                hit['highlight']
-                highlights = [t for t in hit.highlight.tekst]
-            except KeyError:
-                highlights = []
-            for high in highlights:                
-                retval.append({
-                    'pub_id': hit._source.pk,
-                    'skracenica': hit._source.skracenica,
-                    'opis': hit._source.opis,
-                    'highlights': high,
-                })
-        return Response(retval, status=HTTP_200_OK, content_type=JSON)
-    except ElasticsearchException as error:
         return server_error(error.args)

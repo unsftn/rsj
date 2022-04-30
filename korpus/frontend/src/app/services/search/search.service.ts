@@ -47,12 +47,11 @@ export class SearchService {
     return this.http.get<any>(`/api/pretraga/reci/?q=${query}`);
   }
 
-  searchPubs(wordId: number, wordType: number): Observable<any[]> {
-    return this.http.get<any[]>(`/api/pretraga/publikacije/?w=${wordId}&t=${wordType}`);
+  searchPubs(wordId: number, wordType: number, fragmentSize: number, scanner: string): Observable<any[]> {
+    return this.http.get<any[]>(`/api/pretraga/publikacije/?w=${wordId}&t=${wordType}&f=${fragmentSize}&s=${scanner}`);
   }
 
-  searchForms(query: string): Observable<any> {
-    return this.http.get<any>(`/api/pretraga/oblici/?q=${query}`);
+  searchForms(query: string, fragmentSize: number, scanner: string): Observable<any> {
+    return this.http.get<any>(`/api/pretraga/oblici/?q=${query}&f=${fragmentSize}&s=${scanner}`);
   }
-
 }

@@ -23,6 +23,10 @@ export class HomeComponent implements OnInit {
   hitsPerPage: number;
   searching: boolean;
   first: number;
+  fragmentSize: any;
+  scanner: any;
+  fragmentSizes: any[];
+  scanners: any[];
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -33,13 +37,25 @@ export class HomeComponent implements OnInit {
     private messageService: MessageService,
     private searchService: SearchService,
     private recService: RecService,
-  ) {}
+  ) {
+    this.fragmentSizes = [
+      { name: 'фраг. 150', code: 150 },
+      { name: 'фраг. 200', code: 200 },
+      { name: 'фраг. 300', code: 300 },
+    ];
+    this.scanners = [
+      { name: 'реч', code: 'word' },
+      { name: 'реченица', code: 'sentence' },
+    ]
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle('Почетна');
+    this.fragmentSize = this.fragmentSizes[0];
+    this.scanner = this.scanners[0];
     this.primengConfig.ripple = true;
-    if (this.searchService.selectedWordId)
-      this.fetchData();
+    // if (this.searchService.selectedWordId)
+    //   this.fetchData();
     this.searchService.selectedWordChanged.subscribe({
       next: (data: boolean) => {
         this.fetchData();
@@ -65,7 +81,7 @@ export class HomeComponent implements OnInit {
           console.log(error);
         }
       });
-      this.searchService.searchPubs(this.wordId, this.wordType).subscribe({
+      this.searchService.searchPubs(this.wordId, this.wordType, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
           this.hits = hits;
@@ -86,7 +102,7 @@ export class HomeComponent implements OnInit {
       });  
     } else {
       this.word = null;
-      this.searchService.searchForms(this.wordForm).subscribe({
+      this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
           this.hits = hits;
@@ -125,9 +141,17 @@ export class HomeComponent implements OnInit {
     return this.recService.getEditRouterLink(this.wordId, this.wordType);
   }
 
-  onPageChange(event: any) {
+  onPageChange(event: any): void {
     this.first = event.first;
     this.hitsPerPage = event.rows;
     this.hitPage = this.hits.slice(this.first, this.first + this.hitsPerPage);
+  }
+
+  changeFragmentSize(event: any): void {
+    this.fetchData();
+  }
+
+  changeScanner(event: any): void {
+    this.fetchData();
   }
 }
