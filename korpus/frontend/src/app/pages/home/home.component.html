@@ -1,14 +1,28 @@
 <div class="home-container" *ngIf="hits">
-  <h3 *ngIf="word">{{word.osnovni_oblik}} &nbsp;&nbsp; <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; <a class="edit-link" [routerLink]="editRouterLink">обрада &gt;&gt;</a></h3>
+  <h3 *ngIf="word">
+    {{word.osnovni_oblik}} &nbsp;&nbsp; 
+    <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; 
+    <a class="edit-link" [routerLink]="editRouterLink">обрада &gt;&gt;</a>
+  </h3>
   <h3 *ngIf="wordForm">{{wordForm}}</h3>
 
   <div class="grid align-items-center">
     <div class="col-9">
-      <p-paginator [totalRecords]="hits.length" [first]="first" (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" [showJumpToPageDropdown]="true"></p-paginator>
+      <p-paginator [totalRecords]="hits.length" [first]="first" 
+        (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
+        [showJumpToPageDropdown]="true">
+      </p-paginator>
     </div>
     <div class="col-3 flex justify-content-end">
-      <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" (onChange)="changeFragmentSize($event)" optionLabel="name" [style]="{width: '120px'}"></p-dropdown>
-      <p-dropdown [options]="scanners" [(ngModel)]="scanner" (onChange)="changeScanner($event)" optionLabel="name" [style]="{width: '120px', 'margin-left': '5px'}"></p-dropdown>
+      <p>{{hits.length}} погодака</p>
+      <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
+        (onChange)="changeFragmentSize($event)" optionLabel="name" 
+        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+      </p-dropdown>
+      <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
+        (onChange)="changeScanner($event)" optionLabel="name" 
+        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+      </p-dropdown>
     </div>
   </div>
 

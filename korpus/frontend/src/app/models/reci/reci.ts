@@ -204,55 +204,68 @@ export interface Pridev {
   izmene?: any;
 }
 
+function getVid(vidovi: VidPrideva[], vid: number): VidPrideva {
+  let v = vidovi.filter(v => v.vid == vid);
+  if (v.length > 0)
+    return v[0];
+  else
+    return {
+      vid: vid,
+      mnomjed: '',
+      mgenjed: '',
+      mdatjed: '',
+      makujed: '',
+      mvokjed: '',
+      minsjed: '',
+      mlokjed: '',
+      mnommno: '',
+      mgenmno: '',
+      mdatmno: '',
+      makumno: '',
+      mvokmno: '',
+      minsmno: '',
+      mlokmno: '',
+      znomjed: '',
+      zgenjed: '',
+      zdatjed: '',
+      zakujed: '',
+      zvokjed: '',
+      zinsjed: '',
+      zlokjed: '',
+      znommno: '',
+      zgenmno: '',
+      zdatmno: '',
+      zakumno: '',
+      zvokmno: '',
+      zinsmno: '',
+      zlokmno: '',
+      snomjed: '',
+      sgenjed: '',
+      sdatjed: '',
+      sakujed: '',
+      svokjed: '',
+      sinsjed: '',
+      slokjed: '',
+      snommno: '',
+      sgenmno: '',
+      sdatmno: '',
+      sakumno: '',
+      svokmno: '',
+      sinsmno: '',
+      slokmno: ''
+    }
+}
+
 export function toPridev(obj: any): Pridev {
+  const vidovi: VidPrideva[] = [];
+  vidovi.push(getVid(obj.vidprideva_set, 1));
+  vidovi.push(getVid(obj.vidprideva_set, 2));
+  vidovi.push(getVid(obj.vidprideva_set, 3));
+  vidovi.push(getVid(obj.vidprideva_set, 4));
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
     izmene: obj.izmenaprideva_set,
-    vidovi: obj.vidprideva_set.map((v) => ({
-      vid: v.vid,
-      mnomjed: v.mnomjed,
-      mgenjed: v.mgenjed,
-      mdatjed: v.mdatjed,
-      makujed: v.makujed,
-      mvokjed: v.mvokjed,
-      minsjed: v.minsjed,
-      mlokjed: v.mlokjed,
-      mnommno: v.mnommno,
-      mgenmno: v.mgenmno,
-      mdatmno: v.mdatmno,
-      makumno: v.makumno,
-      mvokmno: v.mvokmno,
-      minsmno: v.minsmno,
-      mlokmno: v.mlokmno,
-      znomjed: v.znomjed,
-      zgenjed: v.zgenjed,
-      zdatjed: v.zdatjed,
-      zakujed: v.zakujed,
-      zvokjed: v.zvokjed,
-      zinsjed: v.zinsjed,
-      zlokjed: v.zlokjed,
-      znommno: v.znommno,
-      zgenmno: v.zgenmno,
-      zdatmno: v.zdatmno,
-      zakumno: v.zakumno,
-      zvokmno: v.zvokmno,
-      zinsmno: v.zinsmno,
-      zlokmno: v.zlokmno,
-      snomjed: v.snomjed,
-      sgenjed: v.sgenjed,
-      sdatjed: v.sdatjed,
-      sakujed: v.sakujed,
-      svokjed: v.svokjed,
-      sinsjed: v.sinsjed,
-      slokjed: v.slokjed,
-      snommno: v.snommno,
-      sgenmno: v.sgenmno,
-      sdatmno: v.sdatmno,
-      sakumno: v.sakumno,
-      svokmno: v.svokmno,
-      sinsmno: v.sinsmno,
-      slokmno: v.slokmno,
-    }))
+    vidovi: vidovi    
   };
 }

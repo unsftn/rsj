@@ -4,20 +4,31 @@
     <p class="logo-text"><a [routerLink]="['/']">Корпус српског језика</a></p>
   </div>
   <div class="search-container">
-    <p-autoComplete [(ngModel)]="searchWord" [suggestions]="searchResults" (completeMethod)="searchWords($event)" class="search-component-1" scrollHeight="400px" (onSelect)="select($event)" placeholder="Основна реч">
+    <p-autoComplete [(ngModel)]="searchWord" [suggestions]="searchResults" 
+        (completeMethod)="searchWords($event)" scrollHeight="400px" 
+        (onSelect)="select($event)" placeholder="Основна реч">
       <ng-template let-word pTemplate="item">
         <span class="rec">{{word.rec}}</span>
         <span class="vrsta">{{word.vrsta_text}}</span>
       </ng-template>
     </p-autoComplete>
-    <input pInputText type="text" [(ngModel)]="searchForm" (keyup.enter)="searchForms($event)" class="search-component ml-2" placeholder="Облик речи"/>
-    <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuNew [model]="itemsNew" [popup]="true"></p-tieredMenu>
-    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined button-header" (click)="menuNew.toggle($event)"></button>
+    <input pInputText type="text" [(ngModel)]="searchForm" 
+      (keyup.enter)="searchForms($event)" class="search-component ml-2" 
+      placeholder="Облик речи"/>
+    <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" 
+      #menuNew [model]="itemsNew" [popup]="true"></p-tieredMenu>
+    <button *ngIf="signedIn()" pButton icon="pi pi-plus" 
+      class="p-button-rounded p-button-outlined button-header" 
+      (click)="menuNew.toggle($event)">
+    </button>
   </div>
   <div class="menu-container">
-    <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menuUser [model]="itemsUser" [popup]="true"></p-tieredMenu>
+    <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" 
+      #menuUser [model]="itemsUser" [popup]="true"></p-tieredMenu>
     <div class="username">{{username}}</div>
-    <button type="button" class="p-button-rounded p-button-outlined button-header" pButton icon="pi pi-user" (click)="menuUser.toggle($event)"></button>
+    <button type="button" class="p-button-rounded p-button-outlined button-header" 
+      pButton icon="pi pi-user" (click)="menuUser.toggle($event)">
+    </button>
   </div>
 </p-menubar>
 <router-outlet></router-outlet>

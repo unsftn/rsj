@@ -16,19 +16,16 @@
   display: none;
 }
 
-.search-component-1 {
-  border-radius: 50px;
-  width: 300px;
-  .rec {
-    float: left;
-  }
-  .vrsta {
-    float: right;
-  }
+:host ::ng-deep p-autocomplete input {
+  border-radius: 40px;
+  height: 40px;
 }
 
-.search-component-2 {
-  border-radius: 50px;
+.rec { float: left; }
+.vrsta { float: right; }
+
+.search-component {
+  border-radius: 40px;
   width: 300px;
 }
 

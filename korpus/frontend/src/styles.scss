@@ -31,11 +31,6 @@ a, p, h1, h2, h3, h4, h5, h6 {
   color: #495057;
 }
 
-.center-container {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .p-component {
   font-family: "Fira Sans";
 }
@@ -46,7 +41,6 @@ a, p, h1, h2, h3, h4, h5, h6 {
 
 .p-inputtext {
   font-family: "Fira Sans";
-  min-height: 40px !important;
 }
 
 .p-tooltip {
@@ -70,7 +64,6 @@ label {
 }
 
 .p-inputtext {
-  border-radius: 50px;
   width: 300px;
 }
 
@@ -189,7 +182,6 @@ label {
     font-weight: normal;
     text-rendering: optimizeLegibility;
 }
-
 
 .onum {font-feature-settings: "onum";}  /* oldstyle numerals */
 .tnum {font-feature-settings: "tnum";}  /* tabular numerals */

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PridevService } from 'src/app/services/reci/pridev.service';
-import { Pridev, toImenica, toPridev } from '../../../models/reci';
+import { Pridev, toPridev } from '../../../models/reci';
 
 @Component({
   selector: 'app-pridev',
@@ -36,20 +36,21 @@ export class PridevComponent implements OnInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.pridevService.get(this.id).subscribe((item) => {
-                this.pridev = toPridev(item);
-                console.log(this.pridev);
-              },
-              (error) => {
-                console.log(error);
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Грешка',
-                  life: 5000,
-                  detail: 'Придев није учитан',
-                });
-                this.router.navigate(['/']);
-              });
+              this.pridevService.get(this.id).subscribe({
+                  next: (item) => {
+                  this.pridev = toPridev(item);
+                  console.log(this.pridev);
+                },
+                error: (error) => {
+                  console.log(error);
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Грешка',
+                    life: 5000,
+                    detail: 'Придев није учитан',
+                  });
+                  this.router.navigate(['/']);
+              }});
             });
           break;
       }
@@ -66,10 +67,9 @@ export class PridevComponent implements OnInit {
 
   save(): void {
     if (!this.check()) return;
-    console.log('Snimanje prideva:', this.pridev);
     if (!this.editMode) {
-      this.pridevService.add(this.pridev).subscribe(
-        (data) => {
+      this.pridevService.add(this.pridev).subscribe({
+        next: (data) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
@@ -78,17 +78,18 @@ export class PridevComponent implements OnInit {
           });
           this.router.navigate(['/pridev', data.id]);
         },
-        (error) => {
+        error: (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
             life: 5000,
             detail: `Неуспешно снимање: ${error}`,
           });
-        });
+        }
+      });
     } else {
-      this.pridevService.update(this.pridev).subscribe(
-        (data) => {
+      this.pridevService.update(this.pridev).subscribe({
+        next: (data) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
@@ -96,15 +97,15 @@ export class PridevComponent implements OnInit {
             detail: `Придев је успешно сачуван.`,
           });
         },
-        (error) => {
+        error: (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
             life: 5000,
             detail: `Неуспешно снимање: ${error}`,
           });
-        });
+        }
+      });
     }
   }
-
 }
