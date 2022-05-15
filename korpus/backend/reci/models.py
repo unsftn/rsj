@@ -414,3 +414,91 @@ def _svi_oblici_prideva(pridev):
                      'snommno', 'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno']:
             _append_attr(retval, vid, attr)
     return retval
+
+
+class Predlog(models.Model):
+    tekst = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'предлог'
+        verbose_name_plural = 'предлози'
+
+    def __str__(self):
+        return f'{self.id}: {self.tekst}'
+
+
+class IzmenaPredloga(models.Model):
+    predlog = models.ForeignKey(Predlog, verbose_name='', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена предлога'
+        verbose_name_plural = 'измене предлога'
+
+
+class Uzvik(models.Model):
+    tekst = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'узвик'
+        verbose_name_plural = 'узвици'
+
+    def __str__(self):
+        return f'{self.id}: {self.tekst}'
+
+
+class IzmenaUzvika(models.Model):
+    uzvik = models.ForeignKey(Uzvik, verbose_name='', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена узвика'
+        verbose_name_plural = 'измене узвика'
+
+
+class Recca(models.Model):
+    tekst = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'речца'
+        verbose_name_plural = 'речце'
+
+    def __str__(self):
+        return f'{self.id}: {self.tekst}'
+
+
+class IzmenaRecce(models.Model):
+    recca = models.ForeignKey(Recca, verbose_name='', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена речце'
+        verbose_name_plural = 'измене речци'
+
+
+class Veznik(models.Model):
+    tekst = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = 'везник'
+        verbose_name_plural = 'везници'
+
+    def __str__(self):
+        return f'{self.id}: {self.tekst}'
+
+
+class IzmenaVeznika(models.Model):
+    veznik = models.ForeignKey(Veznik, verbose_name='', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена везника'
+        verbose_name_plural = 'измене везника'

@@ -17,40 +17,78 @@ class ImenicaList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Imenica.objects.all()
     serializer_class = ImenicaSerializer
-    filter_backends = [DjangoFilterBackend]
     filter_fields = ['nomjed']
 
 
 class ImenicaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Imenica.objects.all()
     serializer_class = ImenicaSerializer
 
 
 class GlagolList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Glagol.objects.all()
     serializer_class = GlagolSerializer
-    filter_backends = [DjangoFilterBackend]
     filter_fields = ['infinitiv']
 
 
 class GlagolDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Glagol.objects.all()
     serializer_class = GlagolSerializer
 
 
 class PridevList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Pridev.objects.all()
     serializer_class = PridevSerializer
+    filter_fields = ['lema']
 
 
 class PridevDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Pridev.objects.all()
     serializer_class = PridevSerializer
+
+
+class PredlogList(generics.ListAPIView):
+    queryset = Predlog.objects.all()
+    serializer_class = PredlogSerializer
+    filter_fields = ['tekst']
+
+
+class PredlogDetail(generics.RetrieveAPIView):
+    queryset = Predlog.objects.all()
+    serializer_class = PredlogSerializer
+
+
+class ReccaList(generics.ListAPIView):
+    queryset = Recca.objects.all()
+    serializer_class = ReccaSerializer
+    filter_fields = ['tekst']
+
+
+class ReccaDetail(generics.RetrieveAPIView):
+    queryset = Recca.objects.all()
+    serializer_class = ReccaSerializer
+
+
+class UzvikList(generics.ListAPIView):
+    queryset = Uzvik.objects.all()
+    serializer_class = UzvikSerializer
+    filter_fields = ['tekst']
+
+
+class UzvikDetail(generics.RetrieveAPIView):
+    queryset = Uzvik.objects.all()
+    serializer_class = UzvikSerializer
+
+
+class VeznikList(generics.ListAPIView):
+    queryset = Veznik.objects.all()
+    serializer_class = VeznikSerializer
+    filter_fields = ['tekst']
+
+
+class VeznikDetail(generics.RetrieveAPIView):
+    queryset = Veznik.objects.all()
+    serializer_class = VeznikSerializer
 
 
 JSON = 'application/json'

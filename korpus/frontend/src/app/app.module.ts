@@ -49,9 +49,13 @@ import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PubListComponent } from './pages/pub-list/pub-list.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SafePipe } from './utils/safe.pipe';
+import { ReccaComponent } from './pages/reci/recca/recca.component';
+import { UzvikComponent } from './pages/reci/uzvik/uzvik.component';
+import { VeznikComponent } from './pages/reci/veznik/veznik.component';
+import { PredlogComponent } from './pages/reci/predlog/predlog.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe, ReccaComponent, UzvikComponent, VeznikComponent, PredlogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

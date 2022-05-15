@@ -289,3 +289,31 @@ export function toPridev(obj: any): Pridev {
     vidovi: vidovi    
   };
 }
+
+export interface Predlog {
+  id?: number;
+  tekst: string;
+  recnikID?: number;
+  izmene?: any;
+}
+
+export interface Uzvik {
+  id?: number;
+  tekst: string;
+  recnikID?: number;
+  izmene?: any;
+}
+
+export interface Recca {
+  id?: number;
+  tekst: string;
+  recnikID?: number;
+  izmene?: any;
+}
+
+export interface Veznik {
+  id?: number;
+  tekst: string;
+  recnikID?: number;
+  izmene?: any;
+}

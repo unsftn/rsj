@@ -86,6 +86,54 @@ class PridevSerializer(serializers.ModelSerializer):
                   'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
 
 
+class IzmenaPredlogaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IzmenaPredloga
+        fields = ('id', 'operacija_izmene', 'user', 'vreme')
+
+
+class PredlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Predlog
+        fields = ('id', 'tekst')
+
+
+class IzmenaRecceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IzmenaRecce
+        fields = ('id', 'operacija_izmene', 'user', 'vreme')
+
+
+class ReccaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recca
+        fields = ('id', 'tekst')
+        
+
+class IzmenaUzvikaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IzmenaUzvika
+        fields = ('id', 'operacija_izmene', 'user', 'vreme')
+
+
+class UzvikSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Uzvik
+        fields = ('id', 'tekst')
+        
+
+class IzmenaVeznikaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IzmenaVeznika
+        fields = ('id', 'operacija_izmene', 'user', 'vreme')
+
+
+class VeznikSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Veznik
+        fields = ('id', 'tekst')
+        
+
 class NoSaveSerializer(serializers.Serializer):
     def create(self, validated_data):
         return None

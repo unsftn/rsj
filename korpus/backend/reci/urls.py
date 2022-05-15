@@ -5,12 +5,21 @@ from .rest import *
 app_name = 'речи'
 
 urlpatterns = [
-    path('imenice/', ImenicaList.as_view(), name='imenica-list'),
-    path('imenice/<int:pk>/', ImenicaDetail.as_view(), name='imenica-detail'),
-    path('glagoli/', GlagolList.as_view(), name='glagol-list'),
-    path('glagoli/<int:pk>/', GlagolDetail.as_view(), name='glagol-detail'),
-    path('pridevi/', PridevList.as_view(), name='pridev-list'),
-    path('pridevi/<int:pk>/', PridevDetail.as_view(), name='pridev-detail'),
+    path('imenice/', ImenicaList.as_view()),
+    path('imenice/<int:pk>/', ImenicaDetail.as_view()),
+    path('glagoli/', GlagolList.as_view()),
+    path('glagoli/<int:pk>/', GlagolDetail.as_view()),
+    path('pridevi/', PridevList.as_view()),
+    path('pridevi/<int:pk>/', PridevDetail.as_view()),
+    path('predlozi/', PredlogList.as_view()),
+    path('predlozi/<int:pk>/', PredlogDetail.as_view()),
+    path('recce/', ReccaList.as_view()),
+    path('recce/<int:pk>/', ReccaDetail.as_view()),
+    path('uzvici/', UzvikList.as_view()),
+    path('uzvici/<int:pk>/', UzvikDetail.as_view()),
+    path('veznici/', VeznikList.as_view()),
+    path('veznici/<int:pk>/', VeznikDetail.as_view()),
+
     path('save/imenica/', save_imenica, name='save-imenica'),
     path('save/glagol/', save_glagol, name='save-glagol'),
     path('save/pridev/', save_pridev, name='save-pridev'),
