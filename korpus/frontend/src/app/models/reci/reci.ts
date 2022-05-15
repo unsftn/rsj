@@ -1,3 +1,8 @@
+function nvl(x: string): string { 
+  if (x === null || x === undefined) return '';
+  return x;
+}
+
 export interface VrstaImenice {
   id: number;
   name: string;
@@ -119,33 +124,37 @@ export function toGlagol(obj: any): Glagol {
     id: obj.id,
     gl_rod: obj.gl_rod,
     gl_vid: obj.gl_vid,
-    infinitiv: obj.infinitiv,
+    infinitiv: nvl(obj.infinitiv),
     recnikID: obj.recnik_id,
-    rgp_mj: obj.rgp_mj,
-    rgp_zj: obj.rgp_zj,
-    rgp_sj: obj.rgp_sj,
-    rgp_mm: obj.rgp_mm,
-    rgp_zm: obj.rgp_zm,
-    rgp_sm: obj.rgp_sm,
-    gpp: obj.gpp,
-    gps: obj.gps,
+    rgp_mj: nvl(obj.rgp_mj),
+    rgp_zj: nvl(obj.rgp_zj),
+    rgp_sj: nvl(obj.rgp_sj),
+    rgp_mm: nvl(obj.rgp_mm),
+    rgp_zm: nvl(obj.rgp_zm),
+    rgp_sm: nvl(obj.rgp_sm),
+    gpp: nvl(obj.gpp),
+    gps: nvl(obj.gps),
     izmene: obj.izmenaglagola_set,
     oblici: Array(5).fill({vreme: 0, jd1: '', jd2: '', jd3: '', mn1: '', mn2: '', mn3: '', varijante: []}),
   };
   for (const o of obj.oblikglagola_set) {
     glagol.oblici[o.vreme - 1] = {
       vreme: o.vreme,
-      jd1: o.jd1,
-      jd2: o.jd2,
-      jd3: o.jd3,
-      mn1: o.mn1,
-      mn2: o.mn2,
-      mn3: o.mn3,
+      jd1: nvl(o.jd1),
+      jd2: nvl(o.jd2),
+      jd3: nvl(o.jd3),
+      mn1: nvl(o.mn1),
+      mn2: nvl(o.mn2),
+      mn3: nvl(o.mn3),
       varijante: o.varijanteglagola_set.map((v) => ({
         varijanta: v.varijanta,
-        tekst: v.tekst
+        tekst: nvl(v.tekst)
       }))
     }
+  }
+  for (let i = 0; i < 5; i++) {
+    if (glagol.oblici[i].vreme === 0)
+      glagol.oblici[i].vreme = i + 1;
   }
   return glagol;
 }

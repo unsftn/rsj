@@ -50,9 +50,7 @@ export class GlagolComponent implements OnInit {
               this.id = +params.id;
               this.glagolService.get(this.id).subscribe({
                 next: (item) => {
-                  console.log(item);
                   this.glagol = toGlagol(item);
-                  console.log(this.glagol);
                 },
                 error: (error) => {
                   console.log(error);
@@ -113,7 +111,6 @@ export class GlagolComponent implements OnInit {
     try {
       for (const oblik of this.glagol.oblici)
         for (const v of oblik.varijante) {
-          console.log(v);
           this.assert(v.varijanta === null || v.tekst.trim() === '', 'Бар једна варијанта није попуњена.');
         }
       return true;
@@ -126,8 +123,8 @@ export class GlagolComponent implements OnInit {
     if (!this.check()) return;
     console.log('Snimanje glagola:', this.glagol);
     if (!this.editMode) {
-      this.glagolService.add(this.glagol).subscribe(
-        (data) => {
+      this.glagolService.add(this.glagol).subscribe({
+        next: (data) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
@@ -136,7 +133,7 @@ export class GlagolComponent implements OnInit {
           });
           this.router.navigate(['/glagol', data.id]);
         },
-        (error) => {
+        error: (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
@@ -144,10 +141,10 @@ export class GlagolComponent implements OnInit {
             detail: `Неуспешно снимање: ${error}`,
           });
         }
-      );
+      });
     } else {
-      this.glagolService.update(this.glagol).subscribe(
-        (data) => {
+      this.glagolService.update(this.glagol).subscribe({
+        next: (data) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
@@ -155,7 +152,7 @@ export class GlagolComponent implements OnInit {
             detail: `Глагол је успешно сачуван.`,
           });
         },
-        (error) => {
+        error: (error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
@@ -163,7 +160,7 @@ export class GlagolComponent implements OnInit {
             detail: `Неуспешно снимање: ${error}`,
           });
         }
-      );
+      });
     }
   }
 }
