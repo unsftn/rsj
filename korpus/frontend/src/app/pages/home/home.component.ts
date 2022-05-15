@@ -154,4 +154,18 @@ export class HomeComponent implements OnInit {
   changeScanner(event: any): void {
     this.fetchData();
   }
+
+  pogodaka(): string {
+    const ostatak = this.hits.length % 10;
+    switch (ostatak) {
+      case 1: 
+        return 'погодак';
+      case 2:
+      case 3:
+      case 4:
+        return 'поготка';
+      default: 
+        return 'погодака';
+    }
+  }
 }

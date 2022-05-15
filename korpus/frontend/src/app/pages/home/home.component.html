@@ -14,7 +14,7 @@
       </p-paginator>
     </div>
     <div class="col-3 flex justify-content-end">
-      <p>{{hits.length}} погодака</p>
+      <p>{{hits.length}} {{pogodaka()}}</p>
       <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
         (onChange)="changeFragmentSize($event)" optionLabel="name" 
         [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
