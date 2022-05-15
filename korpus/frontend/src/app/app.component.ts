@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     this.searchWord = '';
     this.searchService.selectedWordId = null;
     this.searchService.selectedWordType = null;
-    this.searchService.selectedWordForm = this.searchForm;
+    this.searchService.selectedWordForm = this.searchForm.toLowerCase();
     this.searchService.selectedWordChanged.emit(true);
     this.router.navigate(['']);
   }
