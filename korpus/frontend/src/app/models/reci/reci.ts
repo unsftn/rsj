@@ -115,7 +115,7 @@ export interface Glagol {
 }
 
 export function toGlagol(obj: any): Glagol {
-  return {
+  const glagol = {
     id: obj.id,
     gl_rod: obj.gl_rod,
     gl_vid: obj.gl_vid,
@@ -130,20 +130,24 @@ export function toGlagol(obj: any): Glagol {
     gpp: obj.gpp,
     gps: obj.gps,
     izmene: obj.izmenaglagola_set,
-    oblici: obj.oblikglagola_set.map((oblik) => ({
-      vreme: oblik.vreme,
-      jd1: oblik.jd1,
-      jd2: oblik.jd2,
-      jd3: oblik.jd3,
-      mn1: oblik.mn1,
-      mn2: oblik.mn2,
-      mn3: oblik.mn3,
-      varijante: oblik.varijanteglagola_set.map((v) => ({
+    oblici: Array(5).fill({vreme: 0, jd1: '', jd2: '', jd3: '', mn1: '', mn2: '', mn3: '', varijante: []}),
+  };
+  for (const o of obj.oblikglagola_set) {
+    glagol.oblici[o.vreme - 1] = {
+      vreme: o.vreme,
+      jd1: o.jd1,
+      jd2: o.jd2,
+      jd3: o.jd3,
+      mn1: o.mn1,
+      mn2: o.mn2,
+      mn3: o.mn3,
+      varijante: o.varijanteglagola_set.map((v) => ({
         varijanta: v.varijanta,
         tekst: v.tekst
       }))
-    }))
-  };
+    }
+  }
+  return glagol;
 }
 
 export interface PridevskiVid {

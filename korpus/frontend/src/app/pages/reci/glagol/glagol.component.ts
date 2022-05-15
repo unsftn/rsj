@@ -48,18 +48,22 @@ export class GlagolComponent implements OnInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.glagolService.get(this.id).subscribe((item) => {
-                this.glagol = toGlagol(item);
-              },
-              (error) => {
-                console.log(error);
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Грешка',
-                  life: 5000,
-                  detail: 'Глагол није учитан',
-                });
-                this.router.navigate(['/']);
+              this.glagolService.get(this.id).subscribe({
+                next: (item) => {
+                  console.log(item);
+                  this.glagol = toGlagol(item);
+                  console.log(this.glagol);
+                },
+                error: (error) => {
+                  console.log(error);
+                  this.messageService.add({
+                    severity: 'error',
+                    summary: 'Грешка',
+                    life: 5000,
+                    detail: 'Глагол није учитан',
+                  });
+                  this.router.navigate(['/']);
+                }
               });
             });
           break;
