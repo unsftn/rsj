@@ -3,6 +3,13 @@ function nvl(x: string): string {
   return x;
 }
 
+function nvlObj(obj: any): any {
+  for (const propName of Object.getOwnPropertyNames(obj)) {
+    obj[propName] = nvl(obj[propName]);
+  }
+  return obj;
+}
+
 export interface VrstaImenice {
   id: number;
   name: string;
@@ -220,7 +227,7 @@ export interface Pridev {
 function getVid(vidovi: VidPrideva[], vid: number): VidPrideva {
   let v = vidovi.filter(v => v.vid == vid);
   if (v.length > 0)
-    return v[0];
+    return nvlObj(v[0]);
   else
     return {
       vid: vid,
