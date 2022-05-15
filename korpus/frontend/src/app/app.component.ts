@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
     this.searchService.selectedWordType = null;
     this.searchService.selectedWordForm = this.searchForm.toLowerCase();
     this.searchService.selectedWordChanged.emit(true);
-    this.router.navigate(['']);
+    this.router.navigate(['/']);
   }
 
   select(value): void {
@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
     this.searchService.selectedWordType = value.vrsta;
     this.searchService.selectedWordForm = null;
     this.searchService.selectedWordChanged.emit(true);
-    this.router.navigate(['']);
+    this.router.navigate(['/']);
   }
 
   ngOnInit(): void {

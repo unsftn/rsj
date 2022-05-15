@@ -54,8 +54,8 @@ export class HomeComponent implements OnInit {
     this.fragmentSize = this.fragmentSizes[0];
     this.scanner = this.scanners[0];
     this.primengConfig.ripple = true;
-    // if (this.searchService.selectedWordId)
-    //   this.fetchData();
+    if (this.searchService.selectedWordId || this.searchService.selectedWordForm)
+      this.fetchData();
     this.searchService.selectedWordChanged.subscribe({
       next: (data: boolean) => {
         this.fetchData();
