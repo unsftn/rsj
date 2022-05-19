@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Почетна');
+    this.titleService.setTitle('Корпус');
     this.fragmentSize = this.fragmentSizes[0];
     this.scanner = this.scanners[0];
     this.primengConfig.ripple = true;

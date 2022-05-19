@@ -425,8 +425,17 @@ class Predlog(models.Model):
         verbose_name = 'предлог'
         verbose_name_plural = 'предлози'
 
-    def oblici(self):
+    def oblici(self) -> list:
         return [self.tekst]
+
+    def osnovni_oblik(self) -> str:
+        return self.tekst
+
+    def vrsta_reci(self) -> int:
+        return 4
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[4]
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'
@@ -452,8 +461,17 @@ class Uzvik(models.Model):
         verbose_name = 'узвик'
         verbose_name_plural = 'узвици'
 
-    def oblici(self):
+    def oblici(self) -> list:
         return [self.tekst]
+
+    def osnovni_oblik(self) -> str:
+        return self.tekst
+
+    def vrsta_reci(self) -> int:
+        return 6
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[6]
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'
@@ -479,8 +497,17 @@ class Recca(models.Model):
         verbose_name = 'речца'
         verbose_name_plural = 'речце'
 
-    def oblici(self):
+    def oblici(self) -> list:
         return [self.tekst]
+
+    def osnovni_oblik(self) -> str:
+        return self.tekst
+
+    def vrsta_reci(self) -> int:
+        return 7
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[7]
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'
@@ -506,8 +533,17 @@ class Veznik(models.Model):
         verbose_name = 'везник'
         verbose_name_plural = 'везници'
 
-    def oblici(self):
+    def oblici(self) -> list:
         return [self.tekst]
+
+    def osnovni_oblik(self) -> str:
+        return self.tekst
+
+    def vrsta_reci(self) -> int:
+        return 8
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[8]
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'

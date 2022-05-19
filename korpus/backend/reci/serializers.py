@@ -95,7 +95,7 @@ class IzmenaPredlogaSerializer(serializers.ModelSerializer):
 class PredlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Predlog
-        fields = ('id', 'tekst')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
 
 
 class IzmenaRecceSerializer(serializers.ModelSerializer):
@@ -107,7 +107,7 @@ class IzmenaRecceSerializer(serializers.ModelSerializer):
 class ReccaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recca
-        fields = ('id', 'tekst')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
         
 
 class IzmenaUzvikaSerializer(serializers.ModelSerializer):
@@ -119,7 +119,7 @@ class IzmenaUzvikaSerializer(serializers.ModelSerializer):
 class UzvikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Uzvik
-        fields = ('id', 'tekst')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
         
 
 class IzmenaVeznikaSerializer(serializers.ModelSerializer):
@@ -131,7 +131,7 @@ class IzmenaVeznikaSerializer(serializers.ModelSerializer):
 class VeznikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Veznik
-        fields = ('id', 'tekst')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
         
 
 class NoSaveSerializer(serializers.Serializer):
