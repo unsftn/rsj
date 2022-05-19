@@ -1,0 +1,15 @@
+.container {
+  padding: 10px;
+}
+
+.tableform {
+  display: table;
+  .row {
+    display: table-row;
+    .cell {
+      display: table-cell;
+      padding-right: 5px;
+    }
+  }
+}
+  

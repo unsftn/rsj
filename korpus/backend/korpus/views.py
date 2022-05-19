@@ -1,8 +1,8 @@
 import mimetypes
 from django.conf import settings
 from django.http import FileResponse
-from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework import status, permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 
@@ -15,6 +15,7 @@ def serve_media_file(request, file_path):
 
 
 @api_view(['GET'])
+@permission_classes([permissions.AllowAny])
 def get_config(request):
     resp = {
         'HEADER_COLOR_SCHEME': settings.HEADER_COLOR_SCHEME,

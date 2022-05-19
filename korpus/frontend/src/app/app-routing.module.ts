@@ -6,11 +6,15 @@ import { PublicationComponent } from './pages/publication/publication.component'
 import { AuthGuard } from './services/auth/auth.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
+import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
 import { GlagolComponent } from './pages/reci/glagol/glagol.component';
 import { PridevComponent } from './pages/reci/pridev/pridev.component';
-import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { PredlogComponent } from './pages/reci/predlog/predlog.component';
+import { ReccaComponent } from './pages/reci/recca/recca.component';
+import { UzvikComponent } from './pages/reci/uzvik/uzvik.component';
+import { VeznikComponent } from './pages/reci/veznik/veznik.component';
 
 const routes: Routes = [
   {
@@ -56,6 +60,54 @@ const routes: Routes = [
   {
     path: 'pridev/:id',
     component: PridevComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'predlog/add',
+    component: PredlogComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'predlog/:id',
+    component: PredlogComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'recca/add',
+    component: ReccaComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'recca/:id',
+    component: ReccaComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'uzvik/add',
+    component: UzvikComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'uzvik/:id',
+    component: UzvikComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'veznik/add',
+    component: VeznikComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'veznik/:id',
+    component: VeznikComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },

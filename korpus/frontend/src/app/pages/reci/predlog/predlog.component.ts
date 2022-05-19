@@ -12,6 +12,7 @@ export class PredlogComponent implements OnInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  predlog: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +23,10 @@ export class PredlogComponent implements OnInit {
       this.returnUrl = params.returnUrl;
       this.sourceWord = params.word;
     });
+  }
+
+  save(): void {
+    
   }
 
 }
