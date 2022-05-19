@@ -423,6 +423,9 @@ class Predlog(models.Model):
         verbose_name = 'предлог'
         verbose_name_plural = 'предлози'
 
+    def oblici(self):
+        return [self.tekst]
+
     def __str__(self):
         return f'{self.id}: {self.tekst}'
 
@@ -444,6 +447,9 @@ class Uzvik(models.Model):
     class Meta:
         verbose_name = 'узвик'
         verbose_name_plural = 'узвици'
+
+    def oblici(self):
+        return [self.tekst]
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'
@@ -467,6 +473,9 @@ class Recca(models.Model):
         verbose_name = 'речца'
         verbose_name_plural = 'речце'
 
+    def oblici(self):
+        return [self.tekst]
+
     def __str__(self):
         return f'{self.id}: {self.tekst}'
 
@@ -488,6 +497,9 @@ class Veznik(models.Model):
     class Meta:
         verbose_name = 'везник'
         verbose_name_plural = 'везници'
+
+    def oblici(self):
+        return [self.tekst]
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'

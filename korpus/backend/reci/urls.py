@@ -20,9 +20,13 @@ urlpatterns = [
     path('veznici/', VeznikList.as_view()),
     path('veznici/<int:pk>/', VeznikDetail.as_view()),
 
-    path('save/imenica/', save_imenica, name='save-imenica'),
-    path('save/glagol/', save_glagol, name='save-glagol'),
-    path('save/pridev/', save_pridev, name='save-pridev'),
+    path('save/imenica/', save_imenica),
+    path('save/glagol/', save_glagol),
+    path('save/pridev/', save_pridev),
+    path('save/predlog/', save_predlog),
+    path('save/recca/', save_recca),
+    path('save/uzvik/', save_uzvik),
+    path('save/veznik/', save_veznik),
 
     path('password/change/', change_password),
     path('password/forgot/', forgot_password),

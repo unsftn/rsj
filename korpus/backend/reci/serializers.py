@@ -328,3 +328,92 @@ class SavePridevSerializer(serializers.Serializer):
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPrideva.objects.create(user_id=user.id, vreme=sada, pridev=pridev, operacija_izmene=operacija_izmene)
         return pridev
+
+
+class SavePredlogSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    tekst = serializers.CharField(max_length=100, allow_blank=False)
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, predlog=None):
+        radimo_update = predlog is not None
+        predlog_id = validated_data.get('id')
+        sada = now()
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        predlog, created = Predlog.objects.update_or_create(defaults=validated_data, id=predlog_id)
+        operacija_izmene = 2 if radimo_update else 1
+        IzmenaPredloga.objects.create(user_id=user.id, vreme=sada, predlog=predlog, operacija_izmene=operacija_izmene)
+        return predlog
+
+
+
+class SaveReccaSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    tekst = serializers.CharField(max_length=100, allow_blank=False)
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, recca=None):
+        radimo_update = recca is not None
+        recca_id = validated_data.get('id')
+        sada = now()
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        recca, created = Recca.objects.update_or_create(defaults=validated_data, id=recca_id)
+        operacija_izmene = 2 if radimo_update else 1
+        IzmenaRecce.objects.create(user_id=user.id, vreme=sada, recca=recca, operacija_izmene=operacija_izmene)
+        return recca
+
+
+class SaveUzvikSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    tekst = serializers.CharField(max_length=100, allow_blank=False)
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, uzvik=None):
+        radimo_update = uzvik is not None
+        uzvik_id = validated_data.get('id')
+        sada = now()
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        uzvik, created = Uzvik.objects.update_or_create(defaults=validated_data, id=uzvik_id)
+        operacija_izmene = 2 if radimo_update else 1
+        IzmenaUzvika.objects.create(user_id=user.id, vreme=sada, uzvik=uzvik, operacija_izmene=operacija_izmene)
+        return uzvik
+
+
+class SaveVeznikSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    tekst = serializers.CharField(max_length=100, allow_blank=False)
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, veznik=None):
+        radimo_update = veznik is not None
+        veznik_id = validated_data.get('id')
+        sada = now()
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id)
+        operacija_izmene = 2 if radimo_update else 1
+        IzmenaUzvika.objects.create(user_id=user.id, vreme=sada, veznik=veznik, operacija_izmene=operacija_izmene)
+        return veznik

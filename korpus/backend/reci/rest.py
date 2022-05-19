@@ -10,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
 from .models import *
 from .serializers import *
-from indexer.index import index_imenica, index_glagol, index_pridev
+from indexer.index import *
 
 
 class ImenicaList(generics.ListAPIView):
@@ -166,6 +166,114 @@ def save_pridev(request):
         except RecordModifiedError:
             raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао придев', code=409)
         ser2 = PridevSerializer(pridev)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_predlog(request):
+    if request.method == 'POST':
+        serializer = SavePredlogSerializer(data=request.data)
+    else:
+        try:
+            predlog_id = request.data['id']
+            predlog = Predlog.objects.get(id=predlog_id)
+            serializer = SavePredlogSerializer(predlog, data=request.data)
+        except (KeyError, Predlog.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојећег предлога', code=404)
+    if serializer.is_valid():
+        try:
+            predlog = serializer.save(user=request.user)
+            index_predlog(predlog)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао предлог', code=409)
+        ser2 = PredlogSerializer(predlog)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_recca(request):
+    if request.method == 'POST':
+        serializer = SaveReccaSerializer(data=request.data)
+    else:
+        try:
+            recca_id = request.data['id']
+            recca = Recca.objects.get(id=recca_id)
+            serializer = SaveReccaSerializer(recca, data=request.data)
+        except (KeyError, Recca.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојеће речце', code=404)
+    if serializer.is_valid():
+        try:
+            recca = serializer.save(user=request.user)
+            index_recca(recca)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао речцу', code=409)
+        ser2 = ReccaSerializer(recca)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_uzvik(request):
+    if request.method == 'POST':
+        serializer = SaveUzvikSerializer(data=request.data)
+    else:
+        try:
+            uzvik_id = request.data['id']
+            uzvik = Uzvik.objects.get(id=uzvik_id)
+            serializer = SaveUzvikSerializer(uzvik, data=request.data)
+        except (KeyError, Uzvik.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојећег узвика', code=404)
+    if serializer.is_valid():
+        try:
+            uzvik = serializer.save(user=request.user)
+            index_uzvik(uzvik)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао узвик', code=409)
+        ser2 = UzvikSerializer(uzvik)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_veznik(request):
+    if request.method == 'POST':
+        serializer = SaveVeznikSerializer(data=request.data)
+    else:
+        try:
+            veznik_id = request.data['id']
+            veznik = Veznik.objects.get(id=veznik_id)
+            serializer = SaveVeznikSerializer(veznik, data=request.data)
+        except (KeyError, Veznik.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојећег везника', code=404)
+    if serializer.is_valid():
+        try:
+            veznik = serializer.save(user=request.user)
+            index_veznik(veznik)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао везник', code=409)
+        ser2 = VeznikSerializer(veznik)
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
         else:

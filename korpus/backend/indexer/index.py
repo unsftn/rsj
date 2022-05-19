@@ -63,6 +63,50 @@ def index_pridev(pridev, client=None):
     return save_dict(pridev_dict, client)
 
 
+def index_predlog(predlog, client=None):
+    predlog_dict = {
+        'pk': '4_' + str(predlog.pk),
+        'rec': predlog.tekst,
+        'vrsta': 4,
+        'oblici': predlog.oblici(),
+        'osnovni_oblik': predlog.tekst,
+    }
+    return save_dict(predlog_dict, client)
+
+
+def index_recca(recca, client=None):
+    recca_dict = {
+        'pk': '7_' + str(recca.pk),
+        'rec': recca.tekst,
+        'vrsta': 7,
+        'oblici': recca.oblici(),
+        'osnovni_oblik': recca.tekst,
+    }
+    return save_dict(recca_dict, client)
+
+
+def index_uzvik(uzvik, client=None):
+    uzvik_dict = {
+        'pk': '6_' + str(uzvik.pk),
+        'rec': uzvik.tekst,
+        'vrsta': 6,
+        'oblici': uzvik.oblici(),
+        'osnovni_oblik': uzvik.tekst,
+    }
+    return save_dict(uzvik_dict, client)
+
+
+def index_veznik(veznik, client=None):
+    veznik_dict = {
+        'pk': '8_' + str(veznik.pk),
+        'rec': veznik.tekst,
+        'vrsta': 8,
+        'oblici': veznik.oblici(),
+        'osnovni_oblik': veznik.tekst,
+    }
+    return save_dict(veznik_dict, client)
+
+
 def save_dict(rec_dict, client=None):
     serializer = RecSerializer()
     rec = serializer.create(rec_dict)
