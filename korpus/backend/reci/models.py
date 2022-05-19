@@ -418,6 +418,8 @@ def _svi_oblici_prideva(pridev):
 
 class Predlog(models.Model):
     tekst = models.CharField(max_length=100)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
 
     class Meta:
         verbose_name = 'предлог'
@@ -443,6 +445,8 @@ class IzmenaPredloga(models.Model):
 
 class Uzvik(models.Model):
     tekst = models.CharField(max_length=100)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
 
     class Meta:
         verbose_name = 'узвик'
@@ -468,6 +472,8 @@ class IzmenaUzvika(models.Model):
 
 class Recca(models.Model):
     tekst = models.CharField(max_length=100)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
 
     class Meta:
         verbose_name = 'речца'
@@ -493,6 +499,8 @@ class IzmenaRecce(models.Model):
 
 class Veznik(models.Model):
     tekst = models.CharField(max_length=100)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
 
     class Meta:
         verbose_name = 'везник'

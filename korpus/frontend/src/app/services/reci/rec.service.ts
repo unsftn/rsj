@@ -15,7 +15,7 @@ export class RecService {
       case 1: return this.http.get<any>(`/api/reci/glagoli/${id}/`);
       case 2: return this.http.get<any>(`/api/reci/pridevi/${id}/`);
       case 3: return of({});  // TODO
-      case 4: return of({});  // TODO
+      case 4: return this.http.get<any>(`/api/reci/predlozi/${id}/`);  // TODO
       case 5: return of({});  // TODO
       case 6: return of({});  // TODO
       case 7: return of({});  // TODO
@@ -29,6 +29,8 @@ export class RecService {
       case 0: return '/imenica';
       case 1: return '/glagol';
       case 2: return '/pridev';
+      case 4: return '/predlog';
+      // TODO
       default: return '';
     }
   }
