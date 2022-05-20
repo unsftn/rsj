@@ -112,7 +112,7 @@ def save_dict(rec_dict, client=None):
     rec = serializer.create(rec_dict)
     try:
         if not client:
-            client = Elasticsearch()
+            client = get_es_client()
         result = rec.save(using=client, id=rec.pk, index=REC_INDEX)
         return result
     except Exception as ex:
