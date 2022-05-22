@@ -15,6 +15,9 @@ import { PredlogComponent } from './pages/reci/predlog/predlog.component';
 import { ReccaComponent } from './pages/reci/recca/recca.component';
 import { UzvikComponent } from './pages/reci/uzvik/uzvik.component';
 import { VeznikComponent } from './pages/reci/veznik/veznik.component';
+import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
+import { BrojComponent } from './pages/reci/broj/broj.component';
+import { PrilogComponent } from './pages/reci/prilog/prilog.component';
 
 const routes: Routes = [
   {
@@ -108,6 +111,42 @@ const routes: Routes = [
   {
     path: 'veznik/:id',
     component: VeznikComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'zamenica/add',
+    component: ZamenicaComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'zamenica/:id',
+    component: ZamenicaComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'broj/add',
+    component: BrojComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'broj/:id',
+    component: BrojComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'edit' }
+  },
+  {
+    path: 'prilog/add',
+    component: PrilogComponent,
+    canActivate: [AuthGuard],
+    data: { mode: 'add' }
+  },
+  {
+    path: 'prilog/:id',
+    component: PrilogComponent,
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },

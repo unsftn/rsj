@@ -134,6 +134,35 @@ class VeznikSerializer(serializers.ModelSerializer):
         fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
         
 
+class VarijantaZameniceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VarijantaZamenice
+        fields = ('id', 'redni_broj', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed')
+
+
+class ZamenicaSerializer(serializers.ModelSerializer):
+    varijantazamenice_set = VarijantaZameniceSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Zamenica
+        fields = ('id', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 'varijantazamenice_set',
+                  'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        
+
+class BrojSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Broj
+        fields = ('id', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 
+                  'nommno', 'genmno', 'datmno', 'akumno', 'vokmno', 'insmno', 'lokmno', 
+                  'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        
+
+class PrilogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Prilog
+        fields = ('id', 'komparativ', 'superlativ', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        
+
 class NoSaveSerializer(serializers.Serializer):
     def create(self, validated_data):
         return None
@@ -195,6 +224,7 @@ class SaveImenicaSerializer(serializers.Serializer):
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
         imenica, created = Imenica.objects.update_or_create(defaults=validated_data, id=imenica_id)
+        VarijantaImenice.objects.filter(imenica=imenica).delete()
         for var in varijante:
             VarijantaImenice.objects.create(imenica=imenica, **var)
         operacija_izmene = 2 if radimo_update else 1
@@ -248,6 +278,7 @@ class SaveGlagolSerializer(serializers.Serializer):
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
         glagol, created = Glagol.objects.update_or_create(defaults=validated_data, id=glagol_id)
+        OblikGlagola.objects.filter(glagol=glagol).delete()
         for oblik in oblici:
             varijante = oblik.pop('varijante', [])
             oblik = OblikGlagola.objects.create(glagol=glagol, **oblik)
@@ -323,6 +354,7 @@ class SavePridevSerializer(serializers.Serializer):
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
         pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id)
+        VidPrideva.objects.filter(pridev=pridev).delete()
         for v in vidovi:
             VidPrideva.objects.create(pridev=pridev, **v)
         operacija_izmene = 2 if radimo_update else 1
@@ -415,5 +447,107 @@ class SaveVeznikSerializer(serializers.Serializer):
         validated_data['poslednja_izmena'] = sada
         veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id)
         operacija_izmene = 2 if radimo_update else 1
-        IzmenaUzvika.objects.create(user_id=user.id, vreme=sada, veznik=veznik, operacija_izmene=operacija_izmene)
+        IzmenaVeznika.objects.create(user_id=user.id, vreme=sada, veznik=veznik, operacija_izmene=operacija_izmene)
         return veznik
+
+
+class SavePrilogSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    komparativ = serializers.CharField(max_length=50, allow_blank=True)
+    superlativ = serializers.CharField(max_length=50, allow_blank=True)
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, prilog=None):
+        radimo_update = prilog is not None
+        prilog_id = validated_data.get('id')
+        sada = now()
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id)
+        operacija_izmene = 2 if radimo_update else 1
+        # TODO: IzmenaPriloga.objects.create(user_id=user.id, vreme=sada, prilog=prilog, operacija_izmene=operacija_izmene)
+        return prilog
+
+
+class SaveVarijantaZameniceSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    nomjed = serializers.CharField(max_length=50, allow_blank=True)
+    genjed = serializers.CharField(max_length=50, allow_blank=True)
+    datjed = serializers.CharField(max_length=50, allow_blank=True)
+    akujed = serializers.CharField(max_length=50, allow_blank=True)
+    vokjed = serializers.CharField(max_length=50, allow_blank=True)
+    insjed = serializers.CharField(max_length=50, allow_blank=True)
+    lokjed = serializers.CharField(max_length=50, allow_blank=True)
+
+
+class SaveZamenicaSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    nomjed = serializers.CharField(max_length=50, allow_blank=True)
+    genjed = serializers.CharField(max_length=50, allow_blank=True)
+    datjed = serializers.CharField(max_length=50, allow_blank=True)
+    akujed = serializers.CharField(max_length=50, allow_blank=True)
+    vokjed = serializers.CharField(max_length=50, allow_blank=True)
+    insjed = serializers.CharField(max_length=50, allow_blank=True)
+    lokjed = serializers.CharField(max_length=50, allow_blank=True)
+    varijante = serializers.ListField(child=VarijantaZameniceSerializer())
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, zamenica=None):
+        radimo_update = zamenica is not None
+        zamenica_id = validated_data.get('id')
+        sada = now()
+        varijante = validated_data.pop('varijante', [])
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        zamenica, created = Zamenica.objects.update_or_create(defaults=validated_data, id=zamenica_id)
+        VarijantaZamenice.objects.filter(zamenica=zamenica).delete()
+        for var in varijante:
+            VarijantaZamenice.objects.create(zamenica=zamenica, **var)
+        operacija_izmene = 2 if radimo_update else 1
+        # TODO: IzmenaZamenica.objects.create(user_id=user.id, vreme=sada, zamenica=zamenica, operacija_izmene=operacija_izmene)
+        return zamenica
+
+
+class SaveBrojSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    nomjed = serializers.CharField(max_length=50, allow_blank=True)
+    genjed = serializers.CharField(max_length=50, allow_blank=True)
+    datjed = serializers.CharField(max_length=50, allow_blank=True)
+    akujed = serializers.CharField(max_length=50, allow_blank=True)
+    vokjed = serializers.CharField(max_length=50, allow_blank=True)
+    insjed = serializers.CharField(max_length=50, allow_blank=True)
+    lokjed = serializers.CharField(max_length=50, allow_blank=True)
+    nommno = serializers.CharField(max_length=50, allow_blank=True)
+    genmno = serializers.CharField(max_length=50, allow_blank=True)
+    datmno = serializers.CharField(max_length=50, allow_blank=True)
+    akumno = serializers.CharField(max_length=50, allow_blank=True)
+    vokmno = serializers.CharField(max_length=50, allow_blank=True)
+    insmno = serializers.CharField(max_length=50, allow_blank=True)
+    lokmno = serializers.CharField(max_length=50, allow_blank=True)
+
+    def create(self, validated_data):
+        return self._save(validated_data)
+
+    def update(self, instance, validated_data):
+        return self._save(validated_data, instance)
+
+    def _save(self, validated_data, broj=None):
+        radimo_update = broj is not None
+        broj_id = validated_data.get('id')
+        sada = now()
+        user = validated_data.pop('user')
+        validated_data['poslednja_izmena'] = sada
+        broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id)
+        operacija_izmene = 2 if radimo_update else 1
+        # TODO: IzmenaBroja.objects.create(user_id=user.id, vreme=sada, broj=broj, operacija_izmene=operacija_izmene)
+        return broj

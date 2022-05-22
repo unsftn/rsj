@@ -294,26 +294,155 @@ export interface Predlog {
   id?: number;
   tekst: string;
   recnikID?: number;
-  izmene?: any;
+  // izmene?: any;
+}
+
+export function toPredlog(obj: any): Predlog {
+  return { 
+    id: obj.id, 
+    tekst: obj.tekst,
+    recnikID: obj.recnik_id,
+  };
 }
 
 export interface Uzvik {
   id?: number;
   tekst: string;
   recnikID?: number;
-  izmene?: any;
+  // izmene?: any;
+}
+
+export function toUzvik(obj: any): Uzvik {
+  return { 
+    id: obj.id, 
+    tekst: obj.tekst,
+    recnikID: obj.recnik_id,
+  };
 }
 
 export interface Recca {
   id?: number;
   tekst: string;
   recnikID?: number;
-  izmene?: any;
+  // izmene?: any;
+}
+
+export function toRecca(obj: any): Recca {
+  return { 
+    id: obj.id, 
+    tekst: obj.tekst,
+    recnikID: obj.recnik_id,
+  };
 }
 
 export interface Veznik {
   id?: number;
   tekst: string;
   recnikID?: number;
-  izmene?: any;
+  // izmene?: any;
 }
+
+export function toVeznik(obj: any): Veznik {
+  return { 
+    id: obj.id, 
+    tekst: obj.tekst,
+    recnikID: obj.recnik_id,
+  };
+}
+
+export interface Zamenica {
+  id?: number;
+  redni_broj?: number;
+  nomjed: string;
+  genjed: string;
+  datjed: string;
+  akujed: string;
+  vokjed: string;
+  insjed: string;
+  lokjed: string;
+  recnikID?: number;
+  // izmene?: any[];
+  varijante?: Zamenica[];
+}
+
+export function toZamenica(obj: any): Zamenica {
+  return {
+    id: obj.id,
+    recnikID: obj.recnik_id,
+    nomjed: obj.nomjed,
+    genjed: obj.genjed,
+    datjed: obj.datjed,
+    akujed: obj.akujed,
+    vokjed: obj.vokjed,
+    insjed: obj.insjed,
+    lokjed: obj.lokjed,
+    varijante: obj.varijantazamenice_set.map((item) => ({
+      redni_broj: item.redni_broj,
+      nomjed: item.nomjed,
+      genjed: item.genjed,
+      datjed: item.datjed,
+      akujed: item.akujed,
+      vokjed: item.vokjed,
+      insjed: item.insjed,
+      lokjed: item.lokjed})).sort((a, b) => a.rbr - b.rbr)
+  };
+}
+
+export interface Broj {
+  id?: number;
+  recnikID?: number;
+  nomjed: string;
+  genjed: string;
+  datjed: string;
+  akujed: string;
+  vokjed: string;
+  insjed: string;
+  lokjed: string;
+  nommno: string;
+  genmno: string;
+  datmno: string;
+  akumno: string;
+  vokmno: string;
+  insmno: string;
+  lokmno: string;
+  // izmene?: any[];
+}
+
+export function toBroj(obj: any): Broj {
+  return {
+    id: obj.id,
+    recnikID: obj.recnik_id,
+    nomjed: obj.nomjed,
+    genjed: obj.genjed,
+    datjed: obj.datjed,
+    akujed: obj.akujed,
+    vokjed: obj.vokjed,
+    insjed: obj.insjed,
+    lokjed: obj.lokjed,
+    nommno: obj.nommno,
+    genmno: obj.genmno,
+    datmno: obj.datmno,
+    akumno: obj.akumno,
+    vokmno: obj.vokmno,
+    insmno: obj.insmno,
+    lokmno: obj.lokmno
+  };
+}
+
+export interface Prilog {
+  id?: number;
+  recnikID?: number;
+  komparativ: string;
+  superlativ: string;
+  // izmene?: any[];
+}
+
+export function toPrilog(obj: any): Prilog {
+  return {
+    id: obj.id,
+    recnikID: obj.recnik_id,
+    komparativ: obj.komparativ,
+    superlativ: obj.superlativ,
+  };
+}
+

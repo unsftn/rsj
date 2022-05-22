@@ -155,6 +155,18 @@ export class AppComponent implements OnInit {
         label: 'Везник',
         routerLink: ['/veznik/add']
       },
+      {
+        label: 'Заменица',
+        routerLink: ['/zamenica/add']
+      },
+      {
+        label: 'Број',
+        routerLink: ['/broj/add']
+      },
+      {
+        label: 'Прилог',
+        routerLink: ['/prilog/add']
+      },
     ];
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';

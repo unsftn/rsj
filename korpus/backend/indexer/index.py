@@ -107,6 +107,39 @@ def index_veznik(veznik, client=None):
     return save_dict(veznik_dict, client)
 
 
+def index_zamenica(zamenica, client=None):
+    zamenica_dict = {
+        'pk': '5_' + str(zamenica.pk),
+        'rec': zamenica.nomjed,
+        'vrsta': 5,
+        'oblici': zamenica.oblici(),
+        'osnovni_oblik': zamenica.osnovni_oblik(),
+    }
+    return save_dict(zamenica_dict, client)
+
+
+def index_broj(broj, client=None):
+    broj_dict = {
+        'pk': '9_' + str(broj.pk),
+        'rec': broj.nomjed,
+        'vrsta': 9,
+        'oblici': broj.oblici(),
+        'osnovni_oblik': broj.osnovni_oblik(),
+    }
+    return save_dict(broj_dict, client)
+
+
+def index_prilog(prilog, client=None):
+    prilog_dict = {
+        'pk': '3_' + str(prilog.pk),
+        'rec': prilog.komparativ,
+        'vrsta': 3,
+        'oblici': prilog.oblici(),
+        'osnovni_oblik': prilog.osnovni_oblik(),
+    }
+    return save_dict(prilog_dict, client)
+
+
 def save_dict(rec_dict, client=None):
     serializer = RecSerializer()
     rec = serializer.create(rec_dict)

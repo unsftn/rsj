@@ -5,4 +5,7 @@ export * from './predlog.service';
 export * from './recca.service';
 export * from './uzvik.service';
 export * from './veznik.service';
+export * from './broj.service';
+export * from './zamenica.service';
+export * from './prilog.service';
 export * from './rec.service';

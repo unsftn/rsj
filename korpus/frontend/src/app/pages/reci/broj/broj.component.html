@@ -1,0 +1,46 @@
+<toolbar (saveClicked)="save()"></toolbar>
+<div class="container">
+  <h3>Број <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
+  <div class="tableform">
+    <div class="row">
+      <div class="cell"></div>
+      <div class="cell"><p class="label">Једнина</p></div>
+      <div class="cell"><p class="label">Множина</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Номинатив</p></div>
+      <div class="cell"><input id="nomjed" type="text" pInputText [(ngModel)]="broj.nomjed"></div>
+      <div class="cell"><input id="nommno" type="text" pInputText [(ngModel)]="broj.nommno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Генитив</p></div>
+      <div class="cell"><input id="genjed" type="text" pInputText [(ngModel)]="broj.genjed"></div>
+      <div class="cell"><input id="genmno" type="text" pInputText [(ngModel)]="broj.genmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Датив</p></div>
+      <div class="cell"><input id="datjed" type="text" pInputText [(ngModel)]="broj.datjed"></div>
+      <div class="cell"><input id="datmno" type="text" pInputText [(ngModel)]="broj.datmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Акузатив</p></div>
+      <div class="cell"><input id="akujed" type="text" pInputText [(ngModel)]="broj.akujed"></div>
+      <div class="cell"><input id="akumno" type="text" pInputText [(ngModel)]="broj.akumno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Вокатив</p></div>
+      <div class="cell"><input id="vokjed" type="text" pInputText [(ngModel)]="broj.vokjed"></div>
+      <div class="cell"><input id="vokmno" type="text" pInputText [(ngModel)]="broj.vokmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Инструментал</p></div>
+      <div class="cell"><input id="insjed" type="text" pInputText [(ngModel)]="broj.insjed"></div>
+      <div class="cell"><input id="insmno" type="text" pInputText [(ngModel)]="broj.insmno"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Локатив</p></div>
+      <div class="cell"><input id="lokjed" type="text" pInputText [(ngModel)]="broj.lokjed"></div>
+      <div class="cell"><input id="lokmno" type="text" pInputText [(ngModel)]="broj.lokmno"></div>
+    </div>
+  </div>
+</div>

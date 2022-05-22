@@ -558,3 +558,179 @@ class IzmenaVeznika(models.Model):
     class Meta:
         verbose_name = 'измена везника'
         verbose_name_plural = 'измене везника'
+
+
+class Zamenica(models.Model):
+    nomjed = models.CharField('номинатив', max_length=50)
+    genjed = models.CharField('генитив', max_length=50, blank=True, null=True)
+    datjed = models.CharField('датив', max_length=50, blank=True, null=True)
+    akujed = models.CharField('акузатив', max_length=50, blank=True, null=True)
+    vokjed = models.CharField('вокатив', max_length=50, blank=True, null=True)
+    insjed = models.CharField('инструментал', max_length=50, blank=True, null=True)
+    lokjed = models.CharField('локатив', max_length=50, blank=True, null=True)
+    recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
+    status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+
+    class Meta:
+        verbose_name = 'заменица'
+        verbose_name_plural = 'заменице'
+        ordering = ['id']
+        indexes = [
+            models.Index(fields=['nomjed'])
+        ]
+
+    def __str__(self):
+        return f'{self.id}: {self.nomjed}'
+
+    def osnovni_oblik(self) -> str:
+        return self.nomjed
+
+    def vrsta_reci(self) -> int:
+        return 5
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[5]
+
+    def oblici(self) -> list:
+        retval = _svi_oblici_zamenice(self)
+        for v in self.varijantazamenice_set.all():
+            retval.extend(_svi_oblici_zamenice(v))
+        return retval
+
+
+class VarijantaZamenice(models.Model):
+    zamenica = models.ForeignKey(Zamenica, verbose_name='заменица', on_delete=models.CASCADE)
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    nomjed = models.CharField('номинатив', max_length=50, blank=True, null=True)
+    genjed = models.CharField('генитив', max_length=50, blank=True, null=True)
+    datjed = models.CharField('датив', max_length=50, blank=True, null=True)
+    akujed = models.CharField('акузатив', max_length=50, blank=True, null=True)
+    vokjed = models.CharField('вокатив', max_length=50, blank=True, null=True)
+    insjed = models.CharField('инструментал', max_length=50, blank=True, null=True)
+    lokjed = models.CharField('локатив', max_length=50, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'варијанта заменице'
+        verbose_name_plural = 'варијанте заменица'
+
+
+def _svi_oblici_zamenice(imenica):
+    retval = []
+    for x in ['nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed']:
+        _append_attr(retval, imenica, x)
+    return retval
+
+
+class Broj(models.Model):
+    nomjed = models.CharField('номинатив једнине', max_length=50, blank=True, null=True)
+    genjed = models.CharField('генитив једнине', max_length=50, blank=True, null=True)
+    datjed = models.CharField('датив једнине', max_length=50, blank=True, null=True)
+    akujed = models.CharField('акузатив једнине', max_length=50, blank=True, null=True)
+    vokjed = models.CharField('вокатив једнине', max_length=50, blank=True, null=True)
+    insjed = models.CharField('инструментал једнине', max_length=50, blank=True, null=True)
+    lokjed = models.CharField('локатив једнине', max_length=50, blank=True, null=True)
+    nommno = models.CharField('номинатив множине', max_length=50, blank=True, null=True)
+    genmno = models.CharField('генитив множине', max_length=50, blank=True, null=True)
+    datmno = models.CharField('датив множине', max_length=50, blank=True, null=True)
+    akumno = models.CharField('акузатив множине', max_length=50, blank=True, null=True)
+    vokmno = models.CharField('вокатив множине', max_length=50, blank=True, null=True)
+    insmno = models.CharField('инструментал множине', max_length=50, blank=True, null=True)
+    lokmno = models.CharField('локатив множине', max_length=50, blank=True, null=True)
+    recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
+    status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+
+    class Meta:
+        verbose_name = 'број'
+        verbose_name_plural = 'бројеви'
+        ordering = ['id']
+        indexes = [
+            models.Index(fields=['nomjed'])
+        ]
+
+    def __str__(self):
+        return f'{self.id}: {self.nomjed}'
+
+    def osnovni_oblik(self) -> str:
+        return self.nomjed
+
+    def vrsta_reci(self) -> int:
+        return 9
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[9]
+
+    def oblici(self) -> list:
+        retval = []
+        if self.nomjed:
+            retval.append(self.nomjed)
+        if self.genjed:
+            retval.append(self.genjed)
+        if self.datjed:
+            retval.append(self.datjed)
+        if self.akujed:
+            retval.append(self.akujed)
+        if self.vokjed:
+            retval.append(self.vokjed)
+        if self.insjed:
+            retval.append(self.insjed)
+        if self.lokjed:
+            retval.append(self.lokjed)
+        if self.nommno:
+            retval.append(self.nommno)
+        if self.genmno:
+            retval.append(self.genmno)
+        if self.datmno:
+            retval.append(self.datmno)
+        if self.akumno:
+            retval.append(self.akumno)
+        if self.vokmno:
+            retval.append(self.vokmno)
+        if self.insmno:
+            retval.append(self.insmno)
+        if self.lokmno:
+            retval.append(self.lokmno)
+        return retval
+
+
+class Prilog(models.Model):
+    komparativ = models.CharField('компаратив', max_length=50, blank=True, null=True)
+    superlativ = models.CharField('суперлатив', max_length=50, blank=True, null=True)
+    recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
+    status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
+    vreme_kreiranja = models.DateTimeField('време креирања', default=now)
+    poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+
+    class Meta:
+        verbose_name = 'прилог'
+        verbose_name_plural = 'прилози'
+        ordering = ['id']
+        indexes = [
+            models.Index(fields=['komparativ']),
+            models.Index(fields=['superlativ'])
+        ]
+
+    def __str__(self):
+        return f'{self.id}: {self.komparativ}'
+
+    def osnovni_oblik(self) -> str:
+        return self.komparativ
+
+    def vrsta_reci(self) -> int:
+        return 3
+
+    def naziv_vrste_reci(self) -> str:
+        return VRSTE_RECI[3]
+
+    def oblici(self) -> list:
+        retval = []
+        if self.komparativ:
+            retval.append(self.komparativ)
+        if self.superlativ:
+            retval.append(self.superlativ)
+        return retval
+
+

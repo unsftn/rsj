@@ -19,6 +19,12 @@ urlpatterns = [
     path('uzvici/<int:pk>/', UzvikDetail.as_view()),
     path('veznici/', VeznikList.as_view()),
     path('veznici/<int:pk>/', VeznikDetail.as_view()),
+    path('zamenice/', ZamenicaList.as_view()),
+    path('zamenice/<int:pk>/', ZamenicaDetail.as_view()),
+    path('brojevi/', BrojList.as_view()),
+    path('brojevi/<int:pk>/', BrojDetail.as_view()),
+    path('prilozi/', PrilogList.as_view()),
+    path('prilozi/<int:pk>/', PrilogDetail.as_view()),
 
     path('save/imenica/', save_imenica),
     path('save/glagol/', save_glagol),
@@ -27,6 +33,9 @@ urlpatterns = [
     path('save/recca/', save_recca),
     path('save/uzvik/', save_uzvik),
     path('save/veznik/', save_veznik),
+    path('save/zamenica/', save_zamenica),
+    path('save/broj/', save_broj),
+    path('save/prilog/', save_prilog),
 
     path('password/change/', change_password),
     path('password/forgot/', forgot_password),

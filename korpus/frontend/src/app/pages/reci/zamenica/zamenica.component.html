@@ -1,0 +1,78 @@
+<toolbar (saveClicked)="save()"></toolbar>
+<div class="container">
+  <h3>Заменица <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
+  <div class="tableform">
+    <div class="row">
+      <div class="cell"></div>
+      <div class="cell"><p class="label">Једнина</p></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Номинатив</p></div>
+      <div class="cell"><input id="nomjed" type="text" pInputText [(ngModel)]="zamenica.nomjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Генитив</p></div>
+      <div class="cell"><input id="genjed" type="text" pInputText [(ngModel)]="zamenica.genjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Датив</p></div>
+      <div class="cell"><input id="datjed" type="text" pInputText [(ngModel)]="zamenica.datjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Акузатив</p></div>
+      <div class="cell"><input id="akujed" type="text" pInputText [(ngModel)]="zamenica.akujed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Вокатив</p></div>
+      <div class="cell"><input id="vokjed" type="text" pInputText [(ngModel)]="zamenica.vokjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Инструментал</p></div>
+      <div class="cell"><input id="insjed" type="text" pInputText [(ngModel)]="zamenica.insjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Локатив</p></div>
+      <div class="cell"><input id="lokjed" type="text" pInputText [(ngModel)]="zamenica.lokjed"></div>
+    </div>
+  </div>
+  <div *ngFor="let v of zamenica.varijante; let i=index" class="tableform">
+    <div class="row">
+      <div class="cell"><h4>#{{i+1}}</h4></div>
+      <div class="cell"></div>
+      <div class="cell" style="text-align: right">
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(i)" [disabled]="i === 0"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(i)" [disabled]="i === zamenica.varijante.length-1"></button>
+        <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(i)"></button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Номинатив</p></div>
+      <div class="cell"><input id="nomjed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].nomjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Генитив</p></div>
+      <div class="cell"><input id="genjed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].genjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Датив</p></div>
+      <div class="cell"><input id="datjed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].datjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Акузатив</p></div>
+      <div class="cell"><input id="akujed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].akujed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Вокатив</p></div>
+      <div class="cell"><input id="vokjed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].vokjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Инструментал</p></div>
+      <div class="cell"><input id="insjed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].insjed"></div>
+    </div>
+    <div class="row">
+      <div class="cell"><p class="label">Локатив</p></div>
+      <div class="cell"><input id="lokjed{{i}}" type="text" pInputText [(ngModel)]="zamenica.varijante[i].lokjed"></div>
+    </div>
+  </div>
+</div>
+<button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="addVarijanta()"></button>

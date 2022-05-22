@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Imenica, toImenica, VrstaImenice } from '../../../models/reci';
-import { ImenicaService } from '../../../services/reci';
+import { Prilog, toPrilog } from '../../../models/reci';
+import { PrilogService } from '../../../services/reci';
 
 @Component({
-  selector: 'app-imenica',
-  templateUrl: './imenica.component.html',
-  styleUrls: ['./imenica.component.scss']
+  selector: 'app-prilog',
+  templateUrl: './prilog.component.html',
+  styleUrls: ['./prilog.component.scss']
 })
-export class ImenicaComponent implements OnInit {
+export class PrilogComponent implements OnInit {
 
-  imenica: Imenica;
-
+  prilog: Prilog;
   id: number;
   editMode: boolean;
-  vrste: VrstaImenice[];
   returnUrl: string;
   sourceWord: string;
 
@@ -23,12 +21,11 @@ export class ImenicaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
-    private imenicaService: ImenicaService,
+    private prilogService: PrilogService,
   ) { }
 
   ngOnInit(): void {
     this.initNew();
-    this.vrste = this.imenicaService.getVrste();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;
       this.sourceWord = params.word;
@@ -37,16 +34,16 @@ export class ImenicaComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
-          document.getElementById('nomjed').focus();
+          document.getElementById('komparativ').focus();
           break;
         case 'edit':
           this.editMode = true;
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.imenicaService.get(this.id).subscribe({
+              this.prilogService.get(this.id).subscribe({
                 next: (item) => {
-                  this.imenica = toImenica(item);
+                  this.prilog = toPrilog(item);
                 },
                 error: (error) => {
                   console.log(error);
@@ -54,7 +51,7 @@ export class ImenicaComponent implements OnInit {
                     severity: 'error',
                     summary: 'Грешка',
                     life: 5000,
-                    detail: 'Именица није учитана',
+                    detail: 'Број није учитан',
                   });
                   this.router.navigate(['/']);
                 }
@@ -66,25 +63,16 @@ export class ImenicaComponent implements OnInit {
   }
 
   initNew(): void {
-    this.imenica = this.imenicaService.new();
+    this.prilog = this.prilogService.new();
   }
 
   check(): boolean {
     try {
-      this.assert(this.imenica.nomjed.trim().length === 0, 'Мора се унети номинатив једнине.');
+      this.assert(this.prilog.komparativ.trim().length === 0, 'Мора се унети компаратив.');
       return true;
     } catch (e) {
       return false;
     }
-  }
-
-  addVarijanta(): void {
-    const rbr = this.imenica.varijante.length;
-    this.imenica.varijante.push({ redni_broj: rbr + 1, nomjed: '', genjed: '', datjed: '', akujed: '', vokjed: '', insjed: '', lokjed: '', nommno: '', genmno: '', datmno: '', akumno: '', vokmno: '', insmno: '', lokmno: ''});
-    setTimeout(() => {
-      document.getElementById(`nomjed${this.imenica.varijante.length - 1}`).focus();
-      scrollTo(0, document.body.scrollHeight);
-    });
   }
 
   assert(condition: boolean, message: string): void {
@@ -101,20 +89,20 @@ export class ImenicaComponent implements OnInit {
 
   save(): void {
     if (!this.check()) return;
-    console.log('Snimanje imenice:', this.imenica);
+    console.log('Snimanje priloga:', this.prilog);
     if (!this.editMode) {
-      this.imenicaService.add(this.imenica).subscribe({
+      this.prilogService.add(this.prilog).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
             life: 3000,
-            detail: `Именица је успешно сачувана.`,
+            detail: `Прилог је успешно сачуван.`,
           });
           if (this.returnUrl)
             this.router.navigate([this.returnUrl]);
           else
-            this.router.navigate(['/imenica', data.id]);
+            this.router.navigate(['/prilog', data.id]);
         },
         error: (error) => {
           this.messageService.add({
@@ -126,13 +114,13 @@ export class ImenicaComponent implements OnInit {
         }
       });
     } else {
-      this.imenicaService.update(this.imenica).subscribe({
+      this.prilogService.update(this.prilog).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
             life: 3000,
-            detail: `Именица је успешно сачувана.`,
+            detail: `Прилог је успешно сачуван.`,
           });
           if (this.returnUrl)
             this.router.navigate([this.returnUrl]);
@@ -149,21 +137,4 @@ export class ImenicaComponent implements OnInit {
     }
   }
 
-  moveUp(index: number): void {
-    if (index === 0)
-      return;
-    const temp = this.imenica.varijante.splice(index, 1)[0];
-    this.imenica.varijante.splice(index - 1, 0, temp);
-  }
-
-  moveDown(index: number): void {
-    if (index === this.imenica.varijante.length - 1)
-      return;
-    const temp = this.imenica.varijante.splice(index, 1)[0];
-    this.imenica.varijante.splice(index + 1, 0, temp);
-  }
-
-  remove(index: number): void {
-    this.imenica.varijante.splice(index, 1);
-  }
 }

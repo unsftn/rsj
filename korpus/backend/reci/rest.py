@@ -91,6 +91,36 @@ class VeznikDetail(generics.RetrieveAPIView):
     serializer_class = VeznikSerializer
 
 
+class ZamenicaList(generics.ListAPIView):
+    queryset = Zamenica.objects.all()
+    serializer_class = ZamenicaSerializer
+
+
+class ZamenicaDetail(generics.RetrieveAPIView):
+    queryset = Zamenica.objects.all()
+    serializer_class = ZamenicaSerializer
+
+
+class BrojList(generics.ListAPIView):
+    queryset = Broj.objects.all()
+    serializer_class = BrojSerializer
+
+
+class BrojDetail(generics.RetrieveAPIView):
+    queryset = Broj.objects.all()
+    serializer_class = BrojSerializer
+
+
+class PrilogList(generics.ListAPIView):
+    queryset = Prilog.objects.all()
+    serializer_class = PrilogSerializer
+
+
+class PrilogDetail(generics.RetrieveAPIView):
+    queryset = Prilog.objects.all()
+    serializer_class = PrilogSerializer
+
+
 JSON = 'application/json'
 
 
@@ -274,6 +304,87 @@ def save_veznik(request):
         except RecordModifiedError:
             raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао везник', code=409)
         ser2 = VeznikSerializer(veznik)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_zamenica(request):
+    if request.method == 'POST':
+        serializer = SaveZamenicaSerializer(data=request.data)
+    else:
+        try:
+            zamenica_id = request.data['id']
+            zamenica = Zamenica.objects.get(id=zamenica_id)
+            serializer = SaveZamenicaSerializer(zamenica, data=request.data)
+        except (KeyError, Zamenica.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојеће заменице', code=404)
+    if serializer.is_valid():
+        try:
+            zamenica = serializer.save(user=request.user)
+            index_zamenica(zamenica)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао заменицу', code=409)
+        ser2 = ZamenicaSerializer(zamenica)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_broj(request):
+    if request.method == 'POST':
+        serializer = SaveBrojSerializer(data=request.data)
+    else:
+        try:
+            broj_id = request.data['id']
+            broj = Broj.objects.get(id=broj_id)
+            serializer = SaveBrojSerializer(broj, data=request.data)
+        except (KeyError, Broj.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојећег броја', code=404)
+    if serializer.is_valid():
+        try:
+            broj = serializer.save(user=request.user)
+            index_broj(broj)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао број', code=409)
+        ser2 = BrojSerializer(broj)
+        if request.method == 'POST':
+            code = status.HTTP_201_CREATED
+        else:
+            code = status.HTTP_204_NO_CONTENT
+        return Response(ser2.data, status=code, content_type=JSON)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
+
+
+@api_view(['POST', 'PUT'])
+def save_prilog(request):
+    if request.method == 'POST':
+        serializer = SavePrilogSerializer(data=request.data)
+    else:
+        try:
+            prilog_id = request.data['id']
+            prilog = Prilog.objects.get(id=prilog_id)
+            serializer = SavePrilogSerializer(prilog, data=request.data)
+        except (KeyError, Prilog.DoesNotExist):
+            raise PermissionDenied(detail='Покушано ажурирање непостојећег прилога', code=404)
+    if serializer.is_valid():
+        try:
+            prilog = serializer.save(user=request.user)
+            index_prilog(prilog)
+        except RecordModifiedError:
+            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао прилог', code=409)
+        ser2 = PrilogSerializer(prilog)
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
         else:
