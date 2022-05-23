@@ -65,11 +65,22 @@ def search_pub(request):
         oblici = Glagol.objects.get(pk=word_id).oblici()
     elif word_type == 2:
         oblici = Pridev.objects.get(pk=word_id).oblici()
+    elif word_type == 3:
+        oblici = Prilog.objects.get(pk=word_id).oblici()
     elif word_type == 4:
         oblici = Predlog.objects.get(pk=word_id).oblici()
+    elif word_type == 5:
+        oblici = Zamenica.objects.get(pk=word_id).oblici()
+    elif word_type == 6:
+        oblici = Uzvik.objects.get(pk=word_id).oblici()
+    elif word_type == 7:
+        oblici = Recca.objects.get(pk=word_id).oblici()
+    elif word_type == 8:
+        oblici = Veznik.objects.get(pk=word_id).oblici()
+    elif word_type == 9:
+        oblici = Broj.objects.get(pk=word_id).oblici()
     else:
         oblici = []
-    # TODO
     return search(oblici, fragment_size, boundary_scanner)
 
 

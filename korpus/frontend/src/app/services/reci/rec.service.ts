@@ -14,13 +14,13 @@ export class RecService {
       case 0: return this.http.get<any>(`/api/reci/imenice/${id}/`);
       case 1: return this.http.get<any>(`/api/reci/glagoli/${id}/`);
       case 2: return this.http.get<any>(`/api/reci/pridevi/${id}/`);
-      case 3: return of({});  // TODO
-      case 4: return this.http.get<any>(`/api/reci/predlozi/${id}/`);  // TODO
-      case 5: return of({});  // TODO
-      case 6: return of({});  // TODO
-      case 7: return of({});  // TODO
-      case 8: return of({});  // TODO
-      case 9: return of({});  // TODO
+      case 3: return this.http.get<any>(`/api/reci/prilozi/${id}/`);
+      case 4: return this.http.get<any>(`/api/reci/predlozi/${id}/`);
+      case 5: return this.http.get<any>(`/api/reci/zamenice/${id}/`);
+      case 6: return this.http.get<any>(`/api/reci/uzvici/${id}/`);
+      case 7: return this.http.get<any>(`/api/reci/recce/${id}/`);
+      case 8: return this.http.get<any>(`/api/reci/veznici/${id}/`);
+      case 9: return this.http.get<any>(`/api/reci/brojevi/${id}/`);
     }
   }
 
@@ -29,8 +29,13 @@ export class RecService {
       case 0: return '/imenica';
       case 1: return '/glagol';
       case 2: return '/pridev';
+      case 3: return '/prilog';
       case 4: return '/predlog';
-      // TODO
+      case 5: return '/zamenica';
+      case 6: return '/uzvik';
+      case 7: return '/recca';
+      case 8: return '/veznik';
+      case 9: return '/broj';
       default: return '';
     }
   }
