@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = 'Erase texts for publication'
+    help = 'Generate list of all words from all publications'
 
     def add_arguments(self, parser):
         parser.add_argument('filename', type=str, nargs='?', help='Odredisni Word fajl')
