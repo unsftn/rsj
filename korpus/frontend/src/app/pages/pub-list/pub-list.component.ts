@@ -58,7 +58,8 @@ export class PubListComponent implements OnInit {
   }
 
   annotate(pub: any): void {
-    this.router.navigate(['/publikacija', pub.id, 'fragment', 1]);
+    // this.router.navigate(['/publikacija', pub.id, 'fragment', 1]);
+    window.alert('Ručna anotacija teksta još nije u funkciji.');
   }
 
   clear(table: Table, filter: HTMLInputElement): void {
