@@ -21,6 +21,10 @@
       class="p-button-rounded p-button-outlined button-header" 
       (click)="menuNew.toggle($event)">
     </button>
+    <button *ngIf="signedIn()" pButton icon="pi pi-sliders-h" 
+      class="p-button-rounded p-button-outlined button-header" 
+      (click)="advanced()">
+    </button>
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" 

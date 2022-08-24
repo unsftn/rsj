@@ -19,6 +19,7 @@ import { VeznikComponent } from './pages/reci/veznik/veznik.component';
 import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
 import { BrojComponent } from './pages/reci/broj/broj.component';
 import { PrilogComponent } from './pages/reci/prilog/prilog.component';
+import { AdvancedSearchComponent } from './pages/advanced-search/advanced-search.component';
 
 const routes: Routes = [
   {
@@ -27,8 +28,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'profile',
+    path: 'profil',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'pretraga',
+    component: AdvancedSearchComponent,
     canActivate: [AuthGuard],
   },
   {

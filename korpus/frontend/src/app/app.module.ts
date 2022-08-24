@@ -56,9 +56,10 @@ import { PredlogComponent } from './pages/reci/predlog/predlog.component';
 import { PrilogComponent } from './pages/reci/prilog/prilog.component';
 import { BrojComponent } from './pages/reci/broj/broj.component';
 import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
+import { AdvancedSearchComponent } from './pages/advanced-search/advanced-search.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe, ReccaComponent, UzvikComponent, VeznikComponent, PredlogComponent, PrilogComponent, BrojComponent, ZamenicaComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe, ReccaComponent, UzvikComponent, VeznikComponent, PredlogComponent, PrilogComponent, BrojComponent, ZamenicaComponent, AdvancedSearchComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

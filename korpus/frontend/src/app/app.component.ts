@@ -88,6 +88,10 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  advanced(): void {
+    this.router.navigate(['/pretraga']);
+  }
+
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.username = this.tokenStorageService.getUser()?.firstName ?? '';
@@ -165,7 +169,7 @@ export class AppComponent implements OnInit {
       {
         label: 'Профил',
         icon: 'pi pi-user',
-        routerLink: ['/profile'],
+        routerLink: ['/profil'],
         disabled: !this.signedIn(),
       },
       {

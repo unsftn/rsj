@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="flex flex-wrap">
+    <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">све речи:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11 field-cell">
+      <input type="text" class="input-field" pInputText [(ngModel)]="allWords" size="200"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">фраза:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11 field-cell">
+      <input type="text" class="input-field" pInputText [(ngModel)]="phrase" size="200"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">било која реч:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11 field-cell">
+      <input type="text" class="input-field" pInputText [(ngModel)]="anyWord" size="200"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">без речи:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11 field-cell">
+      <input type="text" class="input-field" pInputText [(ngModel)]="withoutWords" size="200"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1"></div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <p-button label="Претрага" (click)="search()" icon="pi pi-search" styleClass="p-button-primary"></p-button>
+    </div>
+    </div>
+</div>
+
