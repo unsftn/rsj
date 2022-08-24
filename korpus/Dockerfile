@@ -3,7 +3,7 @@ RUN npm update -g
 RUN mkdir /app
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json /app/
-RUN npm install --legacy-peer-deps
+RUN npm install
 COPY frontend /app
 RUN npm run build -- --output-path=/app/frontend/dist/
 
