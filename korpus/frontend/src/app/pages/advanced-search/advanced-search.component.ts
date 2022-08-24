@@ -18,6 +18,6 @@ export class AdvancedSearchComponent implements OnInit {
   }
 
   search(): void {
-    
+    alert('Nije još implementirano.');
   }
 }
