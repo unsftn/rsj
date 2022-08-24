@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
   signOut(): void {
     this.tokenStorageService.signOut();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   searchWords(event): void {
@@ -84,48 +84,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     this.username = this.tokenStorageService.getUser()?.firstName ?? '';
-    this.itemsUser = [
-      {
-        label: 'Пријава',
-        icon: 'pi pi-sign-in',
-        routerLink: ['/login'],
-        disabled: this.signedIn(),
-      },
-      {
-        label: 'Профил',
-        icon: 'pi pi-user',
-        routerLink: ['/profile'],
-        disabled: !this.signedIn(),
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'Публикације',
-        icon: 'pi pi-book',
-        routerLink: ['/publikacije'],
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'Администрација',
-        icon: 'pi pi-cog',
-        command: (event: any) => {
-          window.open('/admin', '_blank');
-        },
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'Одјава',
-        icon: 'pi pi-sign-out',
-        command: (event: any) => {
-          this.signOut();
-        },
-      },
-    ];
+    this.itemsUser = this.getUserMenu();
     this.itemsNew = [
       {
         label: 'Именица',
@@ -170,6 +129,7 @@ export class AppComponent implements OnInit {
     ];
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
+      this.itemsUser = this.getUserMenu();
     });
     this.appConfigService.getAppConfig().subscribe({
       next: (data) => {
@@ -185,5 +145,53 @@ export class AppComponent implements OnInit {
         });
       }
     });
+  }
+
+  getUserMenu(): any[] {
+    return [
+      {
+        label: 'Пријава',
+        icon: 'pi pi-sign-in',
+        routerLink: ['/login'],
+        disabled: this.signedIn(),
+      },
+      {
+        label: 'Профил',
+        icon: 'pi pi-user',
+        routerLink: ['/profile'],
+        disabled: !this.signedIn(),
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Публикације',
+        icon: 'pi pi-book',
+        routerLink: ['/publikacije'],
+        disabled: !this.signedIn(),
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Администрација',
+        icon: 'pi pi-cog',
+        command: (event: any) => {
+          window.open('/admin', '_blank');
+        },
+        disabled: !this.signedIn(),
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Одјава',
+        icon: 'pi pi-sign-out',
+        command: (event: any) => {
+          this.signOut();
+        },
+        disabled: !this.signedIn(),
+      },
+    ];
   }
 }
