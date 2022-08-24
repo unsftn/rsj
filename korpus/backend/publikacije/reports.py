@@ -28,7 +28,7 @@ def all_words_from_all_pubs_docx(filepath):
             paragraph.add_run('\n')
             pubskr = paragraph.add_run(pub['pubskr'])
             pubskr.italic = True
-            paragraph.add_run(f': {", ".join([str(x) for x in pub["pages"]])}')
+            paragraph.add_run(f': {len(pub["pages"])}')
     document.save(filepath)
 
 
