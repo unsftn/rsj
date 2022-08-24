@@ -1,0 +1,65 @@
+version: "3.8"
+services:
+  elastic:
+    container_name: elastic-korpus
+    image: elasticsearch:8.3.3
+    restart: always
+    volumes: 
+      - ./elastic:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS="-Xms600m -Xmx600m"
+    networks:
+      korpus:
+  mysql:
+    container_name: korpus-mysql
+    image: mariadb:10.9.2
+    restart: always
+    volumes: 
+      - ./data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    environment:
+      - MARIADB_ROOT_PASSWORD=korpus
+      - MARIADB_USER=korpus
+      - MARIADB_PASSWORD=korpus
+      - MARIADB_DATABASE=korpus
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  korpus:
+    container_name: korpus
+    build: .
+    restart: always
+    depends_on:
+      - elastic
+      - mysql
+    volumes:
+      - ./private:/private
+      - ./log:/app/log
+      - ./media:/app/media
+    labels:
+      - "traefik.http.routers.korpus.rule=Host(`korpus.rsj.rs`)"
+      - traefik.http.routers.korpus.entrypoints=web
+      - traefik.http.routers.korpus.middlewares=redirect-to-https@docker
+      - "traefik.http.routers.korpus-secured.rule=Host(`korpus.rsj.rs`)"
+      - traefik.http.routers.korpus-secured.entrypoints=websecure
+      - traefik.http.routers.korpus-secured.tls.certresolver=letsencrypt
+      - traefik.http.routers.korpus-secured.tls=true
+    networks:
+      korpus:
+  qcluster:
+    container_name: korpus-qcluster
+    build: .
+    restart: always
+    command: qcluster
+    depends_on: 
+      - mysql
+      - elastic
+    volumes:
+      - ./private:/private
+      - ./log:/app/log
+      - ./media:/app/media
+    networks:
+      korpus:
+networks:
+  korpus:
+    external: true

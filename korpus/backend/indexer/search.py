@@ -1,7 +1,6 @@
 import logging
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
-from elasticsearch import ElasticsearchException
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.query import MultiMatch
 from .cyrlat import cyr_to_lat, lat_to_cyr
@@ -33,9 +32,6 @@ def search_rec(request):
             })
         result = sorted(hits, key=lambda x: x['rec'])
         return Response(result, status=HTTP_200_OK, content_type=JSON)
-    except ElasticsearchException as error:
-        print(error)
-        return server_error(error.args)
     except Exception as error:
         print(error)
         log.fatal(error)
@@ -126,7 +122,7 @@ def search(words, fragment_size, scanner):
                     'highlights': high,
                 })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
-    except ElasticsearchException as error:
+    except Exception as error:
         print(error)
         log.fatal(error)
         return server_error(error.args)

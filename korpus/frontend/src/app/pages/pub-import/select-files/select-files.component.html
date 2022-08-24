@@ -1,7 +1,8 @@
 <div class="flex flex-row">
   <div class="flex mr-3">
     <p-orderList [value]="pubFiles" [(selection)]="selectedPubFile" (onReorder)="reorder($event)">
-      <ng-template pTemplate="item" let-pubfile>
+    <!-- <p-orderList [value]="pubFiles" (onReorder)="reorder($event)"> -->
+        <ng-template pTemplate="item" let-pubfile>
         <div pDraggable="fileitem">{{pubfile.filename}}</div>
       </ng-template>
     </p-orderList>

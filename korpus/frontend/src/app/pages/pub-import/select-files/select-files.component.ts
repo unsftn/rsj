@@ -15,7 +15,7 @@ export class SelectFilesComponent implements OnInit {
   id: number;
   pub: any;
   pubFiles: any[];
-  selectedPubFile: any;
+  selectedPubFile: any[] = [];
 
   @ViewChild(FileUpload) fileUpload: FileUpload;
 
@@ -80,7 +80,7 @@ export class SelectFilesComponent implements OnInit {
     }
   }
 
-  reorder(event): void {
+  reorder(event: any): void {
     for (let i = 0; i < this.pubFiles.length; i++) {
       this.pubFiles[i].redni_broj = i + 1;
     }

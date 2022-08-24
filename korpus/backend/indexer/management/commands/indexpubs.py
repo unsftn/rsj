@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not check_elasticsearch():
-            self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}/')
+            self.stdout.write(f'Nije dostupan Elasticsearch servis na {settings.ELASTICSEARCH_HOST}')
             return
         pub_id = options.get('pub')
         try:
@@ -25,9 +25,9 @@ class Command(BaseCommand):
                 publist = Publikacija.objects.filter(id=pub_id)
             else:
                 publist = Publikacija.objects.all()
-                if not recreate_index(PUB_INDEX):
-                    self.stdout.write(f'Nije kreiran indeks {PUB_INDEX}')
-                    return
+            if not recreate_index(PUB_INDEX):
+                self.stdout.write(f'Nije kreiran indeks {PUB_INDEX}')
+                return
             client = get_es_client()
             for pub in publist:
                 status = index_publikacija(pub.id, client)
@@ -38,4 +38,5 @@ class Command(BaseCommand):
         except Publikacija.DoesNotExist:
             raise CommandError(f'Publication with ID {pub_id} does not exist')
         except Exception as ex:
+            print(ex)
             raise CommandError(ex)

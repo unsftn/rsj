@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "korpus"
+  "defaultProject": "korpus",
+  "cli": {
+    "analytics": false
+  }
 }

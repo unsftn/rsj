@@ -19,7 +19,7 @@ DATABASES = {
     },
 }
 
-ELASTICSEARCH_HOST = 'localhost'
+ELASTICSEARCH_HOST = 'http://localhost:9200'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ADMINS = []
 HEADER_COLOR_SCHEME = 'green'

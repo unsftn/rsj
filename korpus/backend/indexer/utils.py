@@ -156,9 +156,7 @@ def add_latin(lst):
 def check_elasticsearch():
     try:
         host = settings.ELASTICSEARCH_HOST
-        if host.find(':') == -1:
-            host = host + ':9200'
-        r = requests.get(f'http://{host}/')
+        r = requests.get(host)
         if r.status_code != 200:
             return False
         json = r.json()
@@ -175,7 +173,7 @@ def create_index_if_needed_old():
     try:
         client = get_es_client()
         for es_idx in ALL_INDEXES.values():
-            if not client.indices.exists(es_idx['index']):
+            if not client.indices.exists(index=es_idx['index']):
                 idx = Index(es_idx['index'])
                 idx.analyzer(SERBIAN_ANALYZER)
                 idx.document(es_idx['document'])
@@ -188,13 +186,12 @@ def create_index_if_needed_old():
 
 def create_index_if_needed():
     try:
-        r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/reci', json=REC_MAPPING)
+        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/reci', json=REC_MAPPING)
         success = r.status_code // 100 == 2
-        r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/publikacije', json=PUB_MAPPING)
+        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/publikacije', json=PUB_MAPPING)
         success = (r.status_code // 100 == 2) and success
         return success
     except Exception as ex:
-        print(ex)
         log.fatal(ex)
         return False
 
@@ -204,8 +201,8 @@ def recreate_index(index=None):
     try:
         client = get_es_client()
         for es_idx in indexes:
-            if client.indices.exists(es_idx['index']):
-                client.indices.delete(es_idx['index'])
+            if client.indices.exists(index=es_idx['index']):
+                client.indices.delete(index=es_idx['index'])
         create_index_if_needed()
         return True
     except Exception as ex:
@@ -220,7 +217,7 @@ def push_highlighting_limit():
         }
     }
     if check_elasticsearch():
-        r = requests.put(f'http://{settings.ELASTICSEARCH_HOST}:9200/publikacije/_settings', json=payload)
+        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/publikacije/_settings', json=payload)
         return r.status_code == 200
     else:
         return False

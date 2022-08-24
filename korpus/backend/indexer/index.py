@@ -1,4 +1,4 @@
-from elasticsearch import Elasticsearch, ElasticsearchException, NotFoundError
+from elasticsearch import Elasticsearch, NotFoundError
 from publikacije.models import *
 from .utils import *
 
@@ -162,8 +162,4 @@ def delete_imenica(imenica_id):
         imenica.delete(using=client, id=imenica_id, index=REC_INDEX)
     except NotFoundError:
         return False
-    except ElasticsearchException:
-        return False
     return True
-
-

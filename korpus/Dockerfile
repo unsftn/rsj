@@ -1,9 +1,9 @@
-FROM node:16.14.2-alpine AS angular
+FROM node:16.17.0-alpine AS angular
 RUN npm update -g
 RUN mkdir /app
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json /app/
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY frontend /app
 RUN npm run build -- --output-path=/app/frontend/dist/
 
