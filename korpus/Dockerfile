@@ -14,7 +14,7 @@ RUN apt-get -y install gcc libmariadb-dev-compat graphviz-dev libffi-dev libmagi
 RUN /usr/local/bin/python3 -m pip install --upgrade pip
 RUN pip3 install -U setuptools
 COPY backend/requirements.txt /app/requirements.txt
-RUN pip3 install -r /app/requirements.txt
+RUN pip3 install -r /app/requirements.txt --no-deps
 COPY backend /app
 RUN mkdir -p /app/staticfiles
 WORKDIR /app
