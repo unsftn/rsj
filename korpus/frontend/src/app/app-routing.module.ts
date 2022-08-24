@@ -4,6 +4,7 @@ import { PubListComponent } from './pages/pub-list/pub-list.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { AuthGuard } from './services/auth/auth.guard';
+import { EditGuard } from './services/auth/edit.guard';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
@@ -39,7 +40,7 @@ const routes: Routes = [
   {
     path: 'imenica/:id',
     component: ImenicaComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -51,7 +52,7 @@ const routes: Routes = [
   {
     path: 'glagol/:id',
     component: GlagolComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -63,7 +64,7 @@ const routes: Routes = [
   {
     path: 'pridev/:id',
     component: PridevComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -75,7 +76,7 @@ const routes: Routes = [
   {
     path: 'predlog/:id',
     component: PredlogComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -87,7 +88,7 @@ const routes: Routes = [
   {
     path: 'recca/:id',
     component: ReccaComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -99,7 +100,7 @@ const routes: Routes = [
   {
     path: 'uzvik/:id',
     component: UzvikComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -111,7 +112,7 @@ const routes: Routes = [
   {
     path: 'veznik/:id',
     component: VeznikComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -123,7 +124,7 @@ const routes: Routes = [
   {
     path: 'zamenica/:id',
     component: ZamenicaComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -135,7 +136,7 @@ const routes: Routes = [
   {
     path: 'broj/:id',
     component: BrojComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -147,7 +148,7 @@ const routes: Routes = [
   {
     path: 'prilog/:id',
     component: PrilogComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' }
   },
   {
@@ -164,13 +165,13 @@ const routes: Routes = [
   {
     path: 'publikacija/:id',
     component: PublicationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'edit' },
   },
   {
     path: 'publikacija/:pid/fragment/:fid',
     component: PubTextComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
   },
   {
     path: 'obrada/:pid/korak/:step',
@@ -181,7 +182,7 @@ const routes: Routes = [
     path: 'import/:pid',
     // component: SelectFilesComponent,
     loadChildren: () => import('./pages/pub-import/importer.module').then((m) => m.ImporterModule),
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
   },
   {
     path: 'login',

@@ -2,7 +2,7 @@
   <h3 *ngIf="word">
     {{word.osnovni_oblik}} &nbsp;&nbsp; 
     <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; 
-    <a class="edit-link" [routerLink]="editRouterLink">обрада &gt;&gt;</a>
+    <a *ngIf="isEditor()" class="edit-link" [routerLink]="editRouterLink">обрада &gt;&gt;</a>
   </h3>
   <h3 *ngIf="wordForm">{{wordForm}}</h3>
 

@@ -53,4 +53,11 @@ export class TokenStorageService {
     }
     return JSON.parse(user);
   }
+
+  public isEditor(): boolean {
+    if (!this.isLoggedIn())
+      return false;
+    const groups = this.getUser().groups;
+    return groups.includes(1) || groups.includes(2);
+  }
 }

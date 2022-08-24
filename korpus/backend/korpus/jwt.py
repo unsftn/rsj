@@ -15,7 +15,7 @@ class RichTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['last_name'] = self.user.last_name
         data['user_id'] = self.user.id
         data['is_staff'] = self.user.is_staff
-        data['groups'] = self.user.groups.values_list('name', flat=True)
+        data['groups'] = self.user.groups.values_list('id', flat=True)
         return data
 
 

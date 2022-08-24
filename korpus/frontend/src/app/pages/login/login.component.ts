@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(email, password).subscribe({
       next: (data) => {
         this.tokenStorage.saveToken(data.access, data.refresh);
-        this.tokenStorage.saveUser({ email, password, firstName: data.first_name, lastName: data.last_name, isStaff: data.is_staff, group: data.groups[0]});
+        this.tokenStorage.saveUser({ email, password, firstName: data.first_name, lastName: data.last_name, isStaff: data.is_staff, groups: data.groups});
         this.router.navigate([this.returnUrl]);
       },
       error: (err) => {

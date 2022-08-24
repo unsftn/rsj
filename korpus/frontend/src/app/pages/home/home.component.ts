@@ -137,6 +137,10 @@ export class HomeComponent implements OnInit {
     return this.tokenStorageService.isLoggedIn();
   }
 
+  isEditor(): boolean {
+    return this.tokenStorageService.isEditor();
+  }
+
   get editRouterLink(): any[] {
     return this.recService.getEditRouterLink(this.wordId, this.wordType);
   }

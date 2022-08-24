@@ -40,6 +40,13 @@ export class AppComponent implements OnInit {
     return this.tokenStorageService.getUser().isStaff;
   }
 
+  isEditor(): boolean {
+    if (!this.signedIn())
+      return false;
+    const groups = this.tokenStorageService.getUser().groups;
+    return groups.includes(1) || groups.includes(2);
+  }
+
   signOut(): void {
     this.tokenStorageService.signOut();
     this.router.navigate(['/login']);
@@ -168,7 +175,7 @@ export class AppComponent implements OnInit {
         label: 'Публикације',
         icon: 'pi pi-book',
         routerLink: ['/publikacije'],
-        disabled: !this.signedIn(),
+        disabled: !this.isEditor(),
       },
       {
         separator: true,
@@ -179,7 +186,7 @@ export class AppComponent implements OnInit {
         command: (event: any) => {
           window.open('/admin', '_blank');
         },
-        disabled: !this.signedIn(),
+        disabled: !this.isAdmin(),
       },
       {
         separator: true,
