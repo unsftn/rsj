@@ -182,6 +182,18 @@ export class AppComponent implements OnInit {
         disabled: !this.isEditor(),
       },
       {
+        label: 'Прегледи',
+        icon: 'pi pi-fw pi-calendar',
+        disabled: !this.isEditor(),
+        items: [
+          {
+            label: 'Све речи',
+            icon: 'pi pi-sort-alpha-up',
+            routerLink: ['/izvestaji/sve-reci'],
+          },
+        ]
+      },
+      {
         separator: true,
       },
       {

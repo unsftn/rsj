@@ -20,6 +20,7 @@ import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
 import { BrojComponent } from './pages/reci/broj/broj.component';
 import { PrilogComponent } from './pages/reci/prilog/prilog.component';
 import { AdvancedSearchComponent } from './pages/advanced-search/advanced-search.component';
+import { AllWordsComponent } from './pages/reports/all-words/all-words.component';
 
 const routes: Routes = [
   {
@@ -188,6 +189,11 @@ const routes: Routes = [
     path: 'import/:pid',
     // component: SelectFilesComponent,
     loadChildren: () => import('./pages/pub-import/importer.module').then((m) => m.ImporterModule),
+    canActivate: [EditGuard],
+  },
+  {
+    path: 'izvestaji/sve-reci',
+    component: AllWordsComponent,
     canActivate: [EditGuard],
   },
   {
