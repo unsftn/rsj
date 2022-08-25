@@ -14,7 +14,7 @@ export class EditGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.tokenStorageService.isLoggedIn()) {
       const groups = this.tokenStorageService.getUser().groups;
-      if (groups.includes(1) || groups.includes(2))
+      if (groups !== undefined && (groups.includes(1) || groups.includes(2)))
         return true;
     }
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });

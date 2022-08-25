@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     if (!this.signedIn())
       return false;
     const groups = this.tokenStorageService.getUser().groups;
-    return groups.includes(1) || groups.includes(2);
+    return groups !== undefined && (groups.includes(1) || groups.includes(2));
   }
 
   signOut(): void {
