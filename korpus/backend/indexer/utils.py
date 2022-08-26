@@ -74,7 +74,6 @@ REC_MAPPING = {
 }
 
 
-# SERBIAN_ANALYZER = analyzer('serbian')
 PUB_INDEX = 'publikacije'
 REC_INDEX = 'reci'
 ALL_INDEXES = {
