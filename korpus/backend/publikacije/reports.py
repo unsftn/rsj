@@ -19,17 +19,22 @@ def all_words_from_all_pubs_docx(filepath):
     paragraph_format.space_after = Pt(6)
     paragraph_format.widow_control = False
     words = all_words_from_all_pubs()
-    for word, pubs in words.items():
+    for word, entry in words.items():
         paragraph = document.add_paragraph()
         paragraph.style = style
         rec_run = paragraph.add_run(word)
         rec_run.bold = True
-        for pub in pubs:
+        paragraph.add_run(f': {entry["freq"]}')
+        for pub in entry['pubs']:
             paragraph.add_run('\n')
             pubskr = paragraph.add_run(pub['pubskr'])
             pubskr.italic = True
-            paragraph.add_run(f': {len(pub["pages"])}')
+            paragraph.add_run(f': {pub["freq"]}')
     document.save(filepath)
+
+
+def merge_all_forms(words):
+    pass
 
 
 def all_words_from_all_pubs():
@@ -38,9 +43,11 @@ def all_words_from_all_pubs():
         pub_words = all_words_from_pub(pub)
         for word, item in pub_words.items():
             if words.get(word):
-                words[word].append(item)
+                words[word]['pubs'].append(item)
             else:
-                words[word] = [item]
+                words[word] = {'word': word, 'pubs': [item], 'freq': 0}
+    for word, entry in words.items():
+        entry['freq'] = sum(item['freq'] for item in entry['pubs'])   
     return words
 
 
@@ -54,11 +61,14 @@ def all_words_from_pub(pub):
             for w in parsed_words:
                 w = w.lower()
                 entry = {
+                    'word': w,
                     'pubid': pub.id,
                     'pubskr': pub.skracenica,
-                    'pages': [t.redni_broj]
+                    'pages': [t.redni_broj],
+                    'freq': 1
                 }
                 if words.get(w):
+                    words[w]['freq'] += 1
                     if t.redni_broj not in words[w]['pages']:
                         words[w]['pages'].append(t.redni_broj)
                 else:
