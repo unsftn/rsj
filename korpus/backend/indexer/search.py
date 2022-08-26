@@ -2,8 +2,6 @@ from django.conf import settings
 import logging
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
-from elasticsearch_dsl import Search
-from elasticsearch_dsl.query import MultiMatch
 from .cyrlat import cyr_to_lat, lat_to_cyr
 from .utils import *
 from reci.models import *
@@ -15,18 +13,31 @@ singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
 
 @api_view(['GET'])
 def search_rec(request):
+    """
+    Pretrazuje rec u medju osnovnim oblicima u bazi obradjenih reci
+    """
     if not request.GET.get('q'):
         return bad_request('no search term')
 
     term = request.GET.get('q')
     hits = []
     try:
-        client = get_es_client()
-        s = Search(index=REC_INDEX).using(client)
-        s = s.source(includes=['pk', 'rec', 'vrsta', 'podvrsta'])[:25]
-        s.query = MultiMatch(type='bool_prefix', query=remove_punctuation(term), fields=['osnovni_oblik'])
-        response = s.execute()
-        for hit in response.hits.hits:
+        query = {
+            'query': {
+                'multi_match': {
+                    'type': 'bool_prefix', 
+                    'query': remove_punctuation(term), 
+                    'fields': ['osnovni_oblik']
+                }
+            }, 
+            'from': 0, 
+            'size': 25, 
+            '_source': {
+                'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
+            }
+        }
+        resp = singleton_client.search(index=REC_INDEX, body=query)
+        for hit in resp['hits']['hits']:
             hits.append({
                 'vrsta': hit['_source']['vrsta'],
                 'vrsta_text': VRSTE_RECI[hit['_source']['vrsta']],
@@ -42,6 +53,9 @@ def search_rec(request):
 
 @api_view(['GET'])
 def search_pub(request):
+    """
+    Pretrazuje publikacije za svim oblicima datog osnovnog oblika.
+    """
     if not request.GET.get('w'):
         return bad_request('no search word')
     if not request.GET.get('t'):
@@ -84,6 +98,9 @@ def search_pub(request):
 
 @api_view(['GET'])
 def search_oblik_in_pub(request):
+    """
+    Pretrazuje tekstove publikacija za datu rec, bez drugih oblika.
+    """
     if not request.GET.get('q'):
         return bad_request('no search term')
     if request.GET.get('f'):
@@ -102,39 +119,61 @@ def search_oblik_in_pub(request):
 
 
 def search(words, fragment_size, scanner):
-    client = get_es_client()
-    s = Search(using=client, index=PUB_INDEX).source(includes=['pk', 'tekst', 'skracenica', 'opis'])\
-        .query('terms', tekst=words)\
-        .highlight('tekst', fragment_size=fragment_size, type='fvh', boundary_scanner=scanner,
-                   number_of_fragments=1000, pre_tags=['<span class="fword">'], post_tags=['</span>'])
+    """
+    Pretrazuje tekstove publikacija za reci date u listi words, sa datom velicinom fragmenta
+    i vrstom granice ('word', 'sentence'). Vraca HTTP odgovor sa JSON sadrzajem.
+    """
+    query = {
+        'query': {
+            'terms': {
+                'tekst': words
+            }
+        }, 
+        '_source': {
+            'includes': ['pk', 'tekst', 'skracenica', 'opis']
+        }, 
+        'highlight': {
+            'fields': {
+                'tekst': {
+                    'fragment_size': fragment_size, 
+                    'type': 'fvh', 
+                    'boundary_scanner': scanner, 
+                    'number_of_fragments': 1000, 
+                    'pre_tags': ['<span class="fword">'], 
+                    'post_tags': ['</span>']
+                }
+            }
+        }
+    }
     try:
         retval = []
-        response = s.execute()
-        for hit in response.hits.hits:
+        resp = singleton_client.search(index=PUB_INDEX, body=query)
+        for hit in resp['hits']['hits']:
             try:
                 hit['highlight']
-                highlights = [t for t in hit.highlight.tekst]
+                highlights = [t for t in hit['highlight']['tekst']]
             except KeyError:
                 highlights = []
             for high in highlights:                
                 retval.append({
-                    'pub_id': hit._source.pk,
-                    'skracenica': hit._source.skracenica,
-                    'opis': hit._source.opis,
+                    'pub_id': hit['_source']['pk'],
+                    'skracenica': hit['_source']['skracenica'],
+                    'opis': hit['_source']['opis'],
                     'highlights': high,
                 })
         return Response(retval, status=HTTP_200_OK, content_type=JSON)
     except Exception as error:
-        print(error)
         log.fatal(error)
         return server_error(error.args)
 
 
-def find_osnovni_oblik(rec):
+def find_osnovni_oblik(rec) -> list[dict]:
+    """
+    Vraca listu recnika koji identifikuju osnovni oblik za datu leksemu. Pozeljno lista
+    ima jedan element (tada je nedvosmisleno kojoj reci pripada data leksema).
+    """
     retval = []
-    # es = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
     resp = singleton_client.search(index=REC_INDEX, query={'terms': {'oblici': [rec]}})
-    # hitcount = resp['hits']['total']['value']
     for hit in resp['hits']['hits']:
         osnovni_oblik = hit['_source']['rec']
         pk = hit['_source']['pk']
