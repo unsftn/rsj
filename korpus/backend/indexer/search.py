@@ -1,3 +1,4 @@
+from django.conf import settings
 import logging
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
@@ -8,6 +9,8 @@ from .utils import *
 from reci.models import *
 
 logger = logging.getLogger(__name__)
+
+singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
 
 
 @api_view(['GET'])
@@ -33,7 +36,6 @@ def search_rec(request):
         result = sorted(hits, key=lambda x: x['rec'])
         return Response(result, status=HTTP_200_OK, content_type=JSON)
     except Exception as error:
-        print(error)
         log.fatal(error)
         return server_error(error.args)
 
@@ -126,3 +128,17 @@ def search(words, fragment_size, scanner):
         print(error)
         log.fatal(error)
         return server_error(error.args)
+
+
+def find_osnovni_oblik(rec):
+    retval = []
+    # es = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
+    resp = singleton_client.search(index=REC_INDEX, query={'terms': {'oblici': [rec]}})
+    # hitcount = resp['hits']['total']['value']
+    for hit in resp['hits']['hits']:
+        osnovni_oblik = hit['_source']['rec']
+        pk = hit['_source']['pk']
+        vrsta, id = hit['_source']['pk'].split('_')
+        vrsta, id = int(vrsta), int(id)
+        retval.append({'rec': osnovni_oblik, 'pk': pk, 'vrsta': vrsta, 'id': id})
+    return retval

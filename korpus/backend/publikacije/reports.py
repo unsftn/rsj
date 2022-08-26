@@ -1,8 +1,9 @@
-from .models import *
-from .utils import *
 from docx import Document
 from docx.enum.style import WD_STYLE_TYPE
 from docx.shared import Pt, Inches, Cm
+from indexer.search import find_osnovni_oblik
+from .models import *
+from .utils import *
 
 
 def all_words_from_all_pubs_docx(filepath):
@@ -19,6 +20,7 @@ def all_words_from_all_pubs_docx(filepath):
     paragraph_format.space_after = Pt(6)
     paragraph_format.widow_control = False
     words = all_words_from_all_pubs()
+    merge_all_forms(words)
     for word, entry in words.items():
         paragraph = document.add_paragraph()
         paragraph.style = style
@@ -34,7 +36,27 @@ def all_words_from_all_pubs_docx(filepath):
 
 
 def merge_all_forms(words):
-    pass
+    for_deletion = []
+    all_words = list(words.keys())
+    for word in all_words:
+        entry = words[word]
+        rec = entry['word']
+        osnovni_oblici = find_osnovni_oblik(rec)
+        if len(osnovni_oblici) != 1:
+            continue
+        oo = osnovni_oblici[0]['rec']
+        if oo == rec:
+            continue
+        try:
+            osnob = words[oo]
+        except KeyError:
+            osnob = {'word': oo, 'pubs': [], 'freq': 0}
+            words[oo] = osnob
+        osnob['pubs'].extend(entry['pubs'])
+        osnob['freq'] += entry['freq']
+        for_deletion.append(rec)
+    for dd in for_deletion:
+        del words[dd]
 
 
 def all_words_from_all_pubs():

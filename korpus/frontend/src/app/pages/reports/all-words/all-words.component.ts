@@ -21,31 +21,70 @@ export class AllWordsComponent implements OnInit {
   }
 
   onChangeStatus(event: any, rec: any): void {
-    // console.log(event, rec);
     rec.status_str = this.statuses[event.value].name;
   }
 
   demoWords(): any[] {
     return [
       {
-        leksema: 'глава',
-        br_izvora: 532,
-        frekvencija: 3424,
-        u_recniku: true,
-        u_recniku_str: 'да',
+        word: 'глава',
+        pub_count: 532,
+        freq: 3424,
+        in_rsj: true,
+        in_rsj_str: 'да',
         status: 0,
         status_str: 'недефинисано',
-        oblici: 'главе глави главом главама'
+        pubs: [{
+          word: 'глава',
+          pubskr: 'Скр.1',
+          freq: 21
+        }, {
+          word: 'главе',
+          pubskr: 'Скр.1',
+          freq: 22
+        }, {
+          word: 'главом',
+          pubskr: 'Скр.1',
+          freq: 13
+        }, {
+          word: 'главама',
+          pubskr: 'Скр.2',
+          freq: 11
+        }, {
+          word: 'глави',
+          pubskr: 'Скр.2',
+          freq: 9
+        }]
       },
       {
-        leksema: 'поглед',
-        br_izvora: 312,
-        frekvencija: 2461,
-        u_recniku: true,
-        u_recniku_str: 'да',
+        word: 'поглед',
+        pub_count: 312,
+        freq: 2461,
+        in_rsj: true,
+        in_rsj_str: 'да',
         status: 0,
         status_str: 'недефинисано',
-        oblici: 'погледа погледе погледом погледи погледима'
+        pubs: [{
+          word: 'поглед',
+          pubskr: 'Скр.1',
+          freq: 21
+        }, {
+          word: 'погледа',
+          pubskr: 'Скр.2',
+          freq: 22
+        }, {
+          word: 'погледом',
+          pubskr: 'Скр.2',
+          freq: 13
+        }, {
+          word: 'погледи',
+          pubskr: 'Скр.3',
+          freq: 11
+        }, {
+          word: 'погледима',
+          pubskr: 'Скр.3',
+          freq: 9
+        }]
       },
     ];
   }
