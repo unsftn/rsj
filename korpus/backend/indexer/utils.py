@@ -4,11 +4,9 @@ import re
 import unicodedata
 import requests
 from django.conf import settings
-from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import connections, analyzer, Index, Document, Keyword, SearchAsYouType, Search, Text, Date
 from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)
@@ -18,33 +16,6 @@ _singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
 
 def get_es_client():
     return _singleton_client
-
-
-class TimestampedDocument(Document):
-    timestamp = Date()
-
-    def save(self, **kwargs):
-        if not self.timestamp:
-            self.timestamp = datetime.now()
-        return super().save(**kwargs)
-
-
-class RecDocument(TimestampedDocument):
-    pk = Keyword()
-    rec = Keyword()
-    vrsta = Keyword()
-    osnovni_oblik = SearchAsYouType()
-    oblici = SearchAsYouType()
-
-    def __str__(self):
-        return f'{self.pk} | {self.vrsta} | {self.rec} | {self.oblici}'
-
-
-class PubDocument(TimestampedDocument):
-    pk = Keyword()
-    skracenica = Keyword()
-    opis = Keyword()
-    tekst = Text(term_vector='with_positions_offset')
 
 
 """ Definicija Elasticsearch indeksa za publikacije """
@@ -103,12 +74,12 @@ REC_MAPPING = {
 }
 
 
-SERBIAN_ANALYZER = analyzer('serbian')
+# SERBIAN_ANALYZER = analyzer('serbian')
 PUB_INDEX = 'publikacije'
 REC_INDEX = 'reci'
 ALL_INDEXES = {
-    PUB_INDEX: {'index': PUB_INDEX, 'document': PubDocument},
-    REC_INDEX: {'index': REC_INDEX, 'document': RecDocument},
+    PUB_INDEX: {'index': PUB_INDEX, 'document': PUB_MAPPING},
+    REC_INDEX: {'index': REC_INDEX, 'document': REC_MAPPING},
 }
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 
@@ -226,49 +197,6 @@ def push_highlighting_limit():
         return r.status_code == 200
     else:
         return False
-
-
-class RecSerializer(serializers.ModelSerializer):
-    pk = serializers.IntegerField(required=True)
-    rec = serializers.CharField(max_length=50, required=True)
-    vrsta = serializers.IntegerField(required=True)
-    osnovni_oblik = serializers.CharField(max_length=50, required=True)
-    oblici = serializers.ListField(child=serializers.CharField(), required=True)
-
-    class Meta:
-        model = RecDocument
-        fields = ('pk', 'rec', 'vrsta', 'osnovni_oblik', 'oblici')
-
-    def create(self, validated_data):
-        pk = validated_data.pop('pk')
-        rec = validated_data.pop('rec')
-        oblici = validated_data.pop('oblici', [])
-        oblici = clear_text(oblici)
-        oblici = add_latin(oblici)
-        var_set = set(oblici)
-        varijante = list(var_set)
-        rec_sa_varijantama = ' '.join(varijante)
-        vrsta = validated_data.pop('vrsta')
-        osnovni_oblik = ' '.join(add_latin(clear_text([rec])))
-        return RecDocument(pk=pk, rec=rec, oblici=rec_sa_varijantama, osnovni_oblik=osnovni_oblik, vrsta=vrsta)
-
-
-class PubSerializer(serializers.ModelSerializer):
-    pk = serializers.IntegerField(required=True)
-    skracenica = serializers.CharField(max_length=100, required=True)
-    opis = serializers.CharField(max_length=1000, required=True)
-    tekst = serializers.CharField(max_length=50, required=True)
-
-    class Meta:
-        model = PubDocument
-        fields = ('pk', 'tekst')
-
-    def create(self, validated_data):
-        pk = validated_data.pop('pk')
-        tekst = validated_data.pop('tekst')
-        skracenica = validated_data.pop('skracenica')
-        opis = validated_data.pop('opis')
-        return PubDocument(pk=pk, tekst=tekst, skracenica=skracenica, opis=opis)
 
 
 JSON = 'application/json'

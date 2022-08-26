@@ -1,4 +1,5 @@
-from elasticsearch import Elasticsearch, NotFoundError
+from datetime import datetime
+from elasticsearch import NotFoundError
 from publikacije.models import *
 from .utils import *
 
@@ -13,17 +14,16 @@ def index_publikacija(pub_id, client=None):
     tekst = ''
     for tp in publikacija.tekstpublikacije_set.all().order_by('redni_broj'):
         tekst += tp.tekst + '\n'
-    serializer = PubSerializer()
-    pub = serializer.create({
+    document = {
         'pk': publikacija.id,
         'skracenica': publikacija.skracenica,
         'opis': publikacija.opis(),
-        'tekst': tekst
-    })
+        'tekst': tekst,
+        'timestamp': datetime.now().isoformat()[:-3] + 'Z',
+    }
     try:
-        if not client:
-            client = get_es_client()
-        pub.save(using=client, id=publikacija.id, index=PUB_INDEX)
+        client = get_es_client()
+        client.create(index=PUB_INDEX, id=publikacija.id, document=document)
         return True
     except Exception as ex:
         log.fatal(ex)
@@ -141,25 +141,32 @@ def index_prilog(prilog, client=None):
 
 
 def save_dict(rec_dict, client=None):
-    serializer = RecSerializer()
-    rec = serializer.create(rec_dict)
     try:
-        if not client:
-            client = get_es_client()
-        result = rec.save(using=client, id=rec.pk, index=REC_INDEX)
-        return result
+        oblici = rec_dict['oblici']
+        oblici = clear_text(oblici)
+        oblici = add_latin(oblici)
+        var_set = set(oblici)
+        varijante = list(var_set)
+        rec_sa_varijantama = ' '.join(varijante)
+        osnovni_oblik = ' '.join(add_latin(clear_text([rec_dict['rec']])))
+        rec_dict['oblici'] = rec_sa_varijantama
+        rec_dict['osnovni_oblik'] = osnovni_oblik
+        rec_dict['timestamp'] = datetime.now().isoformat()[:-3] + 'Z'
+        client = get_es_client()
+        if client.exists(index=REC_INDEX, id=rec_dict['pk']):
+            client.delete(index=REC_INDEX, id=rec_dict['pk'])
+        client.create(index=REC_INDEX, id=rec_dict['pk'], document=rec_dict)
     except Exception as ex:
         log.fatal(ex)
-        return None
 
 
 def delete_imenica(imenica_id):
     # TODO ovo moze da radi za sve vrste reci
-    imenica = RecDocument()
+    # imenica = RecDocument()
     try:
         # TODO: select properly
         client = get_es_client()
-        imenica.delete(using=client, id=imenica_id, index=REC_INDEX)
+        # imenica.delete(using=client, id=imenica_id, index=REC_INDEX)
+        return True
     except NotFoundError:
         return False
-    return True
