@@ -13,16 +13,11 @@ from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)
 
+_singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
+
 
 def get_es_client():
-    try:
-        host = settings.ELASTICSEARCH_HOST
-        if host.find(':') == -1:
-            host = host + ':9200'
-        return connections.create_connection(hosts=[host])
-    except Exception as exc:
-        log.fatal(exc)
-        return None
+    return _singleton_client
 
 
 class TimestampedDocument(Document):
@@ -52,6 +47,7 @@ class PubDocument(TimestampedDocument):
     tekst = Text(term_vector='with_positions_offset')
 
 
+""" Definicija Elasticsearch indeksa za publikacije """
 PUB_MAPPING = {
     "mappings": {
         "properties": {
@@ -76,6 +72,7 @@ PUB_MAPPING = {
 }
 
 
+""" Definicija Elasticsearch indeksa za reci """
 REC_MAPPING = {
     "mappings": {
         "properties": {
@@ -117,11 +114,19 @@ REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 
 
 def remove_punctuation(text):
+    """
+    Uklanja znake interpunkcije iz stringa i vraca novi string
+    """
     cleared_text = ''.join(c for c in text if unicodedata.category(c) in ['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'NI', 'Zs'])
     return cleared_text
 
 
 def clear_text(obj):
+    """
+    Cisti tekst za pretragu:
+    - ako je ulaz string, vraca ociscen string
+    - ako je ulaz lista stringova, vraca listu ociscenih stringova
+    """
     if not obj:
         return obj
     if isinstance(obj, str):
@@ -146,6 +151,9 @@ def clear_text(obj):
 
 
 def add_latin(lst):
+    """
+    Listi stringova dodaje nove elemente sa stringovima konvertovanim u latinicu
+    """
     result = []
     result.extend(lst)
     for item in lst:
@@ -154,6 +162,9 @@ def add_latin(lst):
 
 
 def check_elasticsearch():
+    """
+    Proverava da li je dostupan Elasticsearch servis
+    """
     try:
         host = settings.ELASTICSEARCH_HOST
         r = requests.get(host)
@@ -162,29 +173,17 @@ def check_elasticsearch():
         json = r.json()
         if not json['version']['number']:
             return False
-        if int(json['version']['number'].split('.')[0]) < 7:
+        if int(json['version']['number'].split('.')[0]) < 8:
             return False
         return True
     except requests.exceptions.ConnectionError:
         return False
 
 
-def create_index_if_needed_old():
-    try:
-        client = get_es_client()
-        for es_idx in ALL_INDEXES.values():
-            if not client.indices.exists(index=es_idx['index']):
-                idx = Index(es_idx['index'])
-                idx.analyzer(SERBIAN_ANALYZER)
-                idx.document(es_idx['document'])
-                idx.create()
-        return True
-    except Exception as ex:
-        log.fatal(ex)
-        return False
-
-
 def create_index_if_needed():
+    """
+    Kreira indekse za reci i publikacije. Vraca status uspeha operacije.
+    """
     try:
         r = requests.put(f'{settings.ELASTICSEARCH_HOST}/reci', json=REC_MAPPING)
         success = r.status_code // 100 == 2
@@ -197,6 +196,9 @@ def create_index_if_needed():
 
 
 def recreate_index(index=None):
+    """
+    Brise indekse pa ih ponovo kreira.
+    """
     indexes = [ALL_INDEXES[index]] if index else ALL_INDEXES.values()
     try:
         client = get_es_client()
@@ -211,6 +213,9 @@ def recreate_index(index=None):
 
 
 def push_highlighting_limit():
+    """
+    Povecava limit za highlight servis na 100M
+    """
     payload = {
         'index': {
             'highlight.max_analyzed_offset': 100000000

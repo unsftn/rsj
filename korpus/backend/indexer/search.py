@@ -8,8 +8,6 @@ from reci.models import *
 
 logger = logging.getLogger(__name__)
 
-singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
-
 
 @api_view(['GET'])
 def search_rec(request):
@@ -36,7 +34,7 @@ def search_rec(request):
                 'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
             }
         }
-        resp = singleton_client.search(index=REC_INDEX, body=query)
+        resp = get_es_client().search(index=REC_INDEX, body=query)
         for hit in resp['hits']['hits']:
             hits.append({
                 'vrsta': hit['_source']['vrsta'],
@@ -147,7 +145,7 @@ def search(words, fragment_size, scanner):
     }
     try:
         retval = []
-        resp = singleton_client.search(index=PUB_INDEX, body=query)
+        resp = get_es_client().search(index=PUB_INDEX, body=query)
         for hit in resp['hits']['hits']:
             try:
                 hit['highlight']
@@ -173,7 +171,7 @@ def find_osnovni_oblik(rec) -> list[dict]:
     ima jedan element (tada je nedvosmisleno kojoj reci pripada data leksema).
     """
     retval = []
-    resp = singleton_client.search(index=REC_INDEX, query={'terms': {'oblici': [rec]}})
+    resp = get_es_client().search(index=REC_INDEX, query={'terms': {'oblici': [rec]}})
     for hit in resp['hits']['hits']:
         osnovni_oblik = hit['_source']['rec']
         pk = hit['_source']['pk']
