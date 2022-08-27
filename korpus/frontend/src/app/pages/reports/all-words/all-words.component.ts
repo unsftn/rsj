@@ -13,6 +13,10 @@ export class AllWordsComponent implements OnInit {
     {name: 'додати у речник', code: 1},
     {name: 'игнорисати', code: 2},
   ];
+  filterRecnikOptions: any[] = [
+    {code: true, name: 'да'},
+    {code: false, name: 'не'},
+  ];
 
   constructor() { }
 

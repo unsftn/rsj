@@ -11,6 +11,27 @@
         <th class="w100">У Речнику</th>
         <th class="w200">Статус</th>
       </tr>
+      <tr>
+        <th>&nbsp;</th>
+        <th><p-columnFilter type="text" field="word"></p-columnFilter></th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>
+          <p-columnFilter field="in_rsj" matchMode="equals" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="filterRecnikOptions" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '80px'}" appendTo="body">
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+              <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '180px'}" appendTo="body"></p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+      </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rec let-expanded="expanded">
       <tr>
