@@ -1,7 +1,7 @@
 <div class="container">
   <h3>Све речи из корпуса</h3>
   <p>Време генерисања: 22.08.2022. 10:00:00</p>
-  <p-table [value]="words" [dataKey]="'word'" styleClass="p-datatable-sm" responsiveLayout="scroll">
+  <p-table [value]="words" [dataKey]="'word'" styleClass="p-datatable-sm" responsiveLayout="scroll" [paginator]="true" [rows]="10" [showCurrentPageReport]="true">
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 3rem"></th>
