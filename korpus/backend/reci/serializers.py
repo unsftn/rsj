@@ -229,6 +229,7 @@ class SaveImenicaSerializer(serializers.Serializer):
             VarijantaImenice.objects.create(imenica=imenica, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaImenice.objects.create(user_id=user.id, vreme=sada, imenica=imenica, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return imenica
 
 
@@ -286,6 +287,7 @@ class SaveGlagolSerializer(serializers.Serializer):
                 VarijanteGlagola.objects.create(oblik_glagola=oblik, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaGlagola.objects.create(user_id=user.id, vreme=sada, glagol=glagol, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return glagol
 
 
@@ -359,6 +361,7 @@ class SavePridevSerializer(serializers.Serializer):
             VidPrideva.objects.create(pridev=pridev, **v)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPrideva.objects.create(user_id=user.id, vreme=sada, pridev=pridev, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return pridev
 
 
@@ -381,8 +384,8 @@ class SavePredlogSerializer(serializers.Serializer):
         predlog, created = Predlog.objects.update_or_create(defaults=validated_data, id=predlog_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPredloga.objects.create(user_id=user.id, vreme=sada, predlog=predlog, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return predlog
-
 
 
 class SaveReccaSerializer(serializers.Serializer):
@@ -404,6 +407,7 @@ class SaveReccaSerializer(serializers.Serializer):
         recca, created = Recca.objects.update_or_create(defaults=validated_data, id=recca_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaRecce.objects.create(user_id=user.id, vreme=sada, recca=recca, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return recca
 
 
@@ -426,6 +430,7 @@ class SaveUzvikSerializer(serializers.Serializer):
         uzvik, created = Uzvik.objects.update_or_create(defaults=validated_data, id=uzvik_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaUzvika.objects.create(user_id=user.id, vreme=sada, uzvik=uzvik, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return uzvik
 
 
@@ -448,6 +453,7 @@ class SaveVeznikSerializer(serializers.Serializer):
         veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaVeznika.objects.create(user_id=user.id, vreme=sada, veznik=veznik, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return veznik
 
 
@@ -471,6 +477,7 @@ class SavePrilogSerializer(serializers.Serializer):
         prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPriloga.objects.create(user_id=user.id, vreme=sada, prilog=prilog, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return prilog
 
 
@@ -515,6 +522,7 @@ class SaveZamenicaSerializer(serializers.Serializer):
             VarijantaZamenice.objects.create(zamenica=zamenica, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaZamenice.objects.create(user_id=user.id, vreme=sada, zamenica=zamenica, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return zamenica
 
 
@@ -550,4 +558,5 @@ class SaveBrojSerializer(serializers.Serializer):
         broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaBroja.objects.create(user_id=user.id, vreme=sada, broj=broj, operacija_izmene=operacija_izmene)
+        povecaj_brojac_reci(user.id)
         return broj

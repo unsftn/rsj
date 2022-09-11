@@ -194,6 +194,18 @@ export class AppComponent implements OnInit {
         ]
       },
       {
+        label: 'Статистике',
+        icon: 'pi pi-fw pi-chart-line',
+        disabled: !this.signedIn(),
+        items: [
+          {
+            label: 'Број унетих речи',
+            icon: 'pi pi-sort-alpha-up',
+            routerLink: ['/izvestaji/broj-unetih-reci'],
+          },
+        ]
+      },
+      {
         separator: true,
       },
       {

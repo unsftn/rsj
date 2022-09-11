@@ -39,6 +39,9 @@ urlpatterns = [
 
     path('password/change/', change_password),
     path('password/forgot/', forgot_password),
+
+    path('stats/bur/', get_broj_reci_za_korisnika),
+    path('stats/bur/svi/', get_broj_reci_za_sve),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -59,9 +59,10 @@ import { BrojComponent } from './pages/reci/broj/broj.component';
 import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
 import { AdvancedSearchComponent } from './pages/advanced-search/advanced-search.component';
 import { AllWordsComponent } from './pages/reports/all-words/all-words.component';
+import { BrojUnetihReciComponent } from './pages/reports/broj-unetih-reci/broj-unetih-reci.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe, ReccaComponent, UzvikComponent, VeznikComponent, PredlogComponent, PrilogComponent, BrojComponent, ZamenicaComponent, AdvancedSearchComponent, AllWordsComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe, ReccaComponent, UzvikComponent, VeznikComponent, PredlogComponent, PrilogComponent, BrojComponent, ZamenicaComponent, AdvancedSearchComponent, AllWordsComponent, BrojUnetihReciComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
