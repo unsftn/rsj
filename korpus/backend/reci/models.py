@@ -442,7 +442,7 @@ class Predlog(models.Model):
 
 
 class IzmenaPredloga(models.Model):
-    predlog = models.ForeignKey(Predlog, verbose_name='', on_delete=models.CASCADE)
+    predlog = models.ForeignKey(Predlog, verbose_name='предлог', on_delete=models.CASCADE)
     operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
@@ -478,7 +478,7 @@ class Uzvik(models.Model):
 
 
 class IzmenaUzvika(models.Model):
-    uzvik = models.ForeignKey(Uzvik, verbose_name='', on_delete=models.CASCADE)
+    uzvik = models.ForeignKey(Uzvik, verbose_name='узвик', on_delete=models.CASCADE)
     operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
@@ -514,7 +514,7 @@ class Recca(models.Model):
 
 
 class IzmenaRecce(models.Model):
-    recca = models.ForeignKey(Recca, verbose_name='', on_delete=models.CASCADE)
+    recca = models.ForeignKey(Recca, verbose_name='речца', on_delete=models.CASCADE)
     operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
@@ -550,7 +550,7 @@ class Veznik(models.Model):
 
 
 class IzmenaVeznika(models.Model):
-    veznik = models.ForeignKey(Veznik, verbose_name='', on_delete=models.CASCADE)
+    veznik = models.ForeignKey(Veznik, verbose_name='везник', on_delete=models.CASCADE)
     operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     vreme = models.DateTimeField('време', default=now)
@@ -614,6 +614,17 @@ class VarijantaZamenice(models.Model):
     class Meta:
         verbose_name = 'варијанта заменице'
         verbose_name_plural = 'варијанте заменица'
+
+
+class IzmenaZamenice(models.Model):
+    zamenica = models.ForeignKey(Zamenica, verbose_name='заменица', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена заменице'
+        verbose_name_plural = 'измене заменица'
 
 
 def _svi_oblici_zamenice(imenica):
@@ -696,6 +707,17 @@ class Broj(models.Model):
         return retval
 
 
+class IzmenaBroja(models.Model):
+    broj = models.ForeignKey(Broj, verbose_name='број', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена броја'
+        verbose_name_plural = 'измене бројева'
+
+
 class Prilog(models.Model):
     komparativ = models.CharField('компаратив', max_length=50, blank=True, null=True)
     superlativ = models.CharField('суперлатив', max_length=50, blank=True, null=True)
@@ -734,3 +756,12 @@ class Prilog(models.Model):
         return retval
 
 
+class IzmenaPriloga(models.Model):
+    prilog = models.ForeignKey(Prilog, verbose_name='прилог', on_delete=models.CASCADE)
+    operacija_izmene = models.PositiveSmallIntegerField('операција измене', choices=OPERACIJE_IZMENE)
+    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
+    vreme = models.DateTimeField('време', default=now)
+
+    class Meta:
+        verbose_name = 'измена прилога'
+        verbose_name_plural = 'измене прилога'

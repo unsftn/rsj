@@ -470,7 +470,7 @@ class SavePrilogSerializer(serializers.Serializer):
         validated_data['poslednja_izmena'] = sada
         prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id)
         operacija_izmene = 2 if radimo_update else 1
-        # TODO: IzmenaPriloga.objects.create(user_id=user.id, vreme=sada, prilog=prilog, operacija_izmene=operacija_izmene)
+        IzmenaPriloga.objects.create(user_id=user.id, vreme=sada, prilog=prilog, operacija_izmene=operacija_izmene)
         return prilog
 
 
@@ -514,7 +514,7 @@ class SaveZamenicaSerializer(serializers.Serializer):
         for var in varijante:
             VarijantaZamenice.objects.create(zamenica=zamenica, **var)
         operacija_izmene = 2 if radimo_update else 1
-        # TODO: IzmenaZamenica.objects.create(user_id=user.id, vreme=sada, zamenica=zamenica, operacija_izmene=operacija_izmene)
+        IzmenaZamenice.objects.create(user_id=user.id, vreme=sada, zamenica=zamenica, operacija_izmene=operacija_izmene)
         return zamenica
 
 
@@ -549,5 +549,5 @@ class SaveBrojSerializer(serializers.Serializer):
         validated_data['poslednja_izmena'] = sada
         broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id)
         operacija_izmene = 2 if radimo_update else 1
-        # TODO: IzmenaBroja.objects.create(user_id=user.id, vreme=sada, broj=broj, operacija_izmene=operacija_izmene)
+        IzmenaBroja.objects.create(user_id=user.id, vreme=sada, broj=broj, operacija_izmene=operacija_izmene)
         return broj
