@@ -12,3 +12,6 @@
     <p-button label="Процес" (onClick)="workflowMenu.toggle($event)" [disabled]="workflowDisabled()" styleClass="p-button-success" icon="pi pi-angle-double-right" class="ml-2"></p-button> -->
   </div>
 </p-toolbar>
+
+<ng-particles [id]="id" [options]="particlesOptions" [particlesInit]="particlesInit"
+              (particlesLoaded)="particlesLoaded($event)"></ng-particles>

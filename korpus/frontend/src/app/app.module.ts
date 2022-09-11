@@ -30,6 +30,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { AccordionModule } from 'primeng/accordion';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { PaginatorModule } from 'primeng/paginator';
+import { NgParticlesModule } from 'ng-particles';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
@@ -96,6 +97,7 @@ import { AllWordsComponent } from './pages/reports/all-words/all-words.component
     AccordionModule,
     ProgressSpinnerModule,
     PaginatorModule,
+    NgParticlesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
