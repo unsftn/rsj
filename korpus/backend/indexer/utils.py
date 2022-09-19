@@ -150,19 +150,19 @@ def check_elasticsearch():
         return False
 
 
-def create_index_if_needed():
-    """
-    Kreira indekse za reci i publikacije. Vraca status uspeha operacije.
-    """
-    try:
-        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/reci', json=REC_MAPPING)
-        success = r.status_code // 100 == 2
-        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/publikacije', json=PUB_MAPPING)
-        success = (r.status_code // 100 == 2) and success
-        return success
-    except Exception as ex:
-        log.fatal(ex)
-        return False
+# def create_index_if_needed():
+#     """
+#     Kreira indekse za reci i publikacije. Vraca status uspeha operacije.
+#     """
+#     try:
+#         r = requests.put(f'{settings.ELASTICSEARCH_HOST}/reci', json=REC_MAPPING)
+#         success = r.status_code // 100 == 2
+#         r = requests.put(f'{settings.ELASTICSEARCH_HOST}/publikacije', json=PUB_MAPPING)
+#         success = (r.status_code // 100 == 2) and success
+#         return success
+#     except Exception as ex:
+#         log.fatal(ex)
+#         return False
 
 
 def recreate_index(index=None):
@@ -175,7 +175,8 @@ def recreate_index(index=None):
         for es_idx in indexes:
             if client.indices.exists(index=es_idx['index']):
                 client.indices.delete(index=es_idx['index'])
-        create_index_if_needed()
+            client.indices.create(index=es_idx['index'], mappings=es_idx['document']['mappings'])
+        # create_index_if_needed()
         return True
     except Exception as ex:
         log.fatal(ex)

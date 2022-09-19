@@ -3,9 +3,9 @@ import logging
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from elasticsearch import Elasticsearch
-from reci.models import Imenica, Glagol, Pridev
+from reci.models import *
+from indexer.index import *
 from indexer.utils import get_es_client, recreate_index, check_elasticsearch, REC_INDEX
-from indexer.index import index_imenica, index_glagol, index_pridev
 
 log = logging.getLogger(__name__)
 
@@ -25,6 +25,13 @@ class Command(BaseCommand):
         self.index_rec('imenica', Imenica, index_imenica, client)
         self.index_rec('prideva', Pridev, index_pridev, client)
         self.index_rec('glagola', Glagol, index_glagol, client)
+        self.index_rec('zamenica', Zamenica, index_zamenica, client)
+        self.index_rec('priloga', Prilog, index_prilog, client)
+        self.index_rec('predloga', Predlog, index_predlog, client)
+        self.index_rec('veznika', Veznik, index_veznik, client)
+        self.index_rec('brojeva', Broj, index_broj, client)
+        self.index_rec('recci', Recca, index_recca, client)
+        self.index_rec('uzvika', Uzvik, index_uzvik, client)
         end_time = datetime.now()
         log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
 

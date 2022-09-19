@@ -32,11 +32,11 @@ class Command(BaseCommand):
             for pub in publist:
                 status = index_publikacija(pub.id, client)
                 if status:
-                    self.stdout.write(f'Successfully indexed publication ID: {pub.id}')
+                    self.stdout.write(f'Uspesno indeksirana publikacija ID: {pub.id}')
                 else:
-                    self.stdout.write(f'Error indexing publication ID: {pub.id}')
+                    self.stdout.write(f'Greska prilikom indeksiranja publikacije ID: {pub.id}')
         except Publikacija.DoesNotExist:
-            raise CommandError(f'Publication with ID {pub_id} does not exist')
+            raise CommandError(f'Publikacija sa ID {pub_id} ne postoji')
         except Exception as ex:
             print(ex)
             raise CommandError(ex)

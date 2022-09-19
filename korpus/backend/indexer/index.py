@@ -22,8 +22,9 @@ def index_publikacija(pub_id, client=None):
         'timestamp': datetime.now().isoformat()[:-3] + 'Z',
     }
     try:
-        client = get_es_client()
-        client.create(index=PUB_INDEX, id=publikacija.id, document=document)
+        if not client:
+            client = get_es_client()
+        client.index(index=PUB_INDEX, id=publikacija.id, document=document)
         return True
     except Exception as ex:
         log.fatal(ex)
@@ -152,12 +153,15 @@ def save_dict(rec_dict, client=None):
         rec_dict['oblici'] = rec_sa_varijantama
         rec_dict['osnovni_oblik'] = osnovni_oblik
         rec_dict['timestamp'] = datetime.now().isoformat()[:-3] + 'Z'
-        client = get_es_client()
-        if client.exists(index=REC_INDEX, id=rec_dict['pk']):
-            client.delete(index=REC_INDEX, id=rec_dict['pk'])
-        client.create(index=REC_INDEX, id=rec_dict['pk'], document=rec_dict)
+        if not client:
+            client = get_es_client()
+        # if client.exists(index=REC_INDEX, id=rec_dict['pk']):
+        #     client.delete(index=REC_INDEX, id=rec_dict['pk'])
+        client.index(index=REC_INDEX, id=rec_dict['pk'], document=rec_dict)
+        return True
     except Exception as ex:
         log.fatal(ex)
+        return False
 
 
 def delete_imenica(imenica_id):
