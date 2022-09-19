@@ -11,14 +11,16 @@ from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)
 
-try:
-    _singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
-except Exception as ex:
-    log.fatal('Error initializing singleton Elasticsearch client')
-    log.fatal(ex)
+_singleton_client = None
 
 
 def get_es_client():
+    if not _singleton_client:
+        try:
+            _singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
+        except Exception as ex:
+            log.fatal('Error initializing singleton Elasticsearch client')
+            log.fatal(ex)
     return _singleton_client
 
 
