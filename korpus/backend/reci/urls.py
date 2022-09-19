@@ -44,6 +44,7 @@ urlpatterns = [
     path('stats/bur/svi/', get_broj_reci_za_sve),
     path('stats/unos-reci/', get_statistika_unosa_reci),
     path('stats/moje-reci/', moje_reci),
+    path('stats/broj-mojih-reci/', broj_mojih_reci),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -507,6 +507,22 @@ def moje_reci(request):
     return Response(result, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def broj_mojih_reci(request):
+    user = request.user
+    imenice = Imenica.objects.filter(vlasnik=user).count()
+    glagoli = Glagol.objects.filter(vlasnik=user).count()
+    pridevi = Pridev.objects.filter(vlasnik=user).count()
+    prilozi = Prilog.objects.filter(vlasnik=user).count()
+    zamenice = Zamenica.objects.filter(vlasnik=user).count()
+    predlozi = Predlog.objects.filter(vlasnik=user).count()
+    uzvici = Uzvik.objects.filter(vlasnik=user).count()
+    veznici = Veznik.objects.filter(vlasnik=user).count()
+    recce = Recca.objects.filter(vlasnik=user).count()
+    brojevi = Broj.objects.filter(vlasnik=user).count()
+    ukupno = imenice + glagoli + pridevi + prilozi + zamenice + predlozi + uzvici + veznici + recce + brojevi
+    return Response(ukupno, status=status.HTTP_200_OK)
+
 
 def generate_password():
     digits = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",

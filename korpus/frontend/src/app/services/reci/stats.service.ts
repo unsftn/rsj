@@ -20,4 +20,8 @@ export class StatsService {
   getMojeReci(): Observable<any> {
     return this.http.get<any>(`/api/reci/stats/moje-reci/`);
   }
+
+  getBrojMojihReci(): Observable<any> {
+    return this.http.get<any>(`/api/reci/stats/broj-mojih-reci/`);
+  }
 }

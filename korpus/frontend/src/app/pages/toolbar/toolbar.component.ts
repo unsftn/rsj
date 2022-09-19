@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, ɵɵelementContainerStart } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
 import { MoveDirection, ClickMode, HoverMode, OutMode, Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import { loadConfettiPreset } from 'tsparticles-preset-confetti';
+import { StatsService } from '../../services/reci/stats.service';
 
 @Component({
   selector: 'toolbar',
@@ -15,14 +17,20 @@ export class ToolbarComponent implements OnInit {
   @Input() title = '';
   @Input() saveAvailable: boolean = true;
   @Output() saveClicked = new EventEmitter();
+  mode: string;
 
   constructor(
+    private route: ActivatedRoute,
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
+    private statsService: StatsService,
   ) { }
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.route.data.subscribe((data) => {
+      this.mode = data.mode;
+    });
   }
 
   undoAvailable(): boolean {
@@ -50,11 +58,22 @@ export class ToolbarComponent implements OnInit {
   }
 
   save(): void {
-    this.container.start();
-    setTimeout(() => {
-      this.container.stop();
-    }, 5000);
     this.saveClicked.emit();
+    setTimeout(() => {
+      this.statsService.getBrojMojihReci().subscribe({
+        next: (data) => { 
+          if (this.mode === 'add' && data % 2 === 0) {
+            this.container.start(); 
+            this.container.play();
+            setTimeout(() => { this.container.stop(); }, 5000);
+            this.messageService.add({
+              severity: 'info', summary: 'Честитка', life: 5000, detail: `Унели сте укупно ${data} речи!`
+            });
+          }
+        },
+        error: (error) => { console.log(error); }
+      });
+    }, 500);
   }
 
   delete(): void {
