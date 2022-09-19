@@ -11,17 +11,9 @@ from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)
 
-_singleton_client = None
-
 
 def get_es_client():
-    if not _singleton_client:
-        try:
-            _singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
-        except Exception as ex:
-            log.fatal('Error initializing singleton Elasticsearch client')
-            log.fatal(ex)
-    return _singleton_client
+    return Elasticsearch(hosts=settings.ELASTICSEARCH_HOST)
 
 
 """ Definicija Elasticsearch indeksa za publikacije """
@@ -180,15 +172,16 @@ def recreate_index(index=None):
     indexes = [ALL_INDEXES[index]] if index else ALL_INDEXES.values()
     try:
         client = get_es_client()
+        success = True
         for es_idx in indexes:
             if client.indices.exists(index=es_idx['index']):
                 client.indices.delete(index=es_idx['index'])
-            client.indices.create(index=es_idx['index'], mappings=es_idx['document']['mappings'])
-        # create_index_if_needed()
-        return True
+            # client.indices.create(index=es_idx['index'], mappings=es_idx['document']['mappings'])
+            r = requests.put(f'{settings.ELASTICSEARCH_HOST}/{es_idx["index"]}', json=es_idx['document'])
+            success = (r.status_code // 100 == 2) and success
+        return success
     except Exception as ex:
-        log.fatal(f'Error recreating indexes: {indexes}')
-        log.fatal(ex)
+        log.exception(f'Error recreating indexes: {indexes}')
         return False
 
 
