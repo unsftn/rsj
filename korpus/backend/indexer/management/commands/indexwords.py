@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not check_elasticsearch():
-            self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}/')
+            self.stdout.write(f'Nije dostupan Elasticsearch servis na {settings.ELASTICSEARCH_HOST}')
             return
         if not recreate_index(REC_INDEX):
             self.stdout.write(f'Nije kreiran indeks {REC_INDEX}')

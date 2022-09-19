@@ -1,7 +1,6 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from .models import Imenica, Glagol, Pridev
-# from .indexer import index_imenica, index_glagol, index_pridev
 from functools import wraps
 
 

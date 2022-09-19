@@ -775,29 +775,3 @@ class IzmenaPriloga(models.Model):
     class Meta:
         verbose_name = 'измена прилога'
         verbose_name_plural = 'измене прилога'
-
-
-# class BrojacUnetihReci(models.Model):
-#     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.CASCADE)
-#     broj_reci = models.IntegerField('број унетих речи', default=0)
-    
-#     class Meta:
-#         verbose_name = 'бројач унетих речи'
-#         verbose_name_plural = 'бројачи унетих речи'
-
-
-# def povecaj_brojac_reci(user_id):
-#     try:
-#         bur = BrojacUnetihReci.objects.get(user_id=user_id)
-#         bur.broj_reci += 1
-#         bur.save()
-#     except BrojacUnetihReci.DoesNotExist:
-#         bur = BrojacUnetihReci.objects.create(user_id=user_id, broj_reci=1)
-
-
-# def get_brojac_reci(user_id):
-#     try:
-#         bur = BrojacUnetihReci.objects.get(user_id=user_id)
-#         return bur.broj_reci
-#     except BrojacUnetihReci.DoesNotExist:
-#         return -1
