@@ -9,6 +9,7 @@ import {
   toGlagol
 } from '../../../models/reci';
 import { GlagolService } from '../../../services/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-glagol',
@@ -29,6 +30,7 @@ export class GlagolComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private glagolService: GlagolService,
   ) { }
 
@@ -162,5 +164,15 @@ export class GlagolComponent implements OnInit {
         }
       });
     }
+  }
+
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.glagol.vlasnikID)
+      return true;
+    return false;
   }
 }

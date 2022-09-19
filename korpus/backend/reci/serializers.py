@@ -29,7 +29,7 @@ class ImenicaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Imenica
-        fields = ('id', 'vrsta', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 
+        fields = ('id', 'vrsta', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vlasnik',
                   'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 
                   'nommno', 'genmno', 'datmno', 'akumno', 'vokmno', 'insmno', 'lokmno',
                   'varijantaimenice_set', 'izmenaimenice_set', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
@@ -62,7 +62,7 @@ class GlagolSerializer(serializers.ModelSerializer):
         model = Glagol
         fields = ('id', 'gl_vid', 'gl_rod', 'infinitiv', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena',
                   'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps', 'oblikglagola_set',
-                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
 
 
 class VidPridevaSerializer(serializers.ModelSerializer):
@@ -83,7 +83,7 @@ class PridevSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pridev
         fields = ('id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vidprideva_set',
-                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
 
 
 class IzmenaPredlogaSerializer(serializers.ModelSerializer):
@@ -95,7 +95,7 @@ class IzmenaPredlogaSerializer(serializers.ModelSerializer):
 class PredlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Predlog
-        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
 
 
 class IzmenaRecceSerializer(serializers.ModelSerializer):
@@ -107,7 +107,7 @@ class IzmenaRecceSerializer(serializers.ModelSerializer):
 class ReccaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recca
-        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class IzmenaUzvikaSerializer(serializers.ModelSerializer):
@@ -119,7 +119,7 @@ class IzmenaUzvikaSerializer(serializers.ModelSerializer):
 class UzvikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Uzvik
-        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class IzmenaVeznikaSerializer(serializers.ModelSerializer):
@@ -131,7 +131,7 @@ class IzmenaVeznikaSerializer(serializers.ModelSerializer):
 class VeznikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Veznik
-        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class VarijantaZameniceSerializer(serializers.ModelSerializer):
@@ -146,7 +146,7 @@ class ZamenicaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Zamenica
         fields = ('id', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 'varijantazamenice_set',
-                  'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+                  'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class BrojSerializer(serializers.ModelSerializer):
@@ -154,13 +154,13 @@ class BrojSerializer(serializers.ModelSerializer):
         model = Broj
         fields = ('id', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 
                   'nommno', 'genmno', 'datmno', 'akumno', 'vokmno', 'insmno', 'lokmno', 
-                  'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+                  'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class PrilogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prilog
-        fields = ('id', 'komparativ', 'superlativ', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci')
+        fields = ('id', 'komparativ', 'superlativ', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class NoSaveSerializer(serializers.Serializer):
@@ -223,7 +223,8 @@ class SaveImenicaSerializer(serializers.Serializer):
         varijante = validated_data.pop('varijante', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        imenica, created = Imenica.objects.update_or_create(defaults=validated_data, id=imenica_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        imenica, created = Imenica.objects.update_or_create(defaults=validated_data, id=imenica_id)
         VarijantaImenice.objects.filter(imenica=imenica).delete()
         for var in varijante:
             VarijantaImenice.objects.create(imenica=imenica, **var)
@@ -277,7 +278,8 @@ class SaveGlagolSerializer(serializers.Serializer):
         oblici = validated_data.pop('oblici', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        glagol, created = Glagol.objects.update_or_create(defaults=validated_data, id=glagol_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        glagol, created = Glagol.objects.update_or_create(defaults=validated_data, id=glagol_id)
         OblikGlagola.objects.filter(glagol=glagol).delete()
         for oblik in oblici:
             varijante = oblik.pop('varijante', [])
@@ -353,7 +355,8 @@ class SavePridevSerializer(serializers.Serializer):
         vidovi = validated_data.pop('vidovi', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id)
         VidPrideva.objects.filter(pridev=pridev).delete()
         for v in vidovi:
             VidPrideva.objects.create(pridev=pridev, **v)
@@ -378,7 +381,8 @@ class SavePredlogSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        predlog, created = Predlog.objects.update_or_create(defaults=validated_data, id=predlog_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        predlog, created = Predlog.objects.update_or_create(defaults=validated_data, id=predlog_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPredloga.objects.create(user_id=user.id, vreme=sada, predlog=predlog, operacija_izmene=operacija_izmene)
         return predlog
@@ -400,7 +404,8 @@ class SaveReccaSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        recca, created = Recca.objects.update_or_create(defaults=validated_data, id=recca_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        recca, created = Recca.objects.update_or_create(defaults=validated_data, id=recca_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaRecce.objects.create(user_id=user.id, vreme=sada, recca=recca, operacija_izmene=operacija_izmene)
         return recca
@@ -422,7 +427,8 @@ class SaveUzvikSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        uzvik, created = Uzvik.objects.update_or_create(defaults=validated_data, id=uzvik_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        uzvik, created = Uzvik.objects.update_or_create(defaults=validated_data, id=uzvik_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaUzvika.objects.create(user_id=user.id, vreme=sada, uzvik=uzvik, operacija_izmene=operacija_izmene)
         return uzvik
@@ -444,7 +450,8 @@ class SaveVeznikSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaVeznika.objects.create(user_id=user.id, vreme=sada, veznik=veznik, operacija_izmene=operacija_izmene)
         return veznik
@@ -467,7 +474,8 @@ class SavePrilogSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPriloga.objects.create(user_id=user.id, vreme=sada, prilog=prilog, operacija_izmene=operacija_izmene)
         return prilog
@@ -508,7 +516,8 @@ class SaveZamenicaSerializer(serializers.Serializer):
         varijante = validated_data.pop('varijante', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        zamenica, created = Zamenica.objects.update_or_create(defaults=validated_data, id=zamenica_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        zamenica, created = Zamenica.objects.update_or_create(defaults=validated_data, id=zamenica_id)
         VarijantaZamenice.objects.filter(zamenica=zamenica).delete()
         for var in varijante:
             VarijantaZamenice.objects.create(zamenica=zamenica, **var)
@@ -546,7 +555,8 @@ class SaveBrojSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id, vlasnik=user)
+        validated_data['vlasnik'] = user
+        broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaBroja.objects.create(user_id=user.id, vreme=sada, broj=broj, operacija_izmene=operacija_izmene)
         return broj

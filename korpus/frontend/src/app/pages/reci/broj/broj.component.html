@@ -1,4 +1,4 @@
-<toolbar (saveClicked)="save()"></toolbar>
+<toolbar (saveClicked)="save()" [saveAvailable]="saveAvailable()"></toolbar>
 <div class="container">
   <h3>Број <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
   <div class="tableform">

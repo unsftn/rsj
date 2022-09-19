@@ -126,3 +126,8 @@ docker run -p 9200:9200 -p 9300:9300 --name "es-sr-lat" -e "discovery.type=singl
 
 Chrome plugin za ElasticSearch preko kojeg se mogu kreirati/brisati indeksi, dokumenti, i izvrsavati pretraga:
 https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm
+
+
+## studentski demo nalog
+
+student@student.com / Q4ck7iB5qXKSSNq

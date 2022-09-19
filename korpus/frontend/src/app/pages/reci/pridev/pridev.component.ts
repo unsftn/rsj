@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PridevService } from 'src/app/services/reci/pridev.service';
 import { Pridev, toPridev } from '../../../models/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-pridev',
@@ -20,6 +21,7 @@ export class PridevComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private pridevService: PridevService,
   ) { }
 
@@ -107,5 +109,15 @@ export class PridevComponent implements OnInit {
         }
       });
     }
+  }
+
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.pridev.vlasnikID)
+      return true;
+    return false;
   }
 }

@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$390000$Jt9Q44fTNjxXctyrXNVj9b$SduleG+2ZhOOSZa90iv0CVzN+l7JomOah9Vg6Jc+jDY=",
-    "last_login": "2022-08-24T21:06:00Z",
+    "last_login": "2022-09-19T19:45:26.878Z",
     "is_superuser": true,
     "username": "branko.milosavljevic@gmail.com",
     "first_name": "Бранко",
@@ -55,6 +55,26 @@
     "date_joined": "2022-04-06T19:41:26Z",
     "groups": [
       1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$390000$63R77NlYgBJL7rANIg2CUN$Po9ju38rfBPFPxvS+bGYGiGbh43Q4f7EhXdXYMDkwLc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "student@student.com",
+    "first_name": "Студент",
+    "last_name": "Студентић",
+    "email": "student@student.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2022-09-19T19:46:24Z",
+    "groups": [
+      3
     ],
     "user_permissions": []
   }

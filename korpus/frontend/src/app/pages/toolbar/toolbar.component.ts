@@ -14,6 +14,7 @@ export class ToolbarComponent implements OnInit {
 
   workflowItems: MenuItem[];
   @Input() title = '';
+  @Input() saveAvailable: boolean = true;
   @Output() saveClicked = new EventEmitter();
 
   constructor(
@@ -32,10 +33,6 @@ export class ToolbarComponent implements OnInit {
 
   redoAvailable(): boolean {
     return true;
-  }
-
-  saveAvailable(): boolean {
-    return this.tokenStorageService.isEditor();
   }
 
   workflowDisabled(): boolean {

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Prilog, toPrilog } from '../../../models/reci';
 import { PrilogService } from '../../../services/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-prilog',
@@ -21,6 +22,7 @@ export class PrilogComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private prilogService: PrilogService,
   ) { }
 
@@ -137,4 +139,13 @@ export class PrilogComponent implements OnInit {
     }
   }
 
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.prilog.vlasnikID)
+      return true;
+    return false;
+  }
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Broj, toBroj } from '../../../models/reci';
 import { BrojService } from '../../../services/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-broj',
@@ -21,6 +22,7 @@ export class BrojComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private brojService: BrojService,
   ) { }
 
@@ -133,5 +135,15 @@ export class BrojComponent implements OnInit {
         }
       });
     }
+  }
+
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.broj.vlasnikID)
+      return true;
+    return false;
   }
 }

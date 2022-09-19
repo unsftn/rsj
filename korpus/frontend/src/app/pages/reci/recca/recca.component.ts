@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ReccaService } from '../../../services/reci/';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
+import { Recca, toRecca } from '../../../models/reci';
 
 @Component({
   selector: 'app-recca',
@@ -14,12 +16,13 @@ export class ReccaComponent implements OnInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
-  tekst: string;
+  recca: Recca;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private reccaService: ReccaService,
   ) { }
 
@@ -32,6 +35,7 @@ export class ReccaComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
+          this.recca = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
           document.getElementById('tekst').focus();
           break;
         case 'edit':
@@ -41,7 +45,7 @@ export class ReccaComponent implements OnInit {
               this.id = +params.id;
               this.reccaService.get(this.id).subscribe({
                 next: (item) => {
-                  this.tekst = item.tekst;
+                  this.recca = toRecca(item);
                 },
                 error: (error) => {
                   console.log(error);
@@ -62,7 +66,7 @@ export class ReccaComponent implements OnInit {
 
   save(): void {
     if (this.editMode) {
-      this.reccaService.update({id: this.id, tekst: this.tekst}).subscribe({
+      this.reccaService.update({id: this.id, tekst: this.recca.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -83,7 +87,7 @@ export class ReccaComponent implements OnInit {
         }
       });
     } else {
-      this.reccaService.add({tekst: this.tekst}).subscribe({
+      this.reccaService.add({tekst: this.recca.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -108,4 +112,13 @@ export class ReccaComponent implements OnInit {
     }
   }
 
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.recca?.vlasnikID)
+      return true;
+    return false;
+  }
 }

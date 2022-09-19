@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { UzvikService } from '../../../services/reci/';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
+import { Uzvik, toUzvik } from '../../../models/reci';
 
 @Component({
   selector: 'app-uzvik',
@@ -14,12 +16,13 @@ export class UzvikComponent implements OnInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
-  tekst: string;
+  uzvik: Uzvik;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private uzvikService: UzvikService,
   ) { }
 
@@ -32,6 +35,7 @@ export class UzvikComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
+          this.uzvik = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
           document.getElementById('tekst').focus();
           break;
         case 'edit':
@@ -41,7 +45,7 @@ export class UzvikComponent implements OnInit {
               this.id = +params.id;
               this.uzvikService.get(this.id).subscribe({
                 next: (item) => {
-                  this.tekst = item.tekst;
+                  this.uzvik = toUzvik(item);
                 },
                 error: (error) => {
                   console.log(error);
@@ -62,7 +66,7 @@ export class UzvikComponent implements OnInit {
 
   save(): void {
     if (this.editMode) {
-      this.uzvikService.update({id: this.id, tekst: this.tekst}).subscribe({
+      this.uzvikService.update({id: this.id, tekst: this.uzvik.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -83,7 +87,7 @@ export class UzvikComponent implements OnInit {
         }
       });
     } else {
-      this.uzvikService.add({tekst: this.tekst}).subscribe({
+      this.uzvikService.add({tekst: this.uzvik.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -108,4 +112,13 @@ export class UzvikComponent implements OnInit {
     }
   }
 
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.uzvik?.vlasnikID)
+      return true;
+    return false;
+  }
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Zamenica, toZamenica } from '../../../models/reci';
 import { ZamenicaService } from '../../../services/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-zamenica',
@@ -22,6 +23,7 @@ export class ZamenicaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private zamenicaService: ZamenicaService,
   ) { }
 
@@ -165,4 +167,13 @@ export class ZamenicaComponent implements OnInit {
     this.zamenica.varijante.splice(index, 1);
   }
 
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.zamenica.vlasnikID)
+      return true;
+    return false;
+  }
 }

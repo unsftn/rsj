@@ -48,7 +48,7 @@ const routes: Routes = [
   {
     path: 'imenica/:id',
     component: ImenicaComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -60,7 +60,7 @@ const routes: Routes = [
   {
     path: 'glagol/:id',
     component: GlagolComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -72,7 +72,7 @@ const routes: Routes = [
   {
     path: 'pridev/:id',
     component: PridevComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -84,7 +84,7 @@ const routes: Routes = [
   {
     path: 'predlog/:id',
     component: PredlogComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -96,7 +96,7 @@ const routes: Routes = [
   {
     path: 'recca/:id',
     component: ReccaComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -108,7 +108,7 @@ const routes: Routes = [
   {
     path: 'uzvik/:id',
     component: UzvikComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -120,7 +120,7 @@ const routes: Routes = [
   {
     path: 'veznik/:id',
     component: VeznikComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -132,7 +132,7 @@ const routes: Routes = [
   {
     path: 'zamenica/:id',
     component: ZamenicaComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -144,7 +144,7 @@ const routes: Routes = [
   {
     path: 'broj/:id',
     component: BrojComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
@@ -156,18 +156,18 @@ const routes: Routes = [
   {
     path: 'prilog/:id',
     component: PrilogComponent,
-    canActivate: [EditGuard],
+    canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'publikacije',
     component: PubListComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
   },
   {
     path: 'publikacija/add',
     component: PublicationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
     data: { mode: 'add' },
   },
   {
@@ -184,7 +184,7 @@ const routes: Routes = [
   {
     path: 'obrada/:pid/korak/:step',
     component: ProcessStepComponent,
-    canActivate: [AuthGuard],
+    canActivate: [EditGuard],
   },
   {
     path: 'import/:pid',

@@ -19,6 +19,7 @@ export interface Imenica {
   id?: number;
   vrsta?: number;
   recnikID?: number;
+  vlasnikID?: number;
   redni_broj?: number;
   nomjed: string;
   genjed: string;
@@ -43,6 +44,7 @@ export function toImenica(obj: any): Imenica {
     id: obj.id,
     vrsta: obj.vrsta,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
     nomjed: obj.nomjed,
     genjed: obj.genjed,
     datjed: obj.datjed,
@@ -122,6 +124,7 @@ export interface Glagol {
   gpp: string;
   gps: string;
   recnikID?: number;
+  vlasnikID?: number;
   izmene?: any;
   oblici: OblikGlagola[];
 }
@@ -133,6 +136,7 @@ export function toGlagol(obj: any): Glagol {
     gl_vid: obj.gl_vid,
     infinitiv: nvl(obj.infinitiv),
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
     rgp_mj: nvl(obj.rgp_mj),
     rgp_zj: nvl(obj.rgp_zj),
     rgp_sj: nvl(obj.rgp_sj),
@@ -221,6 +225,7 @@ export interface Pridev {
   id?: number;
   vidovi: VidPrideva[];
   recnikID?: number;
+  vlasnikID?: number;
   izmene?: any;
 }
 
@@ -285,6 +290,7 @@ export function toPridev(obj: any): Pridev {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
     izmene: obj.izmenaprideva_set,
     vidovi: vidovi    
   };
@@ -294,7 +300,8 @@ export interface Predlog {
   id?: number;
   tekst: string;
   recnikID?: number;
-  // izmene?: any;
+  vlasnikID?: number;
+  izmene?: any;
 }
 
 export function toPredlog(obj: any): Predlog {
@@ -302,6 +309,7 @@ export function toPredlog(obj: any): Predlog {
     id: obj.id, 
     tekst: obj.tekst,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
   };
 }
 
@@ -309,7 +317,8 @@ export interface Uzvik {
   id?: number;
   tekst: string;
   recnikID?: number;
-  // izmene?: any;
+  vlasnikID?: number;
+  izmene?: any;
 }
 
 export function toUzvik(obj: any): Uzvik {
@@ -317,6 +326,7 @@ export function toUzvik(obj: any): Uzvik {
     id: obj.id, 
     tekst: obj.tekst,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
   };
 }
 
@@ -324,7 +334,8 @@ export interface Recca {
   id?: number;
   tekst: string;
   recnikID?: number;
-  // izmene?: any;
+  vlasnikID?: number;
+  izmene?: any;
 }
 
 export function toRecca(obj: any): Recca {
@@ -332,6 +343,7 @@ export function toRecca(obj: any): Recca {
     id: obj.id, 
     tekst: obj.tekst,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
   };
 }
 
@@ -339,7 +351,8 @@ export interface Veznik {
   id?: number;
   tekst: string;
   recnikID?: number;
-  // izmene?: any;
+  vlasnikID?: number;
+  izmene?: any;
 }
 
 export function toVeznik(obj: any): Veznik {
@@ -347,6 +360,7 @@ export function toVeznik(obj: any): Veznik {
     id: obj.id, 
     tekst: obj.tekst,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
   };
 }
 
@@ -361,7 +375,8 @@ export interface Zamenica {
   insjed: string;
   lokjed: string;
   recnikID?: number;
-  // izmene?: any[];
+  vlasnikID?: number;
+  izmene?: any[];
   varijante?: Zamenica[];
 }
 
@@ -369,6 +384,7 @@ export function toZamenica(obj: any): Zamenica {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
     nomjed: obj.nomjed,
     genjed: obj.genjed,
     datjed: obj.datjed,
@@ -391,6 +407,7 @@ export function toZamenica(obj: any): Zamenica {
 export interface Broj {
   id?: number;
   recnikID?: number;
+  vlasnikID?: number;
   nomjed: string;
   genjed: string;
   datjed: string;
@@ -405,13 +422,14 @@ export interface Broj {
   vokmno: string;
   insmno: string;
   lokmno: string;
-  // izmene?: any[];
+  izmene?: any[];
 }
 
 export function toBroj(obj: any): Broj {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
     nomjed: obj.nomjed,
     genjed: obj.genjed,
     datjed: obj.datjed,
@@ -432,15 +450,17 @@ export function toBroj(obj: any): Broj {
 export interface Prilog {
   id?: number;
   recnikID?: number;
+  vlasnikID?: number;
   komparativ: string;
   superlativ: string;
-  // izmene?: any[];
+  izmene?: any[];
 }
 
 export function toPrilog(obj: any): Prilog {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
+    vlasnikID: obj.vlasnik,
     komparativ: obj.komparativ,
     superlativ: obj.superlativ,
   };

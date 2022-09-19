@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Imenica, toImenica, VrstaImenice } from '../../../models/reci';
 import { ImenicaService } from '../../../services/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-imenica',
@@ -23,6 +24,7 @@ export class ImenicaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private imenicaService: ImenicaService,
   ) { }
 
@@ -165,5 +167,15 @@ export class ImenicaComponent implements OnInit {
 
   remove(index: number): void {
     this.imenica.varijante.splice(index, 1);
+  }
+
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.imenica.vlasnikID)
+      return true;
+    return false;
   }
 }

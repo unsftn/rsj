@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PredlogService } from '../../../services/reci/';
-import { Predlog } from '../../../models/reci';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
+import { Predlog, toPredlog } from '../../../models/reci';
 
 @Component({
   selector: 'app-predlog',
@@ -15,12 +16,13 @@ export class PredlogComponent implements OnInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
-  tekst: string;
+  predlog: Predlog;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private predlogService: PredlogService,
   ) { }
 
@@ -33,6 +35,7 @@ export class PredlogComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
+          this.predlog = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
           document.getElementById('tekst').focus();
           break;
         case 'edit':
@@ -42,7 +45,8 @@ export class PredlogComponent implements OnInit {
               this.id = +params.id;
               this.predlogService.get(this.id).subscribe({
                 next: (item) => {
-                  this.tekst = item.tekst;
+                  console.log(item);
+                  this.predlog = toPredlog(item);
                 },
                 error: (error) => {
                   console.log(error);
@@ -63,7 +67,7 @@ export class PredlogComponent implements OnInit {
 
   save(): void {
     if (this.editMode) {
-      this.predlogService.update({id: this.id, tekst: this.tekst}).subscribe({
+      this.predlogService.update({id: this.id, tekst: this.predlog.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -84,7 +88,7 @@ export class PredlogComponent implements OnInit {
         }
       });
     } else {
-      this.predlogService.add({tekst: this.tekst}).subscribe({
+      this.predlogService.add({tekst: this.predlog.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -109,4 +113,13 @@ export class PredlogComponent implements OnInit {
     }
   }
 
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.predlog?.vlasnikID)
+      return true;
+    return false;
+  }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { VeznikService } from '../../../services/reci/';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
+import { Veznik, toVeznik } from '../../../models/reci';
 
 @Component({
   selector: 'app-veznik',
@@ -14,12 +16,13 @@ export class VeznikComponent implements OnInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
-  tekst: string;
+  veznik: Veznik;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private tokenStorageService: TokenStorageService,
     private veznikService: VeznikService,
   ) { }
 
@@ -32,6 +35,7 @@ export class VeznikComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
+          this.veznik = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
           document.getElementById('tekst').focus();
           break;
         case 'edit':
@@ -41,7 +45,7 @@ export class VeznikComponent implements OnInit {
               this.id = +params.id;
               this.veznikService.get(this.id).subscribe({
                 next: (item) => {
-                  this.tekst = item.tekst;
+                  this.veznik = toVeznik(item);
                 },
                 error: (error) => {
                   console.log(error);
@@ -62,7 +66,7 @@ export class VeznikComponent implements OnInit {
 
   save(): void {
     if (this.editMode) {
-      this.veznikService.update({id: this.id, tekst: this.tekst}).subscribe({
+      this.veznikService.update({id: this.id, tekst: this.veznik.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -83,7 +87,7 @@ export class VeznikComponent implements OnInit {
         }
       });
     } else {
-      this.veznikService.add({tekst: this.tekst}).subscribe({
+      this.veznikService.add({tekst: this.veznik.tekst}).subscribe({
         next: (data) => {
           this.messageService.add({
             severity: 'success',
@@ -108,4 +112,13 @@ export class VeznikComponent implements OnInit {
     }
   }
 
+  saveAvailable() {
+    if (this.tokenStorageService.isEditor())
+      return true;
+    if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.veznik?.vlasnikID)
+      return true;
+    return false;
+  }
 }

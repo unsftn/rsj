@@ -1,10 +1,10 @@
-<toolbar (saveClicked)="save()"></toolbar>
+<toolbar (saveClicked)="save()" [saveAvailable]="saveAvailable()"></toolbar>
 <div class="container">
   <h3>Предлог <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
-  <div class="tableform">
+  <div class="tableform" *ngIf="predlog">
     <div class="row">
       <div class="cell"><p class="label">Облик</p></div>
-      <div class="cell"><input id="tekst" type="text" pInputText [(ngModel)]="tekst"></div>
+      <div class="cell"><input id="tekst" type="text" pInputText [(ngModel)]="predlog.tekst"></div>
     </div>
   </div>
 </div>

@@ -172,14 +172,11 @@ def recreate_index(index=None):
     indexes = [ALL_INDEXES[index]] if index else ALL_INDEXES.values()
     try:
         client = get_es_client()
-        success = True
         for es_idx in indexes:
             if client.indices.exists(index=es_idx['index']):
                 client.indices.delete(index=es_idx['index'])
-            # client.indices.create(index=es_idx['index'], mappings=es_idx['document']['mappings'])
-            r = requests.put(f'{settings.ELASTICSEARCH_HOST}/{es_idx["index"]}', json=es_idx['document'])
-            success = (r.status_code // 100 == 2) and success
-        return success
+            client.indices.create(index=es_idx['index'], mappings=es_idx['document']['mappings'])
+        return True
     except Exception as ex:
         log.exception(f'Error recreating indexes: {indexes}')
         return False
