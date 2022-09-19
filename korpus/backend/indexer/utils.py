@@ -11,7 +11,11 @@ from .cyrlat import cyr_to_lat
 
 log = logging.getLogger(__name__)
 
-_singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
+try:
+    _singleton_client = Elasticsearch(hosts=[settings.ELASTICSEARCH_HOST])
+except Exception as ex:
+    log.fatal('Error initializing singleton Elasticsearch client')
+    log.fatal(ex)
 
 
 def get_es_client():
@@ -146,7 +150,9 @@ def check_elasticsearch():
         if int(json['version']['number'].split('.')[0]) < 8:
             return False
         return True
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.ConnectionError as ex:
+        log.fatal('Error checking for elasticsearch')
+        log.fatal(ex)
         return False
 
 
@@ -179,6 +185,7 @@ def recreate_index(index=None):
         # create_index_if_needed()
         return True
     except Exception as ex:
+        log.fatal(f'Error recreating indexes: {indexes}')
         log.fatal(ex)
         return False
 
