@@ -38,5 +38,25 @@
     ],
     "user_permissions": []
   }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$320000$39WY2KAM5N6W5dnthRsXF4$po1dBWVAWuYw4zYOmD8ccWPCb45UldujkK0t9y8ou6U=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "wikimorph_sr@acme.com",
+    "first_name": "WikiMorph",
+    "last_name": "sr",
+    "email": "wikimorph_sr@acme.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-04-06T19:41:26Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
 }
 ]

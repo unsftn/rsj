@@ -14,6 +14,6 @@ export class StatsService {
   }
 
   getBrojUnetihReciZaSve(): Observable<any> {
-    return this.http.get<any>(`/api/reci/stats/bur/svi/`);
+    return this.http.get<any>(`/api/reci/stats/unos-reci/`);
   }
 }

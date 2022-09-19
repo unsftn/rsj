@@ -1,18 +1,38 @@
 <div class="container">
   <h3>Статистика уноса речи</h3>
-  <p-table [value]="stats" styleClass="p-datatable-sm" responsiveLayout="scroll" [paginator]="true" [rows]="10" [style]="{'width': '700px'}">
+  <p-table [value]="stats" styleClass="p-datatable-sm p-datatable-striped" responsiveLayout="scroll" [paginator]="true" [rows]="20">
     <ng-template pTemplate="header">
       <tr>
         <th>Корисник</th>
-        <th>Имејл</th>
-        <th class="w150">Број унетих речи</th>
+        <!-- <th>Имејл</th> -->
+        <th class="w50">Именице</th>
+        <th class="w50">Глаголи</th>
+        <th class="w50">Придеви</th>
+        <th class="w50">Прилози</th>
+        <th class="w50">Предлози</th>
+        <th class="w50">Заменице</th>
+        <th class="w50">Везници</th>
+        <th class="w50">Узвици</th>
+        <th class="w50">Речце</th>
+        <th class="w50">Бројеви</th>
+        <th class="w50">Укупно</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td>{{item.user.first_name}} {{item.user.last_name}}</td>
-        <td>{{item.user.email}}</td>
-        <td class="right">{{item.broj_unetih_reci}}</td>
+        <td>{{item.ime}} {{item.prezime}}</td>
+        <!-- <td>{{item.email}}</td> -->
+        <td class="right">{{item.imenice}}</td>
+        <td class="right">{{item.glagoli}}</td>
+        <td class="right">{{item.pridevi}}</td>
+        <td class="right">{{item.prilozi}}</td>
+        <td class="right">{{item.predlozi}}</td>
+        <td class="right">{{item.zamenice}}</td>
+        <td class="right">{{item.veznici}}</td>
+        <td class="right">{{item.uzvici}}</td>
+        <td class="right">{{item.recce}}</td>
+        <td class="right">{{item.brojevi}}</td>
+        <td class="right">{{item.ukupno}}</td>
       </tr>    
     </ng-template>
   </p-table>

@@ -128,6 +128,7 @@ class Imenica(models.Model):
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'именица'
@@ -221,6 +222,7 @@ class Glagol(models.Model):
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'глагол'
@@ -312,6 +314,7 @@ class Pridev(models.Model):
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
     lema = models.CharField('лема', max_length=50, blank=True, null=True)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'придев'
@@ -420,6 +423,7 @@ class Predlog(models.Model):
     tekst = models.CharField(max_length=100)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'предлог'
@@ -456,6 +460,7 @@ class Uzvik(models.Model):
     tekst = models.CharField(max_length=100)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'узвик'
@@ -492,6 +497,7 @@ class Recca(models.Model):
     tekst = models.CharField(max_length=100)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'речца'
@@ -528,6 +534,7 @@ class Veznik(models.Model):
     tekst = models.CharField(max_length=100)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'везник'
@@ -572,6 +579,7 @@ class Zamenica(models.Model):
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'заменица'
@@ -653,6 +661,7 @@ class Broj(models.Model):
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'број'
@@ -725,6 +734,7 @@ class Prilog(models.Model):
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)
     poslednja_izmena = models.DateTimeField('време последње измене', default=now)
+    vlasnik = models.ForeignKey(UserProxy, verbose_name='креатор', null=True, blank=True, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'прилог'
@@ -767,27 +777,27 @@ class IzmenaPriloga(models.Model):
         verbose_name_plural = 'измене прилога'
 
 
-class BrojacUnetihReci(models.Model):
-    user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.CASCADE)
-    broj_reci = models.IntegerField('број унетих речи', default=0)
+# class BrojacUnetihReci(models.Model):
+#     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.CASCADE)
+#     broj_reci = models.IntegerField('број унетих речи', default=0)
     
-    class Meta:
-        verbose_name = 'бројач унетих речи'
-        verbose_name_plural = 'бројачи унетих речи'
+#     class Meta:
+#         verbose_name = 'бројач унетих речи'
+#         verbose_name_plural = 'бројачи унетих речи'
 
 
-def povecaj_brojac_reci(user_id):
-    try:
-        bur = BrojacUnetihReci.objects.get(user_id=user_id)
-        bur.broj_reci += 1
-        bur.save()
-    except BrojacUnetihReci.DoesNotExist:
-        bur = BrojacUnetihReci.objects.create(user_id=user_id, broj_reci=1)
+# def povecaj_brojac_reci(user_id):
+#     try:
+#         bur = BrojacUnetihReci.objects.get(user_id=user_id)
+#         bur.broj_reci += 1
+#         bur.save()
+#     except BrojacUnetihReci.DoesNotExist:
+#         bur = BrojacUnetihReci.objects.create(user_id=user_id, broj_reci=1)
 
 
-def get_brojac_reci(user_id):
-    try:
-        bur = BrojacUnetihReci.objects.get(user_id=user_id)
-        return bur.broj_reci
-    except BrojacUnetihReci.DoesNotExist:
-        return -1
+# def get_brojac_reci(user_id):
+#     try:
+#         bur = BrojacUnetihReci.objects.get(user_id=user_id)
+#         return bur.broj_reci
+#     except BrojacUnetihReci.DoesNotExist:
+#         return -1

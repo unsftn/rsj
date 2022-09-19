@@ -452,6 +452,43 @@ def get_broj_reci_za_sve(request):
     return Response(retval, status=status.HTTP_200_OK)
 
 
+from django.db.models import Count
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def get_statistika_unosa_reci(request):
+    result = []
+    for user in UserProxy.objects.all():
+        imenice = Imenica.objects.filter(vlasnik=user).count()
+        glagoli = Glagol.objects.filter(vlasnik=user).count()
+        pridevi = Pridev.objects.filter(vlasnik=user).count()
+        prilozi = Prilog.objects.filter(vlasnik=user).count()
+        zamenice = Zamenica.objects.filter(vlasnik=user).count()
+        predlozi = Predlog.objects.filter(vlasnik=user).count()
+        uzvici = Uzvik.objects.filter(vlasnik=user).count()
+        veznici = Veznik.objects.filter(vlasnik=user).count()
+        recce = Recca.objects.filter(vlasnik=user).count()
+        brojevi = Broj.objects.filter(vlasnik=user).count()
+        ukupno = imenice + glagoli + pridevi + prilozi + predlozi + zamenice + uzvici + veznici + recce + brojevi
+        item = {
+            'ime': user.first_name, 
+            'prezime': user.last_name, 
+            'email': user.email, 
+            'imenice': imenice,
+            'glagoli': glagoli,
+            'pridevi': pridevi,
+            'prilozi': prilozi,
+            'zamenice': zamenice,
+            'predlozi': predlozi,
+            'uzvici': uzvici,
+            'veznici': veznici,
+            'recce': recce,
+            'brojevi': brojevi,
+            'ukupno': ukupno
+        }
+        result.append(item)
+    return Response(result, status=status.HTTP_200_OK)
+
+
 def generate_password():
     digits = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
               "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]

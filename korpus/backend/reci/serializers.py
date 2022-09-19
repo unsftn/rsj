@@ -223,13 +223,12 @@ class SaveImenicaSerializer(serializers.Serializer):
         varijante = validated_data.pop('varijante', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        imenica, created = Imenica.objects.update_or_create(defaults=validated_data, id=imenica_id)
+        imenica, created = Imenica.objects.update_or_create(defaults=validated_data, id=imenica_id, vlasnik=user)
         VarijantaImenice.objects.filter(imenica=imenica).delete()
         for var in varijante:
             VarijantaImenice.objects.create(imenica=imenica, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaImenice.objects.create(user_id=user.id, vreme=sada, imenica=imenica, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return imenica
 
 
@@ -278,7 +277,7 @@ class SaveGlagolSerializer(serializers.Serializer):
         oblici = validated_data.pop('oblici', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        glagol, created = Glagol.objects.update_or_create(defaults=validated_data, id=glagol_id)
+        glagol, created = Glagol.objects.update_or_create(defaults=validated_data, id=glagol_id, vlasnik=user)
         OblikGlagola.objects.filter(glagol=glagol).delete()
         for oblik in oblici:
             varijante = oblik.pop('varijante', [])
@@ -287,7 +286,6 @@ class SaveGlagolSerializer(serializers.Serializer):
                 VarijanteGlagola.objects.create(oblik_glagola=oblik, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaGlagola.objects.create(user_id=user.id, vreme=sada, glagol=glagol, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return glagol
 
 
@@ -355,13 +353,12 @@ class SavePridevSerializer(serializers.Serializer):
         vidovi = validated_data.pop('vidovi', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id)
+        pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id, vlasnik=user)
         VidPrideva.objects.filter(pridev=pridev).delete()
         for v in vidovi:
             VidPrideva.objects.create(pridev=pridev, **v)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPrideva.objects.create(user_id=user.id, vreme=sada, pridev=pridev, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return pridev
 
 
@@ -381,10 +378,9 @@ class SavePredlogSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        predlog, created = Predlog.objects.update_or_create(defaults=validated_data, id=predlog_id)
+        predlog, created = Predlog.objects.update_or_create(defaults=validated_data, id=predlog_id, vlasnik=user)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPredloga.objects.create(user_id=user.id, vreme=sada, predlog=predlog, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return predlog
 
 
@@ -404,10 +400,9 @@ class SaveReccaSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        recca, created = Recca.objects.update_or_create(defaults=validated_data, id=recca_id)
+        recca, created = Recca.objects.update_or_create(defaults=validated_data, id=recca_id, vlasnik=user)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaRecce.objects.create(user_id=user.id, vreme=sada, recca=recca, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return recca
 
 
@@ -427,10 +422,9 @@ class SaveUzvikSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        uzvik, created = Uzvik.objects.update_or_create(defaults=validated_data, id=uzvik_id)
+        uzvik, created = Uzvik.objects.update_or_create(defaults=validated_data, id=uzvik_id, vlasnik=user)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaUzvika.objects.create(user_id=user.id, vreme=sada, uzvik=uzvik, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return uzvik
 
 
@@ -450,10 +444,9 @@ class SaveVeznikSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id)
+        veznik, created = Veznik.objects.update_or_create(defaults=validated_data, id=veznik_id, vlasnik=user)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaVeznika.objects.create(user_id=user.id, vreme=sada, veznik=veznik, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return veznik
 
 
@@ -474,10 +467,9 @@ class SavePrilogSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id)
+        prilog, created = Prilog.objects.update_or_create(defaults=validated_data, id=prilog_id, vlasnik=user)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPriloga.objects.create(user_id=user.id, vreme=sada, prilog=prilog, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return prilog
 
 
@@ -516,13 +508,12 @@ class SaveZamenicaSerializer(serializers.Serializer):
         varijante = validated_data.pop('varijante', [])
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        zamenica, created = Zamenica.objects.update_or_create(defaults=validated_data, id=zamenica_id)
+        zamenica, created = Zamenica.objects.update_or_create(defaults=validated_data, id=zamenica_id, vlasnik=user)
         VarijantaZamenice.objects.filter(zamenica=zamenica).delete()
         for var in varijante:
             VarijantaZamenice.objects.create(zamenica=zamenica, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaZamenice.objects.create(user_id=user.id, vreme=sada, zamenica=zamenica, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return zamenica
 
 
@@ -555,8 +546,7 @@ class SaveBrojSerializer(serializers.Serializer):
         sada = now()
         user = validated_data.pop('user')
         validated_data['poslednja_izmena'] = sada
-        broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id)
+        broj, created = Broj.objects.update_or_create(defaults=validated_data, id=broj_id, vlasnik=user)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaBroja.objects.create(user_id=user.id, vreme=sada, broj=broj, operacija_izmene=operacija_izmene)
-        povecaj_brojac_reci(user.id)
         return broj
