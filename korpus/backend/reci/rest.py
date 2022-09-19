@@ -452,7 +452,6 @@ def get_broj_reci_za_sve(request):
     return Response(retval, status=status.HTTP_200_OK)
 
 
-from django.db.models import Count
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_statistika_unosa_reci(request):
@@ -487,6 +486,26 @@ def get_statistika_unosa_reci(request):
         }
         result.append(item)
     return Response(result, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def moje_reci(request):
+    user = request.user
+    imenice = Imenica.objects.filter(vlasnik=user)
+    glagoli = Glagol.objects.filter(vlasnik=user)
+    pridevi = Pridev.objects.filter(vlasnik=user)
+    prilozi = Prilog.objects.filter(vlasnik=user)
+    zamenice = Zamenica.objects.filter(vlasnik=user)
+    predlozi = Predlog.objects.filter(vlasnik=user)
+    uzvici = Uzvik.objects.filter(vlasnik=user)
+    veznici = Veznik.objects.filter(vlasnik=user)
+    recce = Recca.objects.filter(vlasnik=user)
+    brojevi = Broj.objects.filter(vlasnik=user)
+    result = []
+    for niz in [imenice, glagoli, pridevi, prilozi, zamenice, predlozi, uzvici, veznici, recce, brojevi]:        
+        result.extend([{'id': x.id, 'rec': x.osnovni_oblik(), 'vrsta_id': x.vrsta_reci(), 'vrsta': x.naziv_vrste_reci()} for x in niz])
+    return Response(result, status=status.HTTP_200_OK)
+
 
 
 def generate_password():

@@ -328,7 +328,7 @@ class Pridev(models.Model):
         return f'{self.id}'
 
     def osnovni_oblik(self) -> str:
-        return self.lema
+        return self.lema if self.lema else self.prvi_popunjen_oblik()
 
     def vrsta_reci(self) -> int:
         return 2
@@ -338,6 +338,19 @@ class Pridev(models.Model):
 
     def oblici(self) -> list:
         return _svi_oblici_prideva(self)
+
+    def prvi_popunjen_oblik(self) -> str:
+        for vp in self.vidprideva_set.all().order_by('vid'):
+            for attr in ['mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed',
+                        'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno', 'minsmno', 'mlokmno',
+                        'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed',
+                        'znommno', 'zgenmno', 'zdatmno', 'zakumno', 'zvokmno', 'zinsmno', 'zlokmno',
+                        'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed',
+                        'snommno', 'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno']:
+                value = getattr(vp, attr)
+                if value:
+                    return value
+        return ''
 
 
 class VidPrideva(models.Model):

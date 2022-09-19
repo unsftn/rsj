@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, ɵɵelementContainerStart } from '@angular/core';
 import { MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
-import { TokenStorageService } from '../../services/auth/token-storage.service';
 import { MoveDirection, ClickMode, HoverMode, OutMode, Container, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import { loadConfettiPreset } from 'tsparticles-preset-confetti';
@@ -20,7 +19,6 @@ export class ToolbarComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
-    private tokenStorageService: TokenStorageService,
   ) { }
 
   ngOnInit(): void {

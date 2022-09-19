@@ -160,6 +160,10 @@ export class HomeComponent implements OnInit {
   }
 
   pogodaka(): string {
+    // izuzetak: 11, 12, 13, 14 pogodaka
+    const teens = this.hits.length % 100;
+    if (teens > 10 && teens < 20)
+      return 'погодака';
     const ostatak = this.hits.length % 10;
     switch (ostatak) {
       case 1: 

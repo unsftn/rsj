@@ -9,3 +9,4 @@ export * from './broj.service';
 export * from './zamenica.service';
 export * from './prilog.service';
 export * from './rec.service';
+export * from './stats.service';

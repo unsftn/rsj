@@ -203,6 +203,11 @@ export class AppComponent implements OnInit {
             icon: 'pi pi-sort-alpha-up',
             routerLink: ['/izvestaji/broj-unetih-reci'],
           },
+          {
+            label: 'Моје речи',
+            icon: 'pi pi-heart',
+            routerLink: ['/izvestaji/moje-reci'],
+          },
         ]
       },
       {

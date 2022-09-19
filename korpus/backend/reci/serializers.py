@@ -360,6 +360,9 @@ class SavePridevSerializer(serializers.Serializer):
         VidPrideva.objects.filter(pridev=pridev).delete()
         for v in vidovi:
             VidPrideva.objects.create(pridev=pridev, **v)
+        if not pridev.lema:
+            pridev.lema = pridev.prvi_popunjen_oblik()
+            pridev.save()
         operacija_izmene = 2 if radimo_update else 1
         IzmenaPrideva.objects.create(user_id=user.id, vreme=sada, pridev=pridev, operacija_izmene=operacija_izmene)
         return pridev

@@ -22,6 +22,7 @@ import { PrilogComponent } from './pages/reci/prilog/prilog.component';
 import { AdvancedSearchComponent } from './pages/advanced-search/advanced-search.component';
 import { AllWordsComponent } from './pages/reports/all-words/all-words.component';
 import { BrojUnetihReciComponent } from './pages/reports/broj-unetih-reci/broj-unetih-reci.component';
+import { MojeReciComponent } from './pages/reports/moje-reci/moje-reci.component';
 
 const routes: Routes = [
   {
@@ -200,6 +201,11 @@ const routes: Routes = [
   {
     path: 'izvestaji/broj-unetih-reci',
     component: BrojUnetihReciComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'izvestaji/moje-reci',
+    component: MojeReciComponent,
     canActivate: [AuthGuard],
   },
   {
