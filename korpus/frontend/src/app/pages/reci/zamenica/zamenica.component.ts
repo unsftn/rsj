@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Zamenica, toZamenica } from '../../../models/reci';
@@ -10,7 +10,7 @@ import { TokenStorageService } from '../../../services/auth/token-storage.servic
   templateUrl: './zamenica.component.html',
   styleUrls: ['./zamenica.component.scss']
 })
-export class ZamenicaComponent implements OnInit {
+export class ZamenicaComponent implements OnInit, AfterViewInit {
 
   zamenica: Zamenica;
 
@@ -18,6 +18,7 @@ export class ZamenicaComponent implements OnInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  @ViewChild('nomjed') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +64,10 @@ export class ZamenicaComponent implements OnInit {
           break;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   initNew(): void {

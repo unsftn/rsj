@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Imenica, toImenica, VrstaImenice } from '../../../models/reci';
@@ -10,7 +10,7 @@ import { TokenStorageService } from '../../../services/auth/token-storage.servic
   templateUrl: './imenica.component.html',
   styleUrls: ['./imenica.component.scss']
 })
-export class ImenicaComponent implements OnInit {
+export class ImenicaComponent implements OnInit, AfterViewInit {
 
   imenica: Imenica;
 
@@ -19,6 +19,7 @@ export class ImenicaComponent implements OnInit {
   vrste: VrstaImenice[];
   returnUrl: string;
   sourceWord: string;
+  @ViewChild('nomjed') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +40,6 @@ export class ImenicaComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
-          document.getElementById('nomjed').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -65,6 +65,10 @@ export class ImenicaComponent implements OnInit {
           break;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   initNew(): void {

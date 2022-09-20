@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Prilog, toPrilog } from '../../../models/reci';
@@ -10,13 +10,14 @@ import { TokenStorageService } from '../../../services/auth/token-storage.servic
   templateUrl: './prilog.component.html',
   styleUrls: ['./prilog.component.scss']
 })
-export class PrilogComponent implements OnInit {
+export class PrilogComponent implements OnInit, AfterViewInit {
 
   prilog: Prilog;
   id: number;
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  @ViewChild('komparativ') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +37,6 @@ export class PrilogComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
-          document.getElementById('komparativ').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -62,6 +62,10 @@ export class PrilogComponent implements OnInit {
           break;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   initNew(): void {

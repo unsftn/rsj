@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Broj, toBroj } from '../../../models/reci';
@@ -10,13 +10,14 @@ import { TokenStorageService } from '../../../services/auth/token-storage.servic
   templateUrl: './broj.component.html',
   styleUrls: ['./broj.component.scss']
 })
-export class BrojComponent implements OnInit {
+export class BrojComponent implements OnInit, AfterViewInit {
 
   broj: Broj;
   id: number;
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +37,6 @@ export class BrojComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
-          document.getElementById('nomjed').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -60,6 +60,10 @@ export class BrojComponent implements OnInit {
           break;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   initNew(): void {

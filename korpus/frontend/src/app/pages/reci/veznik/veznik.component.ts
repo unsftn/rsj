@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { VeznikService } from '../../../services/reci/';
@@ -10,13 +10,14 @@ import { Veznik, toVeznik } from '../../../models/reci';
   templateUrl: './veznik.component.html',
   styleUrls: ['./veznik.component.scss']
 })
-export class VeznikComponent implements OnInit {
+export class VeznikComponent implements OnInit, AfterViewInit {
 
   id: number;
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
   veznik: Veznik;
+  @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +37,6 @@ export class VeznikComponent implements OnInit {
         case 'add':
           this.editMode = false;
           this.veznik = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
-          document.getElementById('tekst').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -62,6 +62,10 @@ export class VeznikComponent implements OnInit {
           break;        
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   save(): void {

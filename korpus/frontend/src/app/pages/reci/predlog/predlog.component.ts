@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PredlogService } from '../../../services/reci/';
@@ -10,13 +10,14 @@ import { Predlog, toPredlog } from '../../../models/reci';
   templateUrl: './predlog.component.html',
   styleUrls: ['./predlog.component.scss']
 })
-export class PredlogComponent implements OnInit {
+export class PredlogComponent implements OnInit, AfterViewInit {
 
   id: number;
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
   predlog: Predlog;
+  @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +37,6 @@ export class PredlogComponent implements OnInit {
         case 'add':
           this.editMode = false;
           this.predlog = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
-          document.getElementById('tekst').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -63,6 +63,10 @@ export class PredlogComponent implements OnInit {
           break;        
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   save(): void {

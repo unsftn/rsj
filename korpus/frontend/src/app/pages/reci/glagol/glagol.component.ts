@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import {
@@ -16,7 +16,7 @@ import { TokenStorageService } from '../../../services/auth/token-storage.servic
   templateUrl: './glagol.component.html',
   styleUrls: ['./glagol.component.scss']
 })
-export class GlagolComponent implements OnInit {
+export class GlagolComponent implements OnInit, AfterViewInit {
 
   glagol: Glagol;
 
@@ -25,6 +25,7 @@ export class GlagolComponent implements OnInit {
   rodovi: GlagolskiRod[];
   vidovi: GlagolskiVid[];
   varijante: GlagolskaVarijanta[];
+  @ViewChild('infinitiv') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +44,6 @@ export class GlagolComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
-          document.getElementById('infinitiv').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -69,6 +69,10 @@ export class GlagolComponent implements OnInit {
           break;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   initNew(): void {

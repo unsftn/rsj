@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { A11yModule } from '@angular/cdk/a11y'
 import { ListboxModule } from 'primeng/listbox';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
@@ -72,6 +73,7 @@ import { MojeReciComponent } from './pages/reports/moje-reci/moje-reci.component
     ReactiveFormsModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({cookieName: 'csrftoken', headerName: 'X-CSRFToken',}),
+    A11yModule,
     MenubarModule,
     InputTextModule,
     ButtonModule,

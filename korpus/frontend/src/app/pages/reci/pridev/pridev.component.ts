@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PridevService } from 'src/app/services/reci/pridev.service';
@@ -10,12 +10,13 @@ import { TokenStorageService } from '../../../services/auth/token-storage.servic
   templateUrl: './pridev.component.html',
   styleUrls: ['./pridev.component.scss']
 })
-export class PridevComponent implements OnInit {
+export class PridevComponent implements OnInit, AfterViewInit {
 
   pridev: Pridev;
 
   id: number;
   editMode: boolean;
+  @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,6 @@ export class PridevComponent implements OnInit {
       switch (data.mode) {
         case 'add':
           this.editMode = false;
-          setTimeout(() => { document.getElementById('mnomjed1').focus(); });
           break;
         case 'edit':
           this.editMode = true;
@@ -57,6 +57,10 @@ export class PridevComponent implements OnInit {
           break;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   initNew(): void {

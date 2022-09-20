@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ReccaService } from '../../../services/reci/';
@@ -10,13 +10,14 @@ import { Recca, toRecca } from '../../../models/reci';
   templateUrl: './recca.component.html',
   styleUrls: ['./recca.component.scss']
 })
-export class ReccaComponent implements OnInit {
+export class ReccaComponent implements OnInit, AfterViewInit {
 
   id: number;
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
   recca: Recca;
+  @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +37,6 @@ export class ReccaComponent implements OnInit {
         case 'add':
           this.editMode = false;
           this.recca = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
-          document.getElementById('tekst').focus();
           break;
         case 'edit':
           this.editMode = true;
@@ -62,6 +62,10 @@ export class ReccaComponent implements OnInit {
           break;        
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.textInput.nativeElement.focus();
   }
 
   save(): void {
