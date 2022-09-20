@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ReccaService } from '../../../services/reci/';
@@ -10,7 +10,7 @@ import { Recca, toRecca } from '../../../models/reci';
   templateUrl: './recca.component.html',
   styleUrls: ['./recca.component.scss']
 })
-export class ReccaComponent implements OnInit, AfterViewInit {
+export class ReccaComponent implements OnInit {
 
   id: number;
   editMode: boolean;
@@ -28,6 +28,7 @@ export class ReccaComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.recca = this.reccaService.new();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;
       this.sourceWord = params.word;
@@ -37,6 +38,7 @@ export class ReccaComponent implements OnInit, AfterViewInit {
         case 'add':
           this.editMode = false;
           this.recca = { tekst: '', vlasnikID: this.tokenStorageService.getUser().id };
+          setTimeout(() => this.textInput.nativeElement.focus(), 1);
           break;
         case 'edit':
           this.editMode = true;
@@ -46,6 +48,7 @@ export class ReccaComponent implements OnInit, AfterViewInit {
               this.reccaService.get(this.id).subscribe({
                 next: (item) => {
                   this.recca = toRecca(item);
+                  setTimeout(() => this.textInput.nativeElement.focus(), 1);
                 },
                 error: (error) => {
                   console.log(error);
@@ -62,10 +65,6 @@ export class ReccaComponent implements OnInit, AfterViewInit {
           break;        
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.textInput.nativeElement.focus();
   }
 
   save(): void {

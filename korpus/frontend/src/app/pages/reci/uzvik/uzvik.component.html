@@ -1,7 +1,7 @@
 <toolbar (saveClicked)="save()" [saveAvailable]="saveAvailable()"></toolbar>
 <div class="container">
   <h3>Узвик <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
-  <div class="tableform" *ngIf="uzvik">
+  <div class="tableform">
     <div class="row">
       <div class="cell"><p class="label">Облик</p></div>
       <div class="cell"><input id="tekst" type="text" pInputText [(ngModel)]="uzvik.tekst" #tekst></div>

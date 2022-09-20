@@ -28,6 +28,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.uzvik = this.uzvikService.new();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;
       this.sourceWord = params.word;

@@ -45,37 +45,37 @@ export function toImenica(obj: any): Imenica {
     vrsta: obj.vrsta,
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
-    nomjed: obj.nomjed,
-    genjed: obj.genjed,
-    datjed: obj.datjed,
-    akujed: obj.akujed,
-    vokjed: obj.vokjed,
-    insjed: obj.insjed,
-    lokjed: obj.lokjed,
-    nommno: obj.nommno,
-    genmno: obj.genmno,
-    datmno: obj.datmno,
-    akumno: obj.akumno,
-    vokmno: obj.vokmno,
-    insmno: obj.insmno,
-    lokmno: obj.lokmno,
+    nomjed: nvl(obj.nomjed),
+    genjed: nvl(obj.genjed),
+    datjed: nvl(obj.datjed),
+    akujed: nvl(obj.akujed),
+    vokjed: nvl(obj.vokjed),
+    insjed: nvl(obj.insjed),
+    lokjed: nvl(obj.lokjed),
+    nommno: nvl(obj.nommno),
+    genmno: nvl(obj.genmno),
+    datmno: nvl(obj.datmno),
+    akumno: nvl(obj.akumno),
+    vokmno: nvl(obj.vokmno),
+    insmno: nvl(obj.insmno),
+    lokmno: nvl(obj.lokmno),
     izmene: obj.izmenaimenice_set,
     varijante: obj.varijantaimenice_set.map((item) => ({
       redni_broj: item.redni_broj,
-      nomjed: item.nomjed,
-      genjed: item.genjed,
-      datjed: item.datjed,
-      akujed: item.akujed,
-      vokjed: item.vokjed,
-      insjed: item.insjed,
-      lokjed: item.lokjed,
-      nommno: item.nommno,
-      genmno: item.genmno,
-      datmno: item.datmno,
-      akumno: item.akumno,
-      vokmno: item.vokmno,
-      insmno: item.insmno,
-      lokmno: item.lokmno})).sort((a, b) => a.rbr - b.rbr)
+      nomjed: nvl(item.nomjed),
+      genjed: nvl(item.genjed),
+      datjed: nvl(item.datjed),
+      akujed: nvl(item.akujed),
+      vokjed: nvl(item.vokjed),
+      insjed: nvl(item.insjed),
+      lokjed: nvl(item.lokjed),
+      nommno: nvl(item.nommno),
+      genmno: nvl(item.genmno),
+      datmno: nvl(item.datmno),
+      akumno: nvl(item.akumno),
+      vokmno: nvl(item.vokmno),
+      insmno: nvl(item.insmno),
+      lokmno: nvl(item.lokmno)})).sort((a, b) => a.rbr - b.rbr)
   };
 }
 
@@ -307,7 +307,7 @@ export interface Predlog {
 export function toPredlog(obj: any): Predlog {
   return { 
     id: obj.id, 
-    tekst: obj.tekst,
+    tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
   };
@@ -324,7 +324,7 @@ export interface Uzvik {
 export function toUzvik(obj: any): Uzvik {
   return { 
     id: obj.id, 
-    tekst: obj.tekst,
+    tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
   };
@@ -341,7 +341,7 @@ export interface Recca {
 export function toRecca(obj: any): Recca {
   return { 
     id: obj.id, 
-    tekst: obj.tekst,
+    tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
   };
@@ -358,7 +358,7 @@ export interface Veznik {
 export function toVeznik(obj: any): Veznik {
   return { 
     id: obj.id, 
-    tekst: obj.tekst,
+    tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
   };
@@ -385,22 +385,22 @@ export function toZamenica(obj: any): Zamenica {
     id: obj.id,
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
-    nomjed: obj.nomjed,
-    genjed: obj.genjed,
-    datjed: obj.datjed,
-    akujed: obj.akujed,
-    vokjed: obj.vokjed,
-    insjed: obj.insjed,
-    lokjed: obj.lokjed,
+    nomjed: nvl(obj.nomjed),
+    genjed: nvl(obj.genjed),
+    datjed: nvl(obj.datjed),
+    akujed: nvl(obj.akujed),
+    vokjed: nvl(obj.vokjed),
+    insjed: nvl(obj.insjed),
+    lokjed: nvl(obj.lokjed),
     varijante: obj.varijantazamenice_set.map((item) => ({
       redni_broj: item.redni_broj,
-      nomjed: item.nomjed,
-      genjed: item.genjed,
-      datjed: item.datjed,
-      akujed: item.akujed,
-      vokjed: item.vokjed,
-      insjed: item.insjed,
-      lokjed: item.lokjed})).sort((a, b) => a.rbr - b.rbr)
+      nomjed: nvl(item.nomjed),
+      genjed: nvl(item.genjed),
+      datjed: nvl(item.datjed),
+      akujed: nvl(item.akujed),
+      vokjed: nvl(item.vokjed),
+      insjed: nvl(item.insjed),
+      lokjed: nvl(item.lokjed)})).sort((a, b) => a.rbr - b.rbr)
   };
 }
 

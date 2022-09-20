@@ -28,6 +28,7 @@ export class VeznikComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.veznik = this.veznikService.new();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;
       this.sourceWord = params.word;

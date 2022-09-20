@@ -28,6 +28,7 @@ export class PredlogComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.predlog = this.predlogService.new();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;
       this.sourceWord = params.word;
