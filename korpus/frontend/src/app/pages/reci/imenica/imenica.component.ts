@@ -77,7 +77,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
 
   check(): boolean {
     try {
-      this.assert(this.imenica.nomjed.trim().length === 0, 'Мора се унети номинатив једнине.');
+      this.assert(this.imenica.nomjed.trim().length === 0 && this.imenica.nommno.trim().length === 0, 'Мора се унети номинатив једнине или множине.');
       return true;
     } catch (e) {
       return false;
