@@ -62,7 +62,7 @@ export class ToolbarComponent implements OnInit {
     setTimeout(() => {
       this.statsService.getBrojMojihReci().subscribe({
         next: (data) => { 
-          if (this.mode === 'add' && data % 2 === 0) {
+          if (this.mode === 'add' && data % 10 === 0) {
             this.container.start(); 
             this.container.play();
             setTimeout(() => { this.container.stop(); }, 5000);
