@@ -205,7 +205,7 @@ const routes: Routes = [
   },
   {
     path: 'izvestaji/moje-reci',
-    component: MojeReciComponent,
+    loadChildren: () => import('./pages/reports/moje-reci/moje-reci.module').then((m) => m.MojeReciModule),
     canActivate: [AuthGuard],
   },
   {
