@@ -191,7 +191,7 @@ const routes: Routes = [
   },
   {
     path: 'izvestaji/sve-reci',
-    component: AllWordsComponent,
+    loadChildren: () => import('./pages/reports/all-words/all-words.module').then((m) => m.AllWordsModule),
     canActivate: [EditGuard],
   },
   {
