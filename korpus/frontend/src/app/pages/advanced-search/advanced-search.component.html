@@ -1,33 +1,116 @@
 <div class="container">
-  <div class="flex flex-wrap">
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">све речи:</p>
+  <h3>Напредна претрага</h3>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label> </label></div>
+    <div class="col">
+      <p-checkbox [(ngModel)]="showSidebar" label="Прикажи помоћ" [binary]="true"></p-checkbox>
     </div>
-    <div class="col-12 md:col-10 lg:col-11 field-cell">
-      <input type="text" class="input-field" pInputText [(ngModel)]="allWords" size="200"/>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Све речи:</label></div>
+    <div class="col">
+      <input [(ngModel)]="allWords" pInputText type="text" class="w400">
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">фраза:</p>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Било која од речи:</label></div>
+    <div class="col">
+      <input [(ngModel)]="anyWord" pInputText type="text" class="w400">
     </div>
-    <div class="col-12 md:col-10 lg:col-11 field-cell">
-      <input type="text" class="input-field" pInputText [(ngModel)]="phrase" size="200"/>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Без речи:</label></div>
+    <div class="col">
+      <input [(ngModel)]="withoutWords" pInputText type="text" class="w400">
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">било која реч:</p>
+  </div>
+  <hr/>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Фраза:</label></div>
+    <div class="col">
+      <input [(ngModel)]="phrase" pInputText type="text" class="w400">
     </div>
-    <div class="col-12 md:col-10 lg:col-11 field-cell">
-      <input type="text" class="input-field" pInputText [(ngModel)]="anyWord" size="200"/>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Речи са размаком:</label></div>
+    <div class="col">
+      <input [(ngModel)]="distanceWords" pInputText type="text" class="w400">
+      <input [(ngModel)]="distance" pInputText type="number" class="w100 ml-2">
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">без речи:</p>
+  </div>
+  <hr/>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Почетак речи:</label></div>
+    <div class="col">
+      <input [(ngModel)]="wordStart" pInputText type="text" class="w400">
     </div>
-    <div class="col-12 md:col-10 lg:col-11 field-cell">
-      <input type="text" class="input-field" pInputText [(ngModel)]="withoutWords" size="200"/>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Крај речи:</label></div>
+    <div class="col">
+      <input [(ngModel)]="wordEnd" pInputText type="text" class="w400">
     </div>
-    <div class="col-12 md:col-2 lg:col-1"></div>
-    <div class="col-12 md:col-10 lg:col-11">
-      <p-button label="Претрага" (click)="search()" icon="pi pi-search" styleClass="p-button-primary"></p-button>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label>Део речи:</label></div>
+    <div class="col">
+      <input [(ngModel)]="wordPart" pInputText type="text" class="w400">
     </div>
+  </div>
+  <div class="field grid align-items-baseline">
+    <div class="col-fixed w150"><label> </label></div>
+    <div class="col">
+      <p-checkbox [(ngModel)]="caseSensitive" label="Разликовање великих и малих слова" [binary]="true"></p-checkbox>
     </div>
+  </div>
+  <div class="field grid flex">
+    <div class="col-fixed w150"><label> </label></div>
+    <p-button (click)="search()" label="Претрага" icon="pi pi-search" styleClass="p-button-primary ml-2"></p-button>
+  </div>
 </div>
 
+<p-sidebar [(visible)]="showSidebar" position="right" [modal]="false" styleClass="p-sidebar-lg">
+<p>
+  Поље <b>Све речи</b> користите када тражите документе у којима се појављују све 
+  речи које сте навели, без обзира на њихов положај у документу.
+</p>
+<p>
+  Када тражите документе у којима се појављује <i>било која</i> од наведених речи,
+  без обзира на редослед, користите поље <b>Било која од речи</b>.
+</p>
+<p>
+  Поље <b>Без речи</b> може да се користи само у комбинацији са неким од претходна
+  два поља. У њему се наводе речи које <i>не смеју</i> да се налазе у пронађеним
+  документима.
+</p>
+<p>
+  Поље <b>Фраза</b> користите када тражите документ у коме се појављује тачна 
+  фраза (секвенца речи). Између суседних речи које чине фразу не сме бити 
+  других речи.
+</p>
+<p>
+  Уколико тражите две или више речи које се налазе <i>близу</i> једна другој, али 
+  размакнуте за не више од одређеног броја речи између њих, користите поље 
+  <b>Речи са размаком</b>. Суседно нумеричко поље представља највећи дозвољени
+  размак између тражених речи.
+</p>
+<p>
+  Поље <b>Почетак речи</b> је намењено за претрагу по почетним словима речи. 
+  На пример, упит <i>лук</i> би могао да пронађе речи <i>кука</i>, <i>кукавица</i>,
+  <i>кукавац</i> и слично.
+</p>  
+<p>
+  Поље <b>Крај речи</b> је намењено за претрагу по завршним словима речи. 
+  На пример, упит <i>кук</i> би могао да пронађе речи <i>кулук</i>, <i>ратлук</i>
+  и слично.
+</p>
+<p>
+  Поље <b>Део речи</b> је намењено за претрагу по низу слова унутар речи. 
+  На пример, упит <i>глав</i> би могао да пронађе речи <i>поглавица</i>, 
+  <i>углавном</i>, <i>доглавник</i> и слично.
+</p>
+<p>
+  Уколико је у претрази битно разликовање великих и малих слова, треба укључити
+  опцију <b>Разликовање великих и малих слова</b>.
+</p>
+</p-sidebar>

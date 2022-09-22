@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'pretraga',
-    component: AdvancedSearchComponent,
+    loadChildren: () => import('./pages/advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
     canActivate: [AuthGuard],
   },
   {

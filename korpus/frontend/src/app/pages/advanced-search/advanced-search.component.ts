@@ -11,10 +11,20 @@ export class AdvancedSearchComponent implements OnInit {
   phrase: string;
   anyWord: string;
   withoutWords: string;
+  wordStart: string;
+  wordEnd: string;
+  wordPart: string;
+  distanceWords: string;
+  distance: number;
+  showSidebar: boolean;
+  caseSensitive: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.showSidebar = false;
+    this.caseSensitive = false;
+    this.distance = 5;
   }
 
   search(): void {

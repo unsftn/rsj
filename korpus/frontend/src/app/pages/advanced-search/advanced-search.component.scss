@@ -2,11 +2,16 @@
   padding: 10px;
 }
 
-.field-cell {
-  display: flex;
-  align-items: center;
+.w100 { width: 100px; }
+.w150 { width: 150px; }
+.w400 { width: 400px; }
+
+hr { 
+  max-width: 550px; 
+  margin-left: 0;
+  border: 1px solid #eee;
 }
 
-.input-field {
-  width: 500px !important;
+:host ::ng-deep .p-sidebar-active {
+  background-color: lightyellow;
 }
