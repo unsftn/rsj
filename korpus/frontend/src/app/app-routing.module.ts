@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { EditGuard } from './services/auth/edit.guard';
-import { HomeComponent } from './pages/home/home.component';
-import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
     canActivate: [AuthGuard],
   },
   {
@@ -149,16 +146,6 @@ const routes: Routes = [
   {
     path: 'publikacije',
     loadChildren: () => import('./pages/pub-list/pub-list.module').then((m) => m.PubListModule),
-    canActivate: [EditGuard],
-  },
-  {
-    path: 'publikacija/:pid/fragment/:fid',
-    component: PubTextComponent,
-    canActivate: [EditGuard],
-  },
-  {
-    path: 'obrada/:pid/korak/:step',
-    component: ProcessStepComponent,
     canActivate: [EditGuard],
   },
   {
