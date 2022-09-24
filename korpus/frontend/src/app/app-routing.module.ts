@@ -39,121 +39,121 @@ const routes: Routes = [
   },
   {
     path: 'imenica/add',
-    component: ImenicaComponent,
+    loadChildren: () => import('./pages/reci/imenica/imenica.module').then((m) => m.ImenicaModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'imenica/:id',
-    component: ImenicaComponent,
+    loadChildren: () => import('./pages/reci/imenica/imenica.module').then((m) => m.ImenicaModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'glagol/add',
-    component: GlagolComponent,
+    loadChildren: () => import('./pages/reci/glagol/glagol.module').then((m) => m.GlagolModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'glagol/:id',
-    component: GlagolComponent,
+    loadChildren: () => import('./pages/reci/glagol/glagol.module').then((m) => m.GlagolModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'pridev/add',
-    component: PridevComponent,
+    loadChildren: () => import('./pages/reci/pridev/pridev.module').then((m) => m.PridevModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'pridev/:id',
-    component: PridevComponent,
+    loadChildren: () => import('./pages/reci/pridev/pridev.module').then((m) => m.PridevModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'predlog/add',
-    component: PredlogComponent,
+    loadChildren: () => import('./pages/reci/predlog/predlog.module').then((m) => m.PredlogModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'predlog/:id',
-    component: PredlogComponent,
+    loadChildren: () => import('./pages/reci/predlog/predlog.module').then((m) => m.PredlogModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'recca/add',
-    component: ReccaComponent,
+    loadChildren: () => import('./pages/reci/recca/recca.module').then((m) => m.ReccaModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'recca/:id',
-    component: ReccaComponent,
+    loadChildren: () => import('./pages/reci/recca/recca.module').then((m) => m.ReccaModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'uzvik/add',
-    component: UzvikComponent,
+    loadChildren: () => import('./pages/reci/uzvik/uzvik.module').then((m) => m.UzvikModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'uzvik/:id',
-    component: UzvikComponent,
+    loadChildren: () => import('./pages/reci/uzvik/uzvik.module').then((m) => m.UzvikModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'veznik/add',
-    component: VeznikComponent,
+    loadChildren: () => import('./pages/reci/veznik/veznik.module').then((m) => m.VeznikModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'veznik/:id',
-    component: VeznikComponent,
+    loadChildren: () => import('./pages/reci/veznik/veznik.module').then((m) => m.VeznikModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'zamenica/add',
-    component: ZamenicaComponent,
+    loadChildren: () => import('./pages/reci/zamenica/zamenica.module').then((m) => m.ZamenicaModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'zamenica/:id',
-    component: ZamenicaComponent,
+    loadChildren: () => import('./pages/reci/zamenica/zamenica.module').then((m) => m.ZamenicaModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'broj/add',
-    component: BrojComponent,
+    loadChildren: () => import('./pages/reci/broj/broj.module').then((m) => m.BrojModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'broj/:id',
-    component: BrojComponent,
+    loadChildren: () => import('./pages/reci/broj/broj.module').then((m) => m.BrojModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },
   {
     path: 'prilog/add',
-    component: PrilogComponent,
+    loadChildren: () => import('./pages/reci/prilog/prilog.module').then((m) => m.PrilogModule),
     canActivate: [AuthGuard],
     data: { mode: 'add' }
   },
   {
     path: 'prilog/:id',
-    component: PrilogComponent,
+    loadChildren: () => import('./pages/reci/prilog/prilog.module').then((m) => m.PrilogModule),
     canActivate: [AuthGuard],
     data: { mode: 'edit' }
   },

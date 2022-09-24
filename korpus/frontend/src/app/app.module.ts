@@ -32,7 +32,6 @@ import { AccordionModule } from 'primeng/accordion';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { PaginatorModule } from 'primeng/paginator';
 import { SidebarModule } from 'primeng/sidebar';
-import { NgParticlesModule } from 'ng-particles';
 
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
@@ -43,25 +42,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
-import { ToolbarComponent } from './pages/toolbar/toolbar.component';
-import { GlagolComponent } from './pages/reci/glagol/glagol.component';
-import { PridevComponent } from './pages/reci/pridev/pridev.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
 import { PubListComponent } from './pages/pub-list/pub-list.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SafePipe } from './utils/safe.pipe';
-import { ReccaComponent } from './pages/reci/recca/recca.component';
-import { UzvikComponent } from './pages/reci/uzvik/uzvik.component';
-import { VeznikComponent } from './pages/reci/veznik/veznik.component';
-import { PredlogComponent } from './pages/reci/predlog/predlog.component';
-import { PrilogComponent } from './pages/reci/prilog/prilog.component';
-import { BrojComponent } from './pages/reci/broj/broj.component';
-import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, ImenicaComponent, ToolbarComponent, GlagolComponent, PridevComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe, ReccaComponent, UzvikComponent, VeznikComponent, PredlogComponent, PrilogComponent, BrojComponent, ZamenicaComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -99,7 +87,6 @@ import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
     ProgressSpinnerModule,
     PaginatorModule,
     SidebarModule,
-    NgParticlesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
