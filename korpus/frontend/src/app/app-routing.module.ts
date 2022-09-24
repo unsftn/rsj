@@ -1,25 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PubListComponent } from './pages/pub-list/pub-list.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
-import { PublicationComponent } from './pages/publication/publication.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { EditGuard } from './services/auth/edit.guard';
-import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProcessStepComponent } from './pages/pub-import/process-step/process-step.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { ImenicaComponent } from './pages/reci/imenica/imenica.component';
-import { GlagolComponent } from './pages/reci/glagol/glagol.component';
-import { PridevComponent } from './pages/reci/pridev/pridev.component';
-import { PredlogComponent } from './pages/reci/predlog/predlog.component';
-import { ReccaComponent } from './pages/reci/recca/recca.component';
-import { UzvikComponent } from './pages/reci/uzvik/uzvik.component';
-import { VeznikComponent } from './pages/reci/veznik/veznik.component';
-import { ZamenicaComponent } from './pages/reci/zamenica/zamenica.component';
-import { BrojComponent } from './pages/reci/broj/broj.component';
-import { PrilogComponent } from './pages/reci/prilog/prilog.component';
-import { AllWordsComponent } from './pages/reports/all-words/all-words.component';
 
 const routes: Routes = [
   {
@@ -29,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'profil',
-    component: ProfileComponent,
+    loadChildren: () => import('./pages/profile/profile.module').then((m) => m.ProfileModule),
     canActivate: [AuthGuard],
   },
   {
@@ -166,18 +151,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/pub-list/pub-list.module').then((m) => m.PubListModule),
     canActivate: [EditGuard],
   },
-  // {
-  //   path: 'publikacija/add',
-  //   component: PublicationComponent,
-  //   canActivate: [EditGuard],
-  //   data: { mode: 'add' },
-  // },
-  // {
-  //   path: 'publikacija/:id',
-  //   component: PublicationComponent,
-  //   canActivate: [EditGuard],
-  //   data: { mode: 'edit' },
-  // },
   {
     path: 'publikacija/:pid/fragment/:fid',
     component: PubTextComponent,

@@ -40,15 +40,12 @@ import { ErrorInterceptor } from './services/error';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { PublicationComponent } from './pages/publication/publication.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
-import { ProfileComponent } from './pages/profile/profile.component';
 import { SafePipe } from './utils/safe.pipe';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, PublicationComponent, PubTextComponent, ProfileComponent, SafePipe],
+  declarations: [AppComponent, HomeComponent, PubTextComponent, SafePipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

@@ -9,18 +9,18 @@
       <div class="text"><p-toggleButton [(ngModel)]="changePass" onLabel="Промена лозинке" offLabel="Промена лозинке" onIcon="pi pi-lock" offIcon="pi pi-lock" class="p-button-secondary"></p-toggleButton></div>
       <div *ngIf="changePass" class="mt-3">
         <form [formGroup]="changePassForm" novalidate action="#">
-            <p-password [formControlName]="'lozinka1'" placeholder="Нова лозинка" name="lozinka1" promptLabel="Квалитет лозинке" weakLabel="Слаб" mediumLabel="Средњи" strongLabel="Јак">
-              <ng-template pTemplate="footer">
-                  <p-divider></p-divider>
-                  <p class="mt-2">Предлози:</p>
-                  <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                      <li>Бар једно мало слово</li>
-                      <li>Бар једно велико слово</li>
-                      <li>Бар једна цифра</li>
-                      <li>Најмање осам знакова</li>
-                  </ul>
-              </ng-template>
-            </p-password>
+          <p-password [formControlName]="'lozinka1'" placeholder="Нова лозинка" name="lozinka1" promptLabel="Квалитет лозинке" weakLabel="Слаб" mediumLabel="Средњи" strongLabel="Јак">
+            <ng-template pTemplate="footer">
+              <p-divider></p-divider>
+              <p class="mt-2">Предлози:</p>
+              <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                <li>Бар једно мало слово</li>
+                <li>Бар једно велико слово</li>
+                <li>Бар једна цифра</li>
+                <li>Најмање осам знакова</li>
+              </ul>
+            </ng-template>
+          </p-password>
           <div class="p-field mt-2">
             <input type="password" [formControlName]="'lozinka2'" name="lozinka2" pInputText placeholder="Поновљена лозинка">
           </div>

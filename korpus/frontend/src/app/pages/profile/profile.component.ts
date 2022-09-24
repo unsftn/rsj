@@ -27,7 +27,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.titleService.setTitle('Профил');
     this.user = this.tokenStorageService.getUser();
-    console.log(this.user);
     this.changePassForm = this.formBuilder.group({
       lozinka1: ['', [Validators.required]],
       lozinka2: ['', [Validators.required]],
