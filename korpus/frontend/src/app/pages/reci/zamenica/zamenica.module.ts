@@ -15,7 +15,7 @@ const routes: Routes = [{ path: '', component: ZamenicaComponent }]
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
     InputTextModule,
     RippleModule,
     ButtonModule,

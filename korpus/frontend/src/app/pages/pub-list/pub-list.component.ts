@@ -44,9 +44,9 @@ export class PubListComponent implements OnInit {
     return this.publikacijaService.getOpis(pub);
   }
 
-  edit(pub: any): void {
-    this.router.navigate(['/publikacija', pub.id]);
-  }
+  // edit(pub: any): void {
+  //   this.router.navigate(['/publikacija', pub.id]);
+  // }
 
   delete(pub: any): void {
     this.message = 'Да ли сте сигурни да желите да обришете ову публикацију?';

@@ -15,7 +15,7 @@ const routes: Routes = [{ path: '', component: PridevComponent }]
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
     InputTextModule,
     TabViewModule,
     FieldsetModule,

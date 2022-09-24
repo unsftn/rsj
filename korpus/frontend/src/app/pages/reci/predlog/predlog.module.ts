@@ -13,7 +13,7 @@ const routes: Routes = [{ path: '', component: PredlogComponent }]
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
     InputTextModule,
     MyToolbarModule,
   ],

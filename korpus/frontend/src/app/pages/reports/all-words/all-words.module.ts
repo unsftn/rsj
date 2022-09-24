@@ -15,7 +15,7 @@ const routes: Routes = [{ path: '', component: AllWordsComponent }]
     TableModule,
     DropdownModule,
     ButtonModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   bootstrap: [AllWordsComponent]

@@ -16,7 +16,7 @@ const routes: Routes = [{ path: '', component: ImenicaComponent }]
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
     InputTextModule,
     DropdownModule,
     RippleModule,

@@ -11,7 +11,7 @@ const routes: Routes = [{ path: '', component: BrojUnetihReciComponent }]
   imports: [
     CommonModule,
     TableModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   bootstrap: [BrojUnetihReciComponent]

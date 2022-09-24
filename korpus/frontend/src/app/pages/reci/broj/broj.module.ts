@@ -15,7 +15,7 @@ const routes: Routes = [{ path: '', component: BrojComponent }]
     FormsModule,
     InputTextModule,
     MyToolbarModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   bootstrap: [BrojComponent]

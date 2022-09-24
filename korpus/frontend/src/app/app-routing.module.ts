@@ -33,6 +33,10 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
     path: 'pretraga',
     loadChildren: () => import('./pages/advanced-search/advanced-search.module').then((m) => m.AdvancedSearchModule),
     canActivate: [AuthGuard],
@@ -159,21 +163,21 @@ const routes: Routes = [
   },
   {
     path: 'publikacije',
-    component: PubListComponent,
+    loadChildren: () => import('./pages/pub-list/pub-list.module').then((m) => m.PubListModule),
     canActivate: [EditGuard],
   },
-  {
-    path: 'publikacija/add',
-    component: PublicationComponent,
-    canActivate: [EditGuard],
-    data: { mode: 'add' },
-  },
-  {
-    path: 'publikacija/:id',
-    component: PublicationComponent,
-    canActivate: [EditGuard],
-    data: { mode: 'edit' },
-  },
+  // {
+  //   path: 'publikacija/add',
+  //   component: PublicationComponent,
+  //   canActivate: [EditGuard],
+  //   data: { mode: 'add' },
+  // },
+  // {
+  //   path: 'publikacija/:id',
+  //   component: PublicationComponent,
+  //   canActivate: [EditGuard],
+  //   data: { mode: 'edit' },
+  // },
   {
     path: 'publikacija/:pid/fragment/:fid',
     component: PubTextComponent,
@@ -203,10 +207,6 @@ const routes: Routes = [
     path: 'izvestaji/moje-reci',
     loadChildren: () => import('./pages/reports/moje-reci/moje-reci.module').then((m) => m.MojeReciModule),
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
   },
   { path: '**', redirectTo: '' },
 ];

@@ -44,12 +44,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { PubTextComponent } from './pages/pub-text/pub-text.component';
-import { PubListComponent } from './pages/pub-list/pub-list.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SafePipe } from './utils/safe.pipe';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, PublicationComponent, PubTextComponent, PubListComponent, ProfileComponent, SafePipe],
+  declarations: [AppComponent, LoginComponent, HomeComponent, PublicationComponent, PubTextComponent, ProfileComponent, SafePipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

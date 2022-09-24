@@ -13,7 +13,7 @@ const routes: Routes = [{ path: '', component: PrilogComponent }]
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
     InputTextModule,
     MyToolbarModule,
   ],

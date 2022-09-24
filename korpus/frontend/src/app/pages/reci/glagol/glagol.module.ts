@@ -23,7 +23,7 @@ const routes: Routes = [{ path: '', component: GlagolComponent }]
     TabViewModule,
     ButtonModule,
     MyToolbarModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
   bootstrap: [GlagolComponent]
