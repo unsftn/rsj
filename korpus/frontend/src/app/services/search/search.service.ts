@@ -43,6 +43,12 @@ export class SearchService {
     this._selectedWordForm = value;
   }
 
+  public clear(): void {
+    this._selectedWordId = null;
+    this._selectedWordType = null;
+    this._selectedWordForm = null;
+  }
+
   searchWords(query: string): Observable<any> {
     return this.http.get<any>(`/api/pretraga/reci/?q=${query}`);
   }

@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter, ɵɵelementContainerStart } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
-import { MoveDirection, ClickMode, HoverMode, OutMode, Container, Engine } from "tsparticles-engine";
-import { loadFull } from "tsparticles";
+import { Container, Engine } from "tsparticles-engine";
+// import { loadFull } from "tsparticles";
 import { loadConfettiPreset } from 'tsparticles-preset-confetti';
 import { StatsService } from '../../services/reci/stats.service';
+import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'toolbar',
@@ -24,6 +25,7 @@ export class ToolbarComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
     private statsService: StatsService,
+    private searchService: SearchService,
   ) { }
 
   ngOnInit(): void {
@@ -59,6 +61,7 @@ export class ToolbarComponent implements OnInit {
 
   save(): void {
     this.saveClicked.emit();
+    this.searchService.clear();
     setTimeout(() => {
       this.statsService.getBrojMojihReci().subscribe({
         next: (data) => { 
