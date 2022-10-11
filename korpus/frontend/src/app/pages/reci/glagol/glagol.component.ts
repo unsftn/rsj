@@ -119,6 +119,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
         for (const v of oblik.varijante) {
           this.assert(v.varijanta === null || v.tekst.trim() === '', 'Бар једна варијанта није попуњена.');
         }
+      this.assert(this.glagol.infinitiv.trim() === '', 'Инфинитив мора бити попуњен!');
       return true;
     } catch (e) {
       return false;

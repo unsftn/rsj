@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { LoginComponent } from './login.component';
 
 const routes: Routes = [{ path: '', component: LoginComponent }];
@@ -14,6 +15,7 @@ const routes: Routes = [{ path: '', component: LoginComponent }];
     FormsModule,
     ReactiveFormsModule,
     ButtonModule,
+    InputTextModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
