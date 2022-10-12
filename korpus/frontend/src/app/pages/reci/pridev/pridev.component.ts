@@ -41,7 +41,6 @@ export class PridevComponent implements OnInit, AfterViewInit {
               this.pridevService.get(this.id).subscribe({
                   next: (item) => {
                   this.pridev = toPridev(item);
-                  console.log(this.pridev);
                 },
                 error: (error) => {
                   console.log(error);
@@ -67,8 +66,44 @@ export class PridevComponent implements OnInit, AfterViewInit {
     this.pridev = this.pridevService.new();
   }
 
-  check(): boolean {
+  assert(condition: boolean, message: string): void {
+    if (condition) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Грешка',
+        life: 0,
+        detail: message,
+      });
+      throw new Error();
+    }
+  }
+
+  allEmpty(): boolean {
+    const properties = [ 
+      'mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed', 'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno',
+      'minsmno', 'mlokmno', 'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed', 'znommno', 'zgenmno', 'zdatmno',
+      'zakumno', 'zvokmno', 'zinsmno', 'zlokmno', 'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed', 'snommno',
+      'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno'
+    ];
+    for (const vid of this.pridev.vidovi) {
+      for (const prop of properties) {
+        if (vid.hasOwnProperty(prop)) {
+          if (vid[prop]) {
+            return false;
+          }
+        }
+      }
+    }
     return true;
+  }
+
+  check(): boolean {
+    try {
+      this.assert(this.allEmpty(), 'Ниједан облик није попуњен!');
+      return true;
+    } catch (e) {
+      return false;      
+    }
   }
 
   save(): void {
