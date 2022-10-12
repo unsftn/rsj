@@ -67,7 +67,29 @@ export class ReccaComponent implements OnInit {
     });
   }
 
+  check(): boolean {
+    try {
+      this.assert(this.recca.tekst.trim().length === 0, 'Мора се унети садржај.');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  assert(condition: boolean, message: string): void {
+    if (condition) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Грешка',
+        life: 0,
+        detail: message,
+      });
+      throw new Error();
+    }
+  }
+
   save(): void {
+    if (!this.check()) return;
     if (this.editMode) {
       this.reccaService.update({id: this.id, tekst: this.recca.tekst}).subscribe({
         next: (data) => {

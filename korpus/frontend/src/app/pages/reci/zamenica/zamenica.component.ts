@@ -106,7 +106,7 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
 
   save(): void {
     if (!this.check()) return;
-    console.log('Snimanje imenice:', this.zamenica);
+    console.log('Snimanje zamenice:', this.zamenica);
     if (!this.editMode) {
       this.zamenicaService.add(this.zamenica).subscribe({
         next: (data) => {

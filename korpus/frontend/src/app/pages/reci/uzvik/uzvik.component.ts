@@ -69,7 +69,29 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     this.textInput.nativeElement.focus();
   }
 
+  check(): boolean {
+    try {
+      this.assert(this.uzvik.tekst.trim().length === 0, 'Мора се унети садржај.');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  assert(condition: boolean, message: string): void {
+    if (condition) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Грешка',
+        life: 0,
+        detail: message,
+      });
+      throw new Error();
+    }
+  }
+
   save(): void {
+    if (!this.check()) return;
     if (this.editMode) {
       this.uzvikService.update({id: this.id, tekst: this.uzvik.tekst}).subscribe({
         next: (data) => {
