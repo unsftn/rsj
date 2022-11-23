@@ -1,7 +1,6 @@
 import gzip
 import os
-import pprint
-from .models import Imenica, Glagol, Pridev, OblikGlagola, VarijantaImenice, VidPrideva
+from .models import Imenica, Glagol, Pridev, OblikGlagola, VarijantaImenice
 from .cyrlat import lat_to_cyr
 
 imenice = {}
@@ -138,17 +137,26 @@ def wikimorph_update_adjective(lema, oblik, podvrsta, padez, rod, broj, stepen):
     try:
         pridev = pridevi[lema]
     except KeyError:
-        pridev = {'lema': lema, 'odredjeni': _make_adjective(), 'neodredjeni': _make_adjective(),
-                  'komparativ': _make_adjective(), 'superlativ': _make_adjective()}
+        pridev = {'lema': lema}
         pridevi[lema] = pridev
-    vid = 'odredjeni'
-    if podvrsta == 'indef':
-        vid = 'neodredjeni'
-    elif stepen == 'comp':
-        vid = 'komparativ'
+    if rod == 'm':
+        vid = 'o'
+        if podvrsta == 'indef':
+            vid = 'n'
+    else:
+        vid = 'p'
+    if stepen == 'comp':
+        vid = 'k'
     elif stepen == 'sup':
-        vid = 'superlativ'
-    pridev[vid][rod + padez + broj] = oblik
+        vid = 's'
+    rod = 'z' if rod == 'f' else rod
+    rod = 's' if rod == 'n' else rod
+    padez = 'aku' if padez == 'acc' else padez
+    padez = 'vok' if padez == 'voc' else padez
+    padez = 'lok' if padez == 'loc' else padez
+    broj = 'jed' if broj == 'sg' else broj
+    broj = 'mno' if broj == 'pl' else broj
+    pridev[rod + vid + padez + broj] = oblik
 
 
 def save_nouns():
@@ -273,44 +281,151 @@ def save_adjectives():
     for lema, pr in pridevi.items():
         try:
             pridev = Pridev.objects.get(lema=lema)
-            VidPrideva.objects.filter(pridev=pridev).delete()
         except Pridev.DoesNotExist:
             pridev = Pridev()
             pridev.lema = lema
-            pridev.skip_indexing = True
-            pridev.save()
-        _save_vid_prideva(pridev, 1, pr['odredjeni'])
-        _save_vid_prideva(pridev, 2, pr['neodredjeni'])
-        _save_vid_prideva(pridev, 3, pr['komparativ'])
-        _save_vid_prideva(pridev, 4, pr['superlativ'])
-
-
-def _make_adjective():
-    return {
-        'mnomsg': None, 'mgensg': None, 'mdatsg': None, 'maccsg': None, 'mvocsg': None, 'minssg': None, 'mlocsg': None,
-        'mnompl': None, 'mgenpl': None, 'mdatpl': None, 'maccpl': None, 'mvocpl': None, 'minspl': None, 'mlocpl': None,
-        'fnomsg': None, 'fgensg': None, 'fdatsg': None, 'faccsg': None, 'fvocsg': None, 'finssg': None, 'flocsg': None,
-        'fnompl': None, 'fgenpl': None, 'fdatpl': None, 'faccpl': None, 'fvocpl': None, 'finspl': None, 'flocpl': None,
-        'nnomsg': None, 'ngensg': None, 'ndatsg': None, 'naccsg': None, 'nvocsg': None, 'ninssg': None, 'nlocsg': None,
-        'nnompl': None, 'ngenpl': None, 'ndatpl': None, 'naccpl': None, 'nvocpl': None, 'ninspl': None, 'nlocpl': None,
-    }
-
-
-def _is_empty_adjective(adj):
-    return all(v is None for v in list(adj.values()))
-
-
-def _save_vid_prideva(pridev, vid, obj):
-    if not _is_empty_adjective(obj):
-        VidPrideva.objects.create(
-            pridev=pridev, vid=vid,
-            mnomjed=obj['mnomsg'], mgenjed=obj['mgensg'], mdatjed=obj['mdatsg'], makujed=obj['maccsg'], mvokjed=obj['mvocsg'], minsjed=obj['minssg'], mlokjed=obj['mlocsg'],
-            mnommno=obj['mnompl'], mgenmno=obj['mgenpl'], mdatmno=obj['mdatpl'], makumno=obj['maccpl'], mvokmno=obj['mvocpl'], minsmno=obj['minspl'], mlokmno=obj['mlocpl'],
-            znomjed=obj['fnomsg'], zgenjed=obj['fgensg'], zdatjed=obj['fdatsg'], zakujed=obj['faccsg'], zvokjed=obj['fvocsg'], zinsjed=obj['finssg'], zlokjed=obj['flocsg'],
-            znommno=obj['fnompl'], zgenmno=obj['fgenpl'], zdatmno=obj['fdatpl'], zakumno=obj['faccpl'], zvokmno=obj['fvocpl'], zinsmno=obj['finspl'], zlokmno=obj['flocpl'],
-            snomjed=obj['nnomsg'], sgenjed=obj['ngensg'], sdatjed=obj['ndatsg'], sakujed=obj['naccsg'], svokjed=obj['nvocsg'], sinsjed=obj['ninssg'], slokjed=obj['nlocsg'],
-            snommno=obj['nnompl'], sgenmno=obj['ngenpl'], sdatmno=obj['ndatpl'], sakumno=obj['naccpl'], svokmno=obj['nvocpl'], sinsmno=obj['ninspl'], slokmno=obj['nlocpl'],
-        )
+        pridev.skip_indexing = True
+        pridev.monomjed = pr.get('monomjed')
+        pridev.mogenjed = pr.get('mogenjed')
+        pridev.modatjed = pr.get('modatjed')
+        pridev.moakujed = pr.get('moakujed')
+        pridev.movokjed = pr.get('movokjed')
+        pridev.moinsjed = pr.get('moinsjed')
+        pridev.molokjed = pr.get('molokjed')
+        pridev.monommno = pr.get('monommno')
+        pridev.mogenmno = pr.get('mogenmno')
+        pridev.modatmno = pr.get('modatmno')
+        pridev.moakumno = pr.get('moakumno')
+        pridev.movokmno = pr.get('movokmno')
+        pridev.moinsmno = pr.get('moinsmno')
+        pridev.molokmno = pr.get('molokmno')
+        pridev.mnnomjed = pr.get('mnnomjed')
+        pridev.mngenjed = pr.get('mngenjed')
+        pridev.mndatjed = pr.get('mndatjed')
+        pridev.mnakujed = pr.get('mnakujed')
+        pridev.mnvokjed = pr.get('mnvokjed')
+        pridev.mninsjed = pr.get('mninsjed')
+        pridev.mnlokjed = pr.get('mnlokjed')
+        pridev.mnnommno = pr.get('mnnommno')
+        pridev.mngenmno = pr.get('mngenmno')
+        pridev.mndatmno = pr.get('mndatmno')
+        pridev.mnakumno = pr.get('mnakumno')
+        pridev.mnvokmno = pr.get('mnvokmno')
+        pridev.mninsmno = pr.get('mninsmno')
+        pridev.mnlokmno = pr.get('mnlokmno')
+        pridev.mknomjed = pr.get('mknomjed')
+        pridev.mkgenjed = pr.get('mkgenjed')
+        pridev.mkdatjed = pr.get('mkdatjed')
+        pridev.mkakujed = pr.get('mkakujed')
+        pridev.mkvokjed = pr.get('mkvokjed')
+        pridev.mkinsjed = pr.get('mkinsjed')
+        pridev.mklokjed = pr.get('mklokjed')
+        pridev.mknommno = pr.get('mknommno')
+        pridev.mkgenmno = pr.get('mkgenmno')
+        pridev.mkdatmno = pr.get('mkdatmno')
+        pridev.mkakumno = pr.get('mkakumno')
+        pridev.mkvokmno = pr.get('mkvokmno')
+        pridev.mkinsmno = pr.get('mkinsmno')
+        pridev.mklokmno = pr.get('mklokmno')
+        pridev.msnomjed = pr.get('msnomjed')
+        pridev.msgenjed = pr.get('msgenjed')
+        pridev.msdatjed = pr.get('msdatjed')
+        pridev.msakujed = pr.get('msakujed')
+        pridev.msvokjed = pr.get('msvokjed')
+        pridev.msinsjed = pr.get('msinsjed')
+        pridev.mslokjed = pr.get('mslokjed')
+        pridev.msnommno = pr.get('msnommno')
+        pridev.msgenmno = pr.get('msgenmno')
+        pridev.msdatmno = pr.get('msdatmno')
+        pridev.msakumno = pr.get('msakumno')
+        pridev.msvokmno = pr.get('msvokmno')
+        pridev.msinsmno = pr.get('msinsmno')
+        pridev.mslokmno = pr.get('mslokmno')
+        pridev.zpnomjed = pr.get('zpnomjed')
+        pridev.zpgenjed = pr.get('zpgenjed')
+        pridev.zpdatjed = pr.get('zpdatjed')
+        pridev.zpakujed = pr.get('zpakujed')
+        pridev.zpvokjed = pr.get('zpvokjed')
+        pridev.zpinsjed = pr.get('zpinsjed')
+        pridev.zplokjed = pr.get('zplokjed')
+        pridev.zpnommno = pr.get('zpnommno')
+        pridev.zpgenmno = pr.get('zpgenmno')
+        pridev.zpdatmno = pr.get('zpdatmno')
+        pridev.zpakumno = pr.get('zpakumno')
+        pridev.zpvokmno = pr.get('zpvokmno')
+        pridev.zpinsmno = pr.get('zpinsmno')
+        pridev.zplokmno = pr.get('zplokmno')
+        pridev.zknomjed = pr.get('zknomjed')
+        pridev.zkgenjed = pr.get('zkgenjed')
+        pridev.zkdatjed = pr.get('zkdatjed')
+        pridev.zkakujed = pr.get('zkakujed')
+        pridev.zkvokjed = pr.get('zkvokjed')
+        pridev.zkinsjed = pr.get('zkinsjed')
+        pridev.zklokjed = pr.get('zklokjed')
+        pridev.zknommno = pr.get('zknommno')
+        pridev.zkgenmno = pr.get('zkgenmno')
+        pridev.zkdatmno = pr.get('zkdatmno')
+        pridev.zkakumno = pr.get('zkakumno')
+        pridev.zkvokmno = pr.get('zkvokmno')
+        pridev.zkinsmno = pr.get('zkinsmno')
+        pridev.zklokmno = pr.get('zklokmno')
+        pridev.zsnomjed = pr.get('zsnomjed')
+        pridev.zsgenjed = pr.get('zsgenjed')
+        pridev.zsdatjed = pr.get('zsdatjed')
+        pridev.zsakujed = pr.get('zsakujed')
+        pridev.zsvokjed = pr.get('zsvokjed')
+        pridev.zsinsjed = pr.get('zsinsjed')
+        pridev.zslokjed = pr.get('zslokjed')
+        pridev.zsnommno = pr.get('zsnommno')
+        pridev.zsgenmno = pr.get('zsgenmno')
+        pridev.zsdatmno = pr.get('zsdatmno')
+        pridev.zsakumno = pr.get('zsakumno')
+        pridev.zsvokmno = pr.get('zsvokmno')
+        pridev.zsinsmno = pr.get('zsinsmno')
+        pridev.zslokmno = pr.get('zslokmno')
+        pridev.spnomjed = pr.get('spnomjed')
+        pridev.spgenjed = pr.get('spgenjed')
+        pridev.spdatjed = pr.get('spdatjed')
+        pridev.spakujed = pr.get('spakujed')
+        pridev.spvokjed = pr.get('spvokjed')
+        pridev.spinsjed = pr.get('spinsjed')
+        pridev.splokjed = pr.get('splokjed')
+        pridev.spnommno = pr.get('spnommno')
+        pridev.spgenmno = pr.get('spgenmno')
+        pridev.spdatmno = pr.get('spdatmno')
+        pridev.spakumno = pr.get('spakumno')
+        pridev.spvokmno = pr.get('spvokmno')
+        pridev.spinsmno = pr.get('spinsmno')
+        pridev.splokmno = pr.get('splokmno')
+        pridev.sknomjed = pr.get('sknomjed')
+        pridev.skgenjed = pr.get('skgenjed')
+        pridev.skdatjed = pr.get('skdatjed')
+        pridev.skakujed = pr.get('skakujed')
+        pridev.skvokjed = pr.get('skvokjed')
+        pridev.skinsjed = pr.get('skinsjed')
+        pridev.sklokjed = pr.get('sklokjed')
+        pridev.sknommno = pr.get('sknommno')
+        pridev.skgenmno = pr.get('skgenmno')
+        pridev.skdatmno = pr.get('skdatmno')
+        pridev.skakumno = pr.get('skakumno')
+        pridev.skvokmno = pr.get('skvokmno')
+        pridev.skinsmno = pr.get('skinsmno')
+        pridev.sklokmno = pr.get('sklokmno')
+        pridev.ssnomjed = pr.get('ssnomjed')
+        pridev.ssgenjed = pr.get('ssgenjed')
+        pridev.ssdatjed = pr.get('ssdatjed')
+        pridev.ssakujed = pr.get('ssakujed')
+        pridev.ssvokjed = pr.get('ssvokjed')
+        pridev.ssinsjed = pr.get('ssinsjed')
+        pridev.sslokjed = pr.get('sslokjed')
+        pridev.ssnommno = pr.get('ssnommno')
+        pridev.ssgenmno = pr.get('ssgenmno')
+        pridev.ssdatmno = pr.get('ssdatmno')
+        pridev.ssakumno = pr.get('ssakumno')
+        pridev.ssvokmno = pr.get('ssvokmno')
+        pridev.ssinsmno = pr.get('ssinsmno')
+        pridev.sslokmno = pr.get('sslokmno')
+        pridev.save()
 
 
 def ___wikimorph_update_noun2(lema, oblik, podvrsta, padez, broj, rod):

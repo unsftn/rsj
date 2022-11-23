@@ -41,7 +41,6 @@ export class PridevComponent implements OnInit, AfterViewInit {
               this.pridevService.get(this.id).subscribe({
                   next: (item) => {
                   this.pridev = toPridev(item);
-                  console.log(this.pridev);
                 },
                 error: (error) => {
                   console.log(error);
@@ -85,17 +84,26 @@ export class PridevComponent implements OnInit, AfterViewInit {
 
   allEmpty(): boolean {
     const properties = [ 
-      'mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed', 'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno',
-      'minsmno', 'mlokmno', 'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed', 'znommno', 'zgenmno', 'zdatmno',
-      'zakumno', 'zvokmno', 'zinsmno', 'zlokmno', 'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed', 'snommno',
-      'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno'
-    ];
-    for (const vid of this.pridev.vidovi) {
-      for (const prop of properties) {
-        if (vid.hasOwnProperty(prop)) {
-          if (vid[prop]) {
-            return false;
-          }
+      'monomjed', 'mogenjed',  'modatjed',  'moakujed',  'movokjed',  'moinsjed',  'molokjed',  'monommno',  'mogenmno',  
+      'modatmno',  'moakumno',  'movokmno',  'moinsmno',  'molokmno',  'mnnomjed',  'mngenjed',  'mndatjed',  'mnakujed',  
+      'mnvokjed',  'mninsjed',  'mnlokjed',  'mnnommno',  'mngenmno',  'mndatmno',  'mnakumno',  'mnvokmno',  'mninsmno',  
+      'mnlokmno',  'mknomjed',  'mkgenjed',  'mkdatjed',  'mkakujed',  'mkvokjed',  'mkinsjed',  'mklokjed',  'mknommno',  
+      'mkgenmno',  'mkdatmno',  'mkakumno',  'mkvokmno',  'mkinsmno',  'mklokmno',  'msnomjed',  'msgenjed',  'msdatjed',  
+      'msakujed',  'msvokjed',  'msinsjed',  'mslokjed',  'msnommno',  'msgenmno',  'msdatmno',  'msakumno',  'msvokmno',  
+      'msinsmno',  'mslokmno',  'zpnomjed',  'zpgenjed',  'zpdatjed',  'zpakujed',  'zpvokjed',  'zpinsjed',  'zplokjed',  
+      'zpnommno',  'zpgenmno',  'zpdatmno',  'zpakumno',  'zpvokmno',  'zpinsmno',  'zplokmno',  'zknomjed',  'zkgenjed',  
+      'zkdatjed',  'zkakujed',  'zkvokjed',  'zkinsjed',  'zklokjed',  'zknommno',  'zkgenmno',  'zkdatmno',  'zkakumno',  
+      'zkvokmno',  'zkinsmno',  'zklokmno',  'zsnomjed',  'zsgenjed',  'zsdatjed',  'zsakujed',  'zsvokjed',  'zsinsjed',  
+      'zslokjed',  'zsnommno',  'zsgenmno',  'zsdatmno',  'zsakumno',  'zsvokmno',  'zsinsmno',  'zslokmno',  'spnomjed',  
+      'spgenjed',  'spdatjed',  'spakujed',  'spvokjed',  'spinsjed',  'splokjed',  'spnommno',  'spgenmno',  'spdatmno',  
+      'spakumno',  'spvokmno',  'spinsmno',  'splokmno',  'sknomjed',  'skgenjed',  'skdatjed',  'skakujed',  'skvokjed',  
+      'skinsjed',  'sklokjed',  'sknommno',  'skgenmno',  'skdatmno',  'skakumno',  'skvokmno',  'skinsmno',  'sklokmno',  
+      'ssnomjed',  'ssgenjed',  'ssdatjed',  'ssakujed',  'ssvokjed',  'ssinsjed',  'sslokjed',  'ssnommno',  'ssgenmno',  
+      'ssdatmno',  'ssakumno',  'ssvokmno',  'ssinsmno',  'sslokmno'];
+    for (const prop of properties) {
+      if (this.pridev.hasOwnProperty(prop)) {
+        if (this.pridev[prop]) {
+          return false;
         }
       }
     }
@@ -104,14 +112,14 @@ export class PridevComponent implements OnInit, AfterViewInit {
 
   allNominative(): boolean {
     const properties = [ 
-      'mnomjed', 'mnommno', 'znomjed', 'znommno', 'snomjed', 'snommno'
+      'monomjed', 'monommno', 'mnnomjed', 'mnnommno', 'mknomjed', 'mknommno', 'msnomjed', 'msnommno', 
+      'zpnomjed', 'zpnommno', 'zknomjed', 'zknommno', 'zsnomjed', 'zsnommno',
+      'spnomjed', 'spnommno', 'sknomjed', 'sknommno', 'ssnomjed', 'ssnommno',
     ];
-    for (const vid of this.pridev.vidovi) {
-      for (const prop of properties) {
-        if (vid.hasOwnProperty(prop)) {
-          if (vid[prop]) {
-            return false;
-          }
+    for (const prop of properties) {
+      if (this.pridev.hasOwnProperty(prop)) {
+        if (this.pridev[prop]) {
+          return false;
         }
       }
     }
@@ -121,7 +129,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
   check(): boolean {
     try {
       this.assert(this.allEmpty(), 'Ниједан облик није попуњен!');
-      this.assert(this.allNominative(), 'Номинатив је обавезан у свим родовима једнине и множине!');
+      this.assert(!this.allNominative(), 'Номинатив је обавезан у свим родовима једнине и множине!');
       return true;
     } catch (e) {
       return false;      

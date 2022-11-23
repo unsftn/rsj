@@ -27,80 +27,80 @@
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">номинатив</div>
-        <div class="w150 m3"><input id="mnomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mnomjed" #tekst class="w140" tabindex="1"></div>
-        <div class="w150 m3"><input id="mnommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mnommno" class="w140" tabindex="8"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mnomjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mnomjed" class="w140" tabindex="15"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mnommno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mnommno" class="w140" tabindex="22"></div>
-        <div class="w150 m3"><input id="mnomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mnomjed" class="w140" tabindex="29"></div>
-        <div class="w150 m3"><input id="mnommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mnommno" class="w140" tabindex="36"></div>
-        <div class="w150 m3"><input id="mnomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mnomjed" class="w140" tabindex="43"></div>
-        <div class="w150 m3"><input id="mnommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mnommno" class="w140" tabindex="50"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.monomjed" #tekst class="w140" tabindex="1"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.monommno" class="w140" tabindex="8"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnnomjed" class="w140" tabindex="15"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnnommno" class="w140" tabindex="22"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mknomjed" class="w140" tabindex="29"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mknommno" class="w140" tabindex="36"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msnomjed" class="w140" tabindex="43"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msnommno" class="w140" tabindex="50"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">генитив</div>
-        <div class="w150 m3"><input id="mgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mgenjed" class="w140" tabindex="2"></div>
-        <div class="w150 m3"><input id="mgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mgenmno" class="w140" tabindex="9"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mgenjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mgenjed" class="w140" tabindex="16"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mgenmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mgenmno" class="w140" tabindex="23"></div>
-        <div class="w150 m3"><input id="mgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mgenjed" class="w140" tabindex="30"></div>
-        <div class="w150 m3"><input id="mgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mgenmno" class="w140" tabindex="37"></div>
-        <div class="w150 m3"><input id="mgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mgenjed" class="w140" tabindex="44"></div>
-        <div class="w150 m3"><input id="mgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mgenmno" class="w140" tabindex="51"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mogenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mogenmno" class="w140" tabindex="9"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mngenjed" class="w140" tabindex="16"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mngenmno" class="w140" tabindex="23"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkgenjed" class="w140" tabindex="30"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkgenmno" class="w140" tabindex="37"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msgenjed" class="w140" tabindex="44"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msgenmno" class="w140" tabindex="51"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">датив</div>
-        <div class="w150 m3"><input id="mdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mdatjed" class="w140" tabindex="3"></div>
-        <div class="w150 m3"><input id="mdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mdatmno" class="w140" tabindex="10"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mdatjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mdatjed" class="w140" tabindex="17"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mdatmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mdatmno" class="w140" tabindex="24"></div>
-        <div class="w150 m3"><input id="mdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mdatjed" class="w140" tabindex="31"></div>
-        <div class="w150 m3"><input id="mdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mdatmno" class="w140" tabindex="38"></div>
-        <div class="w150 m3"><input id="mdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mdatjed" class="w140" tabindex="45"></div>
-        <div class="w150 m3"><input id="mdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mdatmno" class="w140" tabindex="52"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.modatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.modatmno" class="w140" tabindex="10"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mndatjed" class="w140" tabindex="17"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mndatmno" class="w140" tabindex="24"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkdatjed" class="w140" tabindex="31"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkdatmno" class="w140" tabindex="38"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msdatjed" class="w140" tabindex="45"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msdatmno" class="w140" tabindex="52"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">акузатив</div>
-        <div class="w150 m3"><input id="makujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].makujed" class="w140" tabindex="4"></div>
-        <div class="w150 m3"><input id="makumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].makumno" class="w140" tabindex="11"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="makujed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].makujed" class="w140" tabindex="18"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="makumno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].makumno" class="w140" tabindex="25"></div>
-        <div class="w150 m3"><input id="makujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].makujed" class="w140" tabindex="32"></div>
-        <div class="w150 m3"><input id="makumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].makumno" class="w140" tabindex="39"></div>
-        <div class="w150 m3"><input id="makujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].makujed" class="w140" tabindex="46"></div>
-        <div class="w150 m3"><input id="makumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].makumno" class="w140" tabindex="53"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moakumno" class="w140" tabindex="11"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnakujed" class="w140" tabindex="18"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnakumno" class="w140" tabindex="25"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkakujed" class="w140" tabindex="32"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkakumno" class="w140" tabindex="39"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msakujed" class="w140" tabindex="46"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msakumno" class="w140" tabindex="53"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">вокатив</div>
-        <div class="w150 m3"><input id="mvokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mvokjed" class="w140" tabindex="5"></div>
-        <div class="w150 m3"><input id="mvokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mvokmno" class="w140" tabindex="12"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mvokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mvokjed" class="w140" tabindex="19"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mvokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mvokmno" class="w140" tabindex="26"></div>
-        <div class="w150 m3"><input id="mvokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mvokjed" class="w140" tabindex="33"></div>
-        <div class="w150 m3"><input id="mvokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mvokmno" class="w140" tabindex="40"></div>
-        <div class="w150 m3"><input id="mvokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mvokjed" class="w140" tabindex="47"></div>
-        <div class="w150 m3"><input id="mvokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mvokmno" class="w140" tabindex="54"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.movokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.movokmno" class="w140" tabindex="12"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnvokjed" class="w140" tabindex="19"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnvokmno" class="w140" tabindex="26"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkvokjed" class="w140" tabindex="33"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkvokmno" class="w140" tabindex="40"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msvokjed" class="w140" tabindex="47"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msvokmno" class="w140" tabindex="54"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">инструментал</div>
-        <div class="w150 m3"><input id="minsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].minsjed" class="w140" tabindex="6"></div>
-        <div class="w150 m3"><input id="minsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].minsmno" class="w140" tabindex="13"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="minsjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].minsjed" class="w140" tabindex="20"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="minsmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].minsmno" class="w140" tabindex="27"></div>
-        <div class="w150 m3"><input id="minsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].minsjed" class="w140" tabindex="34"></div>
-        <div class="w150 m3"><input id="minsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].minsmno" class="w140" tabindex="41"></div>
-        <div class="w150 m3"><input id="minsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].minsjed" class="w140" tabindex="48"></div>
-        <div class="w150 m3"><input id="minsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].minsmno" class="w140" tabindex="55"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moinsmno" class="w140" tabindex="13"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mninsjed" class="w140" tabindex="20"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mninsmno" class="w140" tabindex="27"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkinsjed" class="w140" tabindex="34"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkinsmno" class="w140" tabindex="41"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msinsjed" class="w140" tabindex="48"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msinsmno" class="w140" tabindex="55"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">локатив</div>
-        <div class="w150 m3"><input id="mlokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mlokjed" class="w140" tabindex="7"></div>
-        <div class="w150 m3"><input id="mlokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mlokmno" class="w140" tabindex="14"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mlokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mlokjed" class="w140" tabindex="21"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mlokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mlokmno" class="w140" tabindex="28"></div>
-        <div class="w150 m3"><input id="mlokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mlokjed" class="w140" tabindex="35"></div>
-        <div class="w150 m3"><input id="mlokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mlokmno" class="w140" tabindex="42"></div>
-        <div class="w150 m3"><input id="mlokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mlokjed" class="w140" tabindex="49"></div>
-        <div class="w150 m3"><input id="mlokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mlokmno" class="w140" tabindex="56"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.molokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.molokmno" class="w140" tabindex="14"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnlokjed" class="w140" tabindex="21"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnlokmno" class="w140" tabindex="28"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mklokjed" class="w140" tabindex="35"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mklokmno" class="w140" tabindex="42"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokjed" class="w140" tabindex="49"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokmno" class="w140" tabindex="56"></div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Женски род">
@@ -121,66 +121,66 @@
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">номинатив</div>
-        <div class="w150 m3"><input id="znomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].znomjed" class="w140" tabindex="1"></div>
-        <div class="w150 m3"><input id="znommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].znommno" class="w140" tabindex="8"></div>
-        <div class="w150 m3"><input id="znomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].znomjed" class="w140" tabindex="29"></div>
-        <div class="w150 m3"><input id="znommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].znommno" class="w140" tabindex="36"></div>
-        <div class="w150 m3"><input id="znomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].znomjed" class="w140" tabindex="43"></div>
-        <div class="w150 m3"><input id="znommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].znommno" class="w140" tabindex="50"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpnomjed" class="w140" tabindex="1"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpnommno" class="w140" tabindex="8"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zknomjed" class="w140" tabindex="29"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zknommno" class="w140" tabindex="36"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsnomjed" class="w140" tabindex="43"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsnommno" class="w140" tabindex="50"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">генитив</div>
-        <div class="w150 m3"><input id="zgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zgenjed" class="w140" tabindex="2"></div>
-        <div class="w150 m3"><input id="zgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zgenmno" class="w140" tabindex="9"></div>
-        <div class="w150 m3"><input id="zgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zgenjed" class="w140" tabindex="30"></div>
-        <div class="w150 m3"><input id="zgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zgenmno" class="w140" tabindex="37"></div>
-        <div class="w150 m3"><input id="zgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zgenjed" class="w140" tabindex="44"></div>
-        <div class="w150 m3"><input id="zgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zgenmno" class="w140" tabindex="51"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpgenmno" class="w140" tabindex="9"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkgenjed" class="w140" tabindex="30"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkgenmno" class="w140" tabindex="37"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsgenjed" class="w140" tabindex="44"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsgenmno" class="w140" tabindex="51"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">датив</div>
-        <div class="w150 m3"><input id="zdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zdatjed" class="w140" tabindex="3"></div>
-        <div class="w150 m3"><input id="zdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zdatmno" class="w140" tabindex="10"></div>
-        <div class="w150 m3"><input id="zdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zdatjed" class="w140" tabindex="31"></div>
-        <div class="w150 m3"><input id="zdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zdatmno" class="w140" tabindex="38"></div>
-        <div class="w150 m3"><input id="zdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zdatjed" class="w140" tabindex="45"></div>
-        <div class="w150 m3"><input id="zdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zdatmno" class="w140" tabindex="52"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpdatmno" class="w140" tabindex="10"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkdatjed" class="w140" tabindex="31"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkdatmno" class="w140" tabindex="38"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsdatjed" class="w140" tabindex="45"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsdatmno" class="w140" tabindex="52"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">акузатив</div>
-        <div class="w150 m3"><input id="zakujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zakujed" class="w140" tabindex="4"></div>
-        <div class="w150 m3"><input id="zakumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zakumno" class="w140" tabindex="11"></div>
-        <div class="w150 m3"><input id="zakujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zakujed" class="w140" tabindex="32"></div>
-        <div class="w150 m3"><input id="zakumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zakumno" class="w140" tabindex="39"></div>
-        <div class="w150 m3"><input id="zakujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zakujed" class="w140" tabindex="46"></div>
-        <div class="w150 m3"><input id="zakumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zakumno" class="w140" tabindex="53"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpakumno" class="w140" tabindex="11"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkakujed" class="w140" tabindex="32"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkakumno" class="w140" tabindex="39"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsakujed" class="w140" tabindex="46"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsakumno" class="w140" tabindex="53"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">вокатив</div>
-        <div class="w150 m3"><input id="zvokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zvokjed" class="w140" tabindex="5"></div>
-        <div class="w150 m3"><input id="zvokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zvokmno" class="w140" tabindex="12"></div>
-        <div class="w150 m3"><input id="zvokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zvokjed" class="w140" tabindex="33"></div>
-        <div class="w150 m3"><input id="zvokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zvokmno" class="w140" tabindex="40"></div>
-        <div class="w150 m3"><input id="zvokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zvokjed" class="w140" tabindex="47"></div>
-        <div class="w150 m3"><input id="zvokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zvokmno" class="w140" tabindex="54"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpvokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpvokmno" class="w140" tabindex="12"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkvokjed" class="w140" tabindex="33"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkvokmno" class="w140" tabindex="40"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsvokjed" class="w140" tabindex="47"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsvokmno" class="w140" tabindex="54"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">инструментал</div>
-        <div class="w150 m3"><input id="zinsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zinsjed" class="w140" tabindex="6"></div>
-        <div class="w150 m3"><input id="zinsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zinsmno" class="w140" tabindex="13"></div>
-        <div class="w150 m3"><input id="zinsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zinsjed" class="w140" tabindex="34"></div>
-        <div class="w150 m3"><input id="zinsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zinsmno" class="w140" tabindex="41"></div>
-        <div class="w150 m3"><input id="zinsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zinsjed" class="w140" tabindex="48"></div>
-        <div class="w150 m3"><input id="zinsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zinsmno" class="w140" tabindex="55"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpinsmno" class="w140" tabindex="13"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkinsjed" class="w140" tabindex="34"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkinsmno" class="w140" tabindex="41"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsinsjed" class="w140" tabindex="48"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsinsmno" class="w140" tabindex="55"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">локатив</div>
-        <div class="w150 m3"><input id="zlokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zlokjed" class="w140" tabindex="7"></div>
-        <div class="w150 m3"><input id="zlokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zlokmno" class="w140" tabindex="14"></div>
-        <div class="w150 m3"><input id="zlokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zlokjed" class="w140" tabindex="35"></div>
-        <div class="w150 m3"><input id="zlokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zlokmno" class="w140" tabindex="42"></div>
-        <div class="w150 m3"><input id="zlokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zlokjed" class="w140" tabindex="49"></div>
-        <div class="w150 m3"><input id="zlokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zlokmno" class="w140" tabindex="56"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zplokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zplokmno" class="w140" tabindex="14"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zklokjed" class="w140" tabindex="35"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zklokmno" class="w140" tabindex="42"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zslokjed" class="w140" tabindex="49"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zslokmno" class="w140" tabindex="56"></div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Средњи род">
@@ -201,66 +201,66 @@
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">номинатив</div>
-        <div class="w150 m3"><input id="snomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].snomjed" class="w140" tabindex="1"></div>
-        <div class="w150 m3"><input id="snommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].snommno" class="w140" tabindex="8"></div>
-        <div class="w150 m3"><input id="snomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].snomjed" class="w140" tabindex="29"></div>
-        <div class="w150 m3"><input id="snommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].snommno" class="w140" tabindex="36"></div>
-        <div class="w150 m3"><input id="snomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].snomjed" class="w140" tabindex="43"></div>
-        <div class="w150 m3"><input id="snommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].snommno" class="w140" tabindex="50"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spnomjed" class="w140" tabindex="1"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spnommno" class="w140" tabindex="8"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sknomjed" class="w140" tabindex="29"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sknommno" class="w140" tabindex="36"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssnomjed" class="w140" tabindex="43"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssnommno" class="w140" tabindex="50"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">генитив</div>
-        <div class="w150 m3"><input id="sgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sgenjed" class="w140" tabindex="2"></div>
-        <div class="w150 m3"><input id="sgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sgenmno" class="w140" tabindex="9"></div>
-        <div class="w150 m3"><input id="sgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sgenjed" class="w140" tabindex="30"></div>
-        <div class="w150 m3"><input id="sgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sgenmno" class="w140" tabindex="37"></div>
-        <div class="w150 m3"><input id="sgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sgenjed" class="w140" tabindex="44"></div>
-        <div class="w150 m3"><input id="sgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sgenmno" class="w140" tabindex="51"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spgenmno" class="w140" tabindex="9"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skgenjed" class="w140" tabindex="30"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skgenmno" class="w140" tabindex="37"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssgenjed" class="w140" tabindex="44"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssgenmno" class="w140" tabindex="51"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">датив</div>
-        <div class="w150 m3"><input id="sdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sdatjed" class="w140" tabindex="3"></div>
-        <div class="w150 m3"><input id="sdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sdatmno" class="w140" tabindex="10"></div>
-        <div class="w150 m3"><input id="sdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sdatjed" class="w140" tabindex="31"></div>
-        <div class="w150 m3"><input id="sdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sdatmno" class="w140" tabindex="38"></div>
-        <div class="w150 m3"><input id="sdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sdatjed" class="w140" tabindex="45"></div>
-        <div class="w150 m3"><input id="sdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sdatmno" class="w140" tabindex="52"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spdatmno" class="w140" tabindex="10"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skdatjed" class="w140" tabindex="31"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skdatmno" class="w140" tabindex="38"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssdatjed" class="w140" tabindex="45"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssdatmno" class="w140" tabindex="52"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">акузатив</div>
-        <div class="w150 m3"><input id="sakujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sakujed" class="w140" tabindex="4"></div>
-        <div class="w150 m3"><input id="sakumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sakumno" class="w140" tabindex="11"></div>
-        <div class="w150 m3"><input id="sakujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sakujed" class="w140" tabindex="32"></div>
-        <div class="w150 m3"><input id="sakumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sakumno" class="w140" tabindex="39"></div>
-        <div class="w150 m3"><input id="sakujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sakujed" class="w140" tabindex="46"></div>
-        <div class="w150 m3"><input id="sakumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sakumno" class="w140" tabindex="53"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spakumno" class="w140" tabindex="11"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skakujed" class="w140" tabindex="32"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skakumno" class="w140" tabindex="39"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssakujed" class="w140" tabindex="46"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssakumno" class="w140" tabindex="53"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">вокатив</div>
-        <div class="w150 m3"><input id="svokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].svokjed" class="w140" tabindex="5"></div>
-        <div class="w150 m3"><input id="svokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].svokmno" class="w140" tabindex="12"></div>
-        <div class="w150 m3"><input id="svokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].svokjed" class="w140" tabindex="33"></div>
-        <div class="w150 m3"><input id="svokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].svokmno" class="w140" tabindex="40"></div>
-        <div class="w150 m3"><input id="svokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].svokjed" class="w140" tabindex="47"></div>
-        <div class="w150 m3"><input id="svokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].svokmno" class="w140" tabindex="54"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spvokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spvokmno" class="w140" tabindex="12"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skvokjed" class="w140" tabindex="33"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skvokmno" class="w140" tabindex="40"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssvokjed" class="w140" tabindex="47"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssvokmno" class="w140" tabindex="54"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">инструментал</div>
-        <div class="w150 m3"><input id="sinsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sinsjed" class="w140" tabindex="6"></div>
-        <div class="w150 m3"><input id="sinsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sinsmno" class="w140" tabindex="13"></div>
-        <div class="w150 m3"><input id="sinsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sinsjed" class="w140" tabindex="34"></div>
-        <div class="w150 m3"><input id="sinsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sinsmno" class="w140" tabindex="41"></div>
-        <div class="w150 m3"><input id="sinsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sinsjed" class="w140" tabindex="48"></div>
-        <div class="w150 m3"><input id="sinsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sinsmno" class="w140" tabindex="55"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spinsmno" class="w140" tabindex="13"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skinsjed" class="w140" tabindex="34"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skinsmno" class="w140" tabindex="41"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssinsjed" class="w140" tabindex="48"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssinsmno" class="w140" tabindex="55"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">локатив</div>
-        <div class="w150 m3"><input id="slokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].slokjed" class="w140" tabindex="7"></div>
-        <div class="w150 m3"><input id="slokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].slokmno" class="w140" tabindex="14"></div>
-        <div class="w150 m3"><input id="slokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].slokjed" class="w140" tabindex="35"></div>
-        <div class="w150 m3"><input id="slokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].slokmno" class="w140" tabindex="42"></div>
-        <div class="w150 m3"><input id="slokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].slokjed" class="w140" tabindex="49"></div>
-        <div class="w150 m3"><input id="slokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].slokmno" class="w140" tabindex="56"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.splokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.splokmno" class="w140" tabindex="14"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sklokjed" class="w140" tabindex="35"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sklokmno" class="w140" tabindex="42"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sslokjed" class="w140" tabindex="49"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sslokmno" class="w140" tabindex="56"></div>
       </div>
     </p-tabPanel>
   </p-tabView>

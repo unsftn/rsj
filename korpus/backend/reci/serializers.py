@@ -65,25 +65,45 @@ class GlagolSerializer(serializers.ModelSerializer):
                   'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
 
 
-class VidPridevaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VidPrideva
-        fields = ('id', 'vid', 
-                  'mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed',
-                  'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno', 'minsmno', 'mlokmno',
-                  'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed',
-                  'znommno', 'zgenmno', 'zdatmno', 'zakumno', 'zvokmno', 'zinsmno', 'zlokmno',
-                  'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed',
-                  'snommno', 'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno')
+# class VidPridevaSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = VidPrideva
+#         fields = ('id', 'vid', 
+#                   'mnomjed', 'mgenjed', 'mdatjed', 'makujed', 'mvokjed', 'minsjed', 'mlokjed',
+#                   'mnommno', 'mgenmno', 'mdatmno', 'makumno', 'mvokmno', 'minsmno', 'mlokmno',
+#                   'znomjed', 'zgenjed', 'zdatjed', 'zakujed', 'zvokjed', 'zinsjed', 'zlokjed',
+#                   'znommno', 'zgenmno', 'zdatmno', 'zakumno', 'zvokmno', 'zinsmno', 'zlokmno',
+#                   'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed',
+#                   'snommno', 'sgenmno', 'sdatmno', 'sakumno', 'svokmno', 'sinsmno', 'slokmno')
 
 
 class PridevSerializer(serializers.ModelSerializer):
-    vidprideva_set = VidPridevaSerializer(many=True, read_only=True)
+    # vidprideva_set = VidPridevaSerializer(many=True, read_only=True)
     
     class Meta:
         model = Pridev
-        fields = ('id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vidprideva_set',
-                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik', 'dva_vida')
+        fields = ['id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 
+                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik', 'dva_vida',
+                  'monomjed', 'mogenjed',  'modatjed',  'moakujed',  'movokjed',  'moinsjed',  'molokjed',  
+                  'monommno',  'mogenmno',  'modatmno',  'moakumno',  'movokmno',  'moinsmno',  'molokmno',  
+                  'mnnomjed',  'mngenjed',  'mndatjed',  'mnakujed',  'mnvokjed',  'mninsjed',  'mnlokjed',  
+                  'mnnommno',  'mngenmno',  'mndatmno',  'mnakumno',  'mnvokmno',  'mninsmno',  'mnlokmno',  
+                  'mknomjed',  'mkgenjed',  'mkdatjed',  'mkakujed',  'mkvokjed',  'mkinsjed',  'mklokjed',  
+                  'mknommno',  'mkgenmno',  'mkdatmno',  'mkakumno',  'mkvokmno',  'mkinsmno',  'mklokmno',  
+                  'msnomjed',  'msgenjed',  'msdatjed',  'msakujed',  'msvokjed',  'msinsjed',  'mslokjed',  
+                  'msnommno',  'msgenmno',  'msdatmno',  'msakumno',  'msvokmno',  'msinsmno',  'mslokmno',  
+                  'zpnomjed',  'zpgenjed',  'zpdatjed',  'zpakujed',  'zpvokjed',  'zpinsjed',  'zplokjed',  
+                  'zpnommno',  'zpgenmno',  'zpdatmno',  'zpakumno',  'zpvokmno',  'zpinsmno',  'zplokmno',  
+                  'zknomjed',  'zkgenjed',  'zkdatjed',  'zkakujed',  'zkvokjed',  'zkinsjed',  'zklokjed',  
+                  'zknommno',  'zkgenmno',  'zkdatmno',  'zkakumno',  'zkvokmno',  'zkinsmno',  'zklokmno',  
+                  'zsnomjed',  'zsgenjed',  'zsdatjed',  'zsakujed',  'zsvokjed',  'zsinsjed',  'zslokjed',  
+                  'zsnommno',  'zsgenmno',  'zsdatmno',  'zsakumno',  'zsvokmno',  'zsinsmno',  'zslokmno',  
+                  'spnomjed',  'spgenjed',  'spdatjed',  'spakujed',  'spvokjed',  'spinsjed',  'splokjed',  
+                  'spnommno',  'spgenmno',  'spdatmno',  'spakumno',  'spvokmno',  'spinsmno',  'splokmno',  
+                  'sknomjed',  'skgenjed',  'skdatjed',  'skakujed',  'skvokjed',  'skinsjed',  'sklokjed',  
+                  'sknommno',  'skgenmno',  'skdatmno',  'skakumno',  'skvokmno',  'skinsmno',  'sklokmno',  
+                  'ssnomjed',  'ssgenjed',  'ssdatjed',  'ssakujed',  'ssvokjed',  'ssinsjed',  'sslokjed',  
+                  'ssnommno',  'ssgenmno',  'ssdatmno',  'ssakumno',  'ssvokmno',  'ssinsmno',  'sslokmno']
 
 
 class IzmenaPredlogaSerializer(serializers.ModelSerializer):
@@ -291,78 +311,218 @@ class SaveGlagolSerializer(serializers.Serializer):
         return glagol
 
 
-class SaveVidPridevaSerializer(NoSaveSerializer):
-    vid = serializers.IntegerField(required=False)
-    mnomjed = serializers.CharField(max_length=25, allow_blank=True)
-    mgenjed = serializers.CharField(max_length=25, allow_blank=True)
-    mdatjed = serializers.CharField(max_length=25, allow_blank=True)
-    makujed = serializers.CharField(max_length=25, allow_blank=True)
-    mvokjed = serializers.CharField(max_length=25, allow_blank=True)
-    minsjed = serializers.CharField(max_length=25, allow_blank=True)
-    mlokjed = serializers.CharField(max_length=25, allow_blank=True)
-    mnommno = serializers.CharField(max_length=25, allow_blank=True)
-    mgenmno = serializers.CharField(max_length=25, allow_blank=True)
-    mdatmno = serializers.CharField(max_length=25, allow_blank=True)
-    makumno = serializers.CharField(max_length=25, allow_blank=True)
-    mvokmno = serializers.CharField(max_length=25, allow_blank=True)
-    minsmno = serializers.CharField(max_length=25, allow_blank=True)
-    mlokmno = serializers.CharField(max_length=25, allow_blank=True)
-    znomjed = serializers.CharField(max_length=25, allow_blank=True)
-    zgenjed = serializers.CharField(max_length=25, allow_blank=True)
-    zdatjed = serializers.CharField(max_length=25, allow_blank=True)
-    zakujed = serializers.CharField(max_length=25, allow_blank=True)
-    zvokjed = serializers.CharField(max_length=25, allow_blank=True)
-    zinsjed = serializers.CharField(max_length=25, allow_blank=True)
-    zlokjed = serializers.CharField(max_length=25, allow_blank=True)
-    znommno = serializers.CharField(max_length=25, allow_blank=True)
-    zgenmno = serializers.CharField(max_length=25, allow_blank=True)
-    zdatmno = serializers.CharField(max_length=25, allow_blank=True)
-    zakumno = serializers.CharField(max_length=25, allow_blank=True)
-    zvokmno = serializers.CharField(max_length=25, allow_blank=True)
-    zinsmno = serializers.CharField(max_length=25, allow_blank=True)
-    zlokmno = serializers.CharField(max_length=25, allow_blank=True)
-    snomjed = serializers.CharField(max_length=25, allow_blank=True)
-    sgenjed = serializers.CharField(max_length=25, allow_blank=True)
-    sdatjed = serializers.CharField(max_length=25, allow_blank=True)
-    sakujed = serializers.CharField(max_length=25, allow_blank=True)
-    svokjed = serializers.CharField(max_length=25, allow_blank=True)
-    sinsjed = serializers.CharField(max_length=25, allow_blank=True)
-    slokjed = serializers.CharField(max_length=25, allow_blank=True)
-    snommno = serializers.CharField(max_length=25, allow_blank=True)
-    sgenmno = serializers.CharField(max_length=25, allow_blank=True)
-    sdatmno = serializers.CharField(max_length=25, allow_blank=True)
-    sakumno = serializers.CharField(max_length=25, allow_blank=True)
-    svokmno = serializers.CharField(max_length=25, allow_blank=True)
-    sinsmno = serializers.CharField(max_length=25, allow_blank=True)
-    slokmno = serializers.CharField(max_length=25, allow_blank=True)
+# class SaveVidPridevaSerializer(NoSaveSerializer):
+#     vid = serializers.IntegerField(required=False)
+#     mnomjed = serializers.CharField(max_length=25, allow_blank=True)
+#     mgenjed = serializers.CharField(max_length=25, allow_blank=True)
+#     mdatjed = serializers.CharField(max_length=25, allow_blank=True)
+#     makujed = serializers.CharField(max_length=25, allow_blank=True)
+#     mvokjed = serializers.CharField(max_length=25, allow_blank=True)
+#     minsjed = serializers.CharField(max_length=25, allow_blank=True)
+#     mlokjed = serializers.CharField(max_length=25, allow_blank=True)
+#     mnommno = serializers.CharField(max_length=25, allow_blank=True)
+#     mgenmno = serializers.CharField(max_length=25, allow_blank=True)
+#     mdatmno = serializers.CharField(max_length=25, allow_blank=True)
+#     makumno = serializers.CharField(max_length=25, allow_blank=True)
+#     mvokmno = serializers.CharField(max_length=25, allow_blank=True)
+#     minsmno = serializers.CharField(max_length=25, allow_blank=True)
+#     mlokmno = serializers.CharField(max_length=25, allow_blank=True)
+#     znomjed = serializers.CharField(max_length=25, allow_blank=True)
+#     zgenjed = serializers.CharField(max_length=25, allow_blank=True)
+#     zdatjed = serializers.CharField(max_length=25, allow_blank=True)
+#     zakujed = serializers.CharField(max_length=25, allow_blank=True)
+#     zvokjed = serializers.CharField(max_length=25, allow_blank=True)
+#     zinsjed = serializers.CharField(max_length=25, allow_blank=True)
+#     zlokjed = serializers.CharField(max_length=25, allow_blank=True)
+#     znommno = serializers.CharField(max_length=25, allow_blank=True)
+#     zgenmno = serializers.CharField(max_length=25, allow_blank=True)
+#     zdatmno = serializers.CharField(max_length=25, allow_blank=True)
+#     zakumno = serializers.CharField(max_length=25, allow_blank=True)
+#     zvokmno = serializers.CharField(max_length=25, allow_blank=True)
+#     zinsmno = serializers.CharField(max_length=25, allow_blank=True)
+#     zlokmno = serializers.CharField(max_length=25, allow_blank=True)
+#     snomjed = serializers.CharField(max_length=25, allow_blank=True)
+#     sgenjed = serializers.CharField(max_length=25, allow_blank=True)
+#     sdatjed = serializers.CharField(max_length=25, allow_blank=True)
+#     sakujed = serializers.CharField(max_length=25, allow_blank=True)
+#     svokjed = serializers.CharField(max_length=25, allow_blank=True)
+#     sinsjed = serializers.CharField(max_length=25, allow_blank=True)
+#     slokjed = serializers.CharField(max_length=25, allow_blank=True)
+#     snommno = serializers.CharField(max_length=25, allow_blank=True)
+#     sgenmno = serializers.CharField(max_length=25, allow_blank=True)
+#     sdatmno = serializers.CharField(max_length=25, allow_blank=True)
+#     sakumno = serializers.CharField(max_length=25, allow_blank=True)
+#     svokmno = serializers.CharField(max_length=25, allow_blank=True)
+#     sinsmno = serializers.CharField(max_length=25, allow_blank=True)
+#     slokmno = serializers.CharField(max_length=25, allow_blank=True)
 
 
 class SavePridevSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     dvaVida = serializers.BooleanField(required=True)
-    vidovi = serializers.ListField(child=SaveVidPridevaSerializer())
+    monomjed = serializers.CharField(required=True, allow_null=True)
+    mogenjed = serializers.CharField(required=True, allow_null=True)
+    modatjed = serializers.CharField(required=True, allow_null=True)
+    moakujed = serializers.CharField(required=True, allow_null=True)
+    movokjed = serializers.CharField(required=True, allow_null=True)
+    moinsjed = serializers.CharField(required=True, allow_null=True)
+    molokjed = serializers.CharField(required=True, allow_null=True)
+    monommno = serializers.CharField(required=True, allow_null=True)
+    mogenmno = serializers.CharField(required=True, allow_null=True)
+    modatmno = serializers.CharField(required=True, allow_null=True)
+    moakumno = serializers.CharField(required=True, allow_null=True)
+    movokmno = serializers.CharField(required=True, allow_null=True)
+    moinsmno = serializers.CharField(required=True, allow_null=True)
+    molokmno = serializers.CharField(required=True, allow_null=True)
+    mnnomjed = serializers.CharField(required=True, allow_null=True)
+    mngenjed = serializers.CharField(required=True, allow_null=True)
+    mndatjed = serializers.CharField(required=True, allow_null=True)
+    mnakujed = serializers.CharField(required=True, allow_null=True)
+    mnvokjed = serializers.CharField(required=True, allow_null=True)
+    mninsjed = serializers.CharField(required=True, allow_null=True)
+    mnlokjed = serializers.CharField(required=True, allow_null=True)
+    mnnommno = serializers.CharField(required=True, allow_null=True)
+    mngenmno = serializers.CharField(required=True, allow_null=True)
+    mndatmno = serializers.CharField(required=True, allow_null=True)
+    mnakumno = serializers.CharField(required=True, allow_null=True)
+    mnvokmno = serializers.CharField(required=True, allow_null=True)
+    mninsmno = serializers.CharField(required=True, allow_null=True)
+    mnlokmno = serializers.CharField(required=True, allow_null=True)
+    mknomjed = serializers.CharField(required=True, allow_null=True)
+    mkgenjed = serializers.CharField(required=True, allow_null=True)
+    mkdatjed = serializers.CharField(required=True, allow_null=True)
+    mkakujed = serializers.CharField(required=True, allow_null=True)
+    mkvokjed = serializers.CharField(required=True, allow_null=True)
+    mkinsjed = serializers.CharField(required=True, allow_null=True)
+    mklokjed = serializers.CharField(required=True, allow_null=True)
+    mknommno = serializers.CharField(required=True, allow_null=True)
+    mkgenmno = serializers.CharField(required=True, allow_null=True)
+    mkdatmno = serializers.CharField(required=True, allow_null=True)
+    mkakumno = serializers.CharField(required=True, allow_null=True)
+    mkvokmno = serializers.CharField(required=True, allow_null=True)
+    mkinsmno = serializers.CharField(required=True, allow_null=True)
+    mklokmno = serializers.CharField(required=True, allow_null=True)
+    msnomjed = serializers.CharField(required=True, allow_null=True)
+    msgenjed = serializers.CharField(required=True, allow_null=True)
+    msdatjed = serializers.CharField(required=True, allow_null=True)
+    msakujed = serializers.CharField(required=True, allow_null=True)
+    msvokjed = serializers.CharField(required=True, allow_null=True)
+    msinsjed = serializers.CharField(required=True, allow_null=True)
+    mslokjed = serializers.CharField(required=True, allow_null=True)
+    msnommno = serializers.CharField(required=True, allow_null=True)
+    msgenmno = serializers.CharField(required=True, allow_null=True)
+    msdatmno = serializers.CharField(required=True, allow_null=True)
+    msakumno = serializers.CharField(required=True, allow_null=True)
+    msvokmno = serializers.CharField(required=True, allow_null=True)
+    msinsmno = serializers.CharField(required=True, allow_null=True)
+    mslokmno = serializers.CharField(required=True, allow_null=True)
+    zpnomjed = serializers.CharField(required=True, allow_null=True)
+    zpgenjed = serializers.CharField(required=True, allow_null=True)
+    zpdatjed = serializers.CharField(required=True, allow_null=True)
+    zpakujed = serializers.CharField(required=True, allow_null=True)
+    zpvokjed = serializers.CharField(required=True, allow_null=True)
+    zpinsjed = serializers.CharField(required=True, allow_null=True)
+    zplokjed = serializers.CharField(required=True, allow_null=True)
+    zpnommno = serializers.CharField(required=True, allow_null=True)
+    zpgenmno = serializers.CharField(required=True, allow_null=True)
+    zpdatmno = serializers.CharField(required=True, allow_null=True)
+    zpakumno = serializers.CharField(required=True, allow_null=True)
+    zpvokmno = serializers.CharField(required=True, allow_null=True)
+    zpinsmno = serializers.CharField(required=True, allow_null=True)
+    zplokmno = serializers.CharField(required=True, allow_null=True)
+    zknomjed = serializers.CharField(required=True, allow_null=True)
+    zkgenjed = serializers.CharField(required=True, allow_null=True)
+    zkdatjed = serializers.CharField(required=True, allow_null=True)
+    zkakujed = serializers.CharField(required=True, allow_null=True)
+    zkvokjed = serializers.CharField(required=True, allow_null=True)
+    zkinsjed = serializers.CharField(required=True, allow_null=True)
+    zklokjed = serializers.CharField(required=True, allow_null=True)
+    zknommno = serializers.CharField(required=True, allow_null=True)
+    zkgenmno = serializers.CharField(required=True, allow_null=True)
+    zkdatmno = serializers.CharField(required=True, allow_null=True)
+    zkakumno = serializers.CharField(required=True, allow_null=True)
+    zkvokmno = serializers.CharField(required=True, allow_null=True)
+    zkinsmno = serializers.CharField(required=True, allow_null=True)
+    zklokmno = serializers.CharField(required=True, allow_null=True)
+    zsnomjed = serializers.CharField(required=True, allow_null=True)
+    zsgenjed = serializers.CharField(required=True, allow_null=True)
+    zsdatjed = serializers.CharField(required=True, allow_null=True)
+    zsakujed = serializers.CharField(required=True, allow_null=True)
+    zsvokjed = serializers.CharField(required=True, allow_null=True)
+    zsinsjed = serializers.CharField(required=True, allow_null=True)
+    zslokjed = serializers.CharField(required=True, allow_null=True)
+    zsnommno = serializers.CharField(required=True, allow_null=True)
+    zsgenmno = serializers.CharField(required=True, allow_null=True)
+    zsdatmno = serializers.CharField(required=True, allow_null=True)
+    zsakumno = serializers.CharField(required=True, allow_null=True)
+    zsvokmno = serializers.CharField(required=True, allow_null=True)
+    zsinsmno = serializers.CharField(required=True, allow_null=True)
+    zslokmno = serializers.CharField(required=True, allow_null=True)
+    spnomjed = serializers.CharField(required=True, allow_null=True)
+    spgenjed = serializers.CharField(required=True, allow_null=True)
+    spdatjed = serializers.CharField(required=True, allow_null=True)
+    spakujed = serializers.CharField(required=True, allow_null=True)
+    spvokjed = serializers.CharField(required=True, allow_null=True)
+    spinsjed = serializers.CharField(required=True, allow_null=True)
+    splokjed = serializers.CharField(required=True, allow_null=True)
+    spnommno = serializers.CharField(required=True, allow_null=True)
+    spgenmno = serializers.CharField(required=True, allow_null=True)
+    spdatmno = serializers.CharField(required=True, allow_null=True)
+    spakumno = serializers.CharField(required=True, allow_null=True)
+    spvokmno = serializers.CharField(required=True, allow_null=True)
+    spinsmno = serializers.CharField(required=True, allow_null=True)
+    splokmno = serializers.CharField(required=True, allow_null=True)
+    sknomjed = serializers.CharField(required=True, allow_null=True)
+    skgenjed = serializers.CharField(required=True, allow_null=True)
+    skdatjed = serializers.CharField(required=True, allow_null=True)
+    skakujed = serializers.CharField(required=True, allow_null=True)
+    skvokjed = serializers.CharField(required=True, allow_null=True)
+    skinsjed = serializers.CharField(required=True, allow_null=True)
+    sklokjed = serializers.CharField(required=True, allow_null=True)
+    sknommno = serializers.CharField(required=True, allow_null=True)
+    skgenmno = serializers.CharField(required=True, allow_null=True)
+    skdatmno = serializers.CharField(required=True, allow_null=True)
+    skakumno = serializers.CharField(required=True, allow_null=True)
+    skvokmno = serializers.CharField(required=True, allow_null=True)
+    skinsmno = serializers.CharField(required=True, allow_null=True)
+    sklokmno = serializers.CharField(required=True, allow_null=True)
+    ssnomjed = serializers.CharField(required=True, allow_null=True)
+    ssgenjed = serializers.CharField(required=True, allow_null=True)
+    ssdatjed = serializers.CharField(required=True, allow_null=True)
+    ssakujed = serializers.CharField(required=True, allow_null=True)
+    ssvokjed = serializers.CharField(required=True, allow_null=True)
+    ssinsjed = serializers.CharField(required=True, allow_null=True)
+    sslokjed = serializers.CharField(required=True, allow_null=True)
+    ssnommno = serializers.CharField(required=True, allow_null=True)
+    ssgenmno = serializers.CharField(required=True, allow_null=True)
+    ssdatmno = serializers.CharField(required=True, allow_null=True)
+    ssakumno = serializers.CharField(required=True, allow_null=True)
+    ssvokmno = serializers.CharField(required=True, allow_null=True)
+    ssinsmno = serializers.CharField(required=True, allow_null=True)
+    sslokmno = serializers.CharField(required=True, allow_null=True)
+    # vidovi = serializers.ListField(child=SaveVidPridevaSerializer())
 
     def create(self, validated_data):
         return self._save(validated_data)
 
     def update(self, instance, validated_data):
-        VidPrideva.objects.filter(pridev_id=instance.id).delete()
+        # VidPrideva.objects.filter(pridev_id=instance.id).delete()
         return self._save(validated_data, instance)
 
     def _save(self, validated_data, pridev=None):
         radimo_update = pridev is not None
         pridev_id = validated_data.get('id')
         sada = now()
-        vidovi = validated_data.pop('vidovi', [])
+        # vidovi = validated_data.pop('vidovi', [])
         user = validated_data.pop('user')
         dva_vida = validated_data.pop('dvaVida', True)
         validated_data['dva_vida'] = dva_vida
         validated_data['poslednja_izmena'] = sada
         validated_data['vlasnik'] = user
         pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id)
-        VidPrideva.objects.filter(pridev=pridev).delete()
-        for v in vidovi:
-            VidPrideva.objects.create(pridev=pridev, **v)
+        # VidPrideva.objects.filter(pridev=pridev).delete()
+        # for v in vidovi:
+        #     VidPrideva.objects.create(pridev=pridev, **v)
         if not pridev.lema:
             pridev.lema = pridev.prvi_popunjen_oblik()
             pridev.save()
