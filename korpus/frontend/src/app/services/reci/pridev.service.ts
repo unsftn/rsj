@@ -20,6 +20,7 @@ export class PridevService {
 
   new(): Pridev {
     return {
+      dvaVida: true,
       vidovi: [
         { vid: 1,
           mnomjed: '', mgenjed: '', mdatjed: '', makujed: '', mvokjed: '', minsjed: '', mlokjed: '',

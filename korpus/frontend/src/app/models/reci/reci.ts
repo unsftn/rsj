@@ -223,6 +223,7 @@ export interface VidPrideva {
 
 export interface Pridev {
   id?: number;
+  dvaVida?: boolean;
   vidovi: VidPrideva[];
   recnikID?: number;
   vlasnikID?: number;
@@ -289,6 +290,7 @@ export function toPridev(obj: any): Pridev {
   vidovi.push(getVid(obj.vidprideva_set, 4));
   return {
     id: obj.id,
+    dvaVida: obj.dva_vida,
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
     izmene: obj.izmenaprideva_set,

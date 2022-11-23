@@ -83,7 +83,7 @@ class PridevSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pridev
         fields = ('id', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena', 'vidprideva_set',
-                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
+                  'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik', 'dva_vida')
 
 
 class IzmenaPredlogaSerializer(serializers.ModelSerializer):
@@ -339,6 +339,7 @@ class SaveVidPridevaSerializer(NoSaveSerializer):
 
 class SavePridevSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
+    dvaVida = serializers.BooleanField(required=True)
     vidovi = serializers.ListField(child=SaveVidPridevaSerializer())
 
     def create(self, validated_data):
@@ -354,6 +355,8 @@ class SavePridevSerializer(serializers.Serializer):
         sada = now()
         vidovi = validated_data.pop('vidovi', [])
         user = validated_data.pop('user')
+        dva_vida = validated_data.pop('dvaVida', True)
+        validated_data['dva_vida'] = dva_vida
         validated_data['poslednja_izmena'] = sada
         validated_data['vlasnik'] = user
         pridev, created = Pridev.objects.update_or_create(defaults=validated_data, id=pridev_id)

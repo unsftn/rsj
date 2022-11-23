@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
 import { FieldsetModule } from 'primeng/fieldset';
+import { CheckboxModule } from 'primeng/checkbox';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { PridevComponent } from './pridev.component';
 
@@ -19,6 +20,7 @@ const routes: Routes = [{ path: '', component: PridevComponent }]
     InputTextModule,
     TabViewModule,
     FieldsetModule,
+    CheckboxModule,
     MyToolbarModule,
   ],
   exports: [RouterModule],

@@ -2,542 +2,266 @@
 <div class="container">
   <h3>Придев</h3>
   <p-tabView>
-    <p-tabPanel header="Одређени вид">
-      <p-fieldset legend="Мушки род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="mnomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mnomjed" #tekst></div>
-            <div class="cell"><input id="mnommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mnommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="mgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mgenjed"></div>
-            <div class="cell"><input id="mgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="mdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mdatjed"></div>
-            <div class="cell"><input id="mdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="makujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].makujed"></div>
-            <div class="cell"><input id="makumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].makumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="mvokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mvokjed"></div>
-            <div class="cell"><input id="mvokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="minsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].minsjed"></div>
-            <div class="cell"><input id="minsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].minsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="mlokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mlokjed"></div>
-            <div class="cell"><input id="mlokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Женски род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="znomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].znomjed"></div>
-            <div class="cell"><input id="znommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].znommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="zgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zgenjed"></div>
-            <div class="cell"><input id="zgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="zdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zdatjed"></div>
-            <div class="cell"><input id="zdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="zakujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zakujed"></div>
-            <div class="cell"><input id="zakumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="zvokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zvokjed"></div>
-            <div class="cell"><input id="zvokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="zinsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zinsjed"></div>
-            <div class="cell"><input id="zinsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="zlokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zlokjed"></div>
-            <div class="cell"><input id="zlokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Средњи род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="snomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].snomjed"></div>
-            <div class="cell"><input id="snommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].snommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="sgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sgenjed"></div>
-            <div class="cell"><input id="sgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="sdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sdatjed"></div>
-            <div class="cell"><input id="sdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="sakujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sakujed"></div>
-            <div class="cell"><input id="sakumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="svokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].svokjed"></div>
-            <div class="cell"><input id="svokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].svokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="sinsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sinsjed"></div>
-            <div class="cell"><input id="sinsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="slokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].slokjed"></div>
-            <div class="cell"><input id="slokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].slokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
+    <p-tabPanel header="Мушки род">
+      <div class="m6">
+        <p-checkbox [binary]="true" [(ngModel)]="pridev.dvaVida" (onChange)="refocus()"></p-checkbox> Разликује одређени и неодређени вид
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100"></div>
+        <div *ngIf="!pridev.dvaVida" class="w300 center">позитив</div>
+        <div *ngIf="pridev.dvaVida" class="w300 center">одређени вид</div>
+        <div *ngIf="pridev.dvaVida" class="w300 center">неодређени вид</div>
+        <div class="w300 center">компаратив</div>
+        <div class="w300 center">суперлатив</div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100"></div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+        <div *ngIf="pridev.dvaVida" class="w150 center">једнина</div>
+        <div *ngIf="pridev.dvaVida" class="w150 center">множина</div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">номинатив</div>
+        <div class="w150 m3"><input id="mnomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mnomjed" #tekst class="w140" tabindex="1"></div>
+        <div class="w150 m3"><input id="mnommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mnommno" class="w140" tabindex="8"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mnomjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mnomjed" class="w140" tabindex="15"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mnommno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mnommno" class="w140" tabindex="22"></div>
+        <div class="w150 m3"><input id="mnomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mnomjed" class="w140" tabindex="29"></div>
+        <div class="w150 m3"><input id="mnommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mnommno" class="w140" tabindex="36"></div>
+        <div class="w150 m3"><input id="mnomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mnomjed" class="w140" tabindex="43"></div>
+        <div class="w150 m3"><input id="mnommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mnommno" class="w140" tabindex="50"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">генитив</div>
+        <div class="w150 m3"><input id="mgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input id="mgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mgenmno" class="w140" tabindex="9"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mgenjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mgenjed" class="w140" tabindex="16"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mgenmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mgenmno" class="w140" tabindex="23"></div>
+        <div class="w150 m3"><input id="mgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mgenjed" class="w140" tabindex="30"></div>
+        <div class="w150 m3"><input id="mgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mgenmno" class="w140" tabindex="37"></div>
+        <div class="w150 m3"><input id="mgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mgenjed" class="w140" tabindex="44"></div>
+        <div class="w150 m3"><input id="mgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mgenmno" class="w140" tabindex="51"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">датив</div>
+        <div class="w150 m3"><input id="mdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input id="mdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mdatmno" class="w140" tabindex="10"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mdatjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mdatjed" class="w140" tabindex="17"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mdatmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mdatmno" class="w140" tabindex="24"></div>
+        <div class="w150 m3"><input id="mdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mdatjed" class="w140" tabindex="31"></div>
+        <div class="w150 m3"><input id="mdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mdatmno" class="w140" tabindex="38"></div>
+        <div class="w150 m3"><input id="mdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mdatjed" class="w140" tabindex="45"></div>
+        <div class="w150 m3"><input id="mdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mdatmno" class="w140" tabindex="52"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">акузатив</div>
+        <div class="w150 m3"><input id="makujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].makujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input id="makumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].makumno" class="w140" tabindex="11"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="makujed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].makujed" class="w140" tabindex="18"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="makumno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].makumno" class="w140" tabindex="25"></div>
+        <div class="w150 m3"><input id="makujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].makujed" class="w140" tabindex="32"></div>
+        <div class="w150 m3"><input id="makumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].makumno" class="w140" tabindex="39"></div>
+        <div class="w150 m3"><input id="makujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].makujed" class="w140" tabindex="46"></div>
+        <div class="w150 m3"><input id="makumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].makumno" class="w140" tabindex="53"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">вокатив</div>
+        <div class="w150 m3"><input id="mvokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mvokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input id="mvokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mvokmno" class="w140" tabindex="12"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mvokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mvokjed" class="w140" tabindex="19"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mvokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mvokmno" class="w140" tabindex="26"></div>
+        <div class="w150 m3"><input id="mvokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mvokjed" class="w140" tabindex="33"></div>
+        <div class="w150 m3"><input id="mvokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mvokmno" class="w140" tabindex="40"></div>
+        <div class="w150 m3"><input id="mvokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mvokjed" class="w140" tabindex="47"></div>
+        <div class="w150 m3"><input id="mvokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mvokmno" class="w140" tabindex="54"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">инструментал</div>
+        <div class="w150 m3"><input id="minsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].minsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input id="minsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].minsmno" class="w140" tabindex="13"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="minsjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].minsjed" class="w140" tabindex="20"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="minsmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].minsmno" class="w140" tabindex="27"></div>
+        <div class="w150 m3"><input id="minsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].minsjed" class="w140" tabindex="34"></div>
+        <div class="w150 m3"><input id="minsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].minsmno" class="w140" tabindex="41"></div>
+        <div class="w150 m3"><input id="minsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].minsjed" class="w140" tabindex="48"></div>
+        <div class="w150 m3"><input id="minsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].minsmno" class="w140" tabindex="55"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">локатив</div>
+        <div class="w150 m3"><input id="mlokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mlokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input id="mlokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].mlokmno" class="w140" tabindex="14"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mlokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mlokjed" class="w140" tabindex="21"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input id="mlokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mlokmno" class="w140" tabindex="28"></div>
+        <div class="w150 m3"><input id="mlokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mlokjed" class="w140" tabindex="35"></div>
+        <div class="w150 m3"><input id="mlokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mlokmno" class="w140" tabindex="42"></div>
+        <div class="w150 m3"><input id="mlokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mlokjed" class="w140" tabindex="49"></div>
+        <div class="w150 m3"><input id="mlokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mlokmno" class="w140" tabindex="56"></div>
+      </div>
     </p-tabPanel>
-
-    <p-tabPanel header="Неодређени вид">
-      <p-fieldset legend="Мушки род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="mnomjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mnomjed"></div>
-            <div class="cell"><input id="mnommno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mnommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="mgenjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mgenjed"></div>
-            <div class="cell"><input id="mgenmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="mdatjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mdatjed"></div>
-            <div class="cell"><input id="mdatmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="makujed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].makujed"></div>
-            <div class="cell"><input id="makumno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].makumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="mvokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mvokjed"></div>
-            <div class="cell"><input id="mvokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="minsjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].minsjed"></div>
-            <div class="cell"><input id="minsmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].minsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="mlokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mlokjed"></div>
-            <div class="cell"><input id="mlokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].mlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Женски род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="znomjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].znomjed"></div>
-            <div class="cell"><input id="znommno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].znommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="zgenjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zgenjed"></div>
-            <div class="cell"><input id="zgenmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="zdatjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zdatjed"></div>
-            <div class="cell"><input id="zdatmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="zakujed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zakujed"></div>
-            <div class="cell"><input id="zakumno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="zvokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zvokjed"></div>
-            <div class="cell"><input id="zvokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="zinsjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zinsjed"></div>
-            <div class="cell"><input id="zinsmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="zlokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zlokjed"></div>
-            <div class="cell"><input id="zlokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].zlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Средњи род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="snomjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].snomjed"></div>
-            <div class="cell"><input id="snommno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].snommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="sgenjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sgenjed"></div>
-            <div class="cell"><input id="sgenmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="sdatjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sdatjed"></div>
-            <div class="cell"><input id="sdatmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="sakujed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sakujed"></div>
-            <div class="cell"><input id="sakumno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="svokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].svokjed"></div>
-            <div class="cell"><input id="svokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].svokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="sinsjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sinsjed"></div>
-            <div class="cell"><input id="sinsmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].sinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="slokjed2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].slokjed"></div>
-            <div class="cell"><input id="slokmno2" type="text" pInputText [(ngModel)]="pridev.vidovi[1].slokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
+    <p-tabPanel header="Женски род">
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100"></div>
+        <div class="w300 center">позитив</div>
+        <div class="w300 center">компаратив</div>
+        <div class="w300 center">суперлатив</div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100"></div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">номинатив</div>
+        <div class="w150 m3"><input id="znomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].znomjed" class="w140" tabindex="1"></div>
+        <div class="w150 m3"><input id="znommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].znommno" class="w140" tabindex="8"></div>
+        <div class="w150 m3"><input id="znomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].znomjed" class="w140" tabindex="29"></div>
+        <div class="w150 m3"><input id="znommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].znommno" class="w140" tabindex="36"></div>
+        <div class="w150 m3"><input id="znomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].znomjed" class="w140" tabindex="43"></div>
+        <div class="w150 m3"><input id="znommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].znommno" class="w140" tabindex="50"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">генитив</div>
+        <div class="w150 m3"><input id="zgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input id="zgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zgenmno" class="w140" tabindex="9"></div>
+        <div class="w150 m3"><input id="zgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zgenjed" class="w140" tabindex="30"></div>
+        <div class="w150 m3"><input id="zgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zgenmno" class="w140" tabindex="37"></div>
+        <div class="w150 m3"><input id="zgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zgenjed" class="w140" tabindex="44"></div>
+        <div class="w150 m3"><input id="zgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zgenmno" class="w140" tabindex="51"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">датив</div>
+        <div class="w150 m3"><input id="zdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input id="zdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zdatmno" class="w140" tabindex="10"></div>
+        <div class="w150 m3"><input id="zdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zdatjed" class="w140" tabindex="31"></div>
+        <div class="w150 m3"><input id="zdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zdatmno" class="w140" tabindex="38"></div>
+        <div class="w150 m3"><input id="zdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zdatjed" class="w140" tabindex="45"></div>
+        <div class="w150 m3"><input id="zdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zdatmno" class="w140" tabindex="52"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">акузатив</div>
+        <div class="w150 m3"><input id="zakujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input id="zakumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zakumno" class="w140" tabindex="11"></div>
+        <div class="w150 m3"><input id="zakujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zakujed" class="w140" tabindex="32"></div>
+        <div class="w150 m3"><input id="zakumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zakumno" class="w140" tabindex="39"></div>
+        <div class="w150 m3"><input id="zakujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zakujed" class="w140" tabindex="46"></div>
+        <div class="w150 m3"><input id="zakumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zakumno" class="w140" tabindex="53"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">вокатив</div>
+        <div class="w150 m3"><input id="zvokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zvokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input id="zvokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zvokmno" class="w140" tabindex="12"></div>
+        <div class="w150 m3"><input id="zvokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zvokjed" class="w140" tabindex="33"></div>
+        <div class="w150 m3"><input id="zvokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zvokmno" class="w140" tabindex="40"></div>
+        <div class="w150 m3"><input id="zvokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zvokjed" class="w140" tabindex="47"></div>
+        <div class="w150 m3"><input id="zvokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zvokmno" class="w140" tabindex="54"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">инструментал</div>
+        <div class="w150 m3"><input id="zinsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input id="zinsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zinsmno" class="w140" tabindex="13"></div>
+        <div class="w150 m3"><input id="zinsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zinsjed" class="w140" tabindex="34"></div>
+        <div class="w150 m3"><input id="zinsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zinsmno" class="w140" tabindex="41"></div>
+        <div class="w150 m3"><input id="zinsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zinsjed" class="w140" tabindex="48"></div>
+        <div class="w150 m3"><input id="zinsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zinsmno" class="w140" tabindex="55"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">локатив</div>
+        <div class="w150 m3"><input id="zlokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zlokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input id="zlokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].zlokmno" class="w140" tabindex="14"></div>
+        <div class="w150 m3"><input id="zlokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zlokjed" class="w140" tabindex="35"></div>
+        <div class="w150 m3"><input id="zlokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zlokmno" class="w140" tabindex="42"></div>
+        <div class="w150 m3"><input id="zlokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zlokjed" class="w140" tabindex="49"></div>
+        <div class="w150 m3"><input id="zlokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zlokmno" class="w140" tabindex="56"></div>
+      </div>
     </p-tabPanel>
-    <p-tabPanel header="Компаратив">
-      <p-fieldset legend="Мушки род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="mnomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mnomjed"></div>
-            <div class="cell"><input id="mnommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mnommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="mgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mgenjed"></div>
-            <div class="cell"><input id="mgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="mdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mdatjed"></div>
-            <div class="cell"><input id="mdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="makujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].makujed"></div>
-            <div class="cell"><input id="makumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].makumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="mvokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mvokjed"></div>
-            <div class="cell"><input id="mvokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="minsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].minsjed"></div>
-            <div class="cell"><input id="minsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].minsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="mlokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mlokjed"></div>
-            <div class="cell"><input id="mlokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].mlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Женски род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="znomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].znomjed"></div>
-            <div class="cell"><input id="znommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].znommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="zgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zgenjed"></div>
-            <div class="cell"><input id="zgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="zdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zdatjed"></div>
-            <div class="cell"><input id="zdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="zakujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zakujed"></div>
-            <div class="cell"><input id="zakumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="zvokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zvokjed"></div>
-            <div class="cell"><input id="zvokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="zinsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zinsjed"></div>
-            <div class="cell"><input id="zinsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="zlokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zlokjed"></div>
-            <div class="cell"><input id="zlokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].zlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Средњи род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="snomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].snomjed"></div>
-            <div class="cell"><input id="snommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].snommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="sgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sgenjed"></div>
-            <div class="cell"><input id="sgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="sdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sdatjed"></div>
-            <div class="cell"><input id="sdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="sakujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sakujed"></div>
-            <div class="cell"><input id="sakumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="svokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].svokjed"></div>
-            <div class="cell"><input id="svokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].svokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="sinsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sinsjed"></div>
-            <div class="cell"><input id="sinsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="slokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].slokjed"></div>
-            <div class="cell"><input id="slokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].slokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-    </p-tabPanel>
-    <p-tabPanel header="Суперлатив">
-      <p-fieldset legend="Мушки род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="mnomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mnomjed"></div>
-            <div class="cell"><input id="mnommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mnommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="mgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mgenjed"></div>
-            <div class="cell"><input id="mgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="mdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mdatjed"></div>
-            <div class="cell"><input id="mdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="makujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].makujed"></div>
-            <div class="cell"><input id="makumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].makumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="mvokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mvokjed"></div>
-            <div class="cell"><input id="mvokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="minsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].minsjed"></div>
-            <div class="cell"><input id="minsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].minsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="mlokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mlokjed"></div>
-            <div class="cell"><input id="mlokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].mlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Женски род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="znomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].znomjed"></div>
-            <div class="cell"><input id="znommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].znommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="zgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zgenjed"></div>
-            <div class="cell"><input id="zgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="zdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zdatjed"></div>
-            <div class="cell"><input id="zdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="zakujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zakujed"></div>
-            <div class="cell"><input id="zakumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="zvokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zvokjed"></div>
-            <div class="cell"><input id="zvokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zvokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="zinsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zinsjed"></div>
-            <div class="cell"><input id="zinsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="zlokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zlokjed"></div>
-            <div class="cell"><input id="zlokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].zlokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
-      <p-fieldset legend="Средњи род">
-        <div class="tableform">
-          <div class="row">
-            <div class="cell"></div>
-            <div class="cell">Једнина</div>
-            <div class="cell">Множина</div>
-          </div>
-          <div class="row">
-            <div class="cell">Номинатив</div>
-            <div class="cell"><input id="snomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].snomjed"></div>
-            <div class="cell"><input id="snommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].snommno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Генитив</div>
-            <div class="cell"><input id="sgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sgenjed"></div>
-            <div class="cell"><input id="sgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sgenmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Датив</div>
-            <div class="cell"><input id="sdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sdatjed"></div>
-            <div class="cell"><input id="sdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sdatmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Акузатив</div>
-            <div class="cell"><input id="sakujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sakujed"></div>
-            <div class="cell"><input id="sakumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sakumno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Вокатив</div>
-            <div class="cell"><input id="svokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].svokjed"></div>
-            <div class="cell"><input id="svokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].svokmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Инструментал</div>
-            <div class="cell"><input id="sinsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sinsjed"></div>
-            <div class="cell"><input id="sinsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sinsmno"></div>
-          </div>
-          <div class="row">
-            <div class="cell">Локатив</div>
-            <div class="cell"><input id="slokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].slokjed"></div>
-            <div class="cell"><input id="slokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].slokmno"></div>
-          </div>
-        </div>
-      </p-fieldset>
+    <p-tabPanel header="Средњи род">
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100"></div>
+        <div class="w300 center">позитив</div>
+        <div class="w300 center">компаратив</div>
+        <div class="w300 center">суперлатив</div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100"></div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+        <div class="w150 center">једнина</div>
+        <div class="w150 center">множина</div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">номинатив</div>
+        <div class="w150 m3"><input id="snomjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].snomjed" class="w140" tabindex="1"></div>
+        <div class="w150 m3"><input id="snommno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].snommno" class="w140" tabindex="8"></div>
+        <div class="w150 m3"><input id="snomjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].snomjed" class="w140" tabindex="29"></div>
+        <div class="w150 m3"><input id="snommno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].snommno" class="w140" tabindex="36"></div>
+        <div class="w150 m3"><input id="snomjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].snomjed" class="w140" tabindex="43"></div>
+        <div class="w150 m3"><input id="snommno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].snommno" class="w140" tabindex="50"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">генитив</div>
+        <div class="w150 m3"><input id="sgenjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input id="sgenmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sgenmno" class="w140" tabindex="9"></div>
+        <div class="w150 m3"><input id="sgenjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sgenjed" class="w140" tabindex="30"></div>
+        <div class="w150 m3"><input id="sgenmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sgenmno" class="w140" tabindex="37"></div>
+        <div class="w150 m3"><input id="sgenjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sgenjed" class="w140" tabindex="44"></div>
+        <div class="w150 m3"><input id="sgenmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sgenmno" class="w140" tabindex="51"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">датив</div>
+        <div class="w150 m3"><input id="sdatjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input id="sdatmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sdatmno" class="w140" tabindex="10"></div>
+        <div class="w150 m3"><input id="sdatjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sdatjed" class="w140" tabindex="31"></div>
+        <div class="w150 m3"><input id="sdatmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sdatmno" class="w140" tabindex="38"></div>
+        <div class="w150 m3"><input id="sdatjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sdatjed" class="w140" tabindex="45"></div>
+        <div class="w150 m3"><input id="sdatmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sdatmno" class="w140" tabindex="52"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">акузатив</div>
+        <div class="w150 m3"><input id="sakujed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input id="sakumno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sakumno" class="w140" tabindex="11"></div>
+        <div class="w150 m3"><input id="sakujed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sakujed" class="w140" tabindex="32"></div>
+        <div class="w150 m3"><input id="sakumno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sakumno" class="w140" tabindex="39"></div>
+        <div class="w150 m3"><input id="sakujed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sakujed" class="w140" tabindex="46"></div>
+        <div class="w150 m3"><input id="sakumno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sakumno" class="w140" tabindex="53"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">вокатив</div>
+        <div class="w150 m3"><input id="svokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].svokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input id="svokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].svokmno" class="w140" tabindex="12"></div>
+        <div class="w150 m3"><input id="svokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].svokjed" class="w140" tabindex="33"></div>
+        <div class="w150 m3"><input id="svokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].svokmno" class="w140" tabindex="40"></div>
+        <div class="w150 m3"><input id="svokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].svokjed" class="w140" tabindex="47"></div>
+        <div class="w150 m3"><input id="svokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].svokmno" class="w140" tabindex="54"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">инструментал</div>
+        <div class="w150 m3"><input id="sinsjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input id="sinsmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].sinsmno" class="w140" tabindex="13"></div>
+        <div class="w150 m3"><input id="sinsjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sinsjed" class="w140" tabindex="34"></div>
+        <div class="w150 m3"><input id="sinsmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].sinsmno" class="w140" tabindex="41"></div>
+        <div class="w150 m3"><input id="sinsjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sinsjed" class="w140" tabindex="48"></div>
+        <div class="w150 m3"><input id="sinsmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].sinsmno" class="w140" tabindex="55"></div>
+      </div>
+      <div class="flex flex-row align-items-baseline">
+        <div class="w100">локатив</div>
+        <div class="w150 m3"><input id="slokjed1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].slokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input id="slokmno1" type="text" pInputText [(ngModel)]="pridev.vidovi[0].slokmno" class="w140" tabindex="14"></div>
+        <div class="w150 m3"><input id="slokjed3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].slokjed" class="w140" tabindex="35"></div>
+        <div class="w150 m3"><input id="slokmno3" type="text" pInputText [(ngModel)]="pridev.vidovi[2].slokmno" class="w140" tabindex="42"></div>
+        <div class="w150 m3"><input id="slokjed4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].slokjed" class="w140" tabindex="49"></div>
+        <div class="w150 m3"><input id="slokmno4" type="text" pInputText [(ngModel)]="pridev.vidovi[3].slokmno" class="w140" tabindex="56"></div>
+      </div>
     </p-tabPanel>
   </p-tabView>
 </div>

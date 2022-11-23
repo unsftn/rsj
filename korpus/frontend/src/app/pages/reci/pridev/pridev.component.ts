@@ -41,6 +41,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
               this.pridevService.get(this.id).subscribe({
                   next: (item) => {
                   this.pridev = toPridev(item);
+                  console.log(this.pridev);
                 },
                 error: (error) => {
                   console.log(error);
@@ -59,7 +60,11 @@ export class PridevComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.textInput.nativeElement.focus();
+    this.refocus();
+  }
+
+  refocus(): void {
+    setTimeout(() => { this.textInput.nativeElement.focus(); }, 0);
   }
 
   initNew(): void {
@@ -97,9 +102,26 @@ export class PridevComponent implements OnInit, AfterViewInit {
     return true;
   }
 
+  allNominative(): boolean {
+    const properties = [ 
+      'mnomjed', 'mnommno', 'znomjed', 'znommno', 'snomjed', 'snommno'
+    ];
+    for (const vid of this.pridev.vidovi) {
+      for (const prop of properties) {
+        if (vid.hasOwnProperty(prop)) {
+          if (vid[prop]) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
   check(): boolean {
     try {
       this.assert(this.allEmpty(), 'Ниједан облик није попуњен!');
+      this.assert(this.allNominative(), 'Номинатив је обавезан у свим родовима једнине и множине!');
       return true;
     } catch (e) {
       return false;      
@@ -155,6 +177,8 @@ export class PridevComponent implements OnInit, AfterViewInit {
       return true;
     if (!this.editMode)
       return true;
+    if (this.pridev.vlasnikID === 3)
+      return true;  // izmena prideva je dozvoljena ako je autor WikiMorph_sr
     if (this.tokenStorageService.getUser().id === this.pridev.vlasnikID)
       return true;
     return false;
