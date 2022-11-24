@@ -111,14 +111,16 @@ export class PridevComponent implements OnInit, AfterViewInit {
   }
 
   allNominative(): boolean {
-    const properties = [ 
-      'monomjed', 'monommno', 'mnnomjed', 'mnnommno', 'mknomjed', 'mknommno', 'msnomjed', 'msnommno', 
+    let properties = [ 
+      'monomjed', 'monommno', 'mknomjed', 'mknommno', 'msnomjed', 'msnommno', 
       'zpnomjed', 'zpnommno', 'zknomjed', 'zknommno', 'zsnomjed', 'zsnommno',
       'spnomjed', 'spnommno', 'sknomjed', 'sknommno', 'ssnomjed', 'ssnommno',
     ];
+    if (this.pridev.dvaVida)
+      properties.push('mnnomjed', 'mnnommno');
     for (const prop of properties) {
       if (this.pridev.hasOwnProperty(prop)) {
-        if (this.pridev[prop]) {
+        if (!this.pridev[prop]) {
           return false;
         }
       }
