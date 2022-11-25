@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { TabViewModule } from 'primeng/tabview';
 import { AllWordsComponent } from './all-words.component';
 
 const routes: Routes = [{ path: '', component: AllWordsComponent }]
@@ -15,6 +16,7 @@ const routes: Routes = [{ path: '', component: AllWordsComponent }]
     TableModule,
     DropdownModule,
     ButtonModule,
+    TabViewModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
