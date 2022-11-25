@@ -11,7 +11,8 @@ export class AllWordsComponent implements OnInit {
   statuses: any[] = [
     {name: 'недефинисано', code: 0},
     {name: 'додати у речник', code: 1},
-    {name: 'игнорисати', code: 2},
+    {name: 'не додати у речник', code: 2},
+    {name: 'уклонити из речника', code: 3},
   ];
   filterRecnikOptions: any[] = [
     {code: true, name: 'да'},
