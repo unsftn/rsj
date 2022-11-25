@@ -6,6 +6,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RippleModule } from 'primeng/ripple';
+import { ButtonModule } from 'primeng/button';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { PridevComponent } from './pridev.component';
 
@@ -21,6 +23,8 @@ const routes: Routes = [{ path: '', component: PridevComponent }]
     TabViewModule,
     FieldsetModule,
     CheckboxModule,
+    RippleModule,
+    ButtonModule,
     MyToolbarModule,
   ],
   exports: [RouterModule],

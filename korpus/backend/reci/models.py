@@ -75,6 +75,12 @@ PRIDEVSKI_VID = [
     (4, 'суперлатив'),
 ]
 
+ROD = [
+    (1, 'мушки'),
+    (2, 'женски'),
+    (3, 'средњи'),
+]
+
 def svi_atributi_prideva():
     rodovi_stepeni = ['mo', 'mn', 'mk', 'ms', 'zp', 'zk', 'zs', 'sp', 'sk', 'ss']
     padezi = ['nom', 'gen', 'dat', 'aku', 'vok', 'ins', 'lok']
@@ -83,7 +89,20 @@ def svi_atributi_prideva():
     atributi = [k[0]+k[1]+k[2] for k in kombinacije]
     return atributi
 
+
+def svi_atributi_varijante_prideva():
+    stepeni = ['o', 'n', 'p', 'k', 's']
+    padezi = ['nom', 'gen', 'dat', 'aku', 'vok', 'ins', 'lok']
+    brojevi = ['jed']
+    kombinacije = itertools.product(stepeni, padezi, brojevi)
+    atributi = [k[0]+k[1]+k[2] for k in kombinacije]
+    return atributi
+
+
 ATRIBUTI_PRIDEVA = svi_atributi_prideva()
+
+ATRIBUTI_VARIJANTE_PRIDEVA = svi_atributi_varijante_prideva()
+
 
 def _append_attr(array, obj, attr_name):
     """
@@ -486,7 +505,7 @@ class Pridev(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.id}: {self.lema}'
 
     def osnovni_oblik(self) -> str:
         return self.lema if self.lema else self.prvi_popunjen_oblik()
@@ -510,59 +529,53 @@ class Pridev(models.Model):
         return ''
 
 
-# class VidPrideva(models.Model):
-#     pridev = models.ForeignKey(Pridev, verbose_name='придев', on_delete=models.CASCADE)
-#     vid = models.IntegerField('вид', choices=PRIDEVSKI_VID)
-#     mnomjed = models.TextField('мушки номинатив једнина', blank=True, null=True)
-#     mgenjed = models.TextField('мушки генитив једнина', blank=True, null=True)
-#     mdatjed = models.TextField('мушки датив једнина', blank=True, null=True)
-#     makujed = models.TextField('мушки акузатив једнина', blank=True, null=True)
-#     mvokjed = models.TextField('мушки вокатив једнина', blank=True, null=True)
-#     minsjed = models.TextField('мушки инструментал једнина', blank=True, null=True)
-#     mlokjed = models.TextField('мушки локатив једнина', blank=True, null=True)
-#     mnommno = models.TextField('мушки номинатив множина', blank=True, null=True)
-#     mgenmno = models.TextField('мушки генитив множина', blank=True, null=True)
-#     mdatmno = models.TextField('мушки датив множина', blank=True, null=True)
-#     makumno = models.TextField('мушки акузатив множина', blank=True, null=True)
-#     mvokmno = models.TextField('мушки вокатив множина', blank=True, null=True)
-#     minsmno = models.TextField('мушки инструментал множина', blank=True, null=True)
-#     mlokmno = models.TextField('мушки локатив множина', blank=True, null=True)
-#     znomjed = models.TextField('женски номинатив једнина', blank=True, null=True)
-#     zgenjed = models.TextField('женски генитив једнина', blank=True, null=True)
-#     zdatjed = models.TextField('женски датив једнина', blank=True, null=True)
-#     zakujed = models.TextField('женски акузатив једнина', blank=True, null=True)
-#     zvokjed = models.TextField('женски вокатив једнина', blank=True, null=True)
-#     zinsjed = models.TextField('женски инструментал једнина', blank=True, null=True)
-#     zlokjed = models.TextField('женски локатив једнина', blank=True, null=True)
-#     znommno = models.TextField('женски номинатив множина', blank=True, null=True)
-#     zgenmno = models.TextField('женски генитив множина', blank=True, null=True)
-#     zdatmno = models.TextField('женски датив множина', blank=True, null=True)
-#     zakumno = models.TextField('женски акузатив множина', blank=True, null=True)
-#     zvokmno = models.TextField('женски вокатив множина', blank=True, null=True)
-#     zinsmno = models.TextField('женски инструментал множина', blank=True, null=True)
-#     zlokmno = models.TextField('женски локатив множина', blank=True, null=True)
-#     snomjed = models.TextField('средњи номинатив једнина', blank=True, null=True)
-#     sgenjed = models.TextField('средњи генитив једнина', blank=True, null=True)
-#     sdatjed = models.TextField('средњи датив једнина', blank=True, null=True)
-#     sakujed = models.TextField('средњи акузатив једнина', blank=True, null=True)
-#     svokjed = models.TextField('средњи вокатив једнина', blank=True, null=True)
-#     sinsjed = models.TextField('средњи инструментал једнина', blank=True, null=True)
-#     slokjed = models.TextField('средњи локатив једнина', blank=True, null=True)
-#     snommno = models.TextField('средњи номинатив множина', blank=True, null=True)
-#     sgenmno = models.TextField('средњи генитив множина', blank=True, null=True)
-#     sdatmno = models.TextField('средњи датив множина', blank=True, null=True)
-#     sakumno = models.TextField('средњи акузатив множина', blank=True, null=True)
-#     svokmno = models.TextField('средњи вокатив множина', blank=True, null=True)
-#     sinsmno = models.TextField('средњи инструментал множина', blank=True, null=True)
-#     slokmno = models.TextField('средњи локатив множина', blank=True, null=True)
+class VarijantaPrideva(models.Model):
+    pridev = models.ForeignKey(Pridev, verbose_name='придев', on_delete=models.CASCADE)
+    rod = models.IntegerField('род', choices=ROD)
+    redni_broj = models.IntegerField('редни број')
+    onomjed = models.TextField('одређени номинатив једнина', blank=True, null=True)
+    ogenjed = models.TextField('одређени генитив једнина', blank=True, null=True)
+    odatjed = models.TextField('одређени датив једнина', blank=True, null=True)
+    oakujed = models.TextField('одређени акузатив једнина', blank=True, null=True)
+    ovokjed = models.TextField('одређени вокатив једнина', blank=True, null=True)
+    oinsjed = models.TextField('одређени инструментал једнина', blank=True, null=True)
+    olokjed = models.TextField('одређени локатив једнина', blank=True, null=True)
+    nnomjed = models.TextField('неодређени номинатив једнина', blank=True, null=True)
+    ngenjed = models.TextField('неодређени генитив једнина', blank=True, null=True)
+    ndatjed = models.TextField('неодређени датив једнина', blank=True, null=True)
+    nakujed = models.TextField('неодређени акузатив једнина', blank=True, null=True)
+    nvokjed = models.TextField('неодређени вокатив једнина', blank=True, null=True)
+    ninsjed = models.TextField('неодређени инструментал једнина', blank=True, null=True)
+    nlokjed = models.TextField('неодређени локатив једнина', blank=True, null=True)
+    pnomjed = models.TextField('позитив номинатив једнина', blank=True, null=True)
+    pgenjed = models.TextField('позитив генитив једнина', blank=True, null=True)
+    pdatjed = models.TextField('позитив датив једнина', blank=True, null=True)
+    pakujed = models.TextField('позитив акузатив једнина', blank=True, null=True)
+    pvokjed = models.TextField('позитив вокатив једнина', blank=True, null=True)
+    pinsjed = models.TextField('позитив инструментал једнина', blank=True, null=True)
+    plokjed = models.TextField('позитив локатив једнина', blank=True, null=True)
+    knomjed = models.TextField('компаратив номинатив једнина', blank=True, null=True)
+    kgenjed = models.TextField('компаратив генитив једнина', blank=True, null=True)
+    kdatjed = models.TextField('компаратив датив једнина', blank=True, null=True)
+    kakujed = models.TextField('компаратив акузатив једнина', blank=True, null=True)
+    kvokjed = models.TextField('компаратив вокатив једнина', blank=True, null=True)
+    kinsjed = models.TextField('компаратив инструментал једнина', blank=True, null=True)
+    klokjed = models.TextField('компаратив локатив једнина', blank=True, null=True)
+    snomjed = models.TextField('суперлатив номинатив једнина', blank=True, null=True)
+    sgenjed = models.TextField('суперлатив генитив једнина', blank=True, null=True)
+    sdatjed = models.TextField('суперлатив датив једнина', blank=True, null=True)
+    sakujed = models.TextField('суперлатив акузатив једнина', blank=True, null=True)
+    svokjed = models.TextField('суперлатив вокатив једнина', blank=True, null=True)
+    sinsjed = models.TextField('суперлатив инструментал једнина', blank=True, null=True)
+    slokjed = models.TextField('суперлатив локатив једнина', blank=True, null=True)
 
-#     class Meta:
-#         verbose_name = 'вид придева'
-#         verbose_name_plural = 'видови придева'
-#         ordering = ['vid']
+    class Meta:
+        verbose_name = 'варијанта придева'
+        verbose_name_plural = 'варијанте придева'
+        ordering = ['redni_broj']
 
-#     def __str__(self):
-#         return f'{self.pridev.id}/{self.id}: {self.mnomjed}'
+    def __str__(self):
+        return f'{self.id}'
 
 
 class IzmenaPrideva(models.Model):
@@ -580,6 +593,9 @@ def _svi_oblici_prideva(pridev):
     retval = [pridev.lema]
     for attr in ATRIBUTI_PRIDEVA:
         _append_attr(retval, pridev, attr)
+    for vp in pridev.varijantaprideva_set.all():
+        for attr in ATRIBUTI_VARIJANTE_PRIDEVA:
+            _append_attr(retval, vp, attr)
     return retval
 
 

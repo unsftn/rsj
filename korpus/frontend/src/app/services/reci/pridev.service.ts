@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Pridev, PridevskiVid } from '../../models/reci';
+import { Pridev, VarijantaPrideva } from '../../models/reci';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class PridevService {
   new(): Pridev {
     return {
       dvaVida: true,
+      varijante: [],
       monomjed: '',
       mogenjed: '',
       modatjed: '',
@@ -153,6 +154,48 @@ export class PridevService {
       ssvokmno: '',
       ssinsmno: '',
       sslokmno: '',
+    };
+  }
+
+  newVarijanta(rod: number, redni_broj: number): VarijantaPrideva {
+    return {
+      rod: rod,
+      redni_broj: redni_broj,
+      onomjed: '',
+      ogenjed: '',
+      odatjed: '',
+      oakujed: '',
+      ovokjed: '',
+      oinsjed: '',
+      olokjed: '',
+      nnomjed: '',
+      ngenjed: '',
+      ndatjed: '',
+      nakujed: '',
+      nvokjed: '',
+      ninsjed: '',
+      nlokjed: '',
+      pnomjed: '',
+      pgenjed: '',
+      pdatjed: '',
+      pakujed: '',
+      pvokjed: '',
+      pinsjed: '',
+      plokjed: '',
+      knomjed: '',
+      kgenjed: '',
+      kdatjed: '',
+      kakujed: '',
+      kvokjed: '',
+      kinsjed: '',
+      klokjed: '',
+      snomjed: '',
+      sgenjed: '',
+      sdatjed: '',
+      sakujed: '',
+      svokjed: '',
+      sinsjed: '',
+      slokjed: '',
     };
   }
 

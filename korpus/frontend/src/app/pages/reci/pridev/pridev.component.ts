@@ -128,10 +128,32 @@ export class PridevComponent implements OnInit, AfterViewInit {
     return true;
   }
 
+  emptyVariants(): boolean {
+    let properties = [
+      'onomjed', 'ogenjed', 'odatjed', 'oakujed', 'ovokjed', 'oinsjed', 'olokjed', 'nnomjed', 'ngenjed',
+      'ndatjed', 'nakujed', 'nvokjed', 'ninsjed', 'nlokjed', 'pnomjed', 'pgenjed', 'pdatjed', 'pakujed',
+      'pvokjed', 'pinsjed', 'plokjed', 'knomjed', 'kgenjed', 'kdatjed', 'kakujed', 'kvokjed', 'kinsjed',
+      'klokjed', 'snomjed', 'sgenjed', 'sdatjed', 'sakujed', 'svokjed', 'sinsjed', 'slokjed'
+    ];
+    for (const v of this.pridev.varijante) {
+      let empty = true;
+      for (const prop of properties) {
+        if (v.hasOwnProperty(prop)) {
+          if (v[prop])
+            empty = false;
+        }
+      }
+      if (empty)
+        return true;
+    }
+    return false;
+  }
+
   check(): boolean {
     try {
       this.assert(this.allEmpty(), 'Ниједан облик није попуњен!');
       this.assert(!this.allNominative(), 'Номинатив је обавезан у свим родовима једнине и множине!');
+      this.assert(this.emptyVariants(), 'Постоји бар једна потпуно празна варијанта!');
       return true;
     } catch (e) {
       return false;      
@@ -180,6 +202,35 @@ export class PridevComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  addVarijanta(rod: number): void {
+    const redni_broj = this.pridev.varijante.length + 1;
+    const varijanta = this.pridevService.newVarijanta(rod, redni_broj);
+    this.pridev.varijante.push(varijanta);
+  }
+
+  moveUp(index: number): void {
+    if (index === 0)
+      return;
+    const temp = this.pridev.varijante.splice(index, 1)[0];
+    this.pridev.varijante.splice(index - 1, 0, temp);
+  }
+
+  moveDown(index: number): void {
+    if (index === this.pridev.varijante.length - 1)
+      return;
+    const temp = this.pridev.varijante.splice(index, 1)[0];
+    this.pridev.varijante.splice(index + 1, 0, temp);
+  }
+
+  remove(index: number): void {
+    this.pridev.varijante.splice(index, 1);
+  }
+
+  varTabOffset(index: number): number {
+    const neodredjeniCount = this.pridev.dvaVida ? 7 : 0;
+    return 56 + index * (21 + neodredjeniCount);
   }
 
   saveAvailable() {

@@ -175,36 +175,37 @@ export interface PridevskiVid {
   name: string;
 }
 
-export interface VidPrideva {
-  vid: number;
-  mnomjed: string;
-  mgenjed: string;
-  mdatjed: string;
-  makujed: string;
-  mvokjed: string;
-  minsjed: string;
-  mlokjed: string;
-  mnommno: string;
-  mgenmno: string;
-  mdatmno: string;
-  makumno: string;
-  mvokmno: string;
-  minsmno: string;
-  mlokmno: string;
-  znomjed: string;
-  zgenjed: string;
-  zdatjed: string;
-  zakujed: string;
-  zvokjed: string;
-  zinsjed: string;
-  zlokjed: string;
-  znommno: string;
-  zgenmno: string;
-  zdatmno: string;
-  zakumno: string;
-  zvokmno: string;
-  zinsmno: string;
-  zlokmno: string;
+export interface VarijantaPrideva {
+  rod: number;
+  redni_broj: number;
+  onomjed: string;
+  ogenjed: string;
+  odatjed: string;
+  oakujed: string;
+  ovokjed: string;
+  oinsjed: string;
+  olokjed: string;
+  nnomjed: string;
+  ngenjed: string;
+  ndatjed: string;
+  nakujed: string;
+  nvokjed: string;
+  ninsjed: string;
+  nlokjed: string;
+  pnomjed: string;
+  pgenjed: string;
+  pdatjed: string;
+  pakujed: string;
+  pvokjed: string;
+  pinsjed: string;
+  plokjed: string;
+  knomjed: string;
+  kgenjed: string;
+  kdatjed: string;
+  kakujed: string;
+  kvokjed: string;
+  kinsjed: string;
+  klokjed: string;
   snomjed: string;
   sgenjed: string;
   sdatjed: string;
@@ -212,19 +213,12 @@ export interface VidPrideva {
   svokjed: string;
   sinsjed: string;
   slokjed: string;
-  snommno: string;
-  sgenmno: string;
-  sdatmno: string;
-  sakumno: string;
-  svokmno: string;
-  sinsmno: string;
-  slokmno: string;
 }
 
 export interface Pridev {
   id?: number;
   dvaVida?: boolean;
-  // vidovi: VidPrideva[];
+  varijante: VarijantaPrideva[];
   recnikID?: number;
   vlasnikID?: number;
   izmene?: any;
@@ -370,69 +364,59 @@ export interface Pridev {
   sslokmno: string;
 }
 
-// function getVid(vidovi: VidPrideva[], vid: number): VidPrideva {
-//   let v = vidovi.filter(v => v.vid == vid);
-//   if (v.length > 0)
-//     return nvlObj(v[0]);
-//   else
-//     return {
-//       vid: vid,
-//       mnomjed: '',
-//       mgenjed: '',
-//       mdatjed: '',
-//       makujed: '',
-//       mvokjed: '',
-//       minsjed: '',
-//       mlokjed: '',
-//       mnommno: '',
-//       mgenmno: '',
-//       mdatmno: '',
-//       makumno: '',
-//       mvokmno: '',
-//       minsmno: '',
-//       mlokmno: '',
-//       znomjed: '',
-//       zgenjed: '',
-//       zdatjed: '',
-//       zakujed: '',
-//       zvokjed: '',
-//       zinsjed: '',
-//       zlokjed: '',
-//       znommno: '',
-//       zgenmno: '',
-//       zdatmno: '',
-//       zakumno: '',
-//       zvokmno: '',
-//       zinsmno: '',
-//       zlokmno: '',
-//       snomjed: '',
-//       sgenjed: '',
-//       sdatjed: '',
-//       sakujed: '',
-//       svokjed: '',
-//       sinsjed: '',
-//       slokjed: '',
-//       snommno: '',
-//       sgenmno: '',
-//       sdatmno: '',
-//       sakumno: '',
-//       svokmno: '',
-//       sinsmno: '',
-//       slokmno: ''
-//     }
-// }
+function getVarijanta(pridev: Pridev, rod: number, redni_broj: number): VarijantaPrideva {
+  let varijante = pridev.varijante.filter(v => v.rod === rod && v.redni_broj === redni_broj);
+  if (varijante.length > 0)
+    return nvlObj(varijante[0]);
+  else
+    return {
+      rod: rod,
+      redni_broj: redni_broj,
+      onomjed: '',
+      ogenjed: '',
+      odatjed: '',
+      oakujed: '',
+      ovokjed: '',
+      oinsjed: '',
+      olokjed: '',
+      nnomjed: '',
+      ngenjed: '',
+      ndatjed: '',
+      nakujed: '',
+      nvokjed: '',
+      ninsjed: '',
+      nlokjed: '',
+      pnomjed: '',
+      pgenjed: '',
+      pdatjed: '',
+      pakujed: '',
+      pvokjed: '',
+      pinsjed: '',
+      plokjed: '',
+      knomjed: '',
+      kgenjed: '',
+      kdatjed: '',
+      kakujed: '',
+      kvokjed: '',
+      kinsjed: '',
+      klokjed: '',
+      snomjed: '',
+      sgenjed: '',
+      sdatjed: '',
+      sakujed: '',
+      svokjed: '',
+      sinsjed: '',
+      slokjed: '',
+    }
+}
 
 export function toPridev(obj: any): Pridev {
-  // const vidovi: VidPrideva[] = [];
-  // vidovi.push(getVid(obj.vidprideva_set, 1));
-  // vidovi.push(getVid(obj.vidprideva_set, 2));
-  // vidovi.push(getVid(obj.vidprideva_set, 3));
-  // vidovi.push(getVid(obj.vidprideva_set, 4));
   return {
     id: obj.id,
     dvaVida: obj.dva_vida,
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
+    varijante: obj.varijantaprideva_set,
     izmene: obj.izmenaprideva_set,
     monomjed: obj.monomjed,
     mogenjed: obj.mogenjed,

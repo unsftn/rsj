@@ -102,7 +102,88 @@
         <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokjed" class="w140" tabindex="49"></div>
         <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokmno" class="w140" tabindex="56"></div>
       </div>
+      <div class="mt-6" *ngFor="let v of pridev.varijante; let index=index">
+        <div class="flex justify-content-end" [ngClass]="{'w1250': pridev.dvaVida, 'w950': !pridev.dvaVida}">
+          <div><b>Варијанта {{index+1}}</b></div>
+          <div class="flex-grow-1"></div>
+          <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(index)" [disabled]="index === 0"></button>
+          <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(index)" [disabled]="index === pridev.varijante.length-1"></button>
+          <button pButton pRipple type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined p-button-danger smaller-button" (click)="remove(index)"></button>  
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">номинатив</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.onomjed" #tekst class="w140" [tabindex]="varTabOffset(index)+1"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nnomjed" class="w140" [tabindex]="varTabOffset(index)+8"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.knomjed" class="w140" [tabindex]="varTabOffset(index)+15"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.snomjed" class="w140" [tabindex]="varTabOffset(index)+22"></div>
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">генитив</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ogenjed" #tekst class="w140" [tabindex]="varTabOffset(index)+2"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ngenjed" class="w140" [tabindex]="varTabOffset(index)+9"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kgenjed" class="w140" [tabindex]="varTabOffset(index)+16"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sgenjed" class="w140" [tabindex]="varTabOffset(index)+23"></div>
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">датив</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.odatjed" #tekst class="w140" [tabindex]="varTabOffset(index)+3"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ndatjed" class="w140" [tabindex]="varTabOffset(index)+10"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kdatjed" class="w140" [tabindex]="varTabOffset(index)+17"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sdatjed" class="w140" [tabindex]="varTabOffset(index)+24"></div>
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">акузатив</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.oakujed" #tekst class="w140" [tabindex]="varTabOffset(index)+4"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nakujed" class="w140" [tabindex]="varTabOffset(index)+11"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kakujed" class="w140" [tabindex]="varTabOffset(index)+18"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sakujed" class="w140" [tabindex]="varTabOffset(index)+25"></div>
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">вокатив</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ovokjed" #tekst class="w140" [tabindex]="varTabOffset(index)+5"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nvokjed" class="w140" [tabindex]="varTabOffset(index)+12"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kvokjed" class="w140" [tabindex]="varTabOffset(index)+19"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.svokjed" class="w140" [tabindex]="varTabOffset(index)+26"></div>
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">инструментал</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.oinsjed" #tekst class="w140" [tabindex]="varTabOffset(index)+6"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ninsjed" class="w140" [tabindex]="varTabOffset(index)+13"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kinsjed" class="w140" [tabindex]="varTabOffset(index)+20"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sinsjed" class="w140" [tabindex]="varTabOffset(index)+27"></div>
+        </div>
+        <div class="flex flex-row align-items-baseline">
+          <div class="w100">локатив</div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.olokjed" #tekst class="w140" [tabindex]="varTabOffset(index)+7"></div>
+          <div class="w150 m3"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nlokjed" class="w140" [tabindex]="varTabOffset(index)+14"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.klokjed" class="w140" [tabindex]="varTabOffset(index)+21"></div>
+          <div class="w150 m3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.slokjed" class="w140" [tabindex]="varTabOffset(index)+28"></div>
+        </div>
+      </div>
+      <button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="addVarijanta(1)"></button>
     </p-tabPanel>
+
     <p-tabPanel header="Женски род">
       <div class="flex flex-row align-items-baseline">
         <div class="w100"></div>

@@ -30,8 +30,19 @@
 .w250 { width: 250px; }
 .w275 { width: 275px; }
 .w300 { width: 300px; }
+.w950 { width: 950px; }
+.w1250 { width: 1250px; }
 
 .center { text-align: center; }
 
 .m3 { margin-top: 3px; margin-bottom: 3px; }
 .m6 { margin-top: 6px; margin-bottom: 6px; }
+
+.fab {
+  z-index: 100;
+  position: fixed !important;
+  right: 15px;
+  bottom: 15px;
+  width: 40px !important;
+  height: 40px !important;
+}
