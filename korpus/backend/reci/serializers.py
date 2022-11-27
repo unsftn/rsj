@@ -61,7 +61,7 @@ class GlagolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Glagol
         fields = ('id', 'gl_vid', 'gl_rod', 'infinitiv', 'recnik_id', 'status', 'vreme_kreiranja', 'poslednja_izmena',
-                  'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps', 'oblikglagola_set',
+                  'rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gps', 'gpp2', 'oblikglagola_set',
                   'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
 
 
@@ -281,6 +281,7 @@ class SaveGlagolSerializer(serializers.Serializer):
     rgp_sm = serializers.CharField(max_length=50, allow_blank=True)
     gpp = serializers.CharField(max_length=50, allow_blank=True)
     gps = serializers.CharField(max_length=50, allow_blank=True)
+    gpp2 = serializers.CharField(max_length=50, allow_blank=True)
     oblici = serializers.ListField(child=SaveOblikGlagolaSerializer())
 
     def create(self, validated_data):

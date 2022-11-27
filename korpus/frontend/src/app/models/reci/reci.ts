@@ -123,6 +123,7 @@ export interface Glagol {
   rgp_sm: string;
   gpp: string;
   gps: string;
+  gpp2: string;
   recnikID?: number;
   vlasnikID?: number;
   izmene?: any;
@@ -145,6 +146,7 @@ export function toGlagol(obj: any): Glagol {
     rgp_sm: nvl(obj.rgp_sm),
     gpp: nvl(obj.gpp),
     gps: nvl(obj.gps),
+    gpp2: nvl(obj.gpp2),
     izmene: obj.izmenaglagola_set,
     oblici: Array(5).fill({vreme: 0, jd1: '', jd2: '', jd3: '', mn1: '', mn2: '', mn3: '', varijante: []}),
   };

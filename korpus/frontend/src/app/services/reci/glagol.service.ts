@@ -54,6 +54,7 @@ export class GlagolService {
       rgp_sm: '',
       gpp: '',
       gps: '',
+      gpp2: '',
       oblici: [
         { vreme: 1, jd1: '', jd2: '', jd3: '', mn1: '', mn2: '', mn3: '', varijante: [] },
         { vreme: 2, jd1: '', jd2: '', jd3: '', mn1: '', mn2: '', mn3: '', varijante: [] },

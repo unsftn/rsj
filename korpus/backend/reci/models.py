@@ -247,6 +247,7 @@ class Glagol(models.Model):
     tgp_sm = models.CharField('тгп с.мн.', max_length=50, blank=True, null=True)
     gpp = models.CharField('гл.прил. прошли', max_length=50, blank=True, null=True)
     gps = models.CharField('гл.прил. садашњи', max_length=50, blank=True, null=True)
+    gpp2 = models.CharField('гл.прил. садашњи, варијанта', max_length=50, blank=True, null=True)
     recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
     status = models.ForeignKey(StatusReci, verbose_name='статус речи', on_delete=models.PROTECT, blank=True, null=True)
     vreme_kreiranja = models.DateTimeField('време креирања', default=now)

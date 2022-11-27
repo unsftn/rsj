@@ -265,12 +265,16 @@
     <p-tabPanel header="ГПП+ГПС">
       <div class="tableform">
         <div class="row">
-          <div class="cell">Глаголски прилог прошли</div>
+          <div class="cell"><p class="label">Глаголски прилог садашњи</p></div>
+          <div class="cell"><input id="gps" type="text" pInputText [(ngModel)]="glagol.gps"></div>
+        </div>
+        <div class="row">
+          <div class="cell"><p class="label">Глаголски прилог прошли</p></div>
           <div class="cell"><input id="gpp" type="text" pInputText [(ngModel)]="glagol.gpp"></div>
         </div>
         <div class="row">
-          <div class="cell">Глаголски прилог садашњи</div>
-          <div class="cell"><input id="gps" type="text" pInputText [(ngModel)]="glagol.gps"></div>
+          <div class="cell"><p class="label">Глаголски прилог прошли +</p></div>
+          <div class="cell"><input id="gpp2" type="text" pInputText [(ngModel)]="glagol.gpp2"></div>
         </div>
       </div>
     </p-tabPanel>
