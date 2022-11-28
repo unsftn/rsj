@@ -427,32 +427,6 @@ def forgot_password(request):
 
 
 @api_view(['GET'])
-def get_broj_reci_za_korisnika(request):
-    try:
-        user = request.user
-        bur = get_brojac_reci(user.id)
-        return Response(bur, status=status.HTTP_200_OK)
-    except Exception as ex:
-        return Response(-1, status=status.HTTP_401_UNAUTHORIZED)
-
-
-@api_view(['GET'])
-def get_broj_reci_za_sve(request):
-    retval = []
-    for bur in BrojacUnetihReci.objects.all():
-        retval.append({
-            'user': {
-                'id': bur.user.id, 
-                'first_name': bur.user.first_name,
-                'last_name': bur.user.last_name,
-                'email': bur.user.email,
-            },
-            'broj_unetih_reci': bur.broj_reci,
-        })
-    return Response(retval, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def get_statistika_unosa_reci(request):
     result = []
@@ -469,6 +443,7 @@ def get_statistika_unosa_reci(request):
         brojevi = Broj.objects.filter(vlasnik=user).count()
         ukupno = imenice + glagoli + pridevi + prilozi + predlozi + zamenice + uzvici + veznici + recce + brojevi
         item = {
+            'userID': user.id,
             'ime': user.first_name, 
             'prezime': user.last_name, 
             'email': user.email, 
@@ -490,7 +465,19 @@ def get_statistika_unosa_reci(request):
 
 @api_view(['GET'])
 def moje_reci(request):
-    user = request.user
+    return broj_reci_za_korisnika(request.user)
+
+
+@api_view(['GET'])
+def reci_korisnika(request, user_id):
+    try:
+        user = UserProxy.objects.get(id=user_id)
+        return broj_reci_za_korisnika(user)
+    except UserProxy.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+def broj_reci_za_korisnika(user):
     imenice = Imenica.objects.filter(vlasnik=user)
     glagoli = Glagol.objects.filter(vlasnik=user)
     pridevi = Pridev.objects.filter(vlasnik=user)
@@ -502,7 +489,7 @@ def moje_reci(request):
     recce = Recca.objects.filter(vlasnik=user)
     brojevi = Broj.objects.filter(vlasnik=user)
     result = []
-    for niz in [imenice, glagoli, pridevi, prilozi, zamenice, predlozi, uzvici, veznici, recce, brojevi]:        
+    for niz in [imenice, glagoli, pridevi, prilozi, zamenice, predlozi, uzvici, veznici, recce, brojevi]:
         result.extend([{'id': x.id, 'rec': x.osnovni_oblik(), 'vrsta_id': x.vrsta_reci(), 'vrsta': x.naziv_vrste_reci()} for x in niz])
     return Response(result, status=status.HTTP_200_OK)
 
@@ -522,6 +509,21 @@ def broj_mojih_reci(request):
     brojevi = Broj.objects.filter(vlasnik=user).count()
     ukupno = imenice + glagoli + pridevi + prilozi + zamenice + predlozi + uzvici + veznici + recce + brojevi
     return Response(ukupno, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def user_info(request, user_id):
+    try:
+        user = UserProxy.objects.get(id=user_id)
+        data = {
+            'firstName': user.first_name,
+            'lastName': user.last_name,
+            'email': user.email,
+            'id': user.id
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    except UserProxy.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 def generate_password():

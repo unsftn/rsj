@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RecService, StatsService } from '../../../services/reci';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
+import { UserService } from '../../../services/auth/user.service';
 
 @Component({
   selector: 'app-moje-reci',
@@ -12,24 +13,51 @@ export class MojeReciComponent implements OnInit {
 
   mojeReci: any[] = [];
   username: string = '';
+  userID: number;
 
   constructor(
     private router: Router,
     private recService: RecService,
     private statsService: StatsService,
+    private activatedRoute: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this.username = (this.tokenStorageService.getUser()?.firstName ?? '') + ' ' + (this.tokenStorageService.getUser()?.lastName ?? '');
-    this.fetchData();
+    this.activatedRoute.data.subscribe(data => {
+      switch (data.mode) {
+        case 'self':
+          this.username = (this.tokenStorageService.getUser()?.firstName ?? '') + ' ' + (this.tokenStorageService.getUser()?.lastName ?? '');
+          this.userID = null;
+          break;
+        case 'other':
+          this.activatedRoute.params.subscribe(params => {
+            this.userID = +params.userID;
+            this.userService.getUserInfo(this.userID).subscribe({
+              next: (data) => { 
+                this.username = data.firstName + ' ' + data.lastName;
+              },
+              error: (error) => { console.log(error); }
+            })
+          });
+          break;
+      }
+      this.fetchData();
+    });
   }
 
   fetchData(): void {
-    this.statsService.getMojeReci().subscribe({
-      next: (data) => { this.mojeReci = data },
-      error: (err) => { console.log(err) }
-    });
+    if (!this.userID)
+      this.statsService.getMojeReci().subscribe({
+        next: (data) => { this.mojeReci = data },
+        error: (err) => { console.log(err) }
+      });
+    else
+      this.statsService.getReciKorisnika(this.userID).subscribe({
+        next: (data) => { this.mojeReci = data },
+        error: (err) => { console.log(err) }
+      });
   }
 
   navigate(rec: any): void {

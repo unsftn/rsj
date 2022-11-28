@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatsService } from '../../../services/reci/stats.service';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-broj-unetih-reci',
@@ -9,10 +10,15 @@ import { StatsService } from '../../../services/reci/stats.service';
 export class BrojUnetihReciComponent implements OnInit {
 
   stats: any[] = [];
+  isAdmin: boolean = false;
 
-  constructor(private statsService: StatsService) { }
+  constructor(
+    private statsService: StatsService,
+    private tokenStorageService: TokenStorageService,
+  ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenStorageService.getUser().isStaff;
     this.loadStats();
   }
 

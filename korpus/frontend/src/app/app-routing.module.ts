@@ -167,6 +167,13 @@ const routes: Routes = [
     path: 'izvestaji/moje-reci',
     loadChildren: () => import('./pages/reports/moje-reci/moje-reci.module').then((m) => m.MojeReciModule),
     canActivate: [AuthGuard],
+    data: { mode: 'self' }
+  },
+  {
+    path: 'izvestaji/reci-korisnika/:userID',
+    loadChildren: () => import('./pages/reports/moje-reci/moje-reci.module').then((m) => m.MojeReciModule),
+    canActivate: [AuthGuard],
+    data: { mode: 'other' }
   },
   { path: '**', redirectTo: '' },
 ];

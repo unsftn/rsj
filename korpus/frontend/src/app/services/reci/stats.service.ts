@@ -9,16 +9,16 @@ export class StatsService {
 
   constructor(private http: HttpClient) { }
 
-  // getBrojUnetihReci(): Observable<any> {
-  //   return this.http.get<any>(`/api/reci/stats/bur/`);
-  // }
-
   getBrojUnetihReciZaSve(): Observable<any> {
     return this.http.get<any>(`/api/reci/stats/unos-reci/`);
   }
 
   getMojeReci(): Observable<any> {
     return this.http.get<any>(`/api/reci/stats/moje-reci/`);
+  }
+
+  getReciKorisnika(userID: number): Observable<any> {
+    return this.http.get<any>(`/api/reci/stats/reci-korisnika/${userID}/`);
   }
 
   getBrojMojihReci(): Observable<any> {

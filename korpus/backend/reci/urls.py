@@ -39,11 +39,13 @@ urlpatterns = [
 
     path('password/change/', change_password),
     path('password/forgot/', forgot_password),
+    path('user/<int:user_id>/', user_info),
 
-    path('stats/bur/', get_broj_reci_za_korisnika),
-    path('stats/bur/svi/', get_broj_reci_za_sve),
+    # path('stats/bur/', get_broj_reci_za_korisnika),
+    # path('stats/bur/svi/', get_broj_reci_za_sve),
     path('stats/unos-reci/', get_statistika_unosa_reci),
     path('stats/moje-reci/', moje_reci),
+    path('stats/reci-korisnika/<int:user_id>/', reci_korisnika),
     path('stats/broj-mojih-reci/', broj_mojih_reci),
 ]
 
