@@ -102,7 +102,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
       'ssdatmno',  'ssakumno',  'ssvokmno',  'ssinsmno',  'sslokmno'];
     for (const prop of properties) {
       if (this.pridev.hasOwnProperty(prop)) {
-        if (this.pridev[prop]) {
+        if (this.pridev[prop].trim()) {
           return false;
         }
       }
@@ -117,10 +117,11 @@ export class PridevComponent implements OnInit, AfterViewInit {
       'spnomjed', 'spnommno', 'sknomjed', 'sknommno', 'ssnomjed', 'ssnommno',
     ];
     if (this.pridev.dvaVida)
-      properties.push('mnnomjed', 'mnnommno');
+      // properties.push('mnnomjed', 'mnnommno');
+      properties.push('mnnomjed');
     for (const prop of properties) {
       if (this.pridev.hasOwnProperty(prop)) {
-        if (!this.pridev[prop]) {
+        if (!this.pridev[prop].trim()) {
           return false;
         }
       }
@@ -139,7 +140,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
       let empty = true;
       for (const prop of properties) {
         if (v.hasOwnProperty(prop)) {
-          if (v[prop])
+          if (v[prop].trim())
             empty = false;
         }
       }
