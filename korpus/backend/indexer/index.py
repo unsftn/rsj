@@ -133,7 +133,7 @@ def index_broj(broj, client=None):
 def index_prilog(prilog, client=None):
     prilog_dict = {
         'pk': '3_' + str(prilog.pk),
-        'rec': prilog.komparativ,
+        'rec': prilog.pozitiv,
         'vrsta': 3,
         'oblici': prilog.oblici(),
         'osnovni_oblik': prilog.osnovni_oblik(),

@@ -179,7 +179,7 @@ class BrojSerializer(serializers.ModelSerializer):
 class PrilogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Prilog
-        fields = ('id', 'komparativ', 'superlativ', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
+        fields = ('id', 'pozitiv', 'komparativ', 'superlativ', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
         
 
 class NoSaveSerializer(serializers.Serializer):
@@ -620,6 +620,7 @@ class SaveVeznikSerializer(serializers.Serializer):
 
 class SavePrilogSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
+    pozitiv = serializers.CharField(max_length=50, allow_blank=True)
     komparativ = serializers.CharField(max_length=50, allow_blank=True)
     superlativ = serializers.CharField(max_length=50, allow_blank=True)
 

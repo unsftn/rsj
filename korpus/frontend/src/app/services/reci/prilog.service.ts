@@ -12,7 +12,7 @@ export class PrilogService {
 
   new(): Prilog {
     return {
-      komparativ: '', superlativ: '', recnikID: null,
+      pozitiv: '', komparativ: '', superlativ: '', recnikID: null,
     };
   }
 

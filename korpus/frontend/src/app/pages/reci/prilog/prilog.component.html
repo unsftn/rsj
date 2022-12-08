@@ -3,8 +3,12 @@
   <h3>Прилог <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>
   <div class="tableform">
     <div class="row">
+      <div class="cell"><p class="label">Позитив</p></div>
+      <div class="cell"><input id="pozitiv" type="text" pInputText [(ngModel)]="prilog.pozitiv" #pozitiv></div>
+    </div>
+    <div class="row">
       <div class="cell"><p class="label">Компаратив</p></div>
-      <div class="cell"><input id="komparativ" type="text" pInputText [(ngModel)]="prilog.komparativ" #komparativ></div>
+      <div class="cell"><input id="komparativ" type="text" pInputText [(ngModel)]="prilog.komparativ"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Суперлатив</p></div>

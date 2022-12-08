@@ -17,7 +17,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
-  @ViewChild('komparativ') textInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('pozitiv') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,7 +53,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
                     severity: 'error',
                     summary: 'Грешка',
                     life: 5000,
-                    detail: 'Број није учитан',
+                    detail: 'Прилог није учитан',
                   });
                   this.router.navigate(['/']);
                 }
@@ -74,7 +74,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
 
   check(): boolean {
     try {
-      this.assert(this.prilog.komparativ.trim().length === 0, 'Мора се унети компаратив.');
+      this.assert(this.prilog.pozitiv.trim().length === 0, 'Мора се унети позитив.');
       return true;
     } catch (e) {
       return false;

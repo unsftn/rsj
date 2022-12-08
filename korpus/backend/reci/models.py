@@ -909,6 +909,7 @@ class IzmenaBroja(models.Model):
 
 
 class Prilog(models.Model):
+    pozitiv = models.CharField('позитив', max_length=50, blank=True, null=True)
     komparativ = models.CharField('компаратив', max_length=50, blank=True, null=True)
     superlativ = models.CharField('суперлатив', max_length=50, blank=True, null=True)
     recnik_id = models.IntegerField('ID одреднице у речнику', blank=True, null=True)
@@ -922,15 +923,16 @@ class Prilog(models.Model):
         verbose_name_plural = 'прилози'
         ordering = ['id']
         indexes = [
+            models.Index(fields=['pozitiv']),
             models.Index(fields=['komparativ']),
             models.Index(fields=['superlativ'])
         ]
 
     def __str__(self):
-        return f'{self.id}: {self.komparativ}'
+        return f'{self.id}: {self.pozitiv}'
 
     def osnovni_oblik(self) -> str:
-        return self.komparativ
+        return self.pozitiv
 
     def vrsta_reci(self) -> int:
         return 3
@@ -940,6 +942,8 @@ class Prilog(models.Model):
 
     def oblici(self) -> list:
         retval = []
+        if self.pozitiv:
+            retval.append(self.pozitiv)
         if self.komparativ:
             retval.append(self.komparativ)
         if self.superlativ:

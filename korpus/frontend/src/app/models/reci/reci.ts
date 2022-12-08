@@ -718,6 +718,7 @@ export interface Prilog {
   id?: number;
   recnikID?: number;
   vlasnikID?: number;
+  pozitiv: string;
   komparativ: string;
   superlativ: string;
   izmene?: any[];
@@ -728,6 +729,7 @@ export function toPrilog(obj: any): Prilog {
     id: obj.id,
     recnikID: obj.recnik_id,
     vlasnikID: obj.vlasnik,
+    pozitiv: obj.pozitiv,
     komparativ: obj.komparativ,
     superlativ: obj.superlativ,
   };
