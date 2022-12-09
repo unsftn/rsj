@@ -1,5 +1,4 @@
 # coding=utf-8
-from operator import itemgetter
 import random
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +11,7 @@ from concurrency.exceptions import RecordModifiedError
 from .models import *
 from .serializers import *
 from indexer.index import *
-
+from publikacije.cyrlat import sort_key
 
 class ImenicaList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -492,7 +491,7 @@ def broj_reci_za_korisnika(user):
     result = []
     for niz in [imenice, glagoli, pridevi, prilozi, zamenice, predlozi, uzvici, veznici, recce, brojevi]:
         result.extend([{'id': x.id, 'rec': x.osnovni_oblik(), 'vrsta_id': x.vrsta_reci(), 'vrsta': x.naziv_vrste_reci()} for x in niz])
-    result = sorted(result, key=itemgetter('rec'))
+    result = sorted(result, key=lambda w: sort_key(w['rec']))
     return Response(result, status=status.HTTP_200_OK)
 
 
