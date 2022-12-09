@@ -169,10 +169,10 @@ class Imenica(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.id}: {self.nomjed}'
+        return f'{self.id}: {self.osnovni_oblik()}'
 
     def osnovni_oblik(self) -> str:
-        return self.nomjed
+        return self.nomjed or self.nommno
 
     def vrsta_reci(self) -> int:
         return 0
