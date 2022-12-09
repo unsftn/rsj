@@ -32,9 +32,12 @@ def index_publikacija(pub_id, client=None):
 
 
 def index_imenica(imenica, client=None):
+    oo = imenica.nomjed
+    if not oo:
+        oo = imenica.nommno
     imenica_dict = {
         'pk': '0_' + str(imenica.pk),
-        'rec': imenica.nomjed,
+        'rec': oo,
         'vrsta': 0,
         'oblici': imenica.oblici(),
         'osnovni_oblik': imenica.nomjed,
@@ -54,9 +57,12 @@ def index_glagol(glagol, client=None):
 
 
 def index_pridev(pridev, client=None):
+    oo = pridev.lema
+    if not oo:
+        oo = pridev.mpnomjed or pridev.monomjed
     pridev_dict = {
         'pk': '2_' + str(pridev.pk),
-        'rec': pridev.lema,
+        'rec': oo,
         'vrsta': 2,
         'oblici': pridev.oblici(),
         'osnovni_oblik': pridev.lema,
