@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'reci',
     'publikacije',
     'indexer',
+    'decider',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,10 @@ LOGGING = {
             'level': 'INFO'
         },
         'indexer': {
+            'handlers': ['console', 'file', 'mail_admins'],
+            'level': 'INFO'
+        },
+        'decider': {
             'handlers': ['console', 'file', 'mail_admins'],
             'level': 'INFO'
         },

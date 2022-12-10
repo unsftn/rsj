@@ -37,4 +37,5 @@ class RecZaOdluku(models.Model):
         verbose_name_plural = 'речи за одлуку'
         indexes = [
             models.Index(fields=['prvo_slovo']),
+            models.Index(fields=['tekst']),
         ]
