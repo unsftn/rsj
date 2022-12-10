@@ -26,7 +26,7 @@ CYR_SORT_KEYS = {c: i for i, c in enumerate(AZBUKA)}
 
 def sort_key(text):
     if not text:
-        return 0
+        return [0]
     return [CYR_SORT_KEYS.get(ch, 31) for ch in text]
 
 
