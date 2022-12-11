@@ -16,6 +16,10 @@ def get_es_client():
     return Elasticsearch(hosts=settings.ELASTICSEARCH_HOST)
 
 
+def get_rsj_client():
+    return Elasticsearch(hosts=settings.RSJ_HOST)
+
+
 """ Definicija Elasticsearch indeksa za publikacije """
 PUB_MAPPING = {
     "mappings": {

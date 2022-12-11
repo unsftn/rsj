@@ -11,7 +11,8 @@ DATABASES = {
     },
 }
 
-ELASTICSEARCH_HOST = 'localhost'
+ELASTICSEARCH_HOST = 'http://localhost:9200'
+RSJ_HOST = 'http://localhost:9201'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 HEADER_COLOR_SCHEME = 'gray'

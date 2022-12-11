@@ -1,21 +1,34 @@
 <div class="container">
   <h3>Све речи из корпуса</h3>
-  <p>Време генерисања: 22.08.2022. 10:00:00</p>
+  <p>Време генерисања: {{poslednjiSpisak?.end_time|date:'dd.MM.yyyy. HH:mm:ss'}}</p>
   <p-tabView>
-    <p-tabPanel header="А">
-      <p-table [value]="words" [dataKey]="'word'" styleClass="p-datatable-sm" responsiveLayout="scroll" [paginator]="true" [rows]="10" [showCurrentPageReport]="true">
+    <p-tabPanel *ngFor="let slovo of azbuka, let i=index" header="{{slovo.toUpperCase()}}">
+      <p-table 
+          [value]="reci[slovo]" 
+          [lazy]="true"
+          [dataKey]="'id'" 
+          styleClass="p-datatable-sm" 
+          responsiveLayout="scroll" 
+          [paginator]="true"
+          [rows]="100" 
+          [loading]="loading"
+          [totalRecords]="ukupno[slovo]"
+          (onLazyLoad)="loadReci($event, slovo)"
+          [showCurrentPageReport]="true">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 3rem"></th>
             <th>Лексема</th>
-            <th class="w100">Бр. извора</th>
-            <th class="w100">Фреквенција</th>
+            <th class="w100 right">Бр. извора</th>
+            <th class="w100 right">Фреквенција</th>
+            <th class="w100 right">Корпус ID</th>
+            <th class="w100 right">Речник ID</th>
             <th class="w100">У Речнику</th>
-            <th class="w200">Статус</th>
+            <th class="w150">Статус</th>
           </tr>
           <tr>
+            <th><p-columnFilter type="text" field="tekst"></p-columnFilter></th>
             <th>&nbsp;</th>
-            <th><p-columnFilter type="text" field="word"></p-columnFilter></th>
+            <th>&nbsp;</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
             <th>
@@ -29,102 +42,33 @@
             <th>
               <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                  <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '180px'}" appendTo="body"></p-dropdown>
+                  <p-dropdown [ngModel]="value" [options]="odluke" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '130px'}" appendTo="body"></p-dropdown>
                 </ng-template>
               </p-columnFilter>
             </th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-rec let-expanded="expanded">
+        <ng-template pTemplate="body" let-rec>
           <tr>
-            <td>
-              <button type="button" pButton pRipple [pRowToggler]="rec" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-            </td>
-            <td>{{rec.word}}</td>
-            <td class="right">{{rec.pub_count}}</td>
-            <td class="right">{{rec.freq}}</td>
+            <td>{{rec.tekst}}</td>
+            <td class="right">{{rec.broj_publikacija}}</td>
+            <td class="right">{{rec.broj_pojavljivanja}}</td>
+            <td class="right">{{rec.korpus_id}}</td>
+            <td class="right">{{rec.recnik_id}}</td>
             <td class="center">{{rec.in_rsj_str}}</td>
             <td pEditableColumn class="pointer">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <p-dropdown [options]="statuses" [(ngModel)]="rec.status" optionLabel="name" optionValue="code" appendTo="body" [style]="{width: '180px'}" (onChange)="onChangeStatus($event, rec)"></p-dropdown>
+                  <p-dropdown [options]="odluke" [(ngModel)]="rec.odluka" optionLabel="name" optionValue="code" appendTo="body" [style]="{width: '180px'}" (onChange)="onChangeStatus($event, rec)"></p-dropdown>
                 </ng-template>
                 <ng-template pTemplate="output">
-                  {{rec.status_str}}
+                  {{rec.odluka_str}}
                 </ng-template>
               </p-cellEditor>
             </td>
           </tr>
         </ng-template>
-        <ng-template pTemplate="rowexpansion" let-rec>
-          <tr *ngFor="let pub of rec.pubs">
-            <td></td>
-            <td colspan="2">
-              {{pub.word}}: {{pub.pubskr}}
-            </td>
-            <td class="right">{{pub.freq}}</td>
-            <td colspan="2">
-              &nbsp;
-            </td>
-          </tr>
-        </ng-template>
       </p-table>    
-    </p-tabPanel>
-    <p-tabPanel header="Б">
-    </p-tabPanel>
-    <p-tabPanel header="В">
-    </p-tabPanel>
-    <p-tabPanel header="Г">
-    </p-tabPanel>
-    <p-tabPanel header="Д">
-    </p-tabPanel>
-    <p-tabPanel header="Ђ">
-    </p-tabPanel>
-    <p-tabPanel header="Е">
-    </p-tabPanel>
-    <p-tabPanel header="Ж">
-    </p-tabPanel>
-    <p-tabPanel header="З">
-    </p-tabPanel>
-    <p-tabPanel header="И">
-    </p-tabPanel>
-    <p-tabPanel header="Ј">
-    </p-tabPanel>
-    <p-tabPanel header="К">
-    </p-tabPanel>
-    <p-tabPanel header="Л">
-    </p-tabPanel>
-    <p-tabPanel header="Љ">
-    </p-tabPanel>
-    <p-tabPanel header="М">
-    </p-tabPanel>
-    <p-tabPanel header="Н">
-    </p-tabPanel>
-    <p-tabPanel header="Њ">
-    </p-tabPanel>
-    <p-tabPanel header="О">
-    </p-tabPanel>
-    <p-tabPanel header="П">
-    </p-tabPanel>
-    <p-tabPanel header="Р">
-    </p-tabPanel>
-    <p-tabPanel header="С">
-    </p-tabPanel>
-    <p-tabPanel header="Т">
-    </p-tabPanel>
-    <p-tabPanel header="Ћ">
-    </p-tabPanel>
-    <p-tabPanel header="У">
-    </p-tabPanel>
-    <p-tabPanel header="Ф">
-    </p-tabPanel>
-    <p-tabPanel header="Х">
-    </p-tabPanel>
-    <p-tabPanel header="Ц">
-    </p-tabPanel>
-    <p-tabPanel header="Џ">
-    </p-tabPanel>
-    <p-tabPanel header="Ш">
     </p-tabPanel>
   </p-tabView>
 </div>

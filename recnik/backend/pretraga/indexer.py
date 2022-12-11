@@ -10,7 +10,7 @@ from .config import *
 
 def check_elasticsearch():
     try:
-        r = requests.get(f'http://{settings.ELASTICSEARCH_HOST}:9200/')
+        r = requests.get(f'{settings.ELASTICSEARCH_HOST}/')
         if r.status_code != 200:
             return False
         json = r.json()

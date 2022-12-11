@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LazyLoadEvent } from 'primeng/api';
+import { RecZaOdluku, GenerisaniSpisak } from '../../../models/reci';
+import { DeciderService } from '../../../services/decider/decider.service';
 
 @Component({
   selector: 'app-all-words',
@@ -7,90 +10,54 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllWordsComponent implements OnInit {
 
-  words: any[];
-  statuses: any[] = [
-    {name: 'недефинисано', code: 0},
-    {name: 'додати у речник', code: 1},
-    {name: 'не додати у речник', code: 2},
-    {name: 'уклонити из речника', code: 3},
-  ];
-  filterRecnikOptions: any[] = [
-    {code: true, name: 'да'},
-    {code: false, name: 'не'},
+  azbuka: string[] = ['а', 'б', 'в', 'г', 'д', 'ђ', 'е', 'ж', 'з', 'и', 'ј', 'к', 'л', 'љ', 'м', 'н', 'њ', 'о', 'п', 'р', 'с', 'т', 'ћ', 'у', 'ф', 'х', 'ц', 'ч', 'џ', 'ш', '_'];
+  AZBUKA: string[] = ['А', 'Б', 'В', 'Г', 'Д', 'Ђ', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш', '_'];
+  poslednjiSpisak: GenerisaniSpisak;
+  reci = {'а': [], 'б': [], 'в': [], 'г': [], 'д': [], 'ђ': [], 'е': [], 'ж': [], 'з': [], 'и': [], 'ј': [], 'к': [], 'л': [], 
+    'љ': [], 'м': [], 'н': [], 'њ': [], 'о': [], 'п': [], 'р': [], 'с': [], 'т': [], 'ћ': [], 'у': [], 'ф': [], 'х': [], 
+    'ц': [], 'ч': [], 'џ': [], 'ш': [], '_': []};
+  ukupno = {'а': 0, 'б': 0, 'в': 0, 'г': 0, 'д': 0, 'ђ': 0, 'е': 0, 'ж': 0, 'з': 0, 'и': 0, 'ј': 0, 'к': 0, 'л': 0, 
+    'љ': 0, 'м': 0, 'н': 0, 'њ': 0, 'о': 0, 'п': 0, 'р': 0, 'с': 0, 'т': 0, 'ћ': 0, 'у': 0, 'ф': 0, 'х': 0, 
+    'ц': 0, 'ч': 0, 'џ': 0, 'ш': 0, '_': 0};
+  loading: boolean = true;
+
+  odluke: any[] = [
+    { name: 'без одлуке', code: 1 },
+    { name: 'иде', code: 2 },
+    { name: 'не иде', code: 3 },
+    { name: 'уклони', code: 4 },
   ];
 
-  constructor() { }
+  filterRecnikOptions: any[] = [
+    { code: true, name: 'да' },
+    { code: false, name: 'не' },
+  ];
+
+  constructor(
+    private deciderService: DeciderService,
+  ) { }
 
   ngOnInit(): void {
-    this.words = this.demoWords();
+    this.deciderService.getLastSpisak().subscribe({
+      next: (spisak: GenerisaniSpisak) => this.poslednjiSpisak = spisak,
+      error: (error: any) => console.log(error),
+    });
   }
 
   onChangeStatus(event: any, rec: any): void {
-    rec.status_str = this.statuses[event.value].name;
+    rec.odluka_str = this.odluke[event.value-1].name;
   }
 
-  demoWords(): any[] {
-    return [
-      {
-        word: 'глава',
-        pub_count: 532,
-        freq: 3424,
-        in_rsj: true,
-        in_rsj_str: 'да',
-        status: 0,
-        status_str: 'недефинисано',
-        pubs: [{
-          word: 'глава',
-          pubskr: 'Скр.1',
-          freq: 21
-        }, {
-          word: 'главе',
-          pubskr: 'Скр.1',
-          freq: 22
-        }, {
-          word: 'главом',
-          pubskr: 'Скр.1',
-          freq: 13
-        }, {
-          word: 'главама',
-          pubskr: 'Скр.2',
-          freq: 11
-        }, {
-          word: 'глави',
-          pubskr: 'Скр.2',
-          freq: 9
-        }]
-      },
-      {
-        word: 'поглед',
-        pub_count: 312,
-        freq: 2461,
-        in_rsj: true,
-        in_rsj_str: 'да',
-        status: 0,
-        status_str: 'недефинисано',
-        pubs: [{
-          word: 'поглед',
-          pubskr: 'Скр.1',
-          freq: 21
-        }, {
-          word: 'погледа',
-          pubskr: 'Скр.2',
-          freq: 22
-        }, {
-          word: 'погледом',
-          pubskr: 'Скр.2',
-          freq: 13
-        }, {
-          word: 'погледи',
-          pubskr: 'Скр.3',
-          freq: 11
-        }, {
-          word: 'погледима',
-          pubskr: 'Скр.3',
-          freq: 9
-        }]
-      },
-    ];
+  loadReci(event: LazyLoadEvent, slovo: string): void {
+    this.loading = true;
+    this.deciderService.getByLetterPaged(slovo, event.first, event.rows).subscribe({
+      next: (response: any) => {
+        this.reci[slovo] = response.results.map(item => { item.odluka_str = this.odluke[item.odluka-1].name; return item; });
+        this.ukupno[slovo] = response.count;
+        this.loading = false;
+      }, 
+      error: (error: any) => console.log(error),
+    });
   }
+
 }

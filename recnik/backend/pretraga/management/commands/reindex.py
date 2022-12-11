@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not check_elasticsearch():
-            self.stdout.write(f'Nije dostupan Elasticsearch servis na http://{settings.ELASTICSEARCH_HOST}:9200/')
+            self.stdout.write(f'Nije dostupan Elasticsearch servis na {settings.ELASTICSEARCH_HOST}')
             return
         recreate_index()
         self.stdout.write(f'Ukupno {Odrednica.objects.count()} odrednica za indeksiranje.')
