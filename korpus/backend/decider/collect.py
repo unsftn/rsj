@@ -53,19 +53,17 @@ def find_roots(words):
         oo = find_root(key)
         if len(oo) == 1:
             oo = oo[0]
-            found_key = oo['rec']
         else:
-            found_key = key
-        if found_key != key:
-            try:
-                orig_word = words[oo['rec']]
-                orig_word['count'] += word['count']
-                orig_word['pubs'].update(word['pubs'])
+            continue
+        try:
+            if words[oo['rec']]['rec'] != word['rec']:
                 del words[key]
-            except KeyError:
-                words[oo['rec']] = word
-            words[oo['rec']]['vrsta'] = oo['vrsta']
-            words[oo['rec']]['korpus_id'] = oo['id']
+        except KeyError:
+            words[oo['rec']] = word        
+        words[oo['rec']]['count'] += word['count']
+        words[oo['rec']]['pubs'].update(word['pubs'])
+        words[oo['rec']]['vrsta'] = oo['vrsta']
+        words[oo['rec']]['korpus_id'] = oo['id']
         if index % 10000 == 0 and index > 0:
             log.info(f'Finished finding root for {index} words...')
     end_time = now()
@@ -122,7 +120,8 @@ def connect_to_rsj():
             recnik_id, vrsta = find_in_rsj(rzo.tekst, rzo.vrsta_reci)
             if recnik_id != -1:
                 rzo.recnik_id = recnik_id
-                rzo.vrsta_reci = vrsta
+                if not rzo.vrsta_reci:
+                    rzo.vrsta_reci = vrsta
                 rzo.save()
             count += 1
     end_time = now()
@@ -179,7 +178,8 @@ def find_in_rsj(rec, vrsta):
     if hitcount == 0:
         return -1, None
     elif hitcount == 1:
-        return resp['hits']['hits'][0]['_source']['pk']
+        item = resp['hits']['hits'][0]['_source']
+        return item['pk'], item['vrsta']
     else:
         for hit in resp['hits']['hits']:
             if vrsta and hit['_source']['vrsta'] == vrsta:
