@@ -119,9 +119,10 @@ def connect_to_rsj():
     count = 0
     for rzo in RecZaOdluku.objects.all():
         if not rzo.recnik_id and rzo.tekst:
-            recnik_id = find_in_rsj(rzo.tekst, rzo.vrsta_reci)
+            recnik_id, vrsta = find_in_rsj(rzo.tekst, rzo.vrsta_reci)
             if recnik_id != -1:
                 rzo.recnik_id = recnik_id
+                rzo.vrsta_reci = vrsta
                 rzo.save()
             count += 1
     end_time = now()
@@ -171,16 +172,16 @@ def find_root(rec) -> list[dict]:
 def find_in_rsj(rec, vrsta):
     """
     Pronalazi datu rec u RSJ i vraca ID te odrednice iz RSJ, odnosno -1 ako 
-    pronadjena.
+    pronadjena. Druga komponenta tuple je vrsta reci iz RSJ (ako je pronadjena).
     """
     resp = rsjclient.search(index='odrednica', query={'match': {'varijante': rec}})
     hitcount = len(resp['hits']['hits'])
     if hitcount == 0:
-        return -1
+        return -1, None
     elif hitcount == 1:
         return resp['hits']['hits'][0]['_source']['pk']
     else:
         for hit in resp['hits']['hits']:
-            if hit['_source']['vrsta'] == vrsta:
-                return hit['_source']['pk']
-        return -1
+            if vrsta and hit['_source']['vrsta'] == vrsta:
+                return hit['_source']['pk'], vrsta
+        return -1, None

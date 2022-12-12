@@ -18,15 +18,17 @@
         <ng-template pTemplate="header">
           <tr>
             <th>Лексема</th>
-            <th class="w100 right">Бр. извора</th>
-            <th class="w100 right">Фреквенција</th>
+            <th class="w100">Врста речи</th>
             <th class="w100 right">Корпус ID</th>
             <th class="w100 right">Речник ID</th>
+            <th class="w100 right">Бр. извора</th>
+            <th class="w100 right">Фреквенција</th>
             <th class="w100">У Речнику</th>
             <th class="w150">Статус</th>
           </tr>
           <tr>
             <th><p-columnFilter type="text" field="tekst"></p-columnFilter></th>
+            <th>&nbsp;</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
@@ -51,10 +53,11 @@
         <ng-template pTemplate="body" let-rec>
           <tr>
             <td>{{rec.tekst}}</td>
-            <td class="right">{{rec.broj_publikacija}}</td>
-            <td class="right">{{rec.broj_pojavljivanja}}</td>
+            <td class="right">{{rec.vrsta_str}}</td>
             <td class="right">{{rec.korpus_id}}</td>
             <td class="right">{{rec.recnik_id}}</td>
+            <td class="right">{{rec.broj_publikacija}}</td>
+            <td class="right">{{rec.broj_pojavljivanja}}</td>
             <td class="center">{{rec.in_rsj_str}}</td>
             <td pEditableColumn class="pointer">
               <p-cellEditor>

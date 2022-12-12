@@ -28,6 +28,20 @@ export class AllWordsComponent implements OnInit {
     { name: 'уклони', code: 4 },
   ];
 
+  vrste: any[] = [
+    { name: 'именица', code: 0},
+    { name: 'глагол', code: 1},
+    { name: 'придев', code: 2},
+    { name: 'прилог', code: 3},
+    { name: 'предлог', code: 4},
+    { name: 'заменица', code: 5},
+    { name: 'узвик', code: 6},
+    { name: 'речца', code: 7},
+    { name: 'везник', code: 8},
+    { name: 'број', code: 9},
+    { name: 'остало', code: 10},
+  ];
+
   filterRecnikOptions: any[] = [
     { code: true, name: 'да' },
     { code: false, name: 'не' },
@@ -52,12 +66,16 @@ export class AllWordsComponent implements OnInit {
     this.loading = true;
     this.deciderService.getByLetterPaged(slovo, event.first, event.rows).subscribe({
       next: (response: any) => {
-        this.reci[slovo] = response.results.map(item => { item.odluka_str = this.odluke[item.odluka-1].name; return item; });
+        this.reci[slovo] = response.results.map((item: any) => { 
+          item.odluka_str = this.odluke[item.odluka-1].name;
+          item.vrsta_str = item.vrsta_reci != null ? this.vrste[item.vrsta_reci].name : '';
+          item.in_rsj_str = item.recnik_id ? 'да': 'не';
+          return item; 
+        });
         this.ukupno[slovo] = response.count;
         this.loading = false;
       }, 
       error: (error: any) => console.log(error),
     });
   }
-
 }
