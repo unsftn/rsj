@@ -48,6 +48,9 @@ export class AllWordsComponent implements OnInit {
     { code: false, name: 'не' },
   ];
 
+  filterRecnik: boolean = null;
+  filterOdluka: number = null;
+
   constructor(
     private deciderService: DeciderService,
     private recService: RecService,
@@ -67,7 +70,7 @@ export class AllWordsComponent implements OnInit {
 
   loadReci(event: LazyLoadEvent, slovo: string): void {
     this.loading = true;
-    this.deciderService.getByLetterPaged(slovo, event.first, event.rows).subscribe({
+    this.deciderService.getByLetterPagedFiltered(slovo, event.first, event.rows, this.filterRecnik, this.filterOdluka).subscribe({
       next: (response: any) => {
         this.reci[slovo] = response.results.map((item: any) => { 
           item.odluka_str = this.odluke[item.odluka-1].name;
@@ -82,11 +85,19 @@ export class AllWordsComponent implements OnInit {
     });
   }
 
+  setFilterRecnik(value: boolean): void {
+    this.filterRecnik = value;
+  }
+
+  setFilterOdluka(value: number): void {
+    this.filterOdluka = value;
+  }
+
   korpusLink(vrstaReci: number): string {
     return this.recService.getEditLink(vrstaReci);
   }
 
-  status(rec: any, odluka: number): void {
+  setStatus(rec: any, odluka: number): void {
     rec.odluka = odluka;
     this.deciderService.update(rec).subscribe({
       next: (data) => {},

@@ -22,8 +22,13 @@ export class DeciderService {
     return this.http.get<RecZaOdluku[]>(`/api/decider/rec-za-odluku/?prvo_slovo=${letter}`);
   }
 
-  getByLetterPaged(letter: string, offset: number, limit: number): Observable<RecZaOdluku[]> {
-    return this.http.get<RecZaOdluku[]>(`/api/decider/rec-za-odluku-po/${letter}/?offset=${offset}&limit=${limit}`);
+  getByLetterPagedFiltered(letter: string, offset: number, limit: number, recnik: boolean, odluka: number): Observable<RecZaOdluku[]> {
+    let url = `/api/decider/rec-za-odluku-po/${letter}/?offset=${offset}&limit=${limit}`;
+    if (recnik)
+      url += '&recnik_id__isnotnull';
+    if (odluka)
+      url += `&odluka=${odluka}`;
+    return this.http.get<RecZaOdluku[]>(url);
   }
 
   update(rec: RecZaOdluku): Observable<any> {

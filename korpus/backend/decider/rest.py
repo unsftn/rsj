@@ -30,6 +30,8 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = RecZaOdlukuSerializer
     pagination_class = LimitOffsetPagination
+    # filter_backends = [DjangoFilterBackend]
+    # filter_fields = ['recnik_id', 'odluka']
 
     def get_queryset(self):
         slovo = self.kwargs['slovo']

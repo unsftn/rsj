@@ -90,10 +90,10 @@
             <td class="right">{{rec.broj_pojavljivanja}}</td>
             <td class="center">{{rec.in_rsj_str}}</td>
             <td>
-              <button (click)="status(rec, 1)" pButton pRipple type="button" icon="pi pi-question" [class.p-button-secondary]="rec.odluka!==1" class="p-button-rounded p-button-text btn-minimal"></button>
-              <button (click)="status(rec, 2)" pButton pRipple type="button" icon="pi pi-thumbs-up" [class.p-button-success]="rec.odluka===2" [class.p-button-secondary]="rec.odluka!==2" [class.p-button-text]="rec.odluka!==2" class="p-button-rounded btn-minimal"></button>
-              <button (click)="status(rec, 3)" pButton pRipple type="button" icon="pi pi-thumbs-down" [class.p-button-warning]="rec.odluka===3" [class.p-button-secondary]="rec.odluka!==3" [class.p-button-text]="rec.odluka!==3" class="p-button-rounded btn-minimal"></button>
-              <button (click)="status(rec, 4)" pButton pRipple type="button" icon="pi pi-times" [class.p-button-danger]="rec.odluka===4" [class.p-button-secondary]="rec.odluka!==4" [class.p-button-text]="rec.odluka!==4" class="p-button-rounded btn-minimal"></button>
+              <button (click)="setStatus(rec, 1)" pButton pRipple type="button" icon="pi pi-question" [class.p-button-secondary]="rec.odluka!==1" class="p-button-rounded p-button-text btn-minimal"></button>
+              <button (click)="setStatus(rec, 2)" pButton pRipple type="button" icon="pi pi-thumbs-up" [class.p-button-success]="rec.odluka===2" [class.p-button-secondary]="rec.odluka!==2" [class.p-button-text]="rec.odluka!==2" class="p-button-rounded btn-minimal"></button>
+              <button (click)="setStatus(rec, 3)" pButton pRipple type="button" icon="pi pi-thumbs-down" [class.p-button-warning]="rec.odluka===3" [class.p-button-secondary]="rec.odluka!==3" [class.p-button-text]="rec.odluka!==3" class="p-button-rounded btn-minimal"></button>
+              <button (click)="setStatus(rec, 4)" pButton pRipple type="button" icon="pi pi-times" [class.p-button-danger]="rec.odluka===4" [class.p-button-secondary]="rec.odluka!==4" [class.p-button-text]="rec.odluka!==4" class="p-button-rounded btn-minimal"></button>
             </td>
             <!-- <td pEditableColumn class="pointer">
               <p-cellEditor>
