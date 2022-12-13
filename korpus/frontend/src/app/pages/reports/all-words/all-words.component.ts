@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api';
-import { RecZaOdluku, GenerisaniSpisak } from '../../../models/reci';
+import { GenerisaniSpisak } from '../../../models/reci';
 import { DeciderService } from '../../../services/decider/decider.service';
+import { RecService } from '../../../services/reci/rec.service';
 
 @Component({
   selector: 'app-all-words',
@@ -49,6 +50,7 @@ export class AllWordsComponent implements OnInit {
 
   constructor(
     private deciderService: DeciderService,
+    private recService: RecService,
   ) { }
 
   ngOnInit(): void {
@@ -77,5 +79,9 @@ export class AllWordsComponent implements OnInit {
       }, 
       error: (error: any) => console.log(error),
     });
+  }
+
+  korpusLink(vrstaReci: number): string {
+    return this.recService.getEditLink(vrstaReci);
   }
 }

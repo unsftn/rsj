@@ -54,8 +54,8 @@
           <tr>
             <td>{{rec.tekst}}</td>
             <td class="right">{{rec.vrsta_str}}</td>
-            <td class="right">{{rec.korpus_id}}</td>
-            <td class="right">{{rec.recnik_id}}</td>
+            <td class="right" [class.redlink]="rec.korpus_id"><a [routerLink]="[korpusLink(rec.vrsta_reci), rec.korpus_id]" target="_blank">{{rec.korpus_id}}</a></td>
+            <td class="right" [class.redlink]="rec.recnik_id"><a href="https://recnik.rsj.rs/edit/{{rec.recnik_id}}" target="_blank">{{rec.recnik_id}}</a></td>
             <td class="right">{{rec.broj_publikacija}}</td>
             <td class="right">{{rec.broj_pojavljivanja}}</td>
             <td class="center">{{rec.in_rsj_str}}</td>

@@ -14,3 +14,17 @@
 .center { text-align: center !important; }
 .pointer { cursor: pointer !important; }
 .pointer:hover { background-color: #eee; }
+
+.redlink {
+  cursor: pointer !important;
+  a {
+    text-decoration: none !important;
+  }
+}
+
+.redlink:hover {
+  background-color: #eee;
+  a {
+    color: red;
+  }
+}
