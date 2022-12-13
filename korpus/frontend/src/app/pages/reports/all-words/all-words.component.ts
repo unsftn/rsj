@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { GenerisaniSpisak } from '../../../models/reci';
 import { DeciderService } from '../../../services/decider/decider.service';
 import { RecService } from '../../../services/reci/rec.service';
@@ -51,6 +51,7 @@ export class AllWordsComponent implements OnInit {
   constructor(
     private deciderService: DeciderService,
     private recService: RecService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -84,4 +85,21 @@ export class AllWordsComponent implements OnInit {
   korpusLink(vrstaReci: number): string {
     return this.recService.getEditLink(vrstaReci);
   }
+
+  status(rec: any, odluka: number): void {
+    rec.odluka = odluka;
+    this.deciderService.update(rec).subscribe({
+      next: (data) => {},
+      error: (error: any) => {
+        console.log(error);        
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Грешка приликом измене статуса речи: ${error}`,
+        });
+      }
+    });
+  }
+
 }

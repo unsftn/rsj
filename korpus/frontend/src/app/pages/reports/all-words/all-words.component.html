@@ -3,6 +3,36 @@
   <p>Време генерисања: {{poslednjiSpisak?.end_time|date:'dd.MM.yyyy. HH:mm:ss'}}</p>
   <p-tabView>
     <p-tabPanel *ngFor="let slovo of azbuka, let i=index" header="{{slovo.toUpperCase()}}">
+      <div class="flex mb-2">
+        <div class="p-inputgroup mr-2" style="width: 300px;">
+          <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+          <input type="text" pInputText placeholder="Лексема">         
+        </div>
+        <div class="mr-2">
+          <p-dropdown 
+              [options]="filterRecnikOptions" 
+              (onChange)="filterRecnik($event.value)"
+              optionLabel="name" 
+              optionValue="code" 
+              placeholder="у речнику?" 
+              [showClear]="true" 
+              [style]="{width: '160px'}" 
+              appendTo="body">
+          </p-dropdown>
+        </div>
+        <div>
+          <p-dropdown 
+              [options]="odluke" 
+              (onChange)="filterOdluka($event.value)"
+              optionLabel="name" 
+              optionValue="code" 
+              placeholder="одлука" 
+              [showClear]="true" 
+              [style]="{width: '160px'}" 
+              appendTo="body">
+          </p-dropdown>
+        </div>
+      </div>
       <p-table 
           [value]="reci[slovo]" 
           [lazy]="true"
@@ -26,7 +56,7 @@
             <th class="w100">У Речнику</th>
             <th class="w150">Статус</th>
           </tr>
-          <tr>
+          <!-- <tr>
             <th><p-columnFilter type="text" field="tekst"></p-columnFilter></th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
@@ -42,13 +72,13 @@
               </p-columnFilter>
             </th>
             <th>
-              <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+              <p-columnFilter field="odluka" matchMode="equals" [showMenu]="false">
                 <ng-template pTemplate="filter" let-value let-filter="filterCallback">
                   <p-dropdown [ngModel]="value" [options]="odluke" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '130px'}" appendTo="body"></p-dropdown>
                 </ng-template>
               </p-columnFilter>
             </th>
-          </tr>
+          </tr> -->
         </ng-template>
         <ng-template pTemplate="body" let-rec>
           <tr>
@@ -59,7 +89,13 @@
             <td class="right">{{rec.broj_publikacija}}</td>
             <td class="right">{{rec.broj_pojavljivanja}}</td>
             <td class="center">{{rec.in_rsj_str}}</td>
-            <td pEditableColumn class="pointer">
+            <td>
+              <button (click)="status(rec, 1)" pButton pRipple type="button" icon="pi pi-question" [class.p-button-secondary]="rec.odluka!==1" class="p-button-rounded p-button-text btn-minimal"></button>
+              <button (click)="status(rec, 2)" pButton pRipple type="button" icon="pi pi-thumbs-up" [class.p-button-success]="rec.odluka===2" [class.p-button-secondary]="rec.odluka!==2" [class.p-button-text]="rec.odluka!==2" class="p-button-rounded btn-minimal"></button>
+              <button (click)="status(rec, 3)" pButton pRipple type="button" icon="pi pi-thumbs-down" [class.p-button-warning]="rec.odluka===3" [class.p-button-secondary]="rec.odluka!==3" [class.p-button-text]="rec.odluka!==3" class="p-button-rounded btn-minimal"></button>
+              <button (click)="status(rec, 4)" pButton pRipple type="button" icon="pi pi-times" [class.p-button-danger]="rec.odluka===4" [class.p-button-secondary]="rec.odluka!==4" [class.p-button-text]="rec.odluka!==4" class="p-button-rounded btn-minimal"></button>
+            </td>
+            <!-- <td pEditableColumn class="pointer">
               <p-cellEditor>
                 <ng-template pTemplate="input">
                   <p-dropdown [options]="odluke" [(ngModel)]="rec.odluka" optionLabel="name" optionValue="code" appendTo="body" [style]="{width: '180px'}" (onChange)="onChangeStatus($event, rec)"></p-dropdown>
@@ -68,7 +104,7 @@
                   {{rec.odluka_str}}
                 </ng-template>
               </p-cellEditor>
-            </td>
+            </td> -->
           </tr>
         </ng-template>
       </p-table>    

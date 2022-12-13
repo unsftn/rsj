@@ -36,7 +36,7 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
         return RecZaOdluku.objects.filter(prvo_slovo=slovo).order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
 
 
-class RecZaOdlukuDetail(generics.RetrieveAPIView):
+class RecZaOdlukuDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = RecZaOdluku.objects.all()
     serializer_class = RecZaOdlukuSerializer

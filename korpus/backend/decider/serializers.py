@@ -15,3 +15,8 @@ class RecZaOdlukuSerializer(serializers.ModelSerializer):
             'id', 'prvo_slovo', 'tekst', 'vrsta_reci', 'korpus_id', 
             'recnik_id', 'odluka', 'broj_publikacija', 'broj_pojavljivanja', 
             'vreme_odluke', 'donosilac_odluke', 'poslednje_generisanje')
+
+    def update(self, instance, validated_data):
+        instance.odluka = validated_data['odluka']
+        instance.save()
+        return instance
