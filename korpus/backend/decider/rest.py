@@ -1,3 +1,4 @@
+from django.db.models.functions import Collate
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import LimitOffsetPagination
@@ -26,13 +27,13 @@ class RecZaOdlukuList(generics.ListAPIView):
 
 
 class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]  # TODO
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = RecZaOdlukuSerializer
     pagination_class = LimitOffsetPagination
 
     def get_queryset(self):
         slovo = self.kwargs['slovo']
-        return RecZaOdluku.objects.filter(prvo_slovo=slovo)
+        return RecZaOdluku.objects.filter(prvo_slovo=slovo).order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
 
 
 class RecZaOdlukuDetail(generics.RetrieveAPIView):
