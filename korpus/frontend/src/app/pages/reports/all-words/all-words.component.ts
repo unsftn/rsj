@@ -86,6 +86,10 @@ export class AllWordsComponent implements OnInit {
     this.loadReci(this.azbuka[this.tabIndex]);
   }
 
+  onTabChange(event: any): void {
+    this.loadReci(this.azbuka[this.tabIndex]);
+  }
+
   loadReci(slovo: string): void {
     this.loading = true;
     this.deciderService.getByLetterPagedFiltered(

@@ -1,7 +1,7 @@
 <div class="container">
   <h3>Све речи из корпуса</h3>
   <p>Време генерисања: {{poslednjiSpisak?.end_time|date:'dd.MM.yyyy. HH:mm:ss'}}</p>
-  <p-tabView [(activeIndex)]="tabIndex">
+  <p-tabView [(activeIndex)]="tabIndex" (onChange)="onTabChange($event)">
     <p-tabPanel *ngFor="let slovo of azbuka, let i=index" header="{{slovo.toUpperCase()}}">
       <ng-template pTemplate="content">
         <div class="flex mb-2">
