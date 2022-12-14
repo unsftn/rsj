@@ -8,6 +8,12 @@ from .models import *
 from .serializers import *
 
 
+AZBUKA = [
+    'а', 'б', 'в', 'г', 'д', 'ђ', 'е', 'ж', 'з', 'и', 'ј', 'к', 'л', 'љ', 'м',
+    'н', 'њ', 'о', 'п', 'р', 'с', 'т', 'ћ', 'у', 'ф', 'х', 'ц', 'ч', 'џ', 'ш',
+];
+
+
 class GenerisaniSpisakList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = GenerisaniSpisak.objects.all()
@@ -33,7 +39,10 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
 
     def get_queryset(self):
         slovo = self.kwargs['slovo']
-        queryset = RecZaOdluku.objects.filter(prvo_slovo=slovo)
+        if slovo == '_':
+            queryset = RecZaOdluku.objects.exclude(prvo_slovo__in=AZBUKA)
+        else:
+            queryset = RecZaOdluku.objects.filter(prvo_slovo=slovo)
         leksema = self.request.query_params.get('leksema')
         recnik = self.request.query_params.get('recnik')
         odluka = self.request.query_params.get('odluka')
