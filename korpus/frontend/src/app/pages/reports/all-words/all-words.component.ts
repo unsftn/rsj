@@ -91,7 +91,6 @@ export class AllWordsComponent implements OnInit {
     this.deciderService.getByLetterPagedFiltered(
         slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.leksema).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.reci[slovo] = response.results.map((item: any) => { 
           item.odluka_str = this.odluke[item.odluka-1].name;
           item.vrsta_str = item.vrsta_reci != null ? this.vrste[item.vrsta_reci].name : '';
