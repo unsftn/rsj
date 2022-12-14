@@ -30,12 +30,21 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = RecZaOdlukuSerializer
     pagination_class = LimitOffsetPagination
-    # filter_backends = [DjangoFilterBackend]
-    # filter_fields = ['recnik_id', 'odluka']
 
     def get_queryset(self):
         slovo = self.kwargs['slovo']
-        return RecZaOdluku.objects.filter(prvo_slovo=slovo).order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
+        queryset = RecZaOdluku.objects.filter(prvo_slovo=slovo)
+        leksema = self.request.query_params.get('leksema')
+        recnik = self.request.query_params.get('recnik')
+        odluka = self.request.query_params.get('odluka')
+        if leksema:
+            queryset = queryset.filter(tekst__istartswith=leksema)
+        if recnik is not None:
+            recnik = recnik.capitalize() == 'False'
+            queryset = queryset.filter(recnik_id__isnull=recnik)
+        if odluka:
+            queryset = queryset.filter(odluka=int(odluka))
+        return queryset.order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
 
 
 class RecZaOdlukuDetail(generics.RetrieveUpdateAPIView):

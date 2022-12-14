@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { GenerisaniSpisak } from '../../../models/reci';
 import { DeciderService } from '../../../services/decider/decider.service';
@@ -50,14 +51,21 @@ export class AllWordsComponent implements OnInit {
 
   filterRecnik: boolean = null;
   filterOdluka: number = null;
+  leksema: string = '';
+  first: number = null;
+  rows: number = null;
+  slovo: string = null;
+  tabIndex: number;
 
   constructor(
+    private router: Router,
     private deciderService: DeciderService,
     private recService: RecService,
     private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
+    this.tabIndex = 0;
     this.deciderService.getLastSpisak().subscribe({
       next: (spisak: GenerisaniSpisak) => this.poslednjiSpisak = spisak,
       error: (error: any) => console.log(error),
@@ -68,10 +76,22 @@ export class AllWordsComponent implements OnInit {
     rec.odluka_str = this.odluke[event.value-1].name;
   }
 
-  loadReci(event: LazyLoadEvent, slovo: string): void {
+  onLazyLoad(event: LazyLoadEvent, slovo: string): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.loadReci(slovo);
+  }
+
+  onSearch(): void {
+    this.loadReci(this.azbuka[this.tabIndex]);
+  }
+
+  loadReci(slovo: string): void {
     this.loading = true;
-    this.deciderService.getByLetterPagedFiltered(slovo, event.first, event.rows, this.filterRecnik, this.filterOdluka).subscribe({
+    this.deciderService.getByLetterPagedFiltered(
+        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.leksema).subscribe({
       next: (response: any) => {
+        console.log(response);
         this.reci[slovo] = response.results.map((item: any) => { 
           item.odluka_str = this.odluke[item.odluka-1].name;
           item.vrsta_str = item.vrsta_reci != null ? this.vrste[item.vrsta_reci].name : '';
@@ -86,15 +106,11 @@ export class AllWordsComponent implements OnInit {
   }
 
   setFilterRecnik(value: boolean): void {
-    this.filterRecnik = value;
+    this.loadReci(this.azbuka[this.tabIndex]);
   }
 
   setFilterOdluka(value: number): void {
-    this.filterOdluka = value;
-  }
-
-  korpusLink(vrstaReci: number): string {
-    return this.recService.getEditLink(vrstaReci);
+    this.loadReci(this.azbuka[this.tabIndex]);
   }
 
   setStatus(rec: any, odluka: number): void {
@@ -111,6 +127,18 @@ export class AllWordsComponent implements OnInit {
         });
       }
     });
+  }
+
+  openKorpus(rec: any) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(
+        this.recService.getEditRouterLink(rec.korpus_id, rec.vrsta_reci)));
+    console.log(url);
+    window.open(url, '_blank');
+  }
+
+  openRecnik(rec: any) {
+    window.open(`https://recnik.rsj.rs/edit/${rec.recnik_id}`, '_blank');    
   }
 
 }

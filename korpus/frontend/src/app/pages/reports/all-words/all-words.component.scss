@@ -17,14 +17,10 @@
 
 .redlink {
   cursor: pointer !important;
-  a {
-    text-decoration: none !important;
-  }
+  text-decoration: none !important;
 }
 
 .redlink:hover {
   background-color: #eee;
-  a {
-    color: red;
-  }
+  color: red;
 }

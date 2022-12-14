@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { TableModule } from 'primeng/table';
@@ -14,6 +15,7 @@ const routes: Routes = [{ path: '', component: AllWordsComponent }]
   declarations: [AllWordsComponent],
   imports: [
     CommonModule,
+    FormsModule,
     TableModule,
     DropdownModule,
     ButtonModule,

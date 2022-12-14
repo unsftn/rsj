@@ -1,113 +1,117 @@
 <div class="container">
   <h3>Све речи из корпуса</h3>
   <p>Време генерисања: {{poslednjiSpisak?.end_time|date:'dd.MM.yyyy. HH:mm:ss'}}</p>
-  <p-tabView>
+  <p-tabView [(activeIndex)]="tabIndex">
     <p-tabPanel *ngFor="let slovo of azbuka, let i=index" header="{{slovo.toUpperCase()}}">
-      <div class="flex mb-2">
-        <div class="p-inputgroup mr-2" style="width: 300px;">
-          <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
-          <input type="text" pInputText placeholder="Лексема">         
+      <ng-template pTemplate="content">
+        <div class="flex mb-2">
+          <div class="p-inputgroup mr-2" style="width: 300px;">
+            <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+            <input type="text" pInputText placeholder="Лексема" [(ngModel)]="leksema" (keyup.enter)="onSearch()">         
+          </div>
+          <div class="mr-2">
+            <p-dropdown
+                [(ngModel)]="filterRecnik"
+                [options]="filterRecnikOptions" 
+                (onChange)="setFilterRecnik($event.value)"
+                optionLabel="name" 
+                optionValue="code" 
+                placeholder="у речнику?" 
+                [showClear]="true" 
+                [style]="{width: '160px'}" 
+                appendTo="body">
+            </p-dropdown>
+          </div>
+          <div>
+            <p-dropdown 
+                [(ngModel)]="filterOdluka"
+                [options]="odluke" 
+                (onChange)="setFilterOdluka($event.value)"
+                optionLabel="name" 
+                optionValue="code" 
+                placeholder="одлука" 
+                [showClear]="true" 
+                [style]="{width: '160px'}" 
+                appendTo="body">
+            </p-dropdown>
+          </div>
         </div>
-        <div class="mr-2">
-          <p-dropdown 
-              [options]="filterRecnikOptions" 
-              (onChange)="filterRecnik($event.value)"
-              optionLabel="name" 
-              optionValue="code" 
-              placeholder="у речнику?" 
-              [showClear]="true" 
-              [style]="{width: '160px'}" 
-              appendTo="body">
-          </p-dropdown>
-        </div>
-        <div>
-          <p-dropdown 
-              [options]="odluke" 
-              (onChange)="filterOdluka($event.value)"
-              optionLabel="name" 
-              optionValue="code" 
-              placeholder="одлука" 
-              [showClear]="true" 
-              [style]="{width: '160px'}" 
-              appendTo="body">
-          </p-dropdown>
-        </div>
-      </div>
-      <p-table 
-          [value]="reci[slovo]" 
-          [lazy]="true"
-          [dataKey]="'id'" 
-          styleClass="p-datatable-sm" 
-          responsiveLayout="scroll" 
-          [paginator]="true"
-          [rows]="100" 
-          [loading]="loading"
-          [totalRecords]="ukupno[slovo]"
-          (onLazyLoad)="loadReci($event, slovo)"
-          [showCurrentPageReport]="true">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Лексема</th>
-            <th class="w100">Врста речи</th>
-            <th class="w100 right">Корпус ID</th>
-            <th class="w100 right">Речник ID</th>
-            <th class="w100 right">Бр. извора</th>
-            <th class="w100 right">Фреквенција</th>
-            <th class="w100">У Речнику</th>
-            <th class="w150">Статус</th>
-          </tr>
-          <!-- <tr>
-            <th><p-columnFilter type="text" field="tekst"></p-columnFilter></th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
-            <th>
-              <p-columnFilter field="in_rsj" matchMode="equals" [showMenu]="false">
-                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                  <p-dropdown [ngModel]="value" [options]="filterRecnikOptions" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '80px'}" appendTo="body">
-                  </p-dropdown>
-                </ng-template>
-              </p-columnFilter>
-            </th>
-            <th>
-              <p-columnFilter field="odluka" matchMode="equals" [showMenu]="false">
-                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                  <p-dropdown [ngModel]="value" [options]="odluke" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '130px'}" appendTo="body"></p-dropdown>
-                </ng-template>
-              </p-columnFilter>
-            </th>
-          </tr> -->
-        </ng-template>
-        <ng-template pTemplate="body" let-rec>
-          <tr>
-            <td>{{rec.tekst}}</td>
-            <td class="right">{{rec.vrsta_str}}</td>
-            <td class="right" [class.redlink]="rec.korpus_id"><a [routerLink]="[korpusLink(rec.vrsta_reci), rec.korpus_id]" target="_blank">{{rec.korpus_id}}</a></td>
-            <td class="right" [class.redlink]="rec.recnik_id"><a href="https://recnik.rsj.rs/edit/{{rec.recnik_id}}" target="_blank">{{rec.recnik_id}}</a></td>
-            <td class="right">{{rec.broj_publikacija}}</td>
-            <td class="right">{{rec.broj_pojavljivanja}}</td>
-            <td class="center">{{rec.in_rsj_str}}</td>
-            <td>
-              <button (click)="setStatus(rec, 1)" pButton pRipple type="button" icon="pi pi-question" [class.p-button-secondary]="rec.odluka!==1" class="p-button-rounded p-button-text btn-minimal"></button>
-              <button (click)="setStatus(rec, 2)" pButton pRipple type="button" icon="pi pi-thumbs-up" [class.p-button-success]="rec.odluka===2" [class.p-button-secondary]="rec.odluka!==2" [class.p-button-text]="rec.odluka!==2" class="p-button-rounded btn-minimal"></button>
-              <button (click)="setStatus(rec, 3)" pButton pRipple type="button" icon="pi pi-thumbs-down" [class.p-button-warning]="rec.odluka===3" [class.p-button-secondary]="rec.odluka!==3" [class.p-button-text]="rec.odluka!==3" class="p-button-rounded btn-minimal"></button>
-              <button (click)="setStatus(rec, 4)" pButton pRipple type="button" icon="pi pi-times" [class.p-button-danger]="rec.odluka===4" [class.p-button-secondary]="rec.odluka!==4" [class.p-button-text]="rec.odluka!==4" class="p-button-rounded btn-minimal"></button>
-            </td>
-            <!-- <td pEditableColumn class="pointer">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <p-dropdown [options]="odluke" [(ngModel)]="rec.odluka" optionLabel="name" optionValue="code" appendTo="body" [style]="{width: '180px'}" (onChange)="onChangeStatus($event, rec)"></p-dropdown>
-                </ng-template>
-                <ng-template pTemplate="output">
-                  {{rec.odluka_str}}
-                </ng-template>
-              </p-cellEditor>
-            </td> -->
-          </tr>
-        </ng-template>
-      </p-table>    
+        <p-table 
+            [value]="reci[slovo]" 
+            [lazy]="true"
+            [dataKey]="'id'" 
+            styleClass="p-datatable-sm" 
+            responsiveLayout="scroll" 
+            [paginator]="true"
+            [rows]="100" 
+            [loading]="loading"
+            [totalRecords]="ukupno[slovo]"
+            (onLazyLoad)="onLazyLoad($event, slovo)"
+            [showCurrentPageReport]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Лексема</th>
+              <th class="w100">Врста речи</th>
+              <th class="w100 right">Корпус ID</th>
+              <th class="w100 right">Речник ID</th>
+              <th class="w100 right">Бр. извора</th>
+              <th class="w100 right">Фреквенција</th>
+              <th class="w100">У Речнику</th>
+              <th class="w150">Статус</th>
+            </tr>
+            <!-- <tr>
+              <th><p-columnFilter type="text" field="tekst"></p-columnFilter></th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th>
+              <th>
+                <p-columnFilter field="in_rsj" matchMode="equals" [showMenu]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                    <p-dropdown [ngModel]="value" [options]="filterRecnikOptions" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '80px'}" appendTo="body">
+                    </p-dropdown>
+                  </ng-template>
+                </p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter field="odluka" matchMode="equals" [showMenu]="false">
+                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                    <p-dropdown [ngModel]="value" [options]="odluke" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '130px'}" appendTo="body"></p-dropdown>
+                  </ng-template>
+                </p-columnFilter>
+              </th>
+            </tr> -->
+          </ng-template>
+          <ng-template pTemplate="body" let-rec>
+            <tr>
+              <td>{{rec.tekst}}</td>
+              <td class="right">{{rec.vrsta_str}}</td>
+              <td class="right" (click)="openKorpus(rec)" [class.redlink]="rec.korpus_id">{{rec.korpus_id}}</td>
+              <td class="right" (click)="openRecnik(rec)" [class.redlink]="rec.recnik_id">{{rec.recnik_id}}</td>
+              <td class="right">{{rec.broj_publikacija}}</td>
+              <td class="right">{{rec.broj_pojavljivanja}}</td>
+              <td class="center">{{rec.in_rsj_str}}</td>
+              <td>
+                <button (click)="setStatus(rec, 1)" pButton pRipple type="button" icon="pi pi-question" [class.p-button-secondary]="rec.odluka!==1" class="p-button-rounded p-button-text btn-minimal"></button>
+                <button (click)="setStatus(rec, 2)" pButton pRipple type="button" icon="pi pi-thumbs-up" [class.p-button-success]="rec.odluka===2" [class.p-button-secondary]="rec.odluka!==2" [class.p-button-text]="rec.odluka!==2" class="p-button-rounded btn-minimal"></button>
+                <button (click)="setStatus(rec, 3)" pButton pRipple type="button" icon="pi pi-thumbs-down" [class.p-button-warning]="rec.odluka===3" [class.p-button-secondary]="rec.odluka!==3" [class.p-button-text]="rec.odluka!==3" class="p-button-rounded btn-minimal"></button>
+                <button (click)="setStatus(rec, 4)" pButton pRipple type="button" icon="pi pi-times" [class.p-button-danger]="rec.odluka===4" [class.p-button-secondary]="rec.odluka!==4" [class.p-button-text]="rec.odluka!==4" class="p-button-rounded btn-minimal"></button>
+              </td>
+              <!-- <td pEditableColumn class="pointer">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown [options]="odluke" [(ngModel)]="rec.odluka" optionLabel="name" optionValue="code" appendTo="body" [style]="{width: '180px'}" (onChange)="onChangeStatus($event, rec)"></p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rec.odluka_str}}
+                  </ng-template>
+                </p-cellEditor>
+              </td> -->
+            </tr>
+          </ng-template>
+        </p-table>      
+      </ng-template>
     </p-tabPanel>
   </p-tabView>
 </div>
