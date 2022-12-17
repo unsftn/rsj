@@ -46,7 +46,6 @@ export class PredlogComponent implements OnInit, AfterViewInit {
               this.id = +params.id;
               this.predlogService.get(this.id).subscribe({
                 next: (item) => {
-                  console.log(item);
                   this.predlog = toPredlog(item);
                 },
                 error: (error) => {

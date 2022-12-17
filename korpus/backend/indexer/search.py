@@ -32,7 +32,7 @@ def search_rec(request):
                 }
             }, 
             'from': 0, 
-            'size': 25, 
+            'size': 10000, 
             '_source': {
                 'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
             }
