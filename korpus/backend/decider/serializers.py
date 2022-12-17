@@ -17,6 +17,7 @@ class RecZaOdlukuSerializer(serializers.ModelSerializer):
             'vreme_odluke', 'donosilac_odluke', 'poslednje_generisanje')
 
     def update(self, instance, validated_data):
+        # TODO: sacuvaj donosioca odluke i vreme odluke
         instance.odluka = validated_data['odluka']
         instance.save()
         return instance
