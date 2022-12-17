@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from rest_framework import serializers
 from .models import *
 
@@ -17,7 +18,11 @@ class RecZaOdlukuSerializer(serializers.ModelSerializer):
             'vreme_odluke', 'donosilac_odluke', 'poslednje_generisanje')
 
     def update(self, instance, validated_data):
-        # TODO: sacuvaj donosioca odluke i vreme odluke
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            user = request.user        
+            instance.donosilac_odluke = user
         instance.odluka = validated_data['odluka']
+        instance.vreme_odluke = now()
         instance.save()
         return instance

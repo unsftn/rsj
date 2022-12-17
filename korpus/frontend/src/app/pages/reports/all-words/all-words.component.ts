@@ -133,15 +133,17 @@ export class AllWordsComponent implements OnInit {
   }
 
   openKorpus(rec: any) {
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree(
-        this.recService.getEditRouterLink(rec.korpus_id, rec.vrsta_reci)));
-    console.log(url);
-    window.open(url, '_blank');
+    if (rec.korpus_id) {
+      const url = this.router.serializeUrl(
+        this.router.createUrlTree(
+          this.recService.getEditRouterLink(rec.korpus_id, rec.vrsta_reci)));
+      window.open(url, '_blank');  
+    }
   }
 
   openRecnik(rec: any) {
-    window.open(`https://recnik.rsj.rs/edit/${rec.recnik_id}`, '_blank');    
+    if (rec.recnik_id)
+      window.open(`https://recnik.rsj.rs/edit/${rec.recnik_id}`, '_blank');    
   }
 
 }
