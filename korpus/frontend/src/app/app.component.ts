@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   title = 'korpus';
   itemsUser: MenuItem[];
   itemsNew: MenuItem[];
+  itemsAdmin: MenuItem[];
   searchWord: string;
   searchForm: string;
   searchResults: any[];
@@ -96,7 +97,99 @@ export class AppComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.username = this.tokenStorageService.getUser()?.firstName ?? '';
     this.itemsUser = this.getUserMenu();
-    this.itemsNew = [
+    this.itemsAdmin = this.getAdminMenu();
+    this.itemsNew = this.getCreateMenu(); 
+    this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
+      this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
+      this.itemsUser = this.getUserMenu();
+    });
+    this.appConfigService.getAppConfig().subscribe({
+      next: (data) => {
+        this.headerStyle = data.HEADER_COLOR_SCHEME;
+      }, 
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+      }
+    });
+  }
+
+  getUserMenu(): any[] {
+    return [
+      {
+        label: 'Пријава',
+        icon: 'pi pi-sign-in',
+        routerLink: ['/login'],
+        disabled: this.signedIn(),
+      },
+      {
+        label: 'Профил',
+        icon: 'pi pi-user',
+        routerLink: ['/profil'],
+        disabled: !this.signedIn(),
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Број унетих речи',
+        icon: 'pi pi-sort-alpha-up',
+        routerLink: ['/izvestaji/broj-unetih-reci'],
+      },
+      {
+        label: 'Моје речи',
+        icon: 'pi pi-heart',
+        routerLink: ['/izvestaji/moje-reci'],
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Одјава',
+        icon: 'pi pi-sign-out',
+        command: (event: any) => {
+          this.signOut();
+        },
+        disabled: !this.signedIn(),
+      },
+    ];
+  }
+
+  getAdminMenu(): MenuItem[] {
+    return [
+      {
+        label: 'Одлуке за речник',
+        icon: 'pi pi-sort-alpha-up',
+        routerLink: ['/izvestaji/sve-reci'],
+      },
+      {
+        label: 'Број унетих речи',
+        icon: 'pi pi-chart-bar',
+        routerLink: ['/izvestaji/broj-unetih-reci'],
+      },
+      {
+        label: 'Публикације',
+        icon: 'pi pi-book',
+        routerLink: ['/publikacije'],
+        disabled: !this.isEditor(),
+      },
+      {
+        label: 'Администрација',
+        icon: 'pi pi-cog',
+        command: (event: any) => {
+          window.open('/admin', '_blank');
+        },
+      },
+    ];
+  }
+
+  getCreateMenu(): MenuItem[] {
+    return [
       {
         label: 'Именица',
         routerLink: ['/imenica/add']
@@ -136,101 +229,6 @@ export class AppComponent implements OnInit {
       {
         label: 'Прилог',
         routerLink: ['/prilog/add']
-      },
-    ];
-    this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
-      this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';
-      this.itemsUser = this.getUserMenu();
-    });
-    this.appConfigService.getAppConfig().subscribe({
-      next: (data) => {
-        this.headerStyle = data.HEADER_COLOR_SCHEME;
-      }, 
-      error: (error) => {
-        console.log(error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Грешка',
-          life: 5000,
-          detail: error,
-        });
-      }
-    });
-  }
-
-  getUserMenu(): any[] {
-    return [
-      {
-        label: 'Пријава',
-        icon: 'pi pi-sign-in',
-        routerLink: ['/login'],
-        disabled: this.signedIn(),
-      },
-      {
-        label: 'Профил',
-        icon: 'pi pi-user',
-        routerLink: ['/profil'],
-        disabled: !this.signedIn(),
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'Публикације',
-        icon: 'pi pi-book',
-        routerLink: ['/publikacije'],
-        disabled: !this.isEditor(),
-      },
-      {
-        label: 'Прегледи',
-        icon: 'pi pi-fw pi-calendar',
-        disabled: !this.isEditor(),
-        items: [
-          {
-            label: 'Све речи',
-            icon: 'pi pi-sort-alpha-up',
-            routerLink: ['/izvestaji/sve-reci'],
-          },
-        ]
-      },
-      {
-        label: 'Статистике',
-        icon: 'pi pi-fw pi-chart-line',
-        disabled: !this.signedIn(),
-        items: [
-          {
-            label: 'Број унетих речи',
-            icon: 'pi pi-sort-alpha-up',
-            routerLink: ['/izvestaji/broj-unetih-reci'],
-          },
-          {
-            label: 'Моје речи',
-            icon: 'pi pi-heart',
-            routerLink: ['/izvestaji/moje-reci'],
-          },
-        ]
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'Администрација',
-        icon: 'pi pi-cog',
-        command: (event: any) => {
-          window.open('/admin', '_blank');
-        },
-        disabled: !this.isAdmin(),
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'Одјава',
-        icon: 'pi pi-sign-out',
-        command: (event: any) => {
-          this.signOut();
-        },
-        disabled: !this.signedIn(),
       },
     ];
   }

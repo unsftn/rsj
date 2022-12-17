@@ -17,13 +17,19 @@
       placeholder="Облик речи"/>
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" 
       #menuNew [model]="itemsNew" [popup]="true"></p-tieredMenu>
-    <button *ngIf="signedIn()" pButton icon="pi pi-plus" 
+    <button *ngIf="signedIn()" pButton pRipple icon="pi pi-sliders-h" 
       class="p-button-rounded p-button-outlined button-header" 
-      (click)="menuNew.toggle($event)">
+      (click)="advanced()" pTooltip="Напредна претрага">
     </button>
-    <button *ngIf="signedIn()" pButton icon="pi pi-sliders-h" 
+    <button *ngIf="signedIn()" pButton pRipple icon="pi pi-plus" 
       class="p-button-rounded p-button-outlined button-header" 
-      (click)="advanced()">
+      (click)="menuNew.toggle($event)" pTooltip="Додавање">
+    </button>
+    <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
+      #menuAdmin [model]="itemsAdmin" [popup]="true"></p-tieredMenu>
+    <button *ngIf="isAdmin()" pButton pRipple icon="pi pi-chart-line"
+      class="p-button-rounded p-button-outlined button-header" 
+      (click)="menuAdmin.toggle($event)" pTooltip="Извештаји">
     </button>
   </div>
   <div class="menu-container">
@@ -31,7 +37,7 @@
       #menuUser [model]="itemsUser" [popup]="true"></p-tieredMenu>
     <div class="username">{{username}}</div>
     <button type="button" class="p-button-rounded p-button-outlined button-header" 
-      pButton icon="pi pi-user" (click)="menuUser.toggle($event)">
+      pButton pRipple icon="pi pi-user" (click)="menuUser.toggle($event)">
     </button>
   </div>
 </p-menubar>

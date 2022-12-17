@@ -9,7 +9,8 @@ import { ButtonModule } from 'primeng/button';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ToastModule } from 'primeng/toast';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-
+import { RippleModule } from 'primeng/ripple';
+import { TooltipModule } from 'primeng/tooltip';
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
 import { ErrorInterceptor } from './services/error';
@@ -31,6 +32,8 @@ import { SafePipe } from './utils/safe.pipe';
     MenubarModule,
     InputTextModule,
     ButtonModule,
+    RippleModule,
+    TooltipModule,
     TieredMenuModule,
     ToastModule,
     AutoCompleteModule,
