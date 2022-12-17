@@ -1,14 +1,14 @@
 ## Potrebne stvari
 
 Za backend:
- * Python
- * Django
- * uWSGI
+ * Python 3.9
+ * Django 4.1
+ * gunicorn
  * MySQL 5.7+ ili MariaDB 10+
 
 Za frontend:
- * Angular 12
- * PrimeNG 12
+ * Angular 15
+ * PrimeNG 15
 
 ## Podešavanje za razvoj
 

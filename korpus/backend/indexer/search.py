@@ -9,6 +9,9 @@ from reci.models import *
 logger = logging.getLogger(__name__)
 
 
+MAX_TERM_CHUNK_SIZE = 10
+
+
 @api_view(['GET'])
 def search_rec(request):
     """
@@ -91,7 +94,8 @@ def search_pub(request):
         oblici = Broj.objects.get(pk=word_id).oblici()
     else:
         oblici = []
-    return search(oblici, fragment_size, boundary_scanner)
+    add_latin_versions(oblici)
+    return wrap_search(oblici, fragment_size, boundary_scanner)
 
 
 @api_view(['GET'])
@@ -113,13 +117,38 @@ def search_oblik_in_pub(request):
     term = request.GET.get('q')
     term_cyr = lat_to_cyr(term)
     term_lat = cyr_to_lat(term)
-    return search([term_cyr, term_lat], fragment_size, boundary_scanner)
+    return wrap_search([term_cyr, term_lat], fragment_size, boundary_scanner)
 
 
-def search(words, fragment_size, scanner):
+def wrap_search(words, fragment_size, boundary_scanner):
+    try:
+        return Response(
+            _search(words, fragment_size, boundary_scanner), 
+            status=HTTP_200_OK, 
+            content_type=JSON)
+    except Exception as error:
+        log.fatal(error)
+        return server_error(error.args)
+
+
+def _search(words, fragment_size, boundary_scanner):
     """
-    Pretrazuje tekstove publikacija za reci date u listi words, sa datom velicinom fragmenta
-    i vrstom granice ('word', 'sentence'). Vraca HTTP odgovor sa JSON sadrzajem.
+    Highlighting ne radi za preveliki broj termova u pretrazi. Ukoliko je
+    trazeni broj termova veci od MAX_TERM_CHUNK_SIZE, pretragu cemo izvrsiti
+    vise puta i ujediniti rezultate. Ujedinjavanje se svodi na dodavanje
+    highlight fragmenata na postojeci pogodak.
+    """
+    chunks = chunkify(words, MAX_TERM_CHUNK_SIZE)
+    retval = []
+    for chunk in chunks:
+        retval.extend(_search_chunk(chunk, fragment_size, boundary_scanner))
+    return sorted(retval, key=lambda x: x['pub_id'])
+
+
+def _search_chunk(words, fragment_size, scanner):
+    """
+    Pretrazuje tekstove publikacija za reci date u listi words, sa datom 
+    velicinom fragmenta i vrstom granice ('word', 'sentence'). 
     """
     query = {
         'query': {
@@ -128,7 +157,7 @@ def search(words, fragment_size, scanner):
             }
         }, 
         '_source': {
-            'includes': ['pk', 'tekst', 'skracenica', 'opis']
+            'includes': ['pk', 'skracenica', 'opis']
         }, 
         'highlight': {
             'fields': {
@@ -143,26 +172,22 @@ def search(words, fragment_size, scanner):
             }
         }
     }
-    try:
-        retval = []
-        resp = get_es_client().search(index=PUB_INDEX, body=query)
-        for hit in resp['hits']['hits']:
-            try:
-                hit['highlight']
-                highlights = [t for t in hit['highlight']['tekst']]
-            except KeyError:
-                highlights = []
-            for high in highlights:                
-                retval.append({
-                    'pub_id': hit['_source']['pk'],
-                    'skracenica': hit['_source']['skracenica'],
-                    'opis': hit['_source']['opis'],
-                    'highlights': high,
-                })
-        return Response(retval, status=HTTP_200_OK, content_type=JSON)
-    except Exception as error:
-        log.fatal(error)
-        return server_error(error.args)
+    retval = []
+    resp = get_es_client().search(index=PUB_INDEX, body=query)
+    for hit in resp['hits']['hits']:
+        try:
+            hit['highlight']
+            highlights = [t for t in hit['highlight']['tekst']]
+        except KeyError:
+            highlights = []
+        for high in highlights:                
+            retval.append({
+                'pub_id': hit['_source']['pk'],
+                'skracenica': hit['_source']['skracenica'],
+                'opis': hit['_source']['opis'],
+                'highlights': high,
+            })
+    return retval
 
 
 def find_osnovni_oblik(rec) -> list[dict]:
@@ -179,3 +204,22 @@ def find_osnovni_oblik(rec) -> list[dict]:
         vrsta, id = int(vrsta), int(id)
         retval.append({'rec': osnovni_oblik, 'pk': pk, 'vrsta': vrsta, 'id': id})
     return retval
+
+
+def chunkify(alist, chunk_size):
+    """
+    Podeli listu na podliste sa najvise chunk_size elemenata.
+    Vraca listu podlista.
+    """
+    return [alist[i:i + chunk_size] for i in range(0, len(alist), chunk_size)]
+
+
+def add_latin_versions(words):
+    """
+    Prosiruje listu leksema latinicnim verzijama
+    """
+    cyr_list = words[:]
+    for leksema in cyr_list:
+        lat_verzija = cyr_to_lat(leksema)
+        words.append(lat_verzija)
+    return words
