@@ -22,7 +22,7 @@
                 appendTo="body">
             </p-dropdown>
           </div>
-          <div>
+          <div class="mr-2">
             <p-dropdown 
                 [(ngModel)]="filterOdluka"
                 [options]="odluke" 
@@ -30,6 +30,19 @@
                 optionLabel="name" 
                 optionValue="code" 
                 placeholder="одлука" 
+                [showClear]="true" 
+                [style]="{width: '160px'}" 
+                appendTo="body">
+            </p-dropdown>
+          </div>
+          <div>
+            <p-dropdown
+                [(ngModel)]="filterBeleska"
+                [options]="filterBeleskaOptions" 
+                (onChange)="setFilterBeleska($event.value)"
+                optionLabel="name" 
+                optionValue="code" 
+                placeholder="белешка?" 
                 [showClear]="true" 
                 [style]="{width: '160px'}" 
                 appendTo="body">
@@ -58,30 +71,8 @@
               <th class="w100 right">Фреквенција</th>
               <th class="w100">У Речнику</th>
               <th class="w150">Статус</th>
+              <th class="w100">Белешка</th>
             </tr>
-            <!-- <tr>
-              <th><p-columnFilter type="text" field="tekst"></p-columnFilter></th>
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-              <th>&nbsp;</th>
-              <th>
-                <p-columnFilter field="in_rsj" matchMode="equals" [showMenu]="false">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                    <p-dropdown [ngModel]="value" [options]="filterRecnikOptions" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '80px'}" appendTo="body">
-                    </p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
-              </th>
-              <th>
-                <p-columnFilter field="odluka" matchMode="equals" [showMenu]="false">
-                  <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                    <p-dropdown [ngModel]="value" [options]="odluke" (onChange)="filter($event.value)" optionLabel="name" optionValue="code" placeholder="сви" [showClear]="false" [style]="{width: '130px'}" appendTo="body"></p-dropdown>
-                  </ng-template>
-                </p-columnFilter>
-              </th>
-            </tr> -->
           </ng-template>
           <ng-template pTemplate="body" let-rec>
             <tr>
@@ -98,16 +89,9 @@
                 <button (click)="setStatus(rec, 3)" pButton pRipple type="button" icon="pi pi-thumbs-down" [class.p-button-warning]="rec.odluka===3" [class.p-button-secondary]="rec.odluka!==3" [class.p-button-text]="rec.odluka!==3" class="p-button-rounded btn-minimal"></button>
                 <button (click)="setStatus(rec, 4)" pButton pRipple type="button" icon="pi pi-times" [class.p-button-danger]="rec.odluka===4" [class.p-button-secondary]="rec.odluka!==4" [class.p-button-text]="rec.odluka!==4" class="p-button-rounded btn-minimal"></button>
               </td>
-              <!-- <td pEditableColumn class="pointer">
-                <p-cellEditor>
-                  <ng-template pTemplate="input">
-                    <p-dropdown [options]="odluke" [(ngModel)]="rec.odluka" optionLabel="name" optionValue="code" appendTo="body" [style]="{width: '180px'}" (onChange)="onChangeStatus($event, rec)"></p-dropdown>
-                  </ng-template>
-                  <ng-template pTemplate="output">
-                    {{rec.odluka_str}}
-                  </ng-template>
-                </p-cellEditor>
-              </td> -->
+              <td class="center">
+                <button (click)="showNote(rec)" pButton pRipple type="button" icon="pi pi-tag" class="p-button-rounded btn-minimal" [class.p-button-text]="!rec.beleska"></button>
+              </td>
             </tr>
           </ng-template>
         </p-table>      
@@ -115,3 +99,9 @@
     </p-tabPanel>
   </p-tabView>
 </div>
+<p-dialog header="Белешка: {{izabranaRec.tekst}}" [(visible)]="noteVisible" [style]="{width: '50vw'}">
+<textarea pInputTextArea rows="5" cols="60" [(ngModel)]="izabranaRec.beleska"></textarea>
+<ng-template pTemplate="footer">
+  <button (click)="closeNote()" pButton pRipple type="button" icon="pi pi-check" label="Затвори"></button>
+</ng-template>
+</p-dialog>

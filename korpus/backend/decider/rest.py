@@ -46,6 +46,7 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
         leksema = self.request.query_params.get('leksema')
         recnik = self.request.query_params.get('recnik')
         odluka = self.request.query_params.get('odluka')
+        beleska = self.request.query_params.get('beleska')
         if leksema:
             queryset = queryset.filter(tekst__istartswith=leksema)
         if recnik is not None:
@@ -53,6 +54,12 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
             queryset = queryset.filter(recnik_id__isnull=recnik)
         if odluka:
             queryset = queryset.filter(odluka=int(odluka))
+        if beleska is not None:
+            beleska = beleska.capitalize() == 'True'
+            if beleska:
+                queryset = queryset.exclude(beleska='')
+            else: 
+                queryset = queryset.filter(beleska='')
         return queryset.order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
 
 

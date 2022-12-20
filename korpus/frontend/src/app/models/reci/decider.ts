@@ -17,4 +17,5 @@ export interface RecZaOdluku {
   poslednje_generisanje: number;
   vreme_odluke: Date;
   donosilac_odluke: number;
+  beleska: string;
 }

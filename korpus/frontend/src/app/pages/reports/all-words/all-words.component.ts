@@ -22,6 +22,7 @@ export class AllWordsComponent implements OnInit {
     'љ': 0, 'м': 0, 'н': 0, 'њ': 0, 'о': 0, 'п': 0, 'р': 0, 'с': 0, 'т': 0, 'ћ': 0, 'у': 0, 'ф': 0, 'х': 0, 
     'ц': 0, 'ч': 0, 'џ': 0, 'ш': 0, '_': 0};
   loading: boolean = true;
+  noteVisible: boolean = false;
 
   odluke: any[] = [
     { name: 'без одлуке', code: 1 },
@@ -49,13 +50,20 @@ export class AllWordsComponent implements OnInit {
     { code: false, name: 'не' },
   ];
 
+  filterBeleskaOptions: any[] = [
+    { code: true, name: 'да' },
+    { code: false, name: 'не' },
+  ];
+
   filterRecnik: boolean = null;
+  filterBeleska: boolean = null;
   filterOdluka: number = null;
   leksema: string = '';
   first: number = null;
   rows: number = null;
   slovo: string = null;
   tabIndex: number;
+  izabranaRec: any = {};
 
   constructor(
     private router: Router,
@@ -93,7 +101,7 @@ export class AllWordsComponent implements OnInit {
   loadReci(slovo: string): void {
     this.loading = true;
     this.deciderService.getByLetterPagedFiltered(
-        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.leksema).subscribe({
+        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.filterBeleska, this.leksema).subscribe({
       next: (response: any) => {
         this.reci[slovo] = response.results.map((item: any) => { 
           item.odluka_str = this.odluke[item.odluka-1].name;
@@ -116,6 +124,11 @@ export class AllWordsComponent implements OnInit {
     this.loadReci(this.azbuka[this.tabIndex]);
   }
 
+  setFilterBeleska(value: boolean): void {
+    console.log(this.filterBeleska);
+    this.loadReci(this.azbuka[this.tabIndex]);
+  }
+
   setStatus(rec: any, odluka: number): void {
     rec.odluka = odluka;
     this.deciderService.update(rec).subscribe({
@@ -132,7 +145,7 @@ export class AllWordsComponent implements OnInit {
     });
   }
 
-  openKorpus(rec: any) {
+  openKorpus(rec: any): void {
     if (rec.korpus_id) {
       const url = this.router.serializeUrl(
         this.router.createUrlTree(
@@ -141,9 +154,32 @@ export class AllWordsComponent implements OnInit {
     }
   }
 
-  openRecnik(rec: any) {
+  openRecnik(rec: any): void {
     if (rec.recnik_id)
       window.open(`https://recnik.rsj.rs/edit/${rec.recnik_id}`, '_blank');    
+  }
+
+  showNote(rec: any): void {
+    this.izabranaRec = rec;
+    this.noteVisible = true;
+  }
+
+  closeNote(): void {
+    console.log('close');
+    this.izabranaRec.beleska = this.izabranaRec.beleska.trim();
+    this.noteVisible = false;
+    this.deciderService.update(this.izabranaRec).subscribe({
+      next: (data) => {},
+      error: (error: any) => {
+        console.log(error);        
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Грешка приликом измене статуса речи: ${error}`,
+        });
+      }
+    });
   }
 
 }

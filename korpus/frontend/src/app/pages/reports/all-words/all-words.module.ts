@@ -7,6 +7,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { TabViewModule } from 'primeng/tabview';
 import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AllWordsComponent } from './all-words.component';
 
 const routes: Routes = [{ path: '', component: AllWordsComponent }]
@@ -21,6 +23,8 @@ const routes: Routes = [{ path: '', component: AllWordsComponent }]
     ButtonModule,
     TabViewModule,
     InputTextModule,
+    DialogModule,
+    InputTextareaModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

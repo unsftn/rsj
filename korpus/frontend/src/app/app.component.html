@@ -5,8 +5,9 @@
   </div>
   <div class="search-container">
     <p-autoComplete [(ngModel)]="searchWord" [suggestions]="searchResults" 
-        (completeMethod)="searchWords($event)" scrollHeight="400px" 
-        (onSelect)="select($event)" placeholder="Основна реч">
+        (completeMethod)="searchWords()" scrollHeight="400px" 
+        (onSelect)="select($event)" placeholder="Основна реч" 
+        (onKeyUp)="onKeyUp($event)" [delay]="500">
       <ng-template let-word pTemplate="item">
         <span class="rec">{{word.rec}}</span>
         <span class="vrsta">{{word.vrsta_text}}</span>

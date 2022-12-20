@@ -53,8 +53,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  searchWords(event): void {
-    this.searchService.searchWords(event.query).subscribe({
+  searchWords(): void {
+    this.searchService.searchWords(this.searchWord).subscribe({
       next: (data) => {
         this.searchResults = data;
       },
@@ -87,6 +87,11 @@ export class AppComponent implements OnInit {
     this.searchService.selectedWordForm = null;
     this.searchService.selectedWordChanged.emit(true);
     this.router.navigate(['/']);
+  }
+
+  onKeyUp(event: KeyboardEvent): void {
+    if (event.key === 'Enter')
+      this.searchWords();
   }
 
   advanced(): void {

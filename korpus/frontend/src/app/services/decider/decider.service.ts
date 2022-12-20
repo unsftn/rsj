@@ -22,7 +22,7 @@ export class DeciderService {
     return this.http.get<RecZaOdluku[]>(`/api/decider/rec-za-odluku/?prvo_slovo=${letter}`);
   }
 
-  getByLetterPagedFiltered(letter: string, offset: number, limit: number, recnik: boolean, odluka: number, leksema: string): Observable<RecZaOdluku[]> {
+  getByLetterPagedFiltered(letter: string, offset: number, limit: number, recnik: boolean, odluka: number, beleska: boolean, leksema: string): Observable<RecZaOdluku[]> {
     let url = `/api/decider/rec-za-odluku-po/${letter}/?offset=${offset}&limit=${limit}`;
     if (recnik != null)
       url += `&recnik=${recnik}`;
@@ -30,6 +30,8 @@ export class DeciderService {
       url += `&odluka=${odluka}`;
     if (leksema)
       url += `&leksema=${leksema}`;
+    if (beleska != null)
+      url += `&beleska=${beleska}`;
     return this.http.get<RecZaOdluku[]>(url);
   }
 
