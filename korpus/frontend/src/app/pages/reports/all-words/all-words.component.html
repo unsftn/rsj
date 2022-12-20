@@ -60,7 +60,9 @@
             [loading]="loading"
             [totalRecords]="ukupno[slovo]"
             (onLazyLoad)="onLazyLoad($event, slovo)"
-            [showCurrentPageReport]="true">
+            [showCurrentPageReport]="true"
+            [scrollable]="true"
+            scrollHeight="500px">
           <ng-template pTemplate="header">
             <tr>
               <th>Лексема</th>
