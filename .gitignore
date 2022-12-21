@@ -163,3 +163,7 @@ speed-measure-plugin.json
 
 media/
 **/.angular/cache
+
+gsheets-credentials.json
+gsheets-token.json
+
