@@ -45,6 +45,10 @@ export class MetadataComponent implements OnInit {
           volumen: '',
           url: '',
           izdavac: '',
+          prevodilac: '',
+          prvo_izdanje: '',
+          napomena: '',
+          zanr: '',
           vrsta: this.publikacijaService.getFirstPubType(),
         };
       } else {
@@ -58,30 +62,6 @@ export class MetadataComponent implements OnInit {
         });
       }
     });
-
-    // this.route.data.subscribe((data) => {
-    //   switch (data.mode) {
-    //     case 'add':
-    //       this.editMode = false;
-    //       this.id = null;
-    //       this.pub = {
-    //         autori: [],
-    //         naslov: '',
-    //         naslov_izdanja: '',
-    //         isbn: '',
-    //         issn: '',
-    //         godina: '',
-    //         volumen: '',
-    //         url: '',
-    //         izdavac: '',
-    //         vrsta: this.publikacijaService.getFirstPubType(),
-    //       };
-    //       console.log(this.pub);
-    //       break;
-    //     case 'edit':
-    //       break;
-    //   }
-    // });
   }
 
   check(): boolean {

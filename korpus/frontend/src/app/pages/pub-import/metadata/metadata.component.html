@@ -66,6 +66,12 @@
       </p-table>
     </div>
     <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">Преводилац:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.prevodilac" size="100"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
       <p class="label p-m-0">Издање/серија:</p>
     </div>
     <div class="col-12 md:col-10 lg:col-11">
@@ -84,6 +90,12 @@
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.godina" size="10"/>
     </div>
     <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">Прво издање:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.prvo_izdanje" size="10"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
       <p class="label p-m-0">ISBN:</p>
     </div>
     <div class="col-12 md:col-10 lg:col-11">
@@ -100,6 +112,18 @@
     </div>
     <div class="col-12 md:col-10 lg:col-11">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.volumen" size="10"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">Жанр:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.zanr" size="15"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">Напомена:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.napomena" size="100"/>
     </div>
     <div class="col-12 md:col-2 lg:col-1">
       <p class="label p-m-0">URL:</p>

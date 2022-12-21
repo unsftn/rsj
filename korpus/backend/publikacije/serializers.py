@@ -57,7 +57,8 @@ class PublikacijaSerializer(serializers.ModelSerializer):
         fields = ('id', 'naslov', 'naslov_izdanja', 'vrsta', 'isbn', 'issn',
                   'izdavac', 'godina', 'volumen', 'broj', 'url',
                   'vreme_unosa', 'autor_set', 'fajlpublikacije_set',
-                  'user_id', 'skracenica', 'potkorpus', 'filterpublikacije_set',)
+                  'user_id', 'skracenica', 'potkorpus', 'filterpublikacije_set',
+                  'prevodilac', 'prvo_izdanje', 'napomena', 'zanr')
 
 
 class NoSaveSerializer(serializers.Serializer):
@@ -87,7 +88,11 @@ class SavePublikacijaSerializer(serializers.Serializer):
     vrsta_id = serializers.IntegerField(required=False, allow_null=True)
     potkorpus_id = serializers.IntegerField(required=False, allow_null=True)
     autori = serializers.ListField(child=CreateAutorSerializer())
-    skracenica = serializers.CharField(max_length=100)
+    skracenica = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    prevodilac = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
+    prvo_izdanje = serializers.CharField(max_length=10, required=False, allow_blank=True, allow_null=True)
+    napomena = serializers.CharField(max_length=1000, required=False, allow_blank=True, allow_null=True)
+    zanr = serializers.CharField(max_length=100, required=False, allow_blank=True, allow_null=True)
 
     def create(self, validated_data):
         return self._save(validated_data)

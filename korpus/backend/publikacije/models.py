@@ -50,6 +50,10 @@ class Publikacija(models.Model):
     potkorpus = models.ForeignKey(Potkorpus, verbose_name='поткорпус', on_delete=models.PROTECT, blank=True, null=True)
     user = models.ForeignKey(UserProxy, verbose_name='корисник', on_delete=models.DO_NOTHING)
     skracenica = models.CharField('скраћеница', max_length=100, default='-')
+    prevodilac = models.CharField('преводилац', max_length=100, blank=True, null=True)
+    prvo_izdanje = models.CharField('прво издање', max_length=10, blank=True, null=True)
+    napomena = models.CharField('напомена', max_length=1000, blank=True, null=True)
+    zanr = models.CharField('жанр', max_length=100, blank=True, null=True)
 
     def opis(self, html=False):
         if self.autor_set.count() > 0:
@@ -70,6 +74,9 @@ class Publikacija(models.Model):
     class Meta:
         verbose_name = 'публикација'
         verbose_name_plural = 'публикације'
+        indexes = [
+            models.Index(fields=['naslov', 'godina'])
+        ]
 
 
 class Autor(models.Model):
