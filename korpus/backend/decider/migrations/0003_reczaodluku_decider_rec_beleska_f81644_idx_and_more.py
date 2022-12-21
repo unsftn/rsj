@@ -10,10 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddIndex(
-            model_name='reczaodluku',
-            index=models.Index(fields=['beleska'], name='decider_rec_beleska_f81644_idx'),
-        ),
+        # migrations.AddIndex(
+        #     model_name='reczaodluku',
+        #     index=models.Index(fields=['beleska'], name='decider_rec_beleska_f81644_idx'),
+        # ),
         migrations.AddIndex(
             model_name='reczaodluku',
             index=models.Index(fields=['recnik_id'], name='decider_rec_recnik__abb6de_idx'),

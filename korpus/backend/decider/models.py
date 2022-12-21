@@ -39,7 +39,7 @@ class RecZaOdluku(models.Model):
         indexes = [
             models.Index(fields=['prvo_slovo']),
             models.Index(fields=['tekst']),
-            models.Index(fields=['beleska']),
+            # models.Index(fields=['beleska']),
             models.Index(fields=['recnik_id']),
             models.Index(fields=['korpus_id']),
         ]
