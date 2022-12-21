@@ -16,3 +16,6 @@ RSJ_HOST = 'http://localhost:9201'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 HEADER_COLOR_SCHEME = 'gray'
+GSHEETS_TOKEN = 'gsheets-token.json'
+GSHEETS_CREDENTIALS = 'gsheets-credentials.json'
+KORPUS_SPREADSHEET_ID = '1tZkiNjtwA6smaM8xnYrCEK1UszibU4rUXEDS-jw4i6o'

@@ -32,3 +32,6 @@ EMAIL_HOST_PASSWORD = read_or_get('/private/secrets', 'EMAIL_HOST_PASSWORD', '**
 HEADER_COLOR_SCHEME = read_or_get('/private/secrets', 'HEADER_COLOR_SCHEME', 'green')
 CSRF_TRUSTED_ORIGINS = ['https://*.rsj.rs']
 ADMINS = [('Branko Milosavljevic', 'mbranko@uns.ac.rs')]
+GSHEETS_TOKEN = read_or_get('/private/secrets', 'GSHEETS_TOKEN', '/app/gsheets-token.json')
+GSHEETS_CREDENTIALS = read_or_get('/private/secrets', 'GSHEETS_CREDENTIALS', '/app/gsheets-credentials.json')
+KORPUS_SPREADSHEET_ID = read_or_get('/private/secrets', 'KORPUS_SPREADSHEET_ID', '1tZkiNjtwA6smaM8xnYrCEK1UszibU4rUXEDS-jw4i6o')
