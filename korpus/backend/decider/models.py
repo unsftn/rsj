@@ -31,7 +31,7 @@ class RecZaOdluku(models.Model):
     poslednje_generisanje = models.ForeignKey(GenerisaniSpisak, verbose_name='последње генерисање', on_delete=models.PROTECT)
     vreme_odluke = models.DateTimeField('време одлуке')
     donosilac_odluke = models.ForeignKey(UserProxy, verbose_name='доносилац одлуке', blank=True, null=True, on_delete=models.PROTECT)
-    beleska = models.TextField('белешка', blank=True)
+    beleska = models.TextField('белешка', max_length=1000, blank=True)
 
     class Meta:
         verbose_name = 'реч за одлуку'
