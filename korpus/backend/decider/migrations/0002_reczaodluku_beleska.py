@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='reczaodluku',
             name='beleska',
-            field=models.TextField(blank=True, verbose_name='белешка'),
+            field=models.TextField(blank=True, max_length=500, verbose_name='белешка'),
         ),
     ]
