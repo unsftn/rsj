@@ -460,6 +460,24 @@ def get_statistika_unosa_reci(request):
             'ukupno': ukupno
         }
         result.append(item)
+    total = {
+        'userID': 0,
+        'ime': 'УКУПНО',
+        'prezime': '',
+        'email': 'ukupno@rsj.rs',
+        'imenice': sum([x['imenice'] for x in result]),
+        'glagoli': sum([x['glagoli'] for x in result]),
+        'pridevi': sum([x['pridevi'] for x in result]),
+        'prilozi': sum([x['prilozi'] for x in result]),
+        'zamenice': sum([x['zamenice'] for x in result]),
+        'predlozi': sum([x['predlozi'] for x in result]),
+        'uzvici': sum([x['uzvici'] for x in result]),
+        'veznici': sum([x['veznici'] for x in result]),
+        'recce': sum([x['recce'] for x in result]),
+        'brojevi': sum([x['brojevi'] for x in result]),
+        'ukupno': sum([x['ukupno'] for x in result]),
+    }
+    result.insert(0, total)
     return Response(result, status=status.HTTP_200_OK)
 
 

@@ -19,8 +19,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-item>
       <tr>
-        <td *ngIf="!isAdmin">{{item.ime}} {{item.prezime}}</td>
-        <td *ngIf="isAdmin"><a [routerLink]="['/izvestaji/reci-korisnika', item.userID]">{{item.ime}} {{item.prezime}}</a></td>
+        <td *ngIf="!isAdmin || item.userID === 0">{{item.ime}} {{item.prezime}}</td>
+        <td *ngIf="isAdmin">
+          <a [routerLink]="['/izvestaji/reci-korisnika', item.userID]">{{item.ime}} {{item.prezime}}</a>
+        </td>
         <td class="right">{{item.imenice}}</td>
         <td class="right">{{item.glagoli}}</td>
         <td class="right">{{item.pridevi}}</td>
