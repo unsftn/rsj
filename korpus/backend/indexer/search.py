@@ -95,6 +95,7 @@ def search_pub(request):
     else:
         oblici = []
     add_latin_versions(oblici)
+    oblici = lowercase(oblici)
     return wrap_search(oblici, fragment_size, boundary_scanner)
 
 
@@ -115,8 +116,8 @@ def search_oblik_in_pub(request):
         boundary_scanner = 'word'
 
     term = request.GET.get('q')
-    term_cyr = lat_to_cyr(term)
-    term_lat = cyr_to_lat(term)
+    term_cyr = lat_to_cyr(term).lower()
+    term_lat = cyr_to_lat(term).lower()
     return wrap_search([term_cyr, term_lat], fragment_size, boundary_scanner)
 
 
@@ -223,3 +224,13 @@ def add_latin_versions(words):
         lat_verzija = cyr_to_lat(leksema)
         words.append(lat_verzija)
     return words
+
+
+def lowercase(list_of_words: list) -> list:
+    """
+    Sve reci u listi stringova pretvara u lowercase. Vraca novu listu.
+    """
+    retval = []
+    for word in list_of_words:
+        retval.append(word.lower())
+    return retval
