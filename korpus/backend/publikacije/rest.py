@@ -44,7 +44,7 @@ class PotkorpusDetail(generics.RetrieveAPIView):
 class PublikacijaList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Publikacija.objects.all()
-    serializer_class = PublikacijaSerializer
+    serializer_class = PublikacijaSerializer2
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['naslov', 'naslov_izdanja', 'godina']
 

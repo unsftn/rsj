@@ -27,7 +27,8 @@
     <ng-template pTemplate="header">
       <tr>
         <th class="skracenica">Скраћеница</th>
-        <th class="opis">Опис</th>
+        <th class="naslov">Наслов</th>
+        <th class="godina">Година</th>
         <th class="operacije">Операције</th>
         <th class="tekst">Текст</th>
       </tr>
@@ -35,7 +36,8 @@
     <ng-template pTemplate="body" let-pub>
       <tr>
         <td>{{pub.skracenica}}</td>
-        <td [innerHTML]="opis(pub)"></td>
+        <td>{{pub.naslov}}</td>
+        <td>{{pub.godina}}</td>
         <td style="text-align: center">
 <!--          <span class="pi pi-pencil pointer mr-3" (click)="edit(pub)"></span>-->
           <span class="pi pi-sliders-h pointer mr-3" (click)="configure(pub)"></span>

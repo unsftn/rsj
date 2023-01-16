@@ -61,6 +61,15 @@ class PublikacijaSerializer(serializers.ModelSerializer):
                   'prevodilac', 'prvo_izdanje', 'napomena', 'zanr')
 
 
+class PublikacijaSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = Publikacija
+        fields = ('id', 'naslov', 'naslov_izdanja', 'vrsta', 'isbn', 'issn',
+                  'izdavac', 'godina', 'volumen', 'broj', 'url',
+                  'vreme_unosa', 'user_id', 'skracenica', 'potkorpus',
+                  'prevodilac', 'prvo_izdanje', 'napomena', 'zanr')
+
+
 class NoSaveSerializer(serializers.Serializer):
     def create(self, validated_data):
         return None
