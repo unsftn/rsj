@@ -56,14 +56,14 @@ def find_roots(words):
         else:
             continue
         try:
-            if words[oo['rec']]['rec'] != word['rec']:
-                del words[key]
+            words[oo['rec']]['count'] += word['count']
+            words[oo['rec']]['pubs'].update(word['pubs'])
+            words[oo['rec']]['vrsta'] = oo['vrsta']
+            words[oo['rec']]['korpus_id'] = oo['id']
+            # if words[oo['rec']]['rec'] != word['rec']:
+            #     del words[key]
         except KeyError:
-            words[oo['rec']] = word        
-        words[oo['rec']]['count'] += word['count']
-        words[oo['rec']]['pubs'].update(word['pubs'])
-        words[oo['rec']]['vrsta'] = oo['vrsta']
-        words[oo['rec']]['korpus_id'] = oo['id']
+            words[oo['rec']] = word
         if index % 10000 == 0 and index > 0:
             log.info(f'Finished finding root for {index} words...')
     end_time = now()
