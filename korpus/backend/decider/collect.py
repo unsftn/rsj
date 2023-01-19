@@ -101,7 +101,7 @@ def update_db(words):
                 vreme_odluke=now(),
                 poslednje_generisanje=gs)
         if i % 10000 == 0 and i > 0:
-            log.info('Saved {i} words...')
+            log.info(f'Saved {i} words...')
     gs.end_time = now()
     gs.save()
     end_time = now()
