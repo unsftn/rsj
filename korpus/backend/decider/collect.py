@@ -78,7 +78,7 @@ def update_db(words):
     start_time = now()
     log.info('Started database updates...')
     gs = GenerisaniSpisak.objects.create(start_time=now())
-    for w in words.values():
+    for i, w in enumerate(words.values()):
         rec = w['tekst'] or 'x'
         rzos = RecZaOdluku.objects.filter(tekst=rec)
         if len(rzos) > 0:
@@ -100,6 +100,8 @@ def update_db(words):
                 broj_pojavljivanja=w['count'],
                 vreme_odluke=now(),
                 poslednje_generisanje=gs)
+        if i % 10000 == 0 and i > 0:
+            log.info('Saved {i} words...')
     gs.end_time = now()
     gs.save()
     end_time = now()
@@ -123,7 +125,9 @@ def connect_to_rsj():
                 if not rzo.vrsta_reci:
                     rzo.vrsta_reci = vrsta
                 rzo.save()
-            count += 1
+        count += 1
+        if count % 10000 == 0:
+            log.info(f'Lookup done for {count} words')
     end_time = now()
     log.info(f'RSJ lookup finished in {end_time-start_time}')
 
