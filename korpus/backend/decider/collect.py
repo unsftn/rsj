@@ -51,6 +51,8 @@ def find_roots(words):
     log.info(f'Finding roots of {total_words} words...')
     for index, (key, word) in enumerate(list(words.items())):
         oo = find_root(key)
+        if index % 10000 == 0 and index > 0:
+            log.info(f'Finished finding root for {index} words...')
         if len(oo) == 1:
             oo = oo[0]
         else:
@@ -64,8 +66,6 @@ def find_roots(words):
             #     del words[key]
         except KeyError:
             words[oo['rec']] = word
-        if index % 10000 == 0 and index > 0:
-            log.info(f'Finished finding root for {index} words...')
     end_time = now()
     log.info(f'Finding roots for {total_words} words took {end_time-start_time}')
 
