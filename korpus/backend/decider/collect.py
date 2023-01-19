@@ -62,8 +62,8 @@ def find_roots(words):
             words[oo['rec']]['pubs'].update(word['pubs'])
             words[oo['rec']]['vrsta'] = oo['vrsta']
             words[oo['rec']]['korpus_id'] = oo['id']
-            # if words[oo['rec']]['rec'] != word['rec']:
-            #     del words[key]
+            if words[oo['rec']]['tekst'] != word['tekst']:
+                del words[word['tekst']]
         except KeyError:
             words[oo['rec']] = word
     end_time = now()
