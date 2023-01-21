@@ -152,6 +152,8 @@ def save_dict(rec_dict, client=None):
         oblici = rec_dict['oblici']
         oblici = clear_text(oblici)
         oblici = add_latin(oblici)
+        if not oblici:
+            log.warning(f'Prazna lista oblika za {rec_dict}')
         var_set = set(oblici)
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
