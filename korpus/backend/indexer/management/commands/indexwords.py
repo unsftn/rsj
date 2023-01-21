@@ -14,6 +14,7 @@ class Command(BaseCommand):
     help = 'Reindex database in Elasticsearch'
 
     def handle(self, *args, **options):
+        log.info('Indeksiranje reci...')
         if not check_elasticsearch():
             self.stdout.write(f'Nije dostupan Elasticsearch servis na {settings.ELASTICSEARCH_HOST}')
             return
@@ -37,6 +38,7 @@ class Command(BaseCommand):
 
     def index_rec(self, naziv, clazz, save_func, client):
         self.stdout.write(f'Ukupno {clazz.objects.count()} {naziv} za indeksiranje.')
+        log.info(f'Ukupno {clazz.objects.count()} {naziv} za indeksiranje.')
         count = 0
         for rec in clazz.objects.all():
             if save_func(rec, client):
@@ -50,3 +52,4 @@ class Command(BaseCommand):
         if count % 10000 != 0 and count > 1000:
             self.stdout.write('')
         self.stdout.write(self.style.SUCCESS(f'Ukupno indeksirano {count} {naziv}.'))
+        log.info(f'Ukupno indeksirano {count} {naziv}.')
