@@ -78,8 +78,8 @@ def update_db(words):
     start_time = now()
     log.info('Started database updates...')
     gs = GenerisaniSpisak.objects.create(start_time=now())
-    for i, w in enumerate(words.values()):
-        rec = w['tekst'] or 'x'
+    for i, (k, w) in enumerate(words.items()):
+        rec = k
         rzos = RecZaOdluku.objects.filter(tekst=rec)
         if len(rzos) > 0:
             rzo = rzos[0]
