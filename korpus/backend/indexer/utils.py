@@ -116,7 +116,7 @@ def clear_text(obj):
                 else:
                     new_list.append(remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', item)))
                     new_list.append(remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', item)))
-            else:
+            elif item:
                 new_list.append(item)
         return new_list
     return obj
@@ -126,6 +126,8 @@ def add_latin(lst):
     """
     Listi stringova dodaje nove elemente sa stringovima konvertovanim u latinicu
     """
+    if not lst:
+        return lst
     result = []
     result.extend(lst)
     for item in lst:
