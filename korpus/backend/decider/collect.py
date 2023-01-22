@@ -58,6 +58,9 @@ def find_roots(words):
         else:
             continue
         try:
+            if not oo['rec']:
+                continue
+            words[oo['rec']]
             words[oo['rec']]['count'] += word['count']
             words[oo['rec']]['pubs'].update(word['pubs'])
             words[oo['rec']]['vrsta'] = oo['vrsta']
@@ -66,6 +69,9 @@ def find_roots(words):
                 del words[word['tekst']]
         except KeyError:
             words[oo['rec']] = word
+            if oo['rec'] != word['tekst']:
+                del words[word['tekst']]
+            word['tekst'] = oo['rec']
     end_time = now()
     log.info(f'Finding roots for {total_words} words took {end_time-start_time}')
 
