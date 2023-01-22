@@ -53,25 +53,47 @@ def find_roots(words):
         oo = find_root(key)
         if index % 10000 == 0 and index > 0:
             log.info(f'Finished finding root for {index} words...')
+        
+        # ako ova leksema moze biti oblik vise od jedne reci, onda ne radimo
+        # nista - nismo sigurni kojoj reci ona pripada
         if len(oo) == 1:
             oo = oo[0]
         else:
             continue
+        
         try:
+            # ako ne znamo osnovni oblik preskacemo
             if not oo['rec']:
                 continue
-            words[oo['rec']]
+            
+            # ako je ovo rec koja jeste osnovni oblik, i vec je u mapi, 
+            # ne radi nista
+            if words[oo['rec']] == word:
+                continue
+            
+            # ako je ovo rec koja nije osnovni oblik, a osnovni oblik je 
+            # u mapi, akumuliraj statistike
             words[oo['rec']]['count'] += word['count']
             words[oo['rec']]['pubs'].update(word['pubs'])
             words[oo['rec']]['vrsta'] = oo['vrsta']
             words[oo['rec']]['korpus_id'] = oo['id']
+
+            # ako je ovo rec koja nije osnovni oblik, ukloni je iz mape
+            # (osnovni oblik je akumulirao njenu statistiku)
             if words[oo['rec']]['tekst'] != word['tekst']:
                 del words[word['tekst']]
         except KeyError:
+            # prvi put smo naisli na ovaj osnovni oblik
+            # dodaj rec u mapu za ovaj osnovni oblik
             words[oo['rec']] = word
+
+            # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
             if oo['rec'] != word['tekst']:
                 del words[word['tekst']]
+
+            # tekst u reci treba da bude osnovni oblik
             word['tekst'] = oo['rec']
+
     end_time = now()
     log.info(f'Finding roots for {total_words} words took {end_time-start_time}')
 
