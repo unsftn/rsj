@@ -77,8 +77,8 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-rec>
-            <tr>
-              <td>{{rec.tekst}}</td>
+            <tr class="highlighted-row">
+              <td class="redlink" (click)="openRec(rec)">{{rec.tekst}}</td>
               <td class="right">{{rec.vrsta_str}}</td>
               <td class="right" (click)="openKorpus(rec)" [class.redlink]="rec.korpus_id">{{rec.korpus_id}}</td>
               <td class="right" (click)="openRecnik(rec)" [class.redlink]="rec.recnik_id">{{rec.recnik_id}}</td>
