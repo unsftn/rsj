@@ -148,7 +148,6 @@ export class AllWordsComponent implements OnInit {
   openRec(rec: any): void {
     let url = '';
     let queryParams = {};
-    console.log(rec);
     if (Number.isFinite(rec.vrsta_reci) && Number.isFinite(rec.korpus_id))
       queryParams = { id: rec.korpus_id, type: rec.vrsta_reci};
     else

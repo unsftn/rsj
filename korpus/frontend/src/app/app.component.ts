@@ -54,6 +54,8 @@ export class AppComponent implements OnInit {
   }
 
   searchWords(): void {
+    if (!this.searchWord)
+      return;
     this.searchService.searchWords(this.searchWord).subscribe({
       next: (data) => {
         this.searchResults = data;
