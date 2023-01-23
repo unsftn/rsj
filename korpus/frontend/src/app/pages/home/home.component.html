@@ -30,11 +30,29 @@
     <div *ngFor="let hit of hitPage" class="hit-row">
       <p class="rbr right">{{hit.order_nr}}.</p>
       <p class="skr">[{{ hit.skracenica }}]</p>
-      <p class="izv" [innerHTML]="safe(hit.highlights)"></p>
+      <p class="skr">
+        <button pButton pRipple type="button" icon="pi pi-palette" class="p-button-text btn-minimal" (click)="openColorPicker($event, hit)"></button>
+      </p>
+      <p class="izv" [ngClass]="hit.color" [innerHTML]="safe(hit.highlights)"></p>
     </div>
   </div>
 
 </div>
+
+<p-overlayPanel #colorpicker>
+  <ng-template pTemplate>
+    <div class="flex">
+      <div class="label pointer red" (click)="pickColor('red')"></div>
+      <div class="label pointer blue" (click)="pickColor('blue')"></div>
+      <div class="label pointer yellow" (click)="pickColor('yellow')"></div>
+      <div class="label pointer magenta" (click)="pickColor('magenta')"></div>
+      <div class="label pointer cyan" (click)="pickColor('cyan')"></div>
+      <div class="label pointer green" (click)="pickColor('green')"></div>
+      <div class="label pointer white center" (click)="pickColor('white')">X</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
 <div class="progress" *ngIf="searching">
   <p-progressSpinner></p-progressSpinner>
 </div>

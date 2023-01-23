@@ -1,8 +1,9 @@
-import { Component, Injectable, HostListener, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { PrimeNGConfig, MessageService } from 'primeng/api';
-import { TokenStorageService } from '../../services/auth/token-storage.service';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
+import { PrimeNGConfig, MessageService } from 'primeng/api';
+import { OverlayPanel } from 'primeng/overlaypanel';
+import { TokenStorageService } from '../../services/auth/token-storage.service';
 import { SearchService } from '../../services/search';
 import { RecService } from '../../services/reci';
 
@@ -27,6 +28,9 @@ export class HomeComponent implements OnInit {
   scanner: any;
   fragmentSizes: any[];
   scanners: any[];
+  coloredHit: any;
+
+  @ViewChild('colorpicker') colorPicker: OverlayPanel;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -157,6 +161,16 @@ export class HomeComponent implements OnInit {
 
   changeScanner(event: any): void {
     this.fetchData();
+  }
+
+  openColorPicker(event: any, hit: any): void {
+    this.coloredHit = hit;
+    this.colorPicker.toggle(event);
+  }
+
+  pickColor(color: any): void {
+    this.coloredHit.color = color;
+    this.colorPicker.hide();
   }
 
   pogodaka(): string {

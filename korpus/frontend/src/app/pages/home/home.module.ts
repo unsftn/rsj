@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ButtonModule } from 'primeng/button';
 import { HomeComponent } from './home.component';
 
 const routes: Routes = [{ path: '', component: HomeComponent }];
@@ -15,6 +17,8 @@ const routes: Routes = [{ path: '', component: HomeComponent }];
     PaginatorModule,
     DropdownModule,
     ProgressSpinnerModule,
+    OverlayPanelModule,
+    ButtonModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

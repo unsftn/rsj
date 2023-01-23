@@ -47,3 +47,45 @@
 .hitcount {
   margin-bottom: 12px;
 }
+
+.label {
+  width: 20px; 
+  height: 20px;
+  margin: 3px;
+}
+
+.red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.blue {
+  background-color:rgba(0, 0, 255, 0.2);
+}
+
+.green {
+  background-color:rgba(0, 255, 0, 0.2);
+}
+
+.yellow {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+
+.magenta {
+  background-color: rgba(255, 0, 255, 0.2);
+}
+
+.cyan {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+
+.white {
+  background-color: white;
+}
+
+.center {
+  text-align: center;
+}
+
+.pointer {
+  cursor: pointer;
+}
