@@ -28,8 +28,10 @@ export class SearchComponent implements OnInit {
   fragmentSizes: any[];
   scanners: any[];
   coloredHit: any;
+  referencePreview: string;
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
+  @ViewChild('reference') refPanel: OverlayPanel;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -88,17 +90,11 @@ export class SearchComponent implements OnInit {
     this.hits = [];
     if (Number.isFinite(this.wordId) && Number.isFinite(this.wordType)) {
       this.recService.get(this.wordId, this.wordType).subscribe({
-        next: (word: any) => {
-          console.log(word);
-          this.word = word;
-        },
-        error: (error) => {
-          console.log(error);
-        }
+        next: (word: any) => this.word = word,
+        error: (error) => console.log(error)
       });
       this.searchService.searchPubs(this.wordId, this.wordType, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
-          console.log(hits);
           this.searching = false;
           this.hits = hits;
           this.first = 0;
@@ -178,6 +174,11 @@ export class SearchComponent implements OnInit {
   openColorPicker(event: any, hit: any): void {
     this.coloredHit = hit;
     this.colorPicker.toggle(event);
+  }
+
+  openReference(event: any, hit: any): void {
+    this.referencePreview = hit.opis;
+    this.refPanel.toggle(event);
   }
 
   pickColor(color: any): void {

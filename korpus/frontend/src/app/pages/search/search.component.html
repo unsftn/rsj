@@ -29,7 +29,7 @@
   <div class="hits">
     <div *ngFor="let hit of hitPage" class="hit-row">
       <p class="rbr right">{{hit.order_nr}}.</p>
-      <p class="skr">[{{ hit.skracenica }}]</p>
+      <p class="skr pointer" (click)="openReference($event, hit)">[{{ hit.skracenica || '---' }}]</p>
       <p class="skr">
         <button pButton pRipple type="button" icon="pi pi-palette" class="p-button-text btn-minimal" (click)="openColorPicker($event, hit)"></button>
       </p>
@@ -50,6 +50,12 @@
       <div class="label pointer green" (click)="pickColor('green')"></div>
       <div class="label pointer white center" (click)="pickColor('white')">X</div>
     </div>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #reference>
+  <ng-template pTemplate>
+    {{ referencePreview }}
   </ng-template>
 </p-overlayPanel>
 
