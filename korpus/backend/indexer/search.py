@@ -232,5 +232,6 @@ def lowercase(list_of_words: list) -> list:
     """
     retval = []
     for word in list_of_words:
-        retval.append(word.lower())
+        if word:
+            retval.append(word.lower())
     return retval
