@@ -28,6 +28,7 @@
 
   <div class="hits">
     <div *ngFor="let hit of hitPage" class="hit-row">
+      <p class="rbr right">{{hit.order_nr}}.</p>
       <p class="skr">[{{ hit.skracenica }}]</p>
       <p class="izv" [innerHTML]="safe(hit.highlights)"></p>
     </div>

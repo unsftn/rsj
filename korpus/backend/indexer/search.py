@@ -118,7 +118,12 @@ def search_oblik_in_pub(request):
     term = request.GET.get('q')
     term_cyr = lat_to_cyr(term).lower()
     term_lat = cyr_to_lat(term).lower()
-    return wrap_search([term_cyr, term_lat], fragment_size, boundary_scanner)
+    query_terms = []
+    if term_cyr:
+        query_terms.append(term_cyr)
+    if term_lat:
+        query_terms.append(term_lat)
+    return wrap_search(query_terms, fragment_size, boundary_scanner)
 
 
 def wrap_search(words, fragment_size, boundary_scanner):
@@ -143,8 +148,9 @@ def _search(words, fragment_size, boundary_scanner):
     retval = []
     for chunk in chunks:
         retval.extend(_search_chunk(chunk, fragment_size, boundary_scanner))
-    return sorted(retval, key=lambda x: x['pub_id'])
-
+    retval = sorted(retval, key=lambda x: x['pub_id'])
+    retval = [dict(item, order_nr=index+1) for index, item in enumerate(retval)]
+    return retval
 
 def _search_chunk(words, fragment_size, scanner):
     """

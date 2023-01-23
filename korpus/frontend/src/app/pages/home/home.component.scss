@@ -27,9 +27,13 @@
   display: table-row;
 }
 
-.skr, .izv {
+.rbr, .skr, .izv {
   display: table-cell;
   padding: 5px;
+}
+
+.right {
+  text-align: right;
 }
 
 :host ::ng-deep .p-paginator-rpp-options {

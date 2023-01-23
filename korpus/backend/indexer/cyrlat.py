@@ -22,7 +22,7 @@ LATIN_CHARS = [
 
 def cyr_to_lat(text):
     if not text:
-        return text
+        return ''
     for c, l in zip(CYRILLIC_CHARS, LATIN_CHARS):
         text = text.replace(c, l)
     text = text.replace('\u0409', 'LJ').replace('\u040A', 'NJ').replace('\u040F', 'D\u017D') \
@@ -32,7 +32,7 @@ def cyr_to_lat(text):
 
 def lat_to_cyr(text):
     if not text:
-        return text
+        return ''
     text = text.replace('LJ', '\u0409').replace('Lj', '\u0409').replace('NJ', '\u040A') \
         .replace('Nj', '\u040A').replace('D\u017D', '\u040F').replace('D\u017E', '\u040F') \
         .replace('lj', '\u0459').replace('nj', '\u045A').replace('d\u017e', '\u045F')
