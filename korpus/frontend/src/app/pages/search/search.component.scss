@@ -1,0 +1,91 @@
+.search-container {
+  padding: 10px;
+}
+
+:host ::ng-deep .fword {
+  color: red;
+  font-weight: bold;
+  display: inline;
+}
+
+.vrsta-reci {
+  color: gray;
+  font-size: small;
+}
+
+.edit-link {
+  text-decoration: none;
+  color: rgb(34, 34, 153);
+  font-size: small;
+}
+
+.hits {
+  display: table;
+}
+
+.hit-row {
+  display: table-row;
+}
+
+.rbr, .skr, .izv {
+  display: table-cell;
+  padding: 5px;
+}
+
+.right {
+  text-align: right;
+}
+
+:host ::ng-deep .p-paginator-rpp-options {
+  width: 70px;
+}
+
+:host ::ng-deep .p-paginator-page-options {
+  width: 100px;
+}
+
+.hitcount {
+  margin-bottom: 12px;
+}
+
+.label {
+  width: 20px; 
+  height: 20px;
+  margin: 3px;
+}
+
+.red {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.blue {
+  background-color:rgba(0, 0, 255, 0.2);
+}
+
+.green {
+  background-color:rgba(0, 255, 0, 0.2);
+}
+
+.yellow {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+
+.magenta {
+  background-color: rgba(255, 0, 255, 0.2);
+}
+
+.cyan {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+
+.white {
+  background-color: white;
+}
+
+.center {
+  text-align: center;
+}
+
+.pointer {
+  cursor: pointer;
+}

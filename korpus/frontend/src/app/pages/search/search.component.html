@@ -1,0 +1,58 @@
+<div class="search-container" *ngIf="hits">
+  <h3 *ngIf="word">
+    {{word.osnovni_oblik}} &nbsp;&nbsp; 
+    <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; 
+    <a class="edit-link" [routerLink]="editRouterLink" _target="blank">обрада &gt;&gt;</a>
+  </h3>
+  <h3 *ngIf="wordForm">{{wordForm}}</h3>
+
+  <div class="grid align-items-center">
+    <div class="col-9">
+      <p-paginator [totalRecords]="hits.length" [first]="first" 
+        (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
+        [showJumpToPageDropdown]="true">
+      </p-paginator>
+    </div>
+    <div class="col-3 flex justify-content-end">
+      <p>{{hits.length}} {{pogodaka()}}</p>
+      <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
+        (onChange)="changeFragmentSize($event)" optionLabel="name" 
+        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+      </p-dropdown>
+      <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
+        (onChange)="changeScanner($event)" optionLabel="name" 
+        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+      </p-dropdown>
+    </div>
+  </div>
+
+  <div class="hits">
+    <div *ngFor="let hit of hitPage" class="hit-row">
+      <p class="rbr right">{{hit.order_nr}}.</p>
+      <p class="skr">[{{ hit.skracenica }}]</p>
+      <p class="skr">
+        <button pButton pRipple type="button" icon="pi pi-palette" class="p-button-text btn-minimal" (click)="openColorPicker($event, hit)"></button>
+      </p>
+      <p class="izv" [ngClass]="hit.color" [innerHTML]="safe(hit.highlights)"></p>
+    </div>
+  </div>
+
+</div>
+
+<p-overlayPanel #colorpicker>
+  <ng-template pTemplate>
+    <div class="flex">
+      <div class="label pointer red" (click)="pickColor('red')"></div>
+      <div class="label pointer blue" (click)="pickColor('blue')"></div>
+      <div class="label pointer yellow" (click)="pickColor('yellow')"></div>
+      <div class="label pointer magenta" (click)="pickColor('magenta')"></div>
+      <div class="label pointer cyan" (click)="pickColor('cyan')"></div>
+      <div class="label pointer green" (click)="pickColor('green')"></div>
+      <div class="label pointer white center" (click)="pickColor('white')">X</div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<div class="progress" *ngIf="searching">
+  <p-progressSpinner></p-progressSpinner>
+</div>

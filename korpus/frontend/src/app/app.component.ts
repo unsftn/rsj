@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
     this.searchService.selectedWordType = null;
     this.searchService.selectedWordForm = this.searchForm.toLowerCase();
     this.searchService.selectedWordChanged.emit(true);
-    this.router.navigate(['/']);
+    this.router.navigate(['/search'], { queryParams: { form: this.searchForm.toLowerCase() }});
   }
 
   select(value): void {
@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     this.searchService.selectedWordType = value.vrsta;
     this.searchService.selectedWordForm = null;
     this.searchService.selectedWordChanged.emit(true);
-    this.router.navigate(['/']);
+    this.router.navigate(['/search'], { queryParams: { id: value.pk, type: value.vrsta }});
   }
 
   onKeyUp(event: KeyboardEvent): void {
