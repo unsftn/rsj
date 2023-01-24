@@ -98,6 +98,61 @@ def find_roots(words):
     log.info(f'Finding roots for {total_words} words took {end_time-start_time}')
 
 
+def unify(words, token):
+    for key, word in list(words.items()):
+        if not key.startswith(token):
+            continue
+
+        oo = find_root(key)
+        
+        # ako ova leksema moze biti oblik vise od jedne reci, onda ne radimo
+        # nista - nismo sigurni kojoj reci ona pripada
+        if len(oo) == 1:
+            oo = oo[0]
+        else:
+            continue
+        
+        try:
+            # ako ne znamo osnovni oblik preskacemo
+            if not oo['rec']:
+                continue
+            
+            # ako je ovo rec koja jeste osnovni oblik, i vec je u mapi, 
+            # ne radi nista
+            if words[oo['rec']] == word:
+                log.info(f'Rec {word} je osnovni oblik i vec je u mapi - ne radi nista')
+                continue
+            
+            # ako je ovo rec koja nije osnovni oblik, a osnovni oblik je 
+            # u mapi, akumuliraj statistike
+            log.info(f'Menjamo rec u mapi: {words[oo["rec"]]}')
+            words[oo['rec']]['count'] += word['count']
+            words[oo['rec']]['pubs'].update(word['pubs'])
+            words[oo['rec']]['vrsta'] = oo['vrsta']
+            words[oo['rec']]['korpus_id'] = oo['id']
+            log.info(f'Akumulirane statistike: {words[oo["rec"]]} iz reci: {word}')
+
+            # ako je ovo rec koja nije osnovni oblik, ukloni je iz mape
+            # (osnovni oblik je akumulirao njenu statistiku)
+            if words[oo['rec']]['tekst'] != word['tekst']:
+                log.info(f'Rec {word} nije osnovni oblik, uklanjamo je iz mape')
+                del words[word['tekst']]
+        except KeyError:
+            # prvi put smo naisli na ovaj osnovni oblik
+            # dodaj rec u mapu za ovaj osnovni oblik
+            words[oo['rec']] = word
+            log.info(f'Rec {word} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
+
+            # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
+            if oo['rec'] != word['tekst']:
+                log.info(f'Rec {word} se razlikuje od osnovnog oblika {oo}, izbacujemo je iz mape')
+                del words[word['tekst']]
+
+            # tekst u reci treba da bude osnovni oblik
+            word['tekst'] = oo['rec']
+            log.info(f'Tekst u reci {word} postavljamo na osnovni oblik: {oo["rec"]}')
+
+
 def update_db(words):
     """
     Azurira/dodaje stavke u bazu podataka na osnovu konsolidovanog recnika 
