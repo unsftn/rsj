@@ -96,6 +96,7 @@ def search_pub(request):
         oblici = []
     add_latin_versions(oblici)
     oblici = lowercase(oblici)
+    oblici = list(set(oblici))
     return wrap_search(oblici, fragment_size, boundary_scanner)
 
 
@@ -151,6 +152,7 @@ def _search(words, fragment_size, boundary_scanner):
     retval = sorted(retval, key=lambda x: x['pub_id'])
     retval = [dict(item, order_nr=index+1) for index, item in enumerate(retval)]
     return retval
+
 
 def _search_chunk(words, fragment_size, scanner):
     """
