@@ -22,6 +22,13 @@ class Command(BaseCommand):
             for k, w in words.items():
                 if k.startswith(token):
                     log.info(f'Final: {w}')
+                    rzos = RecZaOdluku.objects.filter(tekst=k)
+                    if len(rzos) > 0:
+                        rzo = rzos[0]
+                        rzo.broj_publikacija = len(w['pubs'])
+                        rzo.broj_pojavljivanja = w['count']
+                        rzo.save()
+                        log.info(f'Snimljeno: {rzo.tekst} {rzo.broj_pojavljivanja}')
         except Exception as ex:
             log.fatal(ex)
         end_time = datetime.now()
