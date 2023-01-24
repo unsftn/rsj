@@ -95,7 +95,7 @@ def find_roots(words):
             word['tekst'] = oo['rec']
 
     end_time = now()
-    log.info(f'Finding roots for {total_words} words took {end_time-start_time}')
+    log.info(f'Finding roots for {total_words} words resulted in {len(words)} entries and took {end_time-start_time}')
 
 
 def unify(words, token):
