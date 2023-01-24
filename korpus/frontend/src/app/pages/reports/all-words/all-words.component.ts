@@ -60,6 +60,8 @@ export class AllWordsComponent implements OnInit {
   filterBeleska: boolean = null;
   filterOdluka: number = null;
   leksema: string = '';
+  filterFrekOd: number = null;
+  filterFrekDo: number = null;
   first: number = null;
   rows: number = null;
   slovo: string = null;
@@ -104,7 +106,7 @@ export class AllWordsComponent implements OnInit {
   loadReci(slovo: string): void {
     this.loading = true;
     this.deciderService.getByLetterPagedFiltered(
-        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.filterBeleska, this.leksema).subscribe({
+        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.filterBeleska, this.leksema, this.filterFrekOd, this.filterFrekDo).subscribe({
       next: (response: any) => {
         this.reci[slovo] = response.results.map((item: any) => { 
           item.odluka_str = this.odluke[item.odluka-1].name;
@@ -128,7 +130,6 @@ export class AllWordsComponent implements OnInit {
   }
 
   setFilterBeleska(value: boolean): void {
-    console.log(this.filterBeleska);
     this.loadReci(this.azbuka[this.tabIndex]);
   }
 
@@ -137,7 +138,6 @@ export class AllWordsComponent implements OnInit {
     this.deciderService.update(rec).subscribe({
       next: (data) => {},
       error: (error: any) => {
-        console.log(error);        
         this.messageService.add({
           severity: 'error',
           summary: 'Грешка',

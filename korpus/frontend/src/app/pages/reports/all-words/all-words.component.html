@@ -9,6 +9,12 @@
             <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
             <input type="text" pInputText placeholder="Лексема" [(ngModel)]="leksema" (keyup.enter)="onSearch()">         
           </div>
+          <div class="p-inputgroup mr-2" style="width: 100px;">
+            <p-inputNumber placeholder="Фрекв. од" [(ngModel)]="filterFrekOd" (keyup.enter)="onSearch()"></p-inputNumber>
+          </div>
+          <div class="p-inputgroup mr-2" style="width: 100px;">
+            <p-inputNumber placeholder="Фрекв. до" [(ngModel)]="filterFrekDo" (keyup.enter)="onSearch()"></p-inputNumber>
+          </div>
           <div class="mr-2">
             <p-dropdown
                 [(ngModel)]="filterRecnik"
