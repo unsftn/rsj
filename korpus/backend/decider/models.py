@@ -6,7 +6,8 @@ ODLUKE = [
     (1, 'без одлуке'),
     (2, 'иде у речник'),
     (3, 'не иде у речник'),
-    (4, 'уклонити из речника'),
+    (4, 'иде у проширени речник'),
+    (5, 'уклонити из речника'),
 ]
 
 
@@ -42,4 +43,5 @@ class RecZaOdluku(models.Model):
             # models.Index(fields=['beleska']),
             models.Index(fields=['recnik_id']),
             models.Index(fields=['korpus_id']),
+            models.Index(fields=['broj_pojavljivanja'])
         ]

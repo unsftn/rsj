@@ -55,7 +55,8 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
             recnik = recnik.capitalize() == 'False'
             queryset = queryset.filter(recnik_id__isnull=recnik)
         if odluka:
-            queryset = queryset.filter(odluka=int(odluka))
+            values = [int(x) for x in odluka.split(',')]
+            queryset = queryset.filter(odluka__in=values)
         if beleska is not None:
             beleska = beleska.capitalize() == 'True'
             if beleska:

@@ -29,7 +29,8 @@ export class AllWordsComponent implements OnInit {
     { name: 'без одлуке', code: 1 },
     { name: 'иде', code: 2 },
     { name: 'не иде', code: 3 },
-    { name: 'уклони', code: 4 },
+    { name: 'у проширени', code: 4 },
+    { name: 'уклони', code: 5 },
   ];
 
   vrste: any[] = [
@@ -58,7 +59,7 @@ export class AllWordsComponent implements OnInit {
 
   filterRecnik: boolean = null;
   filterBeleska: boolean = null;
-  filterOdluka: number = null;
+  filterOdluka: number[] = [];
   leksema: string = '';
   filterFrekOd: number = null;
   filterFrekDo: number = null;

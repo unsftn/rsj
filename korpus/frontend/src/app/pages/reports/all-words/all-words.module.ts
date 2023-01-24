@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { AllWordsComponent } from './all-words.component';
 
 const routes: Routes = [{ path: '', component: AllWordsComponent }]
@@ -27,6 +28,7 @@ const routes: Routes = [{ path: '', component: AllWordsComponent }]
     InputNumberModule,
     DialogModule,
     InputTextareaModule,
+    MultiSelectModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
