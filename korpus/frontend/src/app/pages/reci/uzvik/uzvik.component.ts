@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { UzvikService } from '../../../services/reci/';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
@@ -25,9 +26,11 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private uzvikService: UzvikService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Узвик');
     this.uzvik = this.uzvikService.new();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;

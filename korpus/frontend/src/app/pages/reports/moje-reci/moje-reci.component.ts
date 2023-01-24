@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { RecService, StatsService } from '../../../services/reci';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 import { UserService } from '../../../services/auth/user.service';
@@ -22,9 +23,11 @@ export class MojeReciComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
     private userService: UserService,
+    private titleService: Title,
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Речи корисника');
     this.activatedRoute.data.subscribe(data => {
       switch (data.mode) {
         case 'self':

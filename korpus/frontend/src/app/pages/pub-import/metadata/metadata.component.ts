@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Title } from '@angular/platform-browser';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
 import { Table } from 'primeng/table';
 import { PubType } from '../../../models/reci';
@@ -24,11 +25,13 @@ export class MetadataComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private publikacijaService: PublikacijaService,
+    private titleService: Title,
   ) {
     this.pub = {};
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Метаподаци');
     this.publikacijaService.importStep.emit(0);
     this.publikacijaService.fetchAllPubTypes().subscribe((data) => { this.pubTypes = data; });
     this.route.pathFromRoot[2].params.subscribe((params) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
+import { Title } from '@angular/platform-browser';
 import { GenerisaniSpisak } from '../../../models/reci';
 import { DeciderService } from '../../../services/decider/decider.service';
 import { RecService } from '../../../services/reci/rec.service';
@@ -70,9 +71,11 @@ export class AllWordsComponent implements OnInit {
     private deciderService: DeciderService,
     private recService: RecService,
     private messageService: MessageService,
+    private titleService: Title,
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Одлуке за речник');
     this.tabIndex = 0;
     this.deciderService.getLastSpisak().subscribe({
       next: (spisak: GenerisaniSpisak) => this.poslednjiSpisak = spisak,

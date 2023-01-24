@@ -22,15 +22,15 @@
       class="p-button-rounded p-button-outlined button-header" 
       (click)="advanced()" pTooltip="Напредна претрага">
     </button>
-    <button *ngIf="signedIn()" pButton pRipple icon="pi pi-plus" 
-      class="p-button-rounded p-button-outlined button-header" 
-      (click)="menuNew.toggle($event)" pTooltip="Додавање">
-    </button>
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
       #menuAdmin [model]="itemsAdmin" [popup]="true"></p-tieredMenu>
     <button *ngIf="isAdmin()" pButton pRipple icon="pi pi-chart-line"
       class="p-button-rounded p-button-outlined button-header" 
       (click)="menuAdmin.toggle($event)" pTooltip="Извештаји">
+    </button>
+    <button *ngIf="signedIn()" pButton pRipple icon="pi pi-plus" 
+      class="p-button-rounded p-button-outlined button-header" 
+      (click)="menuNew.toggle($event)" pTooltip="Додавање">
     </button>
   </div>
   <div class="menu-container">

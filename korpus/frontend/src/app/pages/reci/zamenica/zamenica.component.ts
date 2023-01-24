@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Zamenica, toZamenica } from '../../../models/reci';
 import { ZamenicaService } from '../../../services/reci';
@@ -26,9 +27,11 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private zamenicaService: ZamenicaService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Заменица');
     this.initNew();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;

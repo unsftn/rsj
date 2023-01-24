@@ -149,7 +149,7 @@ const routes: Routes = [
     data: { mode: 'edit' }
   },
   {
-    path: 'publikacije',
+    path: 'izvori',
     loadChildren: () => import('./pages/pub-list/pub-list.module').then((m) => m.PubListModule),
     canActivate: [EditGuard],
   },

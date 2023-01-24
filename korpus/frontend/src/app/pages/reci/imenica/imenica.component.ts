@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Imenica, toImenica, VrstaImenice } from '../../../models/reci';
 import { ImenicaService } from '../../../services/reci';
@@ -27,9 +28,11 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private imenicaService: ImenicaService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Именица');
     this.initNew();
     this.vrste = this.imenicaService.getVrste();
     this.route.queryParams.subscribe((params) => {

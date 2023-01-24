@@ -21,7 +21,7 @@ export class PubListComponent implements OnInit {
     private titleService: Title) { }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Публикације');
+    this.titleService.setTitle('Извори');
     this.publikacijaService.getAll().subscribe((value) => {
       this.publikacije = value;
     });

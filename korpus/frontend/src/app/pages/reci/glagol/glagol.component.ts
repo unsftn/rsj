@@ -1,13 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
-import {
-  Glagol,
-  GlagolskaVarijanta,
-  GlagolskiRod,
-  GlagolskiVid,
-  toGlagol
-} from '../../../models/reci';
+import { Glagol, GlagolskaVarijanta, GlagolskiRod, GlagolskiVid, toGlagol } from '../../../models/reci';
 import { GlagolService } from '../../../services/reci';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
@@ -33,9 +28,11 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private glagolService: GlagolService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Глагол');
     this.initNew();
     this.rodovi = this.glagolService.getRodovi();
     this.vidovi = this.glagolService.getVidovi();

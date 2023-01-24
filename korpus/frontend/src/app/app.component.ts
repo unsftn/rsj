@@ -182,7 +182,7 @@ export class AppComponent implements OnInit {
       {
         label: 'Извори',
         icon: 'pi pi-book',
-        routerLink: ['/publikacije'],
+        routerLink: ['/izvori'],
         disabled: !this.isEditor(),
       },
       {

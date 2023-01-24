@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Prilog, toPrilog } from '../../../models/reci';
 import { PrilogService } from '../../../services/reci';
@@ -25,9 +26,11 @@ export class PrilogComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private prilogService: PrilogService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Прилог');
     this.initNew();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;

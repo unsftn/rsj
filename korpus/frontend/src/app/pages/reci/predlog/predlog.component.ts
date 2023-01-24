@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { PredlogService } from '../../../services/reci/';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
@@ -25,9 +26,11 @@ export class PredlogComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private predlogService: PredlogService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Предлог');
     this.predlog = this.predlogService.new();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;

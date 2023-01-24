@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-advanced-search',
@@ -19,9 +20,10 @@ export class AdvancedSearchComponent implements OnInit {
   showSidebar: boolean;
   caseSensitive: boolean;
 
-  constructor() { }
+  constructor(private titleService: Title) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Напредна претрага');
     this.showSidebar = false;
     this.caseSensitive = false;
     this.distance = 5;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { StatsService } from '../../../services/reci/stats.service';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
@@ -15,9 +16,11 @@ export class BrojUnetihReciComponent implements OnInit {
   constructor(
     private statsService: StatsService,
     private tokenStorageService: TokenStorageService,
+    private titleService: Title,
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Број унетих речи');
     this.isAdmin = this.tokenStorageService.getUser().isStaff;
     this.loadStats();
   }

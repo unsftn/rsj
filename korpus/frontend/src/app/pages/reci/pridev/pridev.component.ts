@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { PridevService } from 'src/app/services/reci/pridev.service';
 import { Pridev, toPridev } from '../../../models/reci';
@@ -24,9 +25,11 @@ export class PridevComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private pridevService: PridevService,
+    private titleService: Title
   ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Придев');
     this.initNew();
     this.route.data.subscribe((data) => {
       switch (data.mode) {
