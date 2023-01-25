@@ -86,6 +86,8 @@ def find_roots(words):
             # prvi put smo naisli na ovaj osnovni oblik
             # dodaj rec u mapu za ovaj osnovni oblik
             words[oo['rec']] = word
+            words[oo['rec']]['vrsta'] = oo['vrsta']
+            words[oo['rec']]['korpus_id'] = oo['id']
 
             # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
             if oo['rec'] != word['tekst']:
