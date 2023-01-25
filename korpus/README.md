@@ -4,7 +4,7 @@ Za backend:
  * Python 3.9
  * Django 4.1
  * gunicorn
- * MySQL 5.7+ ili MariaDB 10+
+ * MariaDB 10.10+
 
 Za frontend:
  * Angular 15
@@ -112,22 +112,12 @@ echo "SECRET_KEY=abcdwfslkdjslkdjg" > ~/tmp/private/secrets
 docker run --name korpus-mysql --detach -v ~/tmp/rsj/data:/var/lib/mysql -v ~/tmp/rsj/init:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=korpus -e MYSQL_USER=korpus -e MYSQL_PASSWORD=korpus -e MYSQL_DATABASE=korpus mysql:5.7.32 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci 
 docker run --name korpus --detach --link korpus-mysql -v ~/tmp/rsj/private:/private -v ~/tmp/rsj/log:/app/log -p 8000:8000 rsj/korpus
 ```
-## Pravljenje Docker slike za ElasticSearch
-
-Iz `indexer` foldera:
-```bash
-docker build -t es-sr-lat .
-```
 
 ## Pokretanje ElasticSearch-a:
 ```bash
-docker run -p 9200:9200 -p 9300:9300 --name "es-sr-lat" -e "discovery.type=single-node" es-sr-lat
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e ES_JAVA_OPTS="-Xms4g -Xmx4g" --name elastic-korpus --detach elasticsearch:8.6.0
 ```
 
 Chrome plugin za ElasticSearch preko kojeg se mogu kreirati/brisati indeksi, dokumenti, i izvrsavati pretraga:
 https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm
 
-
-## studentski demo nalog
-
-student@student.com / Q4ck7iB5qXKSSNq
