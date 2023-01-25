@@ -11,24 +11,22 @@ def index_publikacija(pub_id, client=None):
         log.fatal(ex)
         return False
 
-    tekst = ''
     for tp in publikacija.tekstpublikacije_set.all().order_by('redni_broj'):
-        tekst += tp.tekst + '\n'
-    document = {
-        'pk': publikacija.id,
-        'skracenica': publikacija.skracenica,
-        'opis': publikacija.opis(),
-        'tekst': tekst,
-        'timestamp': datetime.now().isoformat()[:-3] + 'Z',
-    }
-    try:
-        if not client:
-            client = get_es_client()
-        client.index(index=PUB_INDEX, id=publikacija.id, document=document)
-        return True
-    except Exception as ex:
-        log.fatal(ex)
-        return False
+        document = {
+            'pk': publikacija.id,
+            'skracenica': publikacija.skracenica,
+            'opis': publikacija.opis(),
+            'tekst': tp.tekst,
+            'timestamp': datetime.now().isoformat()[:-3] + 'Z',
+        }
+        try:
+            if not client:
+                client = get_es_client()
+            client.index(index=PUB_INDEX, id=tp.id, document=document)
+        except Exception as ex:
+            log.fatal(ex)
+            return False
+    return True
 
 
 def index_imenica(imenica, client=None):

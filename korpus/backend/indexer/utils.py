@@ -1,6 +1,7 @@
 from datetime import datetime
 import logging
 import re
+import regex
 import unicodedata
 import requests
 from django.conf import settings
@@ -35,7 +36,10 @@ PUB_MAPPING = {
             },
             "tekst": {
                 "type": "text",
-                "term_vector": "with_positions_offsets"
+                "term_vector": "with_positions_offsets",
+                "store": "true",
+                # "index_options": "offsets",
+                # "analyzer": "simple"
             },
             "timestamp": {
                 "type": "date"
@@ -85,11 +89,19 @@ ALL_INDEXES = {
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 
 
+def contains_non_cyrillic_chars(text):
+    """
+    Vraca true ako string sadrzi ne-cirilicke znake.
+    """
+    return regex.fullmatch('\\p{IsCyrillic}*', text) is None
+    
+
 def remove_punctuation(text):
     """
     Uklanja znake interpunkcije iz stringa i vraca novi string
     """
-    cleared_text = ''.join(c for c in text if unicodedata.category(c) in ['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'NI', 'Zs'])
+    text = text.replace('\n', ' ').replace('\t', ' ').replace('\r', ' ')
+    cleared_text = ''.join((c if unicodedata.category(c) in ['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'NI', 'Zs'] else ' ') for c in text)
     return cleared_text
 
 
@@ -194,6 +206,7 @@ def push_highlighting_limit():
     """
     payload = {
         'index': {
+            'max_result_window': 100000,
             'highlight.max_analyzed_offset': 100000000
         }
     }

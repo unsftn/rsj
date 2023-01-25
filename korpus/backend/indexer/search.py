@@ -1,5 +1,6 @@
-from django.conf import settings
+import json
 import logging
+from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
 from .cyrlat import cyr_to_lat, lat_to_cyr
@@ -27,7 +28,7 @@ def search_rec(request):
             'query': {
                 'multi_match': {
                     'type': 'bool_prefix', 
-                    'query': remove_punctuation(term), 
+                    'query': remove_punctuation(term).strip(), 
                     'fields': ['osnovni_oblik']
                 }
             }, 
@@ -140,44 +141,39 @@ def wrap_search(words, fragment_size, boundary_scanner):
 
 def _search(words, fragment_size, boundary_scanner):
     """
-    Highlighting ne radi za preveliki broj termova u pretrazi. Ukoliko je
-    trazeni broj termova veci od MAX_TERM_CHUNK_SIZE, pretragu cemo izvrsiti
-    vise puta i ujediniti rezultate. Ujedinjavanje se svodi na dodavanje
-    highlight fragmenata na postojeci pogodak.
+    Highlighting ne radi za preveliki broj termova u pretrazi. Zato radimo
+    pretragu rec po rec.
     """
-    chunks = chunkify(words, MAX_TERM_CHUNK_SIZE)
     retval = []
-    for chunk in chunks:
-        retval.extend(_search_chunk(chunk, fragment_size, boundary_scanner))
+    for word in words:
+        res = _search_single_word(word, fragment_size, boundary_scanner)
+        retval.extend(res)
     retval = sorted(retval, key=lambda x: x['pub_id'])
     retval = [dict(item, order_nr=index+1) for index, item in enumerate(retval)]
     return retval
 
 
-def _search_chunk(words, fragment_size, scanner):
+def _search_single_word(word: str, fragment_size: int, scanner: str):
     """
     Pretrazuje tekstove publikacija za reci date u listi words, sa datom 
     velicinom fragmenta i vrstom granice ('word', 'sentence'). 
     """
     query = {
         'query': {
-            'terms': {
-                'tekst': words
-            }
+            'term': { 'tekst': word }
         }, 
+        'size': 100000,
         '_source': {
             'includes': ['pk', 'skracenica', 'opis']
         }, 
         'highlight': {
+            'type': 'fvh',
+            'fragment_size': fragment_size, 
+            'boundary_scanner': scanner, 
+            'pre_tags': ['<span class="fword">'], 
+            'post_tags': ['</span>'],
             'fields': {
-                'tekst': {
-                    'fragment_size': fragment_size, 
-                    'type': 'fvh', 
-                    'boundary_scanner': scanner, 
-                    'number_of_fragments': 1000, 
-                    'pre_tags': ['<span class="fword">'], 
-                    'post_tags': ['</span>']
-                }
+                'tekst': {}
             }
         }
     }

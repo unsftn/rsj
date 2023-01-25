@@ -3,7 +3,7 @@ from django.utils.timezone import now
 from decider.models import *
 from indexer.cyrlat import lat_to_cyr
 from indexer.search import get_es_client, get_rsj_client
-from indexer.utils import remove_punctuation
+from indexer.utils import remove_punctuation, contains_non_cyrillic_chars
 from publikacije.models import *
 from reci.models import *
 
@@ -120,37 +120,37 @@ def unify(words, token):
             # ako je ovo rec koja jeste osnovni oblik, i vec je u mapi, 
             # ne radi nista
             if words[oo['rec']] == word:
-                log.info(f'Rec {word} je osnovni oblik i vec je u mapi - ne radi nista')
+                log.info(f'Rec {word["tekst"]} je osnovni oblik i vec je u mapi - ne radi nista')
                 continue
             
             # ako je ovo rec koja nije osnovni oblik, a osnovni oblik je 
             # u mapi, akumuliraj statistike
-            log.info(f'Menjamo rec u mapi: {words[oo["rec"]]}')
+            log.info(f'Menjamo rec u mapi: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])}')
             words[oo['rec']]['count'] += word['count']
             words[oo['rec']]['pubs'].update(word['pubs'])
             words[oo['rec']]['vrsta'] = oo['vrsta']
             words[oo['rec']]['korpus_id'] = oo['id']
-            log.info(f'Akumulirane statistike: {words[oo["rec"]]} iz reci: {word}')
+            log.info(f'Akumulirane statistike: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])} iz reci: {word["tekst"]} {word["count"]} {len(word["pubs"])}')
 
             # ako je ovo rec koja nije osnovni oblik, ukloni je iz mape
             # (osnovni oblik je akumulirao njenu statistiku)
             if words[oo['rec']]['tekst'] != word['tekst']:
-                log.info(f'Rec {word} nije osnovni oblik, uklanjamo je iz mape')
+                log.info(f'Rec {word["tekst"]} nije osnovni oblik, uklanjamo je iz mape')
                 del words[word['tekst']]
         except KeyError:
             # prvi put smo naisli na ovaj osnovni oblik
             # dodaj rec u mapu za ovaj osnovni oblik
             words[oo['rec']] = word
-            log.info(f'Rec {word} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
+            log.info(f'Rec {word["tekst"]} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
 
             # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
             if oo['rec'] != word['tekst']:
-                log.info(f'Rec {word} se razlikuje od osnovnog oblika {oo}, izbacujemo je iz mape')
+                log.info(f'Rec {word["tekst"]} se razlikuje od osnovnog oblika {oo["rec"]}, izbacujemo je iz mape')
                 del words[word['tekst']]
 
             # tekst u reci treba da bude osnovni oblik
+            log.info(f'Tekst u reci {word["tekst"]} postavljamo na osnovni oblik: {oo["rec"]}')
             word['tekst'] = oo['rec']
-            log.info(f'Tekst u reci {word} postavljamo na osnovni oblik: {oo["rec"]}')
 
 
 def update_db(words):
@@ -173,8 +173,9 @@ def update_db(words):
             rzo.korpus_id = w['korpus_id']
             rzo.save()
         else:
+            prvo_slovo = 'X' if contains_non_cyrillic_chars(rec) else rec[0]
             rzo = RecZaOdluku.objects.create(
-                prvo_slovo=rec[0], 
+                prvo_slovo=prvo_slovo, 
                 tekst=rec[:100], 
                 vrsta_reci=w['vrsta'],
                 korpus_id=w['korpus_id'],
