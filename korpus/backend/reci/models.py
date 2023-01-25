@@ -170,6 +170,12 @@ class Imenica(models.Model):
 
     def __str__(self):
         return f'{self.id}: {self.osnovni_oblik()}'
+    
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
 
     def osnovni_oblik(self) -> str:
         return self.nomjed or self.nommno
@@ -267,6 +273,12 @@ class Glagol(models.Model):
 
     def osnovni_oblik(self) -> str:
         return self.infinitiv
+
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
 
     def vrsta_reci(self) -> int:
         return 1
@@ -511,6 +523,12 @@ class Pridev(models.Model):
     def __str__(self):
         return f'{self.id}: {self.lema}'
 
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
+
     def osnovni_oblik(self) -> str:
         return self.lema if self.lema else self.prvi_popunjen_oblik()
 
@@ -628,6 +646,12 @@ class Predlog(models.Model):
     def __str__(self):
         return f'{self.id}: {self.tekst}'
 
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
+
 
 class IzmenaPredloga(models.Model):
     predlog = models.ForeignKey(Predlog, verbose_name='предлог', on_delete=models.CASCADE)
@@ -664,6 +688,12 @@ class Uzvik(models.Model):
 
     def __str__(self):
         return f'{self.id}: {self.tekst}'
+
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
 
 
 class IzmenaUzvika(models.Model):
@@ -702,6 +732,12 @@ class Recca(models.Model):
     def __str__(self):
         return f'{self.id}: {self.tekst}'
 
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
+
 
 class IzmenaRecce(models.Model):
     recca = models.ForeignKey(Recca, verbose_name='речца', on_delete=models.CASCADE)
@@ -739,6 +775,12 @@ class Veznik(models.Model):
     def __str__(self):
         return f'{self.id}: {self.tekst}'
 
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
+
 
 class IzmenaVeznika(models.Model):
     veznik = models.ForeignKey(Veznik, verbose_name='везник', on_delete=models.CASCADE)
@@ -775,6 +817,12 @@ class Zamenica(models.Model):
 
     def __str__(self):
         return f'{self.id}: {self.nomjed}'
+
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
 
     def osnovni_oblik(self) -> str:
         return self.nomjed
@@ -858,6 +906,12 @@ class Broj(models.Model):
     def __str__(self):
         return f'{self.id}: {self.nomjed}'
 
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik()
+
     def osnovni_oblik(self) -> str:
         return self.nomjed
 
@@ -933,6 +987,12 @@ class Prilog(models.Model):
 
     def __str__(self):
         return f'{self.id}: {self.pozitiv}'
+
+    def __hash__(self):
+        return hash(self.osnovni_oblik())
+
+    def __eq__(self, other):
+        return self.osnovni_oblik() == other.osnovni_oblik
 
     def osnovni_oblik(self) -> str:
         return self.pozitiv
