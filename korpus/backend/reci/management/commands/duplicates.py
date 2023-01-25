@@ -12,27 +12,20 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         start_time = datetime.now()
         log.info('Looking for duplicates')
-        for d in find_duplicates(Imenica.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Glagol.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Pridev.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Prilog.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Predlog.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Zamenica.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Veznik.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Uzvik.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Recca.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-        for d in find_duplicates(Broj.objects.all().order_by('id')):
-            log.info(f'Duplikat: {d.osnovni_oblik()} - {d.vlasnik.puno_ime()}')
-
+        all_dupes = []
+        all_dupes.extend(find_duplicates(Imenica.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Glagol.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Pridev.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Prilog.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Predlog.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Zamenica.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Veznik.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Uzvik.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Recca.objects.all().order_by('id')))
+        all_dupes.extend(find_duplicates(Broj.objects.all().order_by('id')))
+        all_dupes = sorted(all_dupes, key=lambda x: x.vlasnik.puno_ime())
+        for d in all_dupes:
+            log.info(f'Duplikat: {d.vlasnik.puno_ime()} - {d.osnovni_oblik()}')
         end_time = datetime.now()
         log.info(f'Finding duplicates took {str(end_time-start_time)}')
 
