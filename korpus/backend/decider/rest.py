@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from indexer.cyrlat import lat_to_cyr
 from .models import *
 from .serializers import *
 
@@ -50,7 +51,8 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
         frekod = self.request.query_params.get('frekod')
         frekdo = self.request.query_params.get('frekdo')
         if leksema:
-            queryset = queryset.filter(tekst__istartswith=leksema)
+            tekst = lat_to_cyr(leksema)
+            queryset = queryset.filter(tekst__istartswith=tekst)
         if recnik is not None:
             recnik = recnik.capitalize() == 'False'
             queryset = queryset.filter(recnik_id__isnull=recnik)
