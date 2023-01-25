@@ -141,6 +141,8 @@ def unify(words, token):
             # prvi put smo naisli na ovaj osnovni oblik
             # dodaj rec u mapu za ovaj osnovni oblik
             words[oo['rec']] = word
+            words[oo['rec']]['vrsta'] = oo['vrsta']
+            words[oo['rec']]['korpus_id'] = oo['id']
             log.info(f'Rec {word["tekst"]} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
 
             # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
