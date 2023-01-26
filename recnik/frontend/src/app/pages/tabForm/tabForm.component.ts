@@ -113,6 +113,7 @@ export class TabFormComponent implements OnInit {
   redoStack: any[] = [];
   currentState: any = null;
   dirty: boolean;
+  askToLeave: boolean;
   yesHandler: () => void;
 
   groupId = 0;
@@ -261,6 +262,7 @@ export class TabFormComponent implements OnInit {
     if (this.urednici.length === 0)
       this.urednici = this.userService.getUrednici();
     this.dirty = false;
+    this.askToLeave = false;
   }
 
   getStatus(id: number): DeterminantStatus {
@@ -412,6 +414,7 @@ export class TabFormComponent implements OnInit {
     if (!this.check()) return;
     const saveDeterminant = () => {
       saving = true;
+      this.askToLeave = false;
       this.showWaitDialog = true;
       if (this.editMode) {
         this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
@@ -1043,6 +1046,7 @@ export class TabFormComponent implements OnInit {
 
   onValueChange(value: any): void {
     this.dirty = true;
+    this.askToLeave = true;
   }
 
   onFocusLeave(): void {

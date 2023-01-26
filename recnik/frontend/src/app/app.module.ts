@@ -27,6 +27,7 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { PasswordModule } from 'primeng/password';
 import { TabFormModule } from './pages/tabForm/tabForm.module';
 import { ChartModule } from 'primeng/chart';
+import { LeaveGuard } from './services/odrednice/leave-guard.service';
 import { PublikacijaComponent } from './pages/publikacije/publikacija/publikacija.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
@@ -68,6 +69,7 @@ import { WithNoteComponent } from './pages/review/with-note/with-note.component'
     ChartModule,
   ],
   providers: [
+    LeaveGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

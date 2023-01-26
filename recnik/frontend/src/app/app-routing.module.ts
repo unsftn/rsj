@@ -11,6 +11,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RendersComponent } from './pages/renders/renders/renders.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { PersonComponent } from './pages/review/person/person.component';
+import { LeaveGuard } from './services/odrednice/leave-guard.service';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
     path: 'add',
     component: TabFormComponent,
     canActivate: [AuthGuard],
+    canDeactivate: [LeaveGuard],
     data: { mode: 'add' },
   },
   {
@@ -37,6 +39,7 @@ const routes: Routes = [
     path: 'edit/:id',
     component: TabFormComponent,
     canActivate: [AuthGuard],
+    canDeactivate: [LeaveGuard],
     data: { mode: 'edit' },
   },
   {
