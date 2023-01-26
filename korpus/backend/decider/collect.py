@@ -274,6 +274,6 @@ def find_in_rsj(rec, vrsta):
         return item['pk'], item['vrsta']
     else:
         for hit in resp['hits']['hits']:
-            if vrsta and hit['_source']['vrsta'] == vrsta:
+            if vrsta is not None and hit['_source']['vrsta'] == vrsta:
                 return hit['_source']['pk'], vrsta
         return -1, None
