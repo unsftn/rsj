@@ -31,14 +31,12 @@ def _search_odrednica(request):
 
     term = request.GET.get('q')
     hits = []
-    s = Search(index=ODREDNICA_INDEX)
-    s = s.source(includes=['pk', 'rec', 'vrsta', 'rbr_homo'])
-    s.query = MultiMatch(
+    s = Search(index=ODREDNICA_INDEX).source(includes=['pk', 'rec', 'vrsta', 'rbr_homo']).query(MultiMatch(
         type='bool_prefix',
         query=remove_punctuation(term),
         fields=['varijante'],
         # analyzer=SERBIAN_ANALYZER
-    )
+    ))[0:100]
     try:
         response = s.execute()
         for hit in response.hits.hits:
