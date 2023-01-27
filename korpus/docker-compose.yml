@@ -7,9 +7,9 @@ services:
     volumes: 
       - elastic:/usr/share/elasticsearch/data
     environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS="-Xms4g -Xmx4g"
+      discovery.type: single-node
+      xpack.security.enabled: false
+      ES_JAVA_OPTS: "-Xms4g -Xmx4g"
     networks:
       korpus:
   mysql:
@@ -39,6 +39,8 @@ services:
       - log:/app/log
       - media:/app/media
       - export:/app/export
+      - ./gsheets-token.json:/app/gsheets-token.json
+      - ./gsheets-credentials.json:/app/gsheets-credentials.json
     labels:
       - "traefik.http.routers.korpus.rule=Host(`korpus.rsj.rs`)"
       - traefik.http.routers.korpus.entrypoints=web
@@ -63,6 +65,8 @@ services:
       - log:/app/log
       - media:/app/media
       - export:/app/export
+      - ./gsheets-token.json:/app/gsheets-token.json
+      - ./gsheets-credentials.json:/app/gsheets-credentials.json
     networks:
       korpus:
       recnik:
