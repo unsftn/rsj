@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Извештај из корпуса</title>
+</head>
+<body>
+<div class="naslov">{{naslov}}</div>
+<div class="datum">{{datum}}</div>
+{% for slovo in slova %}
+{% if not forloop.first %}<div class="slovo-spacer"></div>{% endif %}
+<div class="slovo">{{slovo.slovo}}</div>
+<div class="kolone">
+    <table>
+        <thead>
+            <tr>
+                <th>Реч</th>
+                <th class="right"><i>f</i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rec in slovo.reci %}
+            <tr>
+                <td>{{rec.tekst}}</td>
+                <td class="right">{{rec.broj_pojavljivanja}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endfor %}
+</body>
+</html>
