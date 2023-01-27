@@ -11,7 +11,7 @@ services:
       xpack.security.enabled: false
       ES_JAVA_OPTS: "-Xms4g -Xmx4g"
     networks:
-      korpus:
+      recnik:
   mysql:
     container_name: korpus-mysql
     image: mariadb:10.10
@@ -26,7 +26,7 @@ services:
       - MARIADB_DATABASE=korpus
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     networks:
-      korpus:
+      recnik:
   korpus:
     container_name: korpus
     image: rsj/korpus
@@ -50,7 +50,6 @@ services:
       - traefik.http.routers.korpus-secured.tls.certresolver=letsencrypt
       - traefik.http.routers.korpus-secured.tls=true
     networks:
-      korpus:
       recnik:
   qcluster:
     container_name: korpus-qcluster
@@ -68,11 +67,8 @@ services:
       - ./gsheets-token.json:/app/gsheets-token.json
       - ./gsheets-credentials.json:/app/gsheets-credentials.json
     networks:
-      korpus:
       recnik:
 networks:
-  korpus:
-    external: true
   recnik:
     external: true
 volumes:
