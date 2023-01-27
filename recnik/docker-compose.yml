@@ -1,27 +1,96 @@
-version: '3'
-
+version: "3.8"
 services:
-  db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password --mysqlx=0
+  elastic:
+    container_name: elastic-recnik
+    image: elasticsearch:8.6.0
+    restart: always
+    volumes: 
+      - elastic:/usr/share/elasticsearch/data
     environment:
-      - MYSQL_DATABASE=recnik # name you want for the database
-      - MYSQL_USER=recnik # change to whatever username you want
-      - MYSQL_PASSWORD=recnik #change to the password you want for user
-      - MYSQL_ROOT_PASSWORD=root #change to good root password
-    ports:
-      - "3306:3306"
-    volumes:
-      - "./db:/var/lib/mysql"
-    
-  web:
-    build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
+      discovery.type: single-node
+      xpack.security.enabled: false
+      ES_JAVA_OPTS: "-Xms4g -Xmx4g"
+    networks:
+      recnik:
+  mysql:
+    container_name: recnik-mysql
+    image: mariadb:10.10
+    restart: always
+    volumes: 
+      - data:/var/lib/mysql
+      - init:/docker-entrypoint-initdb.d
+    environment:
+      - MARIADB_ROOT_PASSWORD=recnik
+      - MARIADB_USER=recnik
+      - MARIADB_PASSWORD=recnik
+      - MARIADB_DATABASE=recnik
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      recnik:
+  korpus:
+    container_name: recnik
+    image: rsj/recnik
+    restart: always
     depends_on:
-      - db
-    links:
-      - db
+      - elastic
+      - mysql
+    volumes:
+      - private:/private
+      - log:/app/log
+      - media:/app/media
+    labels:
+      - "traefik.http.routers.recnik.rule=Host(`recnik.rsj.rs`)"
+      - traefik.http.routers.recnik.entrypoints=web
+      - traefik.http.routers.recnik.middlewares=redirect-to-https@docker
+      - "traefik.http.routers.recnik-secured.rule=Host(`recnik.rsj.rs`)"
+      - traefik.http.routers.recnik-secured.entrypoints=websecure
+      - traefik.http.routers.recnik-secured.tls.certresolver=letsencrypt
+      - traefik.http.routers.recnik-secured.tls=true
+    networks:
+      recnik:
+networks:
+  recnik:
+    external: true
+volumes:
+  media:
+    name: media
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './media'
+  data:
+    name: data
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './data'
+  init:
+    name: init
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './init'
+  log:
+    name: log
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './log'
+  private:
+    name: private
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './private'
+  elastic:
+    name: elastic
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './elastic'
