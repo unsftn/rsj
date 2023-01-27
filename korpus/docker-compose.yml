@@ -5,7 +5,7 @@ services:
     image: elasticsearch:8.6.0
     restart: always
     volumes: 
-      - elastic:/usr/share/elasticsearch/data
+      - korpus-elastic:/usr/share/elasticsearch/data
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
@@ -17,8 +17,8 @@ services:
     image: mariadb:10.10
     restart: always
     volumes: 
-      - data:/var/lib/mysql
-      - init:/docker-entrypoint-initdb.d
+      - korpus-data:/var/lib/mysql
+      - korpus-init:/docker-entrypoint-initdb.d
     environment:
       - MARIADB_ROOT_PASSWORD=korpus
       - MARIADB_USER=korpus
@@ -35,10 +35,10 @@ services:
       - elastic
       - mysql
     volumes:
-      - private:/private
-      - log:/app/log
-      - media:/app/media
-      - export:/app/export
+      - korpus-private:/private
+      - korpus-log:/app/log
+      - korpus-media:/app/media
+      - korpus-export:/app/export
       - ./gsheets-token.json:/app/gsheets-token.json
       - ./gsheets-credentials.json:/app/gsheets-credentials.json
     labels:
@@ -60,10 +60,10 @@ services:
       - mysql
       - elastic
     volumes:
-      - private:/private
-      - log:/app/log
-      - media:/app/media
-      - export:/app/export
+      - korpus-private:/private
+      - korpus-log:/app/log
+      - korpus-media:/app/media
+      - korpus-export:/app/export
       - ./gsheets-token.json:/app/gsheets-token.json
       - ./gsheets-credentials.json:/app/gsheets-credentials.json
     networks:
@@ -72,50 +72,50 @@ networks:
   recnik:
     external: true
 volumes:
-  media:
-    name: media
+  korpus-media:
+    name: korpus-media
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './media'
-  data:
-    name: data
+  korpus-data:
+    name: korpus-data
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './data'
-  init:
-    name: init
+  korpus-init:
+    name: korpus-init
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './init'
-  log:
-    name: log
+  korpus-log:
+    name: korpus-log
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './log'
-  private:
-    name: private
+  korpus-private:
+    name: korpus-private
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './private'
-  elastic:
-    name: elastic
+  korpus-elastic:
+    name: korpus-elastic
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './elastic'
-  export:
-    name: export
+  korpus-export:
+    name: korpus-export
     driver: local
     driver_opts:
       type: 'none'

@@ -5,7 +5,7 @@ services:
     image: elasticsearch:8.6.0
     restart: always
     volumes: 
-      - elastic:/usr/share/elasticsearch/data
+      - recnik-elastic:/usr/share/elasticsearch/data
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
@@ -17,8 +17,8 @@ services:
     image: mariadb:10.10
     restart: always
     volumes: 
-      - data:/var/lib/mysql
-      - init:/docker-entrypoint-initdb.d
+      - recnik-data:/var/lib/mysql
+      - recnik-init:/docker-entrypoint-initdb.d
     environment:
       - MARIADB_ROOT_PASSWORD=recnik
       - MARIADB_USER=recnik
@@ -35,9 +35,9 @@ services:
       - elastic
       - mysql
     volumes:
-      - private:/private
-      - log:/app/log
-      - media:/app/media
+      - recnik-private:/private
+      - recnik-log:/app/log
+      - recnik-media:/app/media
     labels:
       - "traefik.http.routers.recnik.rule=Host(`recnik.rsj.rs`)"
       - traefik.http.routers.recnik.entrypoints=web
@@ -52,43 +52,43 @@ networks:
   recnik:
     external: true
 volumes:
-  media:
-    name: media
+  recnik-media:
+    name: recnik-media
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './media'
-  data:
-    name: data
+  recnik-data:
+    name: recnik-data
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './data'
-  init:
-    name: init
+  recnik-init:
+    name: recnik-init
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './init'
-  log:
-    name: log
+  recnik-log:
+    name: recnik-log
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './log'
-  private:
-    name: private
+  recnik-private:
+    name: recnik-private
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
       device: './private'
-  elastic:
-    name: elastic
+  recnik-elastic:
+    name: recnik-elastic
     driver: local
     driver_opts:
       type: 'none'
