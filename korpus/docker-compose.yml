@@ -29,7 +29,7 @@ services:
       korpus:
   korpus:
     container_name: korpus
-    build: .
+    image: rsj/korpus
     restart: always
     depends_on:
       - elastic
@@ -38,6 +38,7 @@ services:
       - private:/private
       - log:/app/log
       - media:/app/media
+      - export:/app/export
     labels:
       - "traefik.http.routers.korpus.rule=Host(`korpus.rsj.rs`)"
       - traefik.http.routers.korpus.entrypoints=web
@@ -48,9 +49,10 @@ services:
       - traefik.http.routers.korpus-secured.tls=true
     networks:
       korpus:
+      recnik:
   qcluster:
     container_name: korpus-qcluster
-    build: .
+    image: rsj/korpus
     restart: always
     command: qcluster
     depends_on: 
@@ -60,10 +62,14 @@ services:
       - private:/private
       - log:/app/log
       - media:/app/media
+      - export:/app/export
     networks:
       korpus:
+      recnik:
 networks:
   korpus:
+    external: true
+  recnik:
     external: true
 volumes:
   media:
@@ -108,3 +114,10 @@ volumes:
       type: 'none'
       o: 'bind'
       device: './elastic'
+  export:
+    name: export
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './export'
