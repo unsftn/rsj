@@ -1,0 +1,33 @@
+.container {
+  padding: 10px;
+}
+
+.tabela {
+  display: table;
+
+  .red {
+    display: table-row;
+  }
+  .celija {
+    display: table-cell;
+  }
+  .naziv {
+    padding: 0 10px 0 0;
+    vertical-align: middle;
+    font-family: Fira Sans, Helvetica, Arial, sans-serif;
+    color: #495057;
+  }
+  .padded {
+    padding: 3px;
+  }
+}
+
+.labela {
+  font-family: Fira Sans, Helvetica, Arial, sans-serif;
+  color: #495057;
+}
+
+.w100 { width: 100px; min-width: 100px; }
+.w150 { width: 150px; min-width: 150px; }
+.w180 { width: 180px; min-width: 180px; }
+.w200 { width: 200px; min-width: 200px; }

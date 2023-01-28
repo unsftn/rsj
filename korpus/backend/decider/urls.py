@@ -11,6 +11,8 @@ urlpatterns = [
     path('rec-za-odluku/', RecZaOdlukuList.as_view()),
     path('rec-za-odluku-po/<str:slovo>/', RecZaOdlukuListFilteredPaged.as_view()),
     path('rec-za-odluku/<int:pk>/', RecZaOdlukuDetail.as_view()),
+    path('report/', api_zahtev_za_izvestaj),
+    path('report/<int:id>/', api_izvestaj),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

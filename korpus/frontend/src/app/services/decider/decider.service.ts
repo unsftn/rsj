@@ -47,4 +47,12 @@ export class DeciderService {
   getLastSpisak(): Observable<GenerisaniSpisak> {
     return this.http.get<GenerisaniSpisak>(`/api/decider/generisani-spisak/poslednji/`);
   }
+
+  createReport(upit: any): Observable<number> {
+    return this.http.post<number>(`/api/decider/report/`, upit);
+  }
+
+  getReport(id: number): Observable<any> {
+    return this.http.get<any>(`/api/decider/report/${id}/`);
+  }
 }

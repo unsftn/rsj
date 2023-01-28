@@ -1,3 +1,4 @@
+from django.utils.timezone import now
 from django.db import models
 from reci.models import VRSTE_RECI, UserProxy
 
@@ -45,3 +46,15 @@ class RecZaOdluku(models.Model):
             models.Index(fields=['korpus_id']),
             models.Index(fields=['broj_pojavljivanja'])
         ]
+
+
+class DinamickiIzvestaj(models.Model):
+    upit = models.CharField(max_length=1000)
+    vreme_zahteva = models.DateTimeField('време захтева', default=now)
+    vreme_pocetka = models.DateTimeField('време почетка', blank=True, null=True)
+    vreme_zavrsetka = models.DateTimeField('време завршетка', blank=True, null=True)
+    zavrsen = models.BooleanField('завршен', default=False)
+
+    def __str__(self) -> str:
+        return f'Динамички извештај {self.id}: {"завршен" if self.zavrsen else "није завршен"}'
+

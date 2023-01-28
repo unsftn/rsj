@@ -1,4 +1,6 @@
+import json
 from django.db.models.functions import Collate
+from django_q.tasks import async_task
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import LimitOffsetPagination
@@ -7,6 +9,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from indexer.cyrlat import lat_to_cyr
 from .models import *
 from .serializers import *
+from .reports import *
 
 
 AZBUKA = [
@@ -86,4 +89,22 @@ def poslednji_spisak(request):
         ser = GenerisaniSpisakSerializer(ps)
         return Response(ser.data, status=status.HTTP_200_OK)
     except GenerisaniSpisak.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def api_zahtev_za_izvestaj(request):
+    upit = request.data
+    dinizv = DinamickiIzvestaj.objects.create(upit=json.dumps(upit))
+    async_task(dinamicki_izvestaj_task, dinizv.id)
+    return Response(dinizv.id, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def api_izvestaj(request, id):
+    try:
+        dinizv = DinamickiIzvestaj.objects.get(id=id)
+        serializer = DinamickiIzvestajSerializer(dinizv)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except DinamickiIzvestaj.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)

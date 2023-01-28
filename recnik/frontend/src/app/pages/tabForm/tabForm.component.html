@@ -59,7 +59,7 @@
   <div [innerHTML]="message"></div>
   <div class="flex justify-content-end">
     <p-button label="Да" (click)="yes()" styleClass="p-button-success" icon="pi pi-check"></p-button>
-    <p-button label="Не" (click)="no()" styleClass="p-button-second ary" icon="pi pi-undo" class="ml-3"></p-button>
+    <p-button label="Не" (click)="no()" styleClass="p-button-secondary" icon="pi pi-undo" class="ml-3"></p-button>
   </div>
 </p-dialog>
 <p-dialog header="Молимо сачекајте" [(visible)]="showWaitDialog" [style]="{width: '80vw'}" [resizable]="false" [modal]="true" [closable]="false" [transitionOptions]="'0ms'">

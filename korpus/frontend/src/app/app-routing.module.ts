@@ -159,8 +159,13 @@ const routes: Routes = [
     canActivate: [EditGuard],
   },
   {
-    path: 'izvestaji/sve-reci',
+    path: 'odluke',
     loadChildren: () => import('./pages/reports/all-words/all-words.module').then((m) => m.AllWordsModule),
+    canActivate: [EditGuard],
+  },
+  {
+    path: 'izvestaji/korpus-recnik',
+    loadChildren: () => import('./pages/reports/korpus-recnik/korpus-recnik.module').then((m) => m.KorpusRecnikModule),
     canActivate: [EditGuard],
   },
   {

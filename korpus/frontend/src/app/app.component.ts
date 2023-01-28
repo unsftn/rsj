@@ -171,8 +171,13 @@ export class AppComponent implements OnInit {
     return [
       {
         label: 'Одлуке за речник',
-        icon: 'pi pi-sort-alpha-up',
-        routerLink: ['/izvestaji/sve-reci'],
+        icon: 'pi pi-thumbs-up',
+        routerLink: ['/odluke'],
+      },
+      {
+        label: 'Извештаји',
+        icon: 'pi pi-arrow-right-arrow-left',
+        routerLink: ['/izvestaji/korpus-recnik'],
       },
       {
         label: 'Број унетих речи',

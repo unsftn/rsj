@@ -21,10 +21,16 @@ class RecZaOdlukuSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         request = self.context.get('request')
         if request and hasattr(request, 'user'):
-            user = request.user        
+            user = request.user
             instance.donosilac_odluke = user
         instance.odluka = validated_data['odluka']
         instance.beleska = validated_data['beleska']
         instance.vreme_odluke = now()
         instance.save()
         return instance
+
+
+class DinamickiIzvestajSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DinamickiIzvestaj
+        fields = '__all__'

@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import json
 import logging
 import os
 from django.conf import settings
@@ -26,7 +27,7 @@ def grupisi_po_slovima(reci):
     letter_cache = {k.upper(): [] for k in AZBUKA}
     for rec in reci:
         letter_cache[rec.prvo_slovo.upper()].append(rec)
-    slova = [{'slovo': k.upper(), 'reci': letter_cache[k.upper()]} for k in AZBUKA]
+    slova = [{'slovo': k.upper(), 'reci': letter_cache[k.upper()]} for k in AZBUKA if len(letter_cache[k.upper()]) > 0]
     return slova
 
 
@@ -35,7 +36,8 @@ def ima_korpus_nema_recnik():
         recnik_id__isnull=True, prvo_slovo__in=AZBUKA).order_by(
             Collate('tekst', 'utf8mb4_croatian_ci'))
     return {
-        'filename': f'{datetime.now().strftime("%Y%m%d")}_ima_srpko_nema_rsj.pdf',
+        'upit': None,
+        'filename': f'ima_srpko_nema_rsj.pdf',
         'naslov': 'Речи којих нема у Једнотомнику а има у корпусу',
         'datum': sada(),
         'slova': grupisi_po_slovima(reci)
@@ -47,7 +49,8 @@ def ima_korpus_nema_recnik_f_vece_10():
         recnik_id__isnull=True, prvo_slovo__in=AZBUKA, broj_pojavljivanja__gt=10).order_by(
             Collate('tekst', 'utf8mb4_croatian_ci'))
     return {
-        'filename': f'{datetime.now().strftime("%Y%m%d")}_ima_srpko_nema_rsj_f_vece_10.pdf',
+        'upit': None,
+        'filename': f'ima_srpko_nema_rsj_f_vece_10.pdf',
         'naslov': 'Речи којих нема у Једнотомнику а има у корпусу са F>10',
         'datum': sada(),
         'slova': grupisi_po_slovima(reci)
@@ -59,7 +62,8 @@ def ima_korpus_nema_recnik_f_manje_10():
         recnik_id__isnull=True, prvo_slovo__in=AZBUKA, broj_pojavljivanja__lte=10).order_by(
             Collate('tekst', 'utf8mb4_croatian_ci'))
     return {
-        'filename': f'{datetime.now().strftime("%Y%m%d")}_ima_srpko_nema_rsj_f_manje_10.pdf',
+        'upit': None,
+        'filename': f'ima_srpko_nema_rsj_f_manje_10.pdf',
         'naslov': 'Речи којих нема у Једнотомнику а има у корпусу са F<=10',
         'datum': sada(),
         'slova': grupisi_po_slovima(reci)
@@ -71,7 +75,8 @@ def ima_korpus_ima_recnik_f_vece_10():
         recnik_id__isnull=False, prvo_slovo__in=AZBUKA, broj_pojavljivanja__gt=10).order_by(
             Collate('tekst', 'utf8mb4_croatian_ci'))
     return {
-        'filename': f'{datetime.now().strftime("%Y%m%d")}_ima_srpko_ima_rsj_f_vece_10.pdf',
+        'upit': None,
+        'filename': f'ima_srpko_ima_rsj_f_vece_10.pdf',
         'naslov': 'Речи којих има у Једнотомнику и у корпусу са F>10',
         'datum': sada(),
         'slova': grupisi_po_slovima(reci)
@@ -83,8 +88,36 @@ def ima_korpus_ima_recnik_f_manje_10():
         recnik_id__isnull=True, prvo_slovo__in=AZBUKA, broj_pojavljivanja__lte=10).order_by(
             Collate('tekst', 'utf8mb4_croatian_ci'))
     return {
-        'filename': f'{datetime.now().strftime("%Y%m%d")}_ima_srpko_ima_rsj_f_manje_10.pdf',
+        'upit': None,
+        'filename': f'ima_srpko_ima_rsj_f_manje_10.pdf',
         'naslov': 'Речи којих има у Једнотомнику и у корпусу са F<=10',
+        'datum': sada(),
+        'slova': grupisi_po_slovima(reci)
+    }
+
+
+def dinamicki(upit, rbr):
+    reci = RecZaOdluku.objects.all()
+    if upit['u_recniku'] is not None:
+        reci = reci.filter(recnik_id__isnull=upit['u_recniku'])
+    if upit['u_korpusu'] is not None:
+        reci = reci.filter(korpus_id__isnull=upit['u_korpusu'])
+    if upit['frek_od'] is not None:
+        reci = reci.filter(broj_pojavljivanja__gte=upit['frek_od'])
+    if upit['frek_do'] is not None:
+        reci = reci.filter(broj_pojavljivanja__lte=upit['frek_do'])
+    if len(upit['odluke']) > 0:
+        reci = reci.filter(odluka__in=upit['odluke'])
+    if len(upit['slova']) > 0:
+        reci = reci.filter(prvo_slovo__in=upit['slova'])
+    else:
+        reci = reci.filter(prvo_slovo__in=AZBUKA)
+    reci = reci.order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
+    upit['odluke'] = [ODLUKE[x-1][1] for x in upit['odluke']]
+    return {
+        'upit': upit,
+        'filename': f'izvestaj-{rbr}.pdf',
+        'naslov': 'Динамички извештај',
         'datum': sada(),
         'slova': grupisi_po_slovima(reci)
     }
@@ -116,3 +149,37 @@ def izvestaj(context):
     html.write_pdf(filename, stylesheets=[css], font_config=font_config)
     end_time = now()
     log.info(f'Generisanje izvestaja {filename} trajalo {end_time-start_time}')
+
+
+def dinamicki_izvestaj_task(task_id):
+    try:
+        dinizv = DinamickiIzvestaj.objects.get(id=task_id)
+        upit = json.loads(dinizv.upit)
+        dinizv.vreme_pocetka = now()
+        dinizv.save()
+        ctx = dinamicki(upit, dinizv.id)
+        izvestaj(ctx)
+        dinizv.zavrsen = True
+        dinizv.vreme_zavrsetka = now()
+        dinizv.save()
+
+        # obrisi izvestaje starije od 30 dana
+        stariji_od_30_dana = datetime.now() - timedelta(days=30)
+        for di in DinamickiIzvestaj.objects.filter(vreme_zahteva__lte=stariji_od_30_dana):
+            filename = os.path.join(settings.MEDIA_ROOT, 'izvestaji', f'izvestaj-{di.id}.pdf')
+            os.remove(filename)
+    except DinamickiIzvestaj.DoesNotExist:
+        log.fatal(f'Dinamicki izvestaj {task_id} nije pronadjen')
+
+
+def generisi_predefinisane():
+    ctx = ima_korpus_nema_recnik()
+    izvestaj(ctx)
+    ctx = ima_korpus_nema_recnik_f_vece_10()
+    izvestaj(ctx)
+    ctx = ima_korpus_nema_recnik_f_manje_10()
+    izvestaj(ctx)
+    ctx = ima_korpus_ima_recnik_f_vece_10()
+    izvestaj(ctx)
+    ctx = ima_korpus_ima_recnik_f_manje_10()
+    izvestaj(ctx)

@@ -1,0 +1,130 @@
+<div class="container">
+  <h3>Припремљени извештаји</h3>
+  <div class="tabela">
+    <div class="red">
+      <div class="celija naziv">Речи којих нема у Једнотомнику, а има их у корпусу</div>
+      <div class="celija download">
+        <a href="/media/izvestaji/ima_srpko_nema_rsj.pdf"><img src="/assets/images/pdf.svg" width="24"></a>
+      </div>
+    </div>  
+    <div class="red">
+      <div class="celija naziv">Речи којих нема у Једнотомнику, има их у корпусу и имају фреквенцију већу од 10</div>
+      <div class="celija download">
+        <a href="/media/izvestaji/ima_srpko_nema_rsj_f_vece_10.pdf"><img src="/assets/images/pdf.svg" width="24"></a>
+      </div>
+    </div>  
+    <div class="red">
+      <div class="celija naziv">Речи којих нема у Једнотомнику, има их у корпусу и имају фреквенцију мању или једнаку 10</div>
+      <div class="celija download">
+        <a href="/media/izvestaji/ima_srpko_nema_rsj_f_manje_10.pdf"><img src="/assets/images/pdf.svg" width="24"></a>
+      </div>
+    </div>  
+    <div class="red">
+      <div class="celija naziv">Речи којих има у Једнотомнику и корпусу, које имају фреквенцију већу од 10</div>
+      <div class="celija download">
+        <a href="/media/izvestaji/ima_srpko_ima_rsj_f_vece_10.pdf"><img src="/assets/images/pdf.svg" width="24"></a>
+      </div>
+    </div>  
+    <div class="red">
+      <div class="celija naziv">Речи којих има у Једнотомнику и корпусу, а које у корпусу имају фреквенцију мању или једнаку 10</div>
+      <div class="celija download">
+        <a href="/media/izvestaji/ima_srpko_ima_rsj_f_manje_10.pdf"><img src="/assets/images/pdf.svg" width="24"></a>
+      </div>
+    </div>  
+  </div>
+  <h3 class="mt-5">Динамички извештај</h3>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w180 labela">Реч је у речнику</div>
+    <div class="p-inputgroup">
+      <p-dropdown [options]="dane" [(ngModel)]="uRecniku" optionLabel="name" [disabled]="formDisabled" [style]="{width: '100px'}"></p-dropdown>
+    </div>
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w180 labela">Реч је у корпусу</div>
+    <div class="p-inputgroup">
+      <p-dropdown [options]="dane" [(ngModel)]="uKorpusu" optionLabel="name" [disabled]="formDisabled" [style]="{width: '100px'}"></p-dropdown>
+    </div>
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w180 labela">Фреквенција</div>
+    <div class="w50 labela mr-2">од</div>
+    <div class="p-inputgroup w150">
+      <p-inputNumber [(ngModel)]="frekOd" [maxlength]="8" [disabled]="formDisabled"></p-inputNumber>
+    </div>
+    <div class="w50 labela ml-2 mr-2">до</div>
+    <div class="p-inputgroup w150">
+      <p-inputNumber [(ngModel)]="frekDo" [maxlength]="8" [disabled]="formDisabled"></p-inputNumber>
+    </div>
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w180 labela">Одлука</div>
+    <div class="p-inputgroup">
+      <p-multiSelect 
+          [(ngModel)]="odluke" 
+          [options]="sveOdluke" 
+          optionLabel="name" 
+          optionValue="value" 
+          display="chip" 
+          appendTo="body" 
+          [style]="{width: '300px'}"
+          [showHeader]="false"
+          [disabled]="formDisabled" 
+          [filter]="false">
+      </p-multiSelect>      
+    </div>
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w180 labela">Прво слово</div>
+    <div class="p-inputgroup">
+      <p-multiSelect 
+          [(ngModel)]="slova" 
+          [options]="svaSlova" 
+          optionLabel="name" 
+          optionValue="value" 
+          display="chip" 
+          appendTo="body" 
+          [style]="{width: '300px'}"
+          [showHeader]="false"
+          [disabled]="formDisabled" 
+          [filter]="false">
+      </p-multiSelect>      
+    </div>
+  </div>  
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w180 labela"></div>
+    <div>
+      <button (click)="generisi()" [disabled]="formDisabled" pButton pRipple icon="pi pi-play" label="Генериши" type="button"></button>
+    </div>
+  </div>  
+  <div *ngIf="reportId" class="flex mb-2 align-items-center">
+    <div class="w180 labela">Преузмите</div>
+    <div>
+      <a href="/media/izvestaji/izvestaj-{{reportId}}.pdf"><img src="/assets/images/pdf.svg" width="48"></a>
+    </div>
+  </div>  
+  <div *ngIf="pleaseWait" class="flex mb-2 align-items-center">
+    <div class="w180 labela">Сачекајте...</div>
+    <div>
+      <i class="pi pi-spin pi-spinner" style="font-size: 3rem; color: darkorange"></i>
+    </div>
+  </div>  
+</div>
+
+<p-dialog [(visible)]="areYouSure" [modal]="true">
+  Генерисање извештаја може дуго трајати. Да ли сте сигурни да желите да га покренете? 
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end">
+      <p-button label="Да" (click)="da()" styleClass="p-button-success" icon="pi pi-check"></p-button>
+      <p-button label="Не" (click)="ne()" styleClass="p-button-secondary" icon="pi pi-undo" class="ml-3"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="mustChoose" [modal]="true">
+  Морате попунити бар једно поље за филтрирање!
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end">
+      <p-button label="У реду" (click)="ok()"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
