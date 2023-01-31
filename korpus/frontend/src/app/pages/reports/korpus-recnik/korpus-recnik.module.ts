@@ -7,6 +7,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { KorpusRecnikComponent } from './korpus-recnik.component';
 
@@ -25,6 +26,7 @@ const routes: Routes = [{ path: '', component: KorpusRecnikComponent }]
     ButtonModule,
     RippleModule,
     InputNumberModule,
+    InputTextModule,
     DialogModule,
   ],
   exports: [RouterModule],

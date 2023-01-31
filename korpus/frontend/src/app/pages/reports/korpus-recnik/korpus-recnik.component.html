@@ -34,19 +34,19 @@
   </div>
   <h3 class="mt-5">Динамички извештај</h3>
   <div class="flex mb-2 align-items-baseline">
-    <div class="w180 labela">Реч је у речнику</div>
+    <div class="w150 labela">Реч је у речнику</div>
     <div class="p-inputgroup">
       <p-dropdown [options]="dane" [(ngModel)]="uRecniku" optionLabel="name" [disabled]="formDisabled" [style]="{width: '100px'}"></p-dropdown>
     </div>
   </div>
   <div class="flex mb-2 align-items-baseline">
-    <div class="w180 labela">Реч је у корпусу</div>
+    <div class="w150 labela">Реч је у корпусу</div>
     <div class="p-inputgroup">
       <p-dropdown [options]="dane" [(ngModel)]="uKorpusu" optionLabel="name" [disabled]="formDisabled" [style]="{width: '100px'}"></p-dropdown>
     </div>
   </div>
   <div class="flex mb-2 align-items-baseline">
-    <div class="w180 labela">Фреквенција</div>
+    <div class="w150 labela">Фреквенција</div>
     <div class="w50 labela mr-2">од</div>
     <div class="p-inputgroup w150">
       <p-inputNumber [(ngModel)]="frekOd" [maxlength]="8" [disabled]="formDisabled"></p-inputNumber>
@@ -57,7 +57,7 @@
     </div>
   </div>
   <div class="flex mb-2 align-items-baseline">
-    <div class="w180 labela">Одлука</div>
+    <div class="w150 labela">Одлука</div>
     <div class="p-inputgroup">
       <p-multiSelect 
           [(ngModel)]="odluke" 
@@ -73,8 +73,8 @@
       </p-multiSelect>      
     </div>
   </div>
-  <div class="flex mb-2 align-items-baseline">
-    <div class="w180 labela">Прво слово</div>
+  <!-- <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Прво слово</div>
     <div class="p-inputgroup">
       <p-multiSelect 
           [(ngModel)]="slova" 
@@ -89,7 +89,14 @@
           [filter]="false">
       </p-multiSelect>      
     </div>
-  </div>  
+  </div> -->
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Опсег слова</div>
+    <div class="p-inputgroup w150">
+      <input type="text" pInputText [(ngModel)]="opsegSlova"/>
+    </div>
+    <div class="labela ml-3">нпр. <span class="primer">а</span>, <span class="primer">а-б</span>, <span class="primer">аб-ад</span> или <span class="primer">аа-ад,в,г,фа-фр</span></div>
+  </div>
   <div class="flex mb-2 align-items-baseline">
     <div class="w180 labela"></div>
     <div>

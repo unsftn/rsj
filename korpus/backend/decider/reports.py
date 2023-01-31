@@ -4,6 +4,7 @@ import logging
 import os
 from django.conf import settings
 from django.contrib.staticfiles import finders
+from django.db.models import Q
 from django.db.models.functions import Collate
 from django.template.loader import get_template
 from django.utils.timezone import now
@@ -26,9 +27,45 @@ def sada():
 def grupisi_po_slovima(reci):
     letter_cache = {k.upper(): [] for k in AZBUKA}
     for rec in reci:
-        letter_cache[rec.prvo_slovo.upper()].append(rec)
+        if rec.prvo_slovo.lower() in AZBUKA:
+            letter_cache[rec.prvo_slovo.upper()].append(rec)
     slova = [{'slovo': k.upper(), 'reci': letter_cache[k.upper()]} for k in AZBUKA if len(letter_cache[k.upper()]) > 0]
     return slova
+
+
+def sledece_slovo(tekst, pos=None):
+    if pos is None:
+        pos = len(tekst) - 1
+    if tekst[pos] == 'ш':
+        tekst = tekst[:pos] # + 'а' + tekst[pos+1:]
+        return sledece_slovo(tekst, pos-1)
+    else:
+        try:
+            index = AZBUKA.index(tekst[pos].lower())
+        except ValueError:
+            log.warn(f'Neispravno slovo: {tekst[pos].lower()}')
+            return tekst
+        return tekst[:pos] + AZBUKA[index+1] + tekst[pos+1:]
+
+
+def dodaj_opseg_slova(opseg, queryset):
+    if not opseg:
+        return queryset
+    result = Q()
+    delovi = [x.strip().lower() for x in opseg.split(',') if x.strip()]
+    for deo in delovi:
+        if '-' in deo:
+            oddo = deo.split('-')
+            if len(oddo) != 2:
+                continue
+            part = Q(tekst__gte=oddo[0], tekst__lte=sledece_slovo(oddo[1]))
+        else:
+            part = Q(tekst__startswith=deo)
+        result = result | part
+    queryset = queryset.filter(result)
+    return queryset
+
+
 
 
 def ima_korpus_nema_recnik():
@@ -108,11 +145,10 @@ def dinamicki(upit, rbr):
         reci = reci.filter(broj_pojavljivanja__lte=upit['frek_do'])
     if len(upit['odluke']) > 0:
         reci = reci.filter(odluka__in=upit['odluke'])
-    if len(upit['slova']) > 0:
-        reci = reci.filter(prvo_slovo__in=upit['slova'])
-    else:
-        reci = reci.filter(prvo_slovo__in=AZBUKA)
+    if len(upit['opseg_slova']) > 0:
+        reci = dodaj_opseg_slova(upit['opseg_slova'], reci)
     reci = reci.order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
+    log.info(f'Upit za izvestaj: {reci.query}')
     upit['odluke'] = [ODLUKE[x-1][1] for x in upit['odluke']]
     return {
         'upit': upit,

@@ -13,7 +13,7 @@
     <p>у корпусу: {{upit.u_korpusu|yesno:'да,не,-'}}</p>
     <p>фреквенција: {{upit.frek_od|default_if_none:'_'}} до {{upit.frek_do|default_if_none:'_'}}</p>
     <p>одлуке: {{upit.odluke|safeseq|join:', '}}</p>
-    <p>слова: {{upit.slova|safeseq|join:' '}}</p>
+    <p>слова: {{upit.opseg_slova}}</p>
 </div>
 {% endif %}
 {% for slovo in slova %}

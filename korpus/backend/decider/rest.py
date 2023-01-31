@@ -96,7 +96,7 @@ def poslednji_spisak(request):
 def api_zahtev_za_izvestaj(request):
     upit = request.data
     dinizv = DinamickiIzvestaj.objects.create(upit=json.dumps(upit))
-    async_task(dinamicki_izvestaj_task, dinizv.id)
+    async_task(dinamicki_izvestaj_task, dinizv.id, task_name=f'izvestaj_{dinizv.id}')
     return Response(dinizv.id, status=status.HTTP_201_CREATED)
 
 

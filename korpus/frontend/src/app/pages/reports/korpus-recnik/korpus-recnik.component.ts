@@ -62,6 +62,7 @@ export class KorpusRecnikComponent implements OnInit {
   frekDo: number;
   odluke: any[];
   slova: any[];
+  opsegSlova: string;
   formDisabled: boolean;
   areYouSure: boolean;
   mustChoose: boolean;
@@ -85,6 +86,7 @@ export class KorpusRecnikComponent implements OnInit {
     this.frekDo = null;
     this.odluke = [];
     this.slova = [];
+    this.opsegSlova = null;
     this.reportId = null;
     this.pleaseWait = false;
   }
@@ -119,7 +121,7 @@ export class KorpusRecnikComponent implements OnInit {
       (this.frekOd !== null) || 
       (this.frekDo !== null) || 
       (this.odluke.length > 0) || 
-      (this.slova.length > 0);
+      (this.opsegSlova.length > 0);
   }
 
   getParams(): any {
@@ -129,7 +131,7 @@ export class KorpusRecnikComponent implements OnInit {
       frek_od: this.frekOd,
       frek_do: this.frekDo,
       odluke: this.odluke,
-      slova: this.slova
+      opseg_slova: this.opsegSlova,
     }
   }
 
