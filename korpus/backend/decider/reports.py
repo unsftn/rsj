@@ -134,9 +134,9 @@ def ima_korpus_ima_recnik_f_manje_10():
 def dinamicki(upit, rbr):
     reci = RecZaOdluku.objects.all()
     if upit['u_recniku'] is not None:
-        reci = reci.filter(recnik_id__isnull=upit['u_recniku'])
+        reci = reci.filter(recnik_id__isnull=not upit['u_recniku'])
     if upit['u_korpusu'] is not None:
-        reci = reci.filter(korpus_id__isnull=upit['u_korpusu'])
+        reci = reci.filter(korpus_id__isnull=not upit['u_korpusu'])
     if upit['frek_od'] is not None:
         reci = reci.filter(broj_pojavljivanja__gte=upit['frek_od'])
     if upit['frek_do'] is not None:
