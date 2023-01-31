@@ -290,7 +290,7 @@ class Glagol(models.Model):
         retval = [self.infinitiv]
         retval.extend(_svi_oblici_glagola(self))
         retval.extend([self.rgp_mj, self.rgp_zj, self.rgp_sj, self.rgp_mm, self.rgp_zm, self.rgp_sm])
-        retval.extend([self.tgp_mj, self.tgp_zj, self.tgp_sj, self.tgp_mm, self.tgp_zm, self.tgp_sm])
+        # retval.extend([self.tgp_mj, self.tgp_zj, self.tgp_sj, self.tgp_mm, self.tgp_zm, self.tgp_sm])
         retval.extend([self.gpp, self.gpp2, self.gps])
         return retval
 
