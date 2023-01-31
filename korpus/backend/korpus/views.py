@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 
 @api_view(['GET'])
+@permission_classes([permissions.AllowAny])
 def serve_media_file(request, file_path):
     absolute_path = f'{settings.MEDIA_ROOT}/{file_path}'
     content_type, encoding = mimetypes.guess_type(absolute_path)
