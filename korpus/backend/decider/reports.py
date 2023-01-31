@@ -143,7 +143,7 @@ def dinamicki(upit, rbr):
         reci = reci.filter(broj_pojavljivanja__lte=upit['frek_do'])
     if len(upit['odluke']) > 0:
         reci = reci.filter(odluka__in=upit['odluke'])
-    if len(upit['opseg_slova']) > 0:
+    if upit['opseg_slova']:
         reci = dodaj_opseg_slova(upit['opseg_slova'], reci)
     reci = reci.order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
     upit['odluke'] = [ODLUKE[x-1][1] for x in upit['odluke']]
