@@ -7,7 +7,7 @@ from django.contrib.staticfiles import finders
 from django.db.models import Q
 from django.db.models.functions import Collate
 from django.template.loader import get_template
-from django.utils.timezone import now
+from django.utils import timezone
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.text.fonts import FontConfiguration
 from .models import *
@@ -64,8 +64,6 @@ def dodaj_opseg_slova(opseg, queryset):
         result = result | part
     queryset = queryset.filter(result)
     return queryset
-
-
 
 
 def ima_korpus_nema_recnik():
@@ -148,7 +146,6 @@ def dinamicki(upit, rbr):
     if len(upit['opseg_slova']) > 0:
         reci = dodaj_opseg_slova(upit['opseg_slova'], reci)
     reci = reci.order_by(Collate('tekst', 'utf8mb4_croatian_ci'))
-    log.info(f'Upit za izvestaj: {reci.query}')
     upit['odluke'] = [ODLUKE[x-1][1] for x in upit['odluke']]
     return {
         'upit': upit,
@@ -168,7 +165,7 @@ def font_fetcher(url):
 
 
 def izvestaj(context):
-    start_time = now()
+    start_time = timezone.now()
     log.info(f'Generisem izvestaj: {context["naslov"]}')
     tpl = get_template('decider/izvestaj.html')
     html_text = tpl.render(context)
@@ -183,7 +180,7 @@ def izvestaj(context):
         os.makedirs(dir)
     filename = os.path.join(dir, context['filename'])
     html.write_pdf(filename, stylesheets=[css], font_config=font_config)
-    end_time = now()
+    end_time = timezone.now()
     log.info(f'Generisanje izvestaja {filename} trajalo {end_time-start_time}')
 
 
@@ -191,16 +188,16 @@ def dinamicki_izvestaj_task(task_id):
     try:
         dinizv = DinamickiIzvestaj.objects.get(id=task_id)
         upit = json.loads(dinizv.upit)
-        dinizv.vreme_pocetka = now()
+        dinizv.vreme_pocetka = timezone.now()
         dinizv.save()
         ctx = dinamicki(upit, dinizv.id)
         izvestaj(ctx)
         dinizv.zavrsen = True
-        dinizv.vreme_zavrsetka = now()
+        dinizv.vreme_zavrsetka = timezone.now()
         dinizv.save()
 
         # obrisi izvestaje starije od 30 dana
-        stariji_od_30_dana = datetime.now() - timedelta(days=30)
+        stariji_od_30_dana = timezone.now() - timedelta(days=30)
         for di in DinamickiIzvestaj.objects.filter(vreme_zahteva__lte=stariji_od_30_dana):
             filename = os.path.join(settings.MEDIA_ROOT, 'izvestaji', f'izvestaj-{di.id}.pdf')
             os.remove(filename)
