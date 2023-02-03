@@ -1,3 +1,4 @@
+from django.contrib.auth.models import update_last_login
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -17,6 +18,7 @@ class RichTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['user_id'] = self.user.id
         data['is_staff'] = self.user.is_staff
         data['groups'] = self.user.groups.values_list('id', flat=True)
+        update_last_login(None, self.user)
         return data
 
 
