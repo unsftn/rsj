@@ -60,13 +60,14 @@ export class DeterminantComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.determinants.forEach((d) => {
-      if (d.determinantId) {
-        this.odrednicaService.get(d.determinantId).subscribe((odr) => {
-          d.rec$ = of(odr.rec);
-        });
-      }
-    });
+    if (this.determinants)
+      this.determinants.forEach((d) => {
+        if (d.determinantId) {
+          this.odrednicaService.get(d.determinantId).subscribe((odr) => {
+            d.rec$ = of(odr.rec);
+          });
+        }
+      });
   }
 
 }

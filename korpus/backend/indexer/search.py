@@ -128,6 +128,33 @@ def search_oblik_in_pub(request):
     return wrap_search(query_terms, fragment_size, boundary_scanner)
 
 
+@api_view(['GET'])
+def search_naslov(request):
+    """
+    Pretrazuje opise publikacija za dati tekst
+    """
+    if not request.GET.get('q'):
+        return bad_request('no search term')
+    term = request.GET.get('q')
+    if not term.endswith('*'):
+        term += '*'
+    query = {
+        'query': {'query_string': {'query': term}},
+        'size': 100,
+        'from': 0,
+        '_source': {'includes': ['pk', 'skracenica', 'opis']}
+    }
+    retval = []
+    resp = get_es_client().search(index=NASLOV_INDEX, body=query)
+    for hit in resp['hits']['hits']:
+        retval.append({
+            'pub_id': hit['_source']['pk'],
+            'skracenica': hit['_source']['skracenica'],
+            'opis': hit['_source']['opis'],
+        })
+    return Response(retval, status=HTTP_200_OK, content_type=JSON)
+
+
 def wrap_search(words, fragment_size, boundary_scanner):
     try:
         return Response(

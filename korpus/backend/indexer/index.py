@@ -2,6 +2,7 @@ from datetime import datetime
 from elasticsearch import NotFoundError
 from publikacije.models import *
 from .utils import *
+from .cyrlat import *
 
 
 def index_publikacija(pub_id, client=None):
@@ -26,6 +27,32 @@ def index_publikacija(pub_id, client=None):
         except Exception as ex:
             log.fatal(ex)
             return False
+    return True
+
+
+def index_naslov(pub_id, client=None):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+    except Publikacija.DoesNotExist as ex:
+        log.fatal(ex)
+        return False
+
+    opis = publikacija.opis()
+    opis_cyrlat = lat_to_cyr(opis) + ' ' + cyr_to_lat(opis)
+    document = {
+        'pk': publikacija.id,
+        'skracenica': publikacija.skracenica,
+        'opis': opis,
+        'content': opis_cyrlat,
+        'timestamp': datetime.now().isoformat()[:-3] + 'Z',
+    }
+    try:
+        if not client:
+            client = get_es_client()
+        client.index(index=NASLOV_INDEX, id=publikacija.id, document=document)
+    except Exception as ex:
+        log.fatal(ex)
+        return False
     return True
 
 

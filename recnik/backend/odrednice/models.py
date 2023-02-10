@@ -508,6 +508,7 @@ class Konkordansa(models.Model):
     znacenje = models.ForeignKey(Znacenje, verbose_name='значење', blank=True, null=True, on_delete=models.CASCADE)
     podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
     izraz_fraza = models.ForeignKey(IzrazFraza, verbose_name='фраза', blank=True, null=True, on_delete=models.CASCADE)
+    korpus_izvor_id = models.IntegerField('ИД извора у корпусу', blank=True, null=True)
     publikacija = models.ForeignKey(publikacije_models.Publikacija, verbose_name='публикација', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:

@@ -25,8 +25,8 @@ export interface Determinant {
   kvalifikatori: any[];
   znacenja: any[];
   izrazi_fraze: any[];
-  sinonimi: any[];
-  antonimi: any[];
+  // sinonimi: any[];
+  // antonimi: any[];
   kolokacije: any[];
   ravnopravne_varijante: boolean;
 }

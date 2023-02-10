@@ -107,137 +107,6 @@ def _delete_odrednica_by_id(id):
         return server_error(error.args)
 
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def korpus(request):
-    create_index_if_needed()
-
-    if request.method == 'GET':
-        return _search_korpus(request)
-    elif request.method == 'POST':
-        return _add_korpus(request)
-    elif request.method == 'PUT':
-        return _update_korpus(request)
-    elif request.method == 'DELETE':
-        return _delete_korpus(request)
-
-
-def _search_korpus(request):
-    if not request.data or request.data['term'] is None:
-        return bad_request('no search term')
-
-    term = request.data['term']
-    hits = []
-    s = Search(index=KORPUS_INDEX)
-    s = s.source(includes=['pk', 'osnovniOblik'])
-    s.query = Bool(
-        must=[Match(oblici=term)]
-    )
-    try:
-        response = s.execute()
-        for hit in response.hits.hits:
-            hits.append(hit['_source'])
-
-        serializer = KorpusResponseSerializer(hits, many=True)
-        data = serializer.data
-
-        return Response(
-            data,
-            status=HTTP_200_OK,
-            content_type=JSON
-        )
-    except ElasticsearchException as error:
-        return server_error(error.args)
-
-
-def _add_korpus(request):
-    if not request.data or request.data['anotiranaRec'] is None:
-        return bad_request('no data to index')
-    anotiranaRec = request.data['anotiranaRec']
-
-    return _save_korpus(anotiranaRec)
-
-
-def _update_korpus(request):
-    if not request.data or request.data['anotiranaRec'] is None:
-        return bad_request('no data to index')
-    anotiranaRec = request.data['anotiranaRec']
-
-    return _save_korpus(anotiranaRec)
-
-
-def _delete_korpus(request):
-    if not request.data or request.data['pk'] is None:
-        return bad_request('no primary key')
-
-    pk = request.data['pk']
-    anotiranaRec = KorpusDocument()
-    try:
-        anotiranaRec.delete(id=pk, index=KORPUS_INDEX)
-        return Response(status=HTTP_200_OK)
-    except NotFoundError:
-        return not_found('requested object not found')
-    except ElasticsearchException as error:
-        return server_error(error.args)
-
-
-def _save_korpus(item):
-    serializer = CreateKorpusDocumentSerializer()
-    try:
-        anotiranaRec = serializer.create(item)
-    except KeyError as error:
-        return bad_request(error.args)
-
-    try:
-        result = anotiranaRec.save(id=anotiranaRec.pk, index=KORPUS_INDEX)
-        return Response(
-            result,
-            status=HTTP_200_OK,
-            content_type=JSON
-        )
-    except ElasticsearchException as error:
-        return server_error(error.args)
-
-
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
-def publikacija(request):
-    create_index_if_needed()
-    if request.method == 'GET':
-        return _search_publikacija(request)
-    # elif request.method == 'POST':
-    #     return _add_publikacija(request)
-    # elif request.method == 'PUT':
-    #     return _update_publikacija(request)
-    # elif request.method == 'DELETE':
-    #     return _delete_publikacija(request)
-    return server_error({})
-
-
-def _search_publikacija(request):
-    if not request.GET.get('q'):
-        return bad_request('no search term')
-
-    term = request.GET.get('q')
-    hits = []
-    s = Search(index=PUBLIKACIJE_INDEX)
-    s = s.source(includes=['pk', 'skracenica', 'naslov'])
-    s.query = MultiMatch(
-        type='bool_prefix',
-        query=term,
-        fields=['tekst'],
-    )
-    try:
-        response = s.execute()
-        for hit in response.hits.hits:
-            hits.append(hit['_source'])
-
-        serializer = PublikacijaResponseSerializer(hits, many=True)
-        data = serializer.data
-
-        return Response(data, status=HTTP_200_OK, content_type=JSON)
-    except ElasticsearchException as error:
-        return server_error(error.args)
-
-
 @api_view(['GET'])
 def check_duplicate(request):
     term = request.GET.get('q')
@@ -280,6 +149,57 @@ def check_duplicate(request):
         )
     except ElasticsearchException as error:
         return server_error(error.args)
+
+
+@api_view(['GET'])
+def search_opis_in_korpus(request):
+    """
+    Pretrazuje opise izvora u korpusu za dati tekst
+    """
+    if not request.GET.get('q'):
+        return bad_request('no search term')
+    term = request.GET.get('q')
+    if not term.endswith('*'):
+        term += '*'
+    query = {
+        'query': {'query_string': {'query': term}},
+        'size': 100,
+        'from': 0,
+        '_source': {'includes': ['pk', 'skracenica', 'opis']}
+    }
+    retval = []
+    resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
+    for hit in resp['hits']['hits']:
+        retval.append({
+            'pub_id': hit['_source']['pk'],
+            'skracenica': hit['_source']['skracenica'],
+            'opis': hit['_source']['opis'],
+        })
+    return Response(retval, status=HTTP_200_OK, content_type=JSON)
+
+
+@api_view(['GET'])
+def load_opis_from_korpus(request, izvor_id):
+    """
+    Ucitava opis izvora za dati ID izvora u korpusu
+    """
+    query = {
+        'query': {'term': {'pk': izvor_id}},
+        'size': 1,
+        'from': 0,
+        '_source': {'includes': ['pk', 'skracenica', 'opis']}
+    }
+    retval = []
+    resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
+    for hit in resp['hits']['hits']:
+        retval.append({
+            'pub_id': hit['_source']['pk'],
+            'skracenica': hit['_source']['skracenica'],
+            'opis': hit['_source']['opis'],
+        })
+    if len(retval) == 0:
+        return Response(None, status=HTTP_404_NOT_FOUND, content_type=JSON)
+    return Response(retval[0], status=HTTP_200_OK, content_type=JSON)
 
 
 def append_if_term_and_homo_match(hits, term, hit, found_homo, rbr_homo):

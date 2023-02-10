@@ -80,11 +80,37 @@ REC_MAPPING = {
 }
 
 
+""" Definicija Elasticsearch indeksa za reci """
+NASLOV_MAPPING = {
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text"
+            },
+            "opis": {
+                "type": "keyword"
+            },
+            "pk": {
+                "type": "keyword"
+            },
+            "skracenica": {
+                "type": "keyword"
+            },
+            "timestamp": {
+                "type": "date"
+            },
+        }
+    }
+}
+
+
 PUB_INDEX = 'publikacije'
 REC_INDEX = 'reci'
+NASLOV_INDEX = 'naslovi'
 ALL_INDEXES = {
     PUB_INDEX: {'index': PUB_INDEX, 'document': PUB_MAPPING},
     REC_INDEX: {'index': REC_INDEX, 'document': REC_MAPPING},
+    NASLOV_INDEX: {'index': NASLOV_INDEX, 'document': NASLOV_MAPPING},
 }
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 

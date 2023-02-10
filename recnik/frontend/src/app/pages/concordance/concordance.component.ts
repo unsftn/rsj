@@ -1,13 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { of } from 'rxjs';
-import { PublikacijaService } from '../../services/publikacije';
-
-interface Concordance {
-  concordance: string;
-  bookId?: number;
-  searchText: string;
-}
+import { PublikacijaService, KorpusService } from '../../services/publikacije';
 
 @Component({
   selector: 'concordance',
@@ -15,7 +9,10 @@ interface Concordance {
   styleUrls: ['./concordance.component.scss'],
 })
 export class ConcordanceComponent implements OnInit, OnChanges {
-  constructor(private primengConfig: PrimeNGConfig, private publikacijaService: PublikacijaService) {}
+  constructor(
+    private primengConfig: PrimeNGConfig, 
+    private publikacijaService: PublikacijaService,
+    private korpusService: KorpusService) {}
 
   @Input() concordances;
   @Output() concordancesChange = new EventEmitter();
@@ -28,7 +25,7 @@ export class ConcordanceComponent implements OnInit, OnChanges {
   dirty: boolean;
 
   add(): void {
-    this.concordances.push({ concordance: '', bookId: null, searchText: '', naslov$: of(''), skracenica$: of('') });
+    this.concordances.push({ concordance: '', izvorId: null, searchText: '', opis: '', skracenica: '' });
     this.concordancesChange.emit();
   }
 
@@ -43,13 +40,14 @@ export class ConcordanceComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.concordances.forEach((c) => {
-      if (c.bookId)
-        this.publikacijaService.get(c.bookId).subscribe((pub) => {
-          c.naslov$ = of(pub.naslov);
-          c.skracenica$ = of(pub.skracenica);
+    this.concordances.forEach((c: any) => {
+      if (c.izvorId) {
+        this.korpusService.loadIzvor(c.izvorId).subscribe({
+          next: (data: any) => c.opis = data.opis,
+          error: (error: any) => console.log(error)
         });
-      });
+      }
+    });
   }
 
   insertQuote(char: string): void {
@@ -71,30 +69,23 @@ export class ConcordanceComponent implements OnInit, OnChanges {
   }
 
   search(event): void {
-    this.publikacijaService.search(event.query).subscribe(
-      (data) => {
-        this.searchResults = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.korpusService.searchIzvor(event.query).subscribe({
+      next: (data: any[]) => this.searchResults = data,
+      error: (error: any) => console.log(error)
+    });
   }
 
   select(event, index): void {
-    this.concordances[index].bookId = event.pk;
-    this.publikacijaService.get(event.pk).subscribe((pub) => {
-      this.concordances[index].naslov$ = of(pub.naslov);
-      this.concordances[index].skracenica$ = of(pub.skracenica);
-    });
+    this.concordances[index].izvorId = event.pub_id;
+    this.concordances[index].opis = event.opis;
     this.concordances[index].searchText = '';
+    console.log(this.concordances[index]);
     this.concordancesChange.emit();
   }
 
   removePub(concordance): void {
-    concordance.bookId = null;
-    concordance.naslov$ = of('');
-    concordance.skracenica$ = of('');
+    concordance.izvorId = null;
+    concordance.opis = '';
     this.concordancesChange.emit();
   }
 

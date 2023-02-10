@@ -8,8 +8,8 @@ app_name = 'претрага'
 urlpatterns = [
     path('odrednica/', odrednica),
     path('odrednica/duplicate/', check_duplicate),
-    path('korpus/', korpus),
-    path('publikacija/', publikacija),
+    path('naslov/<int:izvor_id>/', load_opis_from_korpus),
+    path('naslov/', search_opis_in_korpus),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

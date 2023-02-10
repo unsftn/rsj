@@ -29,14 +29,14 @@
           <div class="mb-2">
             <p-autoComplete [(ngModel)]="concordances[i].searchText" name="book{{i}}" [suggestions]="searchResults" (completeMethod)="search($event)" scrollHeight="300px" (onSelect)="select($event, i)" placeholder="Претрага извора" class="search-pub">
               <ng-template let-pub pTemplate="item">
-                <span class="skracenica">{{pub.skracenica}}</span>
-                <span class="naslov">{{pub.naslov}}</span>
+                <span class="skracenica">[{{pub.skracenica}}]</span>
+                <span class="naslov">{{pub.opis}}</span>
               </ng-template>
             </p-autoComplete>
-            <p-button *ngIf="concordances[i].bookId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removePub(concordances[i])" class="ml-2"></p-button>
+            <p-button *ngIf="concordances[i].izvorId" icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text" (click)="removePub(concordances[i])" class="ml-2"></p-button>
           </div>
           <div class="naslov">
-            <span *ngIf="concordances[i].skracenica$ | async as skr">{{skr}}: </span> <span *ngIf="concordances[i].naslov$ | async as naslov">{{naslov}}</span>
+            <span *ngIf="concordances[i].skracenica">{{concordances[i].skracenica}}: </span> <span *ngIf="concordances[i].opis">{{concordances[i].opis}}</span>
           </div>
         </div>
         <div class="mr-2">
