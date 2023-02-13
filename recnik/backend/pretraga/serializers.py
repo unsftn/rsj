@@ -132,14 +132,18 @@ class OdrednicaResponseSerializer(serializers.ModelSerializer):
     rec = serializers.CharField(max_length=50, required=True, allow_blank=True)
     vrsta = serializers.IntegerField(required=True)
     vrsta_text = serializers.SerializerMethodField()
+    ociscena_rec = serializers.SerializerMethodField()
     rbr_homo = serializers.IntegerField(required=True, allow_null=True)
 
     def get_vrsta_text(self, obj):
         return VRSTA_ODREDNICE[obj.vrsta][1]
+    
+    def get_ociscena_rec(self, obj):
+        return remove_punctuation(obj.rec)
 
     class Meta:
         model = OdrednicaResponse
-        fields = ('pk', 'rec', 'vrsta', 'vrsta_text', 'rbr_homo')
+        fields = ('pk', 'rec', 'vrsta', 'vrsta_text', 'rbr_homo', 'ociscena_rec')
 
 
 class CreateKorpusDocumentSerializer(serializers.ModelSerializer):

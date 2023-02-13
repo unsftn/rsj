@@ -7,6 +7,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_IN
 from .serializers import *
 from .config import *
 from .indexer import create_index_if_needed, save_odrednica_dict
+from .cyrlat import sort_key
 
 JSON = 'application/json'
 
@@ -23,6 +24,13 @@ def odrednica(request):
         return _update_odrednica(request)
     elif request.method == 'DELETE':
         return _delete_odrednica(request)
+
+
+def sort_key_composite(word):
+    rbr_homo = word['rbr_homo'] if word['rbr_homo'] else 0
+    result = sort_key(word['ociscena_rec'])
+    result.append(rbr_homo)
+    return result
 
 
 def _search_odrednica(request):
@@ -43,13 +51,9 @@ def _search_odrednica(request):
             hits.append(hit['_source'])
 
         serializer = OdrednicaResponseSerializer(hits, many=True)
-        data = serializer.data
+        result = sorted(serializer.data, key=lambda w: sort_key_composite(w))
 
-        return Response(
-            data,
-            status=HTTP_200_OK,
-            content_type=JSON
-        )
+        return Response(result, status=HTTP_200_OK)
     except ElasticsearchException as error:
         return server_error(error.args)
 
