@@ -333,7 +333,7 @@ def render_one(odrednica):
     if odrednica.freetext:
         return process_tags(odrednica.freetext)
 
-    html = f'<b>{odrednica.rec}'
+    html = f'<b>{odrednica.rec.replace("_", " ")}'
     if odrednica.rbr_homonima:
         html += f'<sup>{odrednica.rbr_homonima}</sup>'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
