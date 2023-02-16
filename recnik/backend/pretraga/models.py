@@ -9,6 +9,7 @@ class OdrednicaDocument(Document):
     varijante = SearchAsYouType()  # analyzer=SERBIAN_ANALYZER
     vrsta = Keyword()
     rbr_homo = Keyword()
+    status = Keyword()
 
 
 class OdrednicaResponse(models.Model):

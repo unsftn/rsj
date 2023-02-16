@@ -98,10 +98,11 @@ class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
     varijante = serializers.ListField(child=serializers.CharField(), required=True)
     vrsta = serializers.IntegerField(required=True)
     rbr_homo = serializers.IntegerField(required=True, allow_null=True)
+    status = serializers.IntegerField(required=True, allow_null=False)
 
     class Meta:
         model = OdrednicaDocument
-        fields = ('pk', 'rec', 'varijante', 'vrsta')
+        fields = ('pk', 'rec', 'varijante', 'vrsta', 'status')
 
     def create(self, validated_data):
         pk = validated_data.pop('pk')
@@ -117,13 +118,15 @@ class CreateOdrednicaDocumentSerializer(serializers.ModelSerializer):
         rec_sa_varijantama = ' '.join(varijante)
         vrsta = validated_data.pop('vrsta')
         rbr_homo = validated_data.pop('rbr_homo')
+        status = validated_data.pop('status')
 
         return OdrednicaDocument(
             pk=pk,
             rec=rec,
             varijante=rec_sa_varijantama,
             vrsta=vrsta,
-            rbr_homo=rbr_homo
+            rbr_homo=rbr_homo,
+            status=status
         )
 
 

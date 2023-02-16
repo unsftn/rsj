@@ -207,8 +207,8 @@ def connect_to_rsj():
     count = 0
     for rzo in RecZaOdluku.objects.all():
         if not rzo.recnik_id and rzo.tekst:
-            recnik_id, vrsta = find_in_rsj(rzo.tekst, rzo.vrsta_reci)
-            if recnik_id != -1:
+            recnik_id, vrsta, status = find_in_rsj(rzo.tekst, rzo.vrsta_reci)
+            if recnik_id != -1 and status < 3:
                 rzo.recnik_id = recnik_id
                 if not rzo.vrsta_reci:
                     rzo.vrsta_reci = vrsta
@@ -268,12 +268,12 @@ def find_in_rsj(rec, vrsta):
     resp = rsjclient.search(index='odrednica', query={'match': {'varijante': rec}})
     hitcount = len(resp['hits']['hits'])
     if hitcount == 0:
-        return -1, None
+        return -1, None, None
     elif hitcount == 1:
         item = resp['hits']['hits'][0]['_source']
-        return item['pk'], item['vrsta']
+        return item['pk'], item['vrsta'], int(item['status'])
     else:
         for hit in resp['hits']['hits']:
             if vrsta is not None and hit['_source']['vrsta'] == vrsta:
-                return hit['_source']['pk'], vrsta
-        return -1, None
+                return hit['_source']['pk'], vrsta, int(hit['_source']['status'])
+        return -1, None, None

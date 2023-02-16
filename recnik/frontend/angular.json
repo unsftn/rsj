@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "recnik"
+  "defaultProject": "recnik",
+  "cli": {
+    "analytics": false
+  }
 }
