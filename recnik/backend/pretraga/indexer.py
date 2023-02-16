@@ -59,6 +59,7 @@ def save_odrednica_model(odrednica):
         'pk': odrednica.pk,
         'rec': odrednica.rec,
         'varijante': varijante,
+        'status': odrednica.status.id if odrednica.status else 0,
         'rbr_homo': odrednica.rbr_homonima if odrednica.rbr_homonima else None
     }
     return save_odrednica_dict(odr_dict)
