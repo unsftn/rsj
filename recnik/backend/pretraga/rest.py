@@ -183,7 +183,14 @@ def search_opis_in_korpus(request):
 
 
 @api_view(['GET'])
-def load_opis_from_korpus(request, izvor_id):
+def load_opis_from_korpus_wrapped(request, izvor_id):
+    retval = load_opis_from_korpus(izvor_id)
+    if retval is None:
+        return Response(None, status=HTTP_404_NOT_FOUND, content_type=JSON)
+    return Response(retval, status=HTTP_200_OK, content_type=JSON)
+
+
+def load_opis_from_korpus(izvor_id):
     """
     Ucitava opis izvora za dati ID izvora u korpusu
     """
@@ -201,9 +208,7 @@ def load_opis_from_korpus(request, izvor_id):
             'skracenica': hit['_source']['skracenica'],
             'opis': hit['_source']['opis'],
         })
-    if len(retval) == 0:
-        return Response(None, status=HTTP_404_NOT_FOUND, content_type=JSON)
-    return Response(retval[0], status=HTTP_200_OK, content_type=JSON)
+    return retval[0] if len(retval) > 0 else None
 
 
 def append_if_term_and_homo_match(hits, term, hit, found_homo, rbr_homo):

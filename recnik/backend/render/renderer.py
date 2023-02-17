@@ -11,6 +11,7 @@ from weasyprint.text.fonts import FontConfiguration
 from docx import Document
 from htmldocx import HtmlToDocx
 from odrednice.models import *
+from pretraga.rest import load_opis_from_korpus
 from .models import *
 
 log = logging.getLogger(__name__)
@@ -142,8 +143,10 @@ def render_konkordanse(konkordanse):
     retval = ''
     for k in konkordanse:
         retval += f'<i>{tacka(process_tags(k.opis, True))}</i> '
-        if k.publikacija:
-            retval += f'{nbsp(tacka(k.publikacija.skracenica))} '
+        if k.korpus_izvor_id:
+            izvor = load_opis_from_korpus(k.korpus_izvor_id)
+            if izvor:
+                retval += f'<i>{nbsp(tacka(izvor["skracenica"]))}</i> '
     return retval
 
 
