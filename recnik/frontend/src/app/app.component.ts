@@ -91,12 +91,12 @@ export class AppComponent implements OnInit {
         routerLink: ['/renders'],
         disabled: !this.signedIn(),
       },
-      {
-        label: 'Публикације',
-        icon: 'pi pi-bookmark',
-        routerLink: ['/pubs'],
-        disabled: !this.signedIn(),
-      },
+      // {
+      //   label: 'Публикације',
+      //   icon: 'pi pi-bookmark',
+      //   routerLink: ['/pubs'],
+      //   disabled: !this.signedIn(),
+      // },
       {
         separator: true,
       },

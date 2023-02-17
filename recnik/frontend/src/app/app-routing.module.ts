@@ -42,23 +42,23 @@ const routes: Routes = [
     canDeactivate: [LeaveGuard],
     data: { mode: 'edit' },
   },
-  {
-    path: 'pubs',
-    component: PublikacijaListComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'pubs/add',
-    component: PublikacijaComponent,
-    canActivate: [AuthGuard],
-    data: { mode: 'add' },
-  },
-  {
-    path: 'pubs/edit/:id',
-    component: PublikacijaComponent,
-    canActivate: [AuthGuard],
-    data: { mode: 'edit' },
-  },
+  // {
+  //   path: 'pubs',
+  //   component: PublikacijaListComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'pubs/add',
+  //   component: PublikacijaComponent,
+  //   canActivate: [AuthGuard],
+  //   data: { mode: 'add' },
+  // },
+  // {
+  //   path: 'pubs/edit/:id',
+  //   component: PublikacijaComponent,
+  //   canActivate: [AuthGuard],
+  //   data: { mode: 'edit' },
+  // },
   {
     path: 'profile',
     component: ProfileComponent,

@@ -36,7 +36,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', RichTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/publikacije/', include('publikacije.urls', namespace='publikacije')),
+    # path('api/publikacije/', include('publikacije.urls', namespace='publikacije')),
     path('api/korpus/', include('korpus.urls', namespace='korpus')),
     path('api/odrednice/', include('odrednice.urls', namespace='odrednice')),
     path('api/render/', include('render.urls', namespace='render')),
