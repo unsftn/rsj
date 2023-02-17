@@ -172,7 +172,7 @@ def search_opis_in_korpus(request):
         '_source': {'includes': ['pk', 'skracenica', 'opis']}
     }
     retval = []
-    resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
+    resp = get_korpus_client().search(index=PUBLIKACIJE_INDEX, body=query)
     for hit in resp['hits']['hits']:
         retval.append({
             'pub_id': hit['_source']['pk'],
@@ -194,7 +194,7 @@ def load_opis_from_korpus(request, izvor_id):
         '_source': {'includes': ['pk', 'skracenica', 'opis']}
     }
     retval = []
-    resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
+    resp = get_korpus_client().search(index=PUBLIKACIJE_INDEX, body=query)
     for hit in resp['hits']['hits']:
         retval.append({
             'pub_id': hit['_source']['pk'],
