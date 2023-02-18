@@ -8,8 +8,8 @@ class PublikacijaAdmin(admin.ModelAdmin):
     list_filter = ('naslov_izdanja', 'izdavac', 'godina')
 
 
-admin.site.register(VrstaPublikacije)
-admin.site.register(Publikacija, PublikacijaAdmin)
-admin.site.register(Autor)
-admin.site.register(TekstPublikacije)
-admin.site.register(FajlPublikacije)
+# admin.site.register(VrstaPublikacije)
+# admin.site.register(Publikacija, PublikacijaAdmin)
+# admin.site.register(Autor)
+# admin.site.register(TekstPublikacije)
+# admin.site.register(FajlPublikacije)

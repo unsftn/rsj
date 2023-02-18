@@ -1,7 +1,7 @@
 import logging
 from django.forms.models import model_to_dict
 from rest_framework import serializers
-from publikacije.models import Publikacija
+# from publikacije.models import Publikacija
 from .models import *
 from django.contrib.auth.models import User
 
@@ -69,7 +69,7 @@ class KvalifikatorFrazeSerializer(serializers.ModelSerializer):
 class KonkordansaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Konkordansa
-        fields = ('id', 'redni_broj', 'opis', 'znacenje_id', 'podznacenje_id', 'izraz_fraza_id', 'publikacija_id', 'korpus_izvor_id')
+        fields = ('id', 'redni_broj', 'opis', 'znacenje_id', 'podznacenje_id', 'izraz_fraza_id', 'korpus_izvor_id')
 
 
 class IzrazFrazaSerializer(serializers.ModelSerializer):
@@ -245,7 +245,7 @@ class CreateKolokacijaSerializer(NoSaveSerializer):
 class CreateKonkordansaSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     opis = serializers.CharField(max_length=2000, allow_blank=True)
-    publikacija_id = serializers.IntegerField(required=False, allow_null=True)
+    # publikacija_id = serializers.IntegerField(required=False, allow_null=True)
     korpus_izvor_id = serializers.IntegerField(required=False, allow_null=True)
 
 
@@ -400,11 +400,11 @@ class CreateOdrednicaSerializer(serializers.Serializer):
             for kv in kvalifikatori_fraze:
                 KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
             for kk in konkordanse_fraze:
-                if database != 'default' and kk.get('publikacija_id'):
-                    dst_pub = self._make_fake_pub(kk, database)
-                    del kk['publikacija_id']
-                    Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
-                else:
+                # if database != 'default' and kk.get('publikacija_id'):
+                #     dst_pub = self._make_fake_pub(kk, database)
+                #     del kk['publikacija_id']
+                #     Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
+                # else:
                     Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
         for znacenje in znacenja:
             kvalifikatori = znacenje.pop('kvalifikatori', [])
@@ -424,11 +424,11 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 for kv in kvalifikatori_fraze:
                     KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
                 for kk in konkordanse1:
-                    if database != 'default' and kk.get('publikacija_id'):
-                        dst_pub = self._make_fake_pub(kk, database)
-                        del kk['publikacija_id']
-                        Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
-                    else:
+                    # if database != 'default' and kk.get('publikacija_id'):
+                    #     dst_pub = self._make_fake_pub(kk, database)
+                    #     del kk['publikacija_id']
+                    #     Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
+                    # else:
                         Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
             for konz in konkordanse_znacenja:
                 if database != 'default' and konz.get('publikacija_id'):
@@ -456,18 +456,18 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     for kv in kvalifikatori_fraze:
                         KvalifikatorFraze.objects.using(database).create(izrazfraza=iz, **kv)
                     for kk in konkordanse2:
-                        if database != 'default' and kk.get('publikacija_id'):
-                            dst_pub = self._make_fake_pub(kk, database)
-                            del kk['publikacija_id']
-                            Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
-                        else:
+                        # if database != 'default' and kk.get('publikacija_id'):
+                        #     dst_pub = self._make_fake_pub(kk, database)
+                        #     del kk['publikacija_id']
+                        #     Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
+                        # else:
                             Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
                 for konz in konkordanse_podznacenja:
-                    if database != 'default' and konz.get('publikacija_id'):
-                        dst_pub = self._make_fake_pub(konz, database)
-                        del konz['publikacija_id']
-                        Konkordansa.objects.using(database).create(podznacenje=p, publikacija=dst_pub, **konz)
-                    else:
+                    # if database != 'default' and konz.get('publikacija_id'):
+                    #     dst_pub = self._make_fake_pub(konz, database)
+                    #     del konz['publikacija_id']
+                    #     Konkordansa.objects.using(database).create(podznacenje=p, publikacija=dst_pub, **konz)
+                    # else:
                         Konkordansa.objects.using(database).create(podznacenje=p, **konz)
                 for kol in kolokacije_podznacenja:
                     KolokacijaPodznacenja.objects.using(database).create(podznacenje=p, **kol)
@@ -496,15 +496,15 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
         return odrednica
 
-    def _make_fake_pub(self, konk, database):
-        try:
-            retval = Publikacija.objects.using(database).get(id=konk['publikacija_id'])
-            return retval
-        except Publikacija.DoesNotExist:
-            src_pub = Publikacija.objects.using('default').get(id=konk['publikacija_id'])
-            dic = model_to_dict(src_pub)
-            dic['vrsta_id'] = dic['vrsta']
-            dic['user_id'] = 1
-            del dic['vrsta']
-            del dic['user']
-            return Publikacija.objects.using(database).create(**dic)
+    # def _make_fake_pub(self, konk, database):
+    #     try:
+    #         retval = Publikacija.objects.using(database).get(id=konk['publikacija_id'])
+    #         return retval
+    #     except Publikacija.DoesNotExist:
+    #         src_pub = Publikacija.objects.using('default').get(id=konk['publikacija_id'])
+    #         dic = model_to_dict(src_pub)
+    #         dic['vrsta_id'] = dic['vrsta']
+    #         dic['user_id'] = 1
+    #         del dic['vrsta']
+    #         del dic['user']
+    #         return Publikacija.objects.using(database).create(**dic)

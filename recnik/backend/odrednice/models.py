@@ -6,7 +6,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.timezone import now
 from concurrency.fields import AutoIncVersionField
-from publikacije import models as publikacije_models
+# from publikacije import models as publikacije_models
 
 VRSTA_ODREDNICE = [
     (0, 'именица'),
@@ -509,7 +509,7 @@ class Konkordansa(models.Model):
     podznacenje = models.ForeignKey(Podznacenje, verbose_name='подзначење', blank=True, null=True, on_delete=models.CASCADE)
     izraz_fraza = models.ForeignKey(IzrazFraza, verbose_name='фраза', blank=True, null=True, on_delete=models.CASCADE)
     korpus_izvor_id = models.IntegerField('ИД извора у корпусу', blank=True, null=True)
-    publikacija = models.ForeignKey(publikacije_models.Publikacija, verbose_name='публикација', blank=True, null=True, on_delete=models.SET_NULL)
+    # publikacija = models.ForeignKey(publikacije_models.Publikacija, verbose_name='публикација', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'конкорданса'
