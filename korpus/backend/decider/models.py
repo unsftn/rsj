@@ -46,6 +46,9 @@ class RecZaOdluku(models.Model):
             models.Index(fields=['korpus_id']),
             models.Index(fields=['broj_pojavljivanja'])
         ]
+    
+    def __str__(self) -> str:
+        return f'{self.tekst} [{ODLUKE[self.odluka-1][1]}] : {str(self.vreme_odluke)} : {str(self.donosilac_odluke.puno_ime())}' 
 
 
 class DinamickiIzvestaj(models.Model):
