@@ -4,7 +4,7 @@ from django.conf import settings
 from elasticsearch import Elasticsearch
 from publikacije.models import Publikacija, TekstPublikacije
 from ...index import index_publikacija
-from ...utils import get_es_client, recreate_index, check_elasticsearch, PUB_INDEX
+from ...utils import get_es_client, recreate_index, check_elasticsearch, PUB_INDEX, push_highlighting_limit
 
 log = logging.getLogger(__name__)
 
@@ -36,6 +36,7 @@ class Command(BaseCommand):
                     log.info(f'Greska prilikom indeksiranja publikacije ID: {pub.id}')
                 count += 1
             log.info(f'Indeksirano {count} publikacija.')
+            push_highlighting_limit()
         except Publikacija.DoesNotExist:
             raise CommandError(f'Publikacija sa ID {pub_id} ne postoji')
         except Exception as ex:

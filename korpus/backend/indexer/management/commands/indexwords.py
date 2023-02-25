@@ -5,7 +5,7 @@ from django.conf import settings
 from elasticsearch import Elasticsearch
 from reci.models import *
 from indexer.index import *
-from indexer.utils import get_es_client, recreate_index, check_elasticsearch, REC_INDEX
+from indexer.utils import get_es_client, recreate_index, check_elasticsearch, REC_INDEX, push_highlighting_limit
 
 log = logging.getLogger(__name__)
 
@@ -33,6 +33,7 @@ class Command(BaseCommand):
         self.index_rec('brojeva', Broj, index_broj, client)
         self.index_rec('recci', Recca, index_recca, client)
         self.index_rec('uzvika', Uzvik, index_uzvik, client)
+        push_highlighting_limit()
         end_time = datetime.now()
         log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
 

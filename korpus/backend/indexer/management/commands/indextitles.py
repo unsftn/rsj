@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from publikacije.models import Publikacija
 from ...index import index_naslov
-from ...utils import get_es_client, recreate_index, check_elasticsearch, NASLOV_INDEX
+from ...utils import get_es_client, recreate_index, check_elasticsearch, NASLOV_INDEX, push_highlighting_limit
 
 log = logging.getLogger(__name__)
 
@@ -27,6 +27,7 @@ class Command(BaseCommand):
                     log.info(f'Greska prilikom indeksiranja naslova ID: {pub.id}')
                 count += 1
             log.info(f'Indeksirano {count} naslova.')                
+            push_highlighting_limit()
         except Exception as ex:
             print(ex)
             raise CommandError(ex)
