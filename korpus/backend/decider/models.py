@@ -48,7 +48,8 @@ class RecZaOdluku(models.Model):
         ]
     
     def __str__(self) -> str:
-        return f'{self.tekst} [{ODLUKE[self.odluka-1][1]}] : {str(self.vreme_odluke)} : {str(self.donosilac_odluke.puno_ime())}' 
+        donosilac = str(self.donosilac_odluke.puno_ime()) if self.donosilac_odluke else '-'
+        return f'{self.tekst} [{ODLUKE[self.odluka-1][1]}] : {str(self.vreme_odluke)} : {donosilac}' 
 
 
 class DinamickiIzvestaj(models.Model):
