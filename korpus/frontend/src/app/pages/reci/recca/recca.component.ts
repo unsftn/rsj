@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { ReccaService } from '../../../services/reci/';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 import { Recca, toRecca } from '../../../models/reci';
 
@@ -18,6 +19,8 @@ export class ReccaComponent implements OnInit {
   returnUrl: string;
   sourceWord: string;
   recca: Recca;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -26,6 +29,7 @@ export class ReccaComponent implements OnInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private reccaService: ReccaService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -92,7 +96,6 @@ export class ReccaComponent implements OnInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     if (this.editMode) {
       this.reccaService.update({id: this.id, tekst: this.recca.tekst}).subscribe({
         next: (data) => {
@@ -148,5 +151,32 @@ export class ReccaComponent implements OnInit {
     if (this.tokenStorageService.getUser().id === this.recca?.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.recca.tekst, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

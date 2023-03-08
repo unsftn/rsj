@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Glagol, GlagolskaVarijanta, GlagolskiRod, GlagolskiVid, toGlagol } from '../../../models/reci';
 import { GlagolService } from '../../../services/reci';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
@@ -20,6 +21,8 @@ export class GlagolComponent implements OnInit, AfterViewInit {
   rodovi: GlagolskiRod[];
   vidovi: GlagolskiVid[];
   varijante: GlagolskaVarijanta[];
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('infinitiv') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -28,6 +31,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private glagolService: GlagolService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -124,7 +128,6 @@ export class GlagolComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     console.log('Snimanje glagola:', this.glagol);
     if (!this.editMode) {
       this.glagolService.add(this.glagol).subscribe({
@@ -176,5 +179,32 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.glagol.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.glagol.infinitiv, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

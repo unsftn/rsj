@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { VeznikService } from '../../../services/reci/';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 import { Veznik, toVeznik } from '../../../models/reci';
 
@@ -18,6 +19,8 @@ export class VeznikComponent implements OnInit, AfterViewInit {
   returnUrl: string;
   sourceWord: string;
   veznik: Veznik;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -26,6 +29,7 @@ export class VeznikComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private veznikService: VeznikService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -94,7 +98,6 @@ export class VeznikComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     if (this.editMode) {
       this.veznikService.update({id: this.id, tekst: this.veznik.tekst}).subscribe({
         next: (data) => {
@@ -150,5 +153,32 @@ export class VeznikComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.veznik?.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.veznik.tekst, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

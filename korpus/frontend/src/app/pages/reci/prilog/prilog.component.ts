@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Prilog, toPrilog } from '../../../models/reci';
 import { PrilogService } from '../../../services/reci';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
@@ -18,6 +19,8 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('pozitiv') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -26,6 +29,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private prilogService: PrilogService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -97,7 +101,6 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     console.log('Snimanje priloga:', this.prilog);
     if (!this.editMode) {
       this.prilogService.add(this.prilog).subscribe({
@@ -154,5 +157,32 @@ export class PrilogComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.prilog.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.prilog.pozitiv, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

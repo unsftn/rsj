@@ -10,6 +10,7 @@ urlpatterns = [
     path('publikacije/', search_pub),
     path('oblici/', search_oblik_in_pub),
     path('naslovi/', search_naslov),
+    path('duplikati/', check_dupes),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -9,6 +9,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { GlagolComponent } from './glagol.component';
+import { PossibleDupeModule } from '../../possible-dupe/possible-dupe.module';
 
 const routes: Routes = [{ path: '', component: GlagolComponent }]
 
@@ -23,6 +24,7 @@ const routes: Routes = [{ path: '', component: GlagolComponent }]
     TabViewModule,
     ButtonModule,
     MyToolbarModule,
+    PossibleDupeModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { PredlogService } from '../../../services/reci/';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
+import { SearchService } from '../../../services/search';
 import { Predlog, toPredlog } from '../../../models/reci';
 
 @Component({
@@ -18,6 +19,8 @@ export class PredlogComponent implements OnInit, AfterViewInit {
   returnUrl: string;
   sourceWord: string;
   predlog: Predlog;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -26,6 +29,7 @@ export class PredlogComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private predlogService: PredlogService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -94,7 +98,6 @@ export class PredlogComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     if (this.editMode) {
       this.predlogService.update({id: this.id, tekst: this.predlog.tekst}).subscribe({
         next: (data) => {
@@ -150,5 +153,32 @@ export class PredlogComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.predlog?.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.predlog.tekst, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

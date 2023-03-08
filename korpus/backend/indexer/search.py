@@ -155,6 +155,19 @@ def search_naslov(request):
     return Response(retval, status=HTTP_200_OK, content_type=JSON)
 
 
+@api_view(['GET'])
+def check_dupes(request):
+    if not request.GET.get('w'):
+        return bad_request('no search term')
+    text = request.GET.get('w')
+    word_id = request.GET.get('id')
+    if word_id:
+        word_id = int(word_id)
+    possible_dupes = find_osnovni_oblik(text)
+    possible_dupes = [dict(item, vrsta_text=VRSTE_RECI[item['vrsta']]) for item in possible_dupes if item['id'] != word_id]
+    return Response(possible_dupes, status=HTTP_200_OK)
+
+
 def wrap_search(words, fragment_size, boundary_scanner):
     try:
         return Response(

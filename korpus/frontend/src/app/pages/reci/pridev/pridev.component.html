@@ -1,4 +1,5 @@
-<toolbar (saveClicked)="save()" [saveAvailable]="saveAvailable()"></toolbar>
+<toolbar (saveClicked)="checkDupes()" [saveAvailable]="saveAvailable()"></toolbar>
+<possible-dupe [(visible)]="showDupes" [dupes]="dupes" (yes)="dupesYes()" (no)="dupesNo()"></possible-dupe>
 <div class="container">
   <h3>Придев</h3>
   <p-tabView>

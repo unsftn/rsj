@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Broj, toBroj } from '../../../models/reci';
 import { BrojService } from '../../../services/reci';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
@@ -18,6 +19,8 @@ export class BrojComponent implements OnInit, AfterViewInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -26,11 +29,14 @@ export class BrojComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private brojService: BrojService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Број');
+    this.showDupes = false;
+    this.dupes = [];
     this.initNew();
     this.route.queryParams.subscribe((params) => {
       this.returnUrl = params.returnUrl;
@@ -95,7 +101,6 @@ export class BrojComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     console.log('Snimanje broja:', this.broj);
     if (!this.editMode) {
       this.brojService.add(this.broj).subscribe({
@@ -152,5 +157,32 @@ export class BrojComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.broj.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.broj.nomjed, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

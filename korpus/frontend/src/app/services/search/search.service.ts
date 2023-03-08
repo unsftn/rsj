@@ -60,4 +60,11 @@ export class SearchService {
   searchForms(query: string, fragmentSize: number, scanner: string): Observable<any> {
     return this.http.get<any>(`/api/pretraga/oblici/?q=${query}&f=${fragmentSize}&s=${scanner}`);
   }
+
+  checkDupes(word: string, id: number): Observable<any> {
+    let url = `/api/pretraga/duplikati/?w=${word}`;
+    if (id)
+      url += `&id=${id}`;
+    return this.http.get<any>(url);
+  }
 }

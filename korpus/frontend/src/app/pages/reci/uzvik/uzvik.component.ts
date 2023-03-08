@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { UzvikService } from '../../../services/reci/';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 import { Uzvik, toUzvik } from '../../../models/reci';
 
@@ -18,6 +19,8 @@ export class UzvikComponent implements OnInit, AfterViewInit {
   returnUrl: string;
   sourceWord: string;
   uzvik: Uzvik;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -26,6 +29,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private uzvikService: UzvikService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -94,7 +98,6 @@ export class UzvikComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     if (this.editMode) {
       this.uzvikService.update({id: this.id, tekst: this.uzvik.tekst}).subscribe({
         next: (data) => {
@@ -150,5 +153,32 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.uzvik?.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.uzvik.tekst, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Zamenica, toZamenica } from '../../../models/reci';
 import { ZamenicaService } from '../../../services/reci';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
@@ -19,6 +20,8 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
   editMode: boolean;
   returnUrl: string;
   sourceWord: string;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('nomjed') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -27,6 +30,7 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private zamenicaService: ZamenicaService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -108,7 +112,6 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     console.log('Snimanje zamenice:', this.zamenica);
     if (!this.editMode) {
       this.zamenicaService.add(this.zamenica).subscribe({
@@ -183,5 +186,32 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.zamenica.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.zamenica.nomjed, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }

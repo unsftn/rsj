@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { PridevService } from 'src/app/services/reci/pridev.service';
 import { Pridev, toPridev } from '../../../models/reci';
+import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
@@ -17,6 +18,8 @@ export class PridevComponent implements OnInit, AfterViewInit {
 
   id: number;
   editMode: boolean;
+  showDupes: boolean;
+  dupes: any[];
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -25,6 +28,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private tokenStorageService: TokenStorageService,
     private pridevService: PridevService,
+    private searchService: SearchService,
     private titleService: Title
   ) { }
 
@@ -168,7 +172,6 @@ export class PridevComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    if (!this.check()) return;
     if (!this.editMode) {
       this.pridevService.add(this.pridev).subscribe({
         next: (data) => {
@@ -250,5 +253,32 @@ export class PridevComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.pridev.vlasnikID)
       return true;
     return false;
+  }
+
+  checkDupes(): void {
+    if (!this.check()) return;
+    this.searchService.checkDupes(this.pridev.monomjed, this.id).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data) {
+          this.dupes = data;
+          this.showDupes = true;
+        } else {
+          this.dupes = [];
+          this.showDupes = false;
+          this.save();
+        }
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  dupesYes(): void {
+    this.showDupes = false;
+    this.save();
+  }
+
+  dupesNo(): void {
+    this.showDupes = false;
   }
 }
