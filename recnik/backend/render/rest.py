@@ -58,6 +58,7 @@ def render_all(request):
 @api_view(['POST'])
 def api_preview_odrednica(request):
     try:
+        print(request.data)
         serializer = CreateOdrednicaSerializer(data=request.data)
         if serializer.is_valid():
             odrednica = serializer.instantiate()

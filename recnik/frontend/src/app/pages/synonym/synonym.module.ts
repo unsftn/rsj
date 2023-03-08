@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { HttpClientModule } from '@angular/common/http';
-import { DeterminantModule } from '../determinant/determinant.module';
+// import { DeterminantModule } from '../determinant/determinant.module';
+import { ReferencaModule } from '../referenca/referenca.module';
 import { SynonymComponent } from './synonym.component';
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SynonymComponent } from './synonym.component';
     HttpClientModule,
     ButtonModule,
     AutoCompleteModule,
-    DeterminantModule,
+    // DeterminantModule,
+    ReferencaModule,
   ],
   exports: [SynonymComponent],
   providers: [],

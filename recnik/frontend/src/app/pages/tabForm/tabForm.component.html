@@ -359,14 +359,16 @@
           <p-tabPanel header="Фразе">
             <expressions [expressions]="expressions"></expressions>
           </p-tabPanel>
-<!--          <p-tabPanel header="Синоними">-->
-<!--            <synonym [synonyms]="synonyms" (synonymsChange)="saveChange()"></synonym>-->
-<!--          </p-tabPanel>-->
-<!--          <p-tabPanel header="Антоними">-->
-<!--            <antonym [antonyms]="antonyms" (antonymsChange)="saveChange()"></antonym>-->
-<!--          </p-tabPanel>-->
           <p-tabPanel header="Колокације">
             <collocations [collocations]="collocations" (collocationsChange)="saveChange()"></collocations>
+          </p-tabPanel>
+          <p-tabPanel header="Син">
+            <synonym [synonyms]="synonyms"></synonym>
+            <!-- <synonym [synonyms]="synonyms" (synonymsChange)="saveChange()"></synonym> -->
+          </p-tabPanel>
+          <p-tabPanel header="Ант">
+            <antonym [antonyms]="antonyms"></antonym>
+            <!-- <antonym [antonyms]="antonyms" (antonymsChange)="saveChange()"></antonym> -->
           </p-tabPanel>
           <p-tabPanel header="Дневник">
             <changesForm [changes]="changes"></changesForm>

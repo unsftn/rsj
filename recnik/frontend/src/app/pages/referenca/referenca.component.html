@@ -1,0 +1,38 @@
+<div class="flex">
+  <p-table [value]="reference" styleClass="p-datatable-sm">
+    <ng-template pTemplate="body" let-ref let-rowIndex="rowIndex">
+      <tr>
+        <td style="white-space: nowrap; font-weight: bold" [innerHTML]="ref.odr"></td>
+        <td style="font-weight: bold">{{ref.rbr}}{{ref.vrsta===1 ? '' : '.'}}</td>
+        <td>{{ref.tekst}}</td>
+        <td>
+          <button type="button" (click)="moveUp(rowIndex)" [disabled]="rowIndex === 0" pButton pRipple icon="pi pi-arrow-up" class="p-button-rounded p-button-text p-button-sm btn-minimal"></button>
+          <button type="button" (click)="moveDown(rowIndex)" [disabled]="rowIndex === reference.length-1" pButton pRipple icon="pi pi-arrow-down" class="p-button-rounded p-button-text p-button-sm btn-minimal"></button>
+          <button type="button" (click)="remove(rowIndex)" pButton pRipple icon="pi pi-times" class="p-button-danger p-button-rounded p-button-text p-button-sm btn-minimal"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-autoComplete
+    [(ngModel)]="searchText"
+    [suggestions]="searchResults"
+    (completeMethod)="search($event)"
+    (onSelect)="select($event)"
+    placeholder="Претрага одредница"
+    scrollHeight="300px"
+    [minLength]="1"
+    styleClass="mt-3">
+  <ng-template let-hit pTemplate="item">
+    <div *ngIf="hit.type==='odrednica'">
+      <b [innerHTML]="hit.odr"></b> {{hit.tekst}}
+    </div>
+    <div *ngIf="hit.type==='znacenje'">
+      &nbsp;&nbsp; <b>{{hit.rbr}}</b> {{hit.tekst}}
+    </div>
+    <div *ngIf="hit.type==='podznacenje'">
+      &nbsp;&nbsp;&nbsp;&nbsp; <b>{{hit.rbr}}</b> {{hit.tekst}}
+    </div>
+  </ng-template>
+</p-autoComplete>

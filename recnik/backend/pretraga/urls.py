@@ -7,6 +7,7 @@ app_name = 'претрага'
 
 urlpatterns = [
     path('odrednica/', odrednica),
+    path('odrednica-znacenja/', search_odrednica_sa_znacenjima),
     path('odrednica/duplicate/', check_duplicate),
     path('naslov/<int:izvor_id>/', load_opis_from_korpus_wrapped),
     path('naslov/', search_opis_in_korpus),

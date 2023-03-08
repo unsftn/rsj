@@ -1,11 +1,59 @@
 import logging
 from django.forms.models import model_to_dict
 from rest_framework import serializers
-# from publikacije.models import Publikacija
+from render.utils import shorten_text, get_rec, get_rbr
 from .models import *
 from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
+AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
+
+
+def get_sinant(clazz, src_vrsta: int, src_id: int):
+    retval = []
+    part1 = [{'vrsta': s.vrsta2, 'ident': s.ident2} for s in clazz.objects.filter(vrsta1=src_vrsta, ident1=src_id)]
+    part2 = [{'vrsta': s.vrsta1, 'ident': s.ident1} for s in clazz.objects.filter(vrsta2=src_vrsta, ident2=src_id)]
+    retval.extend(part1)
+    retval.extend(part2)
+    for r in retval:
+        if r['vrsta'] == 1:
+            try:
+                o = Odrednica.objects.get(id=r['ident'])
+                r['tekst'] = ''
+                r['odr'] = get_rec(o)
+                r['rbr'] = ''
+            except Odrednica.DoesNotExist:
+                log.warn(f'[get_sinant] Odrednica {r["ident"]} nije pronadjena')
+        elif r['vrsta'] == 2:
+            try:
+                z = Znacenje.objects.get(id=r['ident'])
+                o = z.odrednica
+                r['tekst'] = shorten_text(z.tekst)
+                r['odr'] = get_rec(z.odrednica)
+                r['rbr'] = get_rbr(z)
+            except Znacenje.DoesNotExist:
+                log.warn(f'[get_sinant] Znacenje {r["ident"]} nije pronadjeno')
+        elif r['vrsta'] == 3:
+            try:
+                pz = Podznacenje.objects.get(id=r['ident'])
+                o = pz.znacenje.odrednica
+                r['tekst'] = shorten_text(pz.tekst)
+                r['odr'] = get_rec(pz.znacenje.odrednica)
+                r['rbr'] = get_rbr(pz)
+            except Podznacenje.DoesNotExist:
+                log.warn(f'[get_sinant] Podznacenje {r["ident"]} nije pronadjeno')
+            except IndexError:
+                log.warn(f'[get_sinant] Podznacenje ima redni_broj = {pz.redni_broj} > 30')
+    return retval
+
+
+def obrisi_veze(clazz, odrednica):
+    clazz.objects.filter(ident1=odrednica.id, vrsta1=1).delete()
+    clazz.objects.filter(ident2=odrednica.id, vrsta2=1).delete()
+    clazz.objects.filter(ident1__in=[x.id for x in odrednica.znacenje_set.all()], vrsta1=2).delete()
+    clazz.objects.filter(ident2__in=[x.id for x in odrednica.znacenje_set.all()], vrsta2=2).delete()
+    clazz.objects.filter(ident1__in=[x.id for x in Podznacenje.objects.filter(znacenje__in=odrednica.znacenje_set.all())], vrsta1=3).delete()
+    clazz.objects.filter(ident2__in=[x.id for x in Podznacenje.objects.filter(znacenje__in=odrednica.znacenje_set.all())], vrsta2=3).delete()
 
 
 # read-only serializers
@@ -37,13 +85,13 @@ class KvalifikatorPodznacenjaSerializer(serializers.ModelSerializer):
 class AntonimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Antonim
-        fields = ('id', 'redni_broj', 'ima_antonim_id', 'u_vezi_sa_id', 'tekst')
+        fields = ('id', 'redni_broj', 'vrsta1', 'ident1', 'vrsta2', 'ident2', 'tekst')
 
 
 class SinonimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sinonim
-        fields = ('id', 'redni_broj', 'ima_sinonim_id', 'u_vezi_sa_id', 'tekst')
+        fields = ('id', 'redni_broj', 'vrsta1', 'ident1', 'vrsta2', 'ident2', 'tekst')
 
 
 class RecUKolokacijiSerializer(serializers.ModelSerializer):
@@ -95,33 +143,45 @@ class KolokacijaPodznacenjaSerializer(serializers.ModelSerializer):
 
 
 class PodznacenjeSerializer(serializers.ModelSerializer):
-    ima_antonim = AntonimSerializer(many=True, read_only=True)
-    ima_sinonim = SinonimSerializer(many=True, read_only=True)
     kvalifikatorpodznacenja_set = KvalifikatorPodznacenjaSerializer(many=True)
     izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
     konkordansa_set = KonkordansaSerializer(many=True, read_only=True)
     kolokacijapodznacenja_set = KolokacijaPodznacenjaSerializer(many=True, read_only=True)
+    sinonimi = serializers.SerializerMethodField()
+    antonimi = serializers.SerializerMethodField()
+
+    def get_sinonimi(self, obj):
+        return get_sinant(Sinonim, 3, obj.id)
+
+    def get_antonimi(self, obj):
+        return get_sinant(Antonim, 3, obj.id)
 
     class Meta:
         model = Podznacenje
         fields = ('id', 'tekst', 'znacenje_id', 'redni_broj', 'kvalifikatorpodznacenja_set', 'izrazfraza_set',
-                  'konkordansa_set', 'kolokacijapodznacenja_set', 'ima_sinonim', 'ima_antonim')
+                  'konkordansa_set', 'kolokacijapodznacenja_set', 'sinonimi', 'antonimi')
 
 
 class ZnacenjeSerializer(serializers.ModelSerializer):
-    ima_antonim = AntonimSerializer(many=True, read_only=True)
-    ima_sinonim = SinonimSerializer(many=True, read_only=True)
     podznacenje_set = PodznacenjeSerializer(many=True, read_only=True)
     kvalifikatorznacenja_set = KvalifikatorZnacenjaSerializer(many=True)
     izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
     konkordansa_set = KonkordansaSerializer(many=True, read_only=True)
     kolokacijaznacenja_set = KolokacijaZnacenjaSerializer(many=True, read_only=True)
+    sinonimi = serializers.SerializerMethodField()
+    antonimi = serializers.SerializerMethodField()
+
+    def get_sinonimi(self, obj):
+        return get_sinant(Sinonim, 2, obj.id)
+
+    def get_antonimi(self, obj):
+        return get_sinant(Antonim, 2, obj.id)
 
     class Meta:
         model = Znacenje
         fields = ('id', 'tekst', 'znacenje_se', 'odrednica_id', 'podznacenje_set', 'kvalifikatorznacenja_set',
                   'izrazfraza_set', 'konkordansa_set', 'redni_broj', 'kolokacijaznacenja_set',
-                  'ima_sinonim', 'ima_antonim')
+                  'sinonimi', 'antonimi')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -170,8 +230,6 @@ class PodvrstaReciSerializer(serializers.ModelSerializer):
 
 
 class OdrednicaSerializer(serializers.ModelSerializer):
-    # ima_antonim = AntonimSerializer(many=True, read_only=True)
-    # ima_sinonim = SinonimSerializer(many=True, read_only=True)
     kolokacija_set = KolokacijaSerializer(many=True, read_only=True)
     znacenje_set = ZnacenjeSerializer(many=True, read_only=True)
     izrazfraza_set = IzrazFrazaSerializer(many=True, read_only=True)
@@ -179,15 +237,24 @@ class OdrednicaSerializer(serializers.ModelSerializer):
     kvalifikatorodrednice_set = KvalifikatorOdredniceSerializer(many=True, read_only=True)
     izmenaodrednice_set = IzmenaOdredniceSerializer(many=True, read_only=True)
     podvrsta = PodvrstaReciSerializer(read_only=True)
+    sinonimi = serializers.SerializerMethodField()
+    antonimi = serializers.SerializerMethodField()
+
+    def get_sinonimi(self, obj):
+        return get_sinant(Sinonim, 1, obj.id)
+
+    def get_antonimi(self, obj):
+        return get_sinant(Antonim, 1, obj.id)
 
     class Meta:
         model = Odrednica
         fields = ('id', 'rec', 'ijekavski', 'vrsta', 'rod', 'nastavak', 'nastavak_ij', 'info', 'glagolski_vid',
                   'glagolski_rod', 'prezent', 'prezent_ij', 'broj_pregleda', 'vreme_kreiranja', 'poslednja_izmena',
-                  'stanje', 'version', 'varijantaodrednice_set', 'podvrsta',  # 'ima_antonim', 'ima_sinonim',
+                  'stanje', 'version', 'varijantaodrednice_set', 'podvrsta', 'sortable_rec',
                   'kolokacija_set', 'znacenje_set', 'izrazfraza_set', 'kvalifikatorodrednice_set',
                   'izmenaodrednice_set', 'opciono_se', 'rbr_homonima', 'obradjivac', 'redaktor', 'urednik', 'napomene',
-                  'freetext', 'status', 'prikazi_gl_rod', 'ima_se_znacenja', 'ravnopravne_varijante')
+                  'freetext', 'status', 'prikazi_gl_rod', 'ima_se_znacenja', 'ravnopravne_varijante',
+                  'sinonimi', 'antonimi')
 
 
 class ShortOdrednicaSerializer(serializers.ModelSerializer):
@@ -258,6 +325,20 @@ class CreateIzrazFrazaSerializer(NoSaveSerializer):
     vezana_odrednica_id = serializers.IntegerField(required=False, allow_null=True)
 
 
+class CreateSinonimSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    vrsta2 = serializers.IntegerField()
+    ident2 = serializers.IntegerField()
+    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
+
+
+class CreateAntonimSerializer(NoSaveSerializer):
+    redni_broj = serializers.IntegerField()
+    vrsta2 = serializers.IntegerField()
+    ident2 = serializers.IntegerField()
+    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
+
+
 class CreateKolokacijaPodznacenjaSerializer(NoSaveSerializer):
     redni_broj = serializers.IntegerField()
     tekst = serializers.CharField(max_length=2000, required=False, allow_blank=True)
@@ -270,6 +351,8 @@ class CreatePodznacenjeSerializer(NoSaveSerializer):
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
     konkordanse = serializers.ListField(child=CreateKonkordansaSerializer(), required=False)
     kolokacije = serializers.ListSerializer(child=CreateKolokacijaPodznacenjaSerializer(), required=False)
+    sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False, allow_empty=True)
+    antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False, allow_empty=True)
 
 
 class CreateKolokacijaZnacenjaSerializer(NoSaveSerializer):
@@ -286,18 +369,8 @@ class CreateZnacenjeSerializer(NoSaveSerializer):
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
     konkordanse = serializers.ListField(child=CreateKonkordansaSerializer(), required=False)
     kolokacije = serializers.ListSerializer(child=CreateKolokacijaZnacenjaSerializer(), required=False)
-
-
-class CreateSinonimSerializer(NoSaveSerializer):
-    redni_broj = serializers.IntegerField()
-    sinonim_id = serializers.IntegerField(allow_null=True)
-    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
-
-
-class CreateAntonimSerializer(NoSaveSerializer):
-    redni_broj = serializers.IntegerField()
-    antonim_id = serializers.IntegerField(allow_null=True)
-    tekst = serializers.CharField(allow_null=True, allow_blank=True, required=False)
+    sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False, allow_empty=True)
+    antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False, allow_empty=True)
 
 
 class CreateVarijantaOdredniceSerializer(NoSaveSerializer):
@@ -338,8 +411,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
     kvalifikatori = serializers.ListField(child=CreatePojavaKvalifikatoraSerializer(), required=False)
     varijante = serializers.ListField(child=CreateVarijantaOdredniceSerializer(), required=False)
     izrazi_fraze = serializers.ListField(child=CreateIzrazFrazaSerializer(), required=False)
-    sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False)
-    antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False)
+    sinonimi = serializers.ListField(child=CreateSinonimSerializer(), required=False, allow_empty=True)
+    antonimi = serializers.ListField(child=CreateAntonimSerializer(), required=False, allow_empty=True)
     rbr_homonima = serializers.IntegerField(required=False, allow_null=True)
     kolokacije = serializers.ListField(child=CreateKolokacijaSerializer(), required=False)
     status_id = serializers.IntegerField(required=False, allow_null=True)
@@ -357,9 +430,8 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         KvalifikatorOdrednice.objects.filter(odrednica_id=instance.id).delete()
         VarijantaOdrednice.objects.filter(odrednica_id=instance.id).delete()
         Kolokacija.objects.filter(odrednica_id=instance.id).delete()
-        Antonim.objects.filter(ima_antonim_id=instance.id).delete()
-        Sinonim.objects.filter(ima_sinonim_id=instance.id).delete()
-
+        obrisi_veze(Sinonim, instance)
+        obrisi_veze(Antonim, instance)
         return self._save(validated_data, instance)
 
     def _save(self, validated_data, odrednica=None, database='default'):
@@ -373,9 +445,9 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
         varijante = validated_data.pop('varijante', [])
         izrazi_fraze = validated_data.pop('izrazi_fraze', [])
+        kolokacije = validated_data.pop('kolokacije', [])
         sinonimi = validated_data.pop('sinonimi', [])
         antonimi = validated_data.pop('antonimi', [])
-        kolokacije = validated_data.pop('kolokacije', [])
 
         validated_data['poslednja_izmena'] = sada
         if database == 'default':
@@ -406,12 +478,18 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 #     Konkordansa.objects.using(database).create(izraz_fraza=iz, publikacija=dst_pub, **kk)
                 # else:
                     Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
+        for s in sinonimi:
+            Sinonim.objects.create(ident1=odrednica.id, vrsta1=1, **s)
+        for a in antonimi:
+            Antonim.objects.create(ident1=odrednica.id, vrsta1=1, **a)
         for znacenje in znacenja:
             kvalifikatori = znacenje.pop('kvalifikatori', [])
             podznacenja = znacenje.pop('podznacenja', [])
             izrazi_fraze_znacenja = znacenje.pop('izrazi_fraze', [])
             konkordanse_znacenja = znacenje.pop('konkordanse', [])
             kolokacije_znacenja = znacenje.pop('kolokacije', [])
+            sinonimi_z = znacenje.pop('sinonimi', [])
+            antonimi_z = znacenje.pop('antonimi', [])
             z = Znacenje.objects.using(database).create(odrednica=odrednica, **znacenje)
             for k in kvalifikatori:
                 KvalifikatorZnacenja.objects.using(database).create(znacenje=z, **k)
@@ -431,19 +509,25 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                     # else:
                         Konkordansa.objects.using(database).create(izraz_fraza=iz, **kk)
             for konz in konkordanse_znacenja:
-                if database != 'default' and konz.get('publikacija_id'):
-                    dst_pub = self._make_fake_pub(konz, database)
-                    del konz['publikacija_id']
-                    Konkordansa.objects.using(database).create(znacenje=z, publikacija=dst_pub, **konz)
-                else:
+                # if database != 'default' and konz.get('publikacija_id'):
+                #     dst_pub = self._make_fake_pub(konz, database)
+                #     del konz['publikacija_id']
+                #     Konkordansa.objects.using(database).create(znacenje=z, publikacija=dst_pub, **konz)
+                # else:
                     Konkordansa.objects.using(database).create(znacenje=z, **konz)
             for kol in kolokacije_znacenja:
                 KolokacijaZnacenja.objects.using(database).create(znacenje=z, **kol)
+            for s in sinonimi_z:
+                Sinonim.objects.create(ident1=z.id, vrsta1=2, **s)
+            for a in antonimi_z:
+                Antonim.objects.create(ident1=z.id, vrsta1=2, **a)
             for podz in podznacenja:
                 kvalifikatori_podznacenja = podz.pop('kvalifikatori', [])
                 izrazi_fraze_podznacenja = podz.pop('izrazi_fraze', [])
                 konkordanse_podznacenja = podz.pop('konkordanse', [])
                 kolokacije_podznacenja = podz.pop('kolokacije', [])
+                sinonimi_pz = podz.pop('sinonimi', [])
+                antonimi_pz = podz.pop('antonimi', [])
                 p = Podznacenje.objects.using(database).create(znacenje=z, **podz)
                 for k in kvalifikatori_podznacenja:
                     KvalifikatorPodznacenja.objects.using(database).create(podznacenje=p, **k)
@@ -471,20 +555,24 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                         Konkordansa.objects.using(database).create(podznacenje=p, **konz)
                 for kol in kolokacije_podznacenja:
                     KolokacijaPodznacenja.objects.using(database).create(podznacenje=p, **kol)
+                for s in sinonimi_pz:
+                    Sinonim.objects.create(ident1=p.id, vrsta1=3, **s)
+                for a in antonimi_pz:
+                    Antonim.objects.create(ident1=p.id, vrsta1=3, **a)
         if database == 'default':
             for kol in kolokacije:
                 odrednice = kol.pop('odrednice', [])
                 k = Kolokacija.objects.using(database).create(**kol, odrednica=odrednica)
                 for odr in odrednice:
                     RecUKolokaciji.objects.using(database).create(kolokacija=k, **odr)
-            for sin in sinonimi:
-                Sinonim.objects.using(database).create(
-                    redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'],  tekst=sin['tekst'],
-                    ima_sinonim=odrednica)
-            for ant in antonimi:
-                Antonim.objects.using(database).create(
-                    redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], tekst=ant['tekst'],
-                    ima_antonim=odrednica)
+            # for sin in sinonimi:
+            #     Sinonim.objects.using(database).create(
+            #         redni_broj=sin['redni_broj'], u_vezi_sa_id=sin['sinonim_id'],  tekst=sin['tekst'],
+            #         ima_sinonim=odrednica)
+            # for ant in antonimi:
+            #     Antonim.objects.using(database).create(
+            #         redni_broj=ant['redni_broj'], u_vezi_sa_id=ant['antonim_id'], tekst=ant['tekst'],
+            #         ima_antonim=odrednica)
 
         operacija_izmene_id = 2 if radimo_update else 1
         if database == 'default':

@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
-import { DeterminantModule } from '../determinant/determinant.module';
+// import { DeterminantModule } from '../determinant/determinant.module';
 import { AntonymComponent } from './antonym.component';
+import { ReferencaModule } from '../referenca/referenca.module';
 
 @NgModule({
   declarations: [AntonymComponent],
@@ -15,7 +16,8 @@ import { AntonymComponent } from './antonym.component';
     HttpClientModule,
     AutoCompleteModule,
     ButtonModule,
-    DeterminantModule,
+    // DeterminantModule,
+    ReferencaModule,
   ],
   exports: [AntonymComponent],
   providers: [],

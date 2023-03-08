@@ -142,7 +142,7 @@ export class AppComponent implements OnInit {
     ];
     this.qualificatorService.fetchAllQualificators().subscribe((values) => {});
     this.podvrstaReciService.fetchAllPodvrsta().subscribe(() => {});
-    this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
+    // this.publikacijaService.fetchAllPubTypes().subscribe((values) => {});
     this.userService.fetchKorisnici().subscribe(() => {});
     this.tokenStorageService.loggedIn$.subscribe((loggedIn) => {
       this.username = loggedIn ? this.tokenStorageService.getUser().firstName : '';

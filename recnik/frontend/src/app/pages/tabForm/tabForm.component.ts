@@ -570,14 +570,6 @@ export class TabFormComponent implements OnInit {
     return false;
   }
 
-  emptySynonym(): boolean {
-    return this.emptyDeterminant(this.synonyms);
-  }
-
-  emptyAntonym(): boolean {
-    return this.emptyDeterminant(this.antonyms);
-  }
-
   emptyCollocation(): boolean {
     for (const c of this.collocations) {
       if (this.emptyDeterminant(c.determinants))
@@ -615,8 +607,6 @@ export class TabFormComponent implements OnInit {
       this.assert(this.wordE === undefined || this.wordE.trim().length === 0, '<p>Обавезно је унети реч (основни облик одреднице).</p>');
       this.assert(this.selectedWordType?.id === 0 && !this.selectedGender && !this.freetext, '<p>За именице је обавезно унети род.</p>');
       this.assert(this.emptyVariant(), '<p>Постоји (бар) једна празна варијанта.</p>');
-      this.assert(this.emptySynonym(), '<p>Постоји (бар) један празан синоним.</p>');
-      this.assert(this.emptyAntonym(), '<p>Постоји (бар) један празан антоним.</p>');
       this.assert(this.emptyCollocation(), '<p>Постоји (бар) једна празна одредница у колокацијама.</p>');
       this.assert(this.emptyShortCollocation(), '<p>Постоји (бар) једна празна колокација у оквиру значења, подзначења или фразе.</p>');
       return true;
@@ -663,8 +653,8 @@ export class TabFormComponent implements OnInit {
       rbr_homonima: this.homonim === 0 ? null : this.homonim,
       status_id: this.selectedStatus === null ? null : this.selectedStatus.id,
       kolokacije: this.collocations.map((c, i) => ({ redni_broj: i + 1, napomena: clean(c.note), odrednice: c.determinants.map((d, j) => ({ odrednica_id: d.determinantId, redni_broj: j + 1, tekst: clean(d.text)}))})),
-      // sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: clean(s.text)})),
-      // antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, antonim_id: a.determinantId, tekst: clean(a.text)})),
+      sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, ident2: s.ident, vrsta2: s.vrsta, tekst: clean(s.tekst)})),
+      antonimi: this.antonyms.map((a, i) => ({redni_broj: i + 1, ident2: a.ident, vrsta2: a.vrsta, tekst: clean(a.tekst)})),
       kvalifikatori: this.qualificators.map((q, index) => {
         return {
           redni_broj: index + 1,
@@ -706,6 +696,7 @@ export class TabFormComponent implements OnInit {
   }
 
   makeZnacenja(meanings, znacenjeSe): any[] {
+    console.log(meanings);
     return meanings ? meanings.map((z, index) => {
       return {
         redni_broj: index + 1,
@@ -757,6 +748,8 @@ export class TabFormComponent implements OnInit {
                 tekst: clean(coll.tekst)
               };
             }),
+            sinonimi: pz.synonyms.map((s, i) => ({redni_broj: i + 1, ident2: s.ident, vrsta2: s.vrsta, tekst: clean(s.tekst)})),
+            antonimi: pz.antonyms.map((a, i) => ({redni_broj: i + 1, ident2: a.ident, vrsta2: a.vrsta, tekst: clean(a.tekst)})),    
           };
         }),
         izrazi_fraze: z.expressions.map((value, idx) => {
@@ -801,8 +794,8 @@ export class TabFormComponent implements OnInit {
             tekst: clean(coll.tekst)
           };
         }),
-        sinonimi: this.synonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: clean(s.text)})),
-        antonimi: this.antonyms.map((s, i) => ({redni_broj: i + 1, sinonim_id: s.determinantId, tekst: clean(s.text)})),
+        sinonimi: z.synonyms.map((s, i) => ({redni_broj: i + 1, ident2: s.ident, vrsta2: s.vrsta, tekst: clean(s.tekst)})),
+        antonimi: z.antonyms.map((a, i) => ({redni_broj: i + 1, ident2: a.ident, vrsta2: a.vrsta, tekst: clean(a.tekst)})),
       };
     }) : [];
   }
@@ -870,8 +863,8 @@ export class TabFormComponent implements OnInit {
     }));
     this.qualificators = value.kvalifikatorodrednice_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id));
     this.collocations = value.kolokacija_set.map((k) => ({note: k.napomena, determinants: k.recukolokaciji_set.map((r) => ({ determinantId: r.odrednica_id, searchText: '', rec$: undefined, text: r.tekst }))}));
-    // this.synonyms = value.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst}));
-    // this.antonyms = value.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst}));
+    this.synonyms = value.sinonimi;
+    this.antonyms = value.antonimi;
     this.changes = value.izmenaodrednice_set;
     this.notes = value.napomene;
     this.freetext = value.freetext;
@@ -906,8 +899,8 @@ export class TabFormComponent implements OnInit {
       qualificators: z.kvalifikatorznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
       concordances: z.konkordansa_set.map((k) => ({concordance: k.opis, izvorId: k.korpus_izvor_id, searchText: '', opis: undefined, skracenica: undefined})),
       collocations: z.kolokacijaznacenja_set.map((kol) => ({tekst: kol.tekst})),
-      // synonyms: z.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst})),
-      // antonyms: z.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst})),  
+      synonyms: z.sinonimi,
+      antonyms: z.antonimi,
       submeanings: z.podznacenje_set.map((pz) => ({
         value: pz.tekst,
         expressions: pz.izrazfraza_set.map((e, idx) => {
@@ -924,8 +917,8 @@ export class TabFormComponent implements OnInit {
         qualificators: pz.kvalifikatorpodznacenja_set.map((q) => this.qualificatorService.getQualificator(q.kvalifikator_id)),
         concordances: pz.konkordansa_set.map((k) => ({concordance: k.opis, izvorId: k.korpus_izvor_id, searchText: '', opis: undefined, skracenica: undefined})),
         collocations: pz.kolokacijapodznacenja_set.map((kol) => ({tekst: kol.tekst})),
-        // synonyms: pz.ima_sinonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst})),
-        // antonyms: pz.ima_antonim.map((s) => ({ determinantId: s.u_vezi_sa_id, searchText: '', rec$: undefined, text: s.tekst})),  
+        synonyms: pz.sinonimi,
+        antonyms: pz.antonimi,
       }))}));
   }
 

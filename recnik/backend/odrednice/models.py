@@ -76,6 +76,11 @@ TIP_GRAFIKONA = [
     (9, 'укупно по словима'),
 ]
 
+VRSTA_VEZE = [
+    (1, 'одредница'),
+    (2, 'значење'),
+    (3, 'подзначење'),
+]
 
 class UserProxy(User):
     class Meta:
@@ -250,52 +255,6 @@ class VarijantaOdrednice(models.Model):
 
     def get_absolute_url(self):
         return reverse('odrednice:izmena-varijante-detail', kwargs={'pk': self.pk})
-
-
-class Antonim(models.Model):
-    redni_broj = models.PositiveSmallIntegerField('редни број')
-    ima_antonim = models.ForeignKey(Odrednica,  verbose_name='одредница има антоним', on_delete=models.CASCADE,
-                                    related_name='ima_antonim')
-    u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
-                                  related_name='antonim_u_vezi_sa', null=True, blank=True)
-    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
-
-    class Meta:
-        verbose_name = 'антоним'
-        verbose_name_plural = 'антоними'
-        ordering = ['redni_broj']
-        indexes = [
-            models.Index(fields=['redni_broj']),
-        ]
-
-    def __str__(self):
-        return f'{self.redni_broj}: {self.ima_antonim.id} -> {self.u_vezi_sa.id if self.u_vezi_sa else self.tekst}'
-
-    def get_absolute_url(self):
-        return reverse("odrednice:antonim-detail", kwargs={"pk": self.pk})
-
-
-class Sinonim(models.Model):
-    redni_broj = models.PositiveSmallIntegerField('редни број')
-    ima_sinonim = models.ForeignKey(Odrednica, verbose_name='одредница има синоним', on_delete=models.CASCADE,
-                                    related_name='ima_sinonim')
-    u_vezi_sa = models.ForeignKey(Odrednica, verbose_name='у вези са одредницом', on_delete=models.CASCADE,
-                                  related_name='sinonim_u_vezi_sa', null=True, blank=True)
-    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
-
-    class Meta:
-        verbose_name = 'синоним'
-        verbose_name_plural = 'синоними'
-        ordering = ['redni_broj']
-        indexes = [
-            models.Index(fields=['redni_broj']),
-        ]
-
-    def __str__(self):
-        return f'{self.redni_broj}: {self.ima_sinonim.id} -> {self.u_vezi_sa.id if self.u_vezi_sa else self.tekst}'
-
-    def get_absolute_url(self):
-        return reverse("odrednice:sinonim-detail", kwargs={"pk": self.pk})
 
 
 class Kolokacija(models.Model):
@@ -575,6 +534,56 @@ class KolokacijaPodznacenja(models.Model):
 
     def __str__(self):
         return f'{str(self.podznacenje)} [{self.redni_broj}] {self.tekst}'
+
+
+class Antonim(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    vrsta1 = models.IntegerField('врста везе 1', choices=VRSTA_VEZE)
+    ident1 = models.IntegerField('идентификатор везе 1')
+    vrsta2 = models.IntegerField('врста везе 2', choices=VRSTA_VEZE)
+    ident2 = models.IntegerField('идентификатор везе 2')
+    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
+
+    class Meta:
+        verbose_name = 'антоним'
+        verbose_name_plural = 'антоними'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+            models.Index(fields=['vrsta1', 'ident1']),
+            models.Index(fields=['vrsta2', 'ident2']),
+        ]
+
+    def __str__(self):
+        return f'{self.redni_broj}: {self.ima_antonim.id} -> {self.u_vezi_sa.id if self.u_vezi_sa else self.tekst}'
+
+    def get_absolute_url(self):
+        return reverse("odrednice:antonim-detail", kwargs={"pk": self.pk})
+
+
+class Sinonim(models.Model):
+    redni_broj = models.PositiveSmallIntegerField('редни број')
+    vrsta1 = models.IntegerField('врста везе 1', choices=VRSTA_VEZE)
+    ident1 = models.IntegerField('идентификатор везе 1')
+    vrsta2 = models.IntegerField('врста везе 2', choices=VRSTA_VEZE)
+    ident2 = models.IntegerField('идентификатор везе 2')
+    tekst = models.CharField('текст', max_length=100, blank=True, null=True, default=None)
+
+    class Meta:
+        verbose_name = 'синоним'
+        verbose_name_plural = 'синоними'
+        ordering = ['redni_broj']
+        indexes = [
+            models.Index(fields=['redni_broj']),
+            models.Index(fields=['vrsta1', 'ident1']),
+            models.Index(fields=['vrsta2', 'ident2']),
+        ]
+
+    def __str__(self):
+        return f'{self.redni_broj}: {self.ima_sinonim.id} -> {self.u_vezi_sa.id if self.u_vezi_sa else self.tekst}'
+
+    def get_absolute_url(self):
+        return reverse("odrednice:sinonim-detail", kwargs={"pk": self.pk})
 
 
 class StatistikaUnosa(models.Model):

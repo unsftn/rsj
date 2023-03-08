@@ -1,7 +1,7 @@
 import { Injectable, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { PubType } from '../../models';
 
@@ -55,15 +55,16 @@ export class PublikacijaService {
   }
 
   fetchAllPubTypes(): Observable<PubType[]> {
-    return this.httpClient.get<any[]>(`/api/publikacije/vrsta-publikacije/`).pipe(
-      map((pubTypes: any[]) => {
-        return pubTypes.map((item) => {
-          const p = { id: item.id, naziv: item.naziv };
-          this.pubTypeCache[p.id] = p;
-          this.pubTypeList.push(p);
-          return p;
-        });
-    }), shareReplay(1));
+    return of([]);
+    // return this.httpClient.get<any[]>(`/api/publikacije/vrsta-publikacije/`).pipe(
+    //   map((pubTypes: any[]) => {
+    //     return pubTypes.map((item) => {
+    //       const p = { id: item.id, naziv: item.naziv };
+    //       this.pubTypeCache[p.id] = p;
+    //       this.pubTypeList.push(p);
+    //       return p;
+    //     });
+    // }), shareReplay(1));
   }
 
   getOpis(pub: any): SafeHtml {
