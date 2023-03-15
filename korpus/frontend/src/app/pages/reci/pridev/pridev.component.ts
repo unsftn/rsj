@@ -259,8 +259,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
     if (!this.check()) return;
     this.searchService.checkDupes(this.pridev.monomjed, this.id).subscribe({
       next: (data) => {
-        console.log(data);
-        if (data) {
+        if (data.length > 0) {
           this.dupes = data;
           this.showDupes = true;
         } else {

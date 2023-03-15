@@ -157,8 +157,7 @@ export class ReccaComponent implements OnInit {
     if (!this.check()) return;
     this.searchService.checkDupes(this.recca.tekst, this.id).subscribe({
       next: (data) => {
-        console.log(data);
-        if (data) {
+        if (data.length > 0) {
           this.dupes = data;
           this.showDupes = true;
         } else {

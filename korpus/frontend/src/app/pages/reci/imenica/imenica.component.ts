@@ -193,8 +193,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
     if (!this.check()) return;
     this.searchService.checkDupes(this.imenica.nomjed, this.id).subscribe({
       next: (data) => {
-        console.log(data);
-        if (data) {
+        if (data.length > 0) {
           this.dupes = data;
           this.showDupes = true;
         } else {

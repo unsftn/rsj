@@ -163,8 +163,7 @@ export class BrojComponent implements OnInit, AfterViewInit {
     if (!this.check()) return;
     this.searchService.checkDupes(this.broj.nomjed, this.id).subscribe({
       next: (data) => {
-        console.log(data);
-        if (data) {
+        if (data.length > 0) {
           this.dupes = data;
           this.showDupes = true;
         } else {

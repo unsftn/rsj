@@ -159,8 +159,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     if (!this.check()) return;
     this.searchService.checkDupes(this.uzvik.tekst, this.id).subscribe({
       next: (data) => {
-        console.log(data);
-        if (data) {
+        if (data.length > 0) {
           this.dupes = data;
           this.showDupes = true;
         } else {
