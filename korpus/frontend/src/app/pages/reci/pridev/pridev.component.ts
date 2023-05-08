@@ -109,7 +109,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
       'ssdatmno',  'ssakumno',  'ssvokmno',  'ssinsmno',  'sslokmno'];
     for (const prop of properties) {
       if (this.pridev.hasOwnProperty(prop)) {
-        if (this.pridev[prop].trim()) {
+        if (this.pridev[prop] && this.pridev[prop].trim()) {
           return false;
         }
       }
@@ -131,7 +131,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
       properties.push('mnnomjed');
     for (const prop of properties) {
       if (this.pridev.hasOwnProperty(prop)) {
-        if (!this.pridev[prop].trim()) {
+        if (this.pridev[prop] && !this.pridev[prop].trim()) {
           return false;
         }
       }
@@ -150,7 +150,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
       let empty = true;
       for (const prop of properties) {
         if (v.hasOwnProperty(prop)) {
-          if (v[prop].trim())
+          if (v[prop] && v[prop].trim())
             empty = false;
         }
       }
@@ -161,12 +161,14 @@ export class PridevComponent implements OnInit, AfterViewInit {
   }
 
   check(): boolean {
+    console.log(this.pridev);
     try {
       this.assert(this.allEmpty(), 'Ниједан облик није попуњен!');
       this.assert(!this.allNominative(), 'Номинатив је обавезан у свим родовима једнине и множине!');
       this.assert(this.emptyVariants(), 'Постоји бар једна потпуно празна варијанта!');
       return true;
     } catch (e) {
+      console.log(e);
       return false;      
     }
   }
