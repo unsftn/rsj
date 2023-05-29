@@ -8,11 +8,9 @@ from .models import OdrednicaDocument, KorpusDocument, PublikacijaDocument
 log = logging.getLogger(__name__)
 
 ODREDNICA_INDEX = 'odrednica'
-PUBLIKACIJE_INDEX = 'publikacije'
 NASLOV_INDEX = 'naslovi'
 ALL_INDEXES = [
     {'index': ODREDNICA_INDEX, 'document': OdrednicaDocument},
-    {'index': PUBLIKACIJE_INDEX, 'document': PublikacijaDocument},
 ]
 SERBIAN_ANALYZER = analyzer('serbian')
 

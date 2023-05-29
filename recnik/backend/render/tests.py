@@ -21,6 +21,7 @@ class RenderPdfTest(TestCase):
         'renderi',
         'test_odrednice_1',
     ]
+    databases = ['default', 'memory']
 
     def setUp(self) -> None:
         self.token = f'Bearer {get_jwt_token()}'

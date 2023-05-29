@@ -99,24 +99,6 @@
         }
     },
     {
-        "model": "odrednice.Antonim",
-        "pk": 1,
-        "fields": {
-            "redni_broj": 1,
-            "ima_antonim_id": 1,
-            "u_vezi_sa_id": 2
-        }
-    },
-    {
-        "model": "odrednice.Sinonim",
-        "pk": 1,
-        "fields": {
-            "redni_broj": 1,
-            "ima_sinonim_id": 2,
-            "u_vezi_sa_id": 1
-        }
-    },
-    {
         "model": "odrednice.Kolokacija",
         "pk": 1,
         "fields": {

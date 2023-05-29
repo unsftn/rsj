@@ -85,27 +85,3 @@ def delete_odrednica(odrednica_id):
     except ElasticsearchException:
         return False
     return True
-
-
-def save_publikacija_model(publikacija):
-    autori = ' '
-    for autor in publikacija.autor_set.all():
-        autori += autor.ime + ' ' + autor.prezime
-    pub_dict = {
-        'pk': publikacija.pk,
-        'skracenica': publikacija.skracenica,
-        'naslov': publikacija.naslov,
-        'tekst': ' '.join([publikacija.skracenica, publikacija.naslov, autori])
-    }
-    return save_publikacija_dict(pub_dict)
-
-
-def save_publikacija_dict(pub_dict):
-    serializer = CreatePublikacijaDocumentSerializer()
-    publikacija = serializer.create(pub_dict)
-    try:
-        result = publikacija.save(id=publikacija.pk, index=PUBLIKACIJE_INDEX)
-        return result
-    except Exception as ex:
-        log.fatal(ex)
-        return None
