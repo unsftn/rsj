@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -43,7 +43,7 @@ export class MeaningFormComponent implements OnInit {
     this.meaningsChange.emit();
   }
 
-  onValueChange(value: any): void {
+  onValueChange(event: any): void {
     this.dirty = true;
   }
 
@@ -59,6 +59,11 @@ export class MeaningFormComponent implements OnInit {
       return;
     const meaning = this.meanings.splice(index, 1)[0];
     this.meanings.splice(index - 1, 0, meaning);
+    setTimeout(() => {
+      // angular 15 ne azurira pravilno sadrzaj textarea polja prilikom premestanja, pa to rucno radimo
+      (<HTMLTextAreaElement>document.getElementById('meaningtext'+index)).value = this.meanings[index].value;
+      (<HTMLTextAreaElement>document.getElementById('meaningtext'+(index-1))).value = this.meanings[index-1].value;
+    });
     this.meaningsChange.emit();
   }
 
@@ -67,6 +72,11 @@ export class MeaningFormComponent implements OnInit {
       return;
     const meaning = this.meanings.splice(index, 1)[0];
     this.meanings.splice(index + 1, 0, meaning);
+    setTimeout(() => {
+      // angular 15 ne azurira pravilno sadrzaj textarea polja prilikom premestanja, pa to rucno radimo
+      (<HTMLTextAreaElement>document.getElementById('meaningtext'+index)).value = this.meanings[index].value;
+      (<HTMLTextAreaElement>document.getElementById('meaningtext'+(index+1))).value = this.meanings[index+1].value;
+    });
     this.meaningsChange.emit();
   }
 
