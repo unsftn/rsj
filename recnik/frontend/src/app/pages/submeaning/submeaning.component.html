@@ -22,7 +22,7 @@
   </button>
 </div>
 <form #formRef="ngForm">
-  <div *ngFor="let submeaning of submeanings; let i=index" style="position: relative">
+  <div *ngFor="let submeaning of submeanings; let i=index; trackBy: trackByFn" style="position: relative">
     <p-tabView>
       <p-tabPanel header="#{{znacenjeRbr}}{{azbuka[i]}}">
         <textarea rows="2" cols="40" style="resize:vertical" pInputTextarea [(ngModel)]="submeanings[i].value" name="name{{i}}" #name="ngModel"

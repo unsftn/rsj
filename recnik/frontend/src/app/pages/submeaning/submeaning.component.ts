@@ -57,16 +57,15 @@ export class SubmeaningComponent implements OnInit {
     }
   }
 
+  trackByFn(index, item): any {
+    return index;
+  }
+
   moveSubmeaningUp(index: number): void {
     if (index === 0)
       return;
     const submeaning = this.submeanings.splice(index, 1)[0];
     this.submeanings.splice(index - 1, 0, submeaning);
-    setTimeout(() => {
-      // angular 15 ne azurira pravilno sadrzaj textarea polja prilikom premestanja, pa to rucno radimo
-      (<HTMLTextAreaElement>document.getElementById('meaning'+this.znacenjeRbr+'submeaningtext'+index)).value = this.submeanings[index].value;
-      (<HTMLTextAreaElement>document.getElementById('meaning'+this.znacenjeRbr+'submeaningtext'+(index-1))).value = this.submeanings[index-1].value;
-    });
     this.submeaningsChange.emit();
   }
 
@@ -75,11 +74,6 @@ export class SubmeaningComponent implements OnInit {
       return;
     const meaning = this.submeanings.splice(index, 1)[0];
     this.submeanings.splice(index + 1, 0, meaning);
-    setTimeout(() => {
-      // angular 15 ne azurira pravilno sadrzaj textarea polja prilikom premestanja, pa to rucno radimo
-      (<HTMLTextAreaElement>document.getElementById('meaning'+this.znacenjeRbr+'submeaningtext'+index)).value = this.submeanings[index].value;
-      (<HTMLTextAreaElement>document.getElementById('meaning'+this.znacenjeRbr+'submeaningtext'+(index+1))).value = this.submeanings[index+1].value;
-    });
     this.submeaningsChange.emit();
   }
 

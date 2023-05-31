@@ -59,12 +59,11 @@ export class MeaningFormComponent implements OnInit {
       return;
     const meaning = this.meanings.splice(index, 1)[0];
     this.meanings.splice(index - 1, 0, meaning);
-    setTimeout(() => {
-      // angular 15 ne azurira pravilno sadrzaj textarea polja prilikom premestanja, pa to rucno radimo
-      (<HTMLTextAreaElement>document.getElementById('meaningtext'+index)).value = this.meanings[index].value;
-      (<HTMLTextAreaElement>document.getElementById('meaningtext'+(index-1))).value = this.meanings[index-1].value;
-    });
     this.meaningsChange.emit();
+  }
+
+  trackByFn(index, item): any {
+    return index;
   }
 
   moveMeaningDown(index: number): void {
@@ -72,11 +71,6 @@ export class MeaningFormComponent implements OnInit {
       return;
     const meaning = this.meanings.splice(index, 1)[0];
     this.meanings.splice(index + 1, 0, meaning);
-    setTimeout(() => {
-      // angular 15 ne azurira pravilno sadrzaj textarea polja prilikom premestanja, pa to rucno radimo
-      (<HTMLTextAreaElement>document.getElementById('meaningtext'+index)).value = this.meanings[index].value;
-      (<HTMLTextAreaElement>document.getElementById('meaningtext'+(index+1))).value = this.meanings[index+1].value;
-    });
     this.meaningsChange.emit();
   }
 

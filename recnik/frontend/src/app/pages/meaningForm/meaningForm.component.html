@@ -14,7 +14,7 @@
 </p-dialog>
 
 <form #formRef="ngForm">
-  <div *ngFor="let meaning of meanings; let i=index" style="position: relative">
+  <div *ngFor="let meaning of meanings; let i=index; trackBy: trackByFn" style="position: relative">
     <p-tabView>
       <p-tabPanel header="#{{i + 1}}">
         <textarea rows="2" cols="60" style="resize:vertical" pInputTextarea [(ngModel)]="meanings[i].value" name="meaning{{i}}"
