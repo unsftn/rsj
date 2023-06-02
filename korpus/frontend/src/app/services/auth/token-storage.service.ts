@@ -58,6 +58,17 @@ export class TokenStorageService {
     if (!this.isLoggedIn())
       return false;
     const groups = this.getUser().groups;
+    if (groups === undefined)
+      return false;
     return groups.includes(1) || groups.includes(2);
+  }
+
+  public isVolunteer(): boolean {
+    if (!this.isLoggedIn())
+      return false;
+    const groups = this.getUser().groups;
+    if (groups === undefined)
+      return false;
+    return groups.includes(4);
   }
 }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './services/auth/auth.guard';
 import { EditGuard } from './services/auth/edit.guard';
+import { VolunteerGuard } from './services/auth/volunteer.guard';
 
 const routes: Routes = [
   {
@@ -161,7 +162,7 @@ const routes: Routes = [
   {
     path: 'odluke',
     loadChildren: () => import('./pages/reports/all-words/all-words.module').then((m) => m.AllWordsModule),
-    canActivate: [EditGuard],
+    canActivate: [VolunteerGuard],
   },
   {
     path: 'izvestaji/korpus-recnik',

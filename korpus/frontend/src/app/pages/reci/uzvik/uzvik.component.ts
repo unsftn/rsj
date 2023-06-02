@@ -146,9 +146,12 @@ export class UzvikComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
+    if (!this.editMode)
+      return true;
     if (this.tokenStorageService.isEditor())
       return true;
-    if (!this.editMode)
+    // dobrovoljci mogu da menjaju samo reci ciji vlasnik je WikiMorph
+    if (this.tokenStorageService.isVolunteer() && this.uzvik.vlasnikID === 3)
       return true;
     if (this.tokenStorageService.getUser().id === this.uzvik?.vlasnikID)
       return true;

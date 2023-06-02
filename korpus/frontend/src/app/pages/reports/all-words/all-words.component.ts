@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { GenerisaniSpisak } from '../../../models/reci';
 import { DeciderService } from '../../../services/decider/decider.service';
 import { RecService } from '../../../services/reci/rec.service';
+import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
 @Component({
   selector: 'app-all-words',
@@ -75,6 +76,7 @@ export class AllWordsComponent implements OnInit {
     private recService: RecService,
     private messageService: MessageService,
     private titleService: Title,
+    private tokenStorageService: TokenStorageService,
   ) { }
 
   ngOnInit(): void {
@@ -197,6 +199,10 @@ export class AllWordsComponent implements OnInit {
         });
       }
     });
+  }
+
+  isVolunteer(): boolean {
+    return this.tokenStorageService.isVolunteer();
   }
 
 }

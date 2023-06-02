@@ -48,6 +48,15 @@ export class AppComponent implements OnInit {
     return groups !== undefined && (groups.includes(1) || groups.includes(2));
   }
 
+  isVolunteer(): boolean {
+    if (!this.signedIn())
+      return false;
+    const groups = this.tokenStorageService.getUser().groups;
+    if (groups === undefined)
+      return false;
+    return groups !== undefined && groups.includes(4);
+  }
+
   signOut(): void {
     this.tokenStorageService.signOut();
     this.router.navigate(['/login']);
@@ -173,11 +182,13 @@ export class AppComponent implements OnInit {
         label: 'Одлуке за речник',
         icon: 'pi pi-thumbs-up',
         routerLink: ['/odluke'],
+        disabled: !this.isAdmin() && !this.isEditor() && !this.isVolunteer(),
       },
       {
         label: 'Извештаји',
         icon: 'pi pi-arrow-right-arrow-left',
         routerLink: ['/izvestaji/korpus-recnik'],
+        disabled: !this.isAdmin(),
       },
       {
         label: 'Број унетих речи',
@@ -196,6 +207,7 @@ export class AppComponent implements OnInit {
         command: (event: any) => {
           window.open('/admin', '_blank');
         },
+        disabled: !this.isAdmin(),
       },
     ];
   }

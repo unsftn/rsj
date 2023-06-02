@@ -246,9 +246,9 @@ export class PridevComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
-    if (this.tokenStorageService.isEditor())
-      return true;
     if (!this.editMode)
+      return true;
+    if (this.tokenStorageService.isEditor())
       return true;
     if (this.pridev.vlasnikID === 3)
       return true;  // izmena prideva je dozvoljena ako je autor WikiMorph_sr

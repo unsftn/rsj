@@ -150,11 +150,14 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
-    if (this.tokenStorageService.isEditor())
-      return true;
     if (!this.editMode)
       return true;
-    if (this.tokenStorageService.getUser().id === this.prilog.vlasnikID)
+    if (this.tokenStorageService.isEditor())
+      return true;
+    // dobrovoljci mogu da menjaju samo reci ciji vlasnik je WikiMorph
+    if (this.tokenStorageService.isVolunteer() && this.prilog.vlasnikID === 3)
+      return true;
+    if (this.tokenStorageService.getUser().id === this.prilog?.vlasnikID)
       return true;
     return false;
   }
