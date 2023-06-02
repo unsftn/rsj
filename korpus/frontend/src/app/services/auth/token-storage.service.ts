@@ -71,4 +71,13 @@ export class TokenStorageService {
       return false;
     return groups.includes(4);
   }
+
+  public isAdmin(): boolean {
+    if (!this.isLoggedIn())
+      return false;
+    const groups = this.getUser().groups;
+    if (groups === undefined)
+      return false;
+    return groups.includes(1);
+  }
 }

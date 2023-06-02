@@ -205,4 +205,8 @@ export class AllWordsComponent implements OnInit {
     return this.tokenStorageService.isVolunteer();
   }
 
+  isAdmin(): boolean {
+    return this.tokenStorageService.isAdmin();
+  }
+
 }
