@@ -59,6 +59,12 @@ def merge_lines_ending_with_blank(page_text, page_number):
     return page_text.replace(' \n', ' ')
 
 
+def merge_lines_not_ending_with_blank(page_text, page_number):
+    if not page_text:
+        return page_text
+    return re.sub(r'(\S)\n', '\1')
+
+
 def remove_empty_lines(page_text, page_number):
     if not page_text:
         return page_text
@@ -164,6 +170,8 @@ FILTERS = [
     {'code': 9, 'description': 'Уклони празне линије', 'function': remove_empty_lines, 'page': True,
      'params': []},
     {'code': 10, 'description': 'Уклони хифенацију било где', 'function': clean_hyphens_anywhere, 'page': True,
+     'params': []},
+    {'code': 11, 'description': 'Спој линије које се завршавају размаком', 'function': merge_lines_not_ending_with_blank, 'page': True,
      'params': []},
 ]
 
