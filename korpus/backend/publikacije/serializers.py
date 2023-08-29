@@ -51,6 +51,8 @@ class PublikacijaSerializer(serializers.ModelSerializer):
     autor_set = AutorSerializer(many=True, read_only=True)
     fajlpublikacije_set = FajlPublikacijeSerializer(many=True, read_only=True)
     filterpublikacije_set = FilterPublikacijeSerializer(many=True, read_only=True)
+    potkorpus = PotkorpusSerializer()
+    vrsta = VrstaPublikacijeSerializer()
 
     class Meta:
         model = Publikacija

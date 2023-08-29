@@ -4,22 +4,44 @@
       <p-button label="Сачувај" (click)="save()" icon="pi pi-save" styleClass="p-button-success"></p-button>
     </div>
     <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">Наслов:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.naslov" size="100"/>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
       <p class="label p-m-0">Скраћеница:</p>
     </div>
     <div class="col-12 md:col-10 lg:col-11">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.skracenica" size="20"/>
     </div>
     <div class="col-12 md:col-2 lg:col-1">
+      <p class="label p-m-0">Поткорпус:</p>
+    </div>
+    <div class="col-12 md:col-10 lg:col-11">
+      <p-dropdown
+          [options]="subcorpuses"
+          [(ngModel)]="pub.potkorpus"
+          optionLabel="naziv"
+          [showClear]="true"
+          [required]="false"
+          placeholder="---"
+          [style]="{'width':'400px'}">
+      </p-dropdown>
+    </div>
+    <div class="col-12 md:col-2 lg:col-1">
       <p class="label p-m-0">Врста:</p>
     </div>
     <div class="col-12 md:col-10 lg:col-11">
-      <p-dropdown [options]="pubTypes" [(ngModel)]="pub.vrsta" optionLabel="naziv" [style]="{'width':'400px'}"></p-dropdown>
-    </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Наслов:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
-      <input type="text" class="input-field" pInputText [(ngModel)]="pub.naslov" size="100"/>
+      <p-dropdown
+          [options]="pubTypes" 
+          [(ngModel)]="pub.vrsta" 
+          optionLabel="naziv" 
+          [showClear]="true"
+          [required]="false"
+          placeholder="---"
+          [style]="{'width':'400px'}">
+      </p-dropdown>
     </div>
     <div class="col-12 md:col-2 lg:col-1">
       <p class="label p-m-0">Аутори:</p>

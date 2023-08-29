@@ -3,3 +3,7 @@ export interface PubType {
   naziv: string;
 }
 
+export interface Subcorpus {
+  id: number;
+  naziv: string;
+}

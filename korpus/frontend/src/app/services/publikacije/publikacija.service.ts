@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { PubType } from '../../models/reci';
+import { PubType, Subcorpus } from '../../models/reci';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,8 @@ export class PublikacijaService {
 
   pubTypeCache: { [key: number]: PubType; } = {};
   pubTypeList: PubType[] = [];
+  subcorpusCache: { [key: number]: Subcorpus; } = {};
+  subcorpusList: Subcorpus[] = [];
   private _changed: boolean;
   private _publicationChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
   private _importStep: EventEmitter<number> = new EventEmitter<number>();
@@ -91,6 +93,32 @@ export class PublikacijaService {
           const p = { id: item.id, naziv: item.naziv };
           this.pubTypeCache[p.id] = p;
           this.pubTypeList.push(p);
+          return p;
+        });
+    }), shareReplay(1));
+  }
+
+  getSubcorpus(id: number): PubType {
+    if (!id)
+      return null;
+    return this.subcorpusCache[id];
+  }
+
+  getSubcorpuses(): PubType[] {
+    return this.subcorpusList;
+  }
+
+  getFirstSubcorpus(): PubType {
+    return this.subcorpusList[0];
+  }
+
+  fetchAllSubcorpuses(): Observable<Subcorpus[]> {
+    return this.http.get<any[]>(`/api/publikacije/potkorpus/`).pipe(
+      map((subcorpuses: any[]) => {
+        return subcorpuses.map((item) => {
+          const p = { id: item.id, naziv: item.naziv };
+          this.subcorpusCache[p.id] = p;
+          this.subcorpusList.push(p);
           return p;
         });
     }), shareReplay(1));

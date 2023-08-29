@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
 import { Table } from 'primeng/table';
-import { PubType } from '../../../models/reci';
+import { PubType, Subcorpus } from '../../../models/reci';
 
 @Component({
   selector: 'app-metadata',
@@ -18,6 +18,7 @@ export class MetadataComponent implements OnInit {
   editMode: boolean;
   pub: any;
   pubTypes: PubType[];
+  subcorpuses: Subcorpus[];
   clonedAuthors: { [s: string]: any; } = {};
 
   constructor(
@@ -34,6 +35,7 @@ export class MetadataComponent implements OnInit {
     this.titleService.setTitle('Метаподаци');
     this.publikacijaService.importStep.emit(0);
     this.publikacijaService.fetchAllPubTypes().subscribe((data) => { this.pubTypes = data; });
+    this.publikacijaService.fetchAllSubcorpuses().subscribe((data) => { this.subcorpuses = data; });
     this.route.pathFromRoot[2].params.subscribe((params) => {
       if (params.pid === 'nova') {
         this.editMode = false;
@@ -53,14 +55,18 @@ export class MetadataComponent implements OnInit {
           napomena: '',
           zanr: '',
           vrsta: this.publikacijaService.getFirstPubType(),
+          potkorpus: this.publikacijaService.getFirstSubcorpus(),
         };
       } else {
         this.editMode = true;
         this.id = +params.pid;
         this.publikacijaService.get(this.id).subscribe((value) => {
+          console.log(value);
           this.pub = value;
           this.pub.autori = this.pub.autor_set.map((item, index) => ({ index, ime: item.ime, prezime: item.prezime}));
-          this.pub.vrsta = this.publikacijaService.getPubType(this.pub.vrsta?.id);
+          //this.pub.vrsta = this.getPubType(this.pub.vrsta?.id);
+          //this.pub.potkorpus = this.getSubcorpus(this.pub.potkorpus?.id);
+          //console.log(this.pub);
           delete this.pub.autor_set;
         });
       }
@@ -84,6 +90,13 @@ export class MetadataComponent implements OnInit {
     for (const pub of this.pubTypes)
       if (pub.id === id)
         return pub;
+    return undefined;
+  }
+
+  getSubcorpus(id: number): any {
+    for (const sc of this.subcorpuses)
+      if (sc.id === id)
+        return sc;
     return undefined;
   }
 
@@ -152,7 +165,9 @@ export class MetadataComponent implements OnInit {
 
   makePub(): any {
     this.pub.vrsta_id = this.pub.vrsta ? this.pub.vrsta.id : null;
-    delete this.pub.vrsta;
+    // delete this.pub.vrsta;
+    this.pub.potkorpus_id = this.pub.potkorpus ? this.pub.potkorpus.id : null;
+    // delete this.pub.potkorpus;
     return this.pub;
   }
 
