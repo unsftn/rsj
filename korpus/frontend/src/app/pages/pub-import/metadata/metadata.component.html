@@ -1,24 +1,22 @@
 <div class="container">
-  <div class="flex flex-wrap">
-    <div class="col-12">
-      <p-button label="Сачувај" (click)="save()" icon="pi pi-save" styleClass="p-button-success"></p-button>
-    </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Наслов:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  <div class="col-12">
+    <p-button label="Сачувај" (click)="save()" icon="pi pi-save" styleClass="p-button-success"></p-button>
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Наслов:</div>
+    <div class="p-inputgroup w400">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.naslov" size="100"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Скраћеница:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Скраћеница:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.skracenica" size="20"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Поткорпус:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Поткорпус:</div>
+    <div class="p-inputgroup w300">
       <p-dropdown
           [options]="subcorpuses"
           [(ngModel)]="pub.potkorpus"
@@ -26,13 +24,13 @@
           [showClear]="true"
           [required]="false"
           placeholder="---"
-          [style]="{'width':'400px'}">
+          [style]="{'width':'300px'}">
       </p-dropdown>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Врста:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Врста:</div>
+    <div class="p-inputgroup w300">
       <p-dropdown
           [options]="pubTypes" 
           [(ngModel)]="pub.vrsta" 
@@ -40,13 +38,13 @@
           [showClear]="true"
           [required]="false"
           placeholder="---"
-          [style]="{'width':'400px'}">
+          [style]="{'width':'300px'}">
       </p-dropdown>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Аутори:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Аутори:</div>
+    <div class="p-inputgroup w800">
       <p-table #authorTable [value]="pub.autori" dataKey="index" editMode="row" [style]="{'width': '800px'}">
         <ng-template pTemplate="header" let-editing="editing" >
           <tr>
@@ -60,7 +58,7 @@
             <td>
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="autor.prezime" placeholder="Презиме"/>
+                  <input pInputText type="text" [(ngModel)]="autor.prezime" placeholder="Презиме" [style]="{'width':'300px'}"/>
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{autor.prezime}}
@@ -70,7 +68,7 @@
             <td>
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="autor.ime" placeholder="Име"/>
+                  <input pInputText type="text" [(ngModel)]="autor.ime" placeholder="Име" [style]="{'width':'300px'}"/>
                 </ng-template>
                 <ng-template pTemplate="output">
                   {{autor.ime}}
@@ -87,71 +85,71 @@
         </ng-template>
       </p-table>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Преводилац:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Преводилац:</div>
+    <div class="p-inputgroup w300">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.prevodilac" size="100"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Издање/серија:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Издање/серија:</div>
+    <div class="p-inputgroup w300">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.naslov_izdanja" size="100"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Издавач:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Издавач:</div>
+    <div class="p-inputgroup w300">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.izdavac" size="50"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Година:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Година:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.godina" size="10"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Прво издање:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Прво издање:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.prvo_izdanje" size="10"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">ISBN:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">ISBN:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.isbn" size="15"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">ISSN:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">ISSN:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.issn" size="10"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Волумен:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Волумен:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.volumen" size="10"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Жанр:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Жанр:</div>
+    <div class="p-inputgroup w150">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.zanr" size="15"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">Напомена:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">Напомена:</div>
+    <div class="p-inputgroup w400">
       <input type="text" class="input-field" pInputText [(ngModel)]="pub.napomena" size="100"/>
     </div>
-    <div class="col-12 md:col-2 lg:col-1">
-      <p class="label p-m-0">URL:</p>
-    </div>
-    <div class="col-12 md:col-10 lg:col-11">
-      <input type="text" class="input-field" pInputText [(ngModel)]="pub.url" size="100"/>
+  </div>
+  <div class="flex mb-2 align-items-baseline">
+    <div class="w150 labela">URL:</div>
+    <div class="p-inputgroup w800">
+      <input type="text" class="input-field" pInputText [(ngModel)]="pub.url"/>
     </div>
   </div>
 </div>
