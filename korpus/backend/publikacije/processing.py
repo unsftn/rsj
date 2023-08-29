@@ -62,7 +62,7 @@ def merge_lines_ending_with_blank(page_text, page_number):
 def merge_lines_not_ending_with_blank(page_text, page_number):
     if not page_text:
         return page_text
-    return re.sub(r'(\S)\n', '\1')
+    return re.sub(r'(\S)\n', '\1', page_text)
 
 
 def remove_empty_lines(page_text, page_number):
