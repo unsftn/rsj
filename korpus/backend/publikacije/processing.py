@@ -171,7 +171,7 @@ FILTERS = [
      'params': []},
     {'code': 10, 'description': 'Уклони хифенацију било где', 'function': clean_hyphens_anywhere, 'page': True,
      'params': []},
-    {'code': 11, 'description': 'Спој линије које се завршавају размаком', 'function': merge_lines_not_ending_with_blank, 'page': True,
+    {'code': 11, 'description': 'Спој линије које се не завршавају размаком', 'function': merge_lines_not_ending_with_blank, 'page': True,
      'params': []},
 ]
 
