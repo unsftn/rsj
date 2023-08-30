@@ -61,12 +61,10 @@ export class MetadataComponent implements OnInit {
         this.editMode = true;
         this.id = +params.pid;
         this.publikacijaService.get(this.id).subscribe((value) => {
-          console.log(value);
           this.pub = value;
           this.pub.autori = this.pub.autor_set.map((item, index) => ({ index, ime: item.ime, prezime: item.prezime}));
-          //this.pub.vrsta = this.getPubType(this.pub.vrsta?.id);
-          //this.pub.potkorpus = this.getSubcorpus(this.pub.potkorpus?.id);
-          //console.log(this.pub);
+          this.pub.vrsta = this.getPubType(this.pub.vrsta?.id);
+          this.pub.potkorpus = this.getSubcorpus(this.pub.potkorpus?.id);
           delete this.pub.autor_set;
         });
       }

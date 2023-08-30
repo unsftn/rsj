@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, ConfirmEventType, MessageService, PrimeIcons } from 'primeng/api';
+import { ConfirmationService, ConfirmEventType, PrimeIcons } from 'primeng/api';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
-import { SafeHtml, Title } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main-import',
@@ -19,7 +19,6 @@ export class MainImportComponent implements OnInit {
   constructor(
       private route: ActivatedRoute,
       private router: Router,
-      private messageService: MessageService,
       private confirmationService: ConfirmationService,
       private publikacijaService: PublikacijaService,
   ) {
@@ -116,7 +115,7 @@ export class MainImportComponent implements OnInit {
         this.router.navigate(['/import', this.id, 'filteri']);
         break;
       default:
-        this.router.navigate(['/publikacije']);
+        this.router.navigate(['/izvori']);
         break;
     }
   }
@@ -138,7 +137,7 @@ export class MainImportComponent implements OnInit {
         this.router.navigate(['/import', this.id, 'filteri']);
         break;
       default:
-        this.router.navigate(['/publikacije']);
+        this.router.navigate(['/izvori']);
         break;
     }
   }

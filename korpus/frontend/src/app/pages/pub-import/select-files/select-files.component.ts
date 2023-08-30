@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 import { PublikacijaService } from '../../../services/publikacije/publikacija.service';
 import { FileUpload } from 'primeng/fileupload';
 
@@ -21,8 +20,6 @@ export class SelectFilesComponent implements OnInit {
 
   constructor(
       private route: ActivatedRoute,
-      private router: Router,
-      private messageService: MessageService,
       private titleService: Title,
       private publikacijaService: PublikacijaService,
   ) {
@@ -95,13 +92,14 @@ export class SelectFilesComponent implements OnInit {
     this.publikacijaService.changed = true;
   }
 
-  upload(event): void {
-    this.publikacijaService.uploadFiles(this.id, event.files).subscribe((res) => {
-      this.fileUpload.clear();
-      this.fetchData();
-      this.publikacijaService.changed = true;
-    }, (error) => {
-      console.log(error);
+  upload(event: any): void {
+    this.publikacijaService.uploadFiles(this.id, event.files).subscribe({
+      next: (res) => {
+        this.fileUpload.clear();
+        this.fetchData();
+      }, error: (error) => {
+        console.log(error);
+      }
     });
   }
 }
