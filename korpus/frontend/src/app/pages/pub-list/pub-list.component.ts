@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeHtml, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { PublikacijaService } from '../../services/publikacije/publikacija.service';
 
@@ -14,6 +15,10 @@ export class PubListComponent implements OnInit {
   publikacije: any[];
   message: SafeHtml;
   showDeleteWarningDialog = false;
+  first: number = null;
+  rows: number = null;
+  total: number = null;
+  loading: boolean = true;
 
   constructor(
     private publikacijaService: PublikacijaService,
@@ -22,9 +27,26 @@ export class PubListComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Извори');
-    this.publikacijaService.getAll().subscribe((value) => {
-      this.publikacije = value;
+    // this.publikacijaService.getAll().subscribe((value) => {
+    //   this.publikacije = value;
+    // });
+  }
+
+  loadPubs(): void {
+    this.publikacijaService.getAllPaged(this.first, this.rows).subscribe({
+      next: (response: any) => { 
+        this.publikacije = response.results; 
+        this.total = response.count;
+        this.loading = false;
+      }, 
+      error: (error) => console.log(error)
     });
+  }
+
+  onLazyLoad(event: LazyLoadEvent): void {
+    this.first = event.first;
+    this.rows = event.rows;
+    this.loadPubs();
   }
 
   deleteYes(): void {

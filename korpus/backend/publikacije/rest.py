@@ -3,6 +3,7 @@ from django_q.tasks import async_task
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.exceptions import NotFound, UnsupportedMediaType
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -45,6 +46,7 @@ class PublikacijaList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Publikacija.objects.all()
     serializer_class = PublikacijaSerializer2
+    pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend]
     filter_fields = ['naslov', 'naslov_izdanja', 'godina']
 

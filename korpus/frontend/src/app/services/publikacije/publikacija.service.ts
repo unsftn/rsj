@@ -60,6 +60,10 @@ export class PublikacijaService {
     return this.http.get<any[]>(`/api/publikacije/publikacija/`);
   }
 
+  getAllPaged(offset: number, limit: number): Observable<any[]> {
+    return this.http.get<any[]>(`/api/publikacije/publikacija/?offset=${offset}&limit=${limit}`);
+  }
+
   add(publikacija: any): Observable<any> {
     return this.http.post<any>(`/api/publikacije/save/publikacija/`, publikacija);
   }
