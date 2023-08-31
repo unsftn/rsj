@@ -13,6 +13,7 @@ urlpatterns = [
     path('rec-za-odluku/<int:pk>/', RecZaOdlukuDetail.as_view()),
     path('report/', api_zahtev_za_izvestaj),
     path('report/<int:id>/', api_izvestaj),
+    path('stats/broj-odluka/', api_broj_odluka),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

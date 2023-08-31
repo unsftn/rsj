@@ -1,0 +1,33 @@
+<div class="container">
+  <h3>Статистика одлука за речи у корпусу</h3>
+  <p-table 
+      [value]="slova"
+      styleClass="p-datatable-sm p-datatable-striped" 
+      responsiveLayout="scroll" 
+      [rows]="31" 
+      [showCurrentPageReport]="true"
+      [style]="{'width': '700px'}">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="w100">Слово</th>
+        <th class="w100 right">Без одлуке</th>
+        <th class="w100 right">Улази</th>
+        <th class="w100 right">Не улази</th>
+        <th class="w100 right">Проширени</th>
+        <th class="w100 right">Уклони</th>
+        <th class="w100 right">Укупно</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-slovo>
+      <tr>
+        <td>{{slovo.slovo}}</td>
+        <td class="right">{{slovo.bez}}</td>
+        <td class="right">{{slovo.ide}}</td>
+        <td class="right">{{slovo.neide}}</td>
+        <td class="right">{{slovo.prosireni}}</td>
+        <td class="right">{{slovo.brisi}}</td>
+        <td class="right">{{slovo.total}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -55,4 +55,8 @@ export class DeciderService {
   getReport(id: number): Observable<any> {
     return this.http.get<any>(`/api/decider/report/${id}/`);
   }
+
+  getBrojOdluka(): Observable<any[]> {
+    return this.http.get<any[]>(`/api/decider/stats/broj-odluka/`);
+  }
 }

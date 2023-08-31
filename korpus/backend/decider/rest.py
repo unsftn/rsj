@@ -1,5 +1,6 @@
 import json
 from django.db.models.functions import Collate
+from django.db.models import Count
 from django_q.tasks import async_task
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -108,3 +109,29 @@ def api_izvestaj(request, id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     except DinamickiIzvestaj.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def api_broj_odluka(request):
+    result = {}
+    for slovo in AZBUKA:
+        result[slovo] = {}
+        for o in ODLUKE:
+            result[slovo][o[0]] = 0
+    upit = RecZaOdluku.objects.all().values('prvo_slovo', 'odluka').annotate(total=Count('odluka'))
+    for u in upit:
+        if u['prvo_slovo'] in AZBUKA:
+            result[u['prvo_slovo']][u['odluka']] = u['total']
+    retval = []
+    suma = {'bez': 0, 'ide': 0, 'neide': 0, 'prosireni': 0, 'brisi': 0, 'total': 0}
+    for slovo in AZBUKA:
+        r = result[slovo]
+        retval.append({'slovo': slovo.upper(), 'bez': r[1], 'ide': r[2], 'neide': r[3], 'prosireni': r[4], 'brisi': r[5], 'total': r[1]+r[2]+r[3]+r[4]+r[5]})
+        suma['bez'] += r[1]
+        suma['ide'] += r[2]
+        suma['neide'] += r[3]
+        suma['prosireni'] += r[4]
+        suma['brisi'] += r[5]
+        suma['total'] += r[1]+r[2]+r[3]+r[4]+r[5]
+    retval.append({'slovo': 'укупно'} | suma)
+    return Response(retval, status=status.HTTP_200_OK)

@@ -181,6 +181,11 @@ const routes: Routes = [
     data: { mode: 'self' }
   },
   {
+    path: 'izvestaji/statistika-odluka',
+    loadChildren: () => import('./pages/reports/word-status/word-status.module').then((m) => m.WordStatusModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'izvestaji/reci-korisnika/:userID',
     loadChildren: () => import('./pages/reports/moje-reci/moje-reci.module').then((m) => m.MojeReciModule),
     canActivate: [AuthGuard],
