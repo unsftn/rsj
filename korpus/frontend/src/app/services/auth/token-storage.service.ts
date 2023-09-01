@@ -43,12 +43,12 @@ export class TokenStorageService {
   }
 
   public isLoggedIn(): boolean {
-    return this.getUser() != null;
+    return this.getUser() !== null;
   }
 
   public getUser(): any {
     const user = localStorage.getItem(USER);
-    if (user == null) {
+    if (user === null) {
       return null;
     }
     return JSON.parse(user);
