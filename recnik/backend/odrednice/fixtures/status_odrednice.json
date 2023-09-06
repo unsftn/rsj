@@ -33,5 +33,26 @@
     "fields": {
       "naziv": "Остало"
     }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 6,
+    "fields": {
+      "naziv": "Нова реч"
+    }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 7,
+    "fields": {
+      "naziv": "Из шестотомника"
+    }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 8,
+    "fields": {
+      "naziv": "Нови зооними"
+    }
   }
 ]
