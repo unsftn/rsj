@@ -15,114 +15,90 @@ from .tasks import extract_text_for_pub
 
 
 class VrstaPublikacijeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = VrstaPublikacije.objects.all()
     serializer_class = VrstaPublikacijeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filterset_fields = ['naziv']
 
 
 class VrstaPublikacijeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = VrstaPublikacije.objects.all()
     serializer_class = VrstaPublikacijeSerializer
 
 
 class PotkorpusList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Potkorpus.objects.all()
     serializer_class = PotkorpusSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filterset_fields = ['naziv']
 
 
 class PotkorpusDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Potkorpus.objects.all()
     serializer_class = PotkorpusSerializer
 
 
 class PublikacijaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Publikacija.objects.all()
     serializer_class = PublikacijaSerializer2
     pagination_class = LimitOffsetPagination
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naslov', 'naslov_izdanja', 'godina']
+    filterset_fields = ['naslov', 'naslov_izdanja', 'godina']
 
 
 class PublikacijaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Publikacija.objects.all()
     serializer_class = PublikacijaSerializer
 
 
 class AutorList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['ime', 'prezime']
+    filterset_fields = ['ime', 'prezime']
 
 
 class AutorDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Autor.objects.all()
     serializer_class = AutorSerializer
 
 
 class TekstPublikacijeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = TekstPublikacije.objects.all()
     serializer_class = TekstPublikacijeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['publikacija_id', 'redni_broj']
+    filterset_fields = ['publikacija_id', 'redni_broj']
 
 
 class TekstPublikacijeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = TekstPublikacije.objects.all()
     serializer_class = TekstPublikacijeSerializer
 
 
 class FajlPublikacijeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = FajlPublikacije.objects.all()
     serializer_class = FajlPublikacijeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['publikacija_id', 'redni_broj']
+    filterset_fields = ['publikacija_id', 'redni_broj']
 
 
 class FajlPublikacijeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = FajlPublikacije.objects.all()
     serializer_class = FajlPublikacijeSerializer
 
 
 class FilterPublikacijeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = FilterPublikacije.objects.all()
     serializer_class = FilterPublikacijeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['publikacija_id', 'redni_broj']
+    filterset_fields = ['publikacija_id', 'redni_broj']
 
 
 class FilterPublikacijeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = FilterPublikacije.objects.all()
     serializer_class = FilterPublikacijeSerializer
 
 
 class ParametarFilteraList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = ParametarFiltera.objects.all()
     serializer_class = ParametarFilteraSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['filter_id', 'redni_broj']
+    filterset_fields = ['filter_id', 'redni_broj']
 
 
 class ParametarFilteraDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = ParametarFiltera.objects.all()
     serializer_class = ParametarFilteraSerializer
 

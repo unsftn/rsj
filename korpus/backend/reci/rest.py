@@ -14,10 +14,9 @@ from indexer.index import *
 from publikacije.cyrlat import sort_key
 
 class ImenicaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Imenica.objects.all()
     serializer_class = ImenicaSerializer
-    filter_fields = ['nomjed']
+    filterset_fields = ['nomjed']
 
 
 class ImenicaDetail(generics.RetrieveAPIView):
@@ -28,7 +27,7 @@ class ImenicaDetail(generics.RetrieveAPIView):
 class GlagolList(generics.ListAPIView):
     queryset = Glagol.objects.all()
     serializer_class = GlagolSerializer
-    filter_fields = ['infinitiv']
+    filterset_fields = ['infinitiv']
 
 
 class GlagolDetail(generics.RetrieveAPIView):
@@ -39,7 +38,7 @@ class GlagolDetail(generics.RetrieveAPIView):
 class PridevList(generics.ListAPIView):
     queryset = Pridev.objects.all()
     serializer_class = PridevSerializer
-    filter_fields = ['lema']
+    filterset_fields = ['lema']
 
 
 class PridevDetail(generics.RetrieveAPIView):
@@ -50,7 +49,7 @@ class PridevDetail(generics.RetrieveAPIView):
 class PredlogList(generics.ListAPIView):
     queryset = Predlog.objects.all()
     serializer_class = PredlogSerializer
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class PredlogDetail(generics.RetrieveAPIView):
@@ -61,7 +60,7 @@ class PredlogDetail(generics.RetrieveAPIView):
 class ReccaList(generics.ListAPIView):
     queryset = Recca.objects.all()
     serializer_class = ReccaSerializer
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class ReccaDetail(generics.RetrieveAPIView):
@@ -72,7 +71,7 @@ class ReccaDetail(generics.RetrieveAPIView):
 class UzvikList(generics.ListAPIView):
     queryset = Uzvik.objects.all()
     serializer_class = UzvikSerializer
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class UzvikDetail(generics.RetrieveAPIView):
@@ -83,7 +82,7 @@ class UzvikDetail(generics.RetrieveAPIView):
 class VeznikList(generics.ListAPIView):
     queryset = Veznik.objects.all()
     serializer_class = VeznikSerializer
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class VeznikDetail(generics.RetrieveAPIView):
