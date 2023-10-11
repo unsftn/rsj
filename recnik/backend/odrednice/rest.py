@@ -17,207 +17,163 @@ from .serializers import *
 
 
 class PodvrstaReciList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = PodvrstaReci.objects.all()
     serializer_class = PodvrstaReciSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filterset_fields = ['naziv']
 
 
 class PodvrstaReciDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = PodvrstaReci.objects.all()
     serializer_class = PodvrstaReciSerializer
 
 
 class StatusList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = StatusOdrednice.objects.all()
     serializer_class = StatusOdredniceSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filterset_fields = ['naziv']
 
 
 class StatusDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = StatusOdrednice.objects.all()
     serializer_class = StatusOdredniceSerializer
 
 
 class AntonimList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Antonim.objects.all()
     serializer_class = AntonimSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['redni_broj']
+    filterset_fields = ['redni_broj']
 
 
 class AntonimDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Antonim.objects.all()
     serializer_class = AntonimSerializer
 
 
 class SinonimList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Sinonim.objects.all()
     serializer_class = SinonimSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['redni_broj']
+    filterset_fields = ['redni_broj']
 
 
 class SinonimDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Sinonim.objects.all()
     serializer_class = SinonimSerializer
 
 
 class KolokacijaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Kolokacija.objects.all()
     serializer_class = KolokacijaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['napomena']
+    filterset_fields = ['napomena']
 
 
 class KolokacijaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Kolokacija.objects.all()
     serializer_class = KolokacijaSerializer
 
 
 class RecUKolokacijiList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = RecUKolokaciji.objects.all()
     serializer_class = RecUKolokacijiSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['redni_broj']
+    filterset_fields = ['redni_broj']
 
 
 class RecUKolokacijiDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = RecUKolokaciji.objects.all()
     serializer_class = RecUKolokacijiSerializer
 
 
 class ZnacenjeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Znacenje.objects.all()
     serializer_class = ZnacenjeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class ZnacenjeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Znacenje.objects.all()
     serializer_class = ZnacenjeSerializer
 
 
 class PodznacenjeList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Podznacenje.objects.all()
     serializer_class = PodznacenjeSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class PodznacenjeDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Podznacenje.objects.all()
     serializer_class = PodznacenjeSerializer
 
 
 class IzrazFrazaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = IzrazFraza.objects.all()
     serializer_class = IzrazFrazaSerializer
-    filter_backends = [DjangoFilterBackend]
     filter_fields = ['opis']
 
 
 class IzrazFrazaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = IzrazFraza.objects.all()
     serializer_class = IzrazFrazaSerializer
 
 
 class KvalifikatorList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Kvalifikator.objects.all()
     serializer_class = KvalifikatorSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filterset_fields = ['naziv']
 
 
 class KvalifikatorDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Kvalifikator.objects.all()
     serializer_class = KvalifikatorSerializer
 
 
 class KvalifikatorOdredniceList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorOdrednice.objects.all()
     serializer_class = KvalifikatorOdredniceSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['redni_broj']
+    filterset_fields = ['redni_broj']
 
 
 class KvalifikatorOdredniceDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorOdrednice.objects.all()
     serializer_class = KvalifikatorOdredniceSerializer
 
 
 class KvalifikatorZnacenjaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorZnacenja.objects.all()
     serializer_class = KvalifikatorZnacenjaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['redni_broj']
+    filterset_fields = ['redni_broj']
 
 
 class KvalifikatorZnacenjaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorZnacenja.objects.all()
     serializer_class = KvalifikatorZnacenjaSerializer
 
 
 class KvalifikatorPodznacenjaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorPodznacenja.objects.all()
     serializer_class = KvalifikatorPodznacenjaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['redni_broj']
+    filterset_fields = ['redni_broj']
 
 
 class KvalifikatorPodznacenjaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = KvalifikatorPodznacenja.objects.all()
     serializer_class = KvalifikatorPodznacenjaSerializer
 
 
 class IzmenaOdredniceList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = IzmenaOdrednice.objects.all()
     serializer_class = IzmenaOdredniceSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['vreme']
+    filterset_fields = ['vreme']
 
 
 class IzmenaOdredniceDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = IzmenaOdrednice.objects.all()
     serializer_class = IzmenaOdredniceSerializer
 
 
 class OdrednicaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all()
     serializer_class = OdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
 
 
 class OdrednicaDetail(generics.RetrieveAPIView):
@@ -227,57 +183,44 @@ class OdrednicaDetail(generics.RetrieveAPIView):
 
 
 class ShortOdrednicaList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all().order_by('-poslednja_izmena')
     serializer_class = ShortOdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
 
 
 class ShortOdrednicaListAlpha(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all().order_by(Collate('rec', 'utf8mb4_croatian_ci'))
     serializer_class = ShortOdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
 
 
 class ShortOdrednicaListWithNotes(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.exclude(napomene__isnull=True).exclude(napomene__exact='')
     serializer_class = ShortOdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja', 'obradjivac_id']
 
 
 class ShortOdrednicaDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all()
     serializer_class = ShortOdrednicaSerializer
 
 
 class OdrednicaLatestList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all().order_by('-vreme_kreiranja')
     serializer_class = OdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja']
 
 
 class OdrednicaChangedList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all().order_by('-poslednja_izmena')
     serializer_class = OdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja']
 
 
 class OdrednicaPopularList(generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Odrednica.objects.all().order_by('-broj_pregleda')
     serializer_class = OdrednicaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filter_fields = ['rec', 'rod', 'vreme_kreiranja']
+    filterset_fields = ['rec', 'rod', 'vreme_kreiranja']
 
 
 JSON = 'application/json'

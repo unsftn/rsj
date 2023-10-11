@@ -188,7 +188,8 @@ class Odrednica(models.Model):
         indexes = [
             models.Index(fields=['rec']),
             models.Index(fields=['sortable_rec', 'rbr_homonima']),
-            models.Index(fields=['poslednja_izmena'])
+            models.Index(fields=['poslednja_izmena']),
+            models.Index(fields=['obradjivac']),
         ]
 
     def get_absolute_url(self):

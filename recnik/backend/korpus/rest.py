@@ -12,7 +12,7 @@ class VrstaImeniceList(generics.ListAPIView):
     queryset = VrstaImenice.objects.all()
     serializer_class = VrstaImeniceSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['naziv']
+    filterset_fields = ['naziv']
 
 
 class VrstaImeniceDetail(generics.RetrieveAPIView):
@@ -26,7 +26,7 @@ class ImenicaList(generics.ListAPIView):
     queryset = Imenica.objects.all()
     serializer_class = ImenicaSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['vrsta_id', 'nomjed', 'vreme']
+    filterset_fields = ['vrsta_id', 'nomjed', 'vreme']
 
 
 class ImenicaDetail(generics.RetrieveAPIView):
@@ -40,7 +40,7 @@ class GlagolList(generics.ListAPIView):
     queryset = Glagol.objects.all()
     serializer_class = GlagolSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['vid', 'rod', 'infinitiv']
+    filterset_fields = ['vid', 'rod', 'infinitiv']
 
 
 class GlagolDetail(generics.RetrieveAPIView):
@@ -54,7 +54,7 @@ class PridevList(generics.ListAPIView):
     queryset = Pridev.objects.all()
     serializer_class = PridevSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['tekst']
+    filterset_fields = ['tekst']
 
 
 class PridevDetail(generics.RetrieveAPIView):
