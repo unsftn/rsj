@@ -12,6 +12,7 @@ from .serializers import *
 from .extractor import extract_file
 from .processing import get_filter, invoke_filter, get_filter_list
 from .tasks import extract_text_for_pub
+from indexer.index import index_naslov
 
 
 class VrstaPublikacijeList(generics.ListAPIView):
@@ -120,6 +121,7 @@ def api_create_publication(request):
     if serializer.is_valid():
         publikacija = serializer.save(user=request.user)
         ser2 = PublikacijaSerializer(publikacija)
+        index_naslov(publikacija.id)
         code = status.HTTP_201_CREATED if request.method == 'POST' else status.HTTP_204_NO_CONTENT
         return Response(ser2.data, status=code, content_type=JSON)
     else:
