@@ -148,7 +148,7 @@ def render_konkordanse(konkordanse):
         if k.korpus_izvor_id:
             izvor = load_opis_from_korpus(k.korpus_izvor_id)
             if izvor:
-                retval += f'<i>{nbsp(tacka(izvor["skracenica"]))}</i> '
+                retval += f'{nbsp(tacka(izvor["skracenica"]))} '
     return retval
 
 
