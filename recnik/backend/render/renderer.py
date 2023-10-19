@@ -45,11 +45,13 @@ def touch(path):
 def interpunkcija(tekst, znak):
     if len(tekst) < 1:
         return tekst
-    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':
+    if tekst[-1] == '>' and tekst[-8] == '<' and tekst[-9] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}':  # izbaceno ~
         return tekst
-    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':
+    if tekst[-1] == '>' and tekst[-4] == '<' and tekst[-5] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}':  # izbaceno ~
         return tekst
-    if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}~':  # izbaceno: >)
+    if tekst[-1] == '>' and tekst[-3] == '<' and tekst[-4] in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}':  # izbaceno ~
+        return tekst
+    if tekst[-1] not in '!"#$%&\'(*+,-./:;<=?@[\\]^_`{|}':  # izbaceno: >)
         return tekst + znak
     return tekst
 
@@ -134,8 +136,8 @@ def process_tags(tekst, in_italic=False):
             process_hash(
                 process_percent(
                     process_circumflex(tekst, in_italic), in_italic), in_italic), in_italic), in_italic)
-    if retval.endswith('<i>') or retval.endswith('<b>'):
-        retval = retval[:-3]
+    # if retval.endswith('<i>') or retval.endswith('<b>'):
+    #     retval = retval[:-3]
     return retval
 
 
@@ -172,7 +174,6 @@ def render_kratke_kolokacije(kolokacija):
 
 def render_podznacenje(podznacenje):
     tekst = '' + render_kvalifikatori(podznacenje.kvalifikatorpodznacenja_set.all().order_by('redni_broj'))
-
     if podznacenje.kolokacijapodznacenja_set.count() > 0:
         tekst += f'{dvotacka(process_tags(podznacenje.tekst))} '
         tekst += ', '.join([render_kratke_kolokacije(kol) for kol in podznacenje.kolokacijapodznacenja_set.all().order_by('redni_broj')])
@@ -198,6 +199,8 @@ def render_znacenje(znacenje):
     else:
         if znacenje.tekst:
             tekst += f'{tacka(process_tags(znacenje.tekst))}'
+        else:
+            tekst = tekst.strip()
 
     if znacenje.konkordansa_set.count() > 0:
         tekst = tekst + ' &mdash; '
