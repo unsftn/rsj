@@ -22,6 +22,7 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
   sourceWord: string;
   showDupes: boolean;
   dupes: any[];
+  dirty: boolean;
   @ViewChild('nomjed') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -89,6 +90,7 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
     this.zamenicaService.get(this.id).subscribe({
       next: (item) => {
         this.zamenica = toZamenica(item);
+        this.dirty = false;
       },
       error: (error) => {
         console.log(error);
@@ -116,7 +118,6 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
   }
 
   save(): void {
-    console.log('Snimanje zamenice:', this.zamenica);
     if (!this.editMode) {
       this.zamenicaService.add(this.zamenica).subscribe({
         next: (data) => {
@@ -149,7 +150,10 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Заменица је успешно сачувана.`,
           });
-          this.load();
+          if (this.returnUrl)
+            this.router.navigate([this.returnUrl]);
+          else
+            this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -182,6 +186,8 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
+    if (!this.dirty)
+      return false;
     if (!this.editMode)
       return true;
     if (this.tokenStorageService.isEditor())
@@ -224,5 +230,9 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
 
   dupesNo(): void {
     this.showDupes = false;
+  }
+
+  setDirty(): void {
+    this.dirty = true;
   }
 }

@@ -5,15 +5,15 @@
   <div class="tableform">
     <div class="row">
       <div class="cell"><p class="label">Позитив</p></div>
-      <div class="cell"><input id="pozitiv" type="text" pInputText [(ngModel)]="prilog.pozitiv" #pozitiv></div>
+      <div class="cell"><input id="pozitiv" type="text" pInputText [(ngModel)]="prilog.pozitiv" #pozitiv (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Компаратив</p></div>
-      <div class="cell"><input id="komparativ" type="text" pInputText [(ngModel)]="prilog.komparativ"></div>
+      <div class="cell"><input id="komparativ" type="text" pInputText [(ngModel)]="prilog.komparativ" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Суперлатив</p></div>
-      <div class="cell"><input id="superlativ" type="text" pInputText [(ngModel)]="prilog.superlativ"></div>
+      <div class="cell"><input id="superlativ" type="text" pInputText [(ngModel)]="prilog.superlativ" (change)="setDirty()"></div>
     </div>
   </div>
 </div>

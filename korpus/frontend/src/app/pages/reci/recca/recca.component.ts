@@ -21,6 +21,7 @@ export class ReccaComponent implements OnInit {
   recca: Recca;
   showDupes: boolean;
   dupes: any[];
+  dirty: boolean;
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -72,6 +73,7 @@ export class ReccaComponent implements OnInit {
     this.reccaService.get(this.id).subscribe({
       next: (item) => {
         this.recca = toRecca(item);
+        this.dirty = false;
         setTimeout(() => this.textInput.nativeElement.focus(), 1);
       },
       error: (error) => {
@@ -109,7 +111,10 @@ export class ReccaComponent implements OnInit {
             life: 3000,
             detail: `Речца је успешно сачувана.`,
           });
-          this.load();
+          if (this.returnUrl)
+            this.router.navigate([this.returnUrl]);
+          else
+            this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -147,6 +152,8 @@ export class ReccaComponent implements OnInit {
   }
 
   saveAvailable() {
+    if (!this.dirty)
+      return false;
     if (!this.editMode)
       return true;
     if (this.tokenStorageService.isEditor())
@@ -189,5 +196,9 @@ export class ReccaComponent implements OnInit {
 
   dupesNo(): void {
     this.showDupes = false;
+  }
+
+  setDirty(): void {
+    this.dirty = true;
   }
 }

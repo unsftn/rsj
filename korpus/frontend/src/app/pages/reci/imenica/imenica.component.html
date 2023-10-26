@@ -15,38 +15,38 @@
     </div>
     <div class="row">
       <div class="cell"><p class="label">Номинатив</p></div>
-      <div class="cell"><input id="nomjed" type="text" pInputText [(ngModel)]="imenica.nomjed" #nomjed></div>
-      <div class="cell"><input id="nommno" type="text" pInputText [(ngModel)]="imenica.nommno"></div>
+      <div class="cell"><input id="nomjed" type="text" pInputText [(ngModel)]="imenica.nomjed" #nomjed (change)="setDirty()"></div>
+      <div class="cell"><input id="nommno" type="text" pInputText [(ngModel)]="imenica.nommno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Генитив</p></div>
-      <div class="cell"><input id="genjed" type="text" pInputText [(ngModel)]="imenica.genjed"></div>
-      <div class="cell"><input id="genmno" type="text" pInputText [(ngModel)]="imenica.genmno"></div>
+      <div class="cell"><input id="genjed" type="text" pInputText [(ngModel)]="imenica.genjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="genmno" type="text" pInputText [(ngModel)]="imenica.genmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Датив</p></div>
-      <div class="cell"><input id="datjed" type="text" pInputText [(ngModel)]="imenica.datjed"></div>
-      <div class="cell"><input id="datmno" type="text" pInputText [(ngModel)]="imenica.datmno"></div>
+      <div class="cell"><input id="datjed" type="text" pInputText [(ngModel)]="imenica.datjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="datmno" type="text" pInputText [(ngModel)]="imenica.datmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Акузатив</p></div>
-      <div class="cell"><input id="akujed" type="text" pInputText [(ngModel)]="imenica.akujed"></div>
-      <div class="cell"><input id="akumno" type="text" pInputText [(ngModel)]="imenica.akumno"></div>
+      <div class="cell"><input id="akujed" type="text" pInputText [(ngModel)]="imenica.akujed" (change)="setDirty()"></div>
+      <div class="cell"><input id="akumno" type="text" pInputText [(ngModel)]="imenica.akumno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Вокатив</p></div>
-      <div class="cell"><input id="vokjed" type="text" pInputText [(ngModel)]="imenica.vokjed"></div>
-      <div class="cell"><input id="vokmno" type="text" pInputText [(ngModel)]="imenica.vokmno"></div>
+      <div class="cell"><input id="vokjed" type="text" pInputText [(ngModel)]="imenica.vokjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="vokmno" type="text" pInputText [(ngModel)]="imenica.vokmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Инструментал</p></div>
-      <div class="cell"><input id="insjed" type="text" pInputText [(ngModel)]="imenica.insjed"></div>
-      <div class="cell"><input id="insmno" type="text" pInputText [(ngModel)]="imenica.insmno"></div>
+      <div class="cell"><input id="insjed" type="text" pInputText [(ngModel)]="imenica.insjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="insmno" type="text" pInputText [(ngModel)]="imenica.insmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Локатив</p></div>
-      <div class="cell"><input id="lokjed" type="text" pInputText [(ngModel)]="imenica.lokjed"></div>
-      <div class="cell"><input id="lokmno" type="text" pInputText [(ngModel)]="imenica.lokmno"></div>
+      <div class="cell"><input id="lokjed" type="text" pInputText [(ngModel)]="imenica.lokjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="lokmno" type="text" pInputText [(ngModel)]="imenica.lokmno" (change)="setDirty()"></div>
     </div>
   </div>
   <div *ngFor="let v of imenica.varijante; let i=index" class="tableform">
@@ -61,38 +61,38 @@
     </div>
     <div class="row">
       <div class="cell"><p class="label">Номинатив</p></div>
-      <div class="cell"><input id="nomjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].nomjed"></div>
-      <div class="cell"><input id="nommno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].nommno"></div>
+      <div class="cell"><input id="nomjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].nomjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="nommno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].nommno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Генитив</p></div>
-      <div class="cell"><input id="genjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].genjed"></div>
-      <div class="cell"><input id="genmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].genmno"></div>
+      <div class="cell"><input id="genjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].genjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="genmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].genmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Датив</p></div>
-      <div class="cell"><input id="datjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].datjed"></div>
-      <div class="cell"><input id="datmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].datmno"></div>
+      <div class="cell"><input id="datjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].datjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="datmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].datmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Акузатив</p></div>
-      <div class="cell"><input id="akujed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].akujed"></div>
-      <div class="cell"><input id="akumno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].akumno"></div>
+      <div class="cell"><input id="akujed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].akujed" (change)="setDirty()"></div>
+      <div class="cell"><input id="akumno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].akumno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Вокатив</p></div>
-      <div class="cell"><input id="vokjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].vokjed"></div>
-      <div class="cell"><input id="vokmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].vokmno"></div>
+      <div class="cell"><input id="vokjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].vokjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="vokmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].vokmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Инструментал</p></div>
-      <div class="cell"><input id="insjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].insjed"></div>
-      <div class="cell"><input id="insmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].insmno"></div>
+      <div class="cell"><input id="insjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].insjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="insmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].insmno" (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Локатив</p></div>
-      <div class="cell"><input id="lokjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].lokjed"></div>
-      <div class="cell"><input id="lokmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].lokmno"></div>
+      <div class="cell"><input id="lokjed{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].lokjed" (change)="setDirty()"></div>
+      <div class="cell"><input id="lokmno{{i}}" type="text" pInputText [(ngModel)]="imenica.varijante[i].lokmno" (change)="setDirty()"></div>
     </div>
   </div>
 </div>

@@ -20,6 +20,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
   editMode: boolean;
   showDupes: boolean;
   dupes: any[];
+  dirty: boolean;
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -68,6 +69,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
     this.pridevService.get(this.id).subscribe({
       next: (item) => {
         this.pridev = toPridev(item);
+        this.dirty = false;
       },
       error: (error) => {
         console.log(error);
@@ -251,6 +253,8 @@ export class PridevComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
+    if (!this.dirty)
+      return false;
     if (!this.editMode)
       return true;
     if (this.tokenStorageService.isEditor())
@@ -292,5 +296,9 @@ export class PridevComponent implements OnInit, AfterViewInit {
 
   dupesNo(): void {
     this.showDupes = false;
+  }
+
+  setDirty(): void {
+    this.dirty = true;
   }
 }

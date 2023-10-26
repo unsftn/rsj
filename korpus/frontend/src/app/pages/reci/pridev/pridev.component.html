@@ -28,94 +28,94 @@
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">номинатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.monomjed" #tekst class="w140" tabindex="1"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.monommno" class="w140" tabindex="8"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnnomjed" class="w140" tabindex="15"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.monomjed" #tekst class="w140" tabindex="1" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.monommno" class="w140" tabindex="8" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnnomjed" class="w140" tabindex="15" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mnnommno" class="w140" tabindex="22" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mknomjed" class="w140" tabindex="29"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mknommno" class="w140" tabindex="36"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msnomjed" class="w140" tabindex="43"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msnommno" class="w140" tabindex="50"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mknomjed" class="w140" tabindex="29" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mknommno" class="w140" tabindex="36" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msnomjed" class="w140" tabindex="43" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msnommno" class="w140" tabindex="50" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">генитив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mogenjed" class="w140" tabindex="2"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mogenmno" class="w140" tabindex="9"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mngenjed" class="w140" tabindex="16"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mogenjed" class="w140" tabindex="2" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mogenmno" class="w140" tabindex="9" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mngenjed" class="w140" tabindex="16" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mngenmno" class="w140" tabindex="23" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkgenjed" class="w140" tabindex="30"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkgenmno" class="w140" tabindex="37"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msgenjed" class="w140" tabindex="44"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msgenmno" class="w140" tabindex="51"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkgenjed" class="w140" tabindex="30" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkgenmno" class="w140" tabindex="37" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msgenjed" class="w140" tabindex="44" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msgenmno" class="w140" tabindex="51" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">датив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.modatjed" class="w140" tabindex="3"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.modatmno" class="w140" tabindex="10"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mndatjed" class="w140" tabindex="17"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.modatjed" class="w140" tabindex="3" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.modatmno" class="w140" tabindex="10" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mndatjed" class="w140" tabindex="17" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mndatmno" class="w140" tabindex="24" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkdatjed" class="w140" tabindex="31"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkdatmno" class="w140" tabindex="38"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msdatjed" class="w140" tabindex="45"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msdatmno" class="w140" tabindex="52"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkdatjed" class="w140" tabindex="31" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkdatmno" class="w140" tabindex="38" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msdatjed" class="w140" tabindex="45" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msdatmno" class="w140" tabindex="52" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">акузатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moakujed" class="w140" tabindex="4"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moakumno" class="w140" tabindex="11"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnakujed" class="w140" tabindex="18"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moakujed" class="w140" tabindex="4" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moakumno" class="w140" tabindex="11" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnakujed" class="w140" tabindex="18" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mnakumno" class="w140" tabindex="25" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkakujed" class="w140" tabindex="32"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkakumno" class="w140" tabindex="39"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msakujed" class="w140" tabindex="46"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msakumno" class="w140" tabindex="53"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkakujed" class="w140" tabindex="32" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkakumno" class="w140" tabindex="39" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msakujed" class="w140" tabindex="46" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msakumno" class="w140" tabindex="53" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">вокатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.movokjed" class="w140" tabindex="5"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.movokmno" class="w140" tabindex="12"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnvokjed" class="w140" tabindex="19"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.movokjed" class="w140" tabindex="5" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.movokmno" class="w140" tabindex="12" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnvokjed" class="w140" tabindex="19" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mnvokmno" class="w140" tabindex="26" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkvokjed" class="w140" tabindex="33"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkvokmno" class="w140" tabindex="40"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msvokjed" class="w140" tabindex="47"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msvokmno" class="w140" tabindex="54"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkvokjed" class="w140" tabindex="33" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkvokmno" class="w140" tabindex="40" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msvokjed" class="w140" tabindex="47" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msvokmno" class="w140" tabindex="54" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">инструментал</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moinsjed" class="w140" tabindex="6"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moinsmno" class="w140" tabindex="13"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mninsjed" class="w140" tabindex="20"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moinsjed" class="w140" tabindex="6" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.moinsmno" class="w140" tabindex="13" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mninsjed" class="w140" tabindex="20" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mninsmno" class="w140" tabindex="27" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkinsjed" class="w140" tabindex="34"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkinsmno" class="w140" tabindex="41"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msinsjed" class="w140" tabindex="48"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msinsmno" class="w140" tabindex="55"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkinsjed" class="w140" tabindex="34" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mkinsmno" class="w140" tabindex="41" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msinsjed" class="w140" tabindex="48" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.msinsmno" class="w140" tabindex="55" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">локатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.molokjed" class="w140" tabindex="7"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.molokmno" class="w140" tabindex="14"></div>
-        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnlokjed" class="w140" tabindex="21"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.molokjed" class="w140" tabindex="7" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.molokmno" class="w140" tabindex="14" (change)="setDirty()"></div>
+        <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mnlokjed" class="w140" tabindex="21" (change)="setDirty()"></div>
         <div *ngIf="pridev.dvaVida" class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.mnlokmno" class="w140" tabindex="28" disabled="disabled"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mklokjed" class="w140" tabindex="35"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mklokmno" class="w140" tabindex="42"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokjed" class="w140" tabindex="49"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokmno" class="w140" tabindex="56"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mklokjed" class="w140" tabindex="35" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mklokmno" class="w140" tabindex="42" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokjed" class="w140" tabindex="49" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.mslokmno" class="w140" tabindex="56" (change)="setDirty()"></div>
       </div>
       <div class="mt-6" *ngFor="let v of pridev.varijante; let index=index">
         <div class="flex justify-content-end" [ngClass]="{'w1250': pridev.dvaVida, 'w950': !pridev.dvaVida}">
@@ -127,73 +127,73 @@
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">номинатив</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.onomjed" #tekst class="w140" [tabindex]="varTabOffset(index)+1"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.onomjed" #tekst class="w140" [tabindex]="varTabOffset(index)+1" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nnomjed" class="w140" [tabindex]="varTabOffset(index)+8"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nnomjed" class="w140" [tabindex]="varTabOffset(index)+8" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.knomjed" class="w140" [tabindex]="varTabOffset(index)+15"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.knomjed" class="w140" [tabindex]="varTabOffset(index)+15" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.snomjed" class="w140" [tabindex]="varTabOffset(index)+22"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.snomjed" class="w140" [tabindex]="varTabOffset(index)+22" (change)="setDirty()"></div>
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">генитив</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ogenjed" #tekst class="w140" [tabindex]="varTabOffset(index)+2"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ogenjed" #tekst class="w140" [tabindex]="varTabOffset(index)+2" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ngenjed" class="w140" [tabindex]="varTabOffset(index)+9"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ngenjed" class="w140" [tabindex]="varTabOffset(index)+9" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kgenjed" class="w140" [tabindex]="varTabOffset(index)+16"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kgenjed" class="w140" [tabindex]="varTabOffset(index)+16" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sgenjed" class="w140" [tabindex]="varTabOffset(index)+23"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sgenjed" class="w140" [tabindex]="varTabOffset(index)+23" (change)="setDirty()"></div>
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">датив</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.odatjed" #tekst class="w140" [tabindex]="varTabOffset(index)+3"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.odatjed" #tekst class="w140" [tabindex]="varTabOffset(index)+3" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ndatjed" class="w140" [tabindex]="varTabOffset(index)+10"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ndatjed" class="w140" [tabindex]="varTabOffset(index)+10" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kdatjed" class="w140" [tabindex]="varTabOffset(index)+17"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kdatjed" class="w140" [tabindex]="varTabOffset(index)+17" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sdatjed" class="w140" [tabindex]="varTabOffset(index)+24"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sdatjed" class="w140" [tabindex]="varTabOffset(index)+24" (change)="setDirty()"></div>
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">акузатив</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.oakujed" #tekst class="w140" [tabindex]="varTabOffset(index)+4"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.oakujed" #tekst class="w140" [tabindex]="varTabOffset(index)+4" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nakujed" class="w140" [tabindex]="varTabOffset(index)+11"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nakujed" class="w140" [tabindex]="varTabOffset(index)+11" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kakujed" class="w140" [tabindex]="varTabOffset(index)+18"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kakujed" class="w140" [tabindex]="varTabOffset(index)+18" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sakujed" class="w140" [tabindex]="varTabOffset(index)+25"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sakujed" class="w140" [tabindex]="varTabOffset(index)+25" (change)="setDirty()"></div>
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">вокатив</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ovokjed" #tekst class="w140" [tabindex]="varTabOffset(index)+5"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ovokjed" #tekst class="w140" [tabindex]="varTabOffset(index)+5" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nvokjed" class="w140" [tabindex]="varTabOffset(index)+12"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nvokjed" class="w140" [tabindex]="varTabOffset(index)+12" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kvokjed" class="w140" [tabindex]="varTabOffset(index)+19"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kvokjed" class="w140" [tabindex]="varTabOffset(index)+19" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.svokjed" class="w140" [tabindex]="varTabOffset(index)+26"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.svokjed" class="w140" [tabindex]="varTabOffset(index)+26" (change)="setDirty()"></div>
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">инструментал</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.oinsjed" #tekst class="w140" [tabindex]="varTabOffset(index)+6"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.oinsjed" #tekst class="w140" [tabindex]="varTabOffset(index)+6" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ninsjed" class="w140" [tabindex]="varTabOffset(index)+13"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.ninsjed" class="w140" [tabindex]="varTabOffset(index)+13" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kinsjed" class="w140" [tabindex]="varTabOffset(index)+20"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.kinsjed" class="w140" [tabindex]="varTabOffset(index)+20" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sinsjed" class="w140" [tabindex]="varTabOffset(index)+27"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.sinsjed" class="w140" [tabindex]="varTabOffset(index)+27" (change)="setDirty()"></div>
         </div>
         <div class="flex flex-row align-items-baseline">
           <div class="w100">локатив</div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.olokjed" #tekst class="w140" [tabindex]="varTabOffset(index)+7"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.olokjed" #tekst class="w140" [tabindex]="varTabOffset(index)+7" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nlokjed" class="w140" [tabindex]="varTabOffset(index)+14"></div>
+          <div *ngIf="pridev.dvaVida" class="w150 m3"><input type="text" pInputText [(ngModel)]="v.nlokjed" class="w140" [tabindex]="varTabOffset(index)+14" (change)="setDirty()"></div>
           <div *ngIf="pridev.dvaVida" class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.klokjed" class="w140" [tabindex]="varTabOffset(index)+21"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.klokjed" class="w140" [tabindex]="varTabOffset(index)+21" (change)="setDirty()"></div>
           <div class="w150 m3"></div>
-          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.slokjed" class="w140" [tabindex]="varTabOffset(index)+28"></div>
+          <div class="w150 m3"><input type="text" pInputText [(ngModel)]="v.slokjed" class="w140" [tabindex]="varTabOffset(index)+28" (change)="setDirty()"></div>
         </div>
       </div>
       <button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="addVarijanta(1)"></button>
@@ -217,78 +217,78 @@
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">номинатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpnomjed" class="w140" tabindex="1"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpnommno" class="w140" tabindex="8"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zknomjed" class="w140" tabindex="29"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zknommno" class="w140" tabindex="36"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsnomjed" class="w140" tabindex="43"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsnommno" class="w140" tabindex="50"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpnomjed" class="w140" tabindex="1" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpnommno" class="w140" tabindex="8" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zknomjed" class="w140" tabindex="29" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zknommno" class="w140" tabindex="36" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsnomjed" class="w140" tabindex="43" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsnommno" class="w140" tabindex="50" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">генитив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpgenjed" class="w140" tabindex="2" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.zpgenmno" class="w140" tabindex="9"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkgenjed" class="w140" tabindex="30"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkgenmno" class="w140" tabindex="37"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsgenjed" class="w140" tabindex="44"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsgenmno" class="w140" tabindex="51"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkgenjed" class="w140" tabindex="30" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkgenmno" class="w140" tabindex="37" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsgenjed" class="w140" tabindex="44" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsgenmno" class="w140" tabindex="51" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">датив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpdatjed" class="w140" tabindex="3" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.zpdatmno" class="w140" tabindex="10"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkdatjed" class="w140" tabindex="31"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkdatmno" class="w140" tabindex="38"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsdatjed" class="w140" tabindex="45"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsdatmno" class="w140" tabindex="52"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkdatjed" class="w140" tabindex="31" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkdatmno" class="w140" tabindex="38" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsdatjed" class="w140" tabindex="45" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsdatmno" class="w140" tabindex="52" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">акузатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpakujed" class="w140" tabindex="4" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.zpakumno" class="w140" tabindex="11"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkakujed" class="w140" tabindex="32"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkakumno" class="w140" tabindex="39"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsakujed" class="w140" tabindex="46"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsakumno" class="w140" tabindex="53"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkakujed" class="w140" tabindex="32" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkakumno" class="w140" tabindex="39" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsakujed" class="w140" tabindex="46" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsakumno" class="w140" tabindex="53" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">вокатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpvokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpvokjed" class="w140" tabindex="5" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.zpvokmno" class="w140" tabindex="12"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkvokjed" class="w140" tabindex="33"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkvokmno" class="w140" tabindex="40"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsvokjed" class="w140" tabindex="47"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsvokmno" class="w140" tabindex="54"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkvokjed" class="w140" tabindex="33" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkvokmno" class="w140" tabindex="40" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsvokjed" class="w140" tabindex="47" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsvokmno" class="w140" tabindex="54" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">инструментал</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zpinsjed" class="w140" tabindex="6" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.zpinsmno" class="w140" tabindex="13"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkinsjed" class="w140" tabindex="34"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkinsmno" class="w140" tabindex="41"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsinsjed" class="w140" tabindex="48"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsinsmno" class="w140" tabindex="55"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkinsjed" class="w140" tabindex="34" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zkinsmno" class="w140" tabindex="41" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsinsjed" class="w140" tabindex="48" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zsinsmno" class="w140" tabindex="55" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">локатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zplokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zplokjed" class="w140" tabindex="7" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.zplokmno" class="w140" tabindex="14"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zklokjed" class="w140" tabindex="35"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zklokmno" class="w140" tabindex="42"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zslokjed" class="w140" tabindex="49"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zslokmno" class="w140" tabindex="56"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zklokjed" class="w140" tabindex="35" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zklokmno" class="w140" tabindex="42" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zslokjed" class="w140" tabindex="49" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.zslokmno" class="w140" tabindex="56" (change)="setDirty()"></div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Средњи род">
@@ -309,78 +309,78 @@
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">номинатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spnomjed" class="w140" tabindex="1"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spnommno" class="w140" tabindex="8"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sknomjed" class="w140" tabindex="29"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sknommno" class="w140" tabindex="36"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssnomjed" class="w140" tabindex="43"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssnommno" class="w140" tabindex="50"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spnomjed" class="w140" tabindex="1" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spnommno" class="w140" tabindex="8" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sknomjed" class="w140" tabindex="29" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sknommno" class="w140" tabindex="36" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssnomjed" class="w140" tabindex="43" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssnommno" class="w140" tabindex="50" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">генитив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spgenjed" class="w140" tabindex="2"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spgenjed" class="w140" tabindex="2" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.spgenmno" class="w140" tabindex="9"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skgenjed" class="w140" tabindex="30"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skgenmno" class="w140" tabindex="37"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssgenjed" class="w140" tabindex="44"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssgenmno" class="w140" tabindex="51"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skgenjed" class="w140" tabindex="30" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skgenmno" class="w140" tabindex="37" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssgenjed" class="w140" tabindex="44" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssgenmno" class="w140" tabindex="51" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">датив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spdatjed" class="w140" tabindex="3"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spdatjed" class="w140" tabindex="3" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.spdatmno" class="w140" tabindex="10"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skdatjed" class="w140" tabindex="31"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skdatmno" class="w140" tabindex="38"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssdatjed" class="w140" tabindex="45"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssdatmno" class="w140" tabindex="52"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skdatjed" class="w140" tabindex="31" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skdatmno" class="w140" tabindex="38" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssdatjed" class="w140" tabindex="45" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssdatmno" class="w140" tabindex="52" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">акузатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spakujed" class="w140" tabindex="4"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spakujed" class="w140" tabindex="4" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.spakumno" class="w140" tabindex="11"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skakujed" class="w140" tabindex="32"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skakumno" class="w140" tabindex="39"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssakujed" class="w140" tabindex="46"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssakumno" class="w140" tabindex="53"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skakujed" class="w140" tabindex="32" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skakumno" class="w140" tabindex="39" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssakujed" class="w140" tabindex="46" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssakumno" class="w140" tabindex="53" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">вокатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spvokjed" class="w140" tabindex="5"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spvokjed" class="w140" tabindex="5" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.spvokmno" class="w140" tabindex="12"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skvokjed" class="w140" tabindex="33"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skvokmno" class="w140" tabindex="40"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssvokjed" class="w140" tabindex="47"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssvokmno" class="w140" tabindex="54"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skvokjed" class="w140" tabindex="33" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skvokmno" class="w140" tabindex="40" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssvokjed" class="w140" tabindex="47" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssvokmno" class="w140" tabindex="54" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">инструментал</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spinsjed" class="w140" tabindex="6"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.spinsjed" class="w140" tabindex="6" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.spinsmno" class="w140" tabindex="13"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skinsjed" class="w140" tabindex="34"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skinsmno" class="w140" tabindex="41"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssinsjed" class="w140" tabindex="48"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssinsmno" class="w140" tabindex="55"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skinsjed" class="w140" tabindex="34" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.skinsmno" class="w140" tabindex="41" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssinsjed" class="w140" tabindex="48" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.ssinsmno" class="w140" tabindex="55" (change)="setDirty()"></div>
       </div>
       <div class="flex flex-row align-items-baseline">
         <div class="w100">локатив</div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.splokjed" class="w140" tabindex="7"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.splokjed" class="w140" tabindex="7" (change)="setDirty()"></div>
         <div class="w150 m3">
           <!-- <input type="text" pInputText [(ngModel)]="pridev.splokmno" class="w140" tabindex="14"> -->
         </div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sklokjed" class="w140" tabindex="35"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sklokmno" class="w140" tabindex="42"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sslokjed" class="w140" tabindex="49"></div>
-        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sslokmno" class="w140" tabindex="56"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sklokjed" class="w140" tabindex="35" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sklokmno" class="w140" tabindex="42" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sslokjed" class="w140" tabindex="49" (change)="setDirty()"></div>
+        <div class="w150 m3"><input type="text" pInputText [(ngModel)]="pridev.sslokmno" class="w140" tabindex="56" (change)="setDirty()"></div>
       </div>
     </p-tabPanel>
   </p-tabView>

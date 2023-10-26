@@ -21,6 +21,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   sourceWord: string;
   showDupes: boolean;
   dupes: any[];
+  dirty: boolean;
   @ViewChild('pozitiv') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -78,6 +79,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
     this.prilogService.get(this.id).subscribe({
       next: (item) => {
         this.prilog = toPrilog(item);
+        this.dirty = false;
       },
       error: (error) => {
         console.log(error);
@@ -138,7 +140,10 @@ export class PrilogComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Прилог је успешно сачуван.`,
           });
-          this.load();
+          if (this.returnUrl)
+            this.router.navigate([this.returnUrl]);
+          else
+            this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -153,6 +158,8 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
+    if (!this.dirty)
+      return false;
     if (!this.editMode)
       return true;
     if (this.tokenStorageService.isEditor())
@@ -195,5 +202,9 @@ export class PrilogComponent implements OnInit, AfterViewInit {
 
   dupesNo(): void {
     this.showDupes = false;
+  }
+
+  setDirty(): void {
+    this.dirty = true;
   }
 }

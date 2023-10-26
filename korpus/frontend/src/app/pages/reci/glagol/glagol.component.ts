@@ -23,6 +23,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
   varijante: GlagolskaVarijanta[];
   showDupes: boolean;
   dupes: any[];
+  dirty: boolean;
   @ViewChild('infinitiv') textInput!: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -117,6 +118,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     this.glagolService.get(this.id).subscribe({
       next: (item) => {
         this.glagol = toGlagol(item);
+        this.dirty = false;
       },
       error: (error) => {
         console.log(error);
@@ -177,6 +179,8 @@ export class GlagolComponent implements OnInit, AfterViewInit {
   }
 
   saveAvailable() {
+    if (!this.dirty)
+      return false;
     if (!this.editMode)
       return true;
     if (this.tokenStorageService.isEditor())
@@ -219,5 +223,9 @@ export class GlagolComponent implements OnInit, AfterViewInit {
 
   dupesNo(): void {
     this.showDupes = false;
+  }
+
+  setDirty(): void {
+    this.dirty = true;
   }
 }

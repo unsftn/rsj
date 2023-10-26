@@ -6,15 +6,15 @@
   <div class="tableform">
     <div class="row">
       <div class="cell"><p class="label">Инфинитив</p></div>
-      <div class="cell"><input id="infinitiv" type="text" pInputText [(ngModel)]="glagol.infinitiv" #infinitiv></div>
+      <div class="cell"><input id="infinitiv" type="text" pInputText [(ngModel)]="glagol.infinitiv" #infinitiv (change)="setDirty()"></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Гл. род</p></div>
-      <div class="cell vcenter"><p-dropdown [options]="rodovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_rod"></p-dropdown></div>
+      <div class="cell vcenter"><p-dropdown [options]="rodovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_rod" (change)="setDirty()"></p-dropdown></div>
     </div>
     <div class="row">
       <div class="cell"><p class="label">Гл. вид</p></div>
-      <div class="cell vcenter"><p-dropdown [options]="vidovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_vid"></p-dropdown></div>
+      <div class="cell vcenter"><p-dropdown [options]="vidovi" optionLabel="name" optionValue="id" [(ngModel)]="glagol.gl_vid" (change)="setDirty()"></p-dropdown></div>
     </div>
   </div>
 
@@ -29,20 +29,20 @@
         </div>
         <div class="row">
           <div class="cell"><p class="label">Прво лице</p></div>
-          <div class="cell"><input id="prez_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[0].jd1"></div>
-          <div class="cell"><input id="prez_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn1"></div>
+          <div class="cell"><input id="prez_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[0].jd1" (change)="setDirty()"></div>
+          <div class="cell"><input id="prez_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn1" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Друго лице</p></div>
-          <div class="cell"><input id="prez_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[0].jd2"></div>
-          <div class="cell"><input id="prez_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn2"></div>
+          <div class="cell"><input id="prez_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[0].jd2" (change)="setDirty()"></div>
+          <div class="cell"><input id="prez_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn2" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Треће лице</p></div>
-          <div class="cell"><input id="prez_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[0].jd3"></div>
-          <div class="cell"><input id="prez_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn3"></div>
+          <div class="cell"><input id="prez_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[0].jd3" (change)="setDirty()"></div>
+          <div class="cell"><input id="prez_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[0].mn3" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
@@ -53,8 +53,8 @@
         </div>
         <div class="row" *ngFor="let v of glagol.oblici[0].varijante; let i=index">
           <div class="cell"></div>
-          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[0].varijante[i].varijanta"></p-dropdown></div>
-          <div class="cell"><input id="var_0_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[0].varijante[i].tekst"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[0].varijante[i].varijanta" (change)="setDirty()"></p-dropdown></div>
+          <div class="cell"><input id="var_0_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[0].varijante[i].tekst" (change)="setDirty()"></div>
           <div class="cell">
             <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(0, i)" [disabled]="i === 0"></button>
             <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(0, i)" [disabled]="i === glagol.oblici[0].varijante.length-1"></button>
@@ -73,20 +73,20 @@
         </div>
         <div class="row">
           <div class="cell"><p class="label">Прво лице</p></div>
-          <div class="cell"><input id="fut_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd1"></div>
-          <div class="cell"><input id="fut_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn1"></div>
+          <div class="cell"><input id="fut_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd1" (change)="setDirty()"></div>
+          <div class="cell"><input id="fut_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn1" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Друго лице</p></div>
-          <div class="cell"><input id="fut_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd2"></div>
-          <div class="cell"><input id="fut_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn2"></div>
+          <div class="cell"><input id="fut_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd2" (change)="setDirty()"></div>
+          <div class="cell"><input id="fut_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn2" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Треће лице</p></div>
-          <div class="cell"><input id="fut_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd3"></div>
-          <div class="cell"><input id="fut_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn3"></div>
+          <div class="cell"><input id="fut_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[1].jd3" (change)="setDirty()"></div>
+          <div class="cell"><input id="fut_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[1].mn3" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
@@ -97,8 +97,8 @@
         </div>
         <div class="row" *ngFor="let v of glagol.oblici[1].varijante; let i=index">
           <div class="cell"></div>
-          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[1].varijante[i].varijanta"></p-dropdown></div>
-          <div class="cell"><input id="var_1_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[1].varijante[i].tekst"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[1].varijante[i].varijanta" (change)="setDirty()"></p-dropdown></div>
+          <div class="cell"><input id="var_1_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[1].varijante[i].tekst" (change)="setDirty()"></div>
           <div class="cell">
             <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(1, i)" [disabled]="i === 0"></button>
             <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(1, i)" [disabled]="i === glagol.oblici[1].varijante.length-1"></button>
@@ -117,20 +117,20 @@
         </div>
         <div class="row">
           <div class="cell"><p class="label">Прво лице</p></div>
-          <div class="cell"><input id="aor_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[2].jd1"></div>
-          <div class="cell"><input id="aor_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn1"></div>
+          <div class="cell"><input id="aor_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[2].jd1" (change)="setDirty()"></div>
+          <div class="cell"><input id="aor_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn1" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Друго лице</p></div>
-          <div class="cell"><input id="aor_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[2].jd2"></div>
-          <div class="cell"><input id="aor_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn2"></div>
+          <div class="cell"><input id="aor_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[2].jd2" (change)="setDirty()"></div>
+          <div class="cell"><input id="aor_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn2" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Треће лице</p></div>
-          <div class="cell"><input id="aor_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[2].jd3"></div>
-          <div class="cell"><input id="aor_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn3"></div>
+          <div class="cell"><input id="aor_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[2].jd3" (change)="setDirty()"></div>
+          <div class="cell"><input id="aor_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[2].mn3" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
@@ -141,8 +141,8 @@
         </div>
         <div class="row" *ngFor="let v of glagol.oblici[2].varijante; let i=index">
           <div class="cell"></div>
-          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[2].varijante[i].varijanta"></p-dropdown></div>
-          <div class="cell"><input id="var_2_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[2].varijante[i].tekst"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[2].varijante[i].varijanta" (change)="setDirty()"></p-dropdown></div>
+          <div class="cell"><input id="var_2_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[2].varijante[i].tekst" (change)="setDirty()"></div>
           <div class="cell">
             <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(2, i)" [disabled]="i === 0"></button>
             <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(2, i)" [disabled]="i === glagol.oblici[2].varijante.length-1"></button>
@@ -161,20 +161,20 @@
         </div>
         <div class="row">
           <div class="cell"><p class="label">Прво лице</p></div>
-          <div class="cell"><input id="imperfekat_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[3].jd1"></div>
-          <div class="cell"><input id="imperfekat_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn1"></div>
+          <div class="cell"><input id="imperfekat_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[3].jd1" (change)="setDirty()"></div>
+          <div class="cell"><input id="imperfekat_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn1" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Друго лице</p></div>
-          <div class="cell"><input id="imperfekat_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[3].jd2"></div>
-          <div class="cell"><input id="imperfekat_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn2"></div>
+          <div class="cell"><input id="imperfekat_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[3].jd2" (change)="setDirty()"></div>
+          <div class="cell"><input id="imperfekat_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn2" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Треће лице</p></div>
-          <div class="cell"><input id="imperfekat_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[3].jd3"></div>
-          <div class="cell"><input id="imperfekat_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn3"></div>
+          <div class="cell"><input id="imperfekat_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[3].jd3" (change)="setDirty()"></div>
+          <div class="cell"><input id="imperfekat_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[3].mn3" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
@@ -185,8 +185,8 @@
         </div>
         <div class="row" *ngFor="let v of glagol.oblici[3].varijante; let i=index">
           <div class="cell"></div>
-          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[3].varijante[i].varijanta"></p-dropdown></div>
-          <div class="cell"><input id="var_3_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[3].varijante[i].tekst"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[3].varijante[i].varijanta" (change)="setDirty()"></p-dropdown></div>
+          <div class="cell"><input id="var_3_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[3].varijante[i].tekst" (change)="setDirty()"></div>
           <div class="cell">
             <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(3, i)" [disabled]="i === 0"></button>
             <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(3, i)" [disabled]="i === glagol.oblici[3].varijante.length-1"></button>
@@ -205,20 +205,20 @@
         </div>
         <div class="row">
           <div class="cell"><p class="label">Прво лице</p></div>
-          <div class="cell"><input id="imperativ_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd1" [disabled]="true"></div>
-          <div class="cell"><input id="imperativ_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn1"></div>
+          <div class="cell"><input id="imperativ_jd1" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd1" [disabled]="true" (change)="setDirty()"></div>
+          <div class="cell"><input id="imperativ_mn1" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn1" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Друго лице</p></div>
-          <div class="cell"><input id="imperativ_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd2"></div>
-          <div class="cell"><input id="imperativ_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn2"></div>
+          <div class="cell"><input id="imperativ_jd2" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd2" (change)="setDirty()"></div>
+          <div class="cell"><input id="imperativ_mn2" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn2" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Треће лице</p></div>
-          <div class="cell"><input id="imperativ_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd3" [disabled]="true"></div>
-          <div class="cell"><input id="imperativ_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn3" [disabled]="true"></div>
+          <div class="cell"><input id="imperativ_jd3" type="text" pInputText [(ngModel)]="glagol.oblici[4].jd3" [disabled]="true" (change)="setDirty()"></div>
+          <div class="cell"><input id="imperativ_mn3" type="text" pInputText [(ngModel)]="glagol.oblici[4].mn3" [disabled]="true" (change)="setDirty()"></div>
           <div class="cell"></div>
         </div>
         <div class="row">
@@ -229,8 +229,8 @@
         </div>
         <div class="row" *ngFor="let v of glagol.oblici[4].varijante; let i=index">
           <div class="cell"></div>
-          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[4].varijante[i].varijanta"></p-dropdown></div>
-          <div class="cell"><input id="var_4_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[4].varijante[i].tekst"></div>
+          <div class="cell vcenter"><p-dropdown [options]="varijante" optionLabel="name" optionValue="id" [(ngModel)]="glagol.oblici[4].varijante[i].varijanta" (change)="setDirty()"></p-dropdown></div>
+          <div class="cell"><input id="var_4_{{i}}" type="text" pInputText [(ngModel)]="glagol.oblici[4].varijante[i].tekst" (change)="setDirty()"></div>
           <div class="cell">
             <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveUp(4, i)" [disabled]="i === 0"></button>
             <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-rounded p-button-outlined smaller-button mr-1" (click)="moveDown(4, i)" [disabled]="i === glagol.oblici[4].varijante.length-1"></button>
@@ -248,18 +248,18 @@
         </div>
         <div class="row">
           <div class="cell"><p class="label">Мушки род</p></div>
-          <div class="cell"><input id="rgp_mj" type="text" pInputText [(ngModel)]="glagol.rgp_mj"></div>
-          <div class="cell"><input id="rgp_mm" type="text" pInputText [(ngModel)]="glagol.rgp_mm"></div>
+          <div class="cell"><input id="rgp_mj" type="text" pInputText [(ngModel)]="glagol.rgp_mj" (change)="setDirty()"></div>
+          <div class="cell"><input id="rgp_mm" type="text" pInputText [(ngModel)]="glagol.rgp_mm" (change)="setDirty()"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Женски род</p></div>
-          <div class="cell"><input id="rgp_zj" type="text" pInputText [(ngModel)]="glagol.rgp_zj"></div>
-          <div class="cell"><input id="rgp_zm" type="text" pInputText [(ngModel)]="glagol.rgp_zm"></div>
+          <div class="cell"><input id="rgp_zj" type="text" pInputText [(ngModel)]="glagol.rgp_zj" (change)="setDirty()"></div>
+          <div class="cell"><input id="rgp_zm" type="text" pInputText [(ngModel)]="glagol.rgp_zm" (change)="setDirty()"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Средњи род</p></div>
-          <div class="cell"><input id="rgp_sj" type="text" pInputText [(ngModel)]="glagol.rgp_sj"></div>
-          <div class="cell"><input id="rgp_sm" type="text" pInputText [(ngModel)]="glagol.rgp_sm"></div>
+          <div class="cell"><input id="rgp_sj" type="text" pInputText [(ngModel)]="glagol.rgp_sj" (change)="setDirty()"></div>
+          <div class="cell"><input id="rgp_sm" type="text" pInputText [(ngModel)]="glagol.rgp_sm" (change)="setDirty()"></div>
         </div>
       </div>
     </p-tabPanel>
@@ -267,15 +267,15 @@
       <div class="tableform">
         <div class="row">
           <div class="cell"><p class="label">Глаголски прилог садашњи</p></div>
-          <div class="cell"><input id="gps" type="text" pInputText [(ngModel)]="glagol.gps"></div>
+          <div class="cell"><input id="gps" type="text" pInputText [(ngModel)]="glagol.gps" (change)="setDirty()"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Глаголски прилог прошли</p></div>
-          <div class="cell"><input id="gpp" type="text" pInputText [(ngModel)]="glagol.gpp"></div>
+          <div class="cell"><input id="gpp" type="text" pInputText [(ngModel)]="glagol.gpp" (change)="setDirty()"></div>
         </div>
         <div class="row">
           <div class="cell"><p class="label">Глаголски прилог прошли +</p></div>
-          <div class="cell"><input id="gpp2" type="text" pInputText [(ngModel)]="glagol.gpp2"></div>
+          <div class="cell"><input id="gpp2" type="text" pInputText [(ngModel)]="glagol.gpp2" (change)="setDirty()"></div>
         </div>
       </div>
     </p-tabPanel>

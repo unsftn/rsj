@@ -5,7 +5,7 @@
   <div class="tableform">
     <div class="row">
       <div class="cell"><p class="label">Облик</p></div>
-      <div class="cell"><input id="tekst" type="text" pInputText [(ngModel)]="recca.tekst" #tekst></div>
+      <div class="cell"><input id="tekst" type="text" pInputText [(ngModel)]="recca.tekst" #tekst (change)="setDirty()"></div>
     </div>
   </div>
 </div>
