@@ -7,7 +7,7 @@ RUN npm install
 COPY frontend /app
 RUN npm run build -- --output-path=/app/frontend/dist/
 
-FROM python:3.11-slim-bullseye
+FROM python:3.11-slim-bookworm
 LABEL maintainer="Branko Milosavljevic <mbranko@uns.ac.rs>"
 RUN apt-get -y update
 RUN apt-get -y install gcc libmariadb-dev-compat graphviz-dev libffi-dev libmagic1 libtiff-dev libopenjp2-7-dev liblcms-dev zlib1g-dev libjpeg-dev musl-dev antiword
