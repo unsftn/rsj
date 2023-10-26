@@ -117,4 +117,4 @@ whitenoise==5.3.0
 wrapt==1.15.0
 xlrd==1.2.0
 XlsxWriter==3.0.3
-zopfli==0.2.1
+zopfli==0.2.3
