@@ -17,6 +17,7 @@ export class ToolbarComponent implements OnInit {
   workflowItems: MenuItem[];
   @Input() title = '';
   @Input() saveAvailable: boolean = true;
+  @Input() vlasnik: string = '';
   @Output() saveClicked = new EventEmitter();
   mode: string;
 

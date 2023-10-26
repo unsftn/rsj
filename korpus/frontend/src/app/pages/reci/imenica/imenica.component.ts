@@ -53,21 +53,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.imenicaService.get(this.id).subscribe({
-                next: (item) => {
-                  this.imenica = toImenica(item);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: 'Именица није учитана',
-                  });
-                  this.router.navigate(['/']);
-                }
-              });
+              this.load();
             });
           break;
       }
@@ -100,6 +86,24 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
     });
   }
 
+  load(): void {
+    this.imenicaService.get(this.id).subscribe({
+      next: (item) => {
+        this.imenica = toImenica(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: 'Именица није учитана',
+        });
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
   assert(condition: boolean, message: string): void {
     if (condition) {
       this.messageService.add({
@@ -110,6 +114,12 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
       });
       throw new Error();
     }
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.imenica.vlasnik)
+      return '';
+    return (this.imenica.vlasnik.first_name + ' ' + this.imenica.vlasnik.last_name).trim();
   }
 
   save(): void {
@@ -146,8 +156,7 @@ export class ImenicaComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Именица је успешно сачувана.`,
           });
-          if (this.returnUrl)
-            this.router.navigate([this.returnUrl]);
+          this.load();
         },
         error: (error) => {
           this.messageService.add({

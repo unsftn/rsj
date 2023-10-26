@@ -51,22 +51,8 @@ export class PredlogComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.predlogService.get(this.id).subscribe({
-                next: (item) => {
-                  this.predlog = toPredlog(item);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: `Предлог није учитан: ${error}`,
-                  });
-                  this.router.navigate(['/']);
-                }
+              this.load();
             });
-          });
           break;        
       }
     });
@@ -83,6 +69,24 @@ export class PredlogComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return false;
     }
+  }
+
+  load(): void {
+    this.predlogService.get(this.id).subscribe({
+      next: (item) => {
+        this.predlog = toPredlog(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Предлог није учитан: ${error}`,
+        });
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   assert(condition: boolean, message: string): void {
@@ -107,8 +111,7 @@ export class PredlogComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Предлог је успешно сачуван.`,
           });
-          if (this.returnUrl)
-            this.router.navigate([this.returnUrl]);
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -143,6 +146,12 @@ export class PredlogComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.predlog.vlasnik)
+      return '';
+    return (this.predlog.vlasnik.first_name + ' ' + this.predlog.vlasnik.last_name).trim();
   }
 
   saveAvailable() {

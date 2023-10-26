@@ -51,21 +51,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.glagolService.get(this.id).subscribe({
-                next: (item) => {
-                  this.glagol = toGlagol(item);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: 'Глагол није учитан',
-                  });
-                  this.router.navigate(['/']);
-                }
-              });
+              this.load();
             });
           break;
       }
@@ -127,6 +113,24 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     }
   }
 
+  load(): void {
+    this.glagolService.get(this.id).subscribe({
+      next: (item) => {
+        this.glagol = toGlagol(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: 'Глагол није учитан',
+        });
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
   save(): void {
     console.log('Snimanje glagola:', this.glagol);
     if (!this.editMode) {
@@ -158,6 +162,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Глагол је успешно сачуван.`,
           });
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -177,11 +182,17 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.isEditor())
       return true;
     // dobrovoljci mogu da menjaju samo reci ciji vlasnik je WikiMorph
-    if (this.tokenStorageService.isVolunteer() && this.glagol.vlasnikID === 3)
+    if (this.tokenStorageService.isVolunteer() && this.glagol.vlasnik.id === 3)
       return true;
-    if (this.tokenStorageService.getUser().id === this.glagol.vlasnikID)
+    if (this.tokenStorageService.getUser().id === this.glagol.vlasnik.id)
       return true;
     return false;
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.glagol.vlasnik)
+      return '';
+    return (this.glagol.vlasnik.first_name + ' ' + this.glagol.vlasnik.last_name).trim();
   }
 
   checkDupes(): void {

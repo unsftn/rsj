@@ -45,20 +45,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.pridevService.get(this.id).subscribe({
-                  next: (item) => {
-                  this.pridev = toPridev(item);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: 'Придев није учитан',
-                  });
-                  this.router.navigate(['/']);
-              }});
+              this.load();
             });
           break;
       }
@@ -75,6 +62,23 @@ export class PridevComponent implements OnInit, AfterViewInit {
 
   initNew(): void {
     this.pridev = this.pridevService.new();
+  }
+
+  load(): void {
+    this.pridevService.get(this.id).subscribe({
+      next: (item) => {
+        this.pridev = toPridev(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: 'Придев није учитан',
+        });
+        this.router.navigate(['/']);
+    }});
   }
 
   assert(condition: boolean, message: string): void {
@@ -203,6 +207,7 @@ export class PridevComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Придев је успешно сачуван.`,
           });
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -255,6 +260,12 @@ export class PridevComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.pridev.vlasnikID)
       return true;
     return false;
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.pridev.vlasnik)
+      return '';
+    return (this.pridev.vlasnik.first_name + ' ' + this.pridev.vlasnik.last_name).trim();
   }
 
   checkDupes(): void {

@@ -52,19 +52,7 @@ export class BrojComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.brojService.get(this.id).subscribe((item) => {
-                this.broj = toBroj(item);
-              },
-              (error) => {
-                console.log(error);
-                this.messageService.add({
-                  severity: 'error',
-                  summary: 'Грешка',
-                  life: 5000,
-                  detail: 'Број није учитан',
-                });
-                this.router.navigate(['/']);
-              });
+              this.load();
             });
           break;
       }
@@ -86,6 +74,24 @@ export class BrojComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return false;
     }
+  }
+
+  load(): void {
+    this.brojService.get(this.id).subscribe({
+      next: (item) => {
+        this.broj = toBroj(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: 'Број није учитан',
+        });
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   assert(condition: boolean, message: string): void {
@@ -134,8 +140,7 @@ export class BrojComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Број је успешно сачуван.`,
           });
-          if (this.returnUrl)
-            this.router.navigate([this.returnUrl]);
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -160,6 +165,12 @@ export class BrojComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.broj.vlasnikID)
       return true;
     return false;
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.broj.vlasnik)
+      return '';
+    return (this.broj.vlasnik.first_name + ' ' + this.broj.vlasnik.last_name).trim();
   }
 
   checkDupes(): void {

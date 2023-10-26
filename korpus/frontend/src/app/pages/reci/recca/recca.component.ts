@@ -52,22 +52,7 @@ export class ReccaComponent implements OnInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.reccaService.get(this.id).subscribe({
-                next: (item) => {
-                  this.recca = toRecca(item);
-                  setTimeout(() => this.textInput.nativeElement.focus(), 1);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: `Речца није учитана: ${error}`,
-                  });
-                  this.router.navigate(['/']);
-                }
-            });
+              this.load();
           });
           break;        
       }
@@ -81,6 +66,25 @@ export class ReccaComponent implements OnInit {
     } catch (e) {
       return false;
     }
+  }
+
+  load(): void {
+    this.reccaService.get(this.id).subscribe({
+      next: (item) => {
+        this.recca = toRecca(item);
+        setTimeout(() => this.textInput.nativeElement.focus(), 1);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Речца није учитана: ${error}`,
+        });
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   assert(condition: boolean, message: string): void {
@@ -105,8 +109,7 @@ export class ReccaComponent implements OnInit {
             life: 3000,
             detail: `Речца је успешно сачувана.`,
           });
-          if (this.returnUrl)
-            this.router.navigate([this.returnUrl]);
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -154,6 +157,12 @@ export class ReccaComponent implements OnInit {
     if (this.tokenStorageService.getUser().id === this.recca?.vlasnikID)
       return true;
     return false;
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.recca.vlasnik)
+      return '';
+    return (this.recca.vlasnik.first_name + ' ' + this.recca.vlasnik.last_name).trim();
   }
 
   checkDupes(): void {

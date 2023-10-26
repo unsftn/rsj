@@ -9,6 +9,12 @@ from django.contrib.auth.models import User
 log = logging.getLogger(__name__)
 
 
+class VlasnikSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'email')
+
+
 class VarijantaImeniceSerializer(serializers.ModelSerializer):
     class Meta:
         model = VarijantaImenice
@@ -26,6 +32,7 @@ class IzmenaImeniceSerializer(serializers.ModelSerializer):
 class ImenicaSerializer(serializers.ModelSerializer):
     varijantaimenice_set = VarijantaImeniceSerializer(many=True, read_only=True)
     izmenaimenice_set = IzmenaImeniceSerializer(many=True, read_only=True)
+    vlasnik = VlasnikSerializer()
 
     class Meta:
         model = Imenica
@@ -57,6 +64,7 @@ class OblikGlagolaSerializer(serializers.ModelSerializer):
 
 class GlagolSerializer(serializers.ModelSerializer):
     oblikglagola_set = OblikGlagolaSerializer(many=True, read_only=True)
+    vlasnik = VlasnikSerializer()
 
     class Meta:
         model = Glagol
@@ -78,6 +86,7 @@ class VarijantaPridevaSerializer(serializers.ModelSerializer):
 
 class PridevSerializer(serializers.ModelSerializer):
     varijantaprideva_set = VarijantaPridevaSerializer(many=True, read_only=True)
+    vlasnik = VlasnikSerializer()
     
     class Meta:
         model = Pridev
@@ -112,6 +121,8 @@ class IzmenaPredlogaSerializer(serializers.ModelSerializer):
 
 
 class PredlogSerializer(serializers.ModelSerializer):
+    vlasnik = VlasnikSerializer()
+
     class Meta:
         model = Predlog
         fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
@@ -124,6 +135,8 @@ class IzmenaRecceSerializer(serializers.ModelSerializer):
 
 
 class ReccaSerializer(serializers.ModelSerializer):
+    vlasnik = VlasnikSerializer()
+
     class Meta:
         model = Recca
         fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
@@ -136,6 +149,8 @@ class IzmenaUzvikaSerializer(serializers.ModelSerializer):
 
 
 class UzvikSerializer(serializers.ModelSerializer):
+    vlasnik = VlasnikSerializer()
+
     class Meta:
         model = Uzvik
         fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
@@ -148,6 +163,8 @@ class IzmenaVeznikaSerializer(serializers.ModelSerializer):
 
 
 class VeznikSerializer(serializers.ModelSerializer):
+    vlasnik = VlasnikSerializer()
+
     class Meta:
         model = Veznik
         fields = ('id', 'tekst', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')
@@ -161,6 +178,7 @@ class VarijantaZameniceSerializer(serializers.ModelSerializer):
 
 class ZamenicaSerializer(serializers.ModelSerializer):
     varijantazamenice_set = VarijantaZameniceSerializer(many=True, read_only=True)
+    vlasnik = VlasnikSerializer()
 
     class Meta:
         model = Zamenica
@@ -169,6 +187,8 @@ class ZamenicaSerializer(serializers.ModelSerializer):
         
 
 class BrojSerializer(serializers.ModelSerializer):
+    vlasnik = VlasnikSerializer()
+
     class Meta:
         model = Broj
         fields = ('id', 'nomjed', 'genjed', 'datjed', 'akujed', 'vokjed', 'insjed', 'lokjed', 
@@ -177,6 +197,8 @@ class BrojSerializer(serializers.ModelSerializer):
         
 
 class PrilogSerializer(serializers.ModelSerializer):
+    vlasnik = VlasnikSerializer()
+
     class Meta:
         model = Prilog
         fields = ('id', 'pozitiv', 'komparativ', 'superlativ', 'vreme_kreiranja', 'poslednja_izmena', 'osnovni_oblik', 'vrsta_reci', 'naziv_vrste_reci', 'vlasnik')

@@ -1,4 +1,4 @@
-<toolbar (saveClicked)="checkDupes()" [saveAvailable]="saveAvailable()"></toolbar>
+<toolbar (saveClicked)="checkDupes()" [saveAvailable]="saveAvailable()" [vlasnik]="vlasnikImePrezime()"></toolbar>
 <possible-dupe [(visible)]="showDupes" [dupes]="dupes" (yes)="dupesYes()" (no)="dupesNo()"></possible-dupe>
 <div class="container">
   <h3>Именица <span class="source-word" *ngIf="sourceWord" [routerLink]="returnUrl">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⋙ {{sourceWord}}</span></h3>

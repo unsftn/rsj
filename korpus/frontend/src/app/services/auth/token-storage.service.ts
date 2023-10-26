@@ -80,4 +80,11 @@ export class TokenStorageService {
       return false;
     return groups.includes(1);
   }
+
+  public getFirstLastName(): string {
+    if (!this.isLoggedIn())
+      return undefined;
+    const user = this.getUser();
+    return user.firstName + ' ' + user.lastName;
+  }
 }

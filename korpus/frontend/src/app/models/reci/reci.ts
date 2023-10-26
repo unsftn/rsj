@@ -20,6 +20,7 @@ export interface Imenica {
   vrsta?: number;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   redni_broj?: number;
   nomjed: string;
   genjed: string;
@@ -44,7 +45,8 @@ export function toImenica(obj: any): Imenica {
     id: obj.id,
     vrsta: obj.vrsta,
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
     nomjed: nvl(obj.nomjed),
     genjed: nvl(obj.genjed),
     datjed: nvl(obj.datjed),
@@ -126,6 +128,7 @@ export interface Glagol {
   gpp2: string;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any;
   oblici: OblikGlagola[];
 }
@@ -137,7 +140,8 @@ export function toGlagol(obj: any): Glagol {
     gl_vid: obj.gl_vid,
     infinitiv: nvl(obj.infinitiv),
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
     rgp_mj: nvl(obj.rgp_mj),
     rgp_zj: nvl(obj.rgp_zj),
     rgp_sj: nvl(obj.rgp_sj),
@@ -223,6 +227,7 @@ export interface Pridev {
   varijante: VarijantaPrideva[];
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any;
   monomjed: string;
   mogenjed: string;
@@ -417,7 +422,8 @@ export function toPridev(obj: any): Pridev {
     id: obj.id,
     dvaVida: obj.dva_vida,
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
     varijante: obj.varijantaprideva_set,
     izmene: obj.izmenaprideva_set,
     monomjed: obj.monomjed,
@@ -568,6 +574,7 @@ export interface Predlog {
   tekst: string;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any;
 }
 
@@ -576,7 +583,8 @@ export function toPredlog(obj: any): Predlog {
     id: obj.id, 
     tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
   };
 }
 
@@ -585,6 +593,7 @@ export interface Uzvik {
   tekst: string;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any;
 }
 
@@ -593,7 +602,8 @@ export function toUzvik(obj: any): Uzvik {
     id: obj.id, 
     tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
   };
 }
 
@@ -602,6 +612,7 @@ export interface Recca {
   tekst: string;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any;
 }
 
@@ -610,7 +621,8 @@ export function toRecca(obj: any): Recca {
     id: obj.id, 
     tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
   };
 }
 
@@ -619,6 +631,7 @@ export interface Veznik {
   tekst: string;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any;
 }
 
@@ -627,7 +640,8 @@ export function toVeznik(obj: any): Veznik {
     id: obj.id, 
     tekst: nvl(obj.tekst),
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
   };
 }
 
@@ -643,6 +657,7 @@ export interface Zamenica {
   lokjed: string;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   izmene?: any[];
   varijante?: Zamenica[];
 }
@@ -651,7 +666,8 @@ export function toZamenica(obj: any): Zamenica {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
     nomjed: nvl(obj.nomjed),
     genjed: nvl(obj.genjed),
     datjed: nvl(obj.datjed),
@@ -675,6 +691,7 @@ export interface Broj {
   id?: number;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   nomjed: string;
   genjed: string;
   datjed: string;
@@ -696,7 +713,8 @@ export function toBroj(obj: any): Broj {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
     nomjed: obj.nomjed,
     genjed: obj.genjed,
     datjed: obj.datjed,
@@ -718,6 +736,7 @@ export interface Prilog {
   id?: number;
   recnikID?: number;
   vlasnikID?: number;
+  vlasnik?: any;
   pozitiv: string;
   komparativ: string;
   superlativ: string;
@@ -728,7 +747,8 @@ export function toPrilog(obj: any): Prilog {
   return {
     id: obj.id,
     recnikID: obj.recnik_id,
-    vlasnikID: obj.vlasnik,
+    vlasnikID: obj.vlasnik.id,
+    vlasnik: obj.vlasnik,
     pozitiv: obj.pozitiv,
     komparativ: obj.komparativ,
     superlativ: obj.superlativ,

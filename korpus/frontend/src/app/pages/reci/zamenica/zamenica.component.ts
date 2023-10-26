@@ -52,21 +52,7 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.zamenicaService.get(this.id).subscribe({
-                next: (item) => {
-                  this.zamenica = toZamenica(item);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: 'Именица није учитана',
-                  });
-                  this.router.navigate(['/']);
-                }
-              });
+              this.load();
             });
           break;
       }
@@ -96,6 +82,24 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       document.getElementById(`nomjed${this.zamenica.varijante.length - 1}`).focus();
       scrollTo(0, document.body.scrollHeight);
+    });
+  }
+
+  load(): void {
+    this.zamenicaService.get(this.id).subscribe({
+      next: (item) => {
+        this.zamenica = toZamenica(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: 'Именица није учитана',
+        });
+        this.router.navigate(['/']);
+      }
     });
   }
 
@@ -145,8 +149,7 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Заменица је успешно сачувана.`,
           });
-          if (this.returnUrl)
-            this.router.navigate([this.returnUrl]);
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -189,6 +192,12 @@ export class ZamenicaComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.zamenica.vlasnikID)
       return true;
     return false;
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.zamenica.vlasnik)
+      return '';
+    return (this.zamenica.vlasnik.first_name + ' ' + this.zamenica.vlasnik.last_name).trim();
   }
 
   checkDupes(): void {

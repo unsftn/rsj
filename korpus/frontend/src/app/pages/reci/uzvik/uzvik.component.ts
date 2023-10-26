@@ -51,21 +51,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
           this.route.params.subscribe(
             (params) => {
               this.id = +params.id;
-              this.uzvikService.get(this.id).subscribe({
-                next: (item) => {
-                  this.uzvik = toUzvik(item);
-                },
-                error: (error) => {
-                  console.log(error);
-                  this.messageService.add({
-                    severity: 'error',
-                    summary: 'Грешка',
-                    life: 5000,
-                    detail: `Узвик није учитан: ${error}`,
-                  });
-                  this.router.navigate(['/']);
-                }
-            });
+              this.load();
           });
           break;        
       }
@@ -83,6 +69,24 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     } catch (e) {
       return false;
     }
+  }
+
+  load(): void {
+    this.uzvikService.get(this.id).subscribe({
+      next: (item) => {
+        this.uzvik = toUzvik(item);
+      },
+      error: (error) => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Узвик није учитан: ${error}`,
+        });
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   assert(condition: boolean, message: string): void {
@@ -107,8 +111,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
             life: 3000,
             detail: `Узвик је успешно сачуван.`,
           });
-          if (this.returnUrl)
-            this.router.navigate([this.returnUrl]);
+          this.load();
         },
         error: (error) => {
           this.messageService.add({
@@ -156,6 +159,12 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     if (this.tokenStorageService.getUser().id === this.uzvik?.vlasnikID)
       return true;
     return false;
+  }
+
+  vlasnikImePrezime(): string {
+    if (!this.uzvik.vlasnik)
+      return '';
+    return (this.uzvik.vlasnik.first_name + ' ' + this.uzvik.vlasnik.last_name).trim();
   }
 
   checkDupes(): void {
