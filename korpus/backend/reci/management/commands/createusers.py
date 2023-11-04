@@ -33,10 +33,10 @@ def create_users_from_file(filename, start_row, end_row):
     workbook = openpyxl.load_workbook(filename)
     sheet = workbook.active
     for i in range(start_row, end_row + 1):
-        ime = sheet.cell(row=i, column=1).value
-        prezime = sheet.cell(row=i, column=2).value
-        email = sheet.cell(row=i, column=3).value
-        lozinka = sheet.cell(row=i, column=4).value
+        ime = sheet.cell(row=i, column=1).value.strip()
+        prezime = sheet.cell(row=i, column=2).value.strip()
+        email = sheet.cell(row=i, column=3).value.strip()
+        lozinka = sheet.cell(row=i, column=4).value.strip()
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
