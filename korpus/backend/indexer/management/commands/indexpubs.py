@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -28,6 +29,7 @@ class Command(BaseCommand):
             if not recreate_index(PUB_INDEX):
                 log.fatal(f'Nije kreiran indeks {PUB_INDEX}')
                 return
+            start_time = datetime.now()
             client = get_es_client()
             count = 0
             for pub in publist:
@@ -35,7 +37,17 @@ class Command(BaseCommand):
                 if not status:
                     log.info(f'Greska prilikom indeksiranja publikacije ID: {pub.id}')
                 count += 1
+                if count % 1000 == 0 and count > 0:
+                    self.stdout.write('.', ending='')
+                    self.stdout.flush()
+                if count % 10000 == 0 and count > 0:
+                    self.stdout.write(f'{count}')
+                    self.stdout.flush()
+            if count % 10000 != 0 and count > 1000:
+                self.stdout.write('')
             log.info(f'Indeksirano {count} publikacija.')
+            end_time = datetime.now()
+            log.info(f'Indeksiranje trajalo ukupno {str(end_time-start_time)}')
             push_highlighting_limit()
         except Publikacija.DoesNotExist:
             raise CommandError(f'Publikacija sa ID {pub_id} ne postoji')
