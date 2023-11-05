@@ -257,7 +257,7 @@ def api_save_odrednica(request):
     if serializer.is_valid():
         try:
             odrednica = serializer.save(user=request.user)
-            indexer.save_odrednica_model(odrednica)
+            indexer.save_odrednica(odrednica)
         except RecordModifiedError:
             raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао одредницу', code=409)
         ser2 = OdrednicaSerializer(odrednica)
