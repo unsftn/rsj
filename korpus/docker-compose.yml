@@ -12,6 +12,11 @@ services:
       ES_JAVA_OPTS: "-Xms4g -Xmx4g"
     networks:
       recnik:
+    healthcheck:
+      test: curl -s http://elastic-korpus:9200 >/dev/null || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
   mysql:
     container_name: korpus-mysql
     image: mariadb:10.10
@@ -32,8 +37,9 @@ services:
     image: rsj/korpus
     restart: always
     depends_on:
-      - elastic
-      - mysql
+      elastic:
+        condition: service_healthy
+      mysql:
     volumes:
       - korpus-private:/private
       - korpus-log:/app/log
@@ -57,8 +63,9 @@ services:
     restart: always
     command: qcluster
     depends_on: 
-      - mysql
-      - elastic
+      elastic:
+        condition: service_healthy
+      mysql:
     volumes:
       - korpus-private:/private
       - korpus-log:/app/log
