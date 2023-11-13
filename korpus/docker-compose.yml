@@ -32,14 +32,19 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     networks:
       recnik:
+    healthcheck:
+      test: mysqladmin ping -h localhost -u root -pkorpus
+      timeout: 20s
+      retries: 10
   korpus:
     container_name: korpus
     image: rsj/korpus
     restart: always
     depends_on:
+      mysql:
+        condition: service_healthy
       elastic:
         condition: service_healthy
-      mysql:
     volumes:
       - korpus-private:/private
       - korpus-log:/app/log
@@ -63,9 +68,10 @@ services:
     restart: always
     command: qcluster
     depends_on: 
-      elastic:
-        condition: service_healthy
       mysql:
+        condition: service_healthy
+      elastic:
+          condition: service_healthy
     volumes:
       - korpus-private:/private
       - korpus-log:/app/log
