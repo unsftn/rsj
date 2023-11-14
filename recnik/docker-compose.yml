@@ -12,6 +12,11 @@ services:
       ES_JAVA_OPTS: "-Xms4g -Xmx4g"
     networks:
       recnik:
+    healthcheck:
+      test: curl -s http://elastic-recnik:9200 >/dev/null || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
   mysql:
     container_name: recnik-mysql
     image: mariadb:10.10
@@ -27,13 +32,19 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     networks:
       recnik:
+    healthcheck:
+      test: mysqladmin ping -h localhost -u root -precnik
+      timeout: 5s
+      retries: 10
   korpus:
     container_name: recnik
     image: rsj/recnik
     restart: always
     depends_on:
-      - elastic
-      - mysql
+      mysql:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
     volumes:
       - recnik-private:/private
       - recnik-log:/app/log

@@ -34,7 +34,7 @@ services:
       recnik:
     healthcheck:
       test: mysqladmin ping -h localhost -u root -pkorpus
-      timeout: 20s
+      timeout: 5s
       retries: 10
   korpus:
     container_name: korpus
