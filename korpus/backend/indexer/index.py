@@ -24,6 +24,7 @@ def index_publikacija(pub_id, client=None):
             if not client:
                 client = get_es_client()
             client.index(index=PUB_INDEX, id=tp.id, document=document)
+            client.index(index=REVERSE_INDEX, id=tp.id, document=document)
         except Exception as ex:
             log.fatal(ex)
             return False
@@ -191,6 +192,7 @@ def save_dict(rec_dict, client=None):
         # if client.exists(index=REC_INDEX, id=rec_dict['pk']):
         #     client.delete(index=REC_INDEX, id=rec_dict['pk'])
         client.index(index=REC_INDEX, id=rec_dict['pk'], document=rec_dict)
+        client.index(index=REVERSEREC_INDEX, id=rec_dict['pk'], document=rec_dict)
         return True
     except Exception as ex:
         log.fatal(ex)

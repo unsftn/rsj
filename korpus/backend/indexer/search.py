@@ -1,6 +1,6 @@
-import json
+# import json
 import logging
-from django.conf import settings
+# from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
 from .cyrlat import cyr_to_lat, lat_to_cyr
@@ -22,23 +22,52 @@ def search_rec(request):
         return bad_request('no search term')
 
     term = request.GET.get('q')
-    hits = []
-    try:
-        query = {
-            'query': {
-                'multi_match': {
-                    'type': 'bool_prefix', 
-                    'query': remove_punctuation(term).strip(), 
-                    'fields': ['osnovni_oblik']
-                }
-            }, 
-            'from': 0, 
-            'size': 10000, 
-            '_source': {
-                'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
+    query = {
+        'query': {
+            'multi_match': {
+                'type': 'bool_prefix', 
+                'query': remove_punctuation(term).strip(), 
+                'fields': ['osnovni_oblik']
             }
+        }, 
+        'from': 0, 
+        'size': 10000, 
+        '_source': {
+            'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
-        resp = get_es_client().search(index=REC_INDEX, body=query)
+    }
+    return _search_word(query, REC_INDEX)
+
+
+@api_view(['GET'])
+def search_rec_sufiks(request):
+    """
+    Pretrazuje rec u medju osnovnim oblicima u bazi obradjenih reci
+    """
+    if not request.GET.get('q'):
+        return bad_request('no search term')
+
+    term = request.GET.get('q')
+    query = {
+        'query': {
+            'query_string': {
+                'query': f'*{remove_punctuation(term).strip()}', 
+                'fields': ['osnovni_oblik']
+            }
+        }, 
+        'from': 0, 
+        'size': 10000, 
+        '_source': {
+            'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
+        }
+    }
+    return _search_word(query, REVERSEREC_INDEX)
+
+
+def _search_word(query, index):
+    try:
+        hits = []
+        resp = get_es_client().search(index=index, body=query)
         for hit in resp['hits']['hits']:
             hits.append({
                 'vrsta': hit['_source']['vrsta'],
@@ -51,6 +80,7 @@ def search_rec(request):
     except Exception as error:
         log.fatal(error)
         return server_error(error.args)
+
 
 
 @api_view(['GET'])
@@ -117,7 +147,13 @@ def search_oblik_in_pub(request):
     else:
         boundary_scanner = 'word'
 
-    term = request.GET.get('q')
+    term = request.GET.get('q').strip()
+    suffix = term.startswith('~')
+    if suffix:
+        term = term[1:]
+    prefix = term.endswith('~')
+    if prefix:
+        term = term[:-1]
     term_cyr = lat_to_cyr(term).lower()
     term_lat = cyr_to_lat(term).lower()
     query_terms = []
@@ -125,7 +161,7 @@ def search_oblik_in_pub(request):
         query_terms.append(term_cyr)
     if term_lat:
         query_terms.append(term_lat)
-    return wrap_search(query_terms, fragment_size, boundary_scanner)
+    return wrap_search(query_terms, fragment_size, boundary_scanner, prefix, suffix)
 
 
 @api_view(['GET'])
@@ -168,10 +204,10 @@ def check_dupes(request):
     return Response(possible_dupes, status=HTTP_200_OK)
 
 
-def wrap_search(words, fragment_size, boundary_scanner):
+def wrap_search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False):
     try:
         return Response(
-            _search(words, fragment_size, boundary_scanner), 
+            _search(words, fragment_size, boundary_scanner, prefix, suffix), 
             status=HTTP_200_OK, 
             content_type=JSON)
     except Exception as error:
@@ -179,28 +215,37 @@ def wrap_search(words, fragment_size, boundary_scanner):
         return server_error(error.args)
 
 
-def _search(words, fragment_size, boundary_scanner):
+def _search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False):
     """
     Highlighting ne radi za preveliki broj termova u pretrazi. Zato radimo
     pretragu rec po rec.
     """
     retval = []
     for word in words:
-        res = _search_single_word(word, fragment_size, boundary_scanner)
+        res = _search_single_word(word, fragment_size, boundary_scanner, prefix, suffix)
         retval.extend(res)
     retval = sorted(retval, key=lambda x: x['pub_id'])
     retval = [dict(item, order_nr=index+1) for index, item in enumerate(retval)]
     return retval
 
 
-def _search_single_word(word: str, fragment_size: int, scanner: str):
+def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: bool = False, suffix: bool = False):
     """
     Pretrazuje tekstove publikacija za reci date u listi words, sa datom 
     velicinom fragmenta i vrstom granice ('word', 'sentence'). 
     """
+    if prefix:
+        term = f'{word}*'
+        index = PUB_INDEX
+    elif suffix:
+        term = f'*{word}'
+        index = PUB_INDEX
+    else:
+        term = word
+        index = PUB_INDEX
     query = {
         'query': {
-            'term': { 'tekst': word }
+            'query_string': { 'query': term, 'fields': ['tekst'] }
         }, 
         'size': 100000,
         '_source': {
@@ -218,7 +263,7 @@ def _search_single_word(word: str, fragment_size: int, scanner: str):
         }
     }
     retval = []
-    resp = get_es_client().search(index=PUB_INDEX, body=query)
+    resp = get_es_client().search(index=index, body=query)
     for hit in resp['hits']['hits']:
         try:
             hit['highlight']

@@ -53,6 +53,10 @@ export class SearchService {
     return this.http.get<any>(`/api/pretraga/reci/?q=${query}`);
   }
 
+  searchSuffix(query: string): Observable<any> {
+    return this.http.get<any>(`/api/pretraga/sufiks/?q=${query}`);
+  }
+
   searchPubs(wordId: number, wordType: number, fragmentSize: number, scanner: string): Observable<any[]> {
     return this.http.get<any[]>(`/api/pretraga/publikacije/?w=${wordId}&t=${wordType}&f=${fragmentSize}&s=${scanner}`);
   }

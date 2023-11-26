@@ -23,26 +23,60 @@ def get_rsj_client():
 
 """ Definicija Elasticsearch indeksa za publikacije """
 PUB_MAPPING = {
-    "mappings": {
-        "properties": {
-            "opis": {
-                "type": "keyword"
-            },
-            "pk": {
-                "type": "keyword"
-            },
-            "skracenica": {
-                "type": "keyword"
-            },
-            "tekst": {
-                "type": "text",
-                "term_vector": "with_positions_offsets",
-                "store": "true",
-                # "index_options": "offsets",
-                # "analyzer": "simple"
-            },
-            "timestamp": {
-                "type": "date"
+    "properties": {
+        "opis": {
+            "type": "keyword"
+        },
+        "pk": {
+            "type": "keyword"
+        },
+        "skracenica": {
+            "type": "keyword"
+        },
+        "tekst": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "store": "true",
+            # "index_options": "offsets",
+            # "analyzer": "simple"
+        },
+        "timestamp": {
+            "type": "date"
+        }
+    }
+}
+
+
+""" Definicija Elasticsearch indeksa za publikacije sa okrenutim tokenima """
+REVERSE_MAPPING = {
+    "properties": {
+        "opis": {
+            "type": "keyword"
+        },
+        "pk": {
+            "type": "keyword"
+        },
+        "skracenica": {
+            "type": "keyword"
+        },
+        "tekst": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "store": "true",
+            # "index_options": "offsets",
+            "analyzer": "reversed"
+        },
+        "timestamp": {
+            "type": "date"
+        }
+    }
+}
+REVERSE_SETTINGS = {
+    "analysis": {
+        "analyzer": {
+            "reversed": {
+                "tokenizer": "standard",
+                "filter": ["reverse"]
             }
         }
     }
@@ -51,66 +85,104 @@ PUB_MAPPING = {
 
 """ Definicija Elasticsearch indeksa za reci """
 REC_MAPPING = {
-    "mappings": {
-        "properties": {
-            "oblici": {
-                "type": "search_as_you_type",
-                "doc_values": False,
-                "max_shingle_size": 3
-            },
-            "osnovni_oblik": {
-                "type": "search_as_you_type",
-                "doc_values": False,
-                "max_shingle_size": 3
-            },
-            "pk": {
-                "type": "keyword"
-            },
-            "rec": {
-                "type": "keyword"
-            },
-            "timestamp": {
-                "type": "date"
-            },
-            "vrsta": {
-                "type": "keyword"
+    "properties": {
+        "oblici": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3
+        },
+        "osnovni_oblik": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3
+        },
+        "pk": {
+            "type": "keyword"
+        },
+        "rec": {
+            "type": "keyword"
+        },
+        "timestamp": {
+            "type": "date"
+        },
+        "vrsta": {
+            "type": "keyword"
+        }
+    }
+}
+REVERSEREC_MAPPING = {
+    "properties": {
+        "oblici": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3,
+            "analyzer": "reversed"
+        },
+        "osnovni_oblik": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3,
+            "analyzer": "reversed"
+        },
+        "pk": {
+            "type": "keyword"
+        },
+        "rec": {
+            "type": "keyword"
+        },
+        "timestamp": {
+            "type": "date"
+        },
+        "vrsta": {
+            "type": "keyword"
+        }
+    }
+}
+REVERSEREC_SETTINGS = {
+    "analysis": {
+        "analyzer": {
+            "reversed": {
+                "tokenizer": "standard",
+                "filter": ["reverse"]
             }
         }
     }
 }
 
 
-""" Definicija Elasticsearch indeksa za reci """
+""" Definicija Elasticsearch indeksa za naslove """
 NASLOV_MAPPING = {
-    "mappings": {
-        "properties": {
-            "content": {
-                "type": "text"
-            },
-            "opis": {
-                "type": "keyword"
-            },
-            "pk": {
-                "type": "keyword"
-            },
-            "skracenica": {
-                "type": "keyword"
-            },
-            "timestamp": {
-                "type": "date"
-            },
-        }
+    "properties": {
+        "content": {
+            "type": "text"
+        },
+        "opis": {
+            "type": "keyword"
+        },
+        "pk": {
+            "type": "keyword"
+        },
+        "skracenica": {
+            "type": "keyword"
+        },
+        "timestamp": {
+            "type": "date"
+        },
     }
 }
 
 
 PUB_INDEX = 'publikacije'
+REVERSE_INDEX = 'reverse'
 REC_INDEX = 'reci'
+REVERSEREC_INDEX = 'recreverse'
 NASLOV_INDEX = 'naslovi'
 ALL_INDEXES = {
-    PUB_INDEX: {'index': PUB_INDEX, 'document': PUB_MAPPING},
-    REC_INDEX: {'index': REC_INDEX, 'document': REC_MAPPING},
-    NASLOV_INDEX: {'index': NASLOV_INDEX, 'document': NASLOV_MAPPING},
+    PUB_INDEX: {'index': PUB_INDEX, 'mapping': PUB_MAPPING, 'settings': None},
+    REVERSE_INDEX: {'index': REVERSE_INDEX, 'mapping': REVERSE_MAPPING, 'settings': REVERSE_SETTINGS},
+    REC_INDEX: {'index': REC_INDEX, 'mapping': REC_MAPPING, 'settings': None},
+    REVERSEREC_INDEX: {'index': REVERSEREC_INDEX, 'mapping': REVERSEREC_MAPPING, 'settings': REVERSEREC_SETTINGS},
+    NASLOV_INDEX: {'index': NASLOV_INDEX, 'mapping': NASLOV_MAPPING, 'settings': None},
 }
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
 
@@ -219,7 +291,10 @@ def recreate_index(index=None):
         for es_idx in indexes:
             if client.indices.exists(index=es_idx['index']):
                 client.indices.delete(index=es_idx['index'])
-            client.indices.create(index=es_idx['index'], mappings=es_idx['document']['mappings'])
+            if es_idx['settings']:
+                client.indices.create(index=es_idx['index'], mappings=es_idx['mapping'], settings=es_idx['settings'])
+            else:
+                client.indices.create(index=es_idx['index'], mappings=es_idx['mapping'])
         return True
     except Exception as ex:
         log.exception(f'Error recreating indexes: {indexes}')
@@ -237,7 +312,10 @@ def push_highlighting_limit():
         }
     }
     if check_elasticsearch():
-        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/publikacije/_settings', json=payload)
+        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/{PUB_INDEX}/_settings', json=payload)
+        if r.status_code != 200:
+            return False
+        r = requests.put(f'{settings.ELASTICSEARCH_HOST}/{REVERSE_INDEX}/_settings', json=payload)
         return r.status_code == 200
     else:
         return False

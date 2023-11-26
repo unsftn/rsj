@@ -65,7 +65,10 @@ export class AppComponent implements OnInit {
   searchWords(): void {
     if (!this.searchWord)
       return;
-    this.searchService.searchWords(this.searchWord).subscribe({
+    if (this.searchWord.charAt(0) === '~' && this.searchWord.length === 1)
+      return;
+    this.searchWord = this.searchWord.trim();
+    const handler = {
       next: (data) => {
         this.searchResults = data;
       },
@@ -78,7 +81,12 @@ export class AppComponent implements OnInit {
           detail: error,
         });
       }
-    });
+    };
+    if (this.searchWord.charAt(0) === '~') {
+      this.searchService.searchSuffix(this.searchWord.substring(1)).subscribe(handler);
+    } else {
+      this.searchService.searchWords(this.searchWord).subscribe(handler);
+    }
   }
 
   searchForms(event): void {

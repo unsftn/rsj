@@ -5,7 +5,7 @@ from django.conf import settings
 from elasticsearch import Elasticsearch
 from publikacije.models import Publikacija, TekstPublikacije
 from ...index import index_publikacija
-from ...utils import get_es_client, recreate_index, check_elasticsearch, PUB_INDEX, push_highlighting_limit
+from ...utils import get_es_client, recreate_index, check_elasticsearch, PUB_INDEX, REVERSE_INDEX, push_highlighting_limit
 
 log = logging.getLogger(__name__)
 
@@ -28,6 +28,9 @@ class Command(BaseCommand):
                 publist = Publikacija.objects.all()
             if not recreate_index(PUB_INDEX):
                 log.fatal(f'Nije kreiran indeks {PUB_INDEX}')
+                return
+            if not recreate_index(REVERSE_INDEX):
+                log.fatal(f'Nije kreiran indeks {REVERSE_INDEX}')
                 return
             start_time = datetime.now()
             client = get_es_client()
