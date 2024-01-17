@@ -1,6 +1,7 @@
 import logging
 from django.core.management.base import BaseCommand
 from django.db.utils import OperationalError
+import MySQLdb
 from odrednice.models import GrupaKvalifikatora, Kvalifikator
 
 log = logging.getLogger(__name__)
@@ -19,4 +20,6 @@ class Command(BaseCommand):
                 k.save(using='memory')
             self.stdout.write(self.style.SUCCESS('Kopirani kvalifikatori u in-memory bazu'))
         except OperationalError:
+            pass
+        except MySQLdb.ProgrammingError:
             pass
