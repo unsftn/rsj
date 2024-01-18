@@ -94,6 +94,8 @@ class Command(BaseCommand):
                 current['users'][user][field] = current['users'][user][field] - previous['users'][user][field]
 
     def _for_chart(self, data):
+        if not data:
+            return {'labels': [], 'datasets': []}
         labels = [item['date'].strftime('%Y-%m-%d') for item in data]
         datasets = []
         for user in data[0]['users'].keys():
