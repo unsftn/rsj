@@ -36,7 +36,7 @@ services:
       test: mysqladmin ping -h localhost -u root -precnik
       timeout: 5s
       retries: 10
-  korpus:
+  recnik:
     container_name: recnik
     image: rsj/recnik
     restart: always
