@@ -55,14 +55,15 @@ class Command(BaseCommand):
 
         # ukloni neaktivne korisnike (oni koji u poslednjoj nedelji nemaju nista uneto)
         inactive_users = []
-        last_item = source_data[-1]
-        for user in last_item['users'].keys():
-            if last_item['users'][user]['broj_odrednica'] == 0:
-                inactive_users.append(user)
-                log.info(f'Neaktivan korisnik za grafikon: {user}')
-        for item in source_data:
-            for iu in inactive_users:
-                del item['users'][iu]
+        if source_data:
+            last_item = source_data[-1]
+            for user in last_item['users'].keys():
+                if last_item['users'][user]['broj_odrednica'] == 0:
+                    inactive_users.append(user)
+                    log.info(f'Neaktivan korisnik za grafikon: {user}')
+            for item in source_data:
+                for iu in inactive_users:
+                    del item['users'][iu]
 
         data = json.dumps(source_data, cls=DjangoJSONEncoder)
         chart = json.dumps(self._for_chart(source_data), cls=DjangoJSONEncoder)
