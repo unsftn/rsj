@@ -3,7 +3,7 @@ import logging
 # from django.conf import settings
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_200_OK
-from .cyrlat import cyr_to_lat, lat_to_cyr
+from .cyrlat import cyr_to_lat, lat_to_cyr, sort_key
 from .utils import *
 from reci.models import *
 
@@ -75,7 +75,7 @@ def _search_word(query, index):
                 'rec': hit['_source']['rec'],
                 'pk': int(hit['_source']['pk'].split('_')[1])
             })
-        result = sorted(hits, key=lambda x: x['rec'])
+        result = sorted(hits, key=lambda x: sort_key(x['rec']))
         return Response(result, status=HTTP_200_OK, content_type=JSON)
     except Exception as error:
         log.fatal(error)
