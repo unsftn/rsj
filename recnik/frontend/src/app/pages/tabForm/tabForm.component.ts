@@ -325,7 +325,7 @@ export class TabFormComponent implements OnInit {
     if (event.key === 'F1' || event.key === 'F4') {
       this.accentCaretPos = event.target.selectionStart;
       this.accentIndex = index;
-      if (this.accentCaretPos === 0) return;
+      if (this.accentCaretPos === 0 && modelName !== 'freetext') return;
       this.accentModelName = modelName;
       this.accentTarget = event.target;
       this.accentChar = event.target.value[this.accentCaretPos - 1];
