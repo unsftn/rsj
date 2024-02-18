@@ -232,6 +232,7 @@ export class TabFormComponent implements OnInit {
           this.selectedVerbKind = this.enumService.getVerbKind(0);
           this.selectedStatus = null;
           this.ravnopravne = true;
+          this.freetext = '';
           this.onChangeWordType();
           this.titleService.setTitle('Нова одредница');
           this.odrednicaService.getStatuses().subscribe(data1 => {
@@ -867,7 +868,7 @@ export class TabFormComponent implements OnInit {
     this.antonyms = value.antonimi;
     this.changes = value.izmenaodrednice_set;
     this.notes = value.napomene;
-    this.freetext = value.freetext;
+    this.freetext = value.freetext || '';
     if (value.obradjivac)
       this.obradjivac = this.userService.getUser(value.obradjivac);
     else
@@ -979,6 +980,7 @@ export class TabFormComponent implements OnInit {
       collocations: this.clone(this.collocations),
       antonyms: this.clone(this.antonyms),
       synonyms: this.clone(this.synonyms),
+      freetext: this.clone(this.freetext),
     };
     return stateObj;
   }
@@ -1010,6 +1012,7 @@ export class TabFormComponent implements OnInit {
     this.collocations = stateObj.collocations;
     this.antonyms = stateObj.antonyms;
     this.synonyms = stateObj.synonyms;
+    this.freetext = stateObj.freetext;
   }
 
   saveChange(): void {
