@@ -40,6 +40,7 @@ class Command(BaseCommand):
                     count += 1
                 if count > 0 and count % 1000 == 0:
                     self.stdout.write(f'Imported {count} articles')
+                    self.stdout.flush()
         log.info(f'Imported total of {count} articles.')
 
     def save_article(self, line, subcorpus_id, user_id):
