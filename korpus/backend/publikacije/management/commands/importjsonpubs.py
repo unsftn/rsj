@@ -46,7 +46,7 @@ class Command(BaseCommand):
         try:
             obj = json.loads(line)
             naslov = obj.get('title') or obj.get('naslov')
-            izdavac = obj.get('publisher') or obj.get('izdavac')
+            izdavac = obj.get('publisher') or obj.get('izdavac') or obj.get('channel_title')
             godina = obj.get('year') or obj.get('godina')
             if godina and len(godina) > 10:
                 try:
@@ -57,9 +57,10 @@ class Command(BaseCommand):
             if broj:
                 broj = broj[:10]
             url = obj.get('url')
-            tekst = obj.get('body') or obj.get('text') or obj.get('tekst') or obj.get('content')
+            tekst = obj.get('body') or obj.get('text') or obj.get('tekst') or obj.get('content') or obj.get('transcription')
             if not tekst:
                 return None
+            tekst = tekst.strip()
             if not naslov:
                 naslov = '---'
 
