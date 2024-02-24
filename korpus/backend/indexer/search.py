@@ -6,6 +6,8 @@ from rest_framework.status import HTTP_200_OK
 from .cyrlat import cyr_to_lat, lat_to_cyr, sort_key
 from .utils import *
 from reci.models import *
+from publikacije.models import *
+from publikacije.serializers import PublikacijaSerializer2
 
 logger = logging.getLogger(__name__)
 
@@ -172,6 +174,8 @@ def search_naslov(request):
     if not request.GET.get('q'):
         return bad_request('no search term')
     term = request.GET.get('q')
+    offset = request.GET.get('offset')
+    limit = request.GET.get('limit')
     if not term.endswith('*'):
         term += '*'
     query = {
@@ -180,14 +184,26 @@ def search_naslov(request):
         'from': 0,
         '_source': {'includes': ['pk', 'skracenica', 'opis']}
     }
-    retval = []
+    pubids = []
     resp = get_es_client().search(index=NASLOV_INDEX, body=query)
     for hit in resp['hits']['hits']:
-        retval.append({
-            'pub_id': hit['_source']['pk'],
-            'skracenica': hit['_source']['skracenica'],
-            'opis': hit['_source']['opis'],
-        })
+        pubids.append(hit['_source']['pk'])
+        # retval.append({
+        #     'pub_id': hit['_source']['pk'],
+        #     'skracenica': hit['_source']['skracenica'],
+        #     'opis': hit['_source']['opis'],
+        # })
+    queryset = Publikacija.objects.filter(pk__in=pubids).order_by('pk')
+    count = len(queryset)
+    if offset and limit:
+        try:
+            o = int(offset)
+            l = int(limit)
+            queryset = queryset[o:o+l]
+        except ValueError:
+            pass
+    data = PublikacijaSerializer2(queryset, many=True).data
+    retval = {'count': count, 'results': data }
     return Response(retval, status=HTTP_200_OK, content_type=JSON)
 
 

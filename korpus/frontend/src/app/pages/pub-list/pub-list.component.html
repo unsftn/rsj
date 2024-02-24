@@ -15,7 +15,6 @@
 <div class="container">
   <h3>Извори</h3>
   <p-table 
-      #table 
       [value]="publikacije" 
       [lazy]="true"
       [dataKey]="'id'" 
@@ -31,11 +30,11 @@
       scrollHeight="600px">
     <ng-template pTemplate="caption">
       <div class="flex p-0">
-        <!-- <span class="p-input-icon-left ml-auto">
+        <span class="p-input-icon-left ml-auto">
           <i class="pi pi-search"></i>
-          <input #filter pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')" placeholder="Претрага по наслову"/>
+          <input [(ngModel)]="filter" (keyup.enter)="setFilter()" pInputText type="text" placeholder="Претрага по наслову"/>
         </span>
-        <button pButton pRipple class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(table, filter)"></button> -->
+        <button (click)="clear()" pButton pRipple class="p-button-outlined" icon="pi pi-filter-slash"></button> 
       </div>
     </ng-template>
     <ng-template pTemplate="header">
