@@ -29,6 +29,7 @@ class Command(BaseCommand):
         self.stdout.write(f'User ID: {user_id}')
         self.stdout.write(f'Input file: {input_file}')
         self.stdout.write(f'Dry run: {dry_run}')
+        self.stdout.flush()
         count = 0
         with open(input_file, 'r') as infile:
             for line in infile.readlines():
