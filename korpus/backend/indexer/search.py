@@ -178,13 +178,14 @@ def search_naslov(request):
         'query': {'query_string': {'query': term}},
         'size': 100,
         'from': 0,
-        '_source': {'includes': ['pk', 'skracenica', 'opis']}
+        '_source': {'includes': ['pk', 'skracenica', 'opis', 'potkorpus']}
     }
     retval = []
     resp = get_es_client().search(index=NASLOV_INDEX, body=query)
     for hit in resp['hits']['hits']:
         retval.append({
             'pub_id': hit['_source']['pk'],
+            'potkorpus': hit['_source'].get('potkorpus', ''),
             'skracenica': hit['_source']['skracenica'],
             'opis': hit['_source']['opis'],
         })
@@ -249,7 +250,7 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
         }, 
         'size': 100000,
         '_source': {
-            'includes': ['pk', 'skracenica', 'opis']
+            'includes': ['pk', 'skracenica', 'opis', 'potkorpus']
         }, 
         'highlight': {
             'type': 'fvh',
@@ -273,6 +274,7 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
         for high in highlights:                
             retval.append({
                 'pub_id': hit['_source']['pk'],
+                'potkorpus': hit['_source'].get('potkorpus', ''),
                 'skracenica': hit['_source']['skracenica'],
                 'opis': hit['_source']['opis'],
                 'highlights': high,

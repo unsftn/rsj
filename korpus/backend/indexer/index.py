@@ -15,6 +15,7 @@ def index_publikacija(pub_id, client=None):
     for tp in publikacija.tekstpublikacije_set.all().order_by('redni_broj'):
         document = {
             'pk': publikacija.id,
+            'potkorpus': publikacija.potkorpus.naziv if publikacija.potkorpus else '',
             'skracenica': publikacija.skracenica,
             'opis': publikacija.opis(),
             'tekst': tp.tekst,
@@ -42,6 +43,7 @@ def index_naslov(pub_id, client=None):
     opis_cyrlat = lat_to_cyr(opis) + ' ' + cyr_to_lat(opis)
     document = {
         'pk': publikacija.id,
+        'potkorpus': publikacija.potkorpus.naziv if publikacija.potkorpus else '',
         'skracenica': publikacija.skracenica,
         'opis': opis,
         'content': opis_cyrlat,
