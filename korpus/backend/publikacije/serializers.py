@@ -68,7 +68,7 @@ class PublikacijaSerializer2(serializers.ModelSerializer):
         model = Publikacija
         fields = ('id', 'naslov', 'naslov_izdanja', 'isbn', 'issn', # 'vrsta', 
                   'izdavac', 'godina', 'volumen', 'broj', 'url',
-                  'vreme_unosa', 'user_id', 'skracenica', # 'potkorpus',
+                  'vreme_unosa', 'user_id', 'skracenica', 'potkorpus',
                   'prevodilac', 'prvo_izdanje', 'napomena', 'zanr')
 
 
