@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SafeHtml, Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LazyLoadEvent, MessageService } from 'primeng/api';
-import { Table } from 'primeng/table';
 import { PublikacijaService } from '../../services/publikacije/publikacija.service';
 
 @Component({
@@ -19,6 +18,7 @@ export class PubListComponent implements OnInit {
   rows: number = null;
   total: number = null;
   loading: boolean = true;
+  filter: string;
 
   constructor(
     private publikacijaService: PublikacijaService,
@@ -27,20 +27,28 @@ export class PubListComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Извори');
-    // this.publikacijaService.getAll().subscribe((value) => {
-    //   this.publikacije = value;
-    // });
   }
 
   loadPubs(): void {
-    this.publikacijaService.getAllPaged(this.first, this.rows).subscribe({
-      next: (response: any) => { 
-        this.publikacije = response.results; 
-        this.total = response.count;
-        this.loading = false;
-      }, 
-      error: (error) => console.log(error)
-    });
+    if (!this.filter) {
+      this.publikacijaService.getAllPaged(this.first, this.rows).subscribe({
+        next: (response: any) => { 
+          this.publikacije = response.results; 
+          this.total = response.count;
+          this.loading = false;
+        }, 
+        error: (error) => console.log(error)
+      });  
+    } else {
+      this.publikacijaService.searchIzvor(this.filter, this.first, this.rows).subscribe({
+        next: (response: any) => { 
+          this.publikacije = response.results; 
+          this.total = response.count;
+          this.loading = false;
+        }, 
+        error: (error) => console.log(error)
+      });
+    }
   }
 
   onLazyLoad(event: LazyLoadEvent): void {
@@ -66,10 +74,6 @@ export class PubListComponent implements OnInit {
     return this.publikacijaService.getOpis(pub);
   }
 
-  // edit(pub: any): void {
-  //   this.router.navigate(['/publikacija', pub.id]);
-  // }
-
   delete(pub: any): void {
     this.message = 'Да ли сте сигурни да желите да обришете ову публикацију?';
     this.showDeleteWarningDialog = true;
@@ -84,9 +88,12 @@ export class PubListComponent implements OnInit {
     window.alert('Ručna anotacija teksta još nije u funkciji.');
   }
 
-  clear(table: Table, filter: HTMLInputElement): void {
-    filter.value = '';
-    table.clear();
+  clear(): void {
+    this.filter = '';
+    this.loadPubs();
   }
 
+  setFilter(): void {
+    this.loadPubs();
+  }
 }

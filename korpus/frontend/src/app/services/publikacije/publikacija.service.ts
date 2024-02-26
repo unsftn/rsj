@@ -199,4 +199,8 @@ export class PublikacijaService {
   applyFilters(pubId: number): Observable<any> {
     return this.http.put<any[]>(`/api/publikacije/primeni-filtere/${pubId}/`, {});
   }
+
+  searchIzvor(text: string, offset: number, limit: number): Observable<any[]> {
+    return this.http.get<any[]>(`/api/pretraga/naslovi/?q=${text}&offset=${offset}&limit=${limit}`);
+  }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
@@ -15,6 +16,7 @@ const routes: Routes = [{ path: '', component: PubListComponent }]
   declarations: [PubListComponent],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes),
     ToolbarModule,
     DialogModule,
