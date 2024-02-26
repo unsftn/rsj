@@ -64,6 +64,7 @@ class PublikacijaSerializer(serializers.ModelSerializer):
 
 
 class PublikacijaSerializer2(serializers.ModelSerializer):
+    potkorpus = PotkorpusSerializer()
     class Meta:
         model = Publikacija
         fields = ('id', 'naslov', 'naslov_izdanja', 'isbn', 'issn', # 'vrsta', 
