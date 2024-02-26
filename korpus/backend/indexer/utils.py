@@ -33,6 +33,9 @@ PUB_MAPPING = {
         "skracenica": {
             "type": "keyword"
         },
+        "potkorpus": {
+            "type": "keyword"
+        },
         "tekst": {
             "type": "text",
             "term_vector": "with_positions_offsets",
@@ -57,6 +60,9 @@ REVERSE_MAPPING = {
             "type": "keyword"
         },
         "skracenica": {
+            "type": "keyword"
+        },
+        "potkorpus": {
             "type": "keyword"
         },
         "tekst": {
@@ -167,6 +173,9 @@ NASLOV_MAPPING = {
         },
         "timestamp": {
             "type": "date"
+        },
+        "potkorpus": {
+            "type": "keyword"
         },
     }
 }
