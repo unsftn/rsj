@@ -29,6 +29,7 @@ export class SearchComponent implements OnInit {
   scanners: any[];
   coloredHit: any;
   referencePreview: string;
+  referenceSubcorpus: string;
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
   @ViewChild('reference') refPanel: OverlayPanel;
@@ -178,6 +179,7 @@ export class SearchComponent implements OnInit {
 
   openReference(event: any, hit: any): void {
     this.referencePreview = hit.opis;
+    this.referenceSubcorpus = hit.potkorpus;
     this.refPanel.toggle(event);
   }
 
