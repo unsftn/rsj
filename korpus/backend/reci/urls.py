@@ -48,7 +48,7 @@ urlpatterns = [
     path('stats/reci-korisnika/<int:user_id>/', reci_korisnika),
     path('stats/broj-mojih-reci/', broj_mojih_reci),
 
-    path('<int:word_type>/<int:word_id>/', remove_word),
+    path('delete/<int:word_type>/<int:word_id>/', delete_word),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

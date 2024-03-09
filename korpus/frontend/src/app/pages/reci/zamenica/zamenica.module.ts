@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { ZamenicaComponent } from './zamenica.component';
 import { PossibleDupeModule } from '../../possible-dupe/possible-dupe.module';
+import { AreYouSureModule } from '../../are-you-sure/are-you-sure.module';
 
 const routes: Routes = [{ path: '', component: ZamenicaComponent }]
 
@@ -22,6 +23,7 @@ const routes: Routes = [{ path: '', component: ZamenicaComponent }]
     ButtonModule,
     MyToolbarModule,
     PossibleDupeModule,
+    AreYouSureModule,
   ],
   exports: [RouterModule],
   bootstrap: [ZamenicaComponent]

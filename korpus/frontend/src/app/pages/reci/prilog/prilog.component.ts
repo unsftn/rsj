@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Prilog, toPrilog } from '../../../models/reci';
-import { PrilogService } from '../../../services/reci';
+import { PrilogService, RecService } from '../../../services/reci';
 import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
@@ -20,6 +20,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
   returnUrl: string;
   sourceWord: string;
   showDupes: boolean;
+  showAreYouSure: boolean;
   dupes: any[];
   dirty: boolean;
   @ViewChild('pozitiv') textInput!: ElementRef<HTMLInputElement>;
@@ -31,6 +32,7 @@ export class PrilogComponent implements OnInit, AfterViewInit {
     private tokenStorageService: TokenStorageService,
     private prilogService: PrilogService,
     private searchService: SearchService,
+    private recService: RecService,
     private titleService: Title
   ) { }
 
@@ -206,5 +208,44 @@ export class PrilogComponent implements OnInit, AfterViewInit {
 
   setDirty(): void {
     this.dirty = true;
+  }
+
+  isAdmin(): boolean {
+    return this.tokenStorageService.isAdmin();
+  }
+
+  areYouSure(): void {
+    this.showAreYouSure = true;
+  }
+
+  sureNo(): void {
+    this.showAreYouSure = false;
+  }
+
+  sureYes(): void {
+    this.showAreYouSure = false;
+    this.removeWord();
+  }
+
+  removeWord(): void {
+    this.recService.remove(this.id, 3).subscribe({
+      next: (data) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Успех',
+          life: 3000,
+          detail: `Реч је успешно обрисана.`,
+        });
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Неуспешно брисање: ${error}`,
+        });
+      }
+    });
   }
 }

@@ -1,0 +1,7 @@
+<p-dialog header="Упозорење" modal="true" [(visible)]="visible" [closable]="false">
+  <p class="mt-3 mb-3">{{message}}</p>
+  <div class="flex">
+    <button pButton pRipple icon="pi pi-check" label="Дa" (click)="yesClicked()" class="p-button-success"></button>
+    <button pButton pRipple icon="pi pi-check" label="Не" (click)="noClicked()" class="p-button-danger ml-3"></button>
+  </div>
+</p-dialog>

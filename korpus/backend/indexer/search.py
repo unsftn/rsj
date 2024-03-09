@@ -222,7 +222,6 @@ def check_dupes(request):
 
 
 def wrap_search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False, case_sensitive: bool = False):
-    print(words)
     try:
         return Response(
             _search(words, fragment_size, boundary_scanner, prefix, suffix, case_sensitive), 
@@ -252,7 +251,6 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
     Pretrazuje tekstove publikacija za reci date u listi words, sa datom 
     velicinom fragmenta i vrstom granice ('word', 'sentence'). 
     """
-    # index = PUB_INDEX if not case_sensitive else CASE_SENSITIVE_INDEX
     if prefix:
         term = f'{word}*'
         field = 'tekst_case_sensitive' if case_sensitive else 'tekst'
@@ -281,7 +279,6 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
             }
         }
     }
-    print(json.dumps(query, indent=2))
     retval = []
     resp = get_es_client().search(index=PUB_INDEX, body=query)
     for hit in resp['hits']['hits']:

@@ -10,6 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { GlagolComponent } from './glagol.component';
 import { PossibleDupeModule } from '../../possible-dupe/possible-dupe.module';
+import { AreYouSureModule } from '../../are-you-sure/are-you-sure.module';
 
 const routes: Routes = [{ path: '', component: GlagolComponent }]
 
@@ -25,6 +26,7 @@ const routes: Routes = [{ path: '', component: GlagolComponent }]
     ButtonModule,
     MyToolbarModule,
     PossibleDupeModule,
+    AreYouSureModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

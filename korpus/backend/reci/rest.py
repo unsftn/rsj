@@ -545,7 +545,10 @@ def user_info(request, user_id):
 
 
 @api_view(['DELETE'])
+@csrf_exempt
 def delete_word(request, word_type, word_id):
+    if not request.user.groups.filter(id=1).exists():
+        return Response('Samo administratori mogu da brisu reci.', status=status.HTTP_403_FORBIDDEN)
     model = WORD_MODELS.get(word_type)
     if not model:
         return Response(status=status.HTTP_404_NOT_FOUND)

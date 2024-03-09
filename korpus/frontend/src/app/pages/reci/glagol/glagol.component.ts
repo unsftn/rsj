@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
 import { Glagol, GlagolskaVarijanta, GlagolskiRod, GlagolskiVid, toGlagol } from '../../../models/reci';
-import { GlagolService } from '../../../services/reci';
+import { GlagolService, RecService } from '../../../services/reci';
 import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 
@@ -22,6 +22,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
   vidovi: GlagolskiVid[];
   varijante: GlagolskaVarijanta[];
   showDupes: boolean;
+  showAreYouSure: boolean;
   dupes: any[];
   dirty: boolean;
   @ViewChild('infinitiv') textInput!: ElementRef<HTMLInputElement>;
@@ -33,6 +34,7 @@ export class GlagolComponent implements OnInit, AfterViewInit {
     private tokenStorageService: TokenStorageService,
     private glagolService: GlagolService,
     private searchService: SearchService,
+    private recService: RecService,
     private titleService: Title
   ) { }
 
@@ -227,5 +229,44 @@ export class GlagolComponent implements OnInit, AfterViewInit {
 
   setDirty(): void {
     this.dirty = true;
+  }
+
+  isAdmin(): boolean {
+    return this.tokenStorageService.isAdmin();
+  }
+
+  areYouSure(): void {
+    this.showAreYouSure = true;
+  }
+
+  sureNo(): void {
+    this.showAreYouSure = false;
+  }
+
+  sureYes(): void {
+    this.showAreYouSure = false;
+    this.removeWord();
+  }
+
+  removeWord(): void {
+    this.recService.remove(this.id, 1).subscribe({
+      next: (data) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Успех',
+          life: 3000,
+          detail: `Реч је успешно обрисана.`,
+        });
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Неуспешно брисање: ${error}`,
+        });
+      }
+    });
   }
 }

@@ -17,3 +17,12 @@
   vertical-align: middle;
   padding-bottom: 2px;
 }
+
+.fableft {
+  z-index: 100;
+  position: fixed !important;
+  left: 15px;
+  bottom: 15px;
+  width: 40px !important;
+  height: 40px !important;
+}

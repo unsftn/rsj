@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MessageService } from 'primeng/api';
-import { UzvikService } from '../../../services/reci/';
+import { RecService, UzvikService } from '../../../services/reci/';
 import { SearchService } from '../../../services/search';
 import { TokenStorageService } from '../../../services/auth/token-storage.service';
 import { Uzvik, toUzvik } from '../../../models/reci';
@@ -20,6 +20,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
   sourceWord: string;
   uzvik: Uzvik;
   showDupes: boolean;
+  showAreYouSure: boolean;
   dupes: any[];
   dirty: boolean;
   @ViewChild('tekst') textInput!: ElementRef<HTMLInputElement>;
@@ -31,6 +32,7 @@ export class UzvikComponent implements OnInit, AfterViewInit {
     private tokenStorageService: TokenStorageService,
     private uzvikService: UzvikService,
     private searchService: SearchService,
+    private recService: RecService,
     private titleService: Title
   ) { }
 
@@ -202,5 +204,44 @@ export class UzvikComponent implements OnInit, AfterViewInit {
 
   setDirty(): void {
     this.dirty = true;
+  }
+
+  isAdmin(): boolean {
+    return this.tokenStorageService.isAdmin();
+  }
+
+  areYouSure(): void {
+    this.showAreYouSure = true;
+  }
+
+  sureNo(): void {
+    this.showAreYouSure = false;
+  }
+
+  sureYes(): void {
+    this.showAreYouSure = false;
+    this.removeWord();
+  }
+
+  removeWord(): void {
+    this.recService.remove(this.id, 6).subscribe({
+      next: (data) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Успех',
+          life: 3000,
+          detail: `Реч је успешно обрисана.`,
+        });
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: `Неуспешно брисање: ${error}`,
+        });
+      }
+    });
   }
 }

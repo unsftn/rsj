@@ -44,7 +44,7 @@ export class RecService {
     return [this.getEditLink(wordType), id];
   }
 
-  delete(id: number, wordType: number): Observable<any> {
-    return this.http.delete<any>(`/api/reci/${wordType}/${id}/`);
+  remove(id: number, wordType: number): Observable<any> {
+    return this.http.delete<any>(`/api/reci/delete/${wordType}/${id}/`);
   }
 }

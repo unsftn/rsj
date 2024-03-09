@@ -8,6 +8,7 @@ import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { PossibleDupeModule } from '../../possible-dupe/possible-dupe.module';
+import { AreYouSureModule } from '../../are-you-sure/are-you-sure.module';
 import { ImenicaComponent } from './imenica.component';
 
 const routes: Routes = [{ path: '', component: ImenicaComponent }]
@@ -24,6 +25,7 @@ const routes: Routes = [{ path: '', component: ImenicaComponent }]
     ButtonModule,
     MyToolbarModule,
     PossibleDupeModule,
+    AreYouSureModule,
   ],
   exports: [RouterModule],
   bootstrap: [ImenicaComponent]

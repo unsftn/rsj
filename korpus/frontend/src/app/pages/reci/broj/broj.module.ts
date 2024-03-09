@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
-import { BrojComponent } from './broj.component';
+import { ButtonModule } from 'primeng/button';
 import { PossibleDupeModule } from '../../possible-dupe/possible-dupe.module';
+import { AreYouSureModule } from '../../are-you-sure/are-you-sure.module';
+import { BrojComponent } from './broj.component';
 
 const routes: Routes = [{ path: '', component: BrojComponent }]
 
@@ -15,8 +17,10 @@ const routes: Routes = [{ path: '', component: BrojComponent }]
     CommonModule,
     FormsModule,
     InputTextModule,
+    ButtonModule,
     MyToolbarModule,
     PossibleDupeModule,
+    AreYouSureModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

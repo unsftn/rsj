@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { MyToolbarModule } from '../../toolbar/toolbar.module';
 import { PridevComponent } from './pridev.component';
 import { PossibleDupeModule } from '../../possible-dupe/possible-dupe.module';
+import { AreYouSureModule } from '../../are-you-sure/are-you-sure.module';
 
 const routes: Routes = [{ path: '', component: PridevComponent }]
 
@@ -28,6 +29,7 @@ const routes: Routes = [{ path: '', component: PridevComponent }]
     ButtonModule,
     MyToolbarModule,
     PossibleDupeModule,
+    AreYouSureModule,
   ],
   exports: [RouterModule],
   bootstrap: [PridevComponent]

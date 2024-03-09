@@ -385,3 +385,5 @@
     </p-tabPanel>
   </p-tabView>
 </div>
+<p-button *ngIf="isAdmin() && editMode" pRipple icon="pi pi-times" [rounded]="true" class="fableft" severity="danger" (click)="areYouSure()"></p-button>
+<are-you-sure [(visible)]="showAreYouSure" [message]="'Да ли сте сигурни да желите да обришете реч?'" (yes)="sureYes()" (no)="sureNo()"></are-you-sure>

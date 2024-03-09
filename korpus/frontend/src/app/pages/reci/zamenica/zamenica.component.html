@@ -77,3 +77,5 @@
   </div>
 </div>
 <button type="button" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-lg p-button-raised fab" (click)="addVarijanta()"></button>
+<p-button *ngIf="isAdmin() && editMode" pRipple icon="pi pi-times" [rounded]="true" class="fableft" severity="danger" (click)="areYouSure()"></p-button>
+<are-you-sure [(visible)]="showAreYouSure" [message]="'Да ли сте сигурни да желите да обришете реч?'" (yes)="sureYes()" (no)="sureNo()"></are-you-sure>
