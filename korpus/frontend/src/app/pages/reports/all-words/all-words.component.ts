@@ -58,9 +58,18 @@ export class AllWordsComponent implements OnInit {
     { code: false, name: 'не' },
   ];
 
+  filterPotkorpusOptions: any[] = [
+    { code: 1, name: 'Књижевни' },
+    { code: 2, name: 'Новински' },
+    { code: 3, name: 'Разговорни' },
+    { code: 4, name: 'Научни' },
+    { code: 5, name: 'Остало' },
+  ];
+
   filterRecnik: boolean = null;
   filterBeleska: boolean = null;
   filterOdluka: number[] = [];
+  filterPotkorpus: number[] = [];
   leksema: string = '';
   filterFrekOd: number = null;
   filterFrekDo: number = null;
@@ -109,7 +118,9 @@ export class AllWordsComponent implements OnInit {
   loadReci(slovo: string): void {
     this.loading = true;
     this.deciderService.getByLetterPagedFiltered(
-        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, this.filterBeleska, this.leksema, this.filterFrekOd, this.filterFrekDo).subscribe({
+        slovo, this.first, this.rows, this.filterRecnik, this.filterOdluka, 
+        this.filterPotkorpus, this.filterBeleska, this.leksema, this.filterFrekOd, 
+        this.filterFrekDo).subscribe({
       next: (response: any) => {
         this.reci[slovo] = response.results.map((item: any) => { 
           item.odluka_str = this.odluke[item.odluka-1].name;
@@ -133,6 +144,10 @@ export class AllWordsComponent implements OnInit {
   }
 
   setFilterBeleska(value: boolean): void {
+    this.loadReci(this.azbuka[this.tabIndex]);
+  }
+
+  setFilterPotkorpus(value: number): void {
     this.loadReci(this.azbuka[this.tabIndex]);
   }
 

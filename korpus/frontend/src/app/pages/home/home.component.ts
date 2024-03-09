@@ -60,14 +60,14 @@ export class HomeComponent implements OnInit {
     this.primengConfig.ripple = true;
     if (this.searchService.selectedWordId || this.searchService.selectedWordForm)
       this.fetchData();
-    this.searchService.selectedWordChanged.subscribe({
-      next: (data: boolean) => {
-        this.fetchData();
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    // this.searchService.selectedWordChanged.subscribe({
+    //   next: (data: boolean) => {
+    //     this.fetchData();
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   }
+    // });
   }
 
   fetchData(): void {
@@ -106,7 +106,8 @@ export class HomeComponent implements OnInit {
       });  
     } else {
       this.word = null;
-      this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code).subscribe({
+      console.log(`Home searching for ${this.wordForm}`);
+      this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code, false).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
           this.hits = hits;

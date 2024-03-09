@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService, PrimeNGConfig, MenuItem } from 'primeng/api';
 import { TokenStorageService } from './services/auth/token-storage.service';
@@ -21,6 +21,9 @@ export class AppComponent implements OnInit {
   searchResults: any[];
   username = '';
   headerStyle: string;
+  caseSensitive: boolean;
+  caseSensitiveLabel: string;
+  caseSensitiveTooltip: string;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -90,12 +93,13 @@ export class AppComponent implements OnInit {
   }
 
   searchForms(event): void {
+    const form = this.caseSensitive ? this.searchForm : this.searchForm.toLowerCase();
     this.searchWord = '';
     this.searchService.selectedWordId = null;
     this.searchService.selectedWordType = null;
-    this.searchService.selectedWordForm = this.searchForm.toLowerCase();
+    this.searchService.selectedWordForm = form;
     this.searchService.selectedWordChanged.emit(true);
-    this.router.navigate(['/search'], { queryParams: { form: this.searchForm.toLowerCase() }});
+    this.router.navigate(['/search'], { queryParams: { form: form, cs: this.caseSensitive}});
   }
 
   select(value): void {
@@ -119,6 +123,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.caseSensitive = false;
+    this.caseSensitiveLabel = 'aa';
+    this.caseSensitiveTooltip = 'Велика и мала слова се не разликују';
     this.username = this.tokenStorageService.getUser()?.firstName ?? '';
     this.itemsUser = this.getUserMenu();
     this.itemsAdmin = this.getAdminMenu();
@@ -269,5 +276,11 @@ export class AppComponent implements OnInit {
         routerLink: ['/prilog/add']
       },
     ];
+  }
+
+  toggle(): void {
+    this.caseSensitive = !this.caseSensitive;
+    this.caseSensitiveLabel = this.caseSensitive ? 'aA' : 'aa';
+    this.caseSensitiveTooltip = this.caseSensitive ? 'Велика и мала слова се разликују' : 'Велика и мала слова се не разликују';
   }
 }

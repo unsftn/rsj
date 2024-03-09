@@ -9,11 +9,11 @@
             <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
             <input type="text" pInputText placeholder="Лексема" [(ngModel)]="leksema" (keyup.enter)="onSearch()">         
           </div>
-          <div class="p-inputgroup mr-2" style="width: 100px;">
-            <p-inputNumber placeholder="Фрекв. од" [(ngModel)]="filterFrekOd" (keyup.enter)="onSearch()"></p-inputNumber>
+          <div class="p-inputgroup mr-2 w150">
+            <p-inputNumber placeholder="Фрекв. од" [(ngModel)]="filterFrekOd" (keyup.enter)="onSearch()" inputStyleClass="w-full"></p-inputNumber>
           </div>
-          <div class="p-inputgroup mr-2" style="width: 100px;">
-            <p-inputNumber placeholder="Фрекв. до" [(ngModel)]="filterFrekDo" (keyup.enter)="onSearch()"></p-inputNumber>
+          <div class="p-inputgroup mr-2 w150">
+            <p-inputNumber placeholder="Фрекв. до" [(ngModel)]="filterFrekDo" (keyup.enter)="onSearch()" inputStyleClass="w-full"></p-inputNumber>
           </div>
           <div class="mr-2">
             <p-dropdown
@@ -42,6 +42,20 @@
                 [filter]="false">
             </p-multiSelect>
           </div>
+          <div class="mr-2">
+            <p-multiSelect 
+                [(ngModel)]="filterPotkorpus" 
+                [options]="filterPotkorpusOptions" 
+                (onChange)="setFilterPotkorpus($event.value)"
+                optionLabel="name" 
+                optionValue="code" 
+                display="chip" 
+                placeholder="поткорпус" 
+                appendTo="body" 
+                [showHeader]="false"
+                [filter]="false">
+            </p-multiSelect>
+          </div>
           <div>
             <p-dropdown
                 [(ngModel)]="filterBeleska"
@@ -55,6 +69,7 @@
                 appendTo="body">
             </p-dropdown>
           </div>
+          <div class="flex-grow-1">&nbsp;</div>
         </div>
         <p-table 
             [value]="reci[slovo]" 

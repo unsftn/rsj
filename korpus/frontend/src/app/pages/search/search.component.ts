@@ -25,6 +25,7 @@ export class SearchComponent implements OnInit {
   first: number;
   fragmentSize: any;
   scanner: any;
+  caseSensitive: boolean;
   fragmentSizes: any[];
   scanners: any[];
   coloredHit: any;
@@ -70,6 +71,8 @@ export class SearchComponent implements OnInit {
           this.wordType = +params.type;        
       if (params.form !== undefined)
         this.wordForm = params.form;
+      if (params.cs !== undefined)
+        this.caseSensitive = params.cs === 'true';
       if ((Number.isFinite(this.wordId) && Number.isFinite(this.wordType)) || this.wordForm)
         this.fetchData();
     });
@@ -115,7 +118,8 @@ export class SearchComponent implements OnInit {
       });  
     } else {
       this.word = null;
-      this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code).subscribe({
+      console.log(`Search searching for ${this.wordForm}`);
+      this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code, this.caseSensitive).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
           this.hits = hits;

@@ -1,4 +1,4 @@
-# import json
+import json
 import logging
 # from django.conf import settings
 from rest_framework.decorators import api_view
@@ -148,6 +148,7 @@ def search_oblik_in_pub(request):
         boundary_scanner = request.GET.get('s')
     else:
         boundary_scanner = 'word'
+    case_sensitive = request.GET.get('cs', '') == 'true'
 
     term = request.GET.get('q').strip()
     suffix = term.startswith('~')
@@ -156,14 +157,14 @@ def search_oblik_in_pub(request):
     prefix = term.endswith('~')
     if prefix:
         term = term[:-1]
-    term_cyr = lat_to_cyr(term).lower()
-    term_lat = cyr_to_lat(term).lower()
+    term_cyr = lat_to_cyr(term) #.lower()
+    term_lat = cyr_to_lat(term) #.lower()
     query_terms = []
     if term_cyr:
         query_terms.append(term_cyr)
     if term_lat:
         query_terms.append(term_lat)
-    return wrap_search(query_terms, fragment_size, boundary_scanner, prefix, suffix)
+    return wrap_search(query_terms, fragment_size, boundary_scanner, prefix, suffix, case_sensitive)
 
 
 @api_view(['GET'])
@@ -220,10 +221,11 @@ def check_dupes(request):
     return Response(possible_dupes, status=HTTP_200_OK)
 
 
-def wrap_search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False):
+def wrap_search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False, case_sensitive: bool = False):
+    print(words)
     try:
         return Response(
-            _search(words, fragment_size, boundary_scanner, prefix, suffix), 
+            _search(words, fragment_size, boundary_scanner, prefix, suffix, case_sensitive), 
             status=HTTP_200_OK, 
             content_type=JSON)
     except Exception as error:
@@ -231,37 +233,38 @@ def wrap_search(words, fragment_size, boundary_scanner, prefix: bool = False, su
         return server_error(error.args)
 
 
-def _search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False):
+def _search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False, case_sensitive: bool = False):
     """
     Highlighting ne radi za preveliki broj termova u pretrazi. Zato radimo
     pretragu rec po rec.
     """
     retval = []
     for word in words:
-        res = _search_single_word(word, fragment_size, boundary_scanner, prefix, suffix)
+        res = _search_single_word(word, fragment_size, boundary_scanner, prefix, suffix, case_sensitive)
         retval.extend(res)
     retval = sorted(retval, key=lambda x: x['pub_id'])
     retval = [dict(item, order_nr=index+1) for index, item in enumerate(retval)]
     return retval
 
 
-def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: bool = False, suffix: bool = False):
+def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: bool = False, suffix: bool = False, case_sensitive: bool = False):
     """
     Pretrazuje tekstove publikacija za reci date u listi words, sa datom 
     velicinom fragmenta i vrstom granice ('word', 'sentence'). 
     """
+    # index = PUB_INDEX if not case_sensitive else CASE_SENSITIVE_INDEX
     if prefix:
         term = f'{word}*'
-        index = PUB_INDEX
+        field = 'tekst_case_sensitive' if case_sensitive else 'tekst'
     elif suffix:
         term = f'*{word}'
-        index = PUB_INDEX
+        field = 'tekst_reversed'
     else:
         term = word
-        index = PUB_INDEX
+        field = 'tekst_case_sensitive' if case_sensitive else 'tekst'
     query = {
         'query': {
-            'query_string': { 'query': term, 'fields': ['tekst'] }
+            'query_string': { 'query': term, 'fields': [field] }
         }, 
         'size': 100000,
         '_source': {
@@ -274,16 +277,17 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
             'pre_tags': ['<span class="fword">'], 
             'post_tags': ['</span>'],
             'fields': {
-                'tekst': {}
+                field: {}
             }
         }
     }
+    print(json.dumps(query, indent=2))
     retval = []
-    resp = get_es_client().search(index=index, body=query)
+    resp = get_es_client().search(index=PUB_INDEX, body=query)
     for hit in resp['hits']['hits']:
         try:
             hit['highlight']
-            highlights = [t for t in hit['highlight']['tekst']]
+            highlights = [t for t in hit['highlight'][field]]
         except KeyError:
             highlights = []
         for high in highlights:                

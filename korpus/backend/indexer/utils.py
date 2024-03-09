@@ -40,53 +40,115 @@ PUB_MAPPING = {
             "type": "text",
             "term_vector": "with_positions_offsets",
             "store": "true",
-            # "index_options": "offsets",
-            # "analyzer": "simple"
         },
-        "timestamp": {
-            "type": "date"
-        }
-    }
-}
-
-
-""" Definicija Elasticsearch indeksa za publikacije sa okrenutim tokenima """
-REVERSE_MAPPING = {
-    "properties": {
-        "opis": {
-            "type": "keyword"
-        },
-        "pk": {
-            "type": "keyword"
-        },
-        "skracenica": {
-            "type": "keyword"
-        },
-        "potkorpus": {
-            "type": "keyword"
-        },
-        "tekst": {
+        "tekst_reversed": {
             "type": "text",
             "term_vector": "with_positions_offsets",
             "store": "true",
-            # "index_options": "offsets",
             "analyzer": "reversed"
+        },
+        "tekst_case_sensitive": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "store": "true",
+            "analyzer": "case_sensitive"
         },
         "timestamp": {
             "type": "date"
         }
     }
 }
-REVERSE_SETTINGS = {
+PUB_SETTINGS = {
     "analysis": {
         "analyzer": {
             "reversed": {
                 "tokenizer": "standard",
                 "filter": ["reverse"]
+            },
+            "case_sensitive": {
+                "tokenizer": "standard",
+                "filter": ["stop"]
             }
         }
     }
 }
+
+
+# """ Definicija Elasticsearch indeksa za publikacije sa okrenutim tokenima """
+# REVERSE_MAPPING = {
+#     "properties": {
+#         "opis": {
+#             "type": "keyword"
+#         },
+#         "pk": {
+#             "type": "keyword"
+#         },
+#         "skracenica": {
+#             "type": "keyword"
+#         },
+#         "potkorpus": {
+#             "type": "keyword"
+#         },
+#         "tekst": {
+#             "type": "text",
+#             "term_vector": "with_positions_offsets",
+#             "store": "true",
+#             "analyzer": "reversed"
+#         },
+#         "timestamp": {
+#             "type": "date"
+#         }
+#     }
+# }
+# REVERSE_SETTINGS = {
+#     "analysis": {
+#         "analyzer": {
+#             "reversed": {
+#                 "tokenizer": "standard",
+#                 "filter": ["reverse"]
+#             }
+#         }
+#     }
+# }
+
+
+# """ Definicija Elasticsearch indeksa za publikacije case-sensitive """
+# CASE_SENSITIVE_MAPPING = {
+#     "properties": {
+#         "opis": {
+#             "type": "keyword"
+#         },
+#         "pk": {
+#             "type": "keyword"
+#         },
+#         "skracenica": {
+#             "type": "keyword"
+#         },
+#         "potkorpus": {
+#             "type": "keyword"
+#         },
+#         "tekst": {
+#             "type": "text",
+#             "term_vector": "with_positions_offsets",
+#             "store": "true",
+#             # "index_options": "offsets",
+#             "analyzer": "case_sensitive"
+#         },
+#         "timestamp": {
+#             "type": "date"
+#         }
+#     }
+# }
+# CASE_SENSITIVE_SETTINGS = {
+#     "analysis": {
+#         "analyzer": {
+#             "case_sensitive": {
+#                 "tokenizer": "standard",
+#                 "filter": ["stop"]
+#             }
+#         }
+#     }
+# }
 
 
 """ Definicija Elasticsearch indeksa za reci """
@@ -183,12 +245,14 @@ NASLOV_MAPPING = {
 
 PUB_INDEX = 'publikacije'
 REVERSE_INDEX = 'reverse'
+CASE_SENSITIVE_INDEX = 'casesensitive'
 REC_INDEX = 'reci'
 REVERSEREC_INDEX = 'recreverse'
 NASLOV_INDEX = 'naslovi'
 ALL_INDEXES = {
-    PUB_INDEX: {'index': PUB_INDEX, 'mapping': PUB_MAPPING, 'settings': None},
-    REVERSE_INDEX: {'index': REVERSE_INDEX, 'mapping': REVERSE_MAPPING, 'settings': REVERSE_SETTINGS},
+    PUB_INDEX: {'index': PUB_INDEX, 'mapping': PUB_MAPPING, 'settings': PUB_SETTINGS},
+    # REVERSE_INDEX: {'index': REVERSE_INDEX, 'mapping': REVERSE_MAPPING, 'settings': REVERSE_SETTINGS},
+    # CASE_SENSITIVE_INDEX: {'index': CASE_SENSITIVE_INDEX, 'mapping': CASE_SENSITIVE_MAPPING, 'settings': CASE_SENSITIVE_SETTINGS},
     REC_INDEX: {'index': REC_INDEX, 'mapping': REC_MAPPING, 'settings': None},
     REVERSEREC_INDEX: {'index': REVERSEREC_INDEX, 'mapping': REVERSEREC_MAPPING, 'settings': REVERSEREC_SETTINGS},
     NASLOV_INDEX: {'index': NASLOV_INDEX, 'mapping': NASLOV_MAPPING, 'settings': None},
@@ -270,24 +334,9 @@ def check_elasticsearch():
             return False
         return True
     except requests.exceptions.ConnectionError as ex:
-        log.fatal('Error checking for elasticsearch')
+        log.fatal('Error checking for Elasticsearch')
         log.fatal(ex)
         return False
-
-
-# def create_index_if_needed():
-#     """
-#     Kreira indekse za reci i publikacije. Vraca status uspeha operacije.
-#     """
-#     try:
-#         r = requests.put(f'{settings.ELASTICSEARCH_HOST}/reci', json=REC_MAPPING)
-#         success = r.status_code // 100 == 2
-#         r = requests.put(f'{settings.ELASTICSEARCH_HOST}/publikacije', json=PUB_MAPPING)
-#         success = (r.status_code // 100 == 2) and success
-#         return success
-#     except Exception as ex:
-#         log.fatal(ex)
-#         return False
 
 
 def recreate_index(index=None):

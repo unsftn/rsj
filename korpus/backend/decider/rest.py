@@ -51,6 +51,7 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
         leksema = self.request.query_params.get('leksema')
         recnik = self.request.query_params.get('recnik')
         odluka = self.request.query_params.get('odluka')
+        potkorpus = self.request.query_params.get('potkorpus')
         beleska = self.request.query_params.get('beleska')
         frekod = self.request.query_params.get('frekod')
         frekdo = self.request.query_params.get('frekdo')
@@ -63,6 +64,10 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
         if odluka:
             values = [int(x) for x in odluka.split(',')]
             queryset = queryset.filter(odluka__in=values)
+        # TODO: implement potkorpus filter
+        # if potkorpus:
+        #     values = [int(x) for x in potkorpus.split(',')]
+        #     queryset = queryset.filter(potkorpus_id__in=values)
         if beleska is not None:
             beleska = beleska.capitalize() == 'True'
             if beleska:

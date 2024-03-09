@@ -23,12 +23,15 @@ export class DeciderService {
   }
 
   getByLetterPagedFiltered(letter: string, offset: number, limit: number, recnik: boolean, 
-      odluka: number[], beleska: boolean, leksema: string, frekOd: number, frekDo: number): Observable<RecZaOdluku[]> {
+      odluka: number[], potkorpus: number[], beleska: boolean, leksema: string, 
+      frekOd: number, frekDo: number): Observable<RecZaOdluku[]> {
     let url = `/api/decider/rec-za-odluku-po/${letter}/?offset=${offset}&limit=${limit}`;
     if (recnik != null)
       url += `&recnik=${recnik}`;
     if (odluka)
       url += `&odluka=${odluka.join(',')}`;
+    if (potkorpus)
+      url += `&potkorpus=${potkorpus.join(',')}`;
     if (leksema)
       url += `&leksema=${leksema}`;
     if (beleska !== null)

@@ -19,13 +19,16 @@ def index_publikacija(pub_id, client=None):
             'skracenica': publikacija.skracenica,
             'opis': publikacija.opis(),
             'tekst': tp.tekst,
+            'tekst_reversed': tp.tekst,
+            'tekst_case_sensitive': tp.tekst,
             'timestamp': datetime.now().isoformat()[:-3] + 'Z',
         }
         try:
             if not client:
                 client = get_es_client()
             client.index(index=PUB_INDEX, id=tp.id, document=document)
-            client.index(index=REVERSE_INDEX, id=tp.id, document=document)
+            # client.index(index=REVERSE_INDEX, id=tp.id, document=document)
+            # client.index(index=CASE_SENSITIVE_INDEX, id=tp.id, document=document)
         except Exception as ex:
             log.fatal(ex)
             return False
@@ -201,13 +204,14 @@ def save_dict(rec_dict, client=None):
         return False
 
 
-def delete_imenica(imenica_id):
-    # TODO ovo moze da radi za sve vrste reci
-    # imenica = RecDocument()
+def remove_word(word_type, word_id):
+    """
+    Uklanja rec iz indeksa.
+    """
     try:
-        # TODO: select properly
+        pk = f'{word_type}_{word_id}'
         client = get_es_client()
-        # imenica.delete(using=client, id=imenica_id, index=REC_INDEX)
-        return True
-    except NotFoundError:
-        return False
+        client.delete(index=REC_INDEX, id=pk)
+        client.delete(index=REVERSEREC_INDEX, id=pk)
+    except Exception as ex:
+        log.fatal(ex)

@@ -544,6 +544,20 @@ def user_info(request, user_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['DELETE'])
+def delete_word(request, word_type, word_id):
+    model = WORD_MODELS.get(word_type)
+    if not model:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    try:
+        word = model.objects.get(id=word_id)
+        word.delete()
+        remove_word(word_type, word_id)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except model.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 def generate_password():
     digits = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V",
               "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]

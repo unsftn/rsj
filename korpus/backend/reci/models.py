@@ -1023,3 +1023,17 @@ class IzmenaPriloga(models.Model):
     class Meta:
         verbose_name = 'измена прилога'
         verbose_name_plural = 'измене прилога'
+
+
+WORD_MODELS = {
+    0: Imenica,
+    1: Glagol,
+    2: Pridev,
+    3: Prilog,
+    4: Predlog,
+    5: Zamenica,
+    6: Uzvik,
+    7: Recca,
+    8: Veznik,
+    9: Broj
+}

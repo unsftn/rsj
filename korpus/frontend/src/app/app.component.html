@@ -18,6 +18,14 @@
       placeholder="Облик речи"/>
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" 
       #menuNew [model]="itemsNew" [popup]="true"></p-tieredMenu>
+    <!-- <p-toggleButton 
+      [(ngModel)]="caseSensitive" pRipple onLabel="aA" offLabel="aa" 
+      pTooltip="Разликовање великих и малих слова">
+    </p-toggleButton> -->
+    <button pButton pRipple
+      class="p-button-rounded p-button-outlined button-header toggle-button" 
+      pTooltip="{{caseSensitiveTooltip}}" label="{{caseSensitiveLabel}}"
+      (click)="toggle()"></button>
     <button *ngIf="signedIn()" pButton pRipple icon="pi pi-sliders-h" 
       class="p-button-rounded p-button-outlined button-header" 
       (click)="advanced()" pTooltip="Напредна претрага">

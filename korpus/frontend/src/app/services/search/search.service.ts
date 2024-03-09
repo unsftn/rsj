@@ -61,8 +61,8 @@ export class SearchService {
     return this.http.get<any[]>(`/api/pretraga/publikacije/?w=${wordId}&t=${wordType}&f=${fragmentSize}&s=${scanner}`);
   }
 
-  searchForms(query: string, fragmentSize: number, scanner: string): Observable<any> {
-    return this.http.get<any>(`/api/pretraga/oblici/?q=${query}&f=${fragmentSize}&s=${scanner}`);
+  searchForms(query: string, fragmentSize: number, scanner: string, caseSensitive: boolean): Observable<any> {
+    return this.http.get<any>(`/api/pretraga/oblici/?q=${query}&f=${fragmentSize}&s=${scanner}&cs=${caseSensitive}`);
   }
 
   checkDupes(word: string, id: number): Observable<any> {

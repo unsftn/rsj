@@ -43,4 +43,8 @@ export class RecService {
   getEditRouterLink(id: number, wordType: number): any[] {
     return [this.getEditLink(wordType), id];
   }
+
+  delete(id: number, wordType: number): Observable<any> {
+    return this.http.delete<any>(`/api/reci/${wordType}/${id}/`);
+  }
 }
