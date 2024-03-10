@@ -37,6 +37,26 @@
     </div>
   </div>
 
+  <div class="grid align-items-center">
+    <div class="col-9">
+      <p-paginator [totalRecords]="hits.length" [first]="first" 
+        (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
+        [showJumpToPageDropdown]="true">
+      </p-paginator>
+    </div>
+    <div class="col-3 flex justify-content-end">
+      <p>{{hits.length}} {{pogodaka()}}</p>
+      <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
+        (onChange)="changeFragmentSize($event)" optionLabel="name" 
+        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+      </p-dropdown>
+      <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
+        (onChange)="changeScanner($event)" optionLabel="name" 
+        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+      </p-dropdown>
+    </div>
+  </div>
+
 </div>
 
 <p-overlayPanel #colorpicker>
