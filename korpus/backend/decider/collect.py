@@ -13,11 +13,11 @@ esclient = get_es_client()
 rsjclient = get_rsj_client()
 
 
-def collect_all():
+def collect_all(stdout=None):
     all_words = collect_words()
-    find_roots(all_words)
-    update_db(all_words)
-    connect_to_rsj()
+    find_roots(all_words, stdout)
+    update_db(all_words, stdout)
+    connect_to_rsj(stdout)
 
 
 def collect_words():
@@ -40,7 +40,7 @@ def collect_words():
     return all_words
 
 
-def find_roots(words):
+def find_roots(words, stdout=None):
     """
     Konsoliduje recnik svih pronadjenih reci (words) tako sto ujedinjuje sve
     oblike iste reci pod jednu stavku, odredjenu osnovnim oblikom reci. Za
@@ -52,7 +52,9 @@ def find_roots(words):
     for index, (key, word) in enumerate(list(words.items())):
         oo = find_root(key)
         if index % 10000 == 0 and index > 0:
-            log.info(f'Finished finding root for {index} words...')
+            if stdout:
+                stdout.write(f'Finished finding root for {index} words...')
+                stdout.flush()
         
         # ako ova leksema moze biti oblik vise od jedne reci, onda ne radimo
         # nista - nismo sigurni kojoj reci ona pripada
@@ -157,7 +159,7 @@ def unify(words, token):
             word['tekst'] = oo['rec']
 
 
-def update_db(words):
+def update_db(words, stdout=None):
     """
     Azurira/dodaje stavke u bazu podataka na osnovu konsolidovanog recnika 
     svih pronadjenih reci u publikacijama.
@@ -189,14 +191,16 @@ def update_db(words):
                 vreme_odluke=now(),
                 poslednje_generisanje=gs)
         if i % 10000 == 0 and i > 0:
-            log.info(f'Saved {i} words...')
+            if stdout:
+                stdout.write(f'Saved {i} words...')
+                stdout.flush()
     gs.end_time = now()
     gs.save()
     end_time = now()
     log.info(f'Database updates took {end_time-start_time}')
 
 
-def connect_to_rsj():
+def connect_to_rsj(stdout=None):
     """
     Pronalazi osnovni oblik date reci u recniku RSJ. Za uspesnu pretragu
     vraca ID te reci u recniku; za neuspesnu pretragu vraca -1.
@@ -215,7 +219,9 @@ def connect_to_rsj():
                 rzo.save()
         count += 1
         if count % 10000 == 0:
-            log.info(f'Lookup done for {count} words')
+            if stdout:
+                stdout.write(f'Lookup done for {count} words...')
+                stdout.flush()
     end_time = now()
     log.info(f'RSJ lookup finished in {end_time-start_time}')
 

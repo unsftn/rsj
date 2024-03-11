@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         start_time = datetime.now()
         log.info(f'Collecting words...')
-        collect_all()
+        collect_all(self.stdout)
         end_time = datetime.now()
-        log.info(f'Time elapsed: {str(end_time-start_time)}')
+        log.info(f'Collecting words finished in: {str(end_time-start_time)}')
 
