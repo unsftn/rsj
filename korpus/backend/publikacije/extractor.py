@@ -16,7 +16,12 @@ def extract_file(fajl_publikacije):
     if not isinstance(fajl_publikacije, FajlPublikacije):
         return None
     filepath = os.path.join(settings.MEDIA_ROOT, fajl_publikacije.filepath())
-    text = textract.process(filepath).decode('utf-8')
+    try:
+        text = textract.process(filepath).decode('utf-8')
+    except Exception as e:
+        logger.error(f'Greška pri ekstrakciji teksta iz fajla: {filepath}')
+        logger.error(e)
+        return None
     return text
     # files = {'file': open(filepath, 'rb')}
     # response = requests.post('https://extractor.rsj.rs/extract', files=files)
