@@ -206,11 +206,12 @@ def dinamicki_izvestaj_task(task_id):
 
 
 def generisi_predefinisane():
-    ctx = ima_korpus_nema_recnik()
-    izvestaj(ctx)
+    # ova dva izvestaja su prespora (2h40 minuta svaki)
+    # ctx = ima_korpus_nema_recnik()
+    # izvestaj(ctx)
+    # ctx = ima_korpus_nema_recnik_f_manje_10()
+    # izvestaj(ctx)
     ctx = ima_korpus_nema_recnik_f_vece_10()
-    izvestaj(ctx)
-    ctx = ima_korpus_nema_recnik_f_manje_10()
     izvestaj(ctx)
     ctx = ima_korpus_ima_recnik_f_vece_10()
     izvestaj(ctx)
