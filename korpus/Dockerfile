@@ -1,4 +1,4 @@
-FROM node:18-alpine AS angular
+FROM node:20-alpine AS angular
 RUN npm update -g
 RUN mkdir /app
 WORKDIR /app

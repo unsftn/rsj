@@ -49,11 +49,11 @@
     <div class="w150 labela">Фреквенција</div>
     <div class="w50 labela mr-2">од</div>
     <div class="p-inputgroup w150">
-      <p-inputNumber [(ngModel)]="frekOd" [maxlength]="8" [disabled]="formDisabled"></p-inputNumber>
+      <p-inputNumber [(ngModel)]="frekOd" [maxlength]="8" [disabled]="formDisabled" inputStyleClass="w-full"></p-inputNumber>
     </div>
     <div class="w50 labela ml-2 mr-2">до</div>
     <div class="p-inputgroup w150">
-      <p-inputNumber [(ngModel)]="frekDo" [maxlength]="8" [disabled]="formDisabled"></p-inputNumber>
+      <p-inputNumber [(ngModel)]="frekDo" [maxlength]="8" [disabled]="formDisabled" inputStyleClass="w-full"></p-inputNumber>
     </div>
   </div>
   <div class="flex mb-2 align-items-baseline">
@@ -76,7 +76,7 @@
   <div class="flex mb-2 align-items-baseline">
     <div class="w150 labela">Опсег слова</div>
     <div class="p-inputgroup w150">
-      <input type="text" pInputText [(ngModel)]="opsegSlova"/>
+      <input type="text" pInputText [(ngModel)]="opsegSlova" inputStyleClass="w-full"/>
     </div>
     <div class="labela ml-3">нпр. <span class="primer">а</span>, <span class="primer">а-б</span>, <span class="primer">аб-ад</span> или <span class="primer">аа-ад,в,г,фа-фр</span></div>
   </div>

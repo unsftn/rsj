@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, MessageService, PrimeNGConfig } from 'primeng/api';
-import { Container, Engine } from "tsparticles-engine";
+import { Container, Engine } from "@tsparticles/engine";
 // import { loadFull } from "tsparticles";
-import { loadConfettiPreset } from 'tsparticles-preset-confetti';
+import { loadConfettiPreset } from '@tsparticles/preset-confetti';
 import { StatsService } from '../../services/reci/stats.service';
 import { SearchService } from '../../services/search/search.service';
 

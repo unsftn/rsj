@@ -58,6 +58,7 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.hits = [];
     this.titleService.setTitle('Корпус');
     this.fragmentSize = this.fragmentSizes[0];
     this.scanner = this.scanners[0];
@@ -194,6 +195,8 @@ export class SearchComponent implements OnInit {
 
   pogodaka(): string {
     // izuzetak: 11, 12, 13, 14 pogodaka
+    if (this.hits === undefined)
+      return 'погодака';
     const teens = this.hits.length % 100;
     if (teens > 10 && teens < 20)
       return 'погодака';
