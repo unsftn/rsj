@@ -8,8 +8,8 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.text.fonts import FontConfiguration
-from docx import Document
-from htmldocx import HtmlToDocx
+# from docx import Document
+# from htmldocx import HtmlToDocx
 from odrednice.models import *
 from pretraga.rest import load_opis_from_korpus
 from .models import *
@@ -517,18 +517,19 @@ def render_to_pdf(context, template, doc_type, opis=''):
 
 
 def render_to_docx(context, template, doc_type, opis=''):
-    tpl = get_template(template)
-    html_text = tpl.render(context)
-    document = Document()
-    style = document.styles['Normal']
-    font = style.font
-    font.name = 'Dijakritika'
-    new_parser = HtmlToDocx()
-    new_parser.add_html_to_document(html_text, document)
-    temp_file = tempfile.TemporaryFile()
-    document.save(temp_file)
-    novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'docx')
-    return novi_dokument.rendered_file.name
+    # tpl = get_template(template)
+    # html_text = tpl.render(context)
+    # document = Document()
+    # style = document.styles['Normal']
+    # font = style.font
+    # font.name = 'Dijakritika'
+    # new_parser = HtmlToDocx()
+    # new_parser.add_html_to_document(html_text, document)
+    # temp_file = tempfile.TemporaryFile()
+    # document.save(temp_file)
+    # novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'docx')
+    # return novi_dokument.rendered_file.name
+    return ''
 
 
 def add_file_to_django(doc_type, opis, file_path, file_type):
