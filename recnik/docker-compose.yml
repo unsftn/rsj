@@ -2,7 +2,7 @@ version: "3.8"
 services:
   elastic:
     container_name: elastic-recnik
-    image: elasticsearch:8.6.0
+    image: elasticsearch:8.12.2
     restart: always
     volumes: 
       - recnik-elastic:/usr/share/elasticsearch/data
@@ -38,7 +38,9 @@ services:
       retries: 10
   recnik:
     container_name: recnik
-    image: rsj/recnik
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       mysql:
@@ -49,6 +51,19 @@ services:
       - recnik-private:/private
       - recnik-log:/app/log
       - recnik-media:/app/media
+    networks:
+      recnik:
+  nginx:
+    container_name: recnik-nginx
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    restart: always
+    depends_on: 
+      - recnik
+    volumes:
+      - recnik-log:/var/log/nginx
+      - recnik-media:/media
     labels:
       - "traefik.http.routers.recnik.rule=Host(`recnik.rsj.rs`)"
       - traefik.http.routers.recnik.entrypoints=web
@@ -57,6 +72,8 @@ services:
       - traefik.http.routers.recnik-secured.entrypoints=websecure
       - traefik.http.routers.recnik-secured.tls.certresolver=letsencrypt
       - traefik.http.routers.recnik-secured.tls=true
+    ports:
+      - "80:80"
     networks:
       recnik:
 networks:

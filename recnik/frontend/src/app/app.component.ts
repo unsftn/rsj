@@ -60,9 +60,9 @@ export class AppComponent implements OnInit {
     );
   }
 
-  select(value): void {
+  select(event): void {
     this.searchText = '';
-    this.router.navigate(['/edit', value.pk]);
+    this.router.navigate(['/edit', event.value.pk]);
   }
 
   ngOnInit(): void {

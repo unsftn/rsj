@@ -41,6 +41,8 @@ projekta, dakle `korpus/backend`.
 
 Instaliranje potrebnih paketa
 ```bash
+pip install -U pip
+pip install setuptools
 pip install -r requirements.txt
 ```
 
@@ -77,7 +79,7 @@ docker network connect recnik traefik
 mkdir data init elastic export private log media
 touch private/secrets
 # inicijalizuj promenljive u private/secrets
-docker compose up -d
+docker compose up -d --build
 ```
 
 Značenje direktorijuma je sledeće:
@@ -92,12 +94,12 @@ Značenje direktorijuma je sledeće:
 Arhitektura aplikacije:
 
 ```
-                                   +---------------+
-                                   | elasticsearch |
-                                +--+ korpus        |
-+-------+    +----------+       |  +---------------+
-|       |    | gunicorn |       |                 
-| nginx +----+    +     +-------+  +---------------+
+             +----------+          +---------------+
+             | qcluster +---+      | elasticsearch |
+             +----------+   |   +--+ korpus        |
++-------+    +----------+   |   |  +---------------+
+|       |    | gunicorn |   |   |                 
+| nginx +----+    +     +---+---+  +---------------+
 |       |    |  django  |       |  | elasticsearch |
 +---+---+    +-+--------+       +--+ recnik        |
     |          |                |  +---------------+
