@@ -72,8 +72,6 @@ services:
       - traefik.http.routers.recnik-secured.entrypoints=websecure
       - traefik.http.routers.recnik-secured.tls.certresolver=letsencrypt
       - traefik.http.routers.recnik-secured.tls=true
-    ports:
-      - "80:80"
     networks:
       recnik:
 networks:
