@@ -2,7 +2,7 @@ version: "3.8"
 services:
   elastic:
     container_name: elastic-korpus
-    image: elasticsearch:8.6.0
+    image: elasticsearch:8.12.2
     restart: always
     volumes: 
       - korpus-elastic:/usr/share/elasticsearch/data
@@ -38,7 +38,9 @@ services:
       retries: 10
   korpus:
     container_name: korpus
-    image: rsj/korpus
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     depends_on:
       mysql:
@@ -52,19 +54,13 @@ services:
       - korpus-export:/app/export
       - ./gsheets-token.json:/app/gsheets-token.json
       - ./gsheets-credentials.json:/app/gsheets-credentials.json
-    labels:
-      - "traefik.http.routers.korpus.rule=Host(`korpus.rsj.rs`)"
-      - traefik.http.routers.korpus.entrypoints=web
-      - traefik.http.routers.korpus.middlewares=redirect-to-https@docker
-      - "traefik.http.routers.korpus-secured.rule=Host(`korpus.rsj.rs`)"
-      - traefik.http.routers.korpus-secured.entrypoints=websecure
-      - traefik.http.routers.korpus-secured.tls.certresolver=letsencrypt
-      - traefik.http.routers.korpus-secured.tls=true
     networks:
       recnik:
   qcluster:
     container_name: korpus-qcluster
-    image: rsj/korpus
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: always
     command: qcluster
     depends_on: 
@@ -79,6 +75,27 @@ services:
       - korpus-export:/app/export
       - ./gsheets-token.json:/app/gsheets-token.json
       - ./gsheets-credentials.json:/app/gsheets-credentials.json
+    networks:
+      recnik:
+  nginx:
+    container_name: korpus-nginx
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    restart: always
+    depends_on: 
+      - korpus
+    volumes:
+      - korpus-log:/var/log/nginx
+      - korpus-media:/media
+    labels:
+      - "traefik.http.routers.korpus.rule=Host(`korpus.rsj.rs`)"
+      - traefik.http.routers.korpus.entrypoints=web
+      - traefik.http.routers.korpus.middlewares=redirect-to-https@docker
+      - "traefik.http.routers.korpus-secured.rule=Host(`korpus.rsj.rs`)"
+      - traefik.http.routers.korpus-secured.entrypoints=websecure
+      - traefik.http.routers.korpus-secured.tls.certresolver=letsencrypt
+      - traefik.http.routers.korpus-secured.tls=true
     networks:
       recnik:
 networks:

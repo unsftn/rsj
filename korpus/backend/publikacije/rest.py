@@ -118,6 +118,8 @@ def api_create_publication(request):
             serializer = SavePublikacijaSerializer(publikacija, data=request.data)
         except (KeyError, Publikacija.DoesNotExist):
             return Response({'error': 'invalid or missing object id'}, status=status.HTTP_404_NOT_FOUND, content_type=JSON)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)
     if serializer.is_valid():
         publikacija = serializer.save(user=request.user)
         ser2 = PublikacijaSerializer(publikacija)

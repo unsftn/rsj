@@ -102,14 +102,14 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/search'], { queryParams: { form: form, cs: this.caseSensitive}});
   }
 
-  select(value): void {
+  select(event): void {
     this.searchWord = '';
     this.searchForm = '';
-    this.searchService.selectedWordId = value.pk;
-    this.searchService.selectedWordType = value.vrsta;
+    this.searchService.selectedWordId = event.value.pk;
+    this.searchService.selectedWordType = event.value.vrsta;
     this.searchService.selectedWordForm = null;
     this.searchService.selectedWordChanged.emit(true);
-    this.router.navigate(['/search'], { queryParams: { id: value.pk, type: value.vrsta }});
+    this.router.navigate(['/search'], { queryParams: { id: event.value.pk, type: event.value.vrsta }});
   }
 
   onKeyUp(event: KeyboardEvent): void {
