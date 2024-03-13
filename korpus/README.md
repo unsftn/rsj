@@ -72,6 +72,8 @@ mkdir -p /var/dockersites
 cd /var/dockersites
 git clone https://github.com/unsftn/rsj.git
 cd rsj/korpus
+docker network create recnik
+docker network connect recnik traefik
 mkdir data init elastic export private log media
 touch private/secrets
 # inicijalizuj promenljive u private/secrets
