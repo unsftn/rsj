@@ -1,12 +1,3 @@
-# FROM node:18-alpine AS angular
-# RUN npm update -g
-# RUN mkdir /app
-# WORKDIR /app
-# COPY frontend/package.json frontend/package-lock.json /app/
-# RUN npm install
-# COPY frontend /app
-# RUN npm run build -- --output-path=/app/frontend/dist/
-
 FROM python:3.11-slim-bookworm
 LABEL maintainer="Branko Milosavljevic <mbranko@uns.ac.rs>"
 RUN apt-get -y update
@@ -27,7 +18,6 @@ ENV DJANGO_SETTINGS=$django_settings
 RUN python3 /app/manage.py collectstatic --noinput
 RUN rm -rf /app/log/*
 RUN rm -rf /private
-# COPY --from=angular /app/frontend/dist /app/staticfiles
 RUN chmod +x /app/run_prod.sh
 EXPOSE 8000
 ENTRYPOINT ["/app/run_prod.sh"]
