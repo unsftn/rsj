@@ -1,14 +1,13 @@
 ## Potrebne stvari
 
 Za backend:
- * Python 3.9
- * Django 4.1
- * gunicorn
+ * Python 3.11
  * MariaDB 10.10+
+ * Elasticsearch 8.12+
 
 Za frontend:
- * Angular 15
- * PrimeNG 15
+ * Angular 17
+ * PrimeNG 17
 
 ## Podešavanje za razvoj
 
@@ -66,58 +65,43 @@ projekta, dakle `korpus/frontend`:
 ng serve
 ```
 
-## Pravljenje Docker slike
+## Instalacija na produkciju
 
-Iz `korpus` foldera:
 ```bash
-docker build -t rsj/korpus .
+mkdir -p /var/dockersites
+cd /var/dockersites
+git clone https://github.com/unsftn/rsj.git
+cd rsj/korpus
+mkdir data init elastic export private log media
+touch private/secrets
+# inicijalizuj promenljive u private/secrets
+docker compose up -d
 ```
 
-Pokretanje MySQL-a:
-```bash
-docker run \
-  --name korpus-mysql \
-  --restart always \
-  --detach \
-  -v /var/rsj/korpus/data:/var/lib/mysql \
-  -v /var/rsj/korpus/init:/docker-entrypoint-initdb.d \
-  -e MYSQL_ROOT_PASSWORD=korpus \
-  -e MYSQL_USER=korpus \
-  -e MYSQL_PASSWORD=korpus \
-  -e MYSQL_DATABASE=korpus \
-  mysql:5.7.32 \
-  --character-set-server=utf8mb4 \
-  --collation-server=utf8mb4_unicode_ci 
+Značenje direktorijuma je sledeće:
+* `data`: fajlovi MariaDB baze podataka
+* `init`: inicijalni skriptovi za bazu podataka (pokreću se samo prvi put, kada baza nije kreirana)
+* `elastic`: fajlovi za Elasticsearch
+* `export`: direktorijum koji se mapira na /app/export i mogu mu pristupati Django komande
+* `private`: sadrži fajl secrets sa lozinkama i drugim podešavanjima
+* `media`: uploadovani fajlovi, generisani fajlovi
+* `log`: log fajlovi
+
+Arhitektura aplikacije:
+
 ```
-
-Pokretanje aplikacije:
-```bash
-docker run \
-  --name recnik \
-  --detach \
-  --link korpus-mysql \
-  -v /var/rsj/korpus/private:/private \
-  -v /var/rsj/korpus/log:/app/log \
-  -p 8000:8000 \
-  rsj/korpus
+                                   +---------------+
+                                   | elasticsearch |
+                                +--+ korpus        |
++-------+    +----------+       |  +---------------+
+|       |    | gunicorn |       |                 
+| nginx |    |    +     +-------+  +---------------+
+|       |    |  django  |       |  | elasticsearch |
++---+---+    +-+--------+       +--+ recnik        |
+    |          |                |  +---------------+
+    |          | +--------+     |                 
+    +----------+-+ /media |     |  +---------------+
+                 +--------+     |  |  mariadb      |
+                                +--+               |
+                                   +---------------+
 ```
-
-Na laptopu:
-```bash
-mkdir -p ~/tmp/rsj/data
-mkdir -p ~/tmp/rsj/init
-mkdir -p ~/tmp/rsj/log
-mkdir -p ~/tmp/rsj/private
-echo "SECRET_KEY=abcdwfslkdjslkdjg" > ~/tmp/private/secrets
-docker run --name korpus-mysql --detach -v ~/tmp/rsj/data:/var/lib/mysql -v ~/tmp/rsj/init:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=korpus -e MYSQL_USER=korpus -e MYSQL_PASSWORD=korpus -e MYSQL_DATABASE=korpus mysql:5.7.32 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci 
-docker run --name korpus --detach --link korpus-mysql -v ~/tmp/rsj/private:/private -v ~/tmp/rsj/log:/app/log -p 8000:8000 rsj/korpus
-```
-
-## Pokretanje ElasticSearch-a:
-```bash
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -e "xpack.security.enabled=false" -e ES_JAVA_OPTS="-Xms4g -Xmx4g" --name elastic-korpus --detach elasticsearch:8.6.0
-```
-
-Chrome plugin za ElasticSearch preko kojeg se mogu kreirati/brisati indeksi, dokumenti, i izvrsavati pretraga:
-https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm
-
