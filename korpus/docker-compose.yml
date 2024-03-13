@@ -96,8 +96,6 @@ services:
       - traefik.http.routers.korpus-secured.entrypoints=websecure
       - traefik.http.routers.korpus-secured.tls.certresolver=letsencrypt
       - traefik.http.routers.korpus-secured.tls=true
-    ports:
-      - "80:80"
     networks:
       recnik:
 networks:
