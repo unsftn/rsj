@@ -126,6 +126,7 @@ export class AllWordsComponent implements OnInit {
           item.odluka_str = this.odluke[item.odluka-1].name;
           item.vrsta_str = item.vrsta_reci != null ? this.vrste[item.vrsta_reci].name : '';
           item.in_rsj_str = item.recnik_id ? 'да': 'не';
+          item.potkorpusi = this.potkorpusi(item);
           return item; 
         });
         this.ukupno[slovo] = response.count;
@@ -222,6 +223,16 @@ export class AllWordsComponent implements OnInit {
 
   isAdmin(): boolean {
     return this.tokenStorageService.isAdmin();
+  }
+
+  potkorpusi(rec: any): string {
+    let potkorpusi = '';
+    if (rec.potkorpus_1) potkorpusi += 'К ';
+    if (rec.potkorpus_2) potkorpusi += 'Нв ';
+    if (rec.potkorpus_3) potkorpusi += 'Р ';
+    if (rec.potkorpus_4) potkorpusi += 'Нч ';
+    if (rec.potkorpus_5) potkorpusi += 'О ';
+    return potkorpusi.length > 0 ? potkorpusi.slice(0, -1) : '' ;
   }
 
 }

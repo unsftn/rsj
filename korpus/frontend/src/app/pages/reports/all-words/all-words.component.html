@@ -88,7 +88,8 @@
           <ng-template pTemplate="header">
             <tr>
               <th>Лексема</th>
-              <th class="w100">Врста речи</th>
+              <th class="w100">Врста</th>
+              <th class="w100 right">Поткорпус</th>
               <th class="w100 right">Корпус ID</th>
               <th class="w100 right">Речник ID</th>
               <th class="w100 right">Бр. извора</th>
@@ -102,6 +103,7 @@
             <tr class="highlighted-row">
               <td class="redlink" (click)="openRec(rec)">{{rec.tekst}}</td>
               <td class="right">{{rec.vrsta_str}}</td>
+              <td class="right">{{rec.potkorpusi}}</td>
               <td class="right" (click)="openKorpus(rec)" [class.redlink]="rec.korpus_id">{{rec.korpus_id}}</td>
               <td class="right" (click)="openRecnik(rec)" [class.redlink]="rec.recnik_id">{{rec.recnik_id}}</td>
               <td class="right">{{rec.broj_publikacija}}</td>
