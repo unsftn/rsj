@@ -38,6 +38,7 @@ services:
       retries: 10
   korpus:
     container_name: korpus
+    image: rsj/korpus
     build:
       context: .
       dockerfile: Dockerfile
@@ -58,16 +59,16 @@ services:
       recnik:
   qcluster:
     container_name: korpus-qcluster
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: rsj/korpus
     restart: always
     command: qcluster
     depends_on: 
       mysql:
         condition: service_healthy
       elastic:
-          condition: service_healthy
+        condition: service_healthy
+      korpus:
+        condition: service_started
     volumes:
       - korpus-private:/private
       - korpus-log:/app/log
