@@ -38,6 +38,7 @@ services:
       retries: 10
   recnik:
     container_name: recnik
+    image: rsj/recnik
     build:
       context: .
       dockerfile: Dockerfile
