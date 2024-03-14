@@ -181,7 +181,6 @@ def index_prilog(prilog, client=None):
 def save_dict(rec_dict, client=None):
     try:
         oblici = rec_dict['oblici']
-        oblici = clear_text(oblici)
         oblici = add_latin(oblici)
         if not oblici:
             log.warning(f'Prazna lista oblika za {rec_dict}')
@@ -194,8 +193,6 @@ def save_dict(rec_dict, client=None):
         rec_dict['timestamp'] = datetime.now().isoformat()[:-3] + 'Z'
         if not client:
             client = get_es_client()
-        # if client.exists(index=REC_INDEX, id=rec_dict['pk']):
-        #     client.delete(index=REC_INDEX, id=rec_dict['pk'])
         client.index(index=REC_INDEX, id=rec_dict['pk'], document=rec_dict)
         client.index(index=REVERSEREC_INDEX, id=rec_dict['pk'], document=rec_dict)
         return True

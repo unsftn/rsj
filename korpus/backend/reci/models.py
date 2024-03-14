@@ -289,9 +289,12 @@ class Glagol(models.Model):
     def oblici(self) -> list:
         retval = [self.infinitiv]
         retval.extend(_svi_oblici_glagola(self))
-        retval.extend([self.rgp_mj, self.rgp_zj, self.rgp_sj, self.rgp_mm, self.rgp_zm, self.rgp_sm])
+        for x in ['rgp_mj', 'rgp_zj', 'rgp_sj', 'rgp_mm', 'rgp_zm', 'rgp_sm', 'gpp', 'gpp2', 'gps']:
+            _append_attr(retval, self, x)
+
+        # retval.extend([x for x in [self.rgp_mj, self.rgp_zj, self.rgp_sj, self.rgp_mm, self.rgp_zm, self.rgp_sm] if x])
         # retval.extend([self.tgp_mj, self.tgp_zj, self.tgp_sj, self.tgp_mm, self.tgp_zm, self.tgp_sm])
-        retval.extend([self.gpp, self.gpp2, self.gps])
+        # retval.extend([x for x in [self.gpp, self.gpp2, self.gps]])
         return retval
 
 
