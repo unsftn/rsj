@@ -16,7 +16,9 @@ class RecZaOdlukuSerializer(serializers.ModelSerializer):
             'id', 'prvo_slovo', 'tekst', 'vrsta_reci', 'korpus_id', 
             'recnik_id', 'odluka', 'broj_publikacija', 'broj_pojavljivanja', 
             'vreme_odluke', 'donosilac_odluke', 'poslednje_generisanje',
-            'beleska')
+            'beleska', 'potkorpus_1', 'potkorpus_2', 'potkorpus_3', 
+            'potkorpus_4', 'potkorpus_5', 'potkorpus_6', 'potkorpus_7', 
+            'potkorpus_8', 'potkorpus_9')
 
     def update(self, instance, validated_data):
         request = self.context.get('request')

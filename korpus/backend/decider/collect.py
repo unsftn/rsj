@@ -34,7 +34,7 @@ def collect_words():
             content = remove_punctuation(lat_to_cyr(tekst.tekst.lower()))
             for w in content.split():
                 if w: 
-                    store_word(all_words, w, p.id)
+                    store_word(all_words, w, p.id, p.potkorpus_id)
     end_time = now()
     log.info(f'Word collection took {end_time-start_time}')
     return all_words
@@ -102,61 +102,61 @@ def find_roots(words, stdout=None):
     log.info(f'Finding roots for {total_words} words resulted in {len(words)} entries and took {end_time-start_time}')
 
 
-def unify(words, token):
-    for key, word in list(words.items()):
-        if not key.startswith(token):
-            continue
+# def unify(words, token):
+#     for key, word in list(words.items()):
+#         if not key.startswith(token):
+#             continue
 
-        oo = find_root(key)
+#         oo = find_root(key)
         
-        # ako ova leksema moze biti oblik vise od jedne reci, onda ne radimo
-        # nista - nismo sigurni kojoj reci ona pripada
-        if len(oo) == 1:
-            oo = oo[0]
-        else:
-            continue
+#         # ako ova leksema moze biti oblik vise od jedne reci, onda ne radimo
+#         # nista - nismo sigurni kojoj reci ona pripada
+#         if len(oo) == 1:
+#             oo = oo[0]
+#         else:
+#             continue
         
-        try:
-            # ako ne znamo osnovni oblik preskacemo
-            if not oo['rec']:
-                continue
+#         try:
+#             # ako ne znamo osnovni oblik preskacemo
+#             if not oo['rec']:
+#                 continue
             
-            # ako je ovo rec koja jeste osnovni oblik, i vec je u mapi, 
-            # ne radi nista
-            if words[oo['rec']] == word:
-                log.info(f'Rec {word["tekst"]} je osnovni oblik i vec je u mapi - ne radi nista')
-                continue
+#             # ako je ovo rec koja jeste osnovni oblik, i vec je u mapi, 
+#             # ne radi nista
+#             if words[oo['rec']] == word:
+#                 log.info(f'Rec {word["tekst"]} je osnovni oblik i vec je u mapi - ne radi nista')
+#                 continue
             
-            # ako je ovo rec koja nije osnovni oblik, a osnovni oblik je 
-            # u mapi, akumuliraj statistike
-            log.info(f'Menjamo rec u mapi: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])}')
-            words[oo['rec']]['count'] += word['count']
-            words[oo['rec']]['pubs'].update(word['pubs'])
-            words[oo['rec']]['vrsta'] = oo['vrsta']
-            words[oo['rec']]['korpus_id'] = oo['id']
-            log.info(f'Akumulirane statistike: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])} iz reci: {word["tekst"]} {word["count"]} {len(word["pubs"])}')
+#             # ako je ovo rec koja nije osnovni oblik, a osnovni oblik je 
+#             # u mapi, akumuliraj statistike
+#             log.info(f'Menjamo rec u mapi: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])}')
+#             words[oo['rec']]['count'] += word['count']
+#             words[oo['rec']]['pubs'].update(word['pubs'])
+#             words[oo['rec']]['vrsta'] = oo['vrsta']
+#             words[oo['rec']]['korpus_id'] = oo['id']
+#             log.info(f'Akumulirane statistike: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])} iz reci: {word["tekst"]} {word["count"]} {len(word["pubs"])}')
 
-            # ako je ovo rec koja nije osnovni oblik, ukloni je iz mape
-            # (osnovni oblik je akumulirao njenu statistiku)
-            if words[oo['rec']]['tekst'] != word['tekst']:
-                log.info(f'Rec {word["tekst"]} nije osnovni oblik, uklanjamo je iz mape')
-                del words[word['tekst']]
-        except KeyError:
-            # prvi put smo naisli na ovaj osnovni oblik
-            # dodaj rec u mapu za ovaj osnovni oblik
-            words[oo['rec']] = word
-            words[oo['rec']]['vrsta'] = oo['vrsta']
-            words[oo['rec']]['korpus_id'] = oo['id']
-            log.info(f'Rec {word["tekst"]} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
+#             # ako je ovo rec koja nije osnovni oblik, ukloni je iz mape
+#             # (osnovni oblik je akumulirao njenu statistiku)
+#             if words[oo['rec']]['tekst'] != word['tekst']:
+#                 log.info(f'Rec {word["tekst"]} nije osnovni oblik, uklanjamo je iz mape')
+#                 del words[word['tekst']]
+#         except KeyError:
+#             # prvi put smo naisli na ovaj osnovni oblik
+#             # dodaj rec u mapu za ovaj osnovni oblik
+#             words[oo['rec']] = word
+#             words[oo['rec']]['vrsta'] = oo['vrsta']
+#             words[oo['rec']]['korpus_id'] = oo['id']
+#             log.info(f'Rec {word["tekst"]} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
 
-            # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
-            if oo['rec'] != word['tekst']:
-                log.info(f'Rec {word["tekst"]} se razlikuje od osnovnog oblika {oo["rec"]}, izbacujemo je iz mape')
-                del words[word['tekst']]
+#             # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
+#             if oo['rec'] != word['tekst']:
+#                 log.info(f'Rec {word["tekst"]} se razlikuje od osnovnog oblika {oo["rec"]}, izbacujemo je iz mape')
+#                 del words[word['tekst']]
 
-            # tekst u reci treba da bude osnovni oblik
-            log.info(f'Tekst u reci {word["tekst"]} postavljamo na osnovni oblik: {oo["rec"]}')
-            word['tekst'] = oo['rec']
+#             # tekst u reci treba da bude osnovni oblik
+#             log.info(f'Tekst u reci {word["tekst"]} postavljamo na osnovni oblik: {oo["rec"]}')
+#             word['tekst'] = oo['rec']
 
 
 def update_db(words, stdout=None):
@@ -170,6 +170,15 @@ def update_db(words, stdout=None):
     for i, (k, w) in enumerate(words.items()):
         rec = k
         rzos = RecZaOdluku.objects.filter(tekst=rec)
+        p1 = 1 in w['potkorpus']
+        p2 = 2 in w['potkorpus']
+        p3 = 3 in w['potkorpus']
+        p4 = 4 in w['potkorpus']
+        p5 = 5 in w['potkorpus']
+        p6 = 6 in w['potkorpus']
+        p7 = 7 in w['potkorpus']
+        p8 = 8 in w['potkorpus']
+        p9 = 9 in w['potkorpus']
         if len(rzos) > 0:
             rzo = rzos[0]
             rzo.broj_publikacija = len(w['pubs'])
@@ -177,6 +186,24 @@ def update_db(words, stdout=None):
             rzo.poslednje_generisanje = gs
             rzo.vrsta_reci = w['vrsta']
             rzo.korpus_id = w['korpus_id']
+            if p1:
+                rzo.potkorpus_1 = True
+            if p2:
+                rzo.potkorpus_2 = True
+            if p3:
+                rzo.potkorpus_3 = True
+            if p4:
+                rzo.potkorpus_4 = True
+            if p5:  
+                rzo.potkorpus_5 = True
+            if p6:
+                rzo.potkorpus_6 = True
+            if p7:
+                rzo.potkorpus_7 = True
+            if p8:
+                rzo.potkorpus_8 = True
+            if p9:
+                rzo.potkorpus_9 = True
             rzo.save()
         else:
             prvo_slovo = 'X' if contains_non_cyrillic_chars(rec) else rec[0]
@@ -189,6 +216,15 @@ def update_db(words, stdout=None):
                 broj_publikacija=len(w['pubs']), 
                 broj_pojavljivanja=w['count'],
                 vreme_odluke=now(),
+                potkorpus_1=p1,
+                potkorpus_2=p2,
+                potkorpus_3=p3,
+                potkorpus_4=p4,
+                potkorpus_5=p5,
+                potkorpus_6=p6,
+                potkorpus_7=p7,
+                potkorpus_8=p8,
+                potkorpus_9=p9,
                 poslednje_generisanje=gs)
         if i % 10000 == 0 and i > 0:
             if stdout:
@@ -212,7 +248,7 @@ def connect_to_rsj(stdout=None):
     for rzo in RecZaOdluku.objects.all():
         if not rzo.recnik_id and rzo.tekst:
             recnik_id, vrsta, status = find_in_rsj(rzo.tekst, rzo.vrsta_reci)
-            if recnik_id != -1 and status < 3:
+            if recnik_id != -1:
                 rzo.recnik_id = recnik_id
                 if not rzo.vrsta_reci:
                     rzo.vrsta_reci = vrsta
@@ -226,7 +262,7 @@ def connect_to_rsj(stdout=None):
     log.info(f'RSJ lookup finished in {end_time-start_time}')
 
 
-def store_word(all_words: dict, word: str, pub_id: int):
+def store_word(all_words: dict, word: str, pub_id: int, potkorpus_id: int):
     """
     Smesta narednu rec (word) u recnik svih pronadjenih reci (all_words). 
     Azurira broj pojavljivanja reci i spisak publikacija u kojima se rec 
@@ -236,6 +272,7 @@ def store_word(all_words: dict, word: str, pub_id: int):
         w = all_words[word]
         w['count'] += 1
         w['pubs'][pub_id] = pub_id
+        w['potkorpus'] |= set([potkorpus_id])
     except KeyError:
         w = {
             'tekst': word,
@@ -244,6 +281,7 @@ def store_word(all_words: dict, word: str, pub_id: int):
             'vrsta': None,
             'korpus_id': None,
             'recnik_id': None,
+            'potkorpus': set([potkorpus_id])
         }
         all_words[word] = w
 

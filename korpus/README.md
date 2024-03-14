@@ -6,6 +6,7 @@ Za backend:
  * Elasticsearch 8.12+
 
 Za frontend:
+ * Node.js 20
  * Angular 17
  * PrimeNG 17
 

@@ -34,6 +34,15 @@ class RecZaOdluku(models.Model):
     vreme_odluke = models.DateTimeField('време одлуке')
     donosilac_odluke = models.ForeignKey(UserProxy, verbose_name='доносилац одлуке', blank=True, null=True, on_delete=models.PROTECT)
     beleska = models.TextField('белешка', max_length=1000, blank=True)
+    potkorpus_1 = models.BooleanField('поткорпус 1', default=False)
+    potkorpus_2 = models.BooleanField('поткорпус 2', default=False)
+    potkorpus_3 = models.BooleanField('поткорпус 3', default=False)
+    potkorpus_4 = models.BooleanField('поткорпус 4', default=False)
+    potkorpus_5 = models.BooleanField('поткорпус 5', default=False)
+    potkorpus_6 = models.BooleanField('поткорпус 6', default=False)
+    potkorpus_7 = models.BooleanField('поткорпус 7', default=False)
+    potkorpus_8 = models.BooleanField('поткорпус 8', default=False)
+    potkorpus_9 = models.BooleanField('поткорпус 9', default=False)
 
     class Meta:
         verbose_name = 'реч за одлуку'
@@ -41,10 +50,18 @@ class RecZaOdluku(models.Model):
         indexes = [
             models.Index(fields=['prvo_slovo']),
             models.Index(fields=['tekst']),
-            # models.Index(fields=['beleska']),
             models.Index(fields=['recnik_id']),
             models.Index(fields=['korpus_id']),
-            models.Index(fields=['broj_pojavljivanja'])
+            models.Index(fields=['broj_pojavljivanja']),
+            models.Index(fields=['potkorpus_1']),
+            models.Index(fields=['potkorpus_2']),
+            models.Index(fields=['potkorpus_3']),
+            models.Index(fields=['potkorpus_4']),
+            models.Index(fields=['potkorpus_5']),
+            models.Index(fields=['potkorpus_6']),
+            models.Index(fields=['potkorpus_7']),
+            models.Index(fields=['potkorpus_8']),
+            models.Index(fields=['potkorpus_9']),
         ]
     
     def __str__(self) -> str:

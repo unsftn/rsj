@@ -64,10 +64,26 @@ class RecZaOdlukuListFilteredPaged(generics.ListAPIView):
         if odluka:
             values = [int(x) for x in odluka.split(',')]
             queryset = queryset.filter(odluka__in=values)
-        # TODO: implement potkorpus filter
-        # if potkorpus:
-        #     values = [int(x) for x in potkorpus.split(',')]
-        #     queryset = queryset.filter(potkorpus_id__in=values)
+        if potkorpus:
+            values = [int(x) for x in potkorpus.split(',')]
+            if 1 in values:
+                queryset = queryset.filter(potkorpus_1=True)
+            if 2 in values:
+                queryset = queryset.filter(potkorpus_2=True)
+            if 3 in values:
+                queryset = queryset.filter(potkorpus_3=True)
+            if 4 in values:
+                queryset = queryset.filter(potkorpus_4=True)
+            if 5 in values:
+                queryset = queryset.filter(potkorpus_5=True)
+            if 6 in values:
+                queryset = queryset.filter(potkorpus_6=True)
+            if 7 in values:
+                queryset = queryset.filter(potkorpus_7=True)
+            if 8 in values:
+                queryset = queryset.filter(potkorpus_8=True)
+            if 9 in values:
+                queryset = queryset.filter(potkorpus_9=True)
         if beleska is not None:
             beleska = beleska.capitalize() == 'True'
             if beleska:
