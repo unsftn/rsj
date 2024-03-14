@@ -3,7 +3,7 @@ from django.utils.timezone import now
 from decider.models import *
 from indexer.cyrlat import lat_to_cyr
 from indexer.search import get_es_client, get_rsj_client
-from indexer.utils import remove_punctuation, contains_non_cyrillic_chars
+from indexer.utils import remove_punctuation_remain_dash, contains_non_cyrillic_chars
 from publikacije.models import *
 from reci.models import *
 
@@ -31,7 +31,7 @@ def collect_words():
     log.info('Started word collection...')
     for p in Publikacija.objects.all():
         for tekst in p.tekstpublikacije_set.all():
-            content = remove_punctuation(lat_to_cyr(tekst.tekst.lower()))
+            content = remove_punctuation_remain_dash(lat_to_cyr(tekst.tekst.lower()))
             for w in content.split():
                 if w: 
                     store_word(all_words, w, p.id, p.potkorpus_id)

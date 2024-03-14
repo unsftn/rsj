@@ -276,6 +276,17 @@ def remove_punctuation(text):
     return cleared_text
 
 
+def remove_punctuation_remain_dash(text):
+    """
+    Uklanja znake interpunkcije iz stringa i vraca novi string
+    """
+    text = text.replace('\n', ' ').replace('\t', ' ').replace('\r', ' ')
+    cleared_text = ''.join((c if unicodedata.category(c) in ['Lu', 'Ll', 'Lt', 'Lm', 'Lo', 'NI', 'Zs'] else ('-' if c in ['-', '\u2010', '\u2011', '\u2012', '\u2013', '\u2014'] else ' ')) for c in text)
+    if cleared_text and cleared_text[-1] == '-':
+        cleared_text = cleared_text[:-1]
+    return cleared_text
+
+
 def clear_text(obj):
     """
     Cisti tekst za pretragu:
