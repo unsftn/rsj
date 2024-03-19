@@ -76,8 +76,8 @@
       </div>
       <div>
         <div>основа, оно што служи као темељ на коме се нешто изграђује</div>
-        <div class="flex align-items-top">
-          <button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal mr-2"></button>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
           <div>Ђула беше филозоф, на бази начела nоn olet</div>
         </div>
       </div>
@@ -91,11 +91,18 @@
       </div>
       <div>
         <div>упориште, ослонац, полазиште за вршење операција</div>
-        <div class="flex align-items-top">
-          <button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal mr-2"></button>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
           <div>Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</div>
         </div>
       </div>
+      <div>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+          <div>Основна документациона база оперативне активности, рационалног и ефикасног рада</div>
+        </div>
+      </div>
+      
       
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#3</h4>
@@ -121,8 +128,8 @@
       </div>
       <div class="submeaning">
         <div>партизанско склониште у II светском рату</div>
-        <div class="flex align-items-top">
-          <button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal mr-1"></button>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
           <div>Арагон је поклекао пред „комунистима из базе“</div>
         </div>
       </div>
@@ -201,6 +208,16 @@
     {{ referencePreview }}<br/>
     {{ referenceSubcorpus }}
   </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #reference2>
+  <ng-template pTemplate>
+    {{ referencePreview }}<br/>
+    {{ referenceSubcorpus }}<br/>
+    <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text"></button>
+    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text"></button>
+    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger"></button>
+</ng-template>
 </p-overlayPanel>
 
 <div class="progress" *ngIf="searching">

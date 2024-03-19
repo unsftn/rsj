@@ -34,6 +34,7 @@ export class SearchComponent implements OnInit {
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
   @ViewChild('reference') refPanel: OverlayPanel;
+  @ViewChild('reference2') refPanel2: OverlayPanel;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -186,6 +187,12 @@ export class SearchComponent implements OnInit {
     this.referencePreview = hit.opis;
     this.referenceSubcorpus = hit.potkorpus;
     this.refPanel.toggle(event);
+  }
+
+  openReference2(event: any, hit: any): void {
+    this.referencePreview = hit.opis;
+    this.referenceSubcorpus = hit.potkorpus;
+    this.refPanel2.toggle(event);
   }
 
   pickColor(color: any): void {
