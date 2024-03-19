@@ -129,44 +129,6 @@ REC_SETTINGS = {
         }
     }
 }
-# REVERSEREC_MAPPING = {
-#     "properties": {
-#         "oblici": {
-#             "type": "search_as_you_type",
-#             "doc_values": False,
-#             "max_shingle_size": 3,
-#             "analyzer": "reversed"
-#         },
-#         "osnovni_oblik": {
-#             "type": "search_as_you_type",
-#             "doc_values": False,
-#             "max_shingle_size": 3,
-#             "analyzer": "reversed"
-#         },
-#         "pk": {
-#             "type": "keyword"
-#         },
-#         "rec": {
-#             "type": "keyword"
-#         },
-#         "timestamp": {
-#             "type": "date"
-#         },
-#         "vrsta": {
-#             "type": "keyword"
-#         }
-#     }
-# }
-# REVERSEREC_SETTINGS = {
-#     "analysis": {
-#         "analyzer": {
-#             "reversed": {
-#                 "tokenizer": "standard",
-#                 "filter": ["reverse"]
-#             }
-#         }
-#     }
-# }
 
 
 """ Definicija Elasticsearch indeksa za naslove """
@@ -198,14 +160,10 @@ PUB_INDEX = 'publikacije'
 REVERSE_INDEX = 'reverse'
 CASE_SENSITIVE_INDEX = 'casesensitive'
 REC_INDEX = 'reci'
-# REVERSEREC_INDEX = 'recreverse'
 NASLOV_INDEX = 'naslovi'
 ALL_INDEXES = {
     PUB_INDEX: {'index': PUB_INDEX, 'mapping': PUB_MAPPING, 'settings': PUB_SETTINGS},
-    # REVERSE_INDEX: {'index': REVERSE_INDEX, 'mapping': REVERSE_MAPPING, 'settings': REVERSE_SETTINGS},
-    # CASE_SENSITIVE_INDEX: {'index': CASE_SENSITIVE_INDEX, 'mapping': CASE_SENSITIVE_MAPPING, 'settings': CASE_SENSITIVE_SETTINGS},
     REC_INDEX: {'index': REC_INDEX, 'mapping': REC_MAPPING, 'settings': REC_SETTINGS},
-    # REVERSEREC_INDEX: {'index': REVERSEREC_INDEX, 'mapping': REVERSEREC_MAPPING, 'settings': REVERSEREC_SETTINGS},
     NASLOV_INDEX: {'index': NASLOV_INDEX, 'mapping': NASLOV_MAPPING, 'settings': None},
 }
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')

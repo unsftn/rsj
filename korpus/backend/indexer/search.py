@@ -38,7 +38,7 @@ def search_rec(request):
             'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
     }
-    return _search_word(query, REC_INDEX)
+    return _search_word(query)
 
 
 @api_view(['GET'])
@@ -53,8 +53,8 @@ def search_rec_sufiks(request):
     query = {
         'query': {
             'query_string': {
-                'query': f'*{remove_punctuation(term).strip()}', 
-                'fields': ['osnovni_oblik']
+                'query': f'{remove_punctuation(term).strip()[::-1]}*', 
+                'fields': ['osnovni_oblik_reversed']
             }
         }, 
         'from': 0, 
@@ -63,13 +63,13 @@ def search_rec_sufiks(request):
             'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
     }
-    return _search_word(query, REVERSEREC_INDEX)
+    return _search_word(query)
 
 
-def _search_word(query, index):
+def _search_word(query):
     try:
         hits = []
-        resp = get_es_client().search(index=index, body=query)
+        resp = get_es_client().search(index=REC_INDEX, body=query)
         for hit in resp['hits']['hits']:
             hits.append({
                 'vrsta': hit['_source']['vrsta'],
