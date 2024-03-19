@@ -1,9 +1,9 @@
 import logging
 from django.utils.timezone import now
 from decider.models import *
-from indexer.cyrlat import lat_to_cyr
 from indexer.search import get_es_client, get_rsj_client
-from indexer.utils import remove_punctuation_remain_dash, contains_non_cyrillic_chars
+from indexer.utils import contains_non_cyrillic_chars_or_dash, remove_punctuation_remain_dash
+from indexer.cyrlat import lat_to_cyr
 from publikacije.models import *
 from reci.models import *
 
@@ -51,7 +51,7 @@ def find_roots(words, stdout=None):
     log.info(f'Finding roots of {total_words} words...')
     for index, (key, word) in enumerate(list(words.items())):
         oo = find_root(key)
-        if index % 10000 == 0 and index > 0:
+        if index % 100000 == 0 and index > 0:
             if stdout:
                 stdout.write(f'Finished finding root for {index} words...')
                 stdout.flush()
@@ -102,63 +102,6 @@ def find_roots(words, stdout=None):
     log.info(f'Finding roots for {total_words} words resulted in {len(words)} entries and took {end_time-start_time}')
 
 
-# def unify(words, token):
-#     for key, word in list(words.items()):
-#         if not key.startswith(token):
-#             continue
-
-#         oo = find_root(key)
-        
-#         # ako ova leksema moze biti oblik vise od jedne reci, onda ne radimo
-#         # nista - nismo sigurni kojoj reci ona pripada
-#         if len(oo) == 1:
-#             oo = oo[0]
-#         else:
-#             continue
-        
-#         try:
-#             # ako ne znamo osnovni oblik preskacemo
-#             if not oo['rec']:
-#                 continue
-            
-#             # ako je ovo rec koja jeste osnovni oblik, i vec je u mapi, 
-#             # ne radi nista
-#             if words[oo['rec']] == word:
-#                 log.info(f'Rec {word["tekst"]} je osnovni oblik i vec je u mapi - ne radi nista')
-#                 continue
-            
-#             # ako je ovo rec koja nije osnovni oblik, a osnovni oblik je 
-#             # u mapi, akumuliraj statistike
-#             log.info(f'Menjamo rec u mapi: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])}')
-#             words[oo['rec']]['count'] += word['count']
-#             words[oo['rec']]['pubs'].update(word['pubs'])
-#             words[oo['rec']]['vrsta'] = oo['vrsta']
-#             words[oo['rec']]['korpus_id'] = oo['id']
-#             log.info(f'Akumulirane statistike: {words[oo["rec"]]["tekst"]} {words[oo["rec"]]["count"]} {len(words[oo["rec"]]["pubs"])} iz reci: {word["tekst"]} {word["count"]} {len(word["pubs"])}')
-
-#             # ako je ovo rec koja nije osnovni oblik, ukloni je iz mape
-#             # (osnovni oblik je akumulirao njenu statistiku)
-#             if words[oo['rec']]['tekst'] != word['tekst']:
-#                 log.info(f'Rec {word["tekst"]} nije osnovni oblik, uklanjamo je iz mape')
-#                 del words[word['tekst']]
-#         except KeyError:
-#             # prvi put smo naisli na ovaj osnovni oblik
-#             # dodaj rec u mapu za ovaj osnovni oblik
-#             words[oo['rec']] = word
-#             words[oo['rec']]['vrsta'] = oo['vrsta']
-#             words[oo['rec']]['korpus_id'] = oo['id']
-#             log.info(f'Rec {word["tekst"]} prvi put smo naisli na ovaj osnovni oblik, dodajemo je u mapu')
-
-#             # ako je rec razlicita od osnovnog oblika, izbaci je iz mape
-#             if oo['rec'] != word['tekst']:
-#                 log.info(f'Rec {word["tekst"]} se razlikuje od osnovnog oblika {oo["rec"]}, izbacujemo je iz mape')
-#                 del words[word['tekst']]
-
-#             # tekst u reci treba da bude osnovni oblik
-#             log.info(f'Tekst u reci {word["tekst"]} postavljamo na osnovni oblik: {oo["rec"]}')
-#             word['tekst'] = oo['rec']
-
-
 def update_db(words, stdout=None):
     """
     Azurira/dodaje stavke u bazu podataka na osnovu konsolidovanog recnika 
@@ -206,7 +149,7 @@ def update_db(words, stdout=None):
                 rzo.potkorpus_9 = True
             rzo.save()
         else:
-            prvo_slovo = 'X' if contains_non_cyrillic_chars(rec) else rec[0]
+            prvo_slovo = 'X' if contains_non_cyrillic_chars_or_dash(rec) else rec[0]
             rzo = RecZaOdluku.objects.create(
                 prvo_slovo=prvo_slovo, 
                 tekst=rec[:100], 
@@ -226,7 +169,7 @@ def update_db(words, stdout=None):
                 potkorpus_8=p8,
                 potkorpus_9=p9,
                 poslednje_generisanje=gs)
-        if i % 10000 == 0 and i > 0:
+        if i % 100000 == 0 and i > 0:
             if stdout:
                 stdout.write(f'Saved {i} words...')
                 stdout.flush()
@@ -254,7 +197,7 @@ def connect_to_rsj(stdout=None):
                     rzo.vrsta_reci = vrsta
                 rzo.save()
         count += 1
-        if count % 10000 == 0:
+        if count % 100000 == 0:
             if stdout:
                 stdout.write(f'Lookup done for {count} words...')
                 stdout.flush()
@@ -294,7 +237,8 @@ def find_root(rec) -> list[dict]:
     pripada data leksema).
     """
     retval = []
-    resp = esclient.search(index='reci', query={'terms': {'oblici': [rec]}})
+    query = {'term': {'oblici': rec}}
+    resp = esclient.search(index='reci', query=query)
     for hit in resp['hits']['hits']:
         osnovni_oblik = hit['_source']['rec']
         pk = hit['_source']['pk']

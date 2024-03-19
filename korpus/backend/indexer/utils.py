@@ -74,33 +74,90 @@ PUB_SETTINGS = {
 }
 
 
-# """ Definicija Elasticsearch indeksa za publikacije sa okrenutim tokenima """
-# REVERSE_MAPPING = {
+""" Definicija Elasticsearch indeksa za reci """
+REC_MAPPING = {
+    "properties": {
+        "oblici": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3,
+            "analyzer": "whitespace",
+        },
+        "oblici_reversed": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3,
+            "analyzer": "reversed"
+        },
+        "osnovni_oblik": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3,
+            "analyzer": "whitespace",
+        },
+        "osnovni_oblik_reversed": {
+            "type": "search_as_you_type",
+            "doc_values": False,
+            "max_shingle_size": 3,
+            "analyzer": "reversed"
+        },
+        "pk": {
+            "type": "keyword"
+        },
+        "rec": {
+            "type": "keyword"
+        },
+        "timestamp": {
+            "type": "date"
+        },
+        "vrsta": {
+            "type": "keyword"
+        }
+    }
+}
+REC_SETTINGS = {
+    "analysis": {
+        "analyzer": {
+            "reversed": {
+                "tokenizer": "standard",
+                "filter": ["reverse"]
+            },
+            "whitespace": {
+                "tokenizer": "whitespace",
+                "filter": ["stop"]
+            }
+        }
+    }
+}
+# REVERSEREC_MAPPING = {
 #     "properties": {
-#         "opis": {
-#             "type": "keyword"
+#         "oblici": {
+#             "type": "search_as_you_type",
+#             "doc_values": False,
+#             "max_shingle_size": 3,
+#             "analyzer": "reversed"
+#         },
+#         "osnovni_oblik": {
+#             "type": "search_as_you_type",
+#             "doc_values": False,
+#             "max_shingle_size": 3,
+#             "analyzer": "reversed"
 #         },
 #         "pk": {
 #             "type": "keyword"
 #         },
-#         "skracenica": {
+#         "rec": {
 #             "type": "keyword"
-#         },
-#         "potkorpus": {
-#             "type": "keyword"
-#         },
-#         "tekst": {
-#             "type": "text",
-#             "term_vector": "with_positions_offsets",
-#             "store": "true",
-#             "analyzer": "reversed"
 #         },
 #         "timestamp": {
 #             "type": "date"
+#         },
+#         "vrsta": {
+#             "type": "keyword"
 #         }
 #     }
 # }
-# REVERSE_SETTINGS = {
+# REVERSEREC_SETTINGS = {
 #     "analysis": {
 #         "analyzer": {
 #             "reversed": {
@@ -110,112 +167,6 @@ PUB_SETTINGS = {
 #         }
 #     }
 # }
-
-
-# """ Definicija Elasticsearch indeksa za publikacije case-sensitive """
-# CASE_SENSITIVE_MAPPING = {
-#     "properties": {
-#         "opis": {
-#             "type": "keyword"
-#         },
-#         "pk": {
-#             "type": "keyword"
-#         },
-#         "skracenica": {
-#             "type": "keyword"
-#         },
-#         "potkorpus": {
-#             "type": "keyword"
-#         },
-#         "tekst": {
-#             "type": "text",
-#             "term_vector": "with_positions_offsets",
-#             "store": "true",
-#             # "index_options": "offsets",
-#             "analyzer": "case_sensitive"
-#         },
-#         "timestamp": {
-#             "type": "date"
-#         }
-#     }
-# }
-# CASE_SENSITIVE_SETTINGS = {
-#     "analysis": {
-#         "analyzer": {
-#             "case_sensitive": {
-#                 "tokenizer": "standard",
-#                 "filter": ["stop"]
-#             }
-#         }
-#     }
-# }
-
-
-""" Definicija Elasticsearch indeksa za reci """
-REC_MAPPING = {
-    "properties": {
-        "oblici": {
-            "type": "search_as_you_type",
-            "doc_values": False,
-            "max_shingle_size": 3
-        },
-        "osnovni_oblik": {
-            "type": "search_as_you_type",
-            "doc_values": False,
-            "max_shingle_size": 3
-        },
-        "pk": {
-            "type": "keyword"
-        },
-        "rec": {
-            "type": "keyword"
-        },
-        "timestamp": {
-            "type": "date"
-        },
-        "vrsta": {
-            "type": "keyword"
-        }
-    }
-}
-REVERSEREC_MAPPING = {
-    "properties": {
-        "oblici": {
-            "type": "search_as_you_type",
-            "doc_values": False,
-            "max_shingle_size": 3,
-            "analyzer": "reversed"
-        },
-        "osnovni_oblik": {
-            "type": "search_as_you_type",
-            "doc_values": False,
-            "max_shingle_size": 3,
-            "analyzer": "reversed"
-        },
-        "pk": {
-            "type": "keyword"
-        },
-        "rec": {
-            "type": "keyword"
-        },
-        "timestamp": {
-            "type": "date"
-        },
-        "vrsta": {
-            "type": "keyword"
-        }
-    }
-}
-REVERSEREC_SETTINGS = {
-    "analysis": {
-        "analyzer": {
-            "reversed": {
-                "tokenizer": "standard",
-                "filter": ["reverse"]
-            }
-        }
-    }
-}
 
 
 """ Definicija Elasticsearch indeksa za naslove """
@@ -247,14 +198,14 @@ PUB_INDEX = 'publikacije'
 REVERSE_INDEX = 'reverse'
 CASE_SENSITIVE_INDEX = 'casesensitive'
 REC_INDEX = 'reci'
-REVERSEREC_INDEX = 'recreverse'
+# REVERSEREC_INDEX = 'recreverse'
 NASLOV_INDEX = 'naslovi'
 ALL_INDEXES = {
     PUB_INDEX: {'index': PUB_INDEX, 'mapping': PUB_MAPPING, 'settings': PUB_SETTINGS},
     # REVERSE_INDEX: {'index': REVERSE_INDEX, 'mapping': REVERSE_MAPPING, 'settings': REVERSE_SETTINGS},
     # CASE_SENSITIVE_INDEX: {'index': CASE_SENSITIVE_INDEX, 'mapping': CASE_SENSITIVE_MAPPING, 'settings': CASE_SENSITIVE_SETTINGS},
-    REC_INDEX: {'index': REC_INDEX, 'mapping': REC_MAPPING, 'settings': None},
-    REVERSEREC_INDEX: {'index': REVERSEREC_INDEX, 'mapping': REVERSEREC_MAPPING, 'settings': REVERSEREC_SETTINGS},
+    REC_INDEX: {'index': REC_INDEX, 'mapping': REC_MAPPING, 'settings': REC_SETTINGS},
+    # REVERSEREC_INDEX: {'index': REVERSEREC_INDEX, 'mapping': REVERSEREC_MAPPING, 'settings': REVERSEREC_SETTINGS},
     NASLOV_INDEX: {'index': NASLOV_INDEX, 'mapping': NASLOV_MAPPING, 'settings': None},
 }
 REGEX_CONTAINS_PARENTHESES = re.compile('(.+)\\((.*?)\\)(.*?)')
@@ -265,6 +216,13 @@ def contains_non_cyrillic_chars(text):
     Vraca true ako string sadrzi ne-cirilicke znake.
     """
     return regex.fullmatch('\\p{IsCyrillic}*', text) is None
+    
+
+def contains_non_cyrillic_chars_or_dash(text):
+    """
+    Vraca true ako string sadrzi ne-cirilicke znake.
+    """
+    return regex.fullmatch('(\\p{IsCyrillic}|-)*', text) is None
     
 
 def remove_punctuation(text):
@@ -287,7 +245,7 @@ def remove_punctuation_remain_dash(text):
     return cleared_text
 
 
-def clear_text(obj):
+def clear_text(obj, remain_dash=False):
     """
     Cisti tekst za pretragu:
     - ako je ulaz string, vraca ociscen string
@@ -295,12 +253,14 @@ def clear_text(obj):
     """
     if not obj:
         return obj
+    clear_func = remove_punctuation_remain_dash if remain_dash else remove_punctuation
+
     if isinstance(obj, str):
         if not REGEX_CONTAINS_PARENTHESES.match(obj):
-            return remove_punctuation(obj)
+            return clear_func(obj)
         else:
-            return [remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', obj)),
-                    remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', obj))]
+            return [clear_func(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', obj)),
+                    clear_func(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', obj))]
     if isinstance(obj, list):
         new_list = []
         for item in obj:
@@ -308,8 +268,8 @@ def clear_text(obj):
                 if not REGEX_CONTAINS_PARENTHESES.match(item):
                     new_list.append(remove_punctuation(item))
                 else:
-                    new_list.append(remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', item)))
-                    new_list.append(remove_punctuation(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', item)))
+                    new_list.append(clear_func(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', item)))
+                    new_list.append(clear_func(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', item)))
             elif item:
                 new_list.append(item)
         return new_list
