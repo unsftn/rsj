@@ -89,3 +89,23 @@
 .pointer {
   cursor: pointer;
 }
+
+.left-border {
+  border-left: 1px solid #ccc;
+}
+
+.bottom-border {
+  border-bottom: 1px solid #ccc;
+}
+
+.meaning-nr, .submeaning-nr {
+  margin-bottom: 0px;
+}
+.submeaning-nr {
+  margin-top: 5px;
+  margin-right: 20px;
+}
+
+.submeaning {
+  margin-left: 10px;
+}
