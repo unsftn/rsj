@@ -272,8 +272,10 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
             'type': 'fvh',
             'fragment_size': fragment_size, 
             'boundary_scanner': scanner, 
-            'pre_tags': ['<span class="fword">'], 
-            'post_tags': ['</span>'],
+            # 'pre_tags': ['<span class="fword">'], 
+            # 'post_tags': ['</span>'],
+            'pre_tags': ['***'], 
+            'post_tags': ['***'],
             'fields': {
                 field: {}
             }

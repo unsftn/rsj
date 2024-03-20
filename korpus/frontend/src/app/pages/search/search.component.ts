@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { PrimeNGConfig, MessageService } from 'primeng/api';
@@ -12,7 +12,7 @@ import { RecService } from '../../services/reci';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewChecked {
 
   wordId: number;
   wordType: number;
@@ -91,6 +91,10 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  ngAfterViewChecked(): void {
+
+  }
+
   fetchData(): void {
     this.searching = true;
     this.hits = [];
@@ -102,6 +106,7 @@ export class SearchComponent implements OnInit {
       this.searchService.searchPubs(this.wordId, this.wordType, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
+          this.process(hits);
           this.hits = hits;
           this.first = 0;
           this.hitsPerPage = 100;
@@ -124,6 +129,7 @@ export class SearchComponent implements OnInit {
       this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code, this.caseSensitive).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
+          this.process(hits);
           this.hits = hits;
           this.first = 0;
           this.first = 0;
@@ -200,6 +206,14 @@ export class SearchComponent implements OnInit {
     this.colorPicker.hide();
   }
 
+  selectText(event: any, hit: any): void {
+    const selection = document.getSelection();
+    if (!selection.isCollapsed) {
+      const text = selection.toString().trim();
+      console.log(text);
+    }
+  }
+
   pogodaka(): string {
     // izuzetak: 11, 12, 13, 14 pogodaka
     if (this.hits === undefined)
@@ -217,6 +231,13 @@ export class SearchComponent implements OnInit {
         return 'поготка';
       default: 
         return 'погодака';
+    }
+  }
+
+  process(hits: any[]): void {
+    for (let i = 0; i < hits.length; i++) {
+      const hit = hits[i];
+      hit.highlights = hit.highlights.split('***');
     }
   }
 }

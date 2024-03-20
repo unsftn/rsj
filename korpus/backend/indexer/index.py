@@ -27,8 +27,6 @@ def index_publikacija(pub_id, client=None):
             if not client:
                 client = get_es_client()
             client.index(index=PUB_INDEX, id=tp.id, document=document)
-            # client.index(index=REVERSE_INDEX, id=tp.id, document=document)
-            # client.index(index=CASE_SENSITIVE_INDEX, id=tp.id, document=document)
         except Exception as ex:
             log.fatal(ex)
             return False

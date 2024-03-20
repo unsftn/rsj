@@ -36,7 +36,10 @@
           <p class="skr">
             <button pButton pRipple type="button" icon="pi pi-palette" class="p-button-text btn-minimal" (click)="openColorPicker($event, hit)"></button>
           </p>
-          <p class="izv" [ngClass]="hit.color" [innerHTML]="safe(hit.highlights)"></p>
+          <!-- <p class="izv" [ngClass]="hit.color" [innerHTML]="safe(hit.highlights)"></p> -->
+          <p class="izv" [ngClass]="hit.color" (mouseup)="selectText($event, hit)">
+            <span *ngFor="let high of hit.highlights; let i=index" [ngClass]="{'fword': i % 2 === 1}">{{high}}</span>
+          </p>
         </div>
       </div>
 
