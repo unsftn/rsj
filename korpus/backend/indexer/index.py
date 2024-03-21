@@ -21,14 +21,13 @@ def index_publikacija(pub_id, client=None):
             'tekst': tp.tekst,
             'tekst_reversed': tp.tekst,
             'tekst_case_sensitive': tp.tekst,
+            'tekst_whitespace': tp.tekst,
             'timestamp': datetime.now().isoformat()[:-3] + 'Z',
         }
         try:
             if not client:
                 client = get_es_client()
             client.index(index=PUB_INDEX, id=tp.id, document=document)
-            # client.index(index=REVERSE_INDEX, id=tp.id, document=document)
-            # client.index(index=CASE_SENSITIVE_INDEX, id=tp.id, document=document)
         except Exception as ex:
             log.fatal(ex)
             return False
@@ -210,6 +209,5 @@ def remove_word(word_type, word_id):
         pk = f'{word_type}_{word_id}'
         client = get_es_client()
         client.delete(index=REC_INDEX, id=pk)
-        # client.delete(index=REVERSEREC_INDEX, id=pk)
     except Exception as ex:
         log.fatal(ex)

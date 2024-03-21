@@ -53,6 +53,12 @@ PUB_MAPPING = {
             "store": "true",
             "analyzer": "case_sensitive"
         },
+        "tekst_whitespace": {
+            "type": "text",
+            "term_vector": "with_positions_offsets",
+            "store": "true",
+            "analyzer": "whitespace"
+        },
         "timestamp": {
             "type": "date"
         }
@@ -67,6 +73,10 @@ PUB_SETTINGS = {
             },
             "case_sensitive": {
                 "tokenizer": "standard",
+                "filter": ["stop"]
+            },
+            "whitespace": {
+                "tokenizer": "whitespace",
                 "filter": ["stop"]
             }
         }

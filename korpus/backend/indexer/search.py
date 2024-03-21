@@ -54,7 +54,7 @@ def search_rec_sufiks(request):
     query = {
         'query': {
             'query_string': {
-                'query': f'{remove_punctuation(term).strip()[::-1]}*', 
+                'query': f'{remove_punctuation_remain_dash(term).strip()[::-1]}*', 
                 'fields': ['osnovni_oblik_reversed']
             }
         }, 
@@ -260,7 +260,7 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
         field = 'tekst_reversed'
     else:
         term = word
-        field = 'tekst_case_sensitive' if case_sensitive else 'tekst'
+        field = 'tekst_case_sensitive' if case_sensitive else ('tekst_whitespace' if '-' in word else 'tekst')
     query = {
         'query': {
             'query_string': { 'query': term, 'fields': [field] }
@@ -273,8 +273,8 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
             'type': 'fvh',
             'fragment_size': fragment_size, 
             'boundary_scanner': scanner, 
-            'pre_tags': ['<span class="fword">'], 
-            'post_tags': ['</span>'],
+            'pre_tags': ['***'], 
+            'post_tags': ['***'],
             'fields': {
                 field: {}
             }

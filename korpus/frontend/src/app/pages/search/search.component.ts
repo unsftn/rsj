@@ -101,6 +101,7 @@ export class SearchComponent implements OnInit {
       this.searchService.searchPubs(this.wordId, this.wordType, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
+          this.process(hits);
           this.hits = hits;
           this.first = 0;
           this.hitsPerPage = 100;
@@ -123,6 +124,7 @@ export class SearchComponent implements OnInit {
       this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code, this.caseSensitive).subscribe({
         next: (hits: any[]) => {
           this.searching = false;
+          this.process(hits);
           this.hits = hits;
           this.first = 0;
           this.first = 0;
@@ -140,6 +142,13 @@ export class SearchComponent implements OnInit {
           });
         }
       });
+    }
+  }
+
+  process(hits: any[]): void {
+    for (let i = 0; i < hits.length; i++) {
+      const hit = hits[i];
+      hit.highlights = hit.highlights.split('***');
     }
   }
 
