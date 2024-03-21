@@ -58,7 +58,6 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.hits = [];
     this.titleService.setTitle('Корпус');
     this.fragmentSize = this.fragmentSizes[0];
     this.scanner = this.scanners[0];
@@ -120,7 +119,6 @@ export class SearchComponent implements OnInit {
       });  
     } else {
       this.word = null;
-      console.log(`Search searching for ${this.wordForm}`);
       this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code, this.caseSensitive).subscribe({
         next: (hits: any[]) => {
           this.searching = false;

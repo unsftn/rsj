@@ -38,7 +38,6 @@ def search_rec(request):
             'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
     }
-    print(json.dumps(query, indent=2))
     return _search_word(query)
 
 
@@ -83,7 +82,6 @@ def _search_word(query):
     except Exception as error:
         log.fatal(error)
         return server_error(error.args)
-
 
 
 @api_view(['GET'])
@@ -158,8 +156,8 @@ def search_oblik_in_pub(request):
     prefix = term.endswith('~')
     if prefix:
         term = term[:-1]
-    term_cyr = lat_to_cyr(term) #.lower()
-    term_lat = cyr_to_lat(term) #.lower()
+    term_cyr = lat_to_cyr(term)
+    term_lat = cyr_to_lat(term)
     query_terms = []
     if term_cyr:
         query_terms.append(term_cyr)
@@ -190,11 +188,6 @@ def search_naslov(request):
     resp = get_es_client().search(index=NASLOV_INDEX, body=query)
     for hit in resp['hits']['hits']:
         pubids.append(hit['_source']['pk'])
-        # retval.append({
-        #     'pub_id': hit['_source']['pk'],
-        #     'skracenica': hit['_source']['skracenica'],
-        #     'opis': hit['_source']['opis'],
-        # })
     queryset = Publikacija.objects.filter(pk__in=pubids).order_by('pk')
     count = len(queryset)
     if offset and limit:
@@ -261,10 +254,12 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
     else:
         term = word
         field = 'tekst_case_sensitive' if case_sensitive else ('tekst_whitespace' if '-' in word else 'tekst')
+    if ' ' in word:
+        query_expression = {'match_phrase': { field: word }}
+    else:
+        query_expression = {'query_string': { 'query': term, 'fields': [field] }}
     query = {
-        'query': {
-            'query_string': { 'query': term, 'fields': [field] }
-        }, 
+        'query': query_expression, 
         'size': 100000,
         '_source': {
             'includes': ['pk', 'skracenica', 'opis', 'potkorpus']
