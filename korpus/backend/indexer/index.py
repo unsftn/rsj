@@ -187,7 +187,6 @@ def save_dict(rec_dict, client=None):
         var_set = set(oblici)
         varijante = list(var_set)
         rec_sa_varijantama = ' '.join(varijante)
-        # osnovni_oblik = ' '.join(add_latin(clear_text([rec_dict['rec']])))
         osnovni_oblik = ' '.join(add_latin(clear_text([rec_dict['rec']], True)))
         rec_dict['oblici'] = rec_sa_varijantama
         rec_dict['osnovni_oblik'] = osnovni_oblik
@@ -197,7 +196,6 @@ def save_dict(rec_dict, client=None):
         if not client:
             client = get_es_client()
         client.index(index=REC_INDEX, id=rec_dict['pk'], document=rec_dict)
-        # client.index(index=REVERSEREC_INDEX, id=rec_dict['pk'], document=rec_dict)
         return True
     except Exception as ex:
         log.fatal(ex)

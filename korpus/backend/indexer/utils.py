@@ -80,25 +80,25 @@ REC_MAPPING = {
         "oblici": {
             "type": "search_as_you_type",
             "doc_values": False,
-            "max_shingle_size": 3,
+            # "max_shingle_size": 3,
             "analyzer": "whitespace",
         },
         "oblici_reversed": {
             "type": "search_as_you_type",
             "doc_values": False,
-            "max_shingle_size": 3,
+            # "max_shingle_size": 3,
             "analyzer": "reversed"
         },
         "osnovni_oblik": {
             "type": "search_as_you_type",
             "doc_values": False,
-            "max_shingle_size": 3,
+            # "max_shingle_size": 3,
             "analyzer": "whitespace",
         },
         "osnovni_oblik_reversed": {
             "type": "search_as_you_type",
             "doc_values": False,
-            "max_shingle_size": 3,
+            # "max_shingle_size": 3,
             "analyzer": "reversed"
         },
         "pk": {
@@ -224,7 +224,7 @@ def clear_text(obj, remain_dash=False):
         for item in obj:
             if isinstance(item, str):
                 if not REGEX_CONTAINS_PARENTHESES.match(item):
-                    new_list.append(remove_punctuation(item))
+                    new_list.append(clear_func(item))
                 else:
                     new_list.append(clear_func(REGEX_CONTAINS_PARENTHESES.sub('\\1\\3', item)))
                     new_list.append(clear_func(REGEX_CONTAINS_PARENTHESES.sub('\\1\\2\\3', item)))

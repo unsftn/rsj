@@ -28,7 +28,7 @@ def search_rec(request):
         'query': {
             'multi_match': {
                 'type': 'bool_prefix', 
-                'query': remove_punctuation(term).strip(), 
+                'query': remove_punctuation_remain_dash(term).strip(), 
                 'fields': ['osnovni_oblik']
             }
         }, 
@@ -38,6 +38,7 @@ def search_rec(request):
             'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
     }
+    print(json.dumps(query, indent=2))
     return _search_word(query)
 
 
