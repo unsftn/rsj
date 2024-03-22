@@ -67,7 +67,6 @@
       <div class="p-inputgroup">
         <span class="p-input-icon-right w-full">
           <i class="pi pi-search"></i>
-          <!-- <input pInputText [(ngModel)]="searchDict" (keyup.enter)="searchDict()" class="w-full"/> -->
           <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="500px" (onSelect)="select($event)" placeholder="Претрага" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
             <ng-template let-word pTemplate="item">
               <span class="rec">{{word.rec}}<span *ngIf="word.rbr_homo"><sup>{{word.rbr_homo}}</sup></span></span>
@@ -93,12 +92,12 @@
       </div>
       <div>
         <div>
-          <span class="pointer">основа, оно што служи као темељ на коме се нешто изграђује</span>
+          <span class="pointer fira">основа, оно што служи као темељ на коме се нешто изграђује</span>
         </div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
           <div>
-            <span class="pointer">Ђула беше филозоф, на бази начела nоn olet</span>
+            <span class="pointer fira">Ђула беше филозоф, на бази начела nоn olet</span>
           </div>
         </div>
       </div>
@@ -113,12 +112,12 @@
       </div>
       <div>
         <div>
-          <span class="pointer">упориште, ослонац, полазиште за вршење операција</span>
+          <span class="pointer fira">упориште, ослонац, полазиште за вршење операција</span>
         </div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
           <div>
-            <span class="pointer">Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</span>
+            <span class="pointer fira">Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</span>
           </div>
         </div>
       </div>
@@ -126,7 +125,7 @@
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
           <div>
-            <span class="pointer">Основна документациона база оперативне активности, рационалног и ефикасног рада</span>
+            <span class="pointer fira">Основна документациона база оперативне активности, рационалног и ефикасног рада</span>
           </div>
         </div>
       </div>
@@ -147,7 +146,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <span class="pointer">склониште, сигурно место</span>
+        <span class="pointer fira">склониште, сигурно место</span>
       </div>
       <div class="submeaning flex align-items-center">
         <h4 class="submeaning-nr">#3б</h4>
@@ -161,7 +160,7 @@
         </div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
-          <div class="pointer">Арагон је поклекао пред „комунистима из базе“</div>
+          <div class="pointer fira">Арагон је поклекао пред „комунистима из базе“</div>
         </div>
       </div>
     
@@ -174,7 +173,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
       </div>
       <div>
-        <span class="pointer">област за снабдевање</span>
+        <span class="pointer fira">област за снабдевање</span>
       </div>
 
       <div class="flex align-items-center bottom-border">
@@ -186,7 +185,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
       </div>
       <div>
-        <span class="pointer">супстанца лужинастог укуса, лужина</span>
+        <span class="pointer fira">супстанца лужинастог укуса, лужина</span>
       </div>
 
       <div class="flex align-items-center bottom-border">
@@ -204,7 +203,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <span class="pointer">основа (при степеновању)</span>
+        <span class="pointer fira">основа (при степеновању)</span>
       </div>
       <div class="submeaning flex align-items-center">
         <h4 class="submeaning-nr">#6б</h4>
@@ -213,7 +212,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <span class="pointer" (click)="editorOpen('v.bazis')">в. базис</span>
+        <span class="pointer fira" (click)="editorOpen('v.bazis')">в. базис</span>
       </div>
     </div>
   </div>
