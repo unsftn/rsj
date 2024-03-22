@@ -6,58 +6,190 @@
   </h3>
   <h3 *ngIf="wordForm">{{wordForm}}</h3>
 
-  <div class="grid align-items-center">
+
+  <div class="grid">
     <div class="col-9">
-      <p-paginator [totalRecords]="hits.length" [first]="first" 
-        (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
-        [showJumpToPageDropdown]="true">
-      </p-paginator>
+      <div class="grid align-items-center">
+        <div class="col-7">
+          <p-paginator [totalRecords]="hits.length" [first]="first" 
+            (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
+            [showJumpToPageDropdown]="true">
+          </p-paginator>
+        </div>
+        <div class="col-5 flex justify-content-end">
+          <p>{{hits.length}} {{pogodaka()}}</p>
+          <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
+            (onChange)="changeFragmentSize($event)" optionLabel="name" 
+            [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+          </p-dropdown>
+          <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
+            (onChange)="changeScanner($event)" optionLabel="name" 
+            [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+          </p-dropdown>
+        </div>
+      </div>
+    
+      <div class="hits">
+        <div *ngFor="let hit of hitPage" class="hit-row">
+          <p class="rbr right">{{hit.order_nr}}.</p>
+          <p class="skr pointer" (click)="openReference($event, hit)">[{{ hit.skracenica || '---' }}]</p>
+          <p class="skr">
+            <button pButton pRipple type="button" icon="pi pi-palette" class="p-button-text btn-minimal" (click)="openColorPicker($event, hit)"></button>
+          </p>
+          <!-- <p class="izv" [ngClass]="hit.color" [innerHTML]="safe(hit.highlights)"></p> -->
+          <p class="izv" [ngClass]="hit.color" (mouseup)="selectText($event, hit)">
+            <span *ngFor="let high of hit.highlights; let i=index" [ngClass]="{'fword': i % 2 === 1}">{{high}}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="grid align-items-center">
+        <div class="col-7">
+          <p-paginator [totalRecords]="hits.length" [first]="first" 
+            (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
+            [showJumpToPageDropdown]="true">
+          </p-paginator>
+        </div>
+        <div class="col-5 flex justify-content-end">
+          <p>{{hits.length}} {{pogodaka()}}</p>
+          <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
+            (onChange)="changeFragmentSize($event)" optionLabel="name" 
+            [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+          </p-dropdown>
+          <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
+            (onChange)="changeScanner($event)" optionLabel="name" 
+            [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
+          </p-dropdown>
+        </div>
+      </div>
     </div>
-    <div class="col-3 flex justify-content-end">
-      <p>{{hits.length}} {{pogodaka()}}</p>
-      <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
-        (onChange)="changeFragmentSize($event)" optionLabel="name" 
-        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
-      </p-dropdown>
-      <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
-        (onChange)="changeScanner($event)" optionLabel="name" 
-        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
-      </p-dropdown>
+    <div class="col-3 left-border">
+      <div class="flex align-items-center">
+        <h3>Речник: база<sup>1</sup></h3>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
+      </div>
+
+      <div class="flex align-items-center bottom-border">
+        <h4 class="meaning-nr">#1</h4>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+      </div>
+      <div>
+        <div>основа, оно што служи као темељ на коме се нешто изграђује</div>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+          <div>Ђула беше филозоф, на бази начела nоn olet</div>
+        </div>
+      </div>
+
+      <div class="flex align-items-center bottom-border">
+        <h4 class="meaning-nr">#2</h4>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+      </div>
+      <div>
+        <div>упориште, ослонац, полазиште за вршење операција</div>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+          <div>Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</div>
+        </div>
+      </div>
+      <div>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+          <div>Основна документациона база оперативне активности, рационалног и ефикасног рада</div>
+        </div>
+      </div>
+      
+      
+      <div class="flex align-items-center bottom-border">
+        <h4 class="meaning-nr">#3</h4>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+      </div>
+      <div class="submeaning flex align-items-center">
+        <h4 class="submeaning-nr">#3a</h4>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
+      </div>
+      <div class="submeaning">
+        <span>склониште, сигурно место</span>
+      </div>
+      <div class="submeaning flex align-items-center">
+        <h4 class="submeaning-nr">#3б</h4>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
+      </div>
+      <div class="submeaning">
+        <div>партизанско склониште у II светском рату</div>
+        <div class="flex align-items-top justify-content-start">
+          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
+          <div>Арагон је поклекао пред „комунистима из базе“</div>
+        </div>
+      </div>
+    
+      <div class="flex align-items-center bottom-border">
+        <h4 class="meaning-nr">#4</h4>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+      </div>
+      <div>
+        <span>област за снабдевање</span>
+      </div>
+
+      <div class="flex align-items-center bottom-border">
+        <h4 class="meaning-nr">#5</h4>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+      </div>
+      <div>
+        <span>супстанца лужинастог укуса, лужина</span>
+      </div>
+
+      <div class="flex align-items-center bottom-border">
+        <h4 class="meaning-nr">#6</h4>
+        <div class="flex-grow-1"></div>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+      </div>
+      <div class="submeaning flex align-items-center">
+        <h4 class="submeaning-nr">#6a</h4>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
+      </div>
+      <div class="submeaning">
+        <span>основа (при степеновању)</span>
+      </div>
+      <div class="submeaning flex align-items-center">
+        <h4 class="submeaning-nr">#6б</h4>
+        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
+        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
+      </div>
+      <div class="submeaning">
+        <span>в. базис</span>
+      </div>
+
+
     </div>
   </div>
 
-  <div class="hits">
-    <div *ngFor="let hit of hitPage" class="hit-row">
-      <p class="rbr right">{{hit.order_nr}}.</p>
-      <p class="skr pointer" (click)="openReference($event, hit)">[{{ hit.skracenica || '---' }}]</p>
-      <p class="skr">
-        <button pButton pRipple type="button" icon="pi pi-palette" class="p-button-text btn-minimal" (click)="openColorPicker($event, hit)"></button>
-      </p>
-      <p class="izv" [ngClass]="hit.color">
-        <span *ngFor="let high of hit.highlights; let i=index" [ngClass]="{'fword': i % 2 === 1}">{{high}}</span>
-      </p>
-    </div>
-  </div>
 
-  <div class="grid align-items-center">
-    <div class="col-9">
-      <p-paginator [totalRecords]="hits.length" [first]="first" 
-        (onPageChange)="onPageChange($event)" [rows]="100" [rowsPerPageOptions]="[100,200,300]" 
-        [showJumpToPageDropdown]="true">
-      </p-paginator>
-    </div>
-    <div class="col-3 flex justify-content-end">
-      <p>{{hits.length}} {{pogodaka()}}</p>
-      <p-dropdown [options]="fragmentSizes" [(ngModel)]="fragmentSize" 
-        (onChange)="changeFragmentSize($event)" optionLabel="name" 
-        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
-      </p-dropdown>
-      <p-dropdown [options]="scanners" [(ngModel)]="scanner" 
-        (onChange)="changeScanner($event)" optionLabel="name" 
-        [style]="{width: '120px', 'margin-left': '5px', 'margin-top': '5px'}">
-      </p-dropdown>
-    </div>
-  </div>
 </div>
 
 <p-overlayPanel #colorpicker>
@@ -79,6 +211,16 @@
     {{ referencePreview }}<br/>
     {{ referenceSubcorpus }}
   </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #reference2>
+  <ng-template pTemplate>
+    {{ referencePreview }}<br/>
+    {{ referenceSubcorpus }}<br/>
+    <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text"></button>
+    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text"></button>
+    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger"></button>
+</ng-template>
 </p-overlayPanel>
 
 <div class="progress" *ngIf="searching">
