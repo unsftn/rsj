@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'publikacije',
     'indexer',
     'decider',
+    'recnikproxy',
 ]
 
 MIDDLEWARE = [

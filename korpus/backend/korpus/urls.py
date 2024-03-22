@@ -41,6 +41,7 @@ urlpatterns = [
     path('api/publikacije/', include('publikacije.urls', namespace='publikacije')),
     path('api/pretraga/', include('indexer.urls', namespace='pretraga')),
     path('api/decider/', include('decider.urls', namespace='decider')),
+    path('api/recnikproxy/', include('recnikproxy.urls', namespace='recnikproxy')),
     path(r'swagger<str:format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path(r'swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('media/<path:file_path>/', serve_media_file),

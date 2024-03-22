@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { PrimeNGConfig, MessageService } from 'primeng/api';
@@ -12,7 +12,7 @@ import { RecService } from '../../services/reci';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, AfterViewChecked {
+export class SearchComponent implements OnInit {
 
   wordId: number;
   wordType: number;
@@ -31,6 +31,10 @@ export class SearchComponent implements OnInit, AfterViewChecked {
   coloredHit: any;
   referencePreview: string;
   referenceSubcorpus: string;
+  editorVisible: boolean;
+  editorText: string;
+  searchText: string;
+  searchResults: any[];
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
   @ViewChild('reference') refPanel: OverlayPanel;
@@ -88,10 +92,6 @@ export class SearchComponent implements OnInit, AfterViewChecked {
         console.log(error);
       }
     });
-  }
-
-  ngAfterViewChecked(): void {
-
   }
 
   fetchData(): void {
@@ -219,6 +219,37 @@ export class SearchComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  editorSave(): void {
+    this.editorVisible = false;
+  }
+
+  editorCancel(): void {
+    this.editorVisible = false;
+  }
+
+  editorOpen(text: string) {
+    this.editorText = text;
+    this.editorVisible = true;
+  }
+
+  search(event): void {
+    this.searchService.searchRecnik(event.query).subscribe({
+      next: (data) => {
+        this.searchResults = data;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  select(event): void {
+    console.log(event);
+    this.searchText = '';
+    //this.router.navigate(['/edit', event.value.pk]);
+  }
+
+
   pogodaka(): string {
     // izuzetak: 11, 12, 13, 14 pogodaka
     if (this.hits === undefined)
@@ -239,10 +270,4 @@ export class SearchComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  process(hits: any[]): void {
-    for (let i = 0; i < hits.length; i++) {
-      const hit = hits[i];
-      hit.highlights = hit.highlights.split('***');
-    }
-  }
 }

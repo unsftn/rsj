@@ -71,4 +71,8 @@ export class SearchService {
       url += `&id=${id}`;
     return this.http.get<any>(url);
   }
+
+  searchRecnik(word: string): Observable<any> {
+    return this.http.get<any>(`/api/recnikproxy/search/?q=${word}`);
+  }
 }

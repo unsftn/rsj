@@ -64,45 +64,70 @@
       </div>
     </div>
     <div class="col-3 left-border">
+      <div class="p-inputgroup">
+        <span class="p-input-icon-right w-full">
+          <i class="pi pi-search"></i>
+          <!-- <input pInputText [(ngModel)]="searchDict" (keyup.enter)="searchDict()" class="w-full"/> -->
+          <p-autoComplete [(ngModel)]="searchText" [suggestions]="searchResults" (completeMethod)="search($event)" class="search-component" scrollHeight="500px" (onSelect)="select($event)" placeholder="Претрага" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}">
+            <ng-template let-word pTemplate="item">
+              <span class="rec">{{word.rec}}<span *ngIf="word.rbr_homo"><sup>{{word.rbr_homo}}</sup></span></span>
+              <span class="vrsta">{{word.vrsta_text}}</span>
+            </ng-template>
+          </p-autoComplete>
+        </span>
+      </div>
       <div class="flex align-items-center">
         <h3>Речник: база<sup>1</sup></h3>
         <div class="flex-grow-1"></div>
-        <button pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
+        <button pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
+        <button pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
       </div>
 
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#1</h4>
         <div class="flex-grow-1"></div>
+        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
       </div>
       <div>
-        <div>основа, оно што служи као темељ на коме се нешто изграђује</div>
+        <div>
+          <span class="pointer">основа, оно што служи као темељ на коме се нешто изграђује</span>
+        </div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
-          <div>Ђула беше филозоф, на бази начела nоn olet</div>
+          <div>
+            <span class="pointer">Ђула беше филозоф, на бази начела nоn olet</span>
+          </div>
         </div>
       </div>
 
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#2</h4>
         <div class="flex-grow-1"></div>
+        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
       </div>
       <div>
-        <div>упориште, ослонац, полазиште за вршење операција</div>
+        <div>
+          <span class="pointer">упориште, ослонац, полазиште за вршење операција</span>
+        </div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
-          <div>Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</div>
+          <div>
+            <span class="pointer">Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</span>
+          </div>
         </div>
       </div>
       <div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
-          <div>Основна документациона база оперативне активности, рационалног и ефикасног рада</div>
+          <div>
+            <span class="pointer">Основна документациона база оперативне активности, рационалног и ефикасног рада</span>
+          </div>
         </div>
       </div>
       
@@ -110,6 +135,7 @@
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#3</h4>
         <div class="flex-grow-1"></div>
+        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
@@ -121,7 +147,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <span>склониште, сигурно место</span>
+        <span class="pointer">склониште, сигурно место</span>
       </div>
       <div class="submeaning flex align-items-center">
         <h4 class="submeaning-nr">#3б</h4>
@@ -130,38 +156,43 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <div>партизанско склониште у II светском рату</div>
+        <div>
+          <span class="pointer">партизанско склониште у II светском рату</span>
+        </div>
         <div class="flex align-items-top justify-content-start">
           <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
-          <div>Арагон је поклекао пред „комунистима из базе“</div>
+          <div class="pointer">Арагон је поклекао пред „комунистима из базе“</div>
         </div>
       </div>
     
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#4</h4>
         <div class="flex-grow-1"></div>
+        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
       </div>
       <div>
-        <span>област за снабдевање</span>
+        <span class="pointer">област за снабдевање</span>
       </div>
 
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#5</h4>
         <div class="flex-grow-1"></div>
+        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
       </div>
       <div>
-        <span>супстанца лужинастог укуса, лужина</span>
+        <span class="pointer">супстанца лужинастог укуса, лужина</span>
       </div>
 
       <div class="flex align-items-center bottom-border">
         <h4 class="meaning-nr">#6</h4>
         <div class="flex-grow-1"></div>
+        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
@@ -173,7 +204,7 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <span>основа (при степеновању)</span>
+        <span class="pointer">основа (при степеновању)</span>
       </div>
       <div class="submeaning flex align-items-center">
         <h4 class="submeaning-nr">#6б</h4>
@@ -182,14 +213,10 @@
         <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
       </div>
       <div class="submeaning">
-        <span>в. базис</span>
+        <span class="pointer" (click)="editorOpen('v.bazis')">в. базис</span>
       </div>
-
-
     </div>
   </div>
-
-
 </div>
 
 <p-overlayPanel #colorpicker>
@@ -220,8 +247,18 @@
     <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text"></button>
     <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text"></button>
     <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger"></button>
-</ng-template>
+  </ng-template>
 </p-overlayPanel>
+
+<p-dialog header="Уреди текст" [(visible)]="editorVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [closable]="false">
+  <div class="p-inputgroup">
+    <textarea [rows]="4" [(ngModel)]="editorText" class="w-full"></textarea>
+  </div>
+  <div class="flex align-items-center justify-content-end mt-3">
+    <button (click)="editorSave()" pButton pRipple type="button" icon="pi pi-check" label="Сачувај" class="p-button-success mr-2"></button>
+    <button (click)="editorCancel()" pButton pRipple type="button" icon="pi pi-times" label="Откажи" class="p-button-danger"></button>
+</div>
+</p-dialog>
 
 <div class="progress" *ngIf="searching">
   <p-progressSpinner></p-progressSpinner>
