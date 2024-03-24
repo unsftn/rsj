@@ -14,7 +14,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { AuthErrorInterceptor } from './services/auth/auth-error.interceptor.service';
 import { ErrorInterceptor } from './services/error';
-
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
