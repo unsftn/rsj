@@ -292,6 +292,14 @@ export class SearchComponent implements OnInit {
     this.renumber(this.odrednica.znacenja[meaningIndex].podznacenja);
   }
 
+  addMeaning(): void {
+    this.odrednica.znacenja.push({ rbr: this.odrednica.znacenja.length + 1, tekst: '', id: null, podznacenja: [], primeri: [] });
+  }
+
+  addSubmeaning(meaning: any): void {
+    meaning.podznacenja.push({ rbr: meaning.podznacenja.length + 1, tekst: '', id: null, primeri: [] });
+  }
+
   renumber(collection: any[]): void {
     for (let i = 0; i < collection.length; i++)
       collection[i].rbr = i + 1;

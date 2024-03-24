@@ -12,11 +12,12 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { SearchComponent } from './search.component';
+import { NvlPipe } from '../../utils/nvl.pipe';
 
 const routes: Routes = [{ path: '', component: SearchComponent }];
 
 @NgModule({
-  declarations: [SearchComponent],
+  declarations: [SearchComponent, NvlPipe],
   imports: [
     CommonModule,
     PaginatorModule,
@@ -32,6 +33,6 @@ const routes: Routes = [{ path: '', component: SearchComponent }];
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],
-  bootstrap: [SearchComponent]
+  bootstrap: [SearchComponent],
 })
 export class SearchModule { }

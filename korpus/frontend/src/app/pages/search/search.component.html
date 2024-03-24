@@ -1,11 +1,10 @@
 <div class="search-container" *ngIf="!searching && hits">
   <h3 *ngIf="word">
-    {{word.osnovni_oblik}} &nbsp;&nbsp; 
+    {{word.osnovni_oblik}} &nbsp;&nbsp;
     <span class="vrsta-reci">[{{word.naziv_vrste_reci}}]</span> &nbsp;&nbsp; 
     <a class="edit-link" [routerLink]="editRouterLink" _target="blank">обрада &gt;&gt;</a>
   </h3>
   <h3 *ngIf="wordForm">{{wordForm}}</h3>
-
 
   <div class="grid">
     <div class="col-9">
@@ -79,26 +78,26 @@
         <div class="flex align-items-center">
           <h3>Речник: {{odrednica.rec}}<sup>{{odrednica.rbr_homonima}}</sup></h3>
           <div class="flex-grow-1"></div>
-          <button pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
+          <button (click)="addMeaning()" pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
           <button pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
         </div>
         <div *ngFor="let znacenje of odrednica.znacenja; let i=index; trackBy: trackByFn">
           <div class="flex align-items-center bottom-border">
             <h4 class="meaning-nr">#{{i+1}}</h4>
             <div class="flex-grow-1"></div>
-            <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
+            <button (click)="addSubmeaning(znacenje)" pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
             <button (click)="moveMeaningUp(i)" pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
             <button (click)="moveMeaningDown(i)" pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
             <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
           </div>
           <div>
             <div>
-              <span (click)="editorOpen(znacenje)" class="pointer fira">{{znacenje.tekst}}</span>
+              <span (click)="editorOpen(znacenje)" class="pointer fira">{{znacenje.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
             </div>
             <div *ngFor="let primer of znacenje.primeri; let j=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
               <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
               <div>
-                <span (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst}}</span>
+                <span (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
               </div>
             </div>
           </div>
@@ -111,11 +110,11 @@
             </div>
             <div class="submeaning">
               <div>
-                <span (click)="editorOpen(podznacenje)" class="pointer fira">{{podznacenje.tekst}}</span>
+                <span (click)="editorOpen(podznacenje)" class="pointer fira">{{podznacenje.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
               </div>
               <div *ngFor="let primer of podznacenje.primeri; let k=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
                 <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
-                <div (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst}}</div>
+                <div (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</div>
               </div>
             </div>
           </div>

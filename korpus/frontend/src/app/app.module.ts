@@ -18,10 +18,9 @@ import { ErrorInterceptor } from './services/error';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { SafePipe } from './utils/safe.pipe';
 
 @NgModule({
-  declarations: [AppComponent, SafePipe],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
