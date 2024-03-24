@@ -62,6 +62,7 @@ services:
     image: rsj/korpus
     restart: always
     command: qcluster
+    stop_signal: SIGINT
     depends_on: 
       mysql:
         condition: service_healthy
