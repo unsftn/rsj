@@ -32,6 +32,7 @@ export class SearchComponent implements OnInit {
   referencePreview: string;
   referenceSubcorpus: string;
   editorVisible: boolean;
+  editorComponent: any;
   editorText: string;
   searchText: string;
   searchResults: any[];
@@ -223,14 +224,16 @@ export class SearchComponent implements OnInit {
 
   editorSave(): void {
     this.editorVisible = false;
+    this.editorComponent.tekst = this.editorText;
   }
 
   editorCancel(): void {
     this.editorVisible = false;
   }
 
-  editorOpen(text: string) {
-    this.editorText = text;
+  editorOpen(component: any) {
+    this.editorComponent = component;
+    this.editorText = component.tekst;
     this.editorVisible = true;
   }
 

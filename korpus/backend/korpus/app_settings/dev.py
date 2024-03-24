@@ -1,4 +1,5 @@
 from .base import *
+from .utils import read_or_get
 
 DEBUG = True
 SECRET_KEY = 'x4f$k4b-21q!#6#2ovzx77_rsneenp2==3wa#fo#%so#p2w*0u'
@@ -27,4 +28,4 @@ HEADER_COLOR_SCHEME = 'green'
 GSHEETS_TOKEN = 'gsheets-token.json'
 GSHEETS_CREDENTIALS = 'gsheets-credentials.json'
 KORPUS_SPREADSHEET_ID = '1tZkiNjtwA6smaM8xnYrCEK1UszibU4rUXEDS-jw4i6o'
-KORPUS_API_TOKEN = 'korpus'
+KORPUS_API_TOKEN = read_or_get('private/secrets', 'KORPUS_API_TOKEN', 'korpus')

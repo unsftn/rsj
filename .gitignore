@@ -166,4 +166,4 @@ media/
 
 gsheets-credentials.json
 gsheets-token.json
-
+private/secrets
