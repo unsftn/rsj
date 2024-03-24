@@ -35,6 +35,8 @@ export class SearchComponent implements OnInit {
   editorText: string;
   searchText: string;
   searchResults: any[];
+  odrednica: any;
+  azbuka = 'абвгдђежзијклљмнњопрстћуфхцчџш';
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
   @ViewChild('reference') refPanel: OverlayPanel;
@@ -244,11 +246,16 @@ export class SearchComponent implements OnInit {
   }
 
   select(event): void {
-    console.log(event);
     this.searchText = '';
-    //this.router.navigate(['/edit', event.value.pk]);
+    this.searchService.readRecnik(event.value.pk).subscribe({
+      next: (data) => { this.odrednica = data; },
+      error: (error) => { console.log(error) }
+    });
   }
 
+  trackByFn(index: number, item: any): any {
+    return index;
+  }
 
   pogodaka(): string {
     // izuzetak: 11, 12, 13, 14 pogodaka

@@ -556,6 +556,7 @@ def api_get_for_korpus(request, odrednica_id):
         retval = {
             'id': odrednica.id,
             'rec': odrednica.rec,
+            'rbr_homonima': odrednica.rbr_homonima,
             'znacenja': [
                 {
                     'id': z.id,
@@ -568,7 +569,7 @@ def api_get_for_korpus(request, odrednica_id):
                             'tekst': p.opis,
                             'izvor_id': p.korpus_izvor_id,
                         }
-                        for p in z.konkordansa_set.all()
+                        for p in z.konkordansa_set.all().order_by('redni_broj')
                     ],
                     'podznacenja': [
                         {
@@ -582,12 +583,12 @@ def api_get_for_korpus(request, odrednica_id):
                                     'tekst': pr.opis,
                                     'izvor_id': pr.korpus_izvor_id,
                                 }
-                                for pr in pz.konkordansa_set.all()
+                                for pr in pz.konkordansa_set.all().order_by('redni_broj')
                             ]
-                        } for pz in z.podznacenje_set.all()
+                        } for pz in z.podznacenje_set.all().order_by('redni_broj')
                     ]
                 } 
-                for z in odrednica.znacenje_set.all()
+                for z in odrednica.znacenje_set.all().order_by('redni_broj')
             ]
         }
         return Response(retval, status=status.HTTP_200_OK, content_type=JSON)
@@ -603,8 +604,6 @@ def auth_from_korpus(request):
     Check if the request is coming from the korpus app. App is authenticated by 
     the API token; the same user must exist in the recnik app.
     """
-    import json
-    print(request.META)
     if not request.META.get('HTTP_API_TOKEN'):
         raise PermissionDenied(detail='Недостаје API токен', code=403)
     if request.META.get('HTTP_API_TOKEN') != settings.KORPUS_API_TOKEN:

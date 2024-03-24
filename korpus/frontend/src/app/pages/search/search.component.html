@@ -75,144 +75,53 @@
           </p-autoComplete>
         </span>
       </div>
-      <div class="flex align-items-center">
-        <h3>Речник: база<sup>1</sup></h3>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
-        <button pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
-      </div>
-
-      <div class="flex align-items-center bottom-border">
-        <h4 class="meaning-nr">#1</h4>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
-      </div>
-      <div>
-        <div>
-          <span class="pointer fira">основа, оно што служи као темељ на коме се нешто изграђује</span>
+      <div *ngIf="odrednica">
+        <div class="flex align-items-center">
+          <h3>Речник: {{odrednica.rec}}<sup>{{odrednica.rbr_homonima}}</sup></h3>
+          <div class="flex-grow-1"></div>
+          <button pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
+          <button pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
         </div>
-        <div class="flex align-items-top justify-content-start">
-          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+
+        <div *ngFor="let znacenje of odrednica.znacenja; let i=index; trackBy: trackByFn">
+          <div class="flex align-items-center bottom-border">
+            <h4 class="meaning-nr">#{{i+1}}</h4>
+            <div class="flex-grow-1"></div>
+            <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+            <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+          </div>
           <div>
-            <span class="pointer fira">Ђула беше филозоф, на бази начела nоn olet</span>
+            <div>
+              <span class="pointer fira">{{znacenje.tekst}}</span>
+            </div>
+            <div *ngFor="let primer of znacenje.primeri; let j=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
+              <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+              <div>
+                <span class="pointer fira">{{primer.tekst}}</span>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let podznacenje of znacenje.podznacenja; let j=index; trackBy: trackByFn">
+            <div class="submeaning flex align-items-center">
+              <h4 class="submeaning-nr">#{{i+1}}{{azbuka[j]}}</h4>
+              <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
+              <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
+              <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
+            </div>
+            <div class="submeaning">
+              <div>
+                <span class="pointer">{{podznacenje.tekst}}</span>
+              </div>
+              <div *ngFor="let primer of podznacenje.primeri; let k=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
+                <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
+                <div class="pointer fira">{{primer.tekst}}</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="flex align-items-center bottom-border">
-        <h4 class="meaning-nr">#2</h4>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
-      </div>
-      <div>
-        <div>
-          <span class="pointer fira">упориште, ослонац, полазиште за вршење операција</span>
-        </div>
-        <div class="flex align-items-top justify-content-start">
-          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
-          <div>
-            <span class="pointer fira">Roman Grifinovo jaje (Griffin’s Egg, 1990) prati avanture stanovnika mesečeve baze napadnute veštački stvorenim virusom.</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="flex align-items-top justify-content-start">
-          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
-          <div>
-            <span class="pointer fira">Основна документациона база оперативне активности, рационалног и ефикасног рада</span>
-          </div>
-        </div>
-      </div>
-      
-      
-      <div class="flex align-items-center bottom-border">
-        <h4 class="meaning-nr">#3</h4>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
-      </div>
-      <div class="submeaning flex align-items-center">
-        <h4 class="submeaning-nr">#3a</h4>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
-      </div>
-      <div class="submeaning">
-        <span class="pointer fira">склониште, сигурно место</span>
-      </div>
-      <div class="submeaning flex align-items-center">
-        <h4 class="submeaning-nr">#3б</h4>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
-      </div>
-      <div class="submeaning">
-        <div>
-          <span class="pointer">партизанско склониште у II светском рату</span>
-        </div>
-        <div class="flex align-items-top justify-content-start">
-          <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
-          <div class="pointer fira">Арагон је поклекао пред „комунистима из базе“</div>
-        </div>
-      </div>
-    
-      <div class="flex align-items-center bottom-border">
-        <h4 class="meaning-nr">#4</h4>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
-      </div>
-      <div>
-        <span class="pointer fira">област за снабдевање</span>
-      </div>
-
-      <div class="flex align-items-center bottom-border">
-        <h4 class="meaning-nr">#5</h4>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
-      </div>
-      <div>
-        <span class="pointer fira">супстанца лужинастог укуса, лужина</span>
-      </div>
-
-      <div class="flex align-items-center bottom-border">
-        <h4 class="meaning-nr">#6</h4>
-        <div class="flex-grow-1"></div>
-        <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
-      </div>
-      <div class="submeaning flex align-items-center">
-        <h4 class="submeaning-nr">#6a</h4>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
-      </div>
-      <div class="submeaning">
-        <span class="pointer fira">основа (при степеновању)</span>
-      </div>
-      <div class="submeaning flex align-items-center">
-        <h4 class="submeaning-nr">#6б</h4>
-        <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
-        <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
-      </div>
-      <div class="submeaning">
-        <span class="pointer fira" (click)="editorOpen('v.bazis')">в. базис</span>
       </div>
     </div>
   </div>
