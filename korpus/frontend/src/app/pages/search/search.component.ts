@@ -260,6 +260,43 @@ export class SearchComponent implements OnInit {
     return index;
   }
 
+  moveMeaningUp(index: number): void {
+    if (index === 0)
+      return;
+    const meaning = this.odrednica.znacenja.splice(index, 1)[0];
+    this.odrednica.znacenja.splice(index - 1, 0, meaning);
+    this.renumber(this.odrednica.znacenja);
+  }
+
+  moveMeaningDown(index: number): void {
+    if (index === this.odrednica.znacenja.length - 1)
+      return;
+    const meaning = this.odrednica.znacenja.splice(index, 1)[0];
+    this.odrednica.znacenja.splice(index + 1, 0, meaning);
+    this.renumber(this.odrednica.znacenja);
+  }
+
+  moveSubmeaningUp(meaningIndex: number, subMeaningIndex: number): void {
+    if (subMeaningIndex === 0)
+      return;
+    const submeaning = this.odrednica.znacenja[meaningIndex].podznacenja.splice(subMeaningIndex, 1)[0];
+    this.odrednica.znacenja[meaningIndex].podznacenja.splice(subMeaningIndex - 1, 0, submeaning);
+    this.renumber(this.odrednica.znacenja[meaningIndex].podznacenja);
+  }
+
+  moveSubmeaningDown(meaningIndex: number, subMeaningIndex: number): void {
+    if (subMeaningIndex === this.odrednica.znacenja[meaningIndex].podznacenja.length - 1)
+      return;
+    const submeaning = this.odrednica.znacenja[meaningIndex].podznacenja.splice(subMeaningIndex, 1)[0];
+    this.odrednica.znacenja[meaningIndex].podznacenja.splice(subMeaningIndex + 1, 0, submeaning);
+    this.renumber(this.odrednica.znacenja[meaningIndex].podznacenja);
+  }
+
+  renumber(collection: any[]): void {
+    for (let i = 0; i < collection.length; i++)
+      collection[i].rbr = i + 1;
+  }
+
   pogodaka(): string {
     // izuzetak: 11, 12, 13, 14 pogodaka
     if (this.hits === undefined)

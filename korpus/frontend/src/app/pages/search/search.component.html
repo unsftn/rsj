@@ -82,14 +82,13 @@
           <button pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
           <button pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
         </div>
-
         <div *ngFor="let znacenje of odrednica.znacenja; let i=index; trackBy: trackByFn">
           <div class="flex align-items-center bottom-border">
             <h4 class="meaning-nr">#{{i+1}}</h4>
             <div class="flex-grow-1"></div>
             <button pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
-            <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
-            <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
+            <button (click)="moveMeaningUp(i)" pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
+            <button (click)="moveMeaningDown(i)" pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
             <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
           </div>
           <div>
@@ -106,8 +105,8 @@
           <div *ngFor="let podznacenje of znacenje.podznacenja; let j=index; trackBy: trackByFn">
             <div class="submeaning flex align-items-center">
               <h4 class="submeaning-nr">#{{i+1}}{{azbuka[j]}}</h4>
-              <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
-              <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
+              <button (click)="moveSubmeaningUp(i, j)" pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
+              <button (click)="moveSubmeaningDown(i, j)" pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
               <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
             </div>
             <div class="submeaning">
@@ -121,7 +120,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
