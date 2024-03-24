@@ -6,8 +6,8 @@ app_name = 'recnikproxy'
 
 urlpatterns = [
     path('search/', search),
-    path('read/<int:pk>/', read),
-    path('save/<int:pk>', save),
+    path('read/<int:odrednica_id>/', read),
+    path('save/<int:odrednica_id>/', save),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

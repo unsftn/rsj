@@ -1,3 +1,5 @@
+from django.conf import settings
+import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND, HTTP_200_OK
@@ -61,8 +63,18 @@ def search(request):
 
 
 @api_view(['GET'])
-def read(request):
-    pass
+def read(request, odrednica_id):
+    headers = {
+        'Korpus-User': request.user.email,
+        'API-Token': settings.KORPUS_API_TOKEN
+    }
+    response = requests.get(f'https://recnik.rsj.rs/api/odrednice/external/odrednica/{odrednica_id}/', headers=headers)
+    if response.status_code == 200:
+        result = response.json()
+        return Response(result, status=HTTP_200_OK)
+    else:
+        return Response(status=response.status_code)
+
 
 @api_view(['PUT'])
 def save(request):

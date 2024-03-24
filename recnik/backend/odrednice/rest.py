@@ -507,7 +507,6 @@ def get_korisnici(request):
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)
     except Exception as ex:
-        print(ex)
         raise NotFound(detail='Нема регистрованих корисника', code=404)
 
 
@@ -546,6 +545,77 @@ def api_grafikon(request, tip_grafikona):
         return HttpResponse(graph.chart, content_type=JSON)
     except GrafikonUnosa.DoesNotExist:
         return Response([], status=status.HTTP_404_NOT_FOUND, content_type=JSON)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def api_get_for_korpus(request, odrednica_id):
+    user = auth_from_korpus(request)    
+    try:
+        odrednica = Odrednica.objects.get(id=odrednica_id)
+        retval = {
+            'id': odrednica.id,
+            'rec': odrednica.rec,
+            'znacenja': [
+                {
+                    'id': z.id,
+                    'rbr': z.redni_broj,
+                    'tekst': z.tekst,
+                    'primeri': [
+                        {
+                            'id': p.id,
+                            'rbr': p.redni_broj,
+                            'tekst': p.opis,
+                            'izvor_id': p.korpus_izvor_id,
+                        }
+                        for p in z.konkordansa_set.all()
+                    ],
+                    'podznacenja': [
+                        {
+                            'id': pz.id,
+                            'rbr': pz.redni_broj,
+                            'tekst': pz.tekst,
+                            'primeri': [
+                                {
+                                    'id': pr.id,
+                                    'rbr': pr.redni_broj,
+                                    'tekst': pr.opis,
+                                    'izvor_id': pr.korpus_izvor_id,
+                                }
+                                for pr in pz.konkordansa_set.all()
+                            ]
+                        } for pz in z.podznacenje_set.all()
+                    ]
+                } 
+                for z in odrednica.znacenje_set.all()
+            ]
+        }
+        return Response(retval, status=status.HTTP_200_OK, content_type=JSON)
+    except Odrednica.DoesNotExist:
+        raise NotFound(detail='Одредница није пронађена', code=404)
+    except Exception as ex:
+        log.error(ex)
+        raise NotFound(detail='Одредница није пронађена', code=500)
+
+
+def auth_from_korpus(request):
+    """
+    Check if the request is coming from the korpus app. App is authenticated by 
+    the API token; the same user must exist in the recnik app.
+    """
+    import json
+    print(request.META)
+    if not request.META.get('HTTP_API_TOKEN'):
+        raise PermissionDenied(detail='Недостаје API токен', code=403)
+    if request.META.get('HTTP_API_TOKEN') != settings.KORPUS_API_TOKEN:
+        raise PermissionDenied(detail='Неисправан API токен', code=403)
+    if not request.META.get('HTTP_KORPUS_USER'):
+        raise PermissionDenied(detail='Недостаје корисничко име', code=403)
+    try:
+        user = UserProxy.objects.get(username=request.META.get('HTTP_KORPUS_USER'))
+    except UserProxy.DoesNotExist:
+        raise PermissionDenied(detail='Корисник није пронађен', code=403)
+    return user
 
 
 def get_users_by_role(role_id):

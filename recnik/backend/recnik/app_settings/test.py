@@ -19,3 +19,4 @@ ELASTICSEARCH_HOST = 'localhost'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 HEADER_COLOR_SCHEME = 'gray'
 OBRADA_TUDJIH = True
+KORPUS_API_TOKEN = 'korpus'

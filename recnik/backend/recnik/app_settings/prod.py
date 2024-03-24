@@ -38,3 +38,4 @@ HEADER_COLOR_SCHEME = read_or_get('/private/secrets', 'HEADER_COLOR_SCHEME', 'bl
 OBRADA_TUDJIH = read_or_get('/private/secrets', 'OBRADA_TUDJIH', 'False')
 CSRF_TRUSTED_ORIGINS = ['https://*.rsj.rs']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+KORPUS_API_TOKEN = read_or_get('/private/secrets', 'KORPUS_API_TOKEN', 'korpus')
