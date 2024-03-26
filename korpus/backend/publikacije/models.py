@@ -68,6 +68,9 @@ class Publikacija(models.Model):
             retval += '.'
         return retval
 
+    def potkorpus_naziv(self):
+        return self.potkorpus.naziv if self.potkorpus else ''
+    
     def __str__(self):
         return self.naslov
 

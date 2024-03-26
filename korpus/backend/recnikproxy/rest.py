@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND, HTTP_200_OK
 from indexer.utils import get_rsj_client
 from indexer.cyrlat import sort_key
-
+from publikacije.models import *
 
 VRSTE_RECI = {
     0: 'именица',
@@ -62,6 +62,16 @@ def search(request):
     return Response(result, status=HTTP_200_OK)
 
 
+def fill_primer(primer):
+    try:
+        pub = Publikacija.objects.get(id=primer['izvor_id'])
+        primer['opis'] = pub.opis()
+        primer['potkorpus'] = pub.potkorpus_naziv()
+        primer['skracenica'] = pub.skracenica
+    except Publikacija.DoesNotExist:
+        pass
+
+
 @api_view(['GET'])
 def read(request, odrednica_id):
     headers = {
@@ -71,6 +81,12 @@ def read(request, odrednica_id):
     response = requests.get(f'https://recnik.rsj.rs/api/odrednice/external/odrednica/{odrednica_id}/', headers=headers)
     if response.status_code == 200:
         result = response.json()
+        for z in result['znacenja']:
+            for pr in z['primeri']:
+                fill_primer(pr)
+            for pz in z['podznacenja']:
+                for pr in pz['primeri']:
+                    fill_primer(pr)
         return Response(result, status=HTTP_200_OK)
     else:
         return Response(status=response.status_code)

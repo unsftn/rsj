@@ -95,7 +95,7 @@
               <span (click)="editorOpen(znacenje)" class="pointer fira">{{znacenje.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
             </div>
             <div *ngFor="let primer of znacenje.primeri; let j=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
-              <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openReference2($event, hits[0])"></button></div>
+              <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openPrimerRef($event, primer)"></button></div>
               <div>
                 <span (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
               </div>
@@ -113,7 +113,7 @@
                 <span (click)="editorOpen(podznacenje)" class="pointer fira">{{podznacenje.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
               </div>
               <div *ngFor="let primer of podznacenje.primeri; let k=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
-                <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openReference2($event, hits[0])"></button></div>
+                <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openPrimerRef($event, primer)"></button></div>
                 <div (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</div>
               </div>
             </div>
@@ -147,8 +147,8 @@
 
 <p-overlayPanel #referenceRecnik>
   <ng-template pTemplate>
-    {{ referencePreview }}<br/>
-    {{ referenceSubcorpus }}<br/>
+    {{ primerRef }}<br/>
+    {{ primerSubcorpus }}<br/>
     <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text"></button>
     <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text"></button>
     <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger"></button>

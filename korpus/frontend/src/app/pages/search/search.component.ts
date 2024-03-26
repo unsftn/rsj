@@ -32,6 +32,8 @@ export class SearchComponent implements OnInit {
   coloredHit: any;
   referencePreview: string;
   referenceSubcorpus: string;
+  primerRef: string;
+  primerSubcorpus: string;
   editorVisible: boolean;
   editorComponent: any;
   editorText: string;
@@ -208,9 +210,9 @@ export class SearchComponent implements OnInit {
     this.refPanel.toggle(event);
   }
 
-  openReference2(event: any, hit: any): void {
-    this.referencePreview = hit.opis;
-    this.referenceSubcorpus = hit.potkorpus;
+  openPrimerRef(event: any, primer: any): void {
+    this.primerRef = primer.opis;
+    this.primerSubcorpus = primer.potkorpus;
     this.refPanelRecnik.toggle(event);
   }
 
