@@ -317,9 +317,25 @@ export class SearchComponent implements OnInit {
     if (!this.odrednica)
       return;
     if (submeaningIndex === undefined || submeaningIndex === null) {
-      this.odrednica.znacenja[meaningIndex].primeri.push({ tekst: this.selectedText, id: this.selectedHit.id });
+      this.odrednica.znacenja[meaningIndex].primeri.push({ 
+        id: null,
+        tekst: this.selectedText, 
+        izvor_id: this.selectedHit.id,
+        opis: this.selectedHit.opis,
+        potkorpus: this.selectedHit.potkorpus,
+        skracenica: this.selectedHit.skracenica,
+        rbr: this.odrednica.znacenja[meaningIndex].primeri.length + 1
+      });
     } else {
-      this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.push({ tekst: this.selectedText, id: this.selectedHit.id });
+      this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.push({ 
+        id: null,
+        tekst: this.selectedText, 
+        izvor_id: this.selectedHit.id,
+        opis: this.selectedHit.opis,
+        potkorpus: this.selectedHit.potkorpus,
+        skracenica: this.selectedHit.skracenica,
+        rbr: this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri + 1
+      });
     }
   }
 
