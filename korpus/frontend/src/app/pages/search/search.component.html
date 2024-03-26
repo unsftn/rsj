@@ -29,7 +29,7 @@
       </div>
     
       <div class="hits">
-        <div *ngFor="let hit of hitPage" class="hit-row">
+        <div *ngFor="let hit of hitPage; let i=index" class="hit-row">
           <p class="rbr right">{{hit.order_nr}}.</p>
           <p class="skr pointer" (click)="openReference($event, hit)">[{{ hit.skracenica || '---' }}]</p>
           <p class="skr">
@@ -37,7 +37,7 @@
           </p>
           <!-- <p class="izv" [ngClass]="hit.color" [innerHTML]="safe(hit.highlights)"></p> -->
           <p class="izv" [ngClass]="hit.color" (mouseup)="selectText($event, hit)">
-            <span *ngFor="let high of hit.highlights; let i=index" [ngClass]="{'fword': i % 2 === 1}">{{high}}</span>
+            <span #primer *ngFor="let high of hit.highlights; let i=index" [ngClass]="{'fword': i % 2 === 1}">{{high}}</span>
           </p>
         </div>
       </div>
@@ -155,14 +155,26 @@
   </ng-template>
 </p-overlayPanel>
 
+<p-overlayPanel #addRef appendTo="body">
+  <ng-template pTemplate>
+    <div *ngIf="odrednica">
+      <h4 class="fira">{{odrednica.rec}}</h4>
+      <div *ngFor="let z of odrednica.znacenja; let i=index" class="flex mb-2">
+        <button pButton pRipple type="button" icon="pi pi-arrow-right" label="{{i+1}}" (click)="addReference(i, null)" class="mr-2"></button>
+        <button *ngFor="let pz of z.podznacenja; let j=index" pButton pRipple type="button" icon="pi pi-arrow-right" label="{{i+1}}{{azbuka[j]}}" (click)="addReference(i, j)" class="mr-2"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
 <p-dialog header="Уреди текст" [(visible)]="editorVisible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false" [closable]="false">
   <div class="p-inputgroup">
-    <textarea [rows]="4" [(ngModel)]="editorText" class="w-full"></textarea>
+    <textarea [rows]="8" [(ngModel)]="editorText" class="w-full"></textarea>
   </div>
   <div class="flex align-items-center justify-content-end mt-3">
     <button (click)="editorSave()" pButton pRipple type="button" icon="pi pi-check" label="Сачувај" class="p-button-success mr-2"></button>
     <button (click)="editorCancel()" pButton pRipple type="button" icon="pi pi-times" label="Откажи" class="p-button-danger"></button>
-</div>
+  </div>
 </p-dialog>
 
 <div class="progress" *ngIf="searching">

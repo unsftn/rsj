@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 import { PrimeNGConfig, MessageService } from 'primeng/api';
@@ -6,6 +6,7 @@ import { OverlayPanel } from 'primeng/overlaypanel';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
 import { SearchService } from '../../services/search';
 import { RecService } from '../../services/reci';
+
 
 @Component({
   selector: 'app-search',
@@ -38,10 +39,14 @@ export class SearchComponent implements OnInit {
   searchResults: any[];
   odrednica: any;
   azbuka = 'абвгдђежзијклљмнњопрстћуфхцчџш';
+  selectedText: string;
+  selectedHit: any;
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
   @ViewChild('reference') refPanel: OverlayPanel;
-  @ViewChild('reference2') refPanel2: OverlayPanel;
+  @ViewChild('referenceRecnik') refPanelRecnik: OverlayPanel;
+  @ViewChild('addRef') addRefPanel: OverlayPanel;
+  @ViewChildren('primer') primeri: QueryList<ElementRef>;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -206,7 +211,7 @@ export class SearchComponent implements OnInit {
   openReference2(event: any, hit: any): void {
     this.referencePreview = hit.opis;
     this.referenceSubcorpus = hit.potkorpus;
-    this.refPanel2.toggle(event);
+    this.refPanelRecnik.toggle(event);
   }
 
   pickColor(color: any): void {
@@ -216,9 +221,10 @@ export class SearchComponent implements OnInit {
 
   selectText(event: any, hit: any): void {
     const selection = document.getSelection();
-    if (!selection.isCollapsed) {
-      const text = selection.toString().trim();
-      console.log(text);
+    if (!selection.isCollapsed && this.odrednica) {
+      this.selectedText = selection.toString().trim();
+      this.selectedHit = hit;
+      this.addRefPanel.toggle(event);
     }
   }
 
@@ -252,7 +258,7 @@ export class SearchComponent implements OnInit {
     this.searchText = '';
     this.searchService.readRecnik(event.value.pk).subscribe({
       next: (data) => { this.odrednica = data; },
-      error: (error) => { console.log(error) }
+      error: (error) => { this.odrednica = null; console.log(error); }
     });
   }
 
@@ -303,6 +309,16 @@ export class SearchComponent implements OnInit {
   renumber(collection: any[]): void {
     for (let i = 0; i < collection.length; i++)
       collection[i].rbr = i + 1;
+  }
+
+  addReference(meaningIndex: number, submeaningIndex: number): void {
+    if (!this.odrednica)
+      return;
+    if (submeaningIndex === undefined || submeaningIndex === null) {
+      this.odrednica.znacenja[meaningIndex].primeri.push({ tekst: this.selectedText, id: this.selectedHit.id });
+    } else {
+      this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.push({ tekst: this.selectedText, id: this.selectedHit.id });
+    }
   }
 
   pogodaka(): string {
