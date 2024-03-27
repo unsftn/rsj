@@ -11,6 +11,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AreYouSureModule } from '../are-you-sure/are-you-sure.module';
 import { SearchComponent } from './search.component';
 import { NvlPipe } from '../../utils/nvl.pipe';
 
@@ -30,6 +31,7 @@ const routes: Routes = [{ path: '', component: SearchComponent }];
     DialogModule,
     InputTextModule,
     AutoCompleteModule,
+    AreYouSureModule,
     RouterModule.forChild(routes),
   ],
   exports: [RouterModule],

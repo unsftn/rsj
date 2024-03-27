@@ -6,7 +6,7 @@ import { OverlayPanel } from 'primeng/overlaypanel';
 import { TokenStorageService } from '../../services/auth/token-storage.service';
 import { SearchService } from '../../services/search';
 import { RecService } from '../../services/reci';
-
+import { transliterateSerbianCyrillicToLatin, transliterateSerbianLatinToCyrillic } from '../../utils/cyrlat';
 
 @Component({
   selector: 'app-search',
@@ -32,8 +32,6 @@ export class SearchComponent implements OnInit {
   coloredHit: any;
   referencePreview: string;
   referenceSubcorpus: string;
-  primerRef: string;
-  primerSubcorpus: string;
   editorVisible: boolean;
   editorComponent: any;
   editorText: string;
@@ -43,6 +41,14 @@ export class SearchComponent implements OnInit {
   azbuka = 'абвгдђежзијклљмнњопрстћуфхцчџш';
   selectedText: string;
   selectedHit: any;
+  areYouSureVisible: boolean;
+  areYouSureMessage: string;
+  areYouSureCallback: any;
+  areYouSureParams: any;
+  primerRef: string;
+  primerSubcorpus: string;
+  primerCollection: any[];
+  primerIndex: number;
 
   @ViewChild('colorpicker') colorPicker: OverlayPanel;
   @ViewChild('reference') refPanel: OverlayPanel;
@@ -209,9 +215,11 @@ export class SearchComponent implements OnInit {
     this.refPanel.toggle(event);
   }
 
-  openPrimerRef(event: any, primer: any): void {
-    this.primerRef = primer.opis;
-    this.primerSubcorpus = primer.potkorpus;
+  openPrimerRef(event: any, primeri: any[], index: number): void {
+    this.primerRef = primeri[index].opis;
+    this.primerSubcorpus = primeri[index].potkorpus;
+    this.primerIndex = index;
+    this.primerCollection = primeri;
     this.refPanelRecnik.toggle(event);
   }
 
@@ -312,6 +320,24 @@ export class SearchComponent implements OnInit {
     this.renumber(this.odrednica.znacenja[meaningIndex].podznacenja);
   }
 
+  movePrimerUp(primerIndex: number, primeri: any[]): void {
+    this.refPanelRecnik.hide();
+    if (primerIndex === 0)
+      return;
+    const primer = primeri.splice(primerIndex, 1)[0];
+    primeri.splice(primerIndex - 1, 0, primer);
+    this.renumber(primeri);
+  }
+
+  movePrimerDown(primerIndex: number, primeri: any[]): void {
+    this.refPanelRecnik.hide();
+    if (primerIndex === primeri.length - 1)
+      return;
+    const primer = primeri.splice(primerIndex, 1)[0];
+    primeri.splice(primerIndex + 1, 0, primer);
+    this.renumber(primeri);
+  }
+
   addMeaning(): void {
     this.odrednica.znacenja.push({ rbr: this.odrednica.znacenja.length + 1, tekst: '', id: null, podznacenja: [], primeri: [] });
   }
@@ -349,6 +375,28 @@ export class SearchComponent implements OnInit {
         rbr: this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri + 1
       });
     }
+    this.addRefPanel.hide();
+  }
+
+  areYouSure(message: string, callback: any, params: any): void {
+    this.areYouSureMessage = message;
+    this.areYouSureVisible = true;
+    this.areYouSureCallback = callback;
+    this.areYouSureParams = params;
+  }
+
+  areYouSureYes(): void {
+    this.areYouSureCallback(this.areYouSureParams);
+    this.areYouSureVisible = false;
+  }
+
+  areYouSureNo(): void {
+    this.areYouSureVisible = false;
+  }
+
+  deleteFrom(params: any): void {
+    params.collection.splice(params.index, 1);
+    this.renumber(params.collection);
   }
 
   pogodaka(): string {
@@ -369,6 +417,14 @@ export class SearchComponent implements OnInit {
       default: 
         return 'погодака';
     }
+  }
+
+  toCyrillic(): void {
+    this.editorText = transliterateSerbianLatinToCyrillic(this.editorText);
+  }
+
+  toLatin(): void {
+    this.editorText = transliterateSerbianCyrillicToLatin(this.editorText);
   }
 
 }

@@ -88,14 +88,14 @@
             <button (click)="addSubmeaning(znacenje)" pTooltip="Додај подзначење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal"></button>
             <button (click)="moveMeaningUp(i)" pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-minimal"></button>
             <button (click)="moveMeaningDown(i)" pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-minimal"></button>
-            <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
+            <button (click)="areYouSure('Да ли сте сигурни да желите да обришете значење?', deleteFrom, {collection: odrednica.znacenja, index: i})" pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-minimal"></button>
           </div>
           <div>
             <div>
               <span (click)="editorOpen(znacenje)" class="pointer fira">{{znacenje.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
             </div>
             <div *ngFor="let primer of znacenje.primeri; let j=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
-              <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openPrimerRef($event, primer)"></button></div>
+              <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-minimal" (click)="openPrimerRef($event, znacenje.primeri, j)"></button></div>
               <div>
                 <span (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
               </div>
@@ -106,14 +106,14 @@
               <h4 class="submeaning-nr">#{{i+1}}{{azbuka[j]}}</h4>
               <button (click)="moveSubmeaningUp(i, j)" pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text btn-superminimal"></button>
               <button (click)="moveSubmeaningDown(i, j)" pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text btn-superminimal"></button>
-              <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
+              <button (click)="areYouSure('Да ли сте сигурни да желите да обришете подзначење?', deleteFrom, {collection: znacenje.podznacenja, index: j})" pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger btn-superminimal"></button>
             </div>
             <div class="submeaning">
               <div>
                 <span (click)="editorOpen(podznacenje)" class="pointer fira">{{podznacenje.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</span>
               </div>
               <div *ngFor="let primer of podznacenje.primeri; let k=index; trackBy: trackByFn" class="flex align-items-top justify-content-start">
-                <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openPrimerRef($event, primer)"></button></div>
+                <div><button pButton pRipple type="button" icon="pi pi-book" class="p-button-text btn-bookmark" (click)="openPrimerRef($event, podznacenje.primeri, k)"></button></div>
                 <div (click)="editorOpen(primer)" class="pointer fira">{{primer.tekst|nvl:'\u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7 \u00b7'}}</div>
               </div>
             </div>
@@ -149,9 +149,9 @@
   <ng-template pTemplate>
     {{ primerRef }}<br/>
     {{ primerSubcorpus }}<br/>
-    <button pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text"></button>
-    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text"></button>
-    <button pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger"></button>
+    <button (click)="movePrimerUp(primerIndex, primerCollection)" pButton pRipple type="button" icon="pi pi-arrow-up" class="p-button-text"></button>
+    <button (click)="movePrimerDown(primerIndex, primerCollection)" pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-text"></button>
+    <button (click)="areYouSure('Да ли сте сигурни да желите да обришете пример?', deleteFrom, {collection: primerCollection, index: primerIndex})" pButton pRipple type="button" icon="pi pi-times" class="p-button-text p-button-danger"></button>
   </ng-template>
 </p-overlayPanel>
 
@@ -171,7 +171,10 @@
   <div class="p-inputgroup">
     <textarea [rows]="8" [(ngModel)]="editorText" class="w-full"></textarea>
   </div>
-  <div class="flex align-items-center justify-content-end mt-3">
+  <div class="flex align-items-center mt-3">
+    <button (click)="toCyrillic()" pButton pRipple type="button" icon="pi pi-font" label="Све у ћирилицу" class="p-button-text"></button>
+    <button (click)="toLatin()" pButton pRipple type="button" icon="pi pi-font" label="Sve u latinicu" class="p-button-text"></button>
+    <div class="flex-grow-1"></div>
     <button (click)="editorSave()" pButton pRipple type="button" icon="pi pi-check" label="Сачувај" class="p-button-success mr-2"></button>
     <button (click)="editorCancel()" pButton pRipple type="button" icon="pi pi-times" label="Откажи" class="p-button-danger"></button>
   </div>
@@ -180,3 +183,5 @@
 <div class="progress" *ngIf="searching">
   <p-progressSpinner></p-progressSpinner>
 </div>
+
+<are-you-sure [visible]="areYouSureVisible" [message]="areYouSureMessage" (yes)="areYouSureYes()" (no)="areYouSureNo()"></are-you-sure>
