@@ -146,7 +146,6 @@ export class SearchComponent implements OnInit {
         },
         error: (error) => {
           this.searching = false;
-          console.log(error);
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
@@ -251,8 +250,13 @@ export class SearchComponent implements OnInit {
         this.searchResults = data;
       },
       error: (error) => {
-        console.log(error);
-      }
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+    }
     });
   }
 
@@ -260,7 +264,15 @@ export class SearchComponent implements OnInit {
     this.searchText = '';
     this.searchService.readRecnik(event.value.pk).subscribe({
       next: (data) => { this.odrednica = data; },
-      error: (error) => { this.odrednica = null; console.log(error); }
+      error: (error) => { 
+        this.odrednica = null; 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+    }
     });
   }
 

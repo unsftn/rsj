@@ -1,7 +1,7 @@
 <p-menubar [styleClass]="headerStyle">
   <div class="logo-container">
-    <img src="/assets/images/matica-srpska.jpg" height="30" [routerLink]="['/']">
-    <p class="logo-text"><a [routerLink]="['/']">Српко</a></p>
+    <!-- <img src="/assets/images/matica-srpska.jpg" height="30" [routerLink]="['/']"> -->
+    <p class="logo-text"><a [routerLink]="['/']" style="color: white;">Српко</a></p>
   </div>
   <div class="search-container">
     <p-autoComplete [(ngModel)]="searchWord" [suggestions]="searchResults" 
@@ -22,22 +22,22 @@
       [(ngModel)]="caseSensitive" pRipple onLabel="aA" offLabel="aa" 
       pTooltip="Разликовање великих и малих слова">
     </p-toggleButton> -->
-    <button pButton pRipple
+    <button pButton pRipple style="color: white;"
       class="p-button-rounded p-button-outlined button-header toggle-button" 
       pTooltip="{{caseSensitiveTooltip}}" label="{{caseSensitiveLabel}}"
       (click)="toggle()"></button>
     <button *ngIf="signedIn()" pButton pRipple icon="pi pi-sliders-h" 
-      class="p-button-rounded p-button-outlined button-header" 
+      class="p-button-rounded p-button-outlined button-header" style="color: white;"
       (click)="advanced()" pTooltip="Напредна претрага">
     </button>
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'"
       #menuAdmin [model]="itemsAdmin" [popup]="true"></p-tieredMenu>
     <button *ngIf="isEditor() || isVolunteer()" pButton pRipple icon="pi pi-chart-line"
-      class="p-button-rounded p-button-outlined button-header" 
+      class="p-button-rounded p-button-outlined button-header" style="color: white;" 
       (click)="menuAdmin.toggle($event)" pTooltip="Извештаји">
     </button>
     <button *ngIf="signedIn()" pButton pRipple icon="pi pi-plus" 
-      class="p-button-rounded p-button-outlined button-header" 
+      class="p-button-rounded p-button-outlined button-header" style="color: white;"
       (click)="menuNew.toggle($event)" pTooltip="Додавање">
     </button>
   </div>
@@ -46,7 +46,8 @@
       #menuUser [model]="itemsUser" [popup]="true"></p-tieredMenu>
     <div class="username">{{username}}</div>
     <button type="button" class="p-button-rounded p-button-outlined button-header" 
-      pButton pRipple icon="pi pi-user" (click)="menuUser.toggle($event)">
+      pButton pRipple icon="pi pi-user"  style="color: white;"
+      (click)="menuUser.toggle($event)">
     </button>
   </div>
 </p-menubar>
