@@ -105,7 +105,12 @@ export class SearchComponent implements OnInit {
         this.fetchData();
       },
       error: (error: any) => {
-        console.log(error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
       }
     });
   }
@@ -115,8 +120,18 @@ export class SearchComponent implements OnInit {
     this.hits = [];
     if (Number.isFinite(this.wordId) && Number.isFinite(this.wordType)) {
       this.recService.get(this.wordId, this.wordType).subscribe({
-        next: (word: any) => this.word = word,
-        error: (error) => console.log(error)
+        next: (word: any) => {
+          this.word = word;
+          this.loadFromRecnik(word.osnovni_oblik);
+        },
+        error: (error) => {
+          this.searching = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: error,
+        })}
       });
       this.searchService.searchPubs(this.wordId, this.wordType, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
@@ -129,7 +144,6 @@ export class SearchComponent implements OnInit {
         },
         error: (error) => {
           this.searching = false;
-          console.log(error);
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
@@ -264,7 +278,7 @@ export class SearchComponent implements OnInit {
           life: 5000,
           detail: error,
         });
-    }
+      }
     });
   }
 
@@ -281,6 +295,37 @@ export class SearchComponent implements OnInit {
           detail: error,
         });
     }
+    });
+  }
+
+  loadFromRecnik(rec: string): void {
+    this.searchService.searchRecnik(rec).subscribe({
+      next: (data) => {
+        this.searchResults = data;
+        if (data.length === 1) {
+          const pk = data[0].pk;
+          this.searchService.readRecnik(pk).subscribe({
+            next: (data) => { this.odrednica = data; },
+            error: (error) => { 
+              this.odrednica = null; 
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Грешка',
+                life: 5000,
+                detail: error,
+              });
+            }
+          });
+        }
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+      }
     });
   }
 
