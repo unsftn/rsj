@@ -206,7 +206,7 @@ export class AppComponent implements OnInit {
         disabled: !this.isAdmin() && !this.isEditor() && !this.isVolunteer(),
       },
       {
-        label: 'Речи у корпусу и/или речнику',
+        label: 'Извештаји',
         icon: 'pi pi-arrow-right-arrow-left',
         routerLink: ['/izvestaji/korpus-recnik'],
         disabled: !this.isAdmin(),
