@@ -15,14 +15,10 @@ export class RendersComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Рендери');
-    this.renderService.getRenderi().subscribe(
-      (data) => {
-        this.renders = data;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    this.renderService.getRenderi().subscribe({
+      next: (data) => { this.renders = data; },
+      error: (err) => { console.log(err); }
+    });
   }
 
   download(render: Render): void {
