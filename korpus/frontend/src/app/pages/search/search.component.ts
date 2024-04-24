@@ -71,6 +71,7 @@ export class SearchComponent implements OnInit {
       { name: 'фраг. 150', code: 150 },
       { name: 'фраг. 200', code: 200 },
       { name: 'фраг. 300', code: 300 },
+      { name: 'фраг. 1000', code: 1000 },
     ];
     this.scanners = [
       { name: 'реч', code: 'word' },
