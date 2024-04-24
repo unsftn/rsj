@@ -79,11 +79,12 @@
             responsiveLayout="scroll" 
             [paginator]="true"
             [showJumpToPageDropdown]="true"
+            currentPageReportTemplate="{currentPage} од {totalPages}"
+            [showCurrentPageReport]="true"
             [rows]="100" 
             [loading]="loading"
             [totalRecords]="ukupno[slovo]"
             (onLazyLoad)="onLazyLoad($event, slovo)"
-            [showCurrentPageReport]="true"
             [scrollable]="true"
             scrollHeight="500px">
           <ng-template pTemplate="header">
