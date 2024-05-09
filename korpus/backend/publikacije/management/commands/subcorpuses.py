@@ -11,10 +11,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for pk in Potkorpus.objects.all().union(Potkorpus.objects.none()):
-            count = 0
-            self.stdout.write(f'{pk.naziv}...')
-            for index, tp in enumerate(TekstPublikacije.objects.filter(publikacija__potkorpus_id=pk.id)):
-                count += len(re.findall(r'\w+', tp.tekst))
-                if index > 0 and index % 10000 == 0:
-                    self.stdout.write(f'{index}...')
-            self.stdout.write(f'{pk.naziv if pk else "NEMA"}: {count}')
+            word_count = 0
+            pub_count = 0
+            for tp in TekstPublikacije.objects.filter(publikacija__potkorpus_id=pk.id):
+                word_count += len(re.findall(r'\w+', tp.tekst))
+            pub_count = Publikacija.objects.filter(potkorpus_id=pk.id).exclude(tekstpublikacije__isnull=True).count()
+            self.stdout.write(f'{pk.naziv if pk else "NEMA"}: {pub_count} {word_count}')
