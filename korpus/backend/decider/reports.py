@@ -27,7 +27,7 @@ def sada():
 def grupisi_po_slovima(reci):
     letter_cache = {k.upper(): [] for k in AZBUKA}
     for rec in reci:
-        if rec.prvo_slovo.lower() in AZBUKA:
+        if rec.prvo_slovo.lower() in AZBUKA and len(rec.tekst) <= 22:
             letter_cache[rec.prvo_slovo.upper()].append(rec)
     slova = [{'slovo': k.upper(), 'reci': letter_cache[k.upper()]} for k in AZBUKA if len(letter_cache[k.upper()]) > 0]
     return slova
