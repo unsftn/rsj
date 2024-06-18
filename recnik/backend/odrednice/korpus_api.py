@@ -169,7 +169,6 @@ def _save_from_korpus(odrednica_id, user, data):
                 if pid:
                     _update_primer(pid, pr)
                 else:
-                    print('tip1')
                     _insert_primer(pr, znacenje=znacenje)
             for pz in z.get('podznacenja'):
                 pzid = pz.get('id')
@@ -182,7 +181,6 @@ def _save_from_korpus(odrednica_id, user, data):
                     if pid:
                         _update_primer(pid, pr)
                     else:
-                        print('tip2')
                         _insert_primer(pr, podznacenje=podznacenje)
         IzmenaOdrednice.objects.create(odrednica=odrednica, user=user, operacija_izmene_id=2)
         return Response(status=status.HTTP_204_NO_CONTENT, content_type=JSON)
