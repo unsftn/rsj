@@ -331,6 +331,7 @@ export class SearchComponent implements OnInit {
   }
 
   saveToRecnik(): void {
+    console.log(this.odrednica);
     this.searchService.saveRecnik(this.odrednica).subscribe({
       next: (data) => {
         this.messageService.add({
@@ -420,12 +421,12 @@ export class SearchComponent implements OnInit {
 
   addReference(meaningIndex: number, submeaningIndex: number): void {
     if (!this.odrednica)
-      return;
+    console.log(this.selectedHit);
     if (submeaningIndex === undefined || submeaningIndex === null) {
       this.odrednica.znacenja[meaningIndex].primeri.push({ 
         id: null,
         tekst: this.selectedText, 
-        izvor_id: this.selectedHit.id,
+        izvor_id: this.selectedHit.pub_id,
         opis: this.selectedHit.opis,
         potkorpus: this.selectedHit.potkorpus,
         skracenica: this.selectedHit.skracenica,
@@ -435,11 +436,11 @@ export class SearchComponent implements OnInit {
       this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.push({ 
         id: null,
         tekst: this.selectedText, 
-        izvor_id: this.selectedHit.id,
+        izvor_id: this.selectedHit.pub_id,
         opis: this.selectedHit.opis,
         potkorpus: this.selectedHit.potkorpus,
         skracenica: this.selectedHit.skracenica,
-        rbr: this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri + 1
+        rbr: this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.length + 1
       });
     }
     this.addRefPanel.hide();
