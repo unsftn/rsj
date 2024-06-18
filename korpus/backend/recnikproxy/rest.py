@@ -2,7 +2,7 @@ from django.conf import settings
 import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND, HTTP_200_OK
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_200_OK
 from indexer.utils import get_rsj_client
 from indexer.cyrlat import sort_key
 from publikacije.models import *
@@ -78,7 +78,8 @@ def read(request, odrednica_id):
         'Korpus-User': request.user.email,
         'API-Token': settings.KORPUS_API_TOKEN
     }
-    response = requests.get(f'https://recnik.rsj.rs/api/odrednice/external/odrednica/{odrednica_id}/', headers=headers)
+    host = 'http://localhost:8001' if settings.DEBUG else 'https://recnik.rsj.rs'
+    response = requests.get(f'{host}/api/odrednice/external/odrednica/{odrednica_id}/', headers=headers)
     if response.status_code == 200:
         result = response.json()
         for z in result['znacenja']:
@@ -94,4 +95,15 @@ def read(request, odrednica_id):
 
 @api_view(['PUT'])
 def save(request):
-    pass
+    if not request.data.get('id'):
+        return Response('Недостаје идентификатор одреднице', status=HTTP_400_BAD_REQUEST)
+    headers = {
+        'Korpus-User': request.user.email,
+        'API-Token': settings.KORPUS_API_TOKEN
+    }
+    host = 'http://localhost:8001' if settings.DEBUG else 'https://recnik.rsj.rs'
+    response = requests.put(f'{host}/api/odrednice/external/odrednica/{request.data["id"]}/', json=request.data, headers=headers)
+    if response.status_code == 204:
+        return Response(status=HTTP_204_NO_CONTENT)
+    else:
+        return Response(response.text, status=response.status_code)

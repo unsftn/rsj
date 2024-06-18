@@ -330,6 +330,27 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  saveToRecnik(): void {
+    this.searchService.saveRecnik(this.odrednica).subscribe({
+      next: (data) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Успех',
+          life: 5000,
+          detail: 'Одредница сачувана',
+        });
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Грешка',
+          life: 5000,
+          detail: error,
+        });
+      }
+    });
+  }
+
   trackByFn(index: number, item: any): any {
     return index;
   }

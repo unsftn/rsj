@@ -547,10 +547,17 @@ def api_grafikon(request, tip_grafikona):
         return Response([], status=status.HTTP_404_NOT_FOUND, content_type=JSON)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 @permission_classes([permissions.AllowAny])
-def api_get_for_korpus(request, odrednica_id):
-    user = auth_from_korpus(request)    
+def api_korpus(request, odrednica_id):
+    user = auth_from_korpus(request)
+    if request.method == 'GET':
+        return _get_for_korpus(odrednica_id)
+    else:
+        return _save_from_korpus(odrednica_id, user, request.data)
+
+
+def _get_for_korpus(odrednica_id):
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
         retval = {
@@ -597,6 +604,20 @@ def api_get_for_korpus(request, odrednica_id):
     except Exception as ex:
         log.error(ex)
         raise NotFound(detail='Одредница није пронађена', code=500)
+
+
+def _save_from_korpus(odrednica_id, user, data):
+    try:
+        # odrednica = Odrednica.objects.get(id=odrednica_id)
+        import json
+        print(json.dumps(data, indent=2, ensure_ascii=False))
+        return Response(status=status.HTTP_204_NO_CONTENT, content_type=JSON)
+    except Odrednica.DoesNotExist:
+        raise NotFound(detail='Одредница није пронађена', code=404)
+    except Exception as ex:
+        log.error(ex)
+        raise NotFound(detail='Одредница није пронађена', code=500)
+
 
 
 def auth_from_korpus(request):

@@ -79,7 +79,7 @@
           <h3>Речник: {{odrednica.rec}}<sup>{{odrednica.rbr_homonima}}</sup></h3>
           <div class="flex-grow-1"></div>
           <button (click)="addMeaning()" pTooltip="Додај значење" tooltipPosition="left" pButton pRipple type="button" icon="pi pi-plus" class="p-button-text p-button-success btn-minimal mr-2"></button>
-          <button pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
+          <button (click)="saveToRecnik()" pTooltip="Сачувај одредницу" pButton pRipple type="button" icon="pi pi-save" class="p-button-success btn-minimal"></button>
         </div>
         <div *ngFor="let znacenje of odrednica.znacenja; let i=index; trackBy: trackByFn">
           <div class="flex align-items-center bottom-border">

@@ -61,7 +61,7 @@ urlpatterns = [
     path('korisnici/redaktori/', get_redaktori),
     path('korisnici/urednici/', get_urednici),
     path('korisnici/administratori/', get_administratori),
-    path('external/odrednica/<int:odrednica_id>/', api_get_for_korpus),
+    path('external/odrednica/<int:odrednica_id>/', api_korpus),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

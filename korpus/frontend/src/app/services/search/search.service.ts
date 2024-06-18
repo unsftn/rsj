@@ -79,4 +79,8 @@ export class SearchService {
   readRecnik(odrId: number): Observable<any> {
     return this.http.get<any>(`/api/recnikproxy/read/${odrId}/`);
   }
+
+  saveRecnik(odrednica: any): Observable<any> {
+    return this.http.put<any>('/api/recnikproxy/save/', odrednica);
+  }
 }
