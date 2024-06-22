@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Извештај из корпуса</title>
+</head>
+<body>
+<div class="naslov">Најчешћих {{limit}} речи са суфиксом -{{suffix}}</div>
+<div class="datum">{{datum}}</div>
+<div class="kolone">
+    <table>
+        <thead>
+            <tr>
+              <th>Реч</th>
+              <th><i>f</i></th>
+              <th class="right"><i>РСЈ</i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rec in words %}
+            <tr>
+              <td>{{rec.tekst}}</td>
+              <td class="right">{{rec.broj_pojavljivanja}}</td>
+              <td class="right">{{rec.u_rsj}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

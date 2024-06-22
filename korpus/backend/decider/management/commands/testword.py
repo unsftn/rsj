@@ -18,7 +18,7 @@ class Command(BaseCommand):
         log.info(f'Collecting for token {token}...')
         try:
             words = collect_words()
-            unify(words, token)
+            # unify(words, token)
             for k, w in words.items():
                 if k.startswith(token):
                     log.info(f'Final: {w}')
