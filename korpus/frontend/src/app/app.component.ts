@@ -136,16 +136,22 @@ export class AppComponent implements OnInit {
     });
     this.appConfigService.getAppConfig().subscribe({
       next: (data) => {
-        this.headerStyle = data.HEADER_COLOR_SCHEME;
+        const user = this.tokenStorageService.getUser();
+        if (user?.firstName === 'Дејан' && user?.lastName === 'Милорадов')
+          this.headerStyle = 'gray';
+        else
+          this.headerStyle = data.HEADER_COLOR_SCHEME;
+
       }, 
       error: (error) => {
-        console.log(error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Грешка',
-          life: 5000,
-          detail: error,
-        });
+        this.headerStyle = 'green';
+        // console.log(error);
+        // this.messageService.add({
+        //   severity: 'error',
+        //   summary: 'Грешка',
+        //   life: 5000,
+        //   detail: error,
+        // });
       }
     });
   }

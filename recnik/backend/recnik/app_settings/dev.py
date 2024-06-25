@@ -26,6 +26,6 @@ DATABASES = {
 ELASTICSEARCH_HOST = 'http://localhost:9201'
 KORPUS_HOST = 'http://localhost:9200'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-HEADER_COLOR_SCHEME = 'blue'
+HEADER_COLOR_SCHEME = 'purple'
 OBRADA_TUDJIH = True
 KORPUS_API_TOKEN = 'korpus'

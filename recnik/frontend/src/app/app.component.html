@@ -10,12 +10,12 @@
         <span class="vrsta">{{word.vrsta_text}}</span>
       </ng-template>
     </p-autoComplete>
-    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined button-header" [routerLink]="['/add']"></button>
+    <button *ngIf="signedIn()" pButton icon="pi pi-plus" class="p-button-rounded p-button-outlined button-header" [routerLink]="['/add']" style="color: white;"></button>
   </div>
   <div class="menu-container">
     <p-tieredMenu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" #menu [model]="items" [popup]="true"></p-tieredMenu>
     <div class="username">{{username}}</div>
-    <button #btn type="button" class="p-button-rounded p-button-outlined button-header" pButton icon="pi pi-user" (click)="menu.toggle($event)"></button>
+    <button #btn type="button" class="p-button-rounded p-button-outlined button-header" pButton icon="pi pi-user" (click)="menu.toggle($event)" style="color: white;"></button>
   </div>
 </p-menubar>
 <router-outlet></router-outlet>

@@ -64,7 +64,7 @@
     a {
       font-family: 'Fira Sans Condensed' !important;
       text-decoration: none;
-      color: #495057;
+      color: white;
     }
   }
 }
@@ -117,13 +117,22 @@
 
 :host ::ng-deep .gray.p-menubar {
   background-color: #f8f9fa;
+  border: 0 !important;
 }
 :host ::ng-deep .blue.p-menubar {
   background-color: #cae6fc;
+  border: 0 !important;
 }
 :host ::ng-deep .green.p-menubar {
   background-color: #d4ecd5;
+  border: 0 !important;
 }
 :host ::ng-deep .yellow.p-menubar {
   background-color: #fef0cd;
+  border: 0 !important;
+}
+:host ::ng-deep .purple.p-menubar {
+  background-color: #d800fe;
+  border: 0 !important;
+  color: white;
 }

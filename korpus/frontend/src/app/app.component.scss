@@ -124,9 +124,11 @@
 
 :host ::ng-deep .gray.p-menubar {
   background-color: #f8f9fa;
+  border: 0 !important;
 }
 :host ::ng-deep .blue.p-menubar {
   background-color: #cae6fc;
+  border: 0 !important;
 }
 :host ::ng-deep .green.p-menubar {
   background-color: #3fb643;
@@ -135,4 +137,5 @@
 }
 :host ::ng-deep .yellow.p-menubar {
   background-color: #fef0cd;
+  border: 0 !important;
 }

@@ -50,14 +50,14 @@ export class AppComponent implements OnInit {
   }
 
   search(event): void {
-    this.odrednicaService.search(event.query).subscribe(
-      (data) => {
+    this.odrednicaService.search(event.query).subscribe({
+      next: (data) => {
         this.searchResults = data;
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
       }
-    );
+    });
   }
 
   select(event): void {
@@ -91,12 +91,6 @@ export class AppComponent implements OnInit {
         routerLink: ['/renders'],
         disabled: !this.signedIn(),
       },
-      // {
-      //   label: 'Публикације',
-      //   icon: 'pi pi-bookmark',
-      //   routerLink: ['/pubs'],
-      //   disabled: !this.signedIn(),
-      // },
       {
         separator: true,
       },
@@ -155,14 +149,18 @@ export class AppComponent implements OnInit {
           item.disabled = !loggedIn;
       });
     });
-    this.appConfigService.getAppConfig().subscribe(data => {
-      const user = this.tokenStorageService.getUser();
-      if (user.firstName === 'Дејан' && user.lastName === 'Милорадов')
-        this.headerStyle = 'gray';
-      else
-        this.headerStyle = data.HEADER_COLOR_SCHEME;
-    }, error => {
-      console.log(error);
+    this.appConfigService.getAppConfig().subscribe({
+      next: (data) => {
+        const user = this.tokenStorageService.getUser();
+        if (user?.firstName === 'Дејан' && user?.lastName === 'Милорадов')
+          this.headerStyle = 'gray';
+        else
+          this.headerStyle = data.HEADER_COLOR_SCHEME;
+      }, 
+      error: (error) => {
+        this.headerStyle = 'purple';
+        //console.log(error);
+      }
     });
     this.odrednicaService.getStatuses().subscribe(() => {});
   }
