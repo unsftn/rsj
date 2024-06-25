@@ -49,22 +49,22 @@ export class HomeComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Почетна');
+    this.titleService.setTitle('Речник');
     this.primengConfig.ripple = true;
-    this.odrednicaService.my(200).subscribe(
-      (data) => this.myDeterminants = data,
-      (error) => console.log(error)
-    );
-    this.odrednicaService.nobodys(1000).subscribe(
-      (data) => {
+    this.odrednicaService.my(200).subscribe({
+      next: (data) => this.myDeterminants = data,
+      error: (error) => console.log(error)
+    });
+    this.odrednicaService.nobodys(1000).subscribe({
+      next: (data) => {
         this.nobodysDeterminants = data;
         const indexOfNobody = this.nobodysDeterminants.map((item) => item.id).indexOf(null);
         this.nobodysDeterminants.push(this.nobodysDeterminants.splice(indexOfNobody, 1)[0]);
       },
-      (error) => console.log(error)
-    );
-    this.odrednicaService.statObradjivaca().subscribe(
-      (data) => {
+      error: (error) => console.log(error)
+    });
+    this.odrednicaService.statObradjivaca().subscribe({
+      next: (data) => {
         this.users = new UserCollection(...data);
         this.users.push({
           first_name: 'УКУПНО',
@@ -75,33 +75,42 @@ export class HomeComponent implements OnInit {
           zavrsenih_znakova: this.users.sum('zavrsenih_znakova'),
         });
       },
-      (error) => console.log(error)
-    );
-    this.odrednicaService.grafikon(1).subscribe(data => {
-      this.graphDataChars = data;
-      this.graphDataChars.datasets.forEach((dataset, index) => {
-        dataset.data = dataset.data.map(item => item.broj_znakova);
-        dataset.borderColor = this.colors[index % this.colors.length];
-        dataset.fill = false;
-      });
-    }, error => console.log(error));
-    this.odrednicaService.grafikon(1).subscribe(data => {
-      this.graphDataDeterminants = data;
-      this.graphDataDeterminants.datasets.forEach((dataset, index) => {
-        dataset.data = dataset.data.map(item => item.broj_odrednica);
-        dataset.borderColor = this.colors[index % this.colors.length];
-        dataset.fill = false;
-      });
-    }, error => console.log(error));
-    this.odrednicaService.grafikon(9).subscribe(data => {
-      this.graphDataLetters = {
-        labels: ['А', 'Б', 'В', 'Г', 'Д', 'Ђ', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш'],
-        datasets: [{
-          data,
-          backgroundColor: '#42A5F5'
-        }]
-      };
-    }, error => console.log(error));
+      error: (error) => console.log(error)
+    });
+    this.odrednicaService.grafikon(1).subscribe({
+      next: (data) => {
+        this.graphDataChars = data;
+        this.graphDataChars.datasets.forEach((dataset, index) => {
+          dataset.data = dataset.data.map(item => item.broj_znakova);
+          dataset.borderColor = this.colors[index % this.colors.length];
+          dataset.fill = false;
+        });
+      }, 
+      error: (error) => console.log(error)
+    });
+    this.odrednicaService.grafikon(1).subscribe({
+      next: (data) => {
+        this.graphDataDeterminants = data;
+        this.graphDataDeterminants.datasets.forEach((dataset, index) => {
+          dataset.data = dataset.data.map(item => item.broj_odrednica);
+          dataset.borderColor = this.colors[index % this.colors.length];
+          dataset.fill = false;
+        });
+      }, 
+      error: (error) => console.log(error)
+    });
+    this.odrednicaService.grafikon(9).subscribe({
+      next: (data) => {
+        this.graphDataLetters = {
+          labels: ['А', 'Б', 'В', 'Г', 'Д', 'Ђ', 'Е', 'Ж', 'З', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ћ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш'],
+          datasets: [{
+            data,
+            backgroundColor: '#42A5F5'
+          }]
+        };
+      }, 
+      error: (error) => console.log(error)
+    });
   }
 
   @HostListener('document:click', ['$event'])
