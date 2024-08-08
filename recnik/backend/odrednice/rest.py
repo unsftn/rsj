@@ -343,7 +343,7 @@ def api_predaj_uredniku(request, odrednica_id):
     user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        if odrednica.stanje != 2 and odrednica != 4:
+        if odrednica.stanje != 2 and odrednica.stanje != 4:
             raise PermissionDenied(detail='Одредница није у стању редактуре или затворена', code=403)
         if user.je_obradjivac():
             raise PermissionDenied(detail='Обрађивач нема права проследити одредницу уреднику', code=403)
