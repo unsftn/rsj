@@ -1135,21 +1135,22 @@ export class TabFormComponent implements OnInit {
     this.message = 'Да ли сте сигурни да желите да затворите одредницу?';
     this.showWarningDialog = true;
     this.yesHandler = () => {
-      this.odrednicaService.toKraj(this.id).subscribe(
-        (success) => {
+      this.odrednicaService.toKraj(this.id).subscribe({
+        next: (success) => {
           this.showWarningDialog = false;
           this.message = 'Одредница је затворена за обраду.';
           this.showInfoDialog = true;
           this.nextRoute = ['/'];
         },
-        (error) => {
+        error: (error) => {
           const errorMessage = sessionStorage.getItem('errorMessage');
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
           this.showInfoDialog = true;
           this.nextRoute = [];
-        });
+        }
+      });
     };
     this.showWarningDialog = true;
   }
