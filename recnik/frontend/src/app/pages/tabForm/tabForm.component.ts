@@ -129,6 +129,9 @@ export class TabFormComponent implements OnInit {
       label: 'Проследи редактору',
       command: (event) => this.toRedaktor(),
     }, {
+      label: 'Проследи уреднику',
+      command: (event) => this.toUrednik(),
+    }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
@@ -1062,21 +1065,22 @@ export class TabFormComponent implements OnInit {
       return;
     this.message = 'Да ли сте сигурни да желите да проследите одредницу обрађивачу?';
     this.yesHandler = () => {
-      this.odrednicaService.toObradjivac(this.id).subscribe(
-        (success) => {
+      this.odrednicaService.toObradjivac(this.id).subscribe({
+        next: (success) => {
           this.showWarningDialog = false;
           this.message = 'Одредница је прослеђена обрађивачу.';
           this.showInfoDialog = true;
           this.nextRoute = ['/'];
         },
-        (error) => {
+        error: (error) => {
           const errorMessage = sessionStorage.getItem('errorMessage');
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
           this.showInfoDialog = true;
           this.nextRoute = [];
-        });
+        }
+      });
     };
     this.showWarningDialog = true;
   }
@@ -1086,21 +1090,22 @@ export class TabFormComponent implements OnInit {
       return;
     this.message = 'Да ли сте сигурни да желите да проследите одредницу редактору?';
     this.yesHandler = () => {
-      this.odrednicaService.toRedaktor(this.id).subscribe(
-        (success) => {
+      this.odrednicaService.toRedaktor(this.id).subscribe({
+        next: (success) => {
           this.showWarningDialog = false;
           this.message = 'Одредница је прослеђена редактору.';
           this.showInfoDialog = true;
           this.nextRoute = ['/'];
         },
-        (error) => {
+        error: (error) => {
           const errorMessage = sessionStorage.getItem('errorMessage');
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
           this.showInfoDialog = true;
           this.nextRoute = [];
-        });
+        }
+      });
     };
     this.showWarningDialog = true;
   }
@@ -1110,21 +1115,22 @@ export class TabFormComponent implements OnInit {
       return;
     this.message = 'Да ли сте сигурни да желите да проследите одредницу уреднику?';
     this.yesHandler = () => {
-      this.odrednicaService.toUrednik(this.id).subscribe(
-        (success) => {
+      this.odrednicaService.toUrednik(this.id).subscribe({
+        next: (success) => {
           this.showWarningDialog = false;
           this.message = 'Одредница је прослеђена уреднику.';
           this.showInfoDialog = true;
           this.nextRoute = ['/'];
         },
-        (error) => {
+        error: (error) => {
           const errorMessage = sessionStorage.getItem('errorMessage');
           this.message = this.domSanitizer.bypassSecurityTrustHtml(
             `<p>Грешка приликом прослеђивања одреднице:<br/> <b>${errorMessage}</b></p>`);
           this.showWarningDialog = false;
           this.showInfoDialog = true;
           this.nextRoute = [];
-        });
+        }
+      });
     };
     this.showWarningDialog = true;
   }

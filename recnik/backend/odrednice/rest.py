@@ -343,15 +343,15 @@ def api_predaj_uredniku(request, odrednica_id):
     user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        if odrednica.stanje != 2 and odrednica.stanje != 4:
-            raise PermissionDenied(detail='Одредница није у стању редактуре или затворена', code=403)
-        if user.je_obradjivac():
-            raise PermissionDenied(detail='Обрађивач нема права проследити одредницу уреднику', code=403)
+        if odrednica.stanje not in [1, 2, 4]:
+            raise PermissionDenied(detail='Одредница није у стању обраде, редактуре или затворена', code=403)
+        # if user.je_obradjivac():
+        #     raise PermissionDenied(detail='Обрађивач нема права проследити одредницу уреднику', code=403)
         sada = now()
         odrednica.stanje = 3
         odrednica.poslednja_izmena = sada
-        # if odrednica.redaktor is None:
-        odrednica.redaktor = user
+        if user.je_redaktor():
+            odrednica.redaktor = user
         odrednica.save()
         IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=5)
     except Odrednica.DoesNotExist:
