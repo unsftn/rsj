@@ -329,8 +329,8 @@ def api_predaj_redaktoru(request, odrednica_id):
         sada = now()
         odrednica.stanje = 2
         odrednica.poslednja_izmena = sada
-        if odrednica.obradjivac is None:
-            odrednica.obradjivac = user
+        # if odrednica.obradjivac is None:
+        odrednica.obradjivac = user
         odrednica.save()
         IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=4)
     except Odrednica.DoesNotExist:
@@ -343,15 +343,15 @@ def api_predaj_uredniku(request, odrednica_id):
     user = UserProxy.objects.get(id=request.user.id)
     try:
         odrednica = Odrednica.objects.get(id=odrednica_id)
-        if odrednica.stanje != 2:
-            raise PermissionDenied(detail='Одредница није у стању редактуре', code=403)
+        if odrednica.stanje != 2 and odrednica != 4:
+            raise PermissionDenied(detail='Одредница није у стању редактуре или затворена', code=403)
         if user.je_obradjivac():
             raise PermissionDenied(detail='Обрађивач нема права проследити одредницу уреднику', code=403)
         sada = now()
         odrednica.stanje = 3
         odrednica.poslednja_izmena = sada
-        if odrednica.redaktor is None:
-            odrednica.redaktor = user
+        # if odrednica.redaktor is None:
+        odrednica.redaktor = user
         odrednica.save()
         IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=5)
     except Odrednica.DoesNotExist:
@@ -371,8 +371,8 @@ def api_zavrsi_obradu(request, odrednica_id):
         sada = now()
         odrednica.stanje = 4
         odrednica.poslednja_izmena = sada
-        if odrednica.urednik is None:
-            odrednica.urednik = user
+        # if odrednica.urednik is None:
+        odrednica.urednik = user
         odrednica.save()
         IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica, operacija_izmene_id=6)
     except Odrednica.DoesNotExist:
