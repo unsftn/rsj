@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
 
   myDeterminants: any[];
   nobodysDeterminants: any[];
+  odredniceZaProbnuSvesku: any[];
   users: UserCollection;
   graphDataChars = {
     labels: [],
@@ -110,6 +111,20 @@ export class HomeComponent implements OnInit {
         };
       }, 
       error: (error) => console.log(error)
+    });
+    this.odrednicaService.odredniceZaStatus(9).subscribe({
+      next: (data) => {
+        this.odredniceZaProbnuSvesku = data.map((item) => { 
+          switch (item.stanje) {
+            case 1: item.stanje_text = 'у обради'; break;
+            case 2: item.stanje_text = 'код редактора'; break;
+            case 3: item.stanje_text = 'код уредника'; break;
+            case 4: item.stanje_text = 'затворена'; break;
+          }
+          return item;
+        });
+      },
+      error: (error) => {console.log(error)}
     });
   }
 

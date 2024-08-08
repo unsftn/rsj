@@ -77,6 +77,10 @@ export class OdrednicaService {
     return this.http.get<any>('/api/odrednice/stats/obradjivaci/');
   }
 
+  odredniceZaStatus(statusId): Observable<any> {
+    return this.http.get<any>(`/api/odrednice/stats/odrednice-za-status/${statusId}/`);
+  }
+
   grafikon(tip: number): Observable<any> {
     return this.http.get<any>(`/api/odrednice/stats/grafikon/${tip}/`);
   }

@@ -550,6 +550,18 @@ def api_grafikon(request, tip_grafikona):
         return Response([], status=status.HTTP_404_NOT_FOUND, content_type=JSON)
 
 
+@api_view(['GET'])
+def api_odrednice_za_status(request, status_id):
+    try:
+        log.info(f'Zahtev za odrednice sa statusom {status_id}')
+        reci = Odrednica.objects.filter(status_id=status_id).order_by(Collate('rec', 'utf8mb4_croatian_ci'))
+        serializer = MediumOdrednicaSerializer(reci, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)
+    except Exception as ex:
+        log.info(ex)
+        raise NotFound(detail='Грешка у захтеву за статистику', code=404)
+
+
 def get_users_by_role(role_id):
     users = UserProxy.objects.filter(groups__id__contains=role_id)
     serializer = UserSerializer(users, many=True)

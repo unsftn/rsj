@@ -238,12 +238,15 @@ export class TabFormComponent implements OnInit {
           this.freetext = '';
           this.onChangeWordType();
           this.titleService.setTitle('Нова одредница');
-          this.odrednicaService.getStatuses().subscribe(data1 => {
-            this.statuses = data1;
-            if (!this.selectedStatus)
-              this.selectedStatus = this.statuses[0];
-          }, error => {
-            console.log(error);
+          this.odrednicaService.getStatuses().subscribe({
+            next: data1 => {
+              this.statuses = data1;
+              if (!this.selectedStatus)
+                this.selectedStatus = this.statuses[0];
+            }, 
+            error: error => {
+              console.log(error);
+            }
           });
           break;
         case 'edit':

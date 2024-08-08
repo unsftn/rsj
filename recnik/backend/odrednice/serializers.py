@@ -264,6 +264,16 @@ class ShortOdrednicaSerializer(serializers.ModelSerializer):
                   'urednik', 'status', 'napomene')
 
 
+class MediumOdrednicaSerializer(serializers.ModelSerializer):
+    status = StatusOdredniceSerializer()
+    obradjivac = UserSerializer()
+    redaktor = UserSerializer() 
+    urednik = UserSerializer()
+    class Meta:
+        model = Odrednica
+        fields = ('id', 'rec', 'vrsta', 'vreme_kreiranja', 'poslednja_izmena', 'stanje', 'obradjivac', 'redaktor',
+                  'urednik', 'status', 'napomene')
+
 # insert/update serializers
 
 class NoSaveSerializer(serializers.Serializer):
