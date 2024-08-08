@@ -1,5 +1,6 @@
 import logging
 from django.conf import settings
+from django.utils.timezone import now
 from django.db.models import F
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -182,6 +183,9 @@ def _save_from_korpus(odrednica_id, user, data):
                         _update_primer(pid, pr)
                     else:
                         _insert_primer(pr, podznacenje=podznacenje)
+        odrednica.poslednja_izmena = now()
+        odrednica.obradjivac = user
+        odrednica.save()
         IzmenaOdrednice.objects.create(odrednica=odrednica, user=user, operacija_izmene_id=2)
         return Response(status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     except Odrednica.DoesNotExist:
