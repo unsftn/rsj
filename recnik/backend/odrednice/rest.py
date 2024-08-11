@@ -553,7 +553,6 @@ def api_grafikon(request, tip_grafikona):
 @api_view(['GET'])
 def api_odrednice_za_status(request, status_id):
     try:
-        log.info(f'Zahtev za odrednice sa statusom {status_id}')
         reci = Odrednica.objects.filter(status_id=status_id).order_by(Collate('rec', 'utf8mb4_croatian_ci'))
         serializer = MediumOdrednicaSerializer(reci, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK, content_type=JSON)

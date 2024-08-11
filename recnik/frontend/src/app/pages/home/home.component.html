@@ -21,7 +21,32 @@
       </p-fieldset>
     </div>
     <div class="col-6">
-      <p-fieldset legend="Ничије одреднице">
+      <p-fieldset legend="Одреднице за пробну свеску">
+        <p-table [value]="odredniceZaProbnuSvesku" [paginator]="true" [rows]="30">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="table-header odrednica">Одредница</th>
+              <th class="table-header izmena">Датум</th>
+              <th class="table-header">Стање</th>
+              <th class="table-header">Обрађивач</th>
+              <th class="table-header">Редактор</th>
+              <th class="table-header">Уредник</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr class="pointer" (click)="goto(item.id)">
+              <td>{{item.rec}}</td>
+              <td>{{item.poslednja_izmena|date:'dd.MM.yyyy.'}}</td>
+              <td>{{item.stanje_text}}</td>
+              <td>{{item.obradjivac?.first_name}}</td>
+              <td>{{item.redaktor?.first_name}}</td>
+              <td>{{item.urednik?.first_name}}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+
+      <!-- <p-fieldset legend="Ничије одреднице">
         <p-table #table [value]="nobodysDeterminants" [paginator]="true" [rows]="30">
           <ng-template pTemplate="header">
             <tr>
@@ -36,34 +61,7 @@
             </tr>
           </ng-template>
         </p-table>
-      </p-fieldset>
-    </div>
-
-    <div class="col-12">
-      <p-fieldset legend="Одреднице за пробну свеску">
-        <p-table [value]="odredniceZaProbnuSvesku" [paginator]="true" [rows]="30">
-          <ng-template pTemplate="header">
-            <tr>
-              <th class="table-header odrednica">Одредница</th>
-              <th class="table-header izmena">Датум</th>
-              <th class="table-header">Стање</th>
-              <th class="table-header">Обрађивач</th>
-              <th class="table-header">Редактор</th>
-              <th class="table-header">Уредник</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-item>
-            <tr>
-              <td>{{item.rec}}</td>
-              <td>{{item.poslednja_izmena|date:'dd.MM.yyyy.'}}</td>
-              <td>{{item.stanje_text}}</td>
-              <td>{{item.obradjivac?.first_name}} {{item.obradjivac?.last_name}}</td>
-              <td>{{item.redaktor?.first_name}} {{item.redaktor?.last_name}}</td>
-              <td>{{item.urednik?.first_name}} {{item.urednik?.last_name}}</td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </p-fieldset>
+      </p-fieldset> -->
     </div>
 
     <div class="col-12">

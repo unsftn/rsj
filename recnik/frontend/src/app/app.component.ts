@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
 
   signOut(): void {
     this.tokenStorageService.signOut();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   search(event): void {
