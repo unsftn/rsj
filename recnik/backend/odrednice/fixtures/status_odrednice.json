@@ -54,5 +54,12 @@
     "fields": {
       "naziv": "Нови зооними"
     }
+  },
+  {
+    "model": "odrednice.statusodrednice",
+    "pk": 9,
+    "fields": {
+      "naziv": "За пробну свеску"
+    }
   }
 ]
