@@ -148,7 +148,9 @@ def render_konkordanse(konkordanse):
         if k.korpus_izvor_id:
             izvor = load_opis_from_korpus(k.korpus_izvor_id)
             if izvor:
-                skracenica = izvor.get('skracenica') or f'[{izvor.get("pub_id")}]'
+                skracenica = izvor.get('skracenica')
+                if not skracenica or skracenica == '-':
+                    skracenica = f'[{izvor.get("pub_id")}]'
                 retval += f'{nbsp(tacka(skracenica))} '
     return retval
 
