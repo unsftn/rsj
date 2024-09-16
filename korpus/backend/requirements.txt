@@ -63,3 +63,4 @@ wcwidth==0.2.13
 weasyprint==61.2
 webencodings==0.5.1
 zopfli==0.2.3
+google-auth-oauthlib==1.2.1
