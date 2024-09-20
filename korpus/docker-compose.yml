@@ -9,7 +9,7 @@ services:
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms4g -Xmx4g"
+      ES_JAVA_OPTS: "-Xms16g -Xmx16g"
     networks:
       recnik:
     healthcheck:
