@@ -1,10 +1,10 @@
 import logging
+from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from rest_framework import serializers
 from rest_framework.fields import ListField
-
+from .utils import clean_strings_in_dict
 from .models import *
-from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
 
@@ -259,6 +259,7 @@ class SaveImenicaSerializer(serializers.Serializer):
 
     def _save(self, validated_data, imenica=None):
         radimo_update = imenica is not None
+        clean_strings_in_dict(validated_data)
         imenica_id = validated_data.get('id')
         sada = now()
         varijante = validated_data.pop('varijante', [])
@@ -268,6 +269,7 @@ class SaveImenicaSerializer(serializers.Serializer):
         imenica, created = Imenica.objects.update_or_create(defaults=validated_data, id=imenica_id)
         VarijantaImenice.objects.filter(imenica=imenica).delete()
         for var in varijante:
+            clean_strings_in_dict(var)
             VarijantaImenice.objects.create(imenica=imenica, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaImenice.objects.create(user_id=user.id, vreme=sada, imenica=imenica, operacija_izmene=operacija_izmene)
@@ -315,6 +317,7 @@ class SaveGlagolSerializer(serializers.Serializer):
 
     def _save(self, validated_data, glagol=None):
         radimo_update = glagol is not None
+        clean_strings_in_dict(validated_data)
         glagol_id = validated_data.get('id')
         sada = now()
         oblici = validated_data.pop('oblici', [])
@@ -327,6 +330,7 @@ class SaveGlagolSerializer(serializers.Serializer):
             varijante = oblik.pop('varijante', [])
             oblik = OblikGlagola.objects.create(glagol=glagol, **oblik)
             for var in varijante:
+                clean_strings_in_dict(var)
                 VarijanteGlagola.objects.create(oblik_glagola=oblik, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaGlagola.objects.create(user_id=user.id, vreme=sada, glagol=glagol, operacija_izmene=operacija_izmene)
@@ -527,6 +531,7 @@ class SavePridevSerializer(serializers.Serializer):
 
     def _save(self, validated_data, pridev=None):
         radimo_update = pridev is not None
+        clean_strings_in_dict(validated_data)
         pridev_id = validated_data.get('id')
         sada = now()
         varijante = validated_data.pop('varijante', [])
@@ -539,6 +544,7 @@ class SavePridevSerializer(serializers.Serializer):
         VarijantaPrideva.objects.filter(pridev=pridev).delete()
         for i, v in enumerate(varijante):
             v['redni_broj'] = i + 1
+            clean_strings_in_dict(v)
             VarijantaPrideva.objects.create(pridev=pridev, **v)
         if not pridev.lema:
             pridev.lema = pridev.prvi_popunjen_oblik()
@@ -560,6 +566,7 @@ class SavePredlogSerializer(serializers.Serializer):
 
     def _save(self, validated_data, predlog=None):
         radimo_update = predlog is not None
+        clean_strings_in_dict(validated_data)
         predlog_id = validated_data.get('id')
         sada = now()
         user = validated_data.pop('user')
@@ -583,6 +590,7 @@ class SaveReccaSerializer(serializers.Serializer):
 
     def _save(self, validated_data, recca=None):
         radimo_update = recca is not None
+        clean_strings_in_dict(validated_data)
         recca_id = validated_data.get('id')
         sada = now()
         user = validated_data.pop('user')
@@ -606,6 +614,7 @@ class SaveUzvikSerializer(serializers.Serializer):
 
     def _save(self, validated_data, uzvik=None):
         radimo_update = uzvik is not None
+        clean_strings_in_dict(validated_data)
         uzvik_id = validated_data.get('id')
         sada = now()
         user = validated_data.pop('user')
@@ -629,6 +638,7 @@ class SaveVeznikSerializer(serializers.Serializer):
 
     def _save(self, validated_data, veznik=None):
         radimo_update = veznik is not None
+        clean_strings_in_dict(validated_data)
         veznik_id = validated_data.get('id')
         sada = now()
         user = validated_data.pop('user')
@@ -654,6 +664,7 @@ class SavePrilogSerializer(serializers.Serializer):
 
     def _save(self, validated_data, prilog=None):
         radimo_update = prilog is not None
+        clean_strings_in_dict(validated_data)
         prilog_id = validated_data.get('id')
         sada = now()
         user = validated_data.pop('user')
@@ -695,6 +706,7 @@ class SaveZamenicaSerializer(serializers.Serializer):
 
     def _save(self, validated_data, zamenica=None):
         radimo_update = zamenica is not None
+        clean_strings_in_dict(validated_data)
         zamenica_id = validated_data.get('id')
         sada = now()
         varijante = validated_data.pop('varijante', [])
@@ -704,6 +716,7 @@ class SaveZamenicaSerializer(serializers.Serializer):
         zamenica, created = Zamenica.objects.update_or_create(defaults=validated_data, id=zamenica_id)
         VarijantaZamenice.objects.filter(zamenica=zamenica).delete()
         for var in varijante:
+            clean_strings_in_dict(var)
             VarijantaZamenice.objects.create(zamenica=zamenica, **var)
         operacija_izmene = 2 if radimo_update else 1
         IzmenaZamenice.objects.create(user_id=user.id, vreme=sada, zamenica=zamenica, operacija_izmene=operacija_izmene)
