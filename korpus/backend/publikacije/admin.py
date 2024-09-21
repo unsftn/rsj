@@ -8,7 +8,7 @@ class VrstaPublikacijeAdmin(admin.ModelAdmin):
 
 class PublikacijaAdmin(admin.ModelAdmin):
     list_display = ['naslov', 'izdavac', 'godina']
-    list_filter = ['izdavac']
+    list_filter = ['izdavac', 'potkorpus']
 
 
 class TekstPublikacijeAdmin(admin.ModelAdmin):
