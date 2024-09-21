@@ -6,7 +6,9 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from rest_framework.response import Response
+from concurrency.exceptions import RecordModifiedError
 from .models import *
+from .utils import *
 
 JSON = 'application/json'
 log = logging.getLogger(__name__)
@@ -27,6 +29,7 @@ def _get_for_korpus(odrednica_id):
         odrednica = Odrednica.objects.get(id=odrednica_id)
         retval = {
             'id': odrednica.id,
+            'version': odrednica.version,
             'rec': odrednica.rec,
             'rbr_homonima': odrednica.rbr_homonima,
             'znacenja': [
@@ -154,7 +157,10 @@ def _delete_primeri(odrednica, znacenja):
 
 def _save_from_korpus(odrednica_id, user, data):
     try:
-        odrednica = Odrednica.objects.get(id=odrednica_id)
+        odrednica, created = Odrednica.objects.update_or_create(
+            id=odrednica_id, 
+            defaults={'poslednja_izmena': now(), 'obradjivac': user, 'version': data.get('version')})
+        log.info(f'Odrednicu {odrednica_id} ({odrednica.rec}), verzija {odrednica.version}, snima iz korpusa {user.first_name}')
         nova_znacenja = data.get('znacenja')
         _delete_znacenja(odrednica, nova_znacenja)
         _delete_podznacenja(odrednica, nova_znacenja)
@@ -183,13 +189,12 @@ def _save_from_korpus(odrednica_id, user, data):
                         _update_primer(pid, pr)
                     else:
                         _insert_primer(pr, podznacenje=podznacenje)
-        odrednica.poslednja_izmena = now()
-        odrednica.obradjivac = user
-        odrednica.save()
         IzmenaOdrednice.objects.create(odrednica=odrednica, user=user, operacija_izmene_id=2)
         return Response(status=status.HTTP_204_NO_CONTENT, content_type=JSON)
     except Odrednica.DoesNotExist:
         raise NotFound(detail=f'Одредница није пронађена: {odrednica_id}', code=404)    
+    except RecordModifiedError:
+        raise OptimisticLock()
     except Exception as ex:
         log.error(ex)
         raise Exception(detail='Грешка: {ex}', code=500)

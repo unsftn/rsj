@@ -435,22 +435,15 @@ class CreateOdrednicaSerializer(serializers.Serializer):
         return self._save(validated_data)
 
     def update(self, instance, validated_data):
-        Znacenje.objects.filter(odrednica_id=instance.id).delete()
-        IzrazFraza.objects.filter(odrednica_id=instance.id).delete()
-        KvalifikatorOdrednice.objects.filter(odrednica_id=instance.id).delete()
-        VarijantaOdrednice.objects.filter(odrednica_id=instance.id).delete()
-        Kolokacija.objects.filter(odrednica_id=instance.id).delete()
-        obrisi_veze(Sinonim, instance)
-        obrisi_veze(Antonim, instance)
         return self._save(validated_data, instance)
 
     def _save(self, validated_data, odrednica=None, database='default'):
+        sada = now()
         radimo_update = odrednica is not None
         user = validated_data.pop('user') if database == 'default' else None
 
         odrednica_id = validated_data.get('id')
 
-        sada = now()
         znacenja = validated_data.pop('znacenja', [])
         kvalifikatori_odrednice = validated_data.pop('kvalifikatori', [])
         varijante = validated_data.pop('varijante', [])
@@ -467,7 +460,18 @@ class CreateOdrednicaSerializer(serializers.Serializer):
                 validated_data['redaktor'] = user
             elif validated_data['stanje'] == 3 and not odrednica_id:
                 validated_data['urednik'] = user
-        odrednica, created = Odrednica.objects.using(database).update_or_create(defaults=validated_data, id=odrednica_id)
+        if database == 'default':
+            validated_data['obradjivac'] = user
+            validated_data['poslednja_izmena'] = sada
+        odrednica, created = Odrednica.objects.using(database).update_or_create(id=odrednica_id, defaults=validated_data)
+        if not created:
+            Znacenje.objects.filter(odrednica_id=odrednica.id).delete()
+            IzrazFraza.objects.filter(odrednica_id=odrednica.id).delete()
+            KvalifikatorOdrednice.objects.filter(odrednica_id=odrednica.id).delete()
+            VarijantaOdrednice.objects.filter(odrednica_id=odrednica.id).delete()
+            Kolokacija.objects.filter(odrednica_id=odrednica.id).delete()
+            obrisi_veze(Sinonim, odrednica)
+            obrisi_veze(Antonim, odrednica)
 
         for var_odr in varijante:
             VarijantaOdrednice.objects.using(database).create(odrednica=odrednica, **var_odr)
@@ -586,12 +590,11 @@ class CreateOdrednicaSerializer(serializers.Serializer):
 
         operacija_izmene_id = 2 if radimo_update else 1
         if database == 'default':
-            IzmenaOdrednice.objects.using(database).create(user_id=user.id, vreme=sada, odrednica=odrednica,
-                                                           operacija_izmene_id=operacija_izmene_id)
-            # if not odrednica.obradjivac:
-            odrednica.obradjivac = user
-            odrednica.poslednja_izmena = sada
-            odrednica.save()
+            IzmenaOdrednice.objects.create(user_id=user.id, vreme=sada, odrednica=odrednica,
+                operacija_izmene_id=operacija_izmene_id)
+            # odrednica.obradjivac = user
+            # odrednica.poslednja_izmena = sada
+            # odrednica.save()
 
         return odrednica
 

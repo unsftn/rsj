@@ -11,6 +11,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   constructor() { }
 
   handleError(error: HttpErrorResponse): Observable<any> {
+    sessionStorage.setItem('errorCode', error.status.toString());
     sessionStorage.setItem('errorMessage', error.error?.detail);
     return throwError(error);
   }

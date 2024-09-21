@@ -283,6 +283,32 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  refreshFromRecnik(): void {
+    console.log(this.odrednica);
+    if (this.odrednica) {
+      this.searchService.readRecnik(this.odrednica.id).subscribe({
+        next: (data) => { 
+          this.odrednica = data; 
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Успех',
+            life: 5000,
+            detail: 'Одредница освежена',
+          });
+        },
+        error: (error) => { 
+          this.odrednica = null; 
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: error,
+          });
+        }
+      });
+    }
+  }
+
   select(event): void {
     this.searchText = '';
     this.searchService.readRecnik(event.value.pk).subscribe({
@@ -331,9 +357,9 @@ export class SearchComponent implements OnInit {
   }
 
   saveToRecnik(): void {
-    console.log(this.odrednica);
     this.searchService.saveRecnik(this.odrednica).subscribe({
       next: (data) => {
+        this.odrednica.version += 1;
         this.messageService.add({
           severity: 'success',
           summary: 'Успех',
@@ -342,12 +368,23 @@ export class SearchComponent implements OnInit {
         });
       },
       error: (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Грешка',
-          life: 5000,
-          detail: error,
-        });
+        const errorMessage = sessionStorage.getItem('errorMessage');
+        const errorCode = sessionStorage.getItem('errorCode');
+        if (errorCode === '409') {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Стари подаци',
+            life: 5000,
+            detail: errorMessage,
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Грешка',
+            life: 5000,
+            detail: error,
+          });
+        }
       }
     });
   }

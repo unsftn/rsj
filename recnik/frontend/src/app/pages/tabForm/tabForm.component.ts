@@ -423,8 +423,8 @@ export class TabFormComponent implements OnInit {
       this.askToLeave = false;
       this.showWaitDialog = true;
       if (this.editMode) {
-        this.odrednicaService.update(this.makeNewDeterminant()).subscribe(
-          (data) => {
+        this.odrednicaService.update(this.makeNewDeterminant()).subscribe({
+          next: (data) => {
             this.message = this.domSanitizer.bypassSecurityTrustHtml(
               '<p>Успешно aжурирана одредница.</p>');
             this.showWaitDialog = false;
@@ -433,17 +433,23 @@ export class TabFormComponent implements OnInit {
             this.version += 1;
             saving = false;
           },
-          (error) => {
+          error: (error) => {
             const errorMessage = sessionStorage.getItem('errorMessage');
-            this.message = this.domSanitizer.bypassSecurityTrustHtml(
-              `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
+            const errorCode = sessionStorage.getItem('errorCode');
+            if (errorCode === '409') {
+              this.message = this.domSanitizer.bypassSecurityTrustHtml(
+                `<p><b>${errorMessage}</b></p>`);
+            } else {
+              this.message = this.domSanitizer.bypassSecurityTrustHtml(
+                `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);  
+            }
             this.showWaitDialog = false;
             this.showInfoDialog = true;
             saving = false;
-          });
+          }});
       } else {
-        this.odrednicaService.save(this.makeNewDeterminant()).subscribe(
-          (data) => {
+        this.odrednicaService.save(this.makeNewDeterminant()).subscribe({
+          next: (data) => {
             this.message = this.domSanitizer.bypassSecurityTrustHtml(
               '<p>Успешно додата нова одредница.</p>');
             this.showWaitDialog = false;
@@ -451,14 +457,14 @@ export class TabFormComponent implements OnInit {
             this.nextRoute = ['/edit', data.id];
             saving = false;
           },
-          (error) => {
+          error: (error) => {
             const errorMessage = sessionStorage.getItem('errorMessage');
             this.message = this.domSanitizer.bypassSecurityTrustHtml(
               `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
             this.showWaitDialog = false;
             this.showInfoDialog = true;
             saving = false;
-          });
+          }});
       }
     };
     if (saving)

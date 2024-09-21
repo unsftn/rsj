@@ -10,11 +10,11 @@ from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
 from concurrency.exceptions import RecordModifiedError
 from pretraga import indexer
 from .models import *
 from .serializers import *
+from .utils import *
 
 log = logging.getLogger(__name__)
 
@@ -262,12 +262,13 @@ def api_save_odrednica(request):
             odrednica = serializer.save(user=request.user)
             indexer.save_odrednica(odrednica)
         except RecordModifiedError:
-            raise PermissionDenied(detail='Оптимистичко закључавање: неко други је у међувремену мењао одредницу', code=409)
+            raise OptimisticLock()
         ser2 = OdrednicaSerializer(odrednica)
         if request.method == 'POST':
             code = status.HTTP_201_CREATED
         else:
             code = status.HTTP_204_NO_CONTENT
+        log.info(f'Odrednicu {odrednica.id} ({odrednica.rec}), verzija {odrednica.version}, snima iz recnika {user.first_name}')
         return Response(ser2.data, status=code, content_type=JSON)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, content_type=JSON)

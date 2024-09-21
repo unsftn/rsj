@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
         this.searchResults = data;
       },
       error: (error) => {
-        console.log(error);
+        // console.log(error);
         this.messageService.add({
           severity: 'error',
           summary: 'Грешка',

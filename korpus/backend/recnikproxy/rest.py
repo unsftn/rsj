@@ -106,4 +106,4 @@ def save(request):
     if response.status_code == 204:
         return Response(status=HTTP_204_NO_CONTENT)
     else:
-        return Response(response.text, status=response.status_code)
+        return Response(response.json(), status=response.status_code)
