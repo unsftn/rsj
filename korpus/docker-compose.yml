@@ -33,7 +33,8 @@ services:
     networks:
       recnik:
     healthcheck:
-      test: mysqladmin ping -h localhost -u root -pkorpus
+      test: /usr/bin/mysql --user=korpus --password=korpus --execute "SHOW DATABASES;"
+      interval: 5s
       timeout: 5s
       retries: 10
   korpus:
