@@ -8,5 +8,5 @@ if [ "$#" -ne 0 ]; then
   python3 manage.py "$@"
 else
   python3 manage.py migrate
-  exec gunicorn -b 0.0.0.0:8000 -w 4 --access-logfile /app/log/gunicorn.log korpus.wsgi:application
+  exec gunicorn -b 0.0.0.0:8000 -w 12 --timeout 300 --access-logfile /app/log/gunicorn.log korpus.wsgi:application
 fi
