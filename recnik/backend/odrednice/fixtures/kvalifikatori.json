@@ -1708,5 +1708,104 @@
       "naziv": "биохемијски",
       "grupa_id": null
     }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 193,
+    "fields": {
+      "skracenica": "заст",
+      "naziv": "застарело",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 194,
+    "fields": {
+      "skracenica": "мик",
+      "naziv": "миколошки",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 195,
+    "fields": {
+      "skracenica": "итал.-грч",
+      "naziv": "италијански и грчки",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 199,
+    "fields": {
+      "skracenica": "цсл",
+      "naziv": "црквенословенски",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 200,
+    "fields": {
+      "skracenica": "физ.-хем",
+      "naziv": "физичко-хемијски",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 201,
+    "fields": {
+      "skracenica": "лат.-фр",
+      "naziv": "латинско француски",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 202,
+    "fields": {
+      "skracenica": "грч.-нем",
+      "naziv": "грчки и немачки",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 203,
+    "fields": {
+      "skracenica": "јап",
+      "naziv": "јапански",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 204,
+    "fields": {
+      "skracenica": "аугм",
+      "naziv": "аугментатив",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 205,
+    "fields": {
+      "skracenica": "рач",
+      "naziv": "рачунарство",
+      "grupa_id": null
+    }
+  },
+  {
+    "model": "odrednice.kvalifikator",
+    "pk": 206,
+    "fields": {
+      "skracenica": "грађ",
+      "naziv": "грађевинарство; грађевинарски",
+      "grupa_id": null
+    }
   }
 ]
