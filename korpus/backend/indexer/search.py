@@ -233,6 +233,7 @@ def _search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix
     """
     retval = []
     for word in words:
+        log.info(f'Searching for word: {word}')
         res = _search_single_word(word, fragment_size, boundary_scanner, prefix, suffix, case_sensitive)
         retval.extend(res)
     retval = sorted(retval, key=lambda x: x['pub_id'])
