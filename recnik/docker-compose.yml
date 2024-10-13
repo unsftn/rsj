@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   elastic:
     container_name: elastic-recnik
