@@ -171,3 +171,19 @@ class ParametarFiltera(models.Model):
         verbose_name = 'параметар филтера'
         verbose_name_plural = 'параметри филтера'
         ordering = ['redni_broj']
+
+
+class PoslednjiRedniBroj(models.Model):
+    prefiks_skracenice = models.CharField('префикс скраћенице', max_length=20)
+    redni_broj = models.IntegerField('редни број', default=0)
+    
+    def __str__(self):
+        return f'{str(self.prefiks_skracenice)}.{self.redni_broj}'
+
+    class Meta:
+        verbose_name = 'последњи редни број скраћенице'
+        verbose_name_plural = 'последњи редни бројеви скраћеница'
+        ordering = ['prefiks_skracenice', 'redni_broj']
+        indexes = [
+            models.Index(fields=['prefiks_skracenice'])
+        ]
