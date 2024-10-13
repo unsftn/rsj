@@ -8,7 +8,8 @@
 <div class="slovo-spacer"></div>
 <div class="slovo">{{slovo}}</div>
 <div class="odrednice">
-    {% for od in odrednice %}
+    {% for od, rec in odrednice %}
+    <div class="odrednica-header">{% autoescape off %}{{rec}}{% endautoescape %}</div>
     <div class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</div>
     {% endfor %}
 </div>

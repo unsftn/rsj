@@ -342,12 +342,13 @@ def render_one(odrednica):
     if odrednica.freetext:
         return process_tags(odrednica.freetext)
 
-    html = f'<b>{odrednica.rec.replace("_", " ")}'
+    glava = f'{odrednica.rec.replace("_", " ")}'
     if odrednica.rbr_homonima:
-        html += f'<sup>{odrednica.rbr_homonima}</sup>'
+        glava += f'<sup>{odrednica.rbr_homonima}</sup>'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
-        html += f' (се)'
-    html += f'</b>'
+        glava += f' (се)'
+
+    html = f'<b>{glava}</b>'
 
     # imenica
     if odrednica.vrsta == 0:
@@ -429,11 +430,11 @@ def render_one(odrednica):
                 for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
                     html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze(odrednica.izrazfraza_set.all().order_by('redni_broj'))
-    return mark_safe(html)
+    return mark_safe(html), glava
 
 
 def render_one_div(odrednica, css_class='odrednica'):
-    return mark_safe(f'<div class="{css_class}" data-id="{odrednica.id}">{render_one(odrednica)}</div>')
+    return mark_safe(f'<div class="{css_class}" data-id="{odrednica.id}">{render_one(odrednica)[0]}</div>')
 
 
 def render_many(odrednice, css_class='odrednica'):

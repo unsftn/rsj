@@ -38,6 +38,10 @@ body{
     text-indent: -10px;
     text-align: justify;
 }
+.odrednica-header {
+    font-size: 0;
+    string-set: heading content(text);
+}
 @media print {
     .slovo-spacer {
         margin-bottom: 120px;
@@ -56,34 +60,28 @@ body{
     }
     @page:right{
         font-family: "Dijakritika", serif;
-        @bottom-left {
-            margin: 10pt 0 30pt 0;
-            /* border-top: .25pt solid #666; */
-            content: "Подножје странице";
+        @top-center {
+            content: string(heading, first) " - " string(heading, last);
+            text-transform: uppercase;
+            margin: 30pt 0 10pt 0;
             font-size: 9pt;
-            color: #333;
+            color: black; /* #333; */
         }
         @bottom-right {
             margin: 10pt 0 30pt 0;
             /* border-top: .25pt solid #666; */
             content: counter(page);
             font-size: 9pt;
-        }
-        @top-right {
-            content:  "Заглавље странице";
-            margin: 30pt 0 10pt 0;
-            font-size: 9pt;
-            color: #333;
         }
     }
     @page:left {
         font-family: "Dijakritika", serif;
-        @bottom-right {
-            margin: 10pt 0 30pt 0;
-            /* border-top: .25pt solid #666; */
-            content: "Подножје странице";
+        @top-center {
+            content: string(heading, first) " - " string(heading, last);
+            text-transform: uppercase;
+            margin: 30pt 0 10pt 0;
             font-size: 9pt;
-            color: #333;
+            color: black; /* #333; */
         }
         @bottom-left {
             margin: 10pt 0 30pt 0;
@@ -92,4 +90,16 @@ body{
             font-size: 9pt;
         }
     }
+    @page :blank {
+        @top-center {
+            content: none;
+        }      
+        @bottom-left {
+            content: none;
+        }
+        @bottom-right {
+            content: none;
+        }
+      }
+      
 }
