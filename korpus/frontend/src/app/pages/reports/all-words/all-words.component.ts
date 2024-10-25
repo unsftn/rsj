@@ -63,7 +63,7 @@ export class AllWordsComponent implements OnInit {
     { code: 2, name: 'Новински' },
     { code: 3, name: 'Разговорни' },
     { code: 4, name: 'Научни' },
-    { code: 5, name: 'Остало' },
+    { code: 5, name: 'Административни' },
   ];
 
   filterRecnik: boolean = null;
@@ -231,7 +231,7 @@ export class AllWordsComponent implements OnInit {
     if (rec.potkorpus_2) potkorpusi += 'Нв ';
     if (rec.potkorpus_3) potkorpusi += 'Р ';
     if (rec.potkorpus_4) potkorpusi += 'Нч ';
-    if (rec.potkorpus_5) potkorpusi += 'О ';
+    if (rec.potkorpus_5) potkorpusi += 'Ад ';
     return potkorpusi.length > 0 ? potkorpusi.slice(0, -1) : '' ;
   }
 
