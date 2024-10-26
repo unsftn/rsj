@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 from django.core.management.base import BaseCommand
-from publikacije.fixes import fix_skracenice
+from publikacije.fixes import fix_skracenice, fix_poslednji_brojevi
 
 log = logging.getLogger(__name__)
 
@@ -13,5 +13,6 @@ class Command(BaseCommand):
         start_time = datetime.now()
         log.info(f'Sredjivanje skracenica pokrenuto...')
         fix_skracenice()
+        fix_poslednji_brojevi()
         end_time = datetime.now()
         log.info(f'Generisanje trajalo ukupno {str(end_time-start_time)}')
