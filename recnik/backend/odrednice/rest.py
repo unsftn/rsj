@@ -247,12 +247,12 @@ def api_save_odrednica(request):
             elif user.je_redaktor():
                 if odrednica.stanje > 2:
                     raise PermissionDenied(detail='Одредница није у фази редактуре или обраде', code=403)
-                if odrednica.stanje == 2 and odrednica.redaktor != user:
+                if odrednica.stanje == 2 and odrednica.redaktor != user and not settings.OBRADA_TUDJIH:
                     raise PermissionDenied(detail='Други редактор је задужен за ову одредницу', code=403)
             elif user.je_urednik():
                 if odrednica.stanje > 3:
                     raise PermissionDenied(detail='Одредница је у стању завршене обраде', code=403)
-                if odrednica.stanje == 3 and odrednica.urednik != user:
+                if odrednica.stanje == 3 and odrednica.urednik != user and not settings.OBRADA_TUDJIH:
                     raise PermissionDenied(detail='Други уредник је задужен за ову одредницу', code=403)
             serializer = CreateOdrednicaSerializer(odrednica, data=request.data)
         except (KeyError, Odrednica.DoesNotExist):
