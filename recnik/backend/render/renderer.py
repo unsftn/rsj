@@ -32,6 +32,8 @@ REGEX_ITALIC = re.compile('#+(.*?)#+')
 REGEX_SMALL = re.compile('\\$+(.*?)\\$+')
 REGEX_SMALL_BOLD = re.compile('%+(.*?)%+')
 REGEX_SUPERSCRIPT = re.compile('\\^+(.*?)\\^+')
+REGEX_GREEN = re.compile('&+(.*?)&+')
+REGEX_RED = re.compile('\\*+(.*?)\\*+')
 REGEX_REMOVE_HTML_TAGS = re.compile(r'<[^>]+>')
 REGEX_REPLACE_HTML_ENTITIES = re.compile(r'&[^;]+;')
 REGEX_REMOVE_WHITESPACE = re.compile(r'^\s+')
@@ -130,12 +132,28 @@ def process_circumflex(tekst, in_italic=False):
         return REGEX_SUPERSCRIPT.sub('<sup>\\1</sup>', tekst)
 
 
+def process_asterisk(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_RED.sub('</i><span class="green wavy">\\1</span><i>', tekst)
+    else:
+        return REGEX_RED.sub('<span class="green wavy">\\1</span>', tekst)
+
+
+def process_ampersand(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_GREEN.sub('</i><span class="red wavy">\\1</span><i>', tekst)
+    else:
+        return REGEX_GREEN.sub('<span class="red wavy">\\1</span>', tekst)
+
+
 def process_tags(tekst, in_italic=False):
-    retval = process_monkey(
-        process_dollar(
-            process_hash(
-                process_percent(
-                    process_circumflex(tekst, in_italic), in_italic), in_italic), in_italic), in_italic)
+    retval = process_ampersand(
+        process_asterisk(
+            process_monkey(
+                process_dollar(
+                    process_hash(
+                        process_percent(
+                            process_circumflex(tekst, in_italic), in_italic), in_italic), in_italic), in_italic), in_italic), in_italic)
     # if retval.endswith('<i>') or retval.endswith('<b>'):
     #     retval = retval[:-3]
     return retval
@@ -215,7 +233,8 @@ def render_znacenje(znacenje):
 
     if znacenje.podznacenje_set.count() > 0:
         for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all().order_by('redni_broj')):
-            tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
+            # tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
+            tekst += f' <span class="podznacenje">{AZBUKA[rbr]}</span> ' + render_podznacenje(podznacenje)
     return tekst
 
 
@@ -421,14 +440,17 @@ def render_one(odrednica):
             html += render_znacenje(odrednica.znacenje_set.first())
         else:
             for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=False), start=1):
-                html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+                # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+                html += f' <span class="znacenje">{rbr}</span> ' + render_znacenje(znacenje)
         if odrednica.znacenje_set.filter(znacenje_se=True).count() > 0:
             html += f' <b>&#9632; ~ се</b> '
+            # html += f' <span class="znacenje">&#9632; ~ се</span> '
             if odrednica.znacenje_set.filter(znacenje_se=True).count() == 1:
                 html += render_znacenje(odrednica.znacenje_set.filter(znacenje_se=True).first())
             else:
                 for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
-                    html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+                    # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
+                    html += f' <span class="znacenje">{rbr}</span> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze(odrednica.izrazfraza_set.all().order_by('redni_broj'))
     return mark_safe(html), glava
 
