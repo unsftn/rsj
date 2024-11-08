@@ -220,3 +220,33 @@ app-rendered-odrednice div.odrednica:hover {
   text-decoration: underline;
   text-decoration-style: wavy;
 }
+
+.znacenje {
+  display: inline-block;
+  text-indent: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: white;
+  font-weight: bold;
+  width: 1.25em;
+  border-radius: 4px;
+  background-color: #999;
+  border: 1px solid #999;
+  padding: 0px;
+  margin: 0;
+}
+
+.podznacenje {
+  display: inline-block;
+  text-indent: 0;
+  text-align: center;
+  white-space: nowrap;
+  color: white;
+  font-weight: bold;
+  width: 1.25em;
+  border-radius: 4px;
+  background-color: #BBB;
+  border: 1px solid #BBB;
+  padding: 0px;
+  margin: 0;
+}

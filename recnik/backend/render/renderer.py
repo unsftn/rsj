@@ -234,7 +234,7 @@ def render_znacenje(znacenje):
     if znacenje.podznacenje_set.count() > 0:
         for rbr, podznacenje in enumerate(znacenje.podznacenje_set.all().order_by('redni_broj')):
             # tekst += f' <b>{AZBUKA[rbr]}.</b> ' + render_podznacenje(podznacenje)
-            tekst += f' <span class="podznacenje">{AZBUKA[rbr]}</span> ' + render_podznacenje(podznacenje)
+            tekst += f' <span class="podznacenje">{AZBUKA[rbr]}.</span> ' + render_podznacenje(podznacenje)
     return tekst
 
 
@@ -441,7 +441,7 @@ def render_one(odrednica):
         else:
             for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=False), start=1):
                 # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
-                html += f' <span class="znacenje">{rbr}</span> ' + render_znacenje(znacenje)
+                html += f' <span class="znacenje">{rbr}.</span> ' + render_znacenje(znacenje)
         if odrednica.znacenje_set.filter(znacenje_se=True).count() > 0:
             html += f' <b>&#9632; ~ се</b> '
             # html += f' <span class="znacenje">&#9632; ~ се</span> '
@@ -450,7 +450,7 @@ def render_one(odrednica):
             else:
                 for rbr, znacenje in enumerate(odrednica.znacenje_set.filter(znacenje_se=True), start=1):
                     # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
-                    html += f' <span class="znacenje">{rbr}</span> ' + render_znacenje(znacenje)
+                    html += f' <span class="znacenje">{rbr}.</span> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze(odrednica.izrazfraza_set.all().order_by('redni_broj'))
     return mark_safe(html), glava
 
