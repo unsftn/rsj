@@ -216,9 +216,17 @@ app-rendered-odrednice div.odrednica:hover {
   color: darkgreen;
 }
 
+.blue {
+  color: darkblue;
+}
+
 .wavy {
   text-decoration: underline;
   text-decoration-style: wavy;
+}
+
+.strike {
+  text-decoration: line-through;
 }
 
 .znacenje {

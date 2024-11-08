@@ -34,6 +34,7 @@ REGEX_SMALL_BOLD = re.compile('%+(.*?)%+')
 REGEX_SUPERSCRIPT = re.compile('\\^+(.*?)\\^+')
 REGEX_GREEN = re.compile('&+(.*?)&+')
 REGEX_RED = re.compile('\\*+(.*?)\\*+')
+REGEX_STRIKETHROUGH = re.compile('\\|+(.*?)\\|+')
 REGEX_REMOVE_HTML_TAGS = re.compile(r'<[^>]+>')
 REGEX_REPLACE_HTML_ENTITIES = re.compile(r'&[^;]+;')
 REGEX_REMOVE_WHITESPACE = re.compile(r'^\s+')
@@ -146,14 +147,23 @@ def process_ampersand(tekst, in_italic=False):
         return REGEX_GREEN.sub('<span class="red wavy">\\1</span>', tekst)
 
 
+def process_vertical_bar(tekst, in_italic=False):
+    if in_italic:
+        return REGEX_STRIKETHROUGH.sub('</i><span class="strike blue">\\1</span><i>', tekst)
+    else:
+        return REGEX_STRIKETHROUGH.sub('<span class="strike blue">\\1</span>', tekst)
+
+
 def process_tags(tekst, in_italic=False):
-    retval = process_ampersand(
-        process_asterisk(
-            process_monkey(
-                process_dollar(
-                    process_hash(
-                        process_percent(
-                            process_circumflex(tekst, in_italic), in_italic), in_italic), in_italic), in_italic), in_italic), in_italic)
+    retval = process_vertical_bar(
+        process_ampersand(
+            process_asterisk(
+                process_monkey(
+                    process_dollar(
+                        process_hash(
+                            process_percent(
+                                process_circumflex(tekst, in_italic), 
+                                    in_italic), in_italic), in_italic), in_italic), in_italic), in_italic), in_italic)
     # if retval.endswith('<i>') or retval.endswith('<b>'):
     #     retval = retval[:-3]
     return retval
