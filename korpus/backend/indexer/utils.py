@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 
 def get_es_client():
-    return Elasticsearch(hosts=settings.ELASTICSEARCH_HOST, timeout=60)
+    return Elasticsearch(hosts=settings.ELASTICSEARCH_HOST, timeout=120)
 
 
 def get_rsj_client():
