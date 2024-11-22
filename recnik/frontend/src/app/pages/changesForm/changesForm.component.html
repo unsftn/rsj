@@ -9,7 +9,7 @@
   <ng-template pTemplate="body" let-changes>
     <tr>
       <td class="korisnik">{{changes.user.first_name}} {{changes.user.last_name}}</td>
-      <td class="datum">{{changes.vreme|date:'dd.MM.YYYY. hh:mm'}}</td>
+      <td class="datum">{{changes.vreme|date:'dd.MM.YYYY. HH:mm'}}</td>
       <td class="operacija">{{changes.operacija_izmene.naziv}}</td>
       </tr>
   </ng-template>
