@@ -377,13 +377,13 @@
           </p-tabPanel>
           <p-tabPanel header="Остало" [headerStyleClass]="hasMisc() ? 'red-tab' : ''" [rightIcon]="hasMisc() ? 'pi pi-flag' : ''">
             <div class="ml-2 mt-3">
-              <textarea rows="4" cols="50" pInputTextarea [(ngModel)]="notes" (focusout)="onFocusLeave()"
+              <textarea rows="14" cols="90" pInputTextarea [(ngModel)]="notes" (focusout)="onFocusLeave()"
                         style="resize: vertical; border: 1px solid darkgray; color: #495057;" placeholder="Напомене">
 
               </textarea>
             </div>
             <div class="ml-2 mt-3">
-              <textarea rows="7" cols="50" pInputTextarea [(ngModel)]="freetext" (focusout)="onFocusLeave()"
+              <textarea rows="14" cols="90" pInputTextarea [(ngModel)]="freetext" (focusout)="onFocusLeave()"
                         style="resize: vertical; border: 1px solid darkgray; color: #495057;"
                         placeholder="Алтернативни опис" (keyup)="keyup($event, 'freetext')">
               </textarea>
