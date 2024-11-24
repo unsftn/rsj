@@ -126,30 +126,30 @@ export class TabFormComponent implements OnInit {
 
   workflowItems: MenuItem[];
   wfObradjivac: MenuItem[] = [{
-      label: 'Проследи редактору',
+      label: 'Пошаљи редактору',
       command: (event) => this.toRedaktor(),
     }, {
-      label: 'Проследи уреднику',
+      label: 'Пошаљи уреднику',
       command: (event) => this.toUrednik(),
     }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfRedaktor: MenuItem[] = [{
-      label: 'Врати на обраду',
+      label: 'Пошаљи на обраду',
       command: (event) => this.toObradjivac(),
     }, {
-      label: 'Проследи уреднику',
+      label: 'Пошаљи уреднику',
       command: (event) => this.toUrednik(),
     }, {
       label: 'Задужења',
       command: (event) => this.showOwnership(),
   }];
   wfUrednik: MenuItem[] = [{
-      label: 'Врати на обраду',
+      label: 'Пошаљи на обраду',
       command: (event) => this.toObradjivac(),
     }, {
-      label: 'Врати редактору',
+      label: 'Пошаљи редактору',
       command: (event) => this.toRedaktor(),
     }, {
       label: 'Затвори одредницу',
@@ -159,13 +159,13 @@ export class TabFormComponent implements OnInit {
       command: (event) => this.showOwnership(),
   }];
   wfAdministrator: MenuItem[] = [{
-      label: 'Врати на обраду',
+      label: 'Пошаљи на обраду',
       command: (event) => this.toObradjivac(),
     }, {
-      label: 'Врати редактору',
+      label: 'Пошаљи редактору',
       command: (event) => this.toRedaktor(),
     }, {
-      label: 'Врати уреднику',
+      label: 'Пошаљи уреднику',
       command: (event) => this.toUrednik(),
     }, {
       label: 'Затвори одредницу',
