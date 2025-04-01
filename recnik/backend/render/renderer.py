@@ -368,14 +368,14 @@ def render_nastavci_varijante(odrednica):
 
 
 def render_one(odrednica):
-    if odrednica.freetext:
-        return process_tags(odrednica.freetext)
-
     glava = f'{odrednica.rec.replace("_", " ")}'
     if odrednica.rbr_homonima:
         glava += f'<sup>{odrednica.rbr_homonima}</sup>'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         glava += f' (се)'
+
+    if odrednica.freetext:
+        return mark_safe(process_tags(odrednica.freetext)), glava
 
     html = f'<b>{glava}</b>'
 
