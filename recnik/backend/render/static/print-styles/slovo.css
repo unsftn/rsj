@@ -86,8 +86,28 @@ body{
 .strike {
     text-decoration: line-through;
 }
+
   
 @media print {
+    .title-page {
+        page: title-page; 
+        break-after: always;
+    }
+    .impresum-page{
+        page: impresum-page;
+        break-after: always;
+    }
+
+    .predgovor-page{
+        page: predgovor-page;
+        break-after: always;
+    }
+
+    .skracenice-page{
+        page:skracenice-page;
+        
+    }
+    /*ODREDNICE*/
     .slovo-spacer {
         margin-bottom: 120px;
         break-before: right;
@@ -103,6 +123,118 @@ body{
         column-count: 2;
         column-gap: 2em;
     }
+    /*KVALIFIKATORI*/
+    .skracenice{
+        width: 100%;
+        font-size: 9pt;
+        column-count: 2;
+        column-gap: 2em;
+        padding-bottom: 20px;
+        
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+       
+    }
+    
+    td:nth-child(1){
+        width: 60px;
+    }
+ 
+    .skracenice-title{
+        font-size: 18pt;
+        margin-top: 120px;
+        margin-bottom: 120px;
+        text-align: center;     
+    }
+
+    /*POCETNA STRANA*/
+    .matica{
+        margin-top: 120px;
+        margin-bottom: 200px;
+        font-size: 18pt;
+    }
+    .naslov{
+        font-size: 40pt;
+        line-height: 50%;
+    }
+    .veca_slova{
+        font-size: 50pt;
+    }
+    
+    .info{
+        position: absolute;
+        bottom:50px;
+        left:310px;
+        align-content:center;
+        font-size: 14pt;
+        line-height: 50%;
+       
+    }
+
+    .info img{
+        width: 30px;
+        height: 30px;
+    }
+    .center{
+        width: 60%;
+        margin: auto;
+        text-align: center;
+    }
+    
+    /*IMPRESUM*/
+    .copyright{
+        position: absolute;
+        bottom:50px;
+        left: 160px;
+        align-content:center;
+        width: 100%;
+        margin-top: 30px;
+        width: 375px;
+        text-wrap: pretty;
+    }
+
+    .space{
+        margin-top: 30px;
+    }
+    .naslov_impresum{
+        font-style: italic;
+        margin-top: 15px;
+        margin-bottom: 15px;
+       }
+    
+    .div_imena{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+   
+    /*PREDGOVOR*/
+    .predgovor{
+        text-align: justify;
+    }
+
+    
+
+    @page predgovor-page, title-page, impresum-page{
+        @top-center {
+            content: none;
+        }      
+        @bottom-left {
+            content: none;
+        }
+        @bottom-right {
+            content: none;
+        }
+       
+    }
+
+  
+    @page skracenice-page{
+        
+    }
+
     @page:right{
         font-family: "Dijakritika", serif;
         @top-center {
@@ -118,6 +250,7 @@ body{
             content: counter(page);
             font-size: 9pt;
         }
+        
     }
     @page:left {
         font-family: "Dijakritika", serif;

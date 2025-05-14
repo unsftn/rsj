@@ -5,6 +5,78 @@
     <title>Речник</title>
 </head>
 <body>
+    <div class="impresum-page">
+    <div class="center">
+        <div class="space"></div>
+        <div class="naslov_impresum">Израдили</div>
+    {% for i in impresum.izradili %}
+        <div>{{i}}</div>
+    {% endfor %}
+    
+    <div class="naslov_impresum">Уредио</div>
+    {% for u in impresum.uredili %}
+        <div>{{u}}</div>
+    {% endfor %}
+    <div class="naslov_impresum">Рецезенти</div>
+    {% for r in impresum.recezenti %}
+        <div>{{r}}</div>
+    {% endfor %}
+
+        <div class="copyright">
+    <div>{{impresum.copyright}}</div>
+    <div>{{impresum.napomena}}</div>
+        </div>
+    </div>
+    </div>
+    <!--POCETNA STRANA-->
+    <div class="title-page">
+        <div class="center">
+        <div class="matica">МАТИЦА СРПСКА</div>
+        <div class="naslov">
+            <p class="veca_slova">РЕЧНИК</p>
+            <p>СРПСКОГА</p>
+            <p>ЈЕЗИКА</p>
+        </div>
+    
+        <div class="info">
+            {% load static %}
+        <img src="{% static 'logo.png' %}" alt="Logo">
+        
+           
+            <p>НОВИ САД</p>
+            <p>2025</p>
+        
+    </div>
+    </div>
+    </div>
+
+    <!--<div class="sadrzaj"> </div>-->
+    <div class="predgovor-page">
+    <div class="predgovor">
+        <div class="skracenice-title">ПРЕДГОВОР</div>
+        {% autoescape off %}
+        {{predgovor}} {% endautoescape %}</div>
+    </div>
+    <div class="">
+    <!--TEHNICKE SKRACENICE-->
+    <div class="skracenice-page">
+    <div class="skracenice-title">Техничке скраћенице</div>
+    <div class="skracenice">  
+    <table>
+       <tbody> 
+    {% for kvalifikator in kvalifikatori %}
+    <tr>
+        <td>{{kvalifikator.skracenica}}</td>
+        <td>{{kvalifikator.naziv}}</td>
+    </tr> 
+    {%endfor%}
+</tbody>
+    </table>
+</div>
+</div>
+</div>
+<!--ODREDNICE-->
+<!--
 {% for slovo in slova %}
     <div class="slovo-spacer"></div>
     <div class="slovo">{{slovo.slovo}}</div>
@@ -15,5 +87,6 @@
     {% endfor %}
     </div>
 {% endfor %}
+-->
 </body>
 </html>
