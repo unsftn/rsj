@@ -1,6 +1,8 @@
+import json
 import logging
 import re
 import tempfile
+from django.conf import settings
 from django.core.files import File
 from django.contrib.staticfiles import finders
 from django.db.models.functions import Collate
@@ -8,7 +10,8 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.text.fonts import FontConfiguration
-# from docx import Document
+# from docx import Documentpython -c "import sys; print(sys.executable)"
+
 # from htmldocx import HtmlToDocx
 from odrednice.models import *
 from pretraga.rest import load_opis_from_korpus
@@ -485,6 +488,11 @@ def font_fetcher(url):
     return default_url_fetcher(url)
 
 
+def render_skracenice(kvalifikator):
+    skracenica = f'{kvalifikator["skracenica"]}.'
+    naziv = f'{kvalifikator["naziv"]}'
+    return mark_safe(skracenica), mark_safe(naziv)
+
 def render_slovo(slovo, file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     if not tip_dokumenta:
         tip_dokumenta = 2
@@ -505,6 +513,21 @@ def render_slovo(slovo, file_format='pdf', tip_dokumenta=None, vrsta_odrednice=N
         return render_to_docx(context, 'render/docx/slovo.html', trd, opis=f'слово {slovo[0].upper()}')
     else:
         return None
+    
+def get_json_data(filename):
+    name= "render/templates/render/pdf/" + filename + ".json"
+    file_path = os.path.join(settings.BASE_DIR, name)
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = json.load(file) 
+    return data
+
+
+def render_predgovor():
+    name= "render/templates/render/pdf/predgovor.txt"
+    file_path = os.path.join(settings.BASE_DIR, name)
+    with open(file_path, "r", encoding="utf-8") as file:
+        data = file.read()
+    return process_tags(data)
 
 
 def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
@@ -515,18 +538,72 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     except TipRenderovanogDokumenta.DoesNotExist:
         log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
         return
+    
+    impresum = []
+    impresum_context=[]
+    impresum = get_json_data("impresum")
+    
+    def get_full_name(ime):
+        full_name=ime["ime"]+" " +ime["prezime"].upper()
+        return mark_safe(f'{full_name}')
+    
+    impresum_context.append({
+        "izradili": [get_full_name(i) for i in impresum["izradili"]],
+        "uredili": [get_full_name(i) for i in impresum["uredili"]],
+        "recezenti":[get_full_name(i) for i in impresum["recezenti"]],
+        "copyright": mark_safe(f'{impresum["copyright"]}'),
+        "napomena": mark_safe(f'{impresum["napomena"]}')
+    })
+    
+    predgovor=render_predgovor()
+ 
+    
+    #filtriranje iskoriscenih kvalifikatora
+    kvalifikatori=[]
+    kvalifikatori_odrednice = Kvalifikator.objects.filter(kvalifikatorodrednice__odrednica__status_id=9).values('skracenica', 'naziv', 'id').distinct()
+    kvalifikatori_fraze = Kvalifikator.objects.filter(kvalifikatorfraze__izrazfraza__odrednica__status_id=9).values('skracenica', 'naziv', 'id').distinct()
+    kvalifikatori_podznacenja = Kvalifikator.objects.filter(kvalifikatorpodznacenja__podznacenje__znacenje__odrednica__status_id=9).values('skracenica', 'naziv', 'id').distinct()
+    kvalifikatori_znacenja = Kvalifikator.objects.filter(kvalifikatorznacenja__znacenje__odrednica__status_id=9).values('skracenica', 'naziv', 'id').distinct()
+    skracenice = kvalifikatori_odrednice | kvalifikatori_fraze | kvalifikatori_podznacenja | kvalifikatori_znacenja
+    for s in skracenice:
+        sk = render_skracenice(s)
+        kvalifikatori.append({
+            'skracenica': mark_safe(f'{s["skracenica"]}.'),
+            'naziv': mark_safe(f'{s["naziv"]}')
+        })
+    
+    for s in skracenice:
+        sk = render_skracenice(s)
+        kvalifikatori.append({
+            'skracenica': mark_safe(f'{s["skracenica"]}.'),
+            'naziv': mark_safe(f'{s["naziv"]}')
+        })
+        
+    #znakovi interpunkcije
+    interpunkcija=[]
+    interpunkcija=get_json_data("interpunkcija")
+    for i in interpunkcija["interpunkcija"]:
+         kvalifikatori.append({
+            'skracenica': mark_safe(f'{i["znak"]}'),
+            'naziv': mark_safe(f'{i["objasnjenje"]}')
+        })
+ 
+    
     slova = []
+    """
     log.info('Generisanje odrednica...')
     for s in AZBUKA:
-        odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))
+        odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))#.first()
         if vrsta_odrednice:
             odrednice = odrednice.filter(vrsta=vrsta_odrednice)
         odrednice = odrednice.order_by(Collate('sortable_rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
-        })
-    context = {'slova': slova}
+        }) 
+    """    
+    context = {'slova': slova, "kvalifikatori": kvalifikatori, "impresum":impresum_context[0], "predgovor":predgovor}
+    
     log.info(f'Generisanje fajla, tip: {file_format}...')
     if file_format == 'pdf':
         return render_to_pdf(context, 'render/pdf/recnik.html', trd)
