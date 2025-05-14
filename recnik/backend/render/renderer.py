@@ -10,9 +10,8 @@ from django.template.loader import get_template
 from django.utils.safestring import mark_safe
 from weasyprint import HTML, CSS, default_url_fetcher
 from weasyprint.text.fonts import FontConfiguration
-# from docx import Documentpython -c "import sys; print(sys.executable)"
-
-# from htmldocx import HtmlToDocx
+from docx import Document
+from htmldocx import HtmlToDocx
 from odrednice.models import *
 from pretraga.rest import load_opis_from_korpus
 from .models import *
@@ -371,14 +370,14 @@ def render_nastavci_varijante(odrednica):
 
 
 def render_one(odrednica):
-    if odrednica.freetext:
-        return process_tags(odrednica.freetext)
-
     glava = f'{odrednica.rec.replace("_", " ")}'
     if odrednica.rbr_homonima:
         glava += f'<sup>{odrednica.rbr_homonima}</sup>'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         glava += f' (се)'
+
+    if odrednica.freetext:
+        return mark_safe(process_tags(odrednica.freetext)), glava
 
     html = f'<b>{glava}</b>'
 
@@ -590,7 +589,6 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
  
     
     slova = []
-    """
     log.info('Generisanje odrednica...')
     for s in AZBUKA:
         odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))#.first()
@@ -601,7 +599,6 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
         }) 
-    """    
     context = {'slova': slova, "kvalifikatori": kvalifikatori, "impresum":impresum_context[0], "predgovor":predgovor}
     
     log.info(f'Generisanje fajla, tip: {file_format}...')
@@ -630,19 +627,19 @@ def render_to_pdf(context, template, doc_type, opis=''):
 
 
 def render_to_docx(context, template, doc_type, opis=''):
-    # tpl = get_template(template)
-    # html_text = tpl.render(context)
-    # document = Document()
-    # style = document.styles['Normal']
-    # font = style.font
-    # font.name = 'Dijakritika'
-    # new_parser = HtmlToDocx()
-    # new_parser.add_html_to_document(html_text, document)
-    # temp_file = tempfile.TemporaryFile()
-    # document.save(temp_file)
-    # novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'docx')
-    # return novi_dokument.rendered_file.name
-    return ''
+    tpl = get_template(template)
+    html_text = tpl.render(context)
+    document = Document()
+    style = document.styles['Normal']
+    font = style.font
+    font.name = 'Dijakritika'
+    new_parser = HtmlToDocx()
+    new_parser.add_html_to_document(html_text, document)
+    temp_file = tempfile.TemporaryFile()
+    document.save(temp_file)
+    novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'docx')
+    return novi_dokument.rendered_file.name
+    # return ''
 
 
 def add_file_to_django(doc_type, opis, file_path, file_type):

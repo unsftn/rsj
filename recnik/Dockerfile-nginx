@@ -7,7 +7,7 @@ RUN npm install
 COPY frontend /app
 RUN npm run build -- --output-path=/app/frontend/dist/
 
-FROM python:3.11-slim-bookworm as django
+FROM python:3.11-slim-bookworm AS django
 RUN apt-get -y update
 RUN apt-get -y install pkg-config gcc default-libmysqlclient-dev graphviz-dev libffi-dev libmagic1 libtiff-dev libopenjp2-7-dev liblcms-dev zlib1g-dev libjpeg-dev musl-dev
 RUN /usr/local/bin/python3 -m pip install --upgrade pip
