@@ -555,9 +555,8 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     })
     
     predgovor=render_predgovor()
- 
     
-    #filtriranje iskoriscenih kvalifikatora
+    # filtriranje koriscenih kvalifikatora
     kvalifikatori=[]
     kvalifikatori_odrednice = Kvalifikator.objects.filter(kvalifikatorodrednice__odrednica__status_id=9).values('skracenica', 'naziv', 'id').distinct()
     kvalifikatori_fraze = Kvalifikator.objects.filter(kvalifikatorfraze__izrazfraza__odrednica__status_id=9).values('skracenica', 'naziv', 'id').distinct()
@@ -578,7 +577,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
             'naziv': mark_safe(f'{s["naziv"]}')
         })
         
-    #znakovi interpunkcije
+    # znakovi interpunkcije
     interpunkcija=[]
     interpunkcija=get_json_data("interpunkcija")
     for i in interpunkcija["interpunkcija"]:
