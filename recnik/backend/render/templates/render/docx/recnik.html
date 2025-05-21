@@ -8,7 +8,7 @@
 {% for slovo in slova %}
     <p class="slovo-spacer"></p>
     <p class="slovo">{{slovo.slovo}}</p>
-    {% for od in slovo.odrednice %}
+    {% for od, rec in slovo.odrednice %}
         <p class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</p>
     {% endfor %}
 {% endfor %}
