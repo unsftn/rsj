@@ -70,6 +70,7 @@ body{
     padding: 0px;
     margin: 0;
 }
+/*
 .red {
     color: darkred;
 }
@@ -86,7 +87,7 @@ body{
 .strike {
     text-decoration: line-through;
 }
-
+*/
   
 @media print {
     .title-page {
@@ -155,10 +156,12 @@ body{
         margin-bottom: 200px;
         font-size: 18pt;
     }
+
     .naslov{
         font-size: 40pt;
         line-height: 50%;
     }
+
     .veca_slova{
         font-size: 50pt;
     }
@@ -177,6 +180,7 @@ body{
         width: 30px;
         height: 30px;
     }
+
     .center{
         width: 60%;
         margin: auto;
@@ -209,13 +213,10 @@ body{
         margin-bottom: 15px;
     }
 
-   
     /*PREDGOVOR*/
     .predgovor{
         text-align: justify;
     }
-
-    
 
     @page predgovor-page, title-page, impresum-page{
         @top-center {
@@ -229,16 +230,14 @@ body{
         }
        
     }
-
   
     @page skracenice-page{
-        
     }
 
     @page:right{
         font-family: "Dijakritika", serif;
         @top-center {
-            content: string(heading, first) " - " string(heading, last);
+            content: string(heading, first) " — " string(heading, last);
             text-transform: uppercase;
             margin: 30pt 0 10pt 0;
             font-size: 9pt;
@@ -250,12 +249,12 @@ body{
             content: counter(page);
             font-size: 9pt;
         }
-        
     }
+
     @page:left {
         font-family: "Dijakritika", serif;
         @top-center {
-            content: string(heading, first) " - " string(heading, last);
+            content: string(heading, first) " — " string(heading, last);
             text-transform: uppercase;
             margin: 30pt 0 10pt 0;
             font-size: 9pt;
@@ -268,7 +267,8 @@ body{
             font-size: 9pt;
         }
     }
-    @page :blank {
+
+    @page:blank {
         @top-center {
             content: none;
         }      

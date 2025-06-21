@@ -464,6 +464,15 @@ def render_one(odrednica):
                     # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
                     html += f' <span class="znacenje">{rbr}.</span> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze(odrednica.izrazfraza_set.all().order_by('redni_broj'))
+    glava = glava.replace('<sup>1</sup>', '¹') \
+        .replace('<sup>2</sup>', '²') \
+        .replace('<sup>3</sup>', '³') \
+        .replace('<sup>4</sup>', '⁴') \
+        .replace('<sup>5</sup>', '⁵') \
+        .replace('<sup>6</sup>', '⁶') \
+        .replace('<sup>7</sup>', '⁷') \
+        .replace('<sup>8</sup>', '⁸') \
+        .replace('<sup>9</sup>', '⁹')
     return mark_safe(html), glava
 
 
@@ -590,7 +599,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     slova = []
     log.info('Generisanje odrednica...')
     for s in AZBUKA:
-        odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))#.first()
+        odrednice = Odrednica.objects.filter(rec__startswith=s).filter(status_id__in=trd.statusi.values_list('id', flat=True))
         if vrsta_odrednice:
             odrednice = odrednice.filter(vrsta=vrsta_odrednice)
         odrednice = odrednice.order_by(Collate('sortable_rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
@@ -598,6 +607,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
         }) 
+    slova = [s for s in slova if len(s['odrednice']) > 0]
     context = {'slova': slova, "kvalifikatori": kvalifikatori, "impresum":impresum_context[0], "predgovor":predgovor}
     
     log.info(f'Generisanje fajla, tip: {file_format}...')

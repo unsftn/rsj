@@ -29,3 +29,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 HEADER_COLOR_SCHEME = 'purple'
 OBRADA_TUDJIH = True
 KORPUS_API_TOKEN = 'korpus'
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:4200']
