@@ -23,50 +23,69 @@
 
 html { hyphens: auto; }
 
+* {
+    box-sizing: border-box;
+    vertical-align: baseline;
+}
+
 body{
     font-family: "Dijakritika", serif;
-    font-feature-settings: "mark";
-    font-feature-settings: "mkmk";
-    font-feature-settings: "kern";
-    font-feature-settings: "locl";
+    font-feature-settings: "mark", "mkmk", "kern", "locl";;
 }
 .onum {font-feature-settings: "onum";}  /* oldstyle numerals */
 .tnum {font-feature-settings: "tnum";}  /* tabular numerals */
 .frac {font-feature-settings: "frac";}  /* fractions */
+
 .odrednica {
+    font-size: 9pt;
     margin-bottom: 6px;
     text-indent: -10px;
     text-align: justify;
 }
+
+.odrednica, .odrednica * {
+  line-height: 1.22 !important;
+}
+
 .odrednica-header {
     font-size: 0;
     string-set: heading content(text);
 }
 .znacenje {
-    display: inline-block;
+    line-height: 1.22 !important;
+    vertical-align: baseline;
+    padding: 0 0.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;       /* Slightly wider box */
+    height: 1em;        /* Optional: keep height consistent */
     text-indent: 0;
     text-align: center;
     white-space: nowrap;
     color: white;
     font-weight: bold;
-    width: 1.25em;
-    border-radius: 4px;
+    border-radius: 2px;
     background-color: #777;
-    border: 1px solid #777;
-    padding: 0px;
+    padding: 0;
     margin: 0;
 }
 .podznacenje {
-    display: inline-block;
+    line-height: 1.22 !important;
+    vertical-align: baseline;
+    padding: 0 0.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25em;       /* Slightly wider box */
+    height: 1em;        /* Optional: keep height consistent */
     text-indent: 0;
     text-align: center;
     white-space: nowrap;
     color: white;
     font-weight: bold;
-    width: 1.25em;
-    border-radius: 4px;
+    border-radius: 2px;
     background-color: #AAA;
-    border: 1px solid #AAA;
     padding: 0px;
     margin: 0;
 }
@@ -119,7 +138,7 @@ body{
     /*ODREDNICE*/
     .slovo-spacer {
         margin-bottom: 120px;
-        break-before: right;
+        break-before: always;
     }
 
     .slovo {
@@ -129,8 +148,7 @@ body{
     }
 
     .odrednice {
-        line-height: 110%;
-        font-size: 9pt;
+        /* line-height: 1.1; */
         column-count: 2;
         column-gap: 2em;
     }
@@ -151,6 +169,7 @@ body{
     
     td:nth-child(1) {
         width: 60px;
+        vertical-align: top;
     }
  
     td:nth-child(1).izvor-skr {
