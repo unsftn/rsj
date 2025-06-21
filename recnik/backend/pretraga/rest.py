@@ -134,6 +134,8 @@ def load_opis_from_korpus(izvor_id):
     """
     Ucitava opis izvora za dati ID izvora u korpusu
     """
+    if not izvor_id:
+        return None
     query = {
         'query': {'term': {'pk': izvor_id}},
         'size': 1,
