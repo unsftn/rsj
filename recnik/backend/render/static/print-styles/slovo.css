@@ -70,6 +70,11 @@ body{
     padding: 0px;
     margin: 0;
 }
+.akcent {
+    font-size: 16pt;
+    margin-bottom: 20pt;
+    text-align: left;
+}
 /*
 .red {
     color: darkred;

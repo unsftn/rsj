@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <title>Речник</title>
+</head>
+<body>
+
+{% for g in glave %}
+    <div class="akcent">{% autoescape off %}{{g}}{% endautoescape %}</div>
+{% endfor %}
+
+</body>
+</html>

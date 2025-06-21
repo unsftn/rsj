@@ -683,6 +683,38 @@ def render_to_docx(context, template, doc_type, opis=''):
     # return ''
 
 
+def render_for_accents(tip_dokumenta, output_file):
+    try:
+        trd = TipRenderovanogDokumenta.objects.get(id=tip_dokumenta)
+    except TipRenderovanogDokumenta.DoesNotExist:
+        log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
+        return
+    sve_odrednice = Odrednica.objects.filter(
+        status_id__in=trd.statusi.values_list('id', flat=True)) \
+            .order_by(Collate('sortable_rec', 'utf8mb4_croatian_ci'), 'rbr_homonima')
+    glave = []
+    for odrednica in sve_odrednice:
+        glava = f'{odrednica.rec.replace("_", " ")}'
+        if odrednica.rbr_homonima:
+            glava += f'<sup>{odrednica.rbr_homonima}</sup>'
+        if odrednica.vrsta == 1 and odrednica.opciono_se:
+            glava += f' (се)'
+        html = f'<b>{glava}</b>'
+        html += render_nastavci_varijante(odrednica)
+        glave.append(mark_safe(html))
+    
+    tpl = get_template('render/pdf/akcent.html')
+    html_text = tpl.render({'glave': glave})
+    html = HTML(string=html_text, url_fetcher=font_fetcher)
+    css_file_name = finders.find('print-styles/slovo.css')
+    with open(css_file_name, 'r') as css_file:
+        css_text = css_file.read()
+    font_config = FontConfiguration()
+    css = CSS(string=css_text, font_config=font_config, url_fetcher=font_fetcher)
+    with open(output_file, 'wb') as output_pdf:
+        html.write_pdf(output_pdf, stylesheets=[css], font_config=font_config)
+
+
 def add_file_to_django(doc_type, opis, file_path, file_type):
     novi_dokument = RenderovaniDokument()
     novi_dokument.tip_dokumenta = doc_type
