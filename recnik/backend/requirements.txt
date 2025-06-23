@@ -4,7 +4,7 @@ Brotli==1.1.0
 certifi==2024.2.2
 cffi==1.16.0
 charset-normalizer==3.3.2
-cssselect2==0.7.0
+cssselect2==0.8.0
 Django==5.0.3
 django-concurrency==2.5
 django-filter==24.1
@@ -26,7 +26,7 @@ mysqlclient==2.2.4
 packaging==24.0
 pillow==10.2.0
 pycparser==2.21
-pydyf==0.9.0
+pydyf==0.11.0
 PyJWT==2.8.0
 pyphen==0.14.0
 python-docx==1.1.2
@@ -39,9 +39,11 @@ setuptools==69.2.0
 six==1.16.0
 soupsieve==2.5
 sqlparse==0.4.4
-tinycss2==1.2.1
+tinycss2==1.4.0
+tinyhtml5==2.0.0
+typing_extensions==4.13.2
 uritemplate==4.1.1
 urllib3==2.2.1
-weasyprint==61.2
+weasyprint==65.1
 webencodings==0.5.1
 zopfli==0.2.3
