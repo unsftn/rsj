@@ -182,7 +182,7 @@ def render_konkordanse(konkordanse):
                 skracenica = izvor.get('skracenica')
                 if not skracenica or skracenica == '-':
                     skracenica = f'[{izvor.get("pub_id")}]'
-                retval += f'{nbsp(tacka(skracenica))} '
+                retval += f'[{tacka(skracenica)}] '
     return retval
 
 
