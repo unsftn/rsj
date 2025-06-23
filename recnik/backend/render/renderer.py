@@ -41,6 +41,19 @@ REGEX_STRIKETHROUGH = re.compile('\\|+(.*?)\\|+')
 REGEX_REMOVE_HTML_TAGS = re.compile(r'<[^>]+>')
 REGEX_REPLACE_HTML_ENTITIES = re.compile(r'&[^;]+;')
 REGEX_REMOVE_WHITESPACE = re.compile(r'^\s+')
+AZBUKA_MAP = {letter: i for i, letter in enumerate(AZBUKA)}
+
+
+def get_sort_key(item):
+    text = item['skracenica'].lower()    
+    # Convert each character to its position in AZBUKA or to a value
+    result = []
+    for char in text:
+        if char in AZBUKA_MAP:
+            result.append(1000 + AZBUKA_MAP[char])
+        else:
+            result.append(ord(char))    
+    return result
 
 
 def touch(path):
@@ -181,7 +194,7 @@ def render_konkordanse(konkordanse):
             if izvor:
                 skracenica = izvor.get('skracenica')
                 if not skracenica or skracenica == '-':
-                    skracenica = f'[{izvor.get("pub_id")}]'
+                    skracenica = f'{izvor.get("pub_id")}'
                 retval += f'[{tacka(skracenica)}] '
     return retval
 
@@ -629,7 +642,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
                 'opis': mark_safe(f'{izvor.get("opis")}')
             })
     izvori = [dict(t) for t in {tuple(d.items()) for d in izvori}]
-    izvori = sorted(izvori, key=lambda x: x['skracenica'].lower())
+    izvori = sorted(izvori, key=get_sort_key)
 
     matica_logo = load_image_as_base64('static/MS.jpg')
 
@@ -644,7 +657,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     
     log.info(f'Generisanje fajla, tip: {file_format}...')
     if file_format == 'pdf':
-        return render_to_pdf(context, 'render/pdf/recnik.html', trd)
+        return render_to_pdf(context, 'render/pdf/recnik2.html', trd)
     elif file_format == 'docx':
         return render_to_docx(context, 'render/docx/recnik.html', trd)
     else:
@@ -654,7 +667,8 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
 def render_to_pdf(context, template, doc_type, opis=''):
     tpl = get_template(template)
     html_text = tpl.render(context)
-    # html_text = html_text.replace('&#9632;', '<small>&#9632;</small>')
+    with open(os.path.join(settings.MEDIA_ROOT, 'output.html'), 'w', encoding='utf-8') as f:
+        f.write(html_text)
     html = HTML(string=html_text, url_fetcher=font_fetcher)
     css_file_name = finders.find('print-styles/slovo.css')
     with open(css_file_name, 'r') as css_file:

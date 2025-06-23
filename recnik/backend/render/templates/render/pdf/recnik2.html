@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Речник</title>
+    <link rel="stylesheet" href="slovo2.css">
 </head>
 <body>
     <div class="impresum-page">
@@ -87,14 +88,15 @@
     </div>
 
     {% for slovo in slova %}
-        <div class="slovo-spacer"></div>
+    <div class="slovo-block">
         <div class="slovo">{{slovo.slovo}}</div>
         <div class="odrednice">
         {% for od, glava in slovo.odrednice %}
-            <p class="odrednica-header">{% autoescape off %}{{glava}}{% endautoescape %}</p>
-            <p class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</p>
+            <div class="odrednica-header">{% autoescape off %}{{glava}}{% endautoescape %}</div>
+            <div class="odrednica">{% autoescape off %}{{od}}{% endautoescape %}</div>
         {% endfor %}
         </div>
+    </div>
     {% endfor %}
 </body>
 </html>

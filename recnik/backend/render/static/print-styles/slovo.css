@@ -39,6 +39,7 @@ body{
 .odrednica {
     font-size: 9pt;
     margin-bottom: 6px;
+    margin-top: 0;
     text-indent: -10px;
     text-align: justify;
 }
@@ -49,6 +50,8 @@ body{
 
 .odrednica-header {
     font-size: 0;
+    margin: 0;
+    padding: 0;
     string-set: heading content(text);
 }
 .znacenje {
