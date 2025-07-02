@@ -23,21 +23,21 @@
       <div class="md:col-3 mb-3 mr-2"><p class="label">Обрађивач:</p></div>
       <div *ngIf="groupId == 1" class="md:col-9 mb-3 ml-2"><p class="label">{{obradjivac?.full_name}}</p></div>
       <div *ngIf="groupId > 1" class="md:col-9 mb-3">
-        <p-dropdown [options]="obradjivaci" [(ngModel)]="obradjivac" optionLabel="full_name" placeholder="Избор обрађивача" [style]="{'width':'300px'}"></p-dropdown>
+        <p-dropdown [options]="obradjivaci" [(ngModel)]="obradjivac" optionLabel="full_name" optionValue="id" dataKey="id" [placeholder]="obradjivac ? '' : 'Избор обрађивача'" [style]="{'width':'300px'}" [showClear]="false" appendTo="body"></p-dropdown>
       </div>
     </div>
     <div class="flex">
       <div class="md:col-3 mb-3 mr-2"><p class="label">Редактор:</p></div>
       <div *ngIf="groupId < 3" class="md:col-9 mb-3 ml-2"><p class="label">{{redaktor?.full_name}}</p></div>
       <div *ngIf="groupId > 2" class="md:col-9 mb-3">
-        <p-dropdown [options]="redaktori" [(ngModel)]="redaktor" optionLabel="full_name" [showClear]="true" placeholder="Избор редактора" [style]="{'width':'300px'}"></p-dropdown>
+        <p-dropdown [options]="redaktori" [(ngModel)]="redaktor" optionLabel="full_name" optionValue="id" dataKey="id" [placeholder]="redaktor ? '' : 'Избор редактора'" [style]="{'width':'300px'}" [showClear]="true" appendTo="body"></p-dropdown>
       </div>
     </div>
     <div class="flex">
       <div class="md:col-3 mb-3 mr-2"><p class="label">Уредник:</p></div>
       <div *ngIf="groupId < 4"  class="md:col-9 mb-3 ml-2"><p class="label">{{urednik?.full_name}}</p></div>
       <div *ngIf="groupId == 4" class="md:col-9 mb-3">
-        <p-dropdown [options]="urednici" [(ngModel)]="urednik" optionLabel="full_name" [showClear]="true" placeholder="Избор уредника" [style]="{'width':'300px'}"></p-dropdown>
+        <p-dropdown [options]="urednici" [(ngModel)]="urednik" optionLabel="full_name" optionValue="id" dataKey="id" [placeholder]="urednik ? '' : 'Избор уредника'" [style]="{'width':'300px'}" [showClear]="true" appendTo="body"></p-dropdown>
       </div>
     </div>
   </div>

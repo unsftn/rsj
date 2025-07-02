@@ -881,17 +881,17 @@ export class TabFormComponent implements OnInit {
     this.changes = value.izmenaodrednice_set;
     this.notes = value.napomene;
     this.freetext = value.freetext || '';
-    if (value.obradjivac)
-      this.obradjivac = this.userService.getUser(value.obradjivac);
-    else
+    if (value.obradjivac) {
+      this.obradjivac = value.obradjivac; // this.userService.getUser(value.obradjivac);
+    } else
       this.obradjivac = null;
-    if (value.redaktor)
-      this.redaktor = this.userService.getUser(value.redaktor);
-    else
+    if (value.redaktor) {
+      this.redaktor = value.redaktor; // this.userService.getUser(value.redaktor);
+    } else
       this.redaktor = null;
-    if (value.urednik)
-      this.urednik = this.userService.getUser(value.urednik);
-    else
+    if (value.urednik) {
+      this.urednik = value.urednik; // this.userService.getUser(value.urednik); 
+    } else
       this.urednik = null;
   }
 
@@ -1181,18 +1181,18 @@ export class TabFormComponent implements OnInit {
       this.showOwnershipDialog = false;
       return;
     }
-    const obradjivacId = this.obradjivac.id;
-    const redaktorId = this.redaktor ? this.redaktor.id : null;
-    const urednikId = this.urednik ? this.urednik.id : null;
-    this.odrednicaService.zaduzenja(this.id, obradjivacId, redaktorId, urednikId).subscribe(
-      (data) => {
+    const obradjivacId = this.obradjivac; // this.obradjivac.id;
+    const redaktorId = this.redaktor; // this.redaktor ? this.redaktor.id : null;
+    const urednikId = this.urednik; // this.urednik ? this.urednik.id : null;
+    this.odrednicaService.zaduzenja(this.id, obradjivacId, redaktorId, urednikId).subscribe({
+      next: (data) => {
         this.showOwnershipDialog = false;
       },
-      (error) => {
+      error: (error) => {
         console.log(error);
         this.showOwnershipDialog = false;
       }
-    );
+    });
   }
 
   closeOwnership(): void {
