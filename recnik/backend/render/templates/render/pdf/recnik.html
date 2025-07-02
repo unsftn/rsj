@@ -8,17 +8,21 @@
     <div class="impresum-page">
         <div class="center">
             <div class="space"></div>
-            <div class="naslov_impresum">Израдили</div>
-            {% for i in impresum.izradili %}
+            <div class="naslov_impresum">Обрађивачи</div>
+            {% for i in impresum.obradili %}
                 <div>{{i}}</div>
             {% endfor %}
-            <div class="naslov_impresum">Уредио</div>
-            {% for u in impresum.uredili %}
+            <div class="naslov_impresum">Редактори</div>
+            {% for u in impresum.redakcija %}
                 <div>{{u}}</div>
             {% endfor %}
-            <div class="naslov_impresum">Рецезенти</div>
-            {% for r in impresum.recezenti %}
+            <div class="naslov_impresum">Уредници</div>
+            {% for r in impresum.uredili %}
                 <div>{{r}}</div>
+            {% endfor %}
+            <div class="naslov_impresum">Дигитална платформа</div>
+            {% for d in impresum.digital %}
+                <div>{{d}}</div>
             {% endfor %}
             <div class="copyright">
                 <div>{{impresum.copyright}}</div>

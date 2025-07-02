@@ -2,6 +2,7 @@ import base64
 import json
 import logging
 import re
+import shutil
 import tempfile
 from django.conf import settings
 from django.core.files import File
@@ -16,6 +17,7 @@ from htmldocx import HtmlToDocx
 from odrednice.models import *
 from pretraga.rest import load_opis_from_korpus
 from .models import *
+import subprocess
 
 log = logging.getLogger(__name__)
 AZBUKA = 'абвгдђежзијклљмнњопрстћуфхцчџш'
@@ -578,13 +580,18 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     impresum = get_json_data("impresum")
     
     def get_full_name(ime):
-        full_name = ime["ime"] + " " + ime["prezime"].upper()
+        prezime_parts = ime['prezime'].split()
+        if len(prezime_parts) > 1:
+            full_name = ime["ime"] + " " + prezime_parts[0].upper() + " " + " ".join(prezime_parts[1:])
+        else:
+            full_name = ime["ime"] + " " + ime["prezime"].upper()
         return mark_safe(f'{full_name}')
     
     impresum_context.append({
-        "izradili": [get_full_name(i) for i in impresum["izradili"]],
+        "obradili": [get_full_name(i) for i in impresum["obradili"]],
+        "redakcija": [get_full_name(i) for i in impresum["redakcija"]],
         "uredili": [get_full_name(i) for i in impresum["uredili"]],
-        "recezenti": [get_full_name(i) for i in impresum["recezenti"]],
+        "digital": [get_full_name(i) for i in impresum["digital"]],
         "copyright": mark_safe(f'{impresum["copyright"]}'),
         "napomena": mark_safe(f'{impresum["napomena"]}')
     })
@@ -667,18 +674,34 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
 def render_to_pdf(context, template, doc_type, opis=''):
     tpl = get_template(template)
     html_text = tpl.render(context)
-    with open(os.path.join(settings.MEDIA_ROOT, 'output.html'), 'w', encoding='utf-8') as f:
+    media_root = settings.MEDIA_ROOT
+    with open(os.path.join(media_root, 'output.html'), 'w', encoding='utf-8') as f:
         f.write(html_text)
-    html = HTML(string=html_text, url_fetcher=font_fetcher)
-    css_file_name = finders.find('print-styles/slovo.css')
-    with open(css_file_name, 'r') as css_file:
-        css_text = css_file.read()
-    font_config = FontConfiguration()
-    css = CSS(string=css_text, font_config=font_config, url_fetcher=font_fetcher)
-    temp_file = tempfile.TemporaryFile()
-    html.write_pdf(temp_file, stylesheets=[css], font_config=font_config)
-    novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'pdf')
+    output_html = os.path.join(media_root, 'output.html')
+    output_pdf = os.path.join(media_root, 'output.pdf')
+    css_file_name = finders.find('print-styles/slovo2.css')
+    hyphenation_file = finders.find('hyphenation/hyph-sr-cyrl.pat')
+    shutil.copy2(css_file_name, media_root)
+    shutil.copy2(hyphenation_file, media_root)
+
+    subprocess.run(
+        ['prince', 'output.html', '-o', 'output.pdf'],
+        cwd=media_root,
+        check=True
+    )
+    novi_dokument = add_file_to_django(doc_type, opis, output_pdf, 'pdf')
     return novi_dokument.rendered_file.name
+    
+    # html = HTML(string=html_text, url_fetcher=font_fetcher)
+    # css_file_name = finders.find('print-styles/slovo.css')
+    # with open(css_file_name, 'r') as css_file:
+    #     css_text = css_file.read()
+    # font_config = FontConfiguration()
+    # css = CSS(string=css_text, font_config=font_config, url_fetcher=font_fetcher)
+    # temp_file = tempfile.TemporaryFile()
+    # html.write_pdf(temp_file, stylesheets=[css], font_config=font_config)
+    # novi_dokument = add_file_to_django(doc_type, opis, temp_file, 'pdf')
+    # return novi_dokument.rendered_file.name
 
 
 def render_to_docx(context, template, doc_type, opis=''):

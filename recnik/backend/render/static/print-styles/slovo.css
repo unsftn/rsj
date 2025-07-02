@@ -256,9 +256,9 @@ body{
 
     .naslov_impresum {
         font-style: italic;
-        margin-top: 15px;
+        margin-top: 45px;
         margin-bottom: 15px;
-       }
+    }
     
     .div_imena {
         margin-top: 15px;
@@ -275,6 +275,11 @@ body{
         margin: 0;
         line-height: 110%;
         text-indent: 25pt;
+    }
+
+    .right {
+        text-align: right;
+        margin-right: 25pt;
     }
 
     @page title-page, impresum-page {
