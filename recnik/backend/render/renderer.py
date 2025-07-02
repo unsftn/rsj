@@ -689,7 +689,8 @@ def render_to_pdf(context, template, doc_type, opis=''):
         cwd=media_root,
         check=True
     )
-    novi_dokument = add_file_to_django(doc_type, opis, output_pdf, 'pdf')
+    with open(output_pdf, 'rb') as pdf_file:
+        novi_dokument = add_file_to_django(doc_type, opis, pdf_file, 'pdf')
     return novi_dokument.rendered_file.name
     
     # html = HTML(string=html_text, url_fetcher=font_fetcher)
