@@ -169,8 +169,8 @@ class Odrednica(models.Model):
     obradjivac = models.ForeignKey(UserProxy, verbose_name='обрађивач', on_delete=models.PROTECT, related_name='odrednice_obradjivaca', blank=True, null=True)
     redaktor = models.ForeignKey(UserProxy, verbose_name='редактор', on_delete=models.PROTECT, related_name='odrednice_redaktora', blank=True, null=True)
     urednik = models.ForeignKey(UserProxy, verbose_name='уредник', on_delete=models.PROTECT, related_name='odrednice_urednika', blank=True, null=True)
-    napomene = models.TextField('напомене', max_length=2000, blank=True, null=True)
-    freetext = models.TextField('алтернативни опис', max_length=2000, blank=True, null=True)
+    napomene = models.TextField('напомене', max_length=4000, blank=True, null=True)
+    freetext = models.TextField('алтернативни опис', max_length=4000, blank=True, null=True)
     status = models.ForeignKey(StatusOdrednice, verbose_name='статус одреднице', null=True, blank=True, on_delete=models.PROTECT)
     ravnopravne_varijante = models.BooleanField('равноправне варијанте', default=True)
 
