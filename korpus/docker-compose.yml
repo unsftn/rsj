@@ -14,7 +14,7 @@ services:
     healthcheck:
       test: curl -s http://elastic-korpus:9200 >/dev/null || exit 1
       interval: 5s
-      timeout: 5s
+      timeout: 60s
       retries: 10
   mysql:
     container_name: korpus-mysql
