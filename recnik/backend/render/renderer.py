@@ -391,6 +391,15 @@ def render_one(odrednica):
         glava += f'<sup>{odrednica.rbr_homonima}</sup>'
     if odrednica.vrsta == 1 and odrednica.opciono_se:
         glava += f' (се)'
+    glava = glava.replace('<sup>1</sup>', '¹') \
+        .replace('<sup>2</sup>', '²') \
+        .replace('<sup>3</sup>', '³') \
+        .replace('<sup>4</sup>', '⁴') \
+        .replace('<sup>5</sup>', '⁵') \
+        .replace('<sup>6</sup>', '⁶') \
+        .replace('<sup>7</sup>', '⁷') \
+        .replace('<sup>8</sup>', '⁸') \
+        .replace('<sup>9</sup>', '⁹')
 
     if odrednica.freetext:
         return mark_safe(process_tags(odrednica.freetext)), glava
@@ -471,7 +480,7 @@ def render_one(odrednica):
                 # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
                 html += f' <span class="znacenje">{rbr}.</span> ' + render_znacenje(znacenje)
         if odrednica.znacenje_set.filter(znacenje_se=True).count() > 0:
-            html += f' <b>&#9632; ~ се</b> '
+            html += f' <b><span class="grey">&#9632;</span> ~ се</b> '
             # html += f' <span class="znacenje">&#9632; ~ се</span> '
             if odrednica.znacenje_set.filter(znacenje_se=True).count() == 1:
                 html += render_znacenje(odrednica.znacenje_set.filter(znacenje_se=True).first())
@@ -480,15 +489,15 @@ def render_one(odrednica):
                     # html += f' <b>{rbr}.</b> ' + render_znacenje(znacenje)
                     html += f' <span class="znacenje">{rbr}.</span> ' + render_znacenje(znacenje)
     html += render_izrazi_fraze(odrednica.izrazfraza_set.all().order_by('redni_broj'))
-    glava = glava.replace('<sup>1</sup>', '¹') \
-        .replace('<sup>2</sup>', '²') \
-        .replace('<sup>3</sup>', '³') \
-        .replace('<sup>4</sup>', '⁴') \
-        .replace('<sup>5</sup>', '⁵') \
-        .replace('<sup>6</sup>', '⁶') \
-        .replace('<sup>7</sup>', '⁷') \
-        .replace('<sup>8</sup>', '⁸') \
-        .replace('<sup>9</sup>', '⁹')
+    # glava = glava.replace('<sup>1</sup>', '¹') \
+    #     .replace('<sup>2</sup>', '²') \
+    #     .replace('<sup>3</sup>', '³') \
+    #     .replace('<sup>4</sup>', '⁴') \
+    #     .replace('<sup>5</sup>', '⁵') \
+    #     .replace('<sup>6</sup>', '⁶') \
+    #     .replace('<sup>7</sup>', '⁷') \
+    #     .replace('<sup>8</sup>', '⁸') \
+    #     .replace('<sup>9</sup>', '⁹')
     return mark_safe(html), glava
 
 
@@ -582,14 +591,15 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     def get_full_name(ime):
         prezime_parts = ime['prezime'].split()
         if len(prezime_parts) > 1:
-            full_name = ime["ime"] + " " + prezime_parts[0].upper() + " " + " ".join(prezime_parts[1:])
+            full_name = ime['titula' ] + ' ' + ime["ime"] + " " + prezime_parts[0].upper() + " " + " ".join(prezime_parts[1:])
         else:
-            full_name = ime["ime"] + " " + ime["prezime"].upper()
+            full_name = ime['titula' ] + ' ' + ime["ime"] + " " + ime["prezime"].upper()
         return mark_safe(f'{full_name}')
     
     impresum_context.append({
         "obradili": [get_full_name(i) for i in impresum["obradili"]],
         "redakcija": [get_full_name(i) for i in impresum["redakcija"]],
+        "akcentolog": [get_full_name(i) for i in impresum["akcentolog"]],
         "uredili": [get_full_name(i) for i in impresum["uredili"]],
         "digital": [get_full_name(i) for i in impresum["digital"]],
         "copyright": mark_safe(f'{impresum["copyright"]}'),
@@ -679,7 +689,7 @@ def render_to_pdf(context, template, doc_type, opis=''):
         f.write(html_text)
     output_html = os.path.join(media_root, 'output.html')
     output_pdf = os.path.join(media_root, 'output.pdf')
-    css_file_name = finders.find('print-styles/slovo2.css')
+    css_file_name = finders.find('print-styles/slovo2-b5.css')
     hyphenation_file = finders.find('hyphenation/hyph-sr-cyrl.pat')
     shutil.copy2(css_file_name, media_root)
     shutil.copy2(hyphenation_file, media_root)

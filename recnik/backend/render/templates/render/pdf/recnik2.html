@@ -3,35 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Речник</title>
-    <link rel="stylesheet" href="slovo2.css">
+    <link rel="stylesheet" href="slovo2-b5.css">
 </head>
 <body>
-    <div class="impresum-page">
-        <div class="center">
-            <div class="space"></div>
-            <div class="naslov_impresum">Обрађивачи</div>
-            {% for i in impresum.obradili %}
-                <div>{{i}}</div>
-            {% endfor %}
-            <div class="naslov_impresum">Редактори</div>
-            {% for u in impresum.redakcija %}
-                <div>{{u}}</div>
-            {% endfor %}
-            <div class="naslov_impresum">Уредници</div>
-            {% for r in impresum.uredili %}
-                <div>{{r}}</div>
-            {% endfor %}
-            <div class="naslov_impresum">Дигитална платформа</div>
-            {% for d in impresum.digital %}
-                <div>{{d}}</div>
-            {% endfor %}
-            <div class="copyright">
-                <div>{{impresum.copyright}}</div>
-                <div>{{impresum.napomena}}</div>
-            </div>
-        </div>
-    </div>
-    
     <div class="title-page">
         <div class="center">
             <div class="matica">МАТИЦА СРПСКА</div>
@@ -50,6 +24,36 @@
         </div>
     </div>
 
+    <div class="impresum-page">
+        <div class="center">
+            <div class="space"></div>
+            <div class="naslov_impresum">Обрађивачи</div>
+            {% for i in impresum.obradili %}
+                <div>{{i}}</div>
+            {% endfor %}
+            <div class="naslov_impresum">Редактори</div>
+            {% for u in impresum.redakcija %}
+                <div>{{u}}</div>
+            {% endfor %}
+            <div class="naslov_impresum">Акцентолог</div>
+            {% for u in impresum.akcentolog %}
+                <div>{{u}}</div>
+            {% endfor %}
+            <div class="naslov_impresum">Уредници</div>
+            {% for r in impresum.uredili %}
+                <div>{{r}}</div>
+            {% endfor %}
+            <div class="naslov_impresum">Дигитална платформа</div>
+            {% for d in impresum.digital %}
+                <div>{{d}}</div>
+            {% endfor %}
+            <div class="copyright">
+                <div>{{impresum.copyright}}</div>
+                <div>{{impresum.napomena}}</div>
+            </div>
+        </div>
+    </div>
+    
     <div class="predgovor-page">
         <div class="predgovor">
             <div class="skracenice-title">ПРЕДГОВОР</div>
@@ -57,21 +61,19 @@
         </div>
     </div>
 
-    <div class="">
-        <div class="skracenice-page">
-            <div class="skracenice-title">Техничке скраћенице</div>
-            <div class="skracenice">  
-                <table>
-                    <tbody> 
-                        {% for kvalifikator in kvalifikatori %}
-                            <tr>
-                                <td>{{kvalifikator.skracenica}}</td>
-                                <td>{{kvalifikator.naziv}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="skracenice-page">
+        <div class="skracenice-title">Техничке скраћенице</div>
+        <div class="skracenice">  
+            <table>
+                <tbody> 
+                    {% for kvalifikator in kvalifikatori %}
+                        <tr>
+                            <td>{{kvalifikator.skracenica}}</td>
+                            <td>{{kvalifikator.naziv}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
