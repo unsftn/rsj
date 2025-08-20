@@ -16,6 +16,7 @@ SKRACENICE = {
     'Nova ekonomija': 'Н. Еко',
     'Vreme': 'Вре',
     'Pecat': 'Печ',
+    'Печат': 'Печ',
     'Peščanik': 'Пешч',
     'Sportske.net': 'Спо',
     'Politika': 'Пол',
@@ -25,7 +26,7 @@ SKRACENICE = {
     'Novi standard': 'Н. станд',
     'Agelast': 'Агел',
     'Catena mundi': 'Кат. мунд',
-    'Dva i po psihijatra': '2,5 псих',
+    'Dva i po psihijatra': '2½ псих',
     'Oko magazin': 'Око. маг',
     'Još podkast jedan': 'Још. подк',
     'Ivan Kosogor podcast': 'Ив. Кос',
@@ -37,6 +38,7 @@ SKRACENICE = {
     'Da sam ja neko': 'Да сам',
     'Rubikon': 'Рубик',
     'Lukavstvo uma': 'Лук. ума',
+    'Paragraf': 'ПЛ'
 }
 
 
@@ -93,6 +95,7 @@ def fix_skracenice():
                 prefiks_skracenice = f'{skr}. {godina}' if godina else skr
                 rbr = get_next_rbr(prefiks_skracenice)
                 skracenica = f'{prefiks_skracenice}. {rbr}'
+                skracenica = f'{prefiks_skracenice}.'
                 izvor.skracenica = skracenica
                 izvor.save()
             elif izvor.potkorpus_id == 4:  # naucni
@@ -104,6 +107,7 @@ def fix_skracenice():
                     prefiks_skracenice = 'ПЛ'
                     rbr = get_next_rbr(prefiks_skracenice)
                     skracenica = f'{prefiks_skracenice}. {rbr}'
+                    skracenica = f'{prefiks_skracenice}.'
                     izvor.skracenica = skracenica
                     izvor.save()
 
@@ -116,3 +120,16 @@ def fix_poslednji_brojevi():
             poslednji.prefiks_skracenice = sa_razmakom
             poslednji.save()
 
+
+def fix_skracenice_235():
+    for izvor in Publikacija.objects.filter(potkorpus_id__in=[2, 3, 5]):
+        if izvor.izdavac is None:
+            continue
+        skr = SKRACENICE.get(izvor.izdavac)
+        if not skr:
+            log.warning(f'Nepoznata skraćenica za izvor {izvor.izdavac}, publikacija {izvor.id}')
+            continue
+        godina = izvor.godina if izvor.godina else ''
+        skracenica = f'{skr}. {godina}' if godina else skr
+        izvor.skracenica = skracenica
+        izvor.save()
