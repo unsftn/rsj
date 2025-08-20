@@ -1,7 +1,9 @@
+from django.conf import settings
 from elasticsearch.exceptions import NotFoundError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
+import requests
 from odrednice.models import Odrednica, VRSTA_ODREDNICE
 from odrednice.text import remove_punctuation
 from render.utils import get_rbr, get_rec, shorten_text
@@ -33,10 +35,10 @@ def odrednica(request):
     query = {
         'query': {
             'query_string': {
-                'query': term, 
+                'query': term,
                 'fields': ['varijante']
             }
-        }, 
+        },
         'size': 100,
         'from': 0,
     }
@@ -69,10 +71,10 @@ def check_duplicate(request):
     query = {
         'query': {
             'query_string': {
-                'query': term, 
+                'query': term,
                 'fields': ['varijante']
             }
-        }, 
+        },
         'size': 100,
         'from': 0,
     }
@@ -136,21 +138,26 @@ def load_opis_from_korpus(izvor_id):
     """
     if not izvor_id:
         return None
-    query = {
-        'query': {'term': {'pk': izvor_id}},
-        'size': 1,
-        'from': 0,
-        '_source': {'includes': ['pk', 'skracenica', 'opis']}
-    }
-    retval = []
-    resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
-    for hit in resp['hits']['hits']:
-        retval.append({
-            'pub_id': hit['_source']['pk'],
-            'skracenica': hit['_source']['skracenica'],
-            'opis': hit['_source']['opis'],
-        })
-    return retval[0] if len(retval) > 0 else None
+    # stari nacin - citanje iz Elasticsearch indeksa
+    # query = {
+    #     'query': {'term': {'pk': izvor_id}},
+    #     'size': 1,
+    #     'from': 0,
+    #     '_source': {'includes': ['pk', 'skracenica', 'opis']}
+    # }
+    # retval = []
+    # resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
+    # for hit in resp['hits']['hits']:
+    #     retval.append({
+    #         'pub_id': hit['_source']['pk'],
+    #         'skracenica': hit['_source']['skracenica'],
+    #         'opis': hit['_source']['opis'],
+    #     })
+    # return retval[0] if len(retval) > 0 else None
+    resp = requests.get(f'{settings.KORPUS_URL}/api/publikacije/opis/{izvor_id}/')
+    if resp.status_code == 200:
+        return resp.json()
+    return None
 
 
 @api_view(['GET'])
@@ -162,13 +169,13 @@ def search_odrednica_sa_znacenjima(request):
     query = {
         'query': {
             'multi_match': {
-                'type': 'bool_prefix', 
-                'query': remove_punctuation(term), 
+                'type': 'bool_prefix',
+                'query': remove_punctuation(term),
                 'fields': ['varijante']
             }
-        }, 
-        'from': 0, 
-        'size': 100, 
+        },
+        'from': 0,
+        'size': 100,
         '_source': {
             'includes': ['pk', 'rec', 'vrsta', 'rbr_homo']
         }
@@ -180,7 +187,7 @@ def search_odrednica_sa_znacenjima(request):
         odrednice = Odrednica.objects.filter(id__in=odr_ids)
         retval = []
         for odr in odrednice:
-            flatten = False            
+            flatten = False
             if odr.znacenje_set.count() == 1:
                 if odr.znacenje_set.first().podznacenje_set.count() == 0:
                     flatten = True

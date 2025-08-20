@@ -33,6 +33,7 @@ urlpatterns = [
     path('extract/<int:pub_id>/', api_extract_text_for_pub),
     path('svi-filteri/', api_filter_list),
     path('primeni-filtere/<int:pub_id>/', api_apply_filters),
+    path('opis/<int:pub_id>/', api_get_opis_publikacije),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

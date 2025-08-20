@@ -30,3 +30,4 @@ HEADER_COLOR_SCHEME = 'purple'
 OBRADA_TUDJIH = True
 KORPUS_API_TOKEN = 'korpus'
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:4200']
+KORPUS_URL = 'http://localhost:8000'

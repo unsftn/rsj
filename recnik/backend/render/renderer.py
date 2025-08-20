@@ -47,14 +47,14 @@ AZBUKA_MAP = {letter: i for i, letter in enumerate(AZBUKA)}
 
 
 def get_sort_key(item):
-    text = item['skracenica'].lower()    
+    text = item['skracenica'].lower()
     # Convert each character to its position in AZBUKA or to a value
     result = []
     for char in text:
         if char in AZBUKA_MAP:
             result.append(1000 + AZBUKA_MAP[char])
         else:
-            result.append(ord(char))    
+            result.append(ord(char))
     return result
 
 
@@ -180,7 +180,7 @@ def process_tags(tekst, in_italic=False):
                     process_dollar(
                         process_hash(
                             process_percent(
-                                process_circumflex(tekst, in_italic), 
+                                process_circumflex(tekst, in_italic),
                                     in_italic), in_italic), in_italic), in_italic), in_italic), in_italic), in_italic)
     # if retval.endswith('<i>') or retval.endswith('<b>'):
     #     retval = retval[:-3]
@@ -553,7 +553,7 @@ def get_json_data(filename):
     name = f'render/templates/render/pdf/{filename}.json'
     file_path = os.path.join(settings.BASE_DIR, name)
     with open(file_path, "r", encoding="utf-8") as file:
-        data = json.load(file) 
+        data = json.load(file)
     return data
 
 
@@ -583,11 +583,11 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     except TipRenderovanogDokumenta.DoesNotExist:
         log.fatal(f'Nije pronadjen tip renderovanog dokumenta: id={tip_dokumenta}')
         return
-    
+
     impresum = []
     impresum_context = []
     impresum = get_json_data("impresum")
-    
+
     def get_full_name(ime):
         prezime_parts = ime['prezime'].split()
         if len(prezime_parts) > 1:
@@ -595,7 +595,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
         else:
             full_name = ime['titula' ] + ' ' + ime["ime"] + " " + ime["prezime"].upper()
         return mark_safe(f'{full_name}')
-    
+
     impresum_context.append({
         "obradili": [get_full_name(i) for i in impresum["obradili"]],
         "redakcija": [get_full_name(i) for i in impresum["redakcija"]],
@@ -605,9 +605,9 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
         "copyright": mark_safe(f'{impresum["copyright"]}'),
         "napomena": mark_safe(f'{impresum["napomena"]}')
     })
-    
+
     predgovor = render_predgovor()
-    
+
     slova = []
     log.info('Generisanje odrednica...')
     sve_odrednice = Odrednica.objects.filter(status_id__in=trd.statusi.values_list('id', flat=True))
@@ -619,7 +619,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
         slova.append({
             'slovo': s.upper(),
             'odrednice': [render_one(o) for o in odrednice]
-        }) 
+        })
     slova = [s for s in slova if len(s['odrednice']) > 0]
 
     # filtriranje koriscenih kvalifikatora
@@ -634,7 +634,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
             'skracenica': mark_safe(f'{s["skracenica"]}.'),
             'naziv': mark_safe(f'{s["naziv"]}')
         })
-            
+
     # znakovi interpunkcije
     interpunkcija = []
     interpunkcija = get_json_data("interpunkcija")
@@ -664,14 +664,14 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     matica_logo = load_image_as_base64('static/MS.jpg')
 
     context = {
-        'slova': slova, 
-        'kvalifikatori': kvalifikatori, 
-        'impresum': impresum_context[0], 
+        'slova': slova,
+        'kvalifikatori': kvalifikatori,
+        'impresum': impresum_context[0],
         'predgovor': predgovor,
         'izvori': izvori,
         'matica_logo': matica_logo,
     }
-    
+
     log.info(f'Generisanje fajla, tip: {file_format}...')
     if file_format == 'pdf':
         return render_to_pdf(context, 'render/pdf/recnik2.html', trd)
@@ -702,7 +702,7 @@ def render_to_pdf(context, template, doc_type, opis=''):
     with open(output_pdf, 'rb') as pdf_file:
         novi_dokument = add_file_to_django(doc_type, opis, pdf_file, 'pdf')
     return novi_dokument.rendered_file.name
-    
+
     # html = HTML(string=html_text, url_fetcher=font_fetcher)
     # css_file_name = finders.find('print-styles/slovo.css')
     # with open(css_file_name, 'r') as css_file:
@@ -750,7 +750,7 @@ def render_for_accents(tip_dokumenta, output_file):
         html = f'<b>{glava}</b>'
         html += render_nastavci_varijante(odrednica)
         glave.append(mark_safe(html))
-    
+
     tpl = get_template('render/pdf/akcent.html')
     html_text = tpl.render({'glave': glave})
     html = HTML(string=html_text, url_fetcher=font_fetcher)

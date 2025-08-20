@@ -1,17 +1,15 @@
-from django.db.models import Max
 from django_q.tasks import async_task
 from rest_framework import generics, permissions, status
-from rest_framework.decorators import api_view, parser_classes
-from rest_framework.exceptions import NotFound, UnsupportedMediaType
+from rest_framework.decorators import api_view, parser_classes, permission_classes
+from rest_framework.exceptions import NotFound
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
 from .models import *
 from .serializers import *
-from .extractor import extract_file
 from .processing import get_filter, invoke_filter, get_filter_list
 from .tasks import extract_text_for_pub
+from .utils import get_opis_publikacije
 from indexer.index import index_naslov
 
 
@@ -293,3 +291,17 @@ def api_apply_filters(request, pub_id):
 @api_view(['GET'])
 def api_filter_list(request):
     return Response(get_filter_list(), status=status.HTTP_200_OK, content_type=JSON)
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def api_get_opis_publikacije(request, pub_id):
+    try:
+        publikacija = Publikacija.objects.get(id=pub_id)
+        return Response({
+            'opis': get_opis_publikacije(publikacija),
+            'skracenica': publikacija.skracenica,
+            'id': publikacija.id
+        })
+    except Publikacija.DoesNotExist:
+        raise NotFound()
