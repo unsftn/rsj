@@ -3,12 +3,13 @@ services:
     container_name: elastic-recnik
     image: elasticsearch:8.12.2
     restart: always
-    volumes: 
+    mem_limit: 20g
+    volumes:
       - recnik-elastic:/usr/share/elasticsearch/data
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms24g -Xmx24g"
+      ES_JAVA_OPTS: "-Xms12g -Xmx12g"
     networks:
       recnik:
     healthcheck:
@@ -20,7 +21,7 @@ services:
     container_name: recnik-mysql
     image: mariadb:10.10
     restart: always
-    volumes: 
+    volumes:
       - recnik-data:/var/lib/mysql
       - recnik-init:/docker-entrypoint-initdb.d
     environment:
@@ -60,7 +61,7 @@ services:
       context: .
       dockerfile: Dockerfile-nginx
     restart: always
-    depends_on: 
+    depends_on:
       - recnik
     volumes:
       - recnik-log:/var/log/nginx
