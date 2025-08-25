@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "recnik"
+		},
+		{
+			"path": "korpus"
+		}
+	],
+	"settings": {
+		"recnik": {
+			"python.defaultInterpreterPath": "${workspaceFolder:recnik}/backend/.env/bin/python"
+		},
+		"korpus": {
+			"python.defaultInterpreterPath": "${workspaceFolder:korpus}/backend/.env/bin/python"
+		}
+	}
+}

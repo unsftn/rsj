@@ -20,6 +20,7 @@ SKRACENICE = {
     'Peščanik': 'Пешч',
     'Sportske.net': 'Спо',
     'Politika': 'Пол',
+    'Политика': 'Пол',
     'Polikin zabavnik': 'П. Заб',
     'Centar za antiautoritarne studije': 'ЦАС',
     'Biznis priče': 'Биз. пр',
