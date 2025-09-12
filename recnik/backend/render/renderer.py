@@ -778,7 +778,7 @@ def add_file_to_django(doc_type, opis, file_path, file_type):
 def count_printable_chars(odrednica):
     if not odrednica:
         return 0
-    text = render_one(odrednica)
+    text, _ = render_one(odrednica)
     if not text:
         return 0
     text = REGEX_REPLACE_HTML_ENTITIES.sub('.', text)
