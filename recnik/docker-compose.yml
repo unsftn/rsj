@@ -1,9 +1,13 @@
 services:
   elastic:
     container_name: elastic-recnik
-    image: elasticsearch:8.12.2
+    image: elasticsearch:8.19.4
     restart: always
     mem_limit: 20g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
       - recnik-elastic:/usr/share/elasticsearch/data
     environment:
