@@ -27,13 +27,13 @@ def search_rec(request):
     query = {
         'query': {
             'multi_match': {
-                'type': 'bool_prefix', 
-                'query': remove_punctuation_remain_dash(term).strip(), 
+                'type': 'bool_prefix',
+                'query': remove_punctuation_remain_dash(term).strip(),
                 'fields': ['osnovni_oblik']
             }
-        }, 
-        'from': 0, 
-        'size': 10000, 
+        },
+        'from': 0,
+        'size': 10000,
         '_source': {
             'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
@@ -53,12 +53,12 @@ def search_rec_sufiks(request):
     query = {
         'query': {
             'query_string': {
-                'query': f'{remove_punctuation_remain_dash(term).strip()[::-1]}*', 
+                'query': f'{remove_punctuation_remain_dash(term).strip()[::-1]}*',
                 'fields': ['osnovni_oblik_reversed']
             }
-        }, 
-        'from': 0, 
-        'size': 10000, 
+        },
+        'from': 0,
+        'size': 10000,
         '_source': {
             'includes': ['pk', 'rec', 'vrsta', 'podvrsta']
         }
@@ -218,8 +218,8 @@ def check_dupes(request):
 def wrap_search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix: bool = False, case_sensitive: bool = False):
     try:
         return Response(
-            _search(words, fragment_size, boundary_scanner, prefix, suffix, case_sensitive), 
-            status=HTTP_200_OK, 
+            _search(words, fragment_size, boundary_scanner, prefix, suffix, case_sensitive),
+            status=HTTP_200_OK,
             content_type=JSON)
     except Exception as error:
         log.fatal(error)
@@ -233,7 +233,7 @@ def _search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix
     """
     retval = []
     for word in words:
-        log.info(f'Searching for word: {word}')
+        # log.info(f'Searching for word: {word}')
         res = _search_single_word(word, fragment_size, boundary_scanner, prefix, suffix, case_sensitive)
         retval.extend(res)
     retval = sorted(retval, key=lambda x: x['pub_id'])
@@ -243,8 +243,8 @@ def _search(words, fragment_size, boundary_scanner, prefix: bool = False, suffix
 
 def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: bool = False, suffix: bool = False, case_sensitive: bool = False):
     """
-    Pretrazuje tekstove publikacija za reci date u listi words, sa datom 
-    velicinom fragmenta i vrstom granice ('word', 'sentence'). 
+    Pretrazuje tekstove publikacija za reci date u listi words, sa datom
+    velicinom fragmenta i vrstom granice ('word', 'sentence').
     """
     if prefix:
         term = f'{word}*'
@@ -259,40 +259,88 @@ def _search_single_word(word: str, fragment_size: int, scanner: str, prefix: boo
         query_expression = {'match_phrase': { field: word }}
     else:
         query_expression = {'query_string': { 'query': term, 'fields': [field] }}
+
     query = {
-        'query': query_expression, 
+        'query': query_expression,
         'size': 100000,
-        '_source': {
-            'includes': ['pk', 'skracenica', 'opis', 'potkorpus']
-        }, 
-        'highlight': {
-            'type': 'fvh',
-            'fragment_size': fragment_size, 
-            'boundary_scanner': scanner, 
-            'pre_tags': ['***'], 
-            'post_tags': ['***'],
-            'fields': {
-                field: {}
-            }
-        }
+        '_source': False,
     }
-    retval = []
     resp = get_es_client().search(index=PUB_INDEX, body=query)
-    for hit in resp['hits']['hits']:
-        try:
-            hit['highlight']
-            highlights = [t for t in hit['highlight'][field]]
-        except KeyError:
-            highlights = []
-        for high in highlights:                
-            retval.append({
-                'pub_id': hit['_source']['pk'],
-                'potkorpus': hit['_source'].get('potkorpus', ''),
-                'skracenica': hit['_source']['skracenica'],
-                'opis': hit['_source']['opis'],
-                'highlights': high,
-            })
+    doc_ids = [hit['_id'] for hit in resp['hits']['hits']]
+    batch_size = 100
+    retval = []
+    for i in range(0, len(doc_ids), batch_size):
+        chunk = doc_ids[i:i+batch_size]
+        highlight_response = get_es_client().search(index=PUB_INDEX, body={
+            'query': {
+                'bool': {
+                    'must': query_expression,
+                    'filter': { 'ids': { 'values': chunk } }
+                }
+            },
+            'size': 100000,
+            '_source': {'includes': ['pk', 'skracenica', 'opis', 'potkorpus']},
+            'highlight': {
+                'type': 'fvh',
+                'fragment_size': fragment_size,
+                'boundary_scanner': scanner,
+                'pre_tags': ['***'],
+                'post_tags': ['***'],
+                'fields': {
+                    field: {}
+                }
+            }
+        })
+        for hit in highlight_response['hits']['hits']:
+            try:
+                hit['highlight']
+                highlights = [t for t in hit['highlight'][field]]
+            except KeyError:
+                highlights = []
+            for high in highlights:
+                retval.append({
+                    'pub_id': hit['_source']['pk'],
+                    'potkorpus': hit['_source'].get('potkorpus', ''),
+                    'skracenica': hit['_source']['skracenica'],
+                    'opis': hit['_source']['opis'],
+                    'highlights': high,
+                })
     return retval
+
+    # query = {
+    #     'query': query_expression,
+    #     'size': 100000,
+    #     '_source': {
+    #         'includes': ['pk', 'skracenica', 'opis', 'potkorpus']
+    #     },
+    #     'highlight': {
+    #         'type': 'fvh',
+    #         'fragment_size': fragment_size,
+    #         'boundary_scanner': scanner,
+    #         'pre_tags': ['***'],
+    #         'post_tags': ['***'],
+    #         'fields': {
+    #             field: {}
+    #         }
+    #     }
+    # }
+    # retval = []
+    # resp = get_es_client().search(index=PUB_INDEX, body=query)
+    # for hit in resp['hits']['hits']:
+    #     try:
+    #         hit['highlight']
+    #         highlights = [t for t in hit['highlight'][field]]
+    #     except KeyError:
+    #         highlights = []
+    #     for high in highlights:
+    #         retval.append({
+    #             'pub_id': hit['_source']['pk'],
+    #             'potkorpus': hit['_source'].get('potkorpus', ''),
+    #             'skracenica': hit['_source']['skracenica'],
+    #             'opis': hit['_source']['opis'],
+    #             'highlights': high,
+    #         })
+    # return retval
 
 
 def find_osnovni_oblik(rec) -> list[dict]:
