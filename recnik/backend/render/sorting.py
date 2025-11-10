@@ -1,10 +1,12 @@
-# This sorting implementation is designed for Serbian Cyrillic alphabet ordering
-# with specific case sensitivity rules. It handles transliteration from Latin
-# to Cyrillic, removal of diacritical marks, and punctuation. The sorting is done
-# in two levels: primary by case-insensitive character order, and secondary by case
-# when characters are identical (lowercase before uppercase).
+import logging
+import json
+from django.db.models import F, Value, CharField
+from django.db.models.functions import Concat
 from collections import OrderedDict
 import unicodedata
+
+log = logging.getLogger(__name__)
+
 
 class SerbianCyrillicSort:
     """
@@ -133,7 +135,7 @@ class SerbianCyrillicSort:
         if not text:
             return ''
 
-        return text.replace('.', '')
+        return text.replace('.', '').replace(' ', '').replace('-', '').replace('(', '').replace(')', '')
         # return ''.join(
         #     char for char in text
         #     if not unicodedata.category(char).startswith('P')
@@ -162,15 +164,14 @@ class SerbianCyrillicSort:
         text_without_marks = cls.remove_combining_marks(text)
 
         # Transliterate to Cyrillic
-        cyrillic_text = cls.transliterate_to_cyrillic(text_without_marks)
-
-        cleaned_text = cls.remove_punctuation(cyrillic_text)
+        cleaned_text = cls.remove_punctuation(text_without_marks)
+        cyrillic_text = cls.transliterate_to_cyrillic(cleaned_text)
 
         # Convert to sort key based on alphabet order (case-insensitive)
         primary_key = []
         case_key = []
 
-        for char in cleaned_text:
+        for char in cyrillic_text:
             char_lower = char.lower()
 
             if char_lower in cls.CYRILLIC_BASE_ORDER:
@@ -202,7 +203,7 @@ class SerbianCyrillicSort:
         """
         text_key = cls.get_sort_key(text_value)
         # Handle None values for ordinal - place them at the end
-        ordinal_key = ordinal_value if ordinal_value is not None else float('inf')
+        ordinal_key = ordinal_value if ordinal_value is not None else float('-inf')
 
         # Combine: text key first (primary, secondary), then ordinal (tertiary)
         return text_key + (ordinal_key,)
@@ -212,7 +213,7 @@ class SerbianCyrillicSort:
         """
         Get the first letter of the original text for grouping purposes.
 
-        This method does NOT transliterate - it keeps the original letter.
+        ## This method does NOT transliterate - it keeps the original letter.
         This allows q, w, x, y to have their own groups.
 
         Args:
@@ -226,6 +227,8 @@ class SerbianCyrillicSort:
 
         # Remove combining marks
         text_without_marks = cls.remove_combining_marks(text)
+        text_without_marks = cls.remove_punctuation(text_without_marks)
+        text_without_marks = cls.transliterate_to_cyrillic(text_without_marks)
 
         if not text_without_marks:
             return '#'
@@ -364,15 +367,17 @@ class SerbianCyrillicSort:
                 groups[first_letter] = []
 
             groups[first_letter].append(item)
+        log.info(f'groups["а"]: {json.dumps(groups["а"], indent=2, default=str)}')
 
         # Sort groups by letter order and create OrderedDict
         sorted_groups = OrderedDict()
         sorted_letters = sorted(groups.keys(), key=cls.get_letter_sort_key)
-
+        log.info(f'sorted_letters: {json.dumps(sorted_letters, indent=2, default=str)}')
         for letter in sorted_letters:
             # Get the display version of the letter
             display_letter = cls.get_group_display_letter(letter)
             sorted_groups[display_letter] = groups[letter]
+        log.info(f'sorted_groups["а"]: {json.dumps(sorted_groups["А"], indent=2, default=str)}')
 
         return sorted_groups
 
