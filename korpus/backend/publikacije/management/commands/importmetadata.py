@@ -3,6 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from publikacije.models import *
+from publikacije.cyrlat import lat_to_cyr, cyr_to_lat
 from publikacije.googlesheets import authorize, read_range
 
 log = logging.getLogger(__name__)
@@ -16,7 +17,7 @@ class Command(BaseCommand):
         log.info(f'Autorizacija za Google Sheets...')
         credentials = authorize()
         log.info(f'Citanje iz Google Sheets...')
-        results = read_range(credentials, settings.KORPUS_SPREADSHEET_ID, 'Korpus!A3:L5000')
+        results = read_range(credentials, settings.KORPUS_SPREADSHEET_ID, 'Korpus!A3:N5000')
         log.info('Azuriranje baze...')
         update_metadata(results)
         end_time = datetime.now()
@@ -29,9 +30,9 @@ def update_metadata(results: list) -> None:
         # preskoci ako nema naslova
         if not row[1]:
             continue
-        if len(row) < 12:
-            row.extend([''] * (12 - len(row)))
-        pub = find_pub(row[1], row[4])
+        if len(row) < 14:
+            row.extend([''] * (14 - len(row)))
+        pub = find_pub(row[1], row[4], bool(row[13]))
         if not pub:
             pub = insert_pub(row)
         else:
@@ -42,36 +43,47 @@ def update_metadata(results: list) -> None:
     log.info(f'Ukupno uneto {count} publikacija.')
 
 
-def find_pub(title: str, year: str) -> Publikacija:
+def find_pub(title: str, year: str, cirilica: bool) -> Publikacija | None:
     year = clean_year(year)
-    try:
-        return Publikacija.objects.get(naslov=title, godina=year)
-    except Publikacija.DoesNotExist:
-        return None
+    naslov1 = title.strip()
+    naslov2 = lat_to_cyr(naslov1) if cirilica else cyr_to_lat(naslov1)
+    pub1 = Publikacija.objects.filter(naslov=title, godina=year).first()
+    if pub1:
+        return pub1
+    pub2 = Publikacija.objects.filter(naslov=naslov2, godina=year).first()
+    if pub2:
+        return pub2
+    return None
 
 
 def update_pub(pub: Publikacija, row: list) -> None:
     # reset_autor(pub, row[0])
-    pub.skracenica = row[2].strip()
+    cirilica = bool(row[13])
+    naslov = lat_to_cyr(row[1].strip()) if cirilica else cyr_to_lat(row[1].strip())
+    pub.naslov = naslov
+    pub.skracenica = lat_to_cyr(row[2].strip())
     pub.prevodilac = row[3].strip()
     pub.prvo_izdanje = clean_year(row[5])
     pub.napomena = row[10].strip()
     pub.zanr = row[11].strip()
+    reset_autor(pub, row[0], cirilica)
     pub.save()
-    
+
 
 def insert_pub(row: list) -> Publikacija:
-    godina = clean_year(row[4])    
+    godina = clean_year(row[4])
+    cirilica = bool(row[13])
+    naslov = lat_to_cyr(row[1].strip()) if cirilica else cyr_to_lat(row[1].strip())
     pub = Publikacija.objects.create(
-        naslov=row[1].strip(), 
+        naslov=naslov,
         godina=godina,
         prevodilac=row[3].strip(),
         prvo_izdanje=clean_year(row[5]),
         napomena=row[10].strip(),
         zanr=row[11].strip(),
-        user_id=1, 
-        skracenica=row[2].strip())
-    reset_autor(pub, row[0])
+        user_id=1,
+        skracenica=lat_to_cyr(row[2].strip()))
+    reset_autor(pub, row[0], cirilica)
     return pub
 
 
@@ -82,7 +94,7 @@ def clean_year(year: str) -> str:
     return year
 
 
-def reset_autor(pub: Publikacija, autor: str) -> None:
+def reset_autor(pub: Publikacija, autor: str, cirilica: bool) -> None:
     pub.autor_set.all().delete()
     autor = autor.strip()
     if not autor:
@@ -91,7 +103,7 @@ def reset_autor(pub: Publikacija, autor: str) -> None:
         autor = autor[:-1]
     if autor.endswith('i dr'):
         autor = autor[:-4]
-    
+
     ime_prezime = autor.split()
     if len(ime_prezime) == 1:
         prezime = ''
@@ -105,4 +117,7 @@ def reset_autor(pub: Publikacija, autor: str) -> None:
     else:
         prezime = ime_prezime[0] + ' ' + ime_prezime[1]
         ime = ime_prezime[2] + ' ' + ime_prezime[3]
+    if cirilica:
+        ime = lat_to_cyr(ime)
+        prezime = lat_to_cyr(prezime)
     Autor.objects.create(publikacija=pub, redni_broj=1, ime=ime, prezime=prezime)
