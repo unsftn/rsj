@@ -336,7 +336,7 @@ def render_nastavci_varijante(odrednica):
                 ima_razlicit_rod = True
     if ima_razlicit_rod:
         html += f' <small>{ROD[odrednica.rod]}</small> '
-    if odrednica.prezent:
+    if odrednica.vrsta == 1 and odrednica.prezent:
         html += f', {odrednica.prezent}'
         if odrednica.opciono_se:
             html += ' (се)'
