@@ -3,17 +3,18 @@ services:
     container_name: elastic-recnik
     image: elasticsearch:8.19.4
     restart: always
-    mem_limit: 20g
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+        reservations:
+          memory: 4g
     volumes:
       - recnik-elastic:/usr/share/elasticsearch/data
     environment:
       discovery.type: single-node
       xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms12g -Xmx12g"
+      ES_JAVA_OPTS: "-Xms4g -Xmx4g"
     networks:
       recnik:
     healthcheck:
