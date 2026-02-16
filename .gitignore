@@ -167,3 +167,22 @@ media/
 gsheets-credentials.json
 gsheets-token.json
 **/private/secrets
+
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+search_index/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
