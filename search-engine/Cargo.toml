@@ -1,0 +1,47 @@
+[workspace]
+members = ["search-engine", "search-cli", "search-api"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+license = "MIT"
+
+[workspace.dependencies]
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+bincode = "1.3"
+
+# Web framework
+axum = "0.7"
+tokio = { version = "1.35", features = ["full"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Database
+mysql = "25.0"
+
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+
+# Regex and text processing
+regex = "1.10"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# System info
+sysinfo = "0.30"
+
+# Compression
+flate2 = "1.0"

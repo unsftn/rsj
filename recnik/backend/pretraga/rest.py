@@ -138,22 +138,6 @@ def load_opis_from_korpus(izvor_id):
     """
     if not izvor_id:
         return None
-    # stari nacin - citanje iz Elasticsearch indeksa
-    # query = {
-    #     'query': {'term': {'pk': izvor_id}},
-    #     'size': 1,
-    #     'from': 0,
-    #     '_source': {'includes': ['pk', 'skracenica', 'opis']}
-    # }
-    # retval = []
-    # resp = get_korpus_client().search(index=NASLOV_INDEX, body=query)
-    # for hit in resp['hits']['hits']:
-    #     retval.append({
-    #         'pub_id': hit['_source']['pk'],
-    #         'skracenica': hit['_source']['skracenica'],
-    #         'opis': hit['_source']['opis'],
-    #     })
-    # return retval[0] if len(retval) > 0 else None
     resp = requests.get(f'{settings.KORPUS_URL}/api/publikacije/opis/{izvor_id}/')
     if resp.status_code == 200:
         return resp.json()

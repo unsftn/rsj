@@ -1,0 +1,25 @@
+services:
+  search-api:
+    build: .
+    container_name: search-engine
+    volumes:
+      - ./search_index:/app/search_index
+      - ./backups:/app/backups
+    environment:
+      - INDEX_PATH=/app/search_index/search_index.bin
+      - HOST=0.0.0.0
+      - PORT=9090
+      - RUST_LOG=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - recnik
+
+networks:
+  recnik:
+    external: true

@@ -36,6 +36,7 @@ GSHEETS_TOKEN = read_or_get('/private/secrets', 'GSHEETS_TOKEN', '/app/gsheets-t
 GSHEETS_CREDENTIALS = read_or_get('/private/secrets', 'GSHEETS_CREDENTIALS', '/app/gsheets-credentials.json')
 KORPUS_SPREADSHEET_ID = read_or_get('/private/secrets', 'KORPUS_SPREADSHEET_ID', '1tZkiNjtwA6smaM8xnYrCEK1UszibU4rUXEDS-jw4i6o')
 KORPUS_API_TOKEN = read_or_get('/private/secrets', 'KORPUS_API_TOKEN', 'korpus')
+SEARCH_ENGINE_URL = read_or_get('/private/secrets', 'SEARCH_ENGINE_URL', 'http://search-engine:9090')
 
 # File upload settings - 10 MB limit
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB

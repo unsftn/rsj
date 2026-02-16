@@ -1,0 +1,20 @@
+[package]
+name = "search-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "search-cli"
+path = "src/main.rs"
+
+[dependencies]
+search-engine = { path = "../search-engine" }
+clap.workspace = true
+anyhow.workspace = true
+mysql.workspace = true
+serde_json.workspace = true
+
+[dependencies.chrono]
+workspace = true
