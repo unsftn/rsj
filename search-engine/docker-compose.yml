@@ -1,10 +1,12 @@
 services:
   search-api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: search-engine
+    image: rsj/search-engine
     volumes:
-      - ./search_index:/app/search_index
-      - ./backups:/app/backups
+      - search-index:/app/search_index
     environment:
       - INDEX_PATH=/app/search_index/search_index.bin
       - HOST=0.0.0.0
@@ -23,3 +25,12 @@ services:
 networks:
   recnik:
     external: true
+
+volumes:
+  search-index:
+    name: search-index
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './search_index'

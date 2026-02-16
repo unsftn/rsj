@@ -1,27 +1,27 @@
 services:
-  elastic:
-    container_name: elastic-korpus
-    image: elasticsearch:8.19.4
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 24g
-        reservations:
-          memory: 12g
-    volumes:
-      - korpus-elastic:/usr/share/elasticsearch/data
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms12g -Xmx12g"
-    networks:
-      recnik:
-    healthcheck:
-      test: curl -s http://elastic-korpus:9200 >/dev/null || exit 1
-      interval: 5s
-      timeout: 60s
-      retries: 10
+  # elastic:
+  #   container_name: elastic-korpus
+  #   image: elasticsearch:8.19.4
+  #   restart: always
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 24g
+  #       reservations:
+  #         memory: 12g
+  #   volumes:
+  #     - korpus-elastic:/usr/share/elasticsearch/data
+  #   environment:
+  #     discovery.type: single-node
+  #     xpack.security.enabled: false
+  #     ES_JAVA_OPTS: "-Xms12g -Xmx12g"
+  #   networks:
+  #     recnik:
+  #   healthcheck:
+  #     test: curl -s http://elastic-korpus:9200 >/dev/null || exit 1
+  #     interval: 5s
+  #     timeout: 60s
+  #     retries: 10
   mysql:
     container_name: korpus-mysql
     image: mariadb:10.10
@@ -52,8 +52,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      elastic:
-        condition: service_healthy
+      # elastic:
+      #   condition: service_healthy
     volumes:
       - korpus-private:/private
       - korpus-log:/app/log
@@ -72,8 +72,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      elastic:
-        condition: service_healthy
+      # elastic:
+      #   condition: service_healthy
       korpus:
         condition: service_started
     volumes:
@@ -91,6 +91,8 @@ services:
       context: .
       dockerfile: Dockerfile-nginx
     restart: always
+    ports:
+      - "9898:80"
     depends_on:
       - korpus
     volumes:
@@ -145,13 +147,13 @@ volumes:
       type: 'none'
       o: 'bind'
       device: './private'
-  korpus-elastic:
-    name: korpus-elastic
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: './elastic'
+  # korpus-elastic:
+  #   name: korpus-elastic
+  #   driver: local
+  #   driver_opts:
+  #     type: 'none'
+  #     o: 'bind'
+  #     device: './elastic'
   korpus-export:
     name: korpus-export
     driver: local

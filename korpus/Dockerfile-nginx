@@ -2,8 +2,8 @@ FROM node:20-alpine AS angular
 RUN npm update -g
 RUN mkdir /app
 WORKDIR /app
-COPY frontend/package.json /app/
-RUN npm install
+COPY frontend/package.json frontend/package-lock.json /app/
+RUN npm ci
 COPY frontend /app
 RUN npm run build -- --output-path=/app/frontend/dist/
 
