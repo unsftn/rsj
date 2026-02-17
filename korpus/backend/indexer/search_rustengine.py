@@ -1,4 +1,5 @@
 import logging
+import time
 import requests as http_requests
 from django.conf import settings
 from rest_framework.decorators import api_view
@@ -170,6 +171,7 @@ def search_pub(request):
 
     word_id = int(request.GET.get('w'))
     word_type = int(request.GET.get('t'))
+    t0 = time.perf_counter()
     if word_type == 0:
         oblici = Imenica.objects.get(pk=word_id).oblici()
     elif word_type == 1:
@@ -202,7 +204,10 @@ def search_pub(request):
         retval = _rust_results_to_pub_hits(data)
         retval = sorted(retval, key=lambda x: x['pub_id'])
         retval = [dict(item, order_nr=index+1) for index, item in enumerate(retval)]
-        return Response(retval, status=HTTP_200_OK, content_type=JSON)
+        elapsed_ms = (time.perf_counter() - t0) * 1000
+        resp = Response(retval, status=HTTP_200_OK, content_type=JSON)
+        resp['Server-Timing'] = f'search;dur={elapsed_ms:.2f};desc="search_pub"'
+        return resp
     except Exception as error:
         log.error(f'Rust engine search error: {error}')
         return server_error(str(error))
