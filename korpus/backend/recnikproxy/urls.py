@@ -5,7 +5,8 @@ from .rest import *
 app_name = 'recnikproxy'
 
 urlpatterns = [
-    path('search/', search),
+    path('search/', search2),
+    # path('search2/', search2),
     path('read/<int:odrednica_id>/', read),
     path('save/', save),
 ]
