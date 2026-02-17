@@ -38,6 +38,7 @@ def search_rec(request):
 
     term = request.GET.get('q')
     prefix = remove_punctuation_remain_dash(term).strip()
+    prefix = lat_to_cyr(prefix)
     try:
         url = f'{settings.SEARCH_ENGINE_URL}/morphology/prefix/{prefix}'
         resp = http_requests.get(url, params={'limit': 10000})
@@ -72,6 +73,7 @@ def search_rec_sufiks(request):
 
     term = request.GET.get('q')
     suffix = remove_punctuation_remain_dash(term).strip()
+    suffix = lat_to_cyr(suffix)
     try:
         url = f'{settings.SEARCH_ENGINE_URL}/morphology/suffix/{suffix}'
         resp = http_requests.get(url, params={'limit': 10000})

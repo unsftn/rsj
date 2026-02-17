@@ -437,38 +437,16 @@ async fn multi_word_search(
 
     let engine = state.engine.read().unwrap();
 
-    // Use a HashMap to collect unique documents and their fragments
-    let mut doc_map: HashMap<i32, (DocumentMetadata, Vec<String>)> = HashMap::new();
+    let search_results = engine
+        .search_words(&req.words, req.fragment_size, &req.mode)
+        .map_err(|e| (StatusCode::BAD_REQUEST, e.to_string()))?;
 
-    // Search for each word separately
-    for word in &req.words {
-        let word_results = engine
-            .search_phrase(word, req.fragment_size, &req.mode)
-            .map_err(|e| (StatusCode::BAD_REQUEST, e.to_string()))?;
-
-        // Merge results into the doc_map
-        for result in word_results {
-            doc_map
-                .entry(result.doc_id)
-                .and_modify(|(_, fragments)| {
-                    // Add new fragments, avoiding exact duplicates
-                    for fragment in &result.fragments {
-                        if !fragments.contains(fragment) {
-                            fragments.push(fragment.clone());
-                        }
-                    }
-                })
-                .or_insert((result.metadata.clone(), result.fragments));
-        }
-    }
-
-    // Convert HashMap back to Vec of SearchResultResponse
-    let mut results: Vec<SearchResultResponse> = doc_map
+    let mut results: Vec<SearchResultResponse> = search_results
         .into_iter()
-        .map(|(doc_id, (metadata, fragments))| SearchResultResponse {
-            doc_id,
-            metadata,
-            fragments,
+        .map(|r| SearchResultResponse {
+            doc_id: r.doc_id,
+            metadata: r.metadata,
+            fragments: r.fragments,
         })
         .collect();
 

@@ -24,6 +24,15 @@ impl Tokenizer {
             .map(|m| (m.as_str().to_lowercase(), m.start()))
             .collect()
     }
+
+    /// Returns (byte_start, byte_len) for each token — compact offset data
+    /// suitable for caching without storing token strings.
+    pub fn tokenize_offsets(&self, text: &str) -> Vec<(u32, u16)> {
+        self.word_pattern
+            .find_iter(text)
+            .map(|m| (m.start() as u32, m.as_str().len() as u16))
+            .collect()
+    }
 }
 
 impl Default for Tokenizer {

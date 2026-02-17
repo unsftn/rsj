@@ -32,6 +32,7 @@ struct SerializableEngine {
     reverse_trie: TrieNode,
     documents: HashMap<i32, String>,
     doc_metadata: HashMap<i32, DocumentMetadata>,
+    token_offsets: HashMap<i32, Vec<(u32, u16)>>,
 }
 
 pub struct SearchEngine {
@@ -39,6 +40,7 @@ pub struct SearchEngine {
     reverse_trie: TrieNode,
     documents: HashMap<i32, String>,
     doc_metadata: HashMap<i32, DocumentMetadata>,
+    token_offsets: HashMap<i32, Vec<(u32, u16)>>,
     tokenizer: Tokenizer,
 }
 
@@ -49,22 +51,24 @@ impl SearchEngine {
             reverse_trie: TrieNode::new(),
             documents: HashMap::new(),
             doc_metadata: HashMap::new(),
+            token_offsets: HashMap::new(),
             tokenizer: Tokenizer::new(),
         }
     }
 
     pub fn add_document(&mut self, doc_id: i32, text: String, metadata: DocumentMetadata) {
         let tokens = self.tokenizer.tokenize(&text);
-        
+
         for (position, token) in tokens.iter().enumerate() {
             // Insert into forward trie (for prefix/exact search)
             self.forward_trie.insert_word(token, doc_id, position as i32);
-            
+
             // Insert into reverse trie (for suffix search)
             let reversed: String = token.chars().rev().collect();
             self.reverse_trie.insert_word(&reversed, doc_id, position as i32);
         }
-        
+
+        self.token_offsets.insert(doc_id, self.tokenizer.tokenize_offsets(&text));
         self.documents.insert(doc_id, text);
         self.doc_metadata.insert(doc_id, metadata);
     }
@@ -256,69 +260,70 @@ impl SearchEngine {
             Some(t) => t,
             None => return Vec::new(),
         };
-        
-        let token_positions = self.tokenizer.tokenize_with_positions(text);
-        let tokens: Vec<String> = token_positions.iter().map(|(t, _)| t.clone()).collect();
-        
-        // Map token indices to character positions
-        let token_to_char: HashMap<usize, usize> = token_positions
-            .iter()
-            .enumerate()
-            .map(|(idx, (_, pos))| (idx, *pos))
-            .collect();
-        
+
+        // Use pre-computed offsets if available, else compute on the fly
+        let computed;
+        let offsets: &[(u32, u16)] = match self.token_offsets.get(&doc_id) {
+            Some(cached) => cached,
+            None => {
+                computed = self.tokenizer.tokenize_offsets(text);
+                &computed
+            }
+        };
+        let num_tokens = offsets.len();
+
         let mut ranges: Vec<(usize, usize, Vec<(usize, usize)>)> = Vec::new();
-        
+
         for &match_pos in match_positions {
             let match_pos = match_pos as usize;
             let context_before = (fragment_size.saturating_sub(phrase_length)) / 2;
             let context_after = fragment_size.saturating_sub(phrase_length).saturating_sub(context_before);
-            
+
             let start_pos = match_pos.saturating_sub(context_before);
-            let end_pos = (match_pos + phrase_length + context_after).min(tokens.len());
-            
-            let match_start_char = *token_to_char.get(&match_pos).unwrap_or(&0);
+            let end_pos = (match_pos + phrase_length + context_after).min(num_tokens);
+
+            let match_start_char = offsets.get(match_pos).map_or(0, |o| o.0 as usize);
             let match_end_token = match_pos + phrase_length - 1;
-            let mut match_end_char = *token_to_char.get(&match_end_token).unwrap_or(&text.len());
-            
-            if match_end_token < tokens.len() {
-                match_end_char += tokens[match_end_token].len();
+            let mut match_end_char = offsets.get(match_end_token).map_or(text.len(), |o| o.0 as usize);
+
+            if match_end_token < num_tokens {
+                match_end_char += offsets[match_end_token].1 as usize;
             }
-            
+
             ranges.push((start_pos, end_pos, vec![(match_start_char, match_end_char)]));
         }
-        
+
         let merged_ranges = self.merge_overlapping_ranges(ranges);
-        
+
         let mut fragments = Vec::new();
-        
+
         for (start_pos, end_pos, match_char_spans) in merged_ranges {
-            let start_char = *token_to_char.get(&start_pos).unwrap_or(&0);
-            let mut end_char = *token_to_char.get(&(end_pos.saturating_sub(1))).unwrap_or(&text.len());
-            
-            if end_pos > 0 && end_pos - 1 < tokens.len() {
-                end_char += tokens[end_pos - 1].len();
+            let start_char = offsets.get(start_pos).map_or(0, |o| o.0 as usize);
+            let mut end_char = offsets.get(end_pos.saturating_sub(1)).map_or(text.len(), |o| o.0 as usize);
+
+            if end_pos > 0 && end_pos - 1 < num_tokens {
+                end_char += offsets[end_pos - 1].1 as usize;
             }
-            
+
             let mut fragment_text = text[start_char..end_char.min(text.len())].trim().to_string();
-            
+
             // Insert highlight markers
             let mut relative_matches: Vec<(usize, usize)> = match_char_spans
                 .iter()
                 .map(|&(s, e)| (s.saturating_sub(start_char), e.saturating_sub(start_char)))
                 .collect();
             relative_matches.sort_by_key(|&(s, _)| s);
-            
+
             let mut offset = 0;
             for (match_start, match_end) in relative_matches {
                 let adj_start = match_start + offset;
                 let adj_end = match_end + offset;
-                
+
                 fragment_text.insert_str(adj_start, "***");
                 fragment_text.insert_str(adj_end + 3, "***");
                 offset += 6;
             }
-            
+
             // Add ellipsis
             if start_char > 0 {
                 fragment_text = format!("... {}", fragment_text);
@@ -326,10 +331,10 @@ impl SearchEngine {
             if end_char < text.len() {
                 fragment_text = format!("{} ...", fragment_text);
             }
-            
+
             fragments.push(fragment_text);
         }
-        
+
         fragments
     }
 
@@ -343,30 +348,32 @@ impl SearchEngine {
             Some(t) => t,
             None => return Vec::new(),
         };
-        
-        let token_positions = self.tokenizer.tokenize_with_positions(text);
-        let tokens: Vec<String> = token_positions.iter().map(|(t, _)| t.clone()).collect();
-        
-        let token_to_char: HashMap<usize, usize> = token_positions
-            .iter()
-            .enumerate()
-            .map(|(idx, (_, pos))| (idx, *pos))
-            .collect();
-        
+
+        // Use pre-computed offsets if available, else compute on the fly
+        let computed;
+        let offsets: &[(u32, u16)] = match self.token_offsets.get(&doc_id) {
+            Some(cached) => cached,
+            None => {
+                computed = self.tokenizer.tokenize_offsets(text);
+                &computed
+            }
+        };
+        let num_tokens = offsets.len();
+
         let sentences = self.get_sentences(text);
-        
+
         let mut sentence_ranges: Vec<(usize, usize, Vec<(usize, usize)>)> = Vec::new();
-        
+
         for &match_pos in match_positions {
             let match_pos = match_pos as usize;
-            let match_start_char = *token_to_char.get(&match_pos).unwrap_or(&0);
+            let match_start_char = offsets.get(match_pos).map_or(0, |o| o.0 as usize);
             let match_end_token = match_pos + phrase_length - 1;
-            let mut match_end_char = *token_to_char.get(&match_end_token).unwrap_or(&text.len());
-            
-            if match_end_token < tokens.len() {
-                match_end_char += tokens[match_end_token].len();
+            let mut match_end_char = offsets.get(match_end_token).map_or(text.len(), |o| o.0 as usize);
+
+            if match_end_token < num_tokens {
+                match_end_char += offsets[match_end_token].1 as usize;
             }
-            
+
             // Find containing sentence
             for (sent_idx, &(sent_start, sent_end)) in sentences.iter().enumerate() {
                 if sent_start <= match_start_char && match_start_char < sent_end {
@@ -458,6 +465,56 @@ impl SearchEngine {
         merged
     }
 
+    pub fn search_words(
+        &self,
+        words: &[String],
+        fragment_size: usize,
+        mode: &str,
+    ) -> Result<Vec<SearchResult>> {
+        if words.is_empty() {
+            return Ok(Vec::new());
+        }
+
+        // Collect all (doc_id, position) pairs for all words at once
+        let mut doc_positions: HashMap<i32, Vec<i32>> = HashMap::new();
+
+        for word in words {
+            let positions = self.search_word(word);
+            for (doc_id, pos) in positions {
+                doc_positions.entry(doc_id).or_default().push(pos);
+            }
+        }
+
+        // Generate fragments once per document (single tokenization pass)
+        let mut results = Vec::new();
+
+        for (doc_id, mut positions) in doc_positions {
+            positions.sort();
+            positions.dedup();
+
+            let metadata = self
+                .doc_metadata
+                .get(&doc_id)
+                .cloned()
+                .unwrap_or_default();
+
+            let fragments = match mode {
+                "sentence" => self.generate_sentence_fragments(doc_id, &positions, 1),
+                _ => self.generate_word_fragments(doc_id, &positions, 1, fragment_size),
+            };
+
+            if !fragments.is_empty() {
+                results.push(SearchResult {
+                    doc_id,
+                    metadata,
+                    fragments,
+                });
+            }
+        }
+
+        Ok(results)
+    }
+
     pub fn get_document(&self, doc_id: i32) -> Option<&String> {
         self.documents.get(&doc_id)
     }
@@ -488,6 +545,7 @@ impl SearchEngine {
             reverse_trie: self.reverse_trie.clone(),
             documents: self.documents.clone(),
             doc_metadata: self.doc_metadata.clone(),
+            token_offsets: self.token_offsets.clone(),
         };
         
         bincode::serialize_into(writer, &serializable)?;
@@ -505,6 +563,7 @@ impl SearchEngine {
             reverse_trie: serializable.reverse_trie,
             documents: serializable.documents,
             doc_metadata: serializable.doc_metadata,
+            token_offsets: serializable.token_offsets,
             tokenizer: Tokenizer::new(),
         })
     }
