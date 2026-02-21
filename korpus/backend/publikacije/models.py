@@ -54,6 +54,7 @@ class Publikacija(models.Model):
     prvo_izdanje = models.CharField('прво издање', max_length=10, blank=True, null=True)
     napomena = models.CharField('напомена', max_length=1000, blank=True, null=True)
     zanr = models.CharField('жанр', max_length=100, blank=True, null=True)
+    tom = models.CharField('том', max_length=100, blank=True, null=True)
 
     def opis(self, html=False):
         if self.autor_set.count() > 0:
@@ -70,7 +71,7 @@ class Publikacija(models.Model):
 
     def potkorpus_naziv(self):
         return self.potkorpus.naziv if self.potkorpus else ''
-    
+
     def __str__(self):
         return self.naslov
 
@@ -176,7 +177,7 @@ class ParametarFiltera(models.Model):
 class PoslednjiRedniBroj(models.Model):
     prefiks_skracenice = models.CharField('префикс скраћенице', max_length=20)
     redni_broj = models.IntegerField('редни број', default=0)
-    
+
     def __str__(self):
         return f'{str(self.prefiks_skracenice)}.{self.redni_broj}'
 

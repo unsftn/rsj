@@ -1,4 +1,6 @@
 import unicodedata
+
+from .cyrlat import is_cyrillic
 from .models import FajlPublikacije
 
 
@@ -21,7 +23,7 @@ def get_autori(publikacija):
     for aut in publikacija.autor_set.all().order_by('redni_broj'):
         if aut.prezime:
             if aut.ime:
-                autori.append(f'{aut.prezime}, {aut.ime[0]}.')
+                autori.append(f'{aut.prezime}, {aut.ime}')
             else:
                 autori.append(f'{aut.prezime}')
         else:
@@ -38,13 +40,18 @@ def get_autori(publikacija):
 def get_opis_monografske(publikacija):
     autori = get_autori(publikacija)
     opis = autori + (' ' if autori else '') + f'<i>{publikacija.naslov}</i>'
+    if publikacija.tom:
+        opis += f', {publikacija.tom}'
+    prev = 'прев' if is_cyrillic(publikacija.naslov) else 'prev'
+    if publikacija.prevodilac:
+        opis += f', {prev}. {publikacija.prevodilac}'
     if len(opis) > 0 and opis[-1] != '.':
         opis += '.'
     if publikacija.izdavac:
         if len(opis) > 0:
             opis += f' {publikacija.izdavac}'
         if publikacija.godina:
-            opis += f' {publikacija.godina}'
+            opis += f', {publikacija.godina}'
     elif publikacija.godina:
         if len(opis) > 0:
             opis += f' {publikacija.godina}'
@@ -58,7 +65,7 @@ def get_opis_monografske(publikacija):
 def get_opis_periodika(publikacija):
     if publikacija.izdavac:
         if publikacija.godina:
-            return f'<i>{publikacija.izdavac}</i> {publikacija.godina}.'
+            return f'<i>{publikacija.izdavac}</i>, {publikacija.godina}.'
         else:
             return f'{publikacija.izdavac}.'
     else:
@@ -76,11 +83,11 @@ def get_opis_publikacije(publikacija):
         opis = get_opis_periodika(publikacija)
     elif publikacija.potkorpus.id == 3:
         # razgovorni
-        opis = get_opis_periodika(publikacija) + ' [YT]'
+        opis = get_opis_periodika(publikacija) + ' (YouTube)'
     elif publikacija.potkorpus.id == 4:
         # naucni
         if publikacija.izdavac == 'Српска енциклопедија':
-            opis = f'<i>{publikacija.izdavac}</i>.'
+            opis = f'<i>Српска енциклопедија</i>. Нови Сад: Матица српска, 2024.'
         else:
             opis = get_opis_monografske(publikacija)
     elif publikacija.potkorpus.id == 5:

@@ -36,7 +36,7 @@ def cyr_to_lat(text):
     for c, l in zip(CYRILLIC_CHARS, LATIN_CHARS):
         text = text.replace(c, l)
     text = text.replace('\u0409', 'LJ').replace('\u040A', 'NJ').replace('\u040F', 'D\u017D') \
-        .replace('\u0459', 'lj').replace('\u045A', 'nj').replace('\u045F', 'd\u017E') 
+        .replace('\u0459', 'lj').replace('\u045A', 'nj').replace('\u045F', 'd\u017E')
     return text
 
 
@@ -49,3 +49,9 @@ def lat_to_cyr(text):
     for c, l in zip(CYRILLIC_CHARS, LATIN_CHARS):
         text = text.replace(l, c)
     return text
+
+
+def is_cyrillic(text):
+    latin = cyr_to_lat(text)
+    return latin != text
+

@@ -187,6 +187,21 @@ def process_tags(tekst, in_italic=False):
     return retval
 
 
+def format_skracenice(skracenica):
+    if skracenica[-1] == '.':
+        skracenica = skracenica[:-1]
+    # ako se zavrsava arapskom cifrom, ne dodaj tacku
+    if skracenica[-1] in '1234567890':
+        return skracenica
+    if len(skracenica.split()) > 1:
+        poslednji = skracenica.split()[-1]
+        if re.fullmatch(r'[IVXLCDM]+', poslednji, re.IGNORECASE):
+            return skracenica
+        elif len(poslednji) == 1:
+            return skracenica + '.'
+    return skracenica
+
+
 def render_konkordanse(konkordanse):
     retval = ''
     for k in konkordanse:
@@ -197,7 +212,7 @@ def render_konkordanse(konkordanse):
                 skracenica = izvor.get('skracenica')
                 if not skracenica or skracenica == '-':
                     skracenica = f'{izvor.get("pub_id")}'
-                retval += f'[{tacka(skracenica)}] '
+                retval += f'[{format_skracenice(skracenica)}] '
     return retval
 
 
