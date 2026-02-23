@@ -243,7 +243,7 @@ export class TabFormComponent implements OnInit {
               this.statuses = data1;
               if (!this.selectedStatus)
                 this.selectedStatus = this.statuses[0];
-            }, 
+            },
             error: error => {
               console.log(error);
             }
@@ -441,7 +441,7 @@ export class TabFormComponent implements OnInit {
                 `<p><b>${errorMessage}</b></p>`);
             } else {
               this.message = this.domSanitizer.bypassSecurityTrustHtml(
-                `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);  
+                `<p>Грешка приликом снимања одреднице:<br/> <b>${errorMessage}</b></p>`);
             }
             this.showWaitDialog = false;
             this.showInfoDialog = true;
@@ -762,7 +762,7 @@ export class TabFormComponent implements OnInit {
               };
             }),
             sinonimi: pz.synonyms.map((s, i) => ({redni_broj: i + 1, ident2: s.ident, vrsta2: s.vrsta, tekst: clean(s.tekst)})),
-            antonimi: pz.antonyms.map((a, i) => ({redni_broj: i + 1, ident2: a.ident, vrsta2: a.vrsta, tekst: clean(a.tekst)})),    
+            antonimi: pz.antonyms.map((a, i) => ({redni_broj: i + 1, ident2: a.ident, vrsta2: a.vrsta, tekst: clean(a.tekst)})),
           };
         }),
         izrazi_fraze: z.expressions.map((value, idx) => {
@@ -890,7 +890,7 @@ export class TabFormComponent implements OnInit {
     } else
       this.redaktor = null;
     if (value.urednik) {
-      this.urednik = value.urednik; // this.userService.getUser(value.urednik); 
+      this.urednik = value.urednik; // this.userService.getUser(value.urednik);
     } else
       this.urednik = null;
   }
