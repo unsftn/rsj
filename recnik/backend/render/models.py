@@ -14,6 +14,7 @@ FILE_TYPES = [
 class TipRenderovanogDokumenta(models.Model):
     naziv = models.CharField('назив', max_length=200)
     statusi = models.ManyToManyField(StatusOdrednice)
+    file_prefix = models.CharField('префикс фајла', max_length=40, blank=True, null=True)
 
     def __str__(self):
         return self.naziv

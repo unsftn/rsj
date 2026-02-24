@@ -3,7 +3,8 @@
     "model": "render.TipRenderovanogDokumenta",
     "pk": 1,
     "fields": {
-      "naziv": "Слово"
+      "naziv": "Слово",
+      "file_prefix": "slovo"
     }
   },
   {
@@ -11,7 +12,8 @@
     "pk": 2,
     "fields": {
       "naziv": "Комплетан речник",
-      "statusi": [1, 2, 3, 4, 5]
+      "statusi": [1, 2, 3, 4, 5],
+      "file_prefix": "sve-odrednice"
     }
   },
   {
@@ -19,7 +21,8 @@
     "pk": 3,
     "fields": {
       "naziv": "Чека на обраду",
-      "statusi": [1]
+      "statusi": [1],
+      "file_prefix": "cekanaobradu"
     }
   },
   {
@@ -27,7 +30,8 @@
     "pk": 4,
     "fields": {
       "naziv": "РСЈ",
-      "statusi": [2]
+      "statusi": [2],
+      "file_prefix": "rssj"
     }
   },
   {
@@ -35,7 +39,8 @@
     "pk": 5,
     "fields": {
       "naziv": "Не улази у РСЈ",
-      "statusi": [3]
+      "statusi": [3],
+      "file_prefix": "nije-rssj"
     }
   },
   {
@@ -43,7 +48,8 @@
     "pk": 6,
     "fields": {
       "naziv": "Нејасни примери",
-      "statusi": [4]
+      "statusi": [4],
+      "file_prefix": "nejasni-primeri"
     }
   }
 ]
