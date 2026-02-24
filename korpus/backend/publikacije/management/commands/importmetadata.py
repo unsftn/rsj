@@ -17,7 +17,7 @@ class Command(BaseCommand):
         log.info(f'Autorizacija za Google Sheets...')
         credentials = authorize()
         log.info(f'Citanje iz Google Sheets...')
-        results = read_range(credentials, settings.KORPUS_SPREADSHEET_ID, 'Korpus!A3:N5000')
+        results = read_range(credentials, settings.KORPUS_SPREADSHEET_ID, 'Korpus!A3:Q5000')
         log.info('Azuriranje baze...')
         update_metadata(results)
         end_time = datetime.now()
@@ -30,8 +30,8 @@ def update_metadata(results: list) -> None:
         # preskoci ako nema naslova
         if not row[1]:
             continue
-        if len(row) < 14:
-            row.extend([''] * (14 - len(row)))
+        if len(row) < 17:
+            row.extend([''] * (17 - len(row)))
         pub = find_pub(row[1], row[4], bool(row[13]))
         if not pub:
             pub = insert_pub(row)
@@ -60,12 +60,15 @@ def update_pub(pub: Publikacija, row: list) -> None:
     # reset_autor(pub, row[0])
     cirilica = bool(row[13])
     naslov = lat_to_cyr(row[1].strip()) if cirilica else cyr_to_lat(row[1].strip())
+    prevodilac = lat_to_cyr(row[3].strip()) if cirilica else cyr_to_lat(row[3].strip())
     pub.naslov = naslov
     pub.skracenica = lat_to_cyr(row[2].strip())
-    pub.prevodilac = row[3].strip()
+    pub.prevodilac = prevodilac
     pub.prvo_izdanje = clean_year(row[5])
     pub.napomena = row[10].strip()
     pub.zanr = row[11].strip()
+    pub.tom = row[15].strip()
+    pub.izdavac = row[16].strip()
     reset_autor(pub, row[0], cirilica)
     pub.save()
 
@@ -81,6 +84,8 @@ def insert_pub(row: list) -> Publikacija:
         prvo_izdanje=clean_year(row[5]),
         napomena=row[10].strip(),
         zanr=row[11].strip(),
+        tom=row[15].strip(),
+        izdavac=row[16].strip(),
         user_id=1,
         skracenica=lat_to_cyr(row[2].strip()))
     reset_autor(pub, row[0], cirilica)

@@ -28,7 +28,7 @@ GROD = {1: 'прел.', 2: 'непрел.', 3: 'повр.', 4: 'прел. и н�
         7: 'непрел. (прел)'}
 SPECIAL_MARKS = ['ак.', 'аор.', 'безл.', 'бр.', 'везн.', 'вок.', 'ген.', 'гл.им.', 'дат.', 'зам.', 'зб.', 'им.',
                  'имп.', 'импф.', 'инстр.', 'јд.', 'јек.', 'комп.', 'лок.', 'мн.', 'неодр.', 'непрел.',
-                 'непром.', 'несвр.', 'ном.', 'одр.', 'оном.', 'повр.', 'пр.пр.', 'пр.сад.',
+                 'непром.', 'несвр.', 'ном.', 'оном.', 'повр.', 'пр.пр.', 'пр.сад.',
                  'предл.', 'през.', 'прел.', 'прил.', 'р.пр.', 'речца.', 'свр.', 'суп.', 'суп.мн.',
                  'трен.', 'трп.', 'трп.пр.', 'уз.повр.', 'узв.', 'уч.', 'арх.', 'гл.', 'гл.им.',
                  '\u2205']
@@ -102,6 +102,7 @@ def nabrajanje(items):
 def process_special_marks(tekst):
     for mark in SPECIAL_MARKS:
         tekst = tekst.replace(mark, f'<small>{mark}</small>')
+    tekst = tekst.replace('одр. ', '<small>одр.</small> ')
     for znak in ['м', 'ж', 'с']:
         if tekst.startswith(f'{znak} '):
             tekst = f'<small>{znak}</small> ' + tekst[2:]
@@ -187,6 +188,14 @@ def process_tags(tekst, in_italic=False):
     return retval
 
 
+def format_skracenice(skracenica):
+    if skracenica[-1] == '.':
+        if skracenica[-2] in '1234567890':
+            return skracenica[:-1]
+
+    return skracenica
+
+
 def render_konkordanse(konkordanse):
     retval = ''
     for k in konkordanse:
@@ -197,7 +206,7 @@ def render_konkordanse(konkordanse):
                 skracenica = izvor.get('skracenica')
                 if not skracenica or skracenica == '-':
                     skracenica = f'{izvor.get("pub_id")}'
-                retval += f'[{tacka(skracenica)}] '
+                retval += f'[{format_skracenice(skracenica)}] '
     return retval
 
 

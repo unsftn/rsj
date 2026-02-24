@@ -14,6 +14,7 @@ FILE_TYPES = [
 class TipRenderovanogDokumenta(models.Model):
     naziv = models.CharField('назив', max_length=200)
     statusi = models.ManyToManyField(StatusOdrednice)
+    file_prefix = models.CharField('префикс фајла', max_length=40, blank=True, null=True)
 
     def __str__(self):
         return self.naziv
@@ -24,7 +25,8 @@ class TipRenderovanogDokumenta(models.Model):
 
 
 def get_rendered_file_path(instance, filename):
-    return os.path.join('renderi', str(instance.tip_dokumenta.id), str(instance.id)+f'.{(FILE_TYPES[instance.file_type-1])[1]}')
+    file_prefix = instance.tip_dokumenta.file_prefix+'-' if instance.tip_dokumenta.file_prefix else ''
+    return os.path.join('renderi', str(instance.tip_dokumenta.id), f'{file_prefix}{instance.id}.{(FILE_TYPES[instance.file_type-1])[1]}')
 
 
 class RenderovaniDokument(models.Model):

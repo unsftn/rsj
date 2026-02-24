@@ -134,3 +134,9 @@ def fix_skracenice_235():
         skracenica = f'{skr}. {godina}' if godina else skr
         izvor.skracenica = skracenica
         izvor.save()
+
+
+def fix_25():
+    for izvor in Publikacija.objects.filter(izdavac='Dva i po psihijatra'):
+        izvor.skracenica = 'Два и по' + (izvor.godina if izvor.godina else '')
+        izvor.save()
