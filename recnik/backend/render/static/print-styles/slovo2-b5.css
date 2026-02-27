@@ -54,7 +54,7 @@
     margin-right: 1.5cm;
     @top-center {
         content: none;
-    }      
+    }
     @bottom-left {
         content: none;
     }
@@ -78,7 +78,7 @@
     @footnote {
         border-top: solid grey 1px;
         border-clip: 5em;
-    }    
+    }
 }
 @page predgovor-page:left, skracenice-page:left, izvori-page:left {
     margin-left: 1.5cm;  /* outside margin */
@@ -91,7 +91,7 @@
     @footnote {
         border-top: solid grey 1px;
         border-clip: 5em;
-    }    
+    }
 }
 @page predgovor-page:blank, skracenice-page:blank, izvori-page:blank {
     @top-center { content: none; }
@@ -129,7 +129,7 @@
     }
 }
 .title-page {
-    page: title-page; 
+    page: title-page;
 }
 .impresum-page {
     page: impresum-page;
@@ -140,11 +140,11 @@
     page-break-before: right;
 }
 .skracenice-page {
-    page: skracenice-page;   
+    page: skracenice-page;
     page-break-before: right;
 }
 .izvori-page {
-    page: izvori-page;   
+    page: izvori-page;
     page-break-before: right;
 }
 .slovo-block {
@@ -317,14 +317,14 @@ td:nth-child(1).izvor-skr {
     font-size: 18pt;
     margin-top: 100px;
     margin-bottom: 80px;
-    text-align: center;     
+    text-align: center;
 }
 
 .izvori-title {
     font-size: 18pt;
     margin-top: 100px;
     margin-bottom: 80px;
-    text-align: center;     
+    text-align: center;
 }
 
 .izvori {
@@ -341,6 +341,10 @@ td:nth-child(1).izvor-skr {
 
 .naslov {
     font-size: 30pt;
+    line-height: 50%;
+}
+.podnaslov {
+    font-size: 16pt;
     line-height: 50%;
 }
 
