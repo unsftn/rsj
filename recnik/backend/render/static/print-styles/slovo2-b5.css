@@ -1,20 +1,17 @@
 @font-face {
     font-family: 'Dijakritika';
-    /* src: url("file:///app/staticfiles/fonts/Dijakritika-Regular.otf"); */
     src: url("../render/static/fonts/Dijakritika-Regular.otf");
     font-style: normal;
     font-weight: normal;
 }
 @font-face {
     font-family: 'Dijakritika';
-    /* src: url("file:///app/staticfiles/fonts/Dijakritika-Bold.otf"); */
     src: url("../render/static/fonts/Dijakritika-Bold.otf");
     font-style: normal;
     font-weight: bold;
 }
 @font-face {
     font-family: 'Dijakritika';
-    /* src: url("file:///app/staticfiles/fonts/Dijakritika-Italic.otf"); */
     src: url("../render/static/fonts/Dijakritika-Italic.otf");
     font-style: italic;
     font-weight: normal;
@@ -78,6 +75,7 @@
     @footnote {
         border-top: solid grey 1px;
         border-clip: 5em;
+        padding-top: 8pt;
     }
 }
 @page predgovor-page:left, skracenice-page:left, izvori-page:left {
@@ -91,6 +89,7 @@
     @footnote {
         border-top: solid grey 1px;
         border-clip: 5em;
+        padding-top: 8pt;
     }
 }
 @page predgovor-page:blank, skracenice-page:blank, izvori-page:blank {
