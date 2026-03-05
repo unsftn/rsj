@@ -4,6 +4,7 @@ import logging
 import re
 import shutil
 import tempfile
+import time
 from django.conf import settings
 from django.core.files import File
 from django.contrib.staticfiles import finders
@@ -659,6 +660,7 @@ def render_recnik(file_format='pdf', tip_dokumenta=None, vrsta_odrednice=None):
     izvori = []
     for k in konkordance:
         izvor = load_opis_from_korpus(k['korpus_izvor_id'])
+        # time.sleep(0.1)
         if izvor:
             skracenica = izvor.get('skracenica')
             if not skracenica or skracenica == '-' or skracenica == '.':
