@@ -12,6 +12,6 @@ class IndexerConfig(AppConfig):
     def ready(self):
         if sys.argv[-1] not in ['runserver', 'korpus.wsgi:application']:
             return
-        from indexer import utils
-        utils.push_highlighting_limit()
-        log.info('Highligting limit pushed to Elasticsearch.')
+        # from indexer import utils
+        # utils.push_highlighting_limit()
+        # log.info('Highligting limit pushed to Elasticsearch.')

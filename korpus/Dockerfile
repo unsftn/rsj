@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bookworm
+FROM python:3.11-slim-trixie
 LABEL maintainer="Branko Milosavljevic <mbranko@uns.ac.rs>"
 RUN apt-get -y update
 RUN apt-get -y install pkg-config gcc default-libmysqlclient-dev graphviz-dev libffi-dev libmagic1 libtiff-dev libopenjp2-7-dev liblcms-dev zlib1g-dev libjpeg-dev musl-dev

@@ -40,3 +40,4 @@ CSRF_TRUSTED_ORIGINS = ['https://*.rsj.rs']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 KORPUS_API_TOKEN = read_or_get('/private/secrets', 'KORPUS_API_TOKEN', 'korpus')
 KORPUS_URL = 'https://korpus.rsj.rs'
+SEARCH_ENGINE_URL = read_or_get('/private/secrets', 'SEARCH_ENGINE_URL', 'http://search-engine:9090')

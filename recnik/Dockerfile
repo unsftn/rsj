@@ -1,9 +1,10 @@
-FROM python:3.11-slim-bookworm
+FROM python:3.11-slim-trixie
 LABEL maintainer="Branko Milosavljevic <mbranko@uns.ac.rs>"
 RUN apt-get -y update
 RUN apt-get -y install pkg-config gcc default-libmysqlclient-dev graphviz-dev libffi-dev libmagic1 libtiff-dev libopenjp2-7-dev liblcms-dev zlib1g-dev libjpeg-dev musl-dev wget gdebi
-RUN wget https://www.princexml.com/download/prince_16-1_debian12_amd64.deb
-RUN gdebi -n prince_16-1_debian12_amd64.deb
+ARG TARGETARCH
+RUN wget https://www.princexml.com/download/prince_16.2-1_debian13_${TARGETARCH}.deb
+RUN gdebi -n prince_16.2-1_debian13_${TARGETARCH}.deb
 RUN /usr/local/bin/python3 -m pip install --upgrade pip
 RUN pip3 install -U setuptools
 COPY backend/requirements.txt /app/requirements.txt

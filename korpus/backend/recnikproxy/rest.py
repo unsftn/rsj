@@ -1,11 +1,14 @@
+import logging
 from django.conf import settings
 import requests
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_200_OK
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR
 from indexer.utils import get_rsj_client
 from indexer.cyrlat import sort_key
 from publikacije.models import *
+
+log = logging.getLogger(__name__)
 
 VRSTE_RECI = {
     0: 'именица',
@@ -60,6 +63,34 @@ def search(request):
         })
     result = sorted(hits, key=lambda w: sort_key_composite(w))
     return Response(result, status=HTTP_200_OK)
+
+
+@api_view(['GET'])
+def search2(request):
+    if not request.GET.get('q'):
+        return Response('bad request: no query', status=HTTP_400_BAD_REQUEST)
+    term = request.GET.get('q')
+    try:
+        url = f'{settings.SEARCH_ENGINE_URL}/odrednica/prefix/{term}'
+        resp = requests.get(url, params={'limit': 100})
+        resp.raise_for_status()
+        data = resp.json()
+        hits = []
+        for entry in data.get('results', []):
+            vrsta = entry['vrsta']
+            hits.append({
+                'pk': entry['original_id'],
+                'rec': entry['rec'],
+                'vrsta': vrsta,
+                'vrsta_text': VRSTE_RECI.get(vrsta, 'остало'),
+                'rbr_homo': entry.get('rbr_homonima'),
+                'ociscena_rec': entry['ociscena_rec'],
+            })
+        result = sorted(hits, key=lambda w: sort_key_composite(w))
+        return Response(result, status=HTTP_200_OK)
+    except Exception as error:
+        log.error(f'Rust engine search error: {error}')
+        return Response(str(error), status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 def fill_primer(primer):

@@ -1,0 +1,18 @@
+[package]
+name = "search-engine"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[lib]
+name = "search_engine"
+path = "src/lib.rs"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+bincode.workspace = true
+regex.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true

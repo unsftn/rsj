@@ -31,3 +31,4 @@ OBRADA_TUDJIH = True
 KORPUS_API_TOKEN = 'korpus'
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost:4200']
 KORPUS_URL = 'http://localhost:8000'
+SEARCH_ENGINE_URL = 'http://localhost:9090'

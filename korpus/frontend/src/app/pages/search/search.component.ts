@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit {
           this.wordId = +params.id;
       if (params.type !== undefined)
         if (!isNaN(+params.type))
-          this.wordType = +params.type;        
+          this.wordType = +params.type;
       if (params.form !== undefined)
         this.wordForm = params.form;
       if (params.cs !== undefined)
@@ -136,12 +136,18 @@ export class SearchComponent implements OnInit {
       });
       this.searchService.searchPubs(this.wordId, this.wordType, this.fragmentSize.code, this.scanner.code).subscribe({
         next: (hits: any[]) => {
+          performance.mark('process-start');
           this.searching = false;
           this.process(hits);
           this.hits = hits;
           this.first = 0;
           this.hitsPerPage = 100;
           this.hitPage = this.hits.slice(this.first, this.first + this.hitsPerPage);
+          performance.mark('process-end');
+          performance.measure('search-process', 'process-start', 'process-end');
+          console.log(`Hits: ${hits.length}, processing time: ${performance.getEntriesByName('search-process')[0].duration.toFixed(2)} ms`);
+          performance.clearMarks();
+          performance.clearMeasures();
         },
         error: (error) => {
           this.searching = false;
@@ -152,7 +158,7 @@ export class SearchComponent implements OnInit {
             detail: error,
           });
         }
-      });  
+      });
     } else {
       this.word = null;
       this.searchService.searchForms(this.wordForm, this.fragmentSize.code, this.scanner.code, this.caseSensitive).subscribe({
@@ -287,8 +293,8 @@ export class SearchComponent implements OnInit {
     console.log(this.odrednica);
     if (this.odrednica) {
       this.searchService.readRecnik(this.odrednica.id).subscribe({
-        next: (data) => { 
-          this.odrednica = data; 
+        next: (data) => {
+          this.odrednica = data;
           this.messageService.add({
             severity: 'success',
             summary: 'Успех',
@@ -296,8 +302,8 @@ export class SearchComponent implements OnInit {
             detail: 'Одредница освежена',
           });
         },
-        error: (error) => { 
-          this.odrednica = null; 
+        error: (error) => {
+          this.odrednica = null;
           this.messageService.add({
             severity: 'error',
             summary: 'Грешка',
@@ -313,8 +319,8 @@ export class SearchComponent implements OnInit {
     this.searchText = '';
     this.searchService.readRecnik(event.value.pk).subscribe({
       next: (data) => { this.odrednica = data; },
-      error: (error) => { 
-        this.odrednica = null; 
+      error: (error) => {
+        this.odrednica = null;
         this.messageService.add({
           severity: 'error',
           summary: 'Грешка',
@@ -333,8 +339,8 @@ export class SearchComponent implements OnInit {
           const pk = data[0].pk;
           this.searchService.readRecnik(pk).subscribe({
             next: (data) => { this.odrednica = data; },
-            error: (error) => { 
-              this.odrednica = null; 
+            error: (error) => {
+              this.odrednica = null;
               this.messageService.add({
                 severity: 'error',
                 summary: 'Грешка',
@@ -460,9 +466,9 @@ export class SearchComponent implements OnInit {
     if (!this.odrednica)
     console.log(this.selectedHit);
     if (submeaningIndex === undefined || submeaningIndex === null) {
-      this.odrednica.znacenja[meaningIndex].primeri.push({ 
+      this.odrednica.znacenja[meaningIndex].primeri.push({
         id: null,
-        tekst: this.selectedText, 
+        tekst: this.selectedText,
         izvor_id: this.selectedHit.pub_id,
         opis: this.selectedHit.opis,
         potkorpus: this.selectedHit.potkorpus,
@@ -470,9 +476,9 @@ export class SearchComponent implements OnInit {
         rbr: this.odrednica.znacenja[meaningIndex].primeri.length + 1
       });
     } else {
-      this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.push({ 
+      this.odrednica.znacenja[meaningIndex].podznacenja[submeaningIndex].primeri.push({
         id: null,
-        tekst: this.selectedText, 
+        tekst: this.selectedText,
         izvor_id: this.selectedHit.pub_id,
         opis: this.selectedHit.opis,
         potkorpus: this.selectedHit.potkorpus,
@@ -513,13 +519,13 @@ export class SearchComponent implements OnInit {
       return 'погодака';
     const ostatak = this.hits.length % 10;
     switch (ostatak) {
-      case 1: 
+      case 1:
         return 'погодак';
       case 2:
       case 3:
       case 4:
         return 'поготка';
-      default: 
+      default:
         return 'погодака';
     }
   }

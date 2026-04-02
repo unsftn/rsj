@@ -1,27 +1,27 @@
 services:
-  elastic:
-    container_name: elastic-recnik
-    image: elasticsearch:8.19.4
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 8g
-        reservations:
-          memory: 4g
-    volumes:
-      - recnik-elastic:/usr/share/elasticsearch/data
-    environment:
-      discovery.type: single-node
-      xpack.security.enabled: false
-      ES_JAVA_OPTS: "-Xms4g -Xmx4g"
-    networks:
-      recnik:
-    healthcheck:
-      test: curl -s http://elastic-recnik:9200 >/dev/null || exit 1
-      interval: 5s
-      timeout: 60s
-      retries: 10
+  # elastic:
+  #   container_name: elastic-recnik
+  #   image: elasticsearch:8.19.4
+  #   restart: always
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 8g
+  #       reservations:
+  #         memory: 4g
+  #   volumes:
+  #     - recnik-elastic:/usr/share/elasticsearch/data
+  #   environment:
+  #     discovery.type: single-node
+  #     xpack.security.enabled: false
+  #     ES_JAVA_OPTS: "-Xms4g -Xmx4g"
+  #   networks:
+  #     recnik:
+  #   healthcheck:
+  #     test: curl -s http://elastic-recnik:9200 >/dev/null || exit 1
+  #     interval: 5s
+  #     timeout: 60s
+  #     retries: 10
   mysql:
     container_name: recnik-mysql
     image: mariadb:10.10
@@ -52,8 +52,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      elastic:
-        condition: service_healthy
+      # elastic:
+      #   condition: service_healthy
     volumes:
       - recnik-private:/private
       - recnik-log:/app/log
@@ -66,6 +66,8 @@ services:
       context: .
       dockerfile: Dockerfile-nginx
     restart: always
+    ports:
+      - "9797:80"
     depends_on:
       - recnik
     volumes:
@@ -120,10 +122,10 @@ volumes:
       type: 'none'
       o: 'bind'
       device: './private'
-  recnik-elastic:
-    name: recnik-elastic
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: './elastic'
+  # recnik-elastic:
+  #   name: recnik-elastic
+  #   driver: local
+  #   driver_opts:
+  #     type: 'none'
+  #     o: 'bind'
+  #     device: './elastic'
